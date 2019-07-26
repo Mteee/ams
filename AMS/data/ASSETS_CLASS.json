@@ -1,0 +1,16 @@
+{
+  "recordset": [
+  {
+    "ASSET_CLASS_NAME":"FACILITIES MANAGEMENT",
+    "ASSET_CLASS_ACTIVE":"y"
+  },
+  {
+    "ASSET_CLASS_NAME":"IT EQUIPMENT",
+    "ASSET_CLASS_ACTIVE":"y"
+  },
+  {
+    "ASSET_CLASS_NAME":"MEDICAL EQUIPMENT",
+    "ASSET_CLASS_ACTIVE":"y"
+  }
+  ]
+}
