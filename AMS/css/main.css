@@ -1,50 +1,60 @@
+ /*-----------------------------------------------------------------------------------------------------------*/
+  /*----------------------------------------------------AME AFRICA--------------------------------------------*/
+   /*---------------------------------------------------------------------------------------------------------*/
 /*!
- * AME SYSADMIN Library Version 1
+ * AME SYSADMIN Library CSS
  * website
- * Copyright AME SOFTWARE DEVELOPMENT TEAM (MB MAPHUMULO PROVISIONER)
+ * Copyright AME SOFTWARE DEVELOPMENT TEAM (Talent & Melusi)
  * Released under the AME license
- * Date: 2018-09-13
+ * Date: 2019-07-29
  */
+ /*-----------------------------------------------------------------------------------------------------------*/
 
 * {
     outline: 0 !important;
 }
 
-#filtered li:hover {
-    background: grey;
-    color: white;
-    transition: 50ms;
-    cursor: pointer;
+
+/*-----------------------------------------------------------------------------------------------------------*/
+/*-------------------------------------------------- Wrapper ------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------*/
+/* Starts */
+.container{
+    box-shadow: 0px -20px 20px #00000047;
+    padding: 5px 15px;
 }
 
-#filtered {
-    margin: 0;
-    padding: 0;
+/* ends Wrapper */
+
+
+/*-----------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------- Navigation ------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------*/
+
+/* Starts */
+.logo {
+    margin-top: -30px;
 }
 
-#filtered li {
-    margin: 0;
-    padding: 0;
-    padding-left: 10px;
+.user-id {
+    position: absolute;
+    margin: -45px 0 0 70px;
+    width: 100px
 }
+
+/* ends navigation */
+
 
 .form-control {
     display: inline-block !important;
 }
 
-.item-view {
-    background-color: grey;
-    color: white;
-    border-radius: 50%;
-    padding: 5px
-}
 
-.item-view:hover {
-    cursor: pointer;
-    box-shadow: 0px 0px 12px 1px rgba(32, 32, 32, 0.72);
-    transition: 100ms;
-}
+/*-----------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------- Checkbox --------------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------*/
 
+/* Starts */
 input[type="checkbox"] {
     cursor: pointer;
     -webkit-appearance: none;
@@ -92,6 +102,14 @@ input[type="checkbox"]:disabled:after {
     border-color: #7b7b7b;
 }
 
+/* end Checkbox */
+
+
+/*-----------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------- Table Header ----------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------*/
+
+/* Starts */
 .headerFreeze {
     /* display: none; */
     width: 15%;
@@ -105,20 +123,51 @@ input[type="checkbox"]:disabled:after {
     color:white;
 }
 
-.fltrow {
-
+.headerFreezeView {
+    width: 20%;
+    height: 50px;
+    font-weight: bolder;
+    position: fixed;
+    margin: -37px 0 0 -10px !important;
+    background: rgb(54, 52, 52);
+    padding-top: 12px;
+    padding-left:0;
+    color:white;
 }
 
-.logo {
-    margin-top: -30px;
+/* ends table header */
+
+
+/*-----------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------- Table Filters ---------------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------*/
+
+/* Starts */
+.filerSearch{
+    width: 20%;
+    height: 50px;
+    font-weight: bolder;
+    position: fixed;
+    margin: -95px 0 0 -10px !important;
+    /* background: rgb(54, 52, 52); */
+    padding-top: 12px;
+    padding-left:0;
+    color:black;
 }
 
-.user-id {
-    position: absolute;
-    margin: -45px 0 0 70px;
-    width: 100px
+.filerSearch input{
+    margin-left: -5px;
+    width:70%;
 }
 
+/* ends Table filters*/
+
+
+/*-----------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------- Assets info Modal -----------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------*/
+
+/* starts */
 #overlay-asset{
     display: none;
     position: fixed;
@@ -179,10 +228,10 @@ input[type="checkbox"]:disabled:after {
     cursor: pointer;
 }
 
-.container{
-    box-shadow: 0px -20px 20px #00000047;
-    padding: 5px 15px;
-}
+
+/* ends Assets info Modal*/
+
+
 
 .form-control{
     padding: 0.375rem 0.75rem !important;
@@ -195,3 +244,16 @@ input[type="checkbox"]:disabled:after {
 caption{
     display: none !important;
 }
+
+.search_start{
+    z-index: 1;
+    width: 98.4%;
+    height: 90%;
+    position: absolute;
+    text-align: center;
+    overflow:none;
+    color: #7b7b7b;
+    font-weight: bolder;
+    
+}
+
