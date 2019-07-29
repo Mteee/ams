@@ -1,3 +1,11 @@
+/*!
+ * AME SYSADMIN Library JS
+ * website
+ * Copyright AME SOFTWARE DEVELOPMENT TEAM (Talent & Melusi)
+ * Released under the AME license
+ * Date: 2019-07-29
+ */
+       
        var filtersConfig = {
                 base_path: 'js/',
                 auto_filter: {
