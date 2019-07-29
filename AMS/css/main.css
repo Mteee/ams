@@ -257,3 +257,22 @@ caption{
     
 }
 
+#loader{
+    display: none;
+    position: absolute;
+    margin: 320px auto;
+    z-index: 1;
+    width: 90%;
+    height: 100%;
+    text-align: center;
+}
+
+#searchView{
+    display: none;
+}
+
+#loader img {
+    margin: auto;
+    width: 100px;
+    position: fixed;
+}
