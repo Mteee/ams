@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>AMS - VIEW ASSEST</title>
-        <link rel="stylesheet" href="../css/bootstrap.css">
-        <link rel="stylesheet" href="../css/bootstrap-theme.css">
-        <link rel="stylesheet" href="../css/animate.css">
-        <link rel="stylesheet" href="../css/main.css">
-        <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
-        <link rel="stylesheet" href="../css/font-awesome.css">
-        <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-    </head>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AMS - VIEW ASSEST</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+</head>
+
 <body>
     <div id="overlay-asset">
         <div class="asset-details animated bounceInUp">
@@ -33,106 +35,119 @@
         </div>
     </div>
 
-    
+
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-                style="background: rgb(59, 56, 56);height:80px">
-                <div class="col-md-2" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
-                    <div class="logo"><img src="../img/Logo.png" alt="logo" width="50"> </div>
-                    <div class="user-id">User-id</div>
-                </div>
-                <div class="col-md-8 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
-                    ASSETS MANAGEMENT SYSTEM
-                </div>
-                <div class="col-md-offset-1 col-md-1 text-center" style="padding-top:17px;">
-                    <button class="btn btn-danger"
-                        style="margin:-20px 0 0 230px;width:40px;height: 40px;border-radius: 50%;">
-                        <span style="color:white" class="fa fa-power-off"></span>
-                    </button>
-                </div>
-            </nav>
-            <div class="row" style="margin-top:100px">
-                    <div class="col-md-12" style="height:80vh;padding-right:40px;">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+            style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-2" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="50"> </div>
+                <div class="user-id">User-id</div>
+            </div>
+            <div class="col-md-8 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
+                ASSETS MANAGEMENT SYSTEM
+            </div>
+            <div class="col-md-offset-1 col-md-1 text-center" style="padding-top:17px;">
+                <button class="btn btn-danger"
+                    style="margin:-20px 0 0 230px;width:40px;height: 40px;border-radius: 50%;">
+                    <span style="color:white" class="fa fa-power-off"></span>
+                </button>
+            </div>
+        </nav>
+        <div class="row" style="margin-top:100px">
+            <div class="col-md-12" style="height:80vh;padding-right:40px;">
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-3 text-center" style="font-size:15pt;font-weight: bolder">
-                                        <br/>
-                                    </div>
-                                    <div class="col-md-9 ">
-                                        <!-- <div class="form-group">
+                            <div class="col-md-3 text-center" style="font-size:15pt;font-weight: bolder">
+                                <br />
+                            </div>
+                            <div class="col-md-9 ">
+                                <!-- <div class="form-group">
                                             Filter : <input type="text" class="form-control" style="width:170px;"
                                                 placeholder="Search ...">
                                         </div> -->
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-12" style="height:800px;overflow:hidden;">
-                                        <table class="table" id="currentAssetsTable">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">
-                                                        # 
-                                                        <div class="headerFreezeView" style="margin-left: -13px !important;width: 10%;padding-left:15px">#</div>
-                                                        <div class="filerSearch" style="padding:20px">
-                                                            Search
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        Asset No 
-                                                        <div class="headerFreezeView">Asset No</div>
-                                                        <div class="filerSearch">
-                                                            <input type="text" class="form-control" placeholder="Asset no...">
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        Room 
-                                                        <div class="headerFreezeView">Room</div>
-                                                        <div class="filerSearch">
-                                                            <input type="text" style="margin-left:-30px" class="form-control" placeholder="Room...">
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        Location 
-                                                        <div class="headerFreezeView">Location</div>
-                                                        <div class="filerSearch">
-                                                             <input type="text" style="margin-left:18px" class="form-control" placeholder="Location...">
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        Description 
-                                                        <div class="headerFreezeView">Description</div>
-                                                        <div class="filerSearch">
-                                                            <input type="text" style="width: 95%;" class="form-control" placeholder="Description...">
-                                                        </div>
-                                                    </th>
-                                                    <th scope="col">
-                                                        View 
-                                                        <div class="headerFreezeView" style="width: 11%;">View</div>
-                                                        <div class="filerSearch">
-                                                            <button style="width: 55%;" type="text" class="btn btn-success">
-                                                                <span class="fa fa-search"></span>
-                                                                Search
-                                                            </button>
-                                                        </div>
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody id="current">
-                                                <div class="search_start">
-                                                    <p style="margin-top:300px">Please search your asset using the search above</p>
-                                                    <img width="200" src="../img/loupe.png" alt="Search">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" style="height:800px;overflow:hidden;">
+                                <table class="table" id="currentAssetsTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">
+                                                #
+                                                <div class="headerFreezeView"
+                                                    style="margin-left: -13px !important;width: 10%;padding-left:15px">#
                                                 </div>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                                                <div class="filerSearch" style="padding:20px">
+                                                    Search
+                                                </div>
+                                            </th>
+                                            <th scope="col">
+                                                Asset No
+                                                <div class="headerFreezeView">Asset No</div>
+                                                <div class="filerSearch">
+                                                    <input id="asseetsno" type="text" class="form-control"
+                                                        placeholder="Asset no...">
+                                                </div>
+                                            </th>
+                                            <th scope="col">
+                                                Room
+                                                <div class="headerFreezeView">Room</div>
+                                                <div class="filerSearch">
+                                                    <input type="text" id="roomno" style="margin-left:-30px"
+                                                        class="form-control" placeholder="Room...">
+                                                </div>
+                                            </th>
+                                            <th scope="col">
+                                                Location
+                                                <div class="headerFreezeView">Location</div>
+                                                <div class="filerSearch">
+                                                    <input type="text" id="location" style="margin-left:18px"
+                                                        class="form-control" placeholder="Location...">
+                                                </div>
+                                            </th>
+                                            <th scope="col">
+                                                Description
+                                                <div class="headerFreezeView">Description</div>
+                                                <div class="filerSearch">
+                                                    <input type="text" id="description" style="width: 95%;"
+                                                        class="form-control" placeholder="Description...">
+                                                </div>
+                                            </th>
+                                            <th scope="col">
+                                                View
+                                                <div class="headerFreezeView" style="width: 11%;">View</div>
+                                                <div class="filerSearch">
+                                                    <button onclick="search()" style="width: 55%;" type="text"
+                                                        class="btn btn-success">
+                                                        <span class="fa fa-search"></span>
+                                                        Search
+                                                    </button>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="current">
+                                        <div id="loader" class="loader">
+                                            <img src="../img/loading-transparent.gif" alt="">
+                                        </div>
+                                        <div id="searchView" class="search_start">
+                                            <p style="margin-top:300px">Please search your asset using the search above
+                                            </p>
+                                            <img width="200" src="../img/loupe.png" alt="Search">
+                                        </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
-                   
                 </div>
-    </div>    
-    
+            </div>
+        </div>
+    </div>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/viewScript.js"></script>
+
 </body>
+
 </html>
