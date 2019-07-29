@@ -6,7 +6,6 @@ require "../functions.php";
 //Create the instance of the Function Object
 $func = new Functions();
 
-
 //Call the function from the function class and pass all the required parameters
 $assets =$func->getAssets();
 $obj = json_decode($assets,true);
