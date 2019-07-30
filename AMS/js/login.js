@@ -1,19 +1,26 @@
-$("#btnSave").click(function(){
-    var Username = document.getElementById("inlineFormInputGroup").value;
+$(document).ready(() => {
 
-    if(Username){
-      console.log(Username);
-      localStorage.Username = Username;
+  var timeout = 2000;
+  var count = 0;
+  $("#btnSave").click(() =>{
+    var username = document.getElementById("inlineFormInputGroup").value;
 
-      window.location = "../AMS/views/viewAssets.html";
+    if (username !== null && username !== ''){
 
+      localStorage.username = username;
+      $('#loginLoader').fadeIn(500);
+      $("#btnSave").attr("disabled",true);
+      setTimeout(() => {
+        
+        window.location.href = "../AMS/views/viewAssets.html";
 
+      }, timeout);
     }
+
     else{
-      alert("Please enter username");
-      console.log("error");
-
+      alert("Please enter your username")
     }
 
-    });
-  
+   })
+
+})
