@@ -15,9 +15,23 @@ function closeAsset() {
 }
 
 function viewAsset(assetId) {
+    var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
     console.log($('#assetBody'));
     $('#assetBody')['0'].innerHTML = assetId;
+
+    $.ajax({
+        url: "../../ams_apis/actions/singleAsset.php",
+        method: "POST",
+        dataType: "JSON",
+        data: '{"primary_asset_id" :"'+ assetId +'"}',
+        success: function(data){
+            console.log(data);
+        },
+        error: function(err) {
+            console.log(err);
+        }
+    });
 }
 
 function search() {
