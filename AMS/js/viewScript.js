@@ -16,19 +16,47 @@ function search(){
          description    = document.getElementById('description').value ;
 
          var results = (assetNo +" - "+ room +" - "+  location +" - "+  description);
+         var current = "";
 
          if(" -  -  - " == results){
             alert("Please enter alteast one filter");
          }else{
-            alert(results);
             $('#searchView').hide();
             $('#loader').fadeIn(500);
-            setTimeout(function(){
-                $('#loader').hide();
-                $('#searchView').fadeIn(500);
-            },5000);
+            $.ajax({
+                url: "../../ams_apis/actions/getAssets.php",
+                method:"POST", 
+                dataType:'JSON',
+                success : function(data){
+                    alert(results);
+                    console.log(data);
+                    if(data.rows > 0){
+                        for (var i = 0; i < data.rows ; i++) {
+                            current += '<tr id="c_row' + data.data[i].ASSET_ID + '"><th scope="row"><input id="check' + data.data[i].ASSET_ID + '" class="currentItems" type="checkbox" value="' + data.data[i].ASSET_ID + '" onclick="getNumberOfSelectedItems(currentSelectedItems,`#current .currentItems:checked`)"></th><td>' + data.data[i].ASSET_ID + '</td><td>' + data.data[i].ASSET_LOCATION + '</td><td>' + data.data[i].ASSET_DESCRIPTION + '</td><td class="text-center"><span class="fa fa-eye item-view" onclick="viewAsset(`' + data.data[i].ASSET_ID + '`)""></span></td></tr>';
+                        }
+                    }else{
+                        current += '<tr id="nodata"><th scope="row" colspan="5"></th></tr>';
+                    }//close if
+                    // document.getElementById('currentItems').innerHTML = data.rows;
+                    document.getElementById('current').innerHTML = current;
+                  
+                    setTimeout(function(){
+                        $('#loader').hide();
+                        $('#searchView').fadeIn(500);
+                    },5000);
+                },//close success function
+                error:function(err){
+                    console.log(err);
+                }//close error function
+            });//close ajax function
+
+
+            
+           
          }
 }
+
+
 
 /*-------   Zoom handler -------*/
 var width = screen.width;
