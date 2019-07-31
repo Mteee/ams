@@ -26,6 +26,12 @@
         #subAsset{
             list-style: none;
         }
+
+        .theading{
+            width: 50%;
+            background: #e1e1e1;
+            padding: 15px;
+        }
     </style>
 </head>
 
@@ -33,12 +39,30 @@
     <div id="overlay-asset">
         <div class="asset-details animated bounceInUp">
             <span class="exit-asset" onclick="closeAsset()">&times;</span>
-            <div class="asset-header text-center">
-                Asset#
-            </div>
+            
             <div class="asset-body">
                 <div id="viewAssets">
-                    <div class="row text-center">
+                    <table id="viewAssetTable" style="width:100%;border:1px solid #ccc;border-radius: 5px;">
+                        <thead>
+                            <tr>
+                                <div class="asset-header text-center">
+                                    Asset#
+                                </div>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>    <th class="theading">Location</th>   <td></td>   </tr>
+                            <tr>    <th class="theading">Room    </th>   <td></td>   </tr>
+                            <tr>    <th class="theading">Primary </th>   <td></td>   </tr>
+                            <!-- loop -->
+                            <tr>    <th class="theading">Sub Item</th>   <td></td>   </tr>
+                        </tbody>
+                    
+                    </table>
+
+
+                    <!-- <div class="row text-center">
                         <div class="col-md-6">
                             <p class="text-muted">
                                 <strong>Room</strong>:<span id="roomValue"> xxxxx</span>
@@ -55,7 +79,7 @@
                         <div class="col-md-6 offset-3">
                             <ul id="primaryAssets">
                                 <li class="primaryList">
-                                    <span id="assetBody">Test</span>
+                                    <span id="assetBody">Test</span>-<span id="primDescription">xxxxxxx</span>
                                     <ul id="subAsset">
                                         <li class="subList">Sub Assets 1</li>
                                         <li class="subList">Sub Assets 2</li>
@@ -63,7 +87,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 
             </div>
