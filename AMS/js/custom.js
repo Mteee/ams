@@ -206,6 +206,8 @@
             $('#assetBody')['0'].innerHTML = assetId;
         }
 
+
+
         /*-------   Zoom handler -------*/
         var width = screen.width;
         var height = screen.height;
@@ -218,6 +220,8 @@
             document.body.style.zoom= value;
         } 
         /*------   Zoom handler -----*/
+
+        
 
         var tf = new TableFilter('currentAssetsTable', filtersConfig);
         tf.init();

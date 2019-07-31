@@ -5,20 +5,33 @@ require "../functions.php";
 
 //Create the instance of the Function Object
 $func = new Functions();
+$data = json_decode(file_get_contents('php://input') );
 
-$ASSET_ID = 'ZBM1053-0021';
-$ASSET_CLASS = 'T';
+$ASSET_NO = $data->v_assetNo;
+$ASSET_ROOM = $data->v_room;
+$ASSET_LOCATION = $data->v_location;
+$ASSET_DESCRIPTION = $data->v_description;
 
-//sql query
-$sql = "SELECT ASSET_ID,ASSET_CLASS,ASSET_ROOM_NO,ASSET_DESCRIPTION,ASSET_TRAN_STATUS FROM AMSD.ASSETS_VW WHERE ASSET_ID  LIKE '%$ASSET_CLASS%'";
+
+if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION)){
+
+    $sql = "SELECT ASSET_ID,ASSET_CLASS,ASSET_LOCATION_AREA,ASSET_ROOM_NO,ASSET_DESCRIPTION,ASSET_TRANSACTION_STATUS FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' AND ASSET_ID=ASSET_PRIMARY_ID";
+
+    $assets =$func->executeQuery($sql);
+
+    if($assets){
+        echo $assets;
+    }
+
+
+}
+
+
 
 //Call the function from the function class and pass all the required parameters
-$assets =$func->executeQuery($sql);
 // $obj = json_decode($assets,true);
 
-if($assets){
-    echo $assets;
-}
+
 
 // $rows = $obj['rows'];
 
