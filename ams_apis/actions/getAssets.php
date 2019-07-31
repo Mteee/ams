@@ -11,6 +11,7 @@ $ASSET_NO = $data->v_assetNo;
 $ASSET_ROOM = $data->v_room;
 $ASSET_LOCATION = $data->v_location;
 $ASSET_DESCRIPTION = $data->v_description;
+$response = array();
 
 
 if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION)){
@@ -21,6 +22,10 @@ if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty
 
     if($assets){
         echo $assets;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"No data"));
+
     }
 
 

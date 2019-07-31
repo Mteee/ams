@@ -23,16 +23,17 @@ function viewAsset(assetId) {
     $.ajax({
         url: "../../ams_apis/actions/singleAsset.php",
         method: "POST",
-        dataType: "JSON",
         data: '{"primary_asset_id" :"'+ assetId +'"}',
         success: function(data){
             console.log(data);
+            document.getElementById('viewAssets').innerHTML = data;
         },
         error: function(err) {
             console.log(err);
         }
     });
 }
+
 
 function search() {
     var assetNo = document.getElementById('asseetsno').value,
@@ -48,6 +49,7 @@ function search() {
     } else {
         $('#searchView').hide();
         $('#loader').fadeIn(500);
+        document.getElementById('current').innerHTML = "";
         $.ajax({
             url: "../../ams_apis/actions/getAssets.php",
             method: "POST",
@@ -62,7 +64,9 @@ function search() {
                         current += '<tr id="c_row' + data.data[i].ASSET_ID + '"><th scope="row" style="width: 10%;"><input id="check' + data.data[i].ASSET_ID + '" class="currentItems" type="checkbox" value="' + data.data[i].ASSET_ID + '" onclick="getNumberOfSelectedItems(currentSelectedItems,`#current .currentItems:checked`)"></th><td>' + data.data[i].ASSET_ID + '</td><td>' + data.data[i].ASSET_ROOM_NO + '</td><td>' + data.data[i].ASSET_LOCATION_AREA + '</td><td class="" style="width: 24%;">' + (data.data[i].ASSET_DESCRIPTION).substring(0, 20) + '...</td><td class="text-center" ><button class="btn btn-default" style="border-radius:50%;" onclick="viewAsset(`' + data.data[i].ASSET_ID + '`)"><span class="fa fa-eye item-view"></span></button></td></tr>';
                     }
                 } else {
-                    current += '<tr id="nodata"><th scope="row" colspan="5"></th></tr>';
+                    current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
+                    $('#searchView').fadeIn(500);
+                    console.log("here");
                 }//close if
                 // document.getElementById('currentItems').innerHTML = data.rows;
                 document.getElementById('current').innerHTML = current;
