@@ -7,10 +7,10 @@ require "../functions.php";
 $func = new Functions();
 $data = json_decode(file_get_contents('php://input') );
 
-$ASSET_NO = $data->v_assetNo;
-$ASSET_ROOM = $data->v_room;
-$ASSET_LOCATION = $data->v_location;
-$ASSET_DESCRIPTION = $data->v_description;
+$ASSET_NO = strtoupper($data->v_assetNo);
+$ASSET_ROOM = strtoupper($data->v_room);
+$ASSET_LOCATION = strtoupper($data->v_location);
+$ASSET_DESCRIPTION = strtoupper($data->v_description);
 $response = array();
 
 
