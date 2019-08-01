@@ -7,7 +7,7 @@ require "../functions.php";
 $func = new Functions();
 $data = json_decode(file_get_contents('php://input') );
 
-$ASSET_NO = $data->primary_asset_id;
+$ASSET_NO = strtoupper($data->primary_asset_id);
 
 $response = array();
 $count = 0;
@@ -56,7 +56,7 @@ if(!empty($ASSET_NO)){
                     <th class="theading-sub">Description</th>
                 </tr>
             </thead>
-            <tbody id="asset-info" style="overflow:scroll;">
+            <tbody id="asset-info">
                 ';
 
         foreach($results->data as $res){
@@ -64,14 +64,12 @@ if(!empty($ASSET_NO)){
             // echo $res->ASSET_ID.'<br>';
             
             if($ASSET_NO != $res->ASSET_ID){
-               
-               $sub .= '
-                        <tr>
+            //    TO-Do Limit description length
+               $sub .= '<tr>
                             <td>'.$res->ASSET_ID.'</td>
                             <td>'.$res->ASSET_DESCRIPTION.'</td>
                         </tr>
-                      '
-                        ;
+                      ';
 
                         $count++;
             }
@@ -92,7 +90,7 @@ if(!empty($ASSET_NO)){
         else{
             $sub .= '<tr class="text-center py-4">
                         <td colspan="2"><p class="text-muted py-4">No sub assets found</p></td>
-                    </tr>
+                     </tr>
                     ';
             $sub .= ' 
                 </tbody>
@@ -108,20 +106,6 @@ if(!empty($ASSET_NO)){
 }
 
 
-
-
-//Call the function from the function class and pass all the required parameters
-// $obj = json_decode($assets,true);
-
-
-
-// $rows = $obj['rows'];
-
-// if($rows){
-//      echo json_encode($obj);
-// }else{
-//     echo json_encode(array("rows" => "0","data" =>"none"));
-// }
 
 
 ?>

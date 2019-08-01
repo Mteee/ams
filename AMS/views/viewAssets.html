@@ -35,25 +35,23 @@
         }
 
         .theading-sub{
-            width: 184px;
+            width: 50%;
             padding: 8px;
         }
 
         .asset-body tbody tr {
             border: 1px solid #cfcfcf !important;
+            padding: 5px;
         }
 
         .test-scroll{
             height: 151px;
             position: relative;
-            overflow: auto;
-            overflow-y: scroll;
+            overflow-y: auto;
         }
         #viewAssetTable2
         {
             width: 100%;
-            border-radius: 5px;
-            /* table-layout: fixed; */
         }
 
 
@@ -153,11 +151,24 @@
             <div class="col-md-8 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
                 ASSETS MANAGEMENT SYSTEM
             </div>
-            <div class="col-md-offset-1 col-md-1 text-center" style="padding-top:17px;">
-                <button class="btn btn-danger"
+            <div class="col-md-offset-1 col-md-1">
+
+                <div class="nav-item dropdown">
+                    <a class="btn btn-secondary form-control btn-light dropdown-toggle text-left rounded-top rounded-bottom" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        All
+                      </a>
+                    
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#">Facilities Management</a>
+                        <a class="dropdown-item" href="#">IT Equipment</a>
+                        <a class="dropdown-item" href="#">Medical Equipment</a>
+                      </div>
+                  </div>
+                
+                <!-- <button class="btn btn-danger"
                     style="margin:-20px 0 0 230px;width:40px;height: 40px;border-radius: 50%;">
                     <span style="color:white" class="fa fa-power-off"></span>
-                </button>
+                </button> -->
             </div>
         </nav>
         <div class="row" style="margin-top:100px">
@@ -254,6 +265,7 @@
     </div>
     <script src="../js/jquery.js"></script>
     <script src="../js/viewScript.js"></script>
+    <script src="../js/bootstrap.js"></script>
 
 </body>
 
