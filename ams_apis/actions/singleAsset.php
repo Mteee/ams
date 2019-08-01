@@ -9,6 +9,8 @@ $data = json_decode(file_get_contents('php://input') );
 
 $ASSET_NO = $data->primary_asset_id;
 
+$response = array();
+$count = 0;
 
 
 if(!empty($ASSET_NO)){
@@ -44,34 +46,64 @@ if(!empty($ASSET_NO)){
                     <td><span id="assetBody">'.$ASSET_NO.'</span></td>
                 </tr>
             </tbody>
-        </table>   
-        <table id="viewAssetTable2" style="width:100%;height:151px;overflow-y:auto;border-radius: 5px;display:block;position:inherit;">
-            <tbody id="asset-info" style="display:block;overflow-y:auto;">
-              
+        </table>
+
+        <div class="test-scroll">
+        <table id="viewAssetTable2" class="table-bordered table-striped">
+            <thead>
+                <tr style="" class="bg-dark text-light">
+                    <th class="theading-sub">Sub Asset(s)</th>
+                    <th class="theading-sub">Description</th>
+                </tr>
+            </thead>
+            <tbody id="asset-info" style="overflow:scroll;">
                 ';
 
         foreach($results->data as $res){
 
             // echo $res->ASSET_ID.'<br>';
-
+            
             if($ASSET_NO != $res->ASSET_ID){
                
-               $sub .= '<tr style="display: inherit;">
-                            <th class="theading" style="display: inline-block;">Sub Item</th>
-                            <td style="display: inline-block;">'.$res->ASSET_ID.'</td>
-                        </tr>'
+               $sub .= '
+                        <tr>
+                            <td>'.$res->ASSET_ID.'</td>
+                            <td>'.$res->ASSET_DESCRIPTION.'</td>
+                        </tr>
+                      '
                         ;
+
+                        $count++;
             }
         }
 
-        $sub .= ' 
-                        
+        
+
+        if($count > 0){
+
+            $sub .= ' 
                 </tbody>
                 </table>   
-                
+                </div>
                 ';
+             array_push($response,array("items"=>$count,"table"=>$sub));
+             echo json_encode($response);
+        }
+        else{
+            $sub .= '<tr class="text-center py-4">
+                        <td colspan="2"><p class="text-muted py-4">No sub assets found</p></td>
+                    </tr>
+                    ';
+            $sub .= ' 
+                </tbody>
+                </table>   
+                </div>
+                ';
+            array_push($response,array("items"=>$count,"table"=>$sub));
+            echo json_encode($response);
+        }
 
-        echo $sub;
+        // echo $sub;
     }
 }
 

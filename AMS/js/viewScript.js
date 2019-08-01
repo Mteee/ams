@@ -16,6 +16,7 @@ function closeAsset() {
 
 function viewAsset(assetId) {
     var currentItem = "";
+    console.log(assetId);
     document.getElementById('overlay-asset').style.display = "block";
     console.log($('#assetBody'));
     $('#assetBody')['0'].innerHTML = assetId;
@@ -23,13 +24,17 @@ function viewAsset(assetId) {
     $.ajax({
         url: "../../ams_apis/actions/singleAsset.php",
         method: "POST",
+        dataType:"JSON",
         data: '{"primary_asset_id" :"'+ assetId +'"}',
         success: function(data){
-            console.log(data);
-            document.getElementById('viewAssets').innerHTML = data;
+            console.log("success");
+            document.getElementById('viewAssets').innerHTML = data[0].table;
+            document.getElementById('subItemCount').innerText = data[0].items;
         },
         error: function(err) {
             console.log(err);
+            console.log("error");
+
         }
     });
 }

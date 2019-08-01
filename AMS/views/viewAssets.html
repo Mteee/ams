@@ -31,18 +31,38 @@
         .theading {
             width: 50%;
             background: #e1e1e1;
+            padding: 6px;
+        }
+
+        .theading-sub{
+            width: 184px;
             padding: 8px;
         }
 
         .asset-body tbody tr {
             border: 1px solid #cfcfcf !important;
         }
+
+        .test-scroll{
+            height: 151px;
+            position: relative;
+            overflow: auto;
+            overflow-y: scroll;
+        }
+        #viewAssetTable2
+        {
+            width: 100%;
+            border-radius: 5px;
+            /* table-layout: fixed; */
+        }
+
+
     </style>
 </head>
 
 <body>
     <div id="overlay-asset">
-        <div class="asset-details animated bounceInUp">
+        <div class="asset-details animated bounceInUp" id="assetView">
             <span class="exit-asset" onclick="closeAsset()">&times;</span>
 
             <div class="asset-body">
@@ -114,6 +134,10 @@
                     <button class="btn btn-default" onclick="closeAsset()">back</button>
                 </div>
             </div>
+        </div>
+
+        <div class="sub-item-number text-center py-2">
+            <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount" class="text-dark">5</span></strong></p>
         </div>
     </div>
     </div>
