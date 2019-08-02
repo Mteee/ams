@@ -152,20 +152,26 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
     
     global $func;
     $data = json_decode(file_get_contents('php://input') );
+    $response = array();
 
     if($data != null && $data != ''){
-        $username = $data->username;
-        echo $username;
+        $username = strtoupper($data->username);
 
-        $sql_query = "SELECT * FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME='$username'";
+        $sql_query = "SELECT ASSET_USER_CLASS FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME='$username'";
         
         $results =$func->executeQuery($sql_query);
 
         if($results){
-            echo "success";
+            $decoded_res = json_decode($results);
+            $filter = $decoded_res->data[0]->ASSET_USER_CLASS;
+
+            array_push($response,array("filter"=>$filter));
+            return json_encode($response);
         }
         else{
-            echo 'failed';
+            $filter = "All EQUIPMENT";
+            array_push($response,array("filter"=>$filter));
+            return json_encode($response);
         }
 
     }
