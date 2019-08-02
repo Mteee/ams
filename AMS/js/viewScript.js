@@ -22,7 +22,7 @@ function viewAsset(assetId) {
     $('#assetBody')['0'].innerHTML = assetId;
 
     $.ajax({
-        url: "../../ams_apis/actions/singleAsset.php",
+        url: "../../ams_apis//slimTest/index.php/singleAsset",
         method: "POST",
         dataType:"JSON",
         data: '{"primary_asset_id" :"'+ assetId +'"}',
@@ -56,7 +56,7 @@ function search() {
         $('#loader').fadeIn(500);
         document.getElementById('current').innerHTML = "";
         $.ajax({
-            url: "../../ams_apis/actions/getAssets.php",
+            url: "../../ams_apis/slimTest/index.php/getAssets",
             method: "POST",
             dataType: "JSON",
             data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '"}',
