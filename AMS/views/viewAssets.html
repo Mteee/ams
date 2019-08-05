@@ -55,7 +55,10 @@
         #viewAssetTable2 {
             width: 100%;
         }
-<<<<<<< Updated upstream
+        
+        div#currentAssetsTable_length {
+            display: none !important;
+        }
 
         .menu{
             margin-top:-30px;
@@ -102,15 +105,8 @@
             background: #343b40;
             color: white;
         }
-    </style>
-=======
-        
-        div#currentAssetsTable_length {
-            display: none !important;
-        }
         </style>
 <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
->>>>>>> Stashed changes
 </head>
 
 <body>
@@ -349,48 +345,14 @@
     <script src="../js/jquery.js"></script>
     <script src="../js/viewScript.js"></script>
     <script src="../js/bootstrap.js"></script>
-<<<<<<< Updated upstream
-    <script>
-        function showNav(){
-            $('#menu-list').slideToggle('fast');
-        }
-=======
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
 
     <script>
-        $(document).ready(function () {
-
-
-
-            // function btnClickk(a) {
-            //    var data = table.row($(a).parents('tr')).data();
-            //     console.log("clicked on");
-            // }
-
-
-
-            // var table = $('#example').DataTable({
-
-            //     "columnDefs": [{
-            //         "targets": 0,
-            //         "data": null,
-            //         "defaultContent": '<input id="check" type="checkbox">'
-            //     }]
-            // });
-
-
-        });
-
-    
-
-            // $('#example tbody button').click(function () {
-            //     // var data = table.row($(this).parents('tr')).data();
-            //     alert("test");
-            //     // alert(data[5] + "'s Asset ID is: " + data[0]);
-            // });
->>>>>>> Stashed changes
+       function showNav(){
+            $('#menu-list').slideToggle('fast');
+        }
     </script>
 
 </body>
