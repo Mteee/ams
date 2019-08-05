@@ -14,31 +14,29 @@
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
     <style>
-        #currentAssetsTable thead tr th {
-            color: #fff;
-        }
-
+        
+        
         .subList {
             border-left: 1px solid #e1e1e1;
             margin-left: -56px;
             padding-left: 16px;
         }
-
+        
         #subAsset {
             list-style: none;
         }
-
+        
         .theading {
             width: 50%;
             background: #e1e1e1;
             padding: 6px;
         }
-
+        
         .theading-sub {
             width: 50%;
             padding: 8px;
         }
-
+        
         .asset-body tbody tr {
             border: 1px solid #cfcfcf !important;
             padding: 5px;
@@ -46,13 +44,18 @@
 
         .test-scroll {
             height: 151px;
-            position: relative;
             overflow-y: auto;
+        }
+        
+        .test-scroll thead th {
+            position: sticky;
+            top: 0;
         }
 
         #viewAssetTable2 {
             width: 100%;
         }
+<<<<<<< Updated upstream
 
         .menu{
             margin-top:-30px;
@@ -100,13 +103,21 @@
             color: white;
         }
     </style>
+=======
+        
+        div#currentAssetsTable_length {
+            display: none !important;
+        }
+        </style>
+<link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+>>>>>>> Stashed changes
 </head>
 
 <body>
     <div id="overlay-asset">
         <div class="asset-details animated bounceInUp" id="assetView">
             <span class="exit-asset" onclick="closeAsset()">&times;</span>
-
+            
             <div class="asset-body">
                 <div id="viewAssets">
                     <table id="viewAssetTable" style="width:100%;border:1px solid #ccc;border-radius: 5px;">
@@ -217,8 +228,7 @@
                         </select>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-danger"
-                            style="width:40px;height: 40px;border-radius: 50%;">
+                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;">
                             <span style="color:white" class="fa fa-power-off"></span>
                         </button>
                     </div>
@@ -240,7 +250,7 @@
 
             </div>
         </nav>
-        <div class="row" style="margin-top:100px">
+        <div class="row" style="margin-top: 2.897%;">
             <div class="col-md-12" style="height:80vh;padding-right:40px;">
                 <div class="row">
                     <div class="col-md-12">
@@ -256,61 +266,63 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12" style="height:800px;overflow:hidden;">
+
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            Search
+                                        </th>
+                                        <th>
+                                            <input id="asseetsno" type="text" class="form-control"
+                                                placeholder="Asset no...">
+                                        </th>
+                                        <th>
+                                            <input type="text" id="roomno" class="form-control" placeholder="Room...">
+                                        </th>
+                                        <th>
+                                            <input type="text" id="location" class="form-control"
+                                                placeholder="Location...">
+                                        </th>
+
+                                        <th>
+                                            <input type="text" id="description" class="form-control"
+                                                placeholder="Description...">
+                                        </th>
+
+                                        <th>
+                                            <button onclick="search()" type="text" class="btn btn-success">
+                                                <span class="fa fa-search"></span>
+                                                Search
+                                            </button>
+                                        </th>
+                                    </tr>
+
+                                </table>
                                 <table class="table" id="currentAssetsTable">
                                     <thead>
                                         <tr>
                                             <th scope="col">
                                                 #
-                                                <div class="headerFreezeView"
-                                                    style="margin-left: -13px !important;width: 10%;padding-left:15px">#
-                                                </div>
-                                                <div class="filerSearch" style="padding:20px">
-                                                    Search
-                                                </div>
                                             </th>
                                             <th scope="col">
                                                 Asset No
-                                                <div class="headerFreezeView">Asset No</div>
-                                                <div class="filerSearch">
-                                                    <input id="asseetsno" type="text" class="form-control"
-                                                        placeholder="Asset no...">
-                                                </div>
+
                                             </th>
                                             <th scope="col">
                                                 Room
-                                                <div class="headerFreezeView">Room</div>
-                                                <div class="filerSearch">
-                                                    <input type="text" id="roomno" style="margin-left:-30px"
-                                                        class="form-control" placeholder="Room...">
-                                                </div>
+
                                             </th>
                                             <th scope="col">
                                                 Location
-                                                <div class="headerFreezeView">Location</div>
-                                                <div class="filerSearch">
-                                                    <input type="text" id="location" style="margin-left:18px"
-                                                        class="form-control" placeholder="Location...">
-                                                </div>
+
                                             </th>
                                             <th scope="col">
                                                 Description
-                                                <div class="headerFreezeView">Description</div>
-                                                <div class="filerSearch">
-                                                    <input type="text" id="description" style="width: 95%;"
-                                                        class="form-control" placeholder="Description...">
-                                                </div>
+
                                             </th>
                                             <th scope="col">
                                                 View
-                                                <div class="headerFreezeView" style="width: 11%;">View</div>
-                                                <div class="filerSearch">
-                                                    <button onclick="search()" style="width: 55%;" type="text"
-                                                        class="btn btn-success">
-                                                        <span class="fa fa-search"></span>
-                                                        Search
-                                                    </button>
-                                                </div>
                                             </th>
                                         </tr>
                                     </thead>
@@ -319,11 +331,13 @@
                                             <img src="../img/loading-transparent.gif" alt="">
                                         </div>
                                         <div id="searchView" class="search_start">
-                                            <p style="margin-top:300px">Please search your asset using the search above
+                                            <p style="margin-top:200px">Please search your asset using the search above
                                             </p>
                                             <img width="200" src="../img/loupe.png" alt="Search">
                                         </div>
                                     </tbody>
+
+        
                                 </table>
                             </div>
                         </div>
@@ -335,10 +349,48 @@
     <script src="../js/jquery.js"></script>
     <script src="../js/viewScript.js"></script>
     <script src="../js/bootstrap.js"></script>
+<<<<<<< Updated upstream
     <script>
         function showNav(){
             $('#menu-list').slideToggle('fast');
         }
+=======
+    <script src="../js/tablefilter.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+
+    <script>
+        $(document).ready(function () {
+
+
+
+            // function btnClickk(a) {
+            //    var data = table.row($(a).parents('tr')).data();
+            //     console.log("clicked on");
+            // }
+
+
+
+            // var table = $('#example').DataTable({
+
+            //     "columnDefs": [{
+            //         "targets": 0,
+            //         "data": null,
+            //         "defaultContent": '<input id="check" type="checkbox">'
+            //     }]
+            // });
+
+
+        });
+
+    
+
+            // $('#example tbody button').click(function () {
+            //     // var data = table.row($(this).parents('tr')).data();
+            //     alert("test");
+            //     // alert(data[5] + "'s Asset ID is: " + data[0]);
+            // });
+>>>>>>> Stashed changes
     </script>
 
 </body>
