@@ -152,11 +152,11 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
 $app->map(['GET','POST'],'/login',function(Request $request, Response $response){
     
     global $func;
-    $data = json_decode(file_get_contents('php://input') );
+    // $data = json_decode(file_get_contents('php://input') );
     $response = array();
+    $username = strtoupper(getenv("username"));
 
-    if($data != null && $data != ''){
-        $username = strtoupper($data->username);
+    if($username != null && $username != ''){
 
         $sql_query = "SELECT ASSET_USER_CLASS FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME='$username'";
         
@@ -177,7 +177,9 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
 
     }
     else{
-        echo 'data is null';
+        $filter = "TEST";
+        array_push($response,array("filter"=>$filter));
+        return json_encode($response);
     }
 
 
