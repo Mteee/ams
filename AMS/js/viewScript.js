@@ -152,6 +152,7 @@ function search() {
                 "searching": false,
                 "ordering": true,
                 "info": false,
+                "bDestroy": true,
                 "columnDefs": [{
                     "targets": 0,
                     "data": null,
