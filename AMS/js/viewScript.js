@@ -9,6 +9,12 @@
 
 $('#searchView').fadeIn(500);
 
+var user_class = localStorage.getItem("filter");
+
+$('.user-class option').text(user_class);
+
+console.log(user_class);
+
 function closeAsset() {
     document.getElementById('overlay-asset').style.display = "none"
 }
