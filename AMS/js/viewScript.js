@@ -58,8 +58,7 @@ function search() {
 
 
         $.ajax({
-            url: 'http://localhost/ams/ams_apis/slimTest/index.php/getAssets',
-            // url: 'test.txt',
+            url: "../../ams_apis/slimTest/index.php/getAssets",
             type: "POST",
             dataType: 'json',
             data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '"}',

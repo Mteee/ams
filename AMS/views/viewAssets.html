@@ -59,6 +59,52 @@
         div#currentAssetsTable_length {
             display: none !important;
         }
+
+        .menu{
+            margin-top:-30px;
+        }
+        .menu-text{
+            position: absolute;
+            margin: -35px 0 0 50px;
+            width: 100px
+        }
+        #menu-bar:hover{
+            cursor: pointer;
+        }
+
+        #menu-list{
+            display: none;
+            position: absolute;
+            color: black;
+            background: white;
+            border-radius: 5px;
+            width: 200px;
+            height:160px;
+            border:1px solid #ccc;
+            margin-top:10px;
+        }
+
+        .menu-group{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-item{
+            padding: 4px 0 6px 33px;
+            font-weight: 200;
+        }
+
+        .menu-item:hover:not(.active){
+            padding-left:60px;
+            background: #ccc;
+            transition: 500ms;
+        }
+
+        .active{
+            background: #343b40;
+            color: white;
+        }
         </style>
 <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
@@ -304,36 +350,10 @@
 
 
     <script>
-        $(document).ready(function () {
-
-
-
-            // function btnClickk(a) {
-            //    var data = table.row($(a).parents('tr')).data();
-            //     console.log("clicked on");
-            // }
-
-
-
-            // var table = $('#example').DataTable({
-
-            //     "columnDefs": [{
-            //         "targets": 0,
-            //         "data": null,
-            //         "defaultContent": '<input id="check" type="checkbox">'
-            //     }]
-            // });
-
-
-        });
-
-    
-
-            // $('#example tbody button').click(function () {
-            //     // var data = table.row($(this).parents('tr')).data();
-            //     alert("test");
-            //     // alert(data[5] + "'s Asset ID is: " + data[0]);
-            // });
+        
+        function showNav(){
+            $('#menu-list').slideToggle('fast');
+        }
     </script>
 
 </body>

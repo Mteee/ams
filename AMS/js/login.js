@@ -33,7 +33,7 @@ $(document).ready(() => {
     }
 
     else {
-      alert("Please enter your username")
+      alert("Please enter your username");
     }
 
   })
