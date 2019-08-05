@@ -9,7 +9,6 @@
 
 $('#searchView').fadeIn(500);
 
-
 function closeAsset() {
     document.getElementById('overlay-asset').style.display = "none"
 }
