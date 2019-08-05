@@ -57,8 +57,7 @@ function search() {
 
 
         $.ajax({
-            url: 'http://localhost/ams/ams_apis/slimTest/index.php/getAssets',
-            // url: 'test.txt',
+            url: "../../ams_apis/slimTest/index.php/getAssets",
             type: "POST",
             dataType: 'json',
             data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '"}',
@@ -103,10 +102,15 @@ function search() {
                         alert(data[0] + "'s salary is: " + data[4]);
                     });
 
+                    $('#currentAssetsTable tbody').on('click', 'button', function () {
+                        var data = table.row($(this).parents('tr')).data();
+                        viewAsset(data[0]);
+                    });
+
 
                 }
                 else {
-                    current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
+                    // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
                     $('#searchView').fadeIn(500);
                     console.log(data.data);
 
@@ -117,6 +121,12 @@ function search() {
                         var data = table.row($(this).parents('tr')).data();
                         alert(data[0] + "'s salary is: " + data[4]);
                     });
+                    $('#currentAssetsTable tbody').on('click', 'button', function () {
+                        var data = table.row($(this).parents('tr')).data();
+                        viewAsset(data[0]);
+                    });
+
+                   
 
                 }
                 $('#loader').hide();
@@ -143,12 +153,16 @@ function search() {
                 }, {
                     "targets": -1,
                     "data": null,
-                    "defaultContent": "<buttn type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
+                    "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
                 }]
             });
 
             return table;
         }
+
+      
+
+        
 
         // $.ajax({
         //     url: "../../ams_apis/slimTest/index.php/getAssets",
