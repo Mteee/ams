@@ -1,27 +1,40 @@
-$(document).ready(() => {
+$(document).ready(function() {
 
   var timeout = 1000;
   var count = 0;
 
-  $("#btnSave").click(() => {
+  var url_string =  window.location;
+  var arr = (url_string).toString().split("=");
+  var c = arr[arr.length-1];
+  localStorage.username = c;
+  console.log(c);
+
+
+  // localStorage.username = c;
+  // console.log(c);
+
+
     $('#loginLoader').fadeIn(500);
     $("#btnSave").attr("disabled", true);
     $.ajax({
       url: "../../ams/ams_apis/slimTest/index.php/login",
       dataType: "JSON",
+      data: '{"username" :"'+c+'"}',
       method: "POST",
-      success: (data) => {
+      success: function(data) {
+
         console.log(data[0].filter);
         filter = data[0].filter;
         if (filter !== null && filter !== '') {
           localStorage.filter = filter;
-          setTimeout(() => {
+          setTimeout(function() {
+
             window.location.href = "../AMS/views/viewAssets.html";
           }, timeout);
         }
 
       },
-      error: (err) => {
+      error: function(err) {
         console.log(err);
         $("#btnSave").attr("disabled", false);
         alert("Please contact system admin");
