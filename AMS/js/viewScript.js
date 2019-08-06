@@ -65,7 +65,7 @@ function search() {
             url: "../../ams_apis/slimTest/index.php/getAssets",
             type: "POST",
             dataType: 'json',
-            data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '","asset_class":"'+ localStorage.filter +'"}',
+            data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '","asset_class":"' + localStorage.filter + '"}',
             success: function (data) {
                 // console.log(data);
                 var table = null;
@@ -81,25 +81,24 @@ function search() {
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_LOCATION_AREA + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '"]'
+                                data.data[k].ASSET_DESCRIPTION + '","' +
+                                updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
                             str += '["' + data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_LOCATION_AREA + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '"],'
+                                data.data[k].ASSET_DESCRIPTION + '","' +
+                                updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
                         }
                     }
                     str += ']}'
                     str = (JSON.parse(str));
                     console.log(str.data);
 
-
-
-
                     table = createTable("#currentAssetsTable", str.data);
 
-                   
+
 
                     // table.clear().draw();
 
@@ -116,16 +115,12 @@ function search() {
 
                 $('#currentAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
                     var data = table.row($(this).parents('tr')).data();
-                    console.log(data);
-                    console.log("---------------localStorage---------------");
-                    console.log(table);
-                    console.log("---------------data---------------");
 
                     // if(data == null || data == undefined){
                     //     data = (localStorage.b).split(',');
-                        // console.log("---------------localStorage---------------");
-                        // console.log(data);
-                        // console.log("---------------data---------------");
+                    // console.log("---------------localStorage---------------");
+                    // console.log(data);
+                    // console.log("---------------data---------------");
                     // }else{
                     //     localStorage.b = data;
                     //     console.log("---------------Default---------------");
@@ -137,18 +132,12 @@ function search() {
                 });
 
                 $('#currentAssetsTable tbody').on('click', 'button', function () {
-                    
+
                     var data = table.row($(this).parents('tr')).data();
-                    if(data == null || data == undefined){
+                    if (data == null || data == undefined) {
                         data = (localStorage.tableDataSet).split(',');
-                        console.log("---------------localStorage---------------");
-                        console.log(data);
-                        console.log("---------------data---------------");
-                    }else{
+                    } else {
                         localStorage.tableDataSet = data;
-                        console.log("---------------Default---------------");
-                        console.log(data);
-                        console.log("---------------data---------------");
                     }
                     viewAsset(data[0]);
                 });
@@ -162,6 +151,35 @@ function search() {
                 alert('Ooops');
             }
         });
+        //updating y to icons
+        function updateLetterToIcon(letter) {
+
+
+            var results = "";
+
+            switch (letter) {
+                case "y":
+                    results = "<i class='fa fa-check-circle text-center' style='color:green;font-size:16pt;'></i>";
+                    break;
+                case "n":
+                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+                    break;
+                case null:
+                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+                    break;
+                case "null":
+                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+                    break;
+                case " ":
+                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+                    break;
+                case "":
+                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+                    break;
+            }
+
+            return results;
+        }//close updateLetterToIcon function
 
         function createTable(tableID, tableData) {
             var table = $(tableID).DataTable({
@@ -169,7 +187,7 @@ function search() {
                 "searching": false,
                 "ordering": true,
                 "info": false,
-                "destroy":true,
+                "destroy": true,
                 "columnDefs": [{
                     "targets": 0,
                     "data": null,
@@ -178,15 +196,18 @@ function search() {
                     "targets": -1,
                     "data": null,
                     "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
-                }]
+                },
+                { "className": "dt-center",
+                 "targets": -2 }
+                ]
             });
 
             return table;
         }
 
-      
 
-        
+
+
 
         // $.ajax({
         //     url: "../../ams_apis/slimTest/index.php/getAssets",
