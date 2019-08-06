@@ -2,7 +2,9 @@
 /*-----------------------------------------------------------------------------------------------------------*/
   /*----------------------------------------------------AME AFRICA--------------------------------------------*/
    /*---------------------------------------------------------------------------------------------------------*/
-/*!
+
+   @import url('https://fonts.googleapis.com/css?family=Roboto');
+   /*!
  * AME SYSADMIN Library CSS
  * website
  * Copyright AME SOFTWARE DEVELOPMENT TEAM (Talent & Melusi)
@@ -286,11 +288,9 @@ caption{
 /*-----------------------------------------------------------------------------------------------------------*/
 
 #loginLoader{
-    display: none;
-    position: absolute;
     z-index: 1;
     width: 100%;
-    margin: 584px auto 0 auto;
+    margin: 0 auto 0 auto;
 }
 
 #loginLoader img {
@@ -310,4 +310,126 @@ caption{
     margin: auto;
     width: 100px;
     position: fixed;
+}
+
+
+
+
+/*-----------------------------------------------------------------------------------------------------------*/
+/*----------------------------------------------- AssetView Style Start -----------------------------------------*/
+/*-----------------------------------------------------------------------------------------------------------*/
+
+.subList {
+    border-left: 1px solid #e1e1e1;
+    margin-left: -56px;
+    padding-left: 16px;
+}
+
+#subAsset {
+    list-style: none;
+}
+
+.theading {
+    width: 50%;
+    background: #e1e1e1;
+    padding: 6px 4px;
+}
+
+#asset-info td{
+    padding: 6px 4px;
+}
+
+.theading-sub {
+    width: 50%;
+    padding: 8px;
+}
+
+.asset-body tbody tr {
+    border: 1px solid #cfcfcf !important;
+    padding: 5px;
+}
+
+.test-scroll {
+    height: 151px;
+    overflow-y: auto;
+}
+
+.test-scroll thead th {
+    position: sticky;
+    top: 0;
+}
+
+#viewAssetTable2 {
+    width: 100%;
+}
+
+div#currentAssetsTable_length {
+    display: none !important;
+}
+
+
+
+.menu-text {
+    position: absolute;
+    margin: -35px 0 0 50px;
+    width: 100px
+}
+
+#menu-bar:hover {
+    cursor: pointer;
+}
+
+#menu-list {
+    display: none;
+    position: absolute;
+    color: black;
+    background: white;
+    border-radius: 5px;
+    width: 200px;
+    height: 160px;
+    border: 1px solid #ccc;
+    margin-top: 10px;
+}
+
+.menu-group {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+.menu-group a, .menu-group a:hover, .menu-group a:active, .menu-group a::after{
+  color:black !important;
+  text-decoration: none !important;
+}
+
+.menu-item {
+    padding: 4px 0 6px 33px;
+    font-weight: 200;
+}
+
+.menu-item:hover:not(.active) {
+    padding-left: 60px;
+    background: #ccc;
+    transition: 500ms;
+}
+
+.menu-item:hover::after {
+    padding: 4px 0 6px 33px;
+    background: #ccc;
+    transition: 500ms;
+}
+
+.active {
+    background: #343b40;
+    color: white;
+}
+
+#username {
+    font-size: 15pt;
+    color: white;
+    font-weight: bolder;
+    padding: 5px;
+}
+
+.table {
+    margin-bottom: 0 !important;
 }

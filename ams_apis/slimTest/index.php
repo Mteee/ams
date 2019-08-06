@@ -19,12 +19,17 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
     $ASSET_ROOM = strtoupper($data->v_room);
     $ASSET_LOCATION = strtoupper($data->v_location);
     $ASSET_DESCRIPTION = strtoupper($data->v_description);
+    $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
 
 
-    if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION)){
+    if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
 
-        $sql = "SELECT ASSET_ID,ASSET_CLASS,ASSET_LOCATION_AREA,ASSET_ROOM_NO,ASSET_DESCRIPTION,ASSET_TRANSACTION_STATUS FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' AND ASSET_ID=ASSET_PRIMARY_ID";
+        if($ASSET_CLASS == 'ALL EQUIPMENT'){
+            $ASSET_CLASS = '';
+        }
+        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' AND ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID=ASSET_PRIMARY_ID";
+        // $sql = "SELECT * FROM AMSD.ASSETS_VW";
 
         $assets =$func->executeQuery($sql);
 
@@ -32,7 +37,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
             echo $assets;
         }
         else{
-            echo json_encode(array("rows" => 0 ,"data" =>"No data"));
+            echo json_encode(array("rows" => 0 ,"data" =>""));
 
         }
 
@@ -92,9 +97,9 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
             <div class="test-scroll">
             <table id="viewAssetTable2" class="table-bordered table-striped">
                 <thead>
-                    <tr style="" class="bg-dark text-light">
-                        <th class="theading-sub">Sub Asset(s)</th>
-                        <th class="theading-sub">Description</th>
+                    <tr style="" class="text-light">
+                        <th class="theading-sub bg-dark">Sub Asset(s)</th>
+                        <th class="theading-sub bg-dark">Description</th>
                     </tr>
                 </thead>
                 <tbody id="asset-info">
@@ -151,10 +156,10 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
 $app->map(['GET','POST'],'/login',function(Request $request, Response $response){
     
     global $func;
+    $data = json_decode(file_get_contents('php://input') );
     $response = array();
-    $username = strtoupper(getenv("username"));
-
-    if($username != null && $username != ''){
+    $username = strtoupper($data->username);
+   if($username != null && $username != ''){
 
         $sql_query = "SELECT ASSET_USER_CLASS FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME='$username'";
         
@@ -175,7 +180,9 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
 
     }
     else{
-        echo 'data is null';
+        $filter = "Error";
+        array_push($response,array("filter"=>$filter));
+        return json_encode($response);
     }
 
 
