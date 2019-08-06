@@ -301,9 +301,8 @@ caption{
 /*----------------------------------------------- End Login Loader -----------------------------------------*/
 /*-----------------------------------------------------------------------------------------------------------*/
 
-#searchView{
+#search_start{
     display: none;
-    
 }
 
 #loader img {
@@ -367,6 +366,13 @@ div#currentAssetsTable_length {
     display: none !important;
 }
 
+div#outAssetsTable_length{
+    display: none !important;
+}
+
+div#inAssetsTable_length{
+    display: none !important;
+}
 
 
 .menu-text {

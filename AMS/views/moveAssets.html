@@ -193,7 +193,7 @@
                                         </th>
 
                                         <th>
-                                            <button onclick="search()" type="text" class="btn btn-success">
+                                            <button onclick="search()" type="text" class="btn btn-success form-control">
                                                 <span class="fa fa-search"></span>
                                                 Search
                                             </button>
@@ -281,7 +281,7 @@
                                             </tr>
 
                                         </table>
-                                        <table class="table" id="currentAssetsTable">
+                                        <table class="table" id="outAssetsTable">
                                             <thead style="background:#000000;color:#ffffff;">
                                                 <tr>
                                                     <th scope="col">
@@ -316,11 +316,9 @@
                                                 <div id="loader" class="loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
-                                                <div id="searchView" class="search_start">
-                                                    <p style="margin-top:200px">Please search your asset using the
-                                                        search above
+                                                <div id="outSearch" class="search_start">
+                                                    <p style="margin-top:200px; font-size:18pt;">No Data
                                                     </p>
-                                                    <img width="200" src="../img/loupe.png" alt="Search">
                                                 </div>
                                             </tbody>
                                         </table>
@@ -347,8 +345,8 @@
                                                 </tr>
     
                                             </table>
-                                            <table class="table" id="currentAssetsTable">
-                                                <thead style="background:#000000;color:#ffffff; padding-top: 10px;">
+                                            <table class="table" id="inAssetsTable">
+                                                <thead style="background:#000000;color:#ffffff;">
                                                     <tr>
                                                         <th scope="col">
                                                             #
@@ -382,11 +380,9 @@
                                                     <div id="loader" class="loader">
                                                         <img src="../img/loading-transparent.gif" alt="">
                                                     </div>
-                                                    <div id="searchView" class="search_start">
-                                                        <p style="margin-top:200px">Please search your asset using the
-                                                            search above
+                                                    <div id="inSearch" class="search_start">
+                                                        <p style="margin-top:200px;font-size: 18pt;">No Data
                                                         </p>
-                                                        <img width="200" src="../img/loupe.png" alt="Search">
                                                     </div>
                                                 </tbody>
                                             </table>
@@ -406,7 +402,7 @@
         </div>
     </div>
     <script src="../js/jquery.js"></script>
-    <script src="../js/viewScript.js"></script>
+    <script src="../js/moveAsset.js"></script>
     <script src="../js/bootstrap.js"></script>
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
