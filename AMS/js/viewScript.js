@@ -66,7 +66,7 @@ function search() {
             url: "../../ams_apis/slimTest/index.php/getAssets",
             type: "POST",
             dataType: 'json',
-            data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '"}',
+            data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '","asset_class":"'+ localStorage.filter +'"}',
             success: function (data) {
                 // console.log(data);
                 var table = null;
