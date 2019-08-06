@@ -186,7 +186,6 @@ function search() {
                 "data": tableData,
                 "searching": false,
                 "ordering": true,
-                "info": false,
                 "destroy": true,
                 "columnDefs": [{
                     "targets": 0,
