@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>AMS</title>
+    <title>AMS</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
     <link rel="stylesheet" href="css/animate.css">
@@ -17,9 +17,7 @@
 
 <body style="background:url(./img/bg-image.jpg) no-repeat; background-size: cover;">
 
-    <div id="loginLoader" class="loginLoader text-center">
-        <img src="img/loading-transparent.gif" alt="">
-    </div>
+
 
     <div class="container" style="box-shadow: none">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -28,9 +26,9 @@
                 <img class="logo" src="img/Logo.png" alt="AMS LOGO" width="50">
             </div>
             <div class="col-md-8 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
-                ASSETS MANAGEMENT SYSTEM 
+                ASSETS MANAGEMENT SYSTEM
             </div>
-          
+
         </nav>
 
         <div class="row">
@@ -39,9 +37,8 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="col-md-12" style="margin-top: 160px;">
-                                <div class="card rounded shadow-lg"> 
-                                    <h5 class="card-header text-light bg-dark text-center py-4"
-                                       >
+                                <div class="card rounded shadow-lg">
+                                    <h5 class="card-header text-light bg-dark text-center py-4">
                                         <strong>
                                             SIGN IN
                                         </strong>
@@ -64,12 +61,17 @@
                                             </div> -->
 
                                             <!-- Sign in button -->
-                                            <div class="text-center">
+                                            <!-- <div class="text-center">
                                                 <button id="btnSave" class="btn btn-success my-4"
                                                     style="text-transform: uppercase; font-weight: 600;"
                                                     type="submit">
                                                     <span class="fa fa-spinner" style="padding: 10px;"></span>Sign in</button>
+                                            </div> -->
+                                            <div id="loginLoader" class="loginLoader text-center">
+                                                <img src="img/loading-transparent.gif" alt="">
                                             </div>
+                                            <br>
+                                            <p class="text-center">Please Wait...</p>
 
                                         </form>
                                         <!-- Form -->
@@ -78,9 +80,12 @@
                                 </div>
 
                                 <div class="copyright text-center">
-                                    <p class="text-muted py-5"><strong> &copy; AME AFRICA</strong> | All Rights Reserved | <script>var today = new Date()
+                                    <p class="text-muted py-5"><strong> &copy; AME AFRICA</strong> | All Rights Reserved
+                                        |
+                                        <script>var today = new Date()
                                             var year = today.getFullYear();
-                                            document.write(year);</script></p>
+                                            document.write(year);</script>
+                                    </p>
                                 </div>
                             </div>
                         </div>

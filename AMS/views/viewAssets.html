@@ -14,29 +14,27 @@
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
     <style>
-        
-        
         .subList {
             border-left: 1px solid #e1e1e1;
             margin-left: -56px;
             padding-left: 16px;
         }
-        
+
         #subAsset {
             list-style: none;
         }
-        
+
         .theading {
             width: 50%;
             background: #e1e1e1;
             padding: 6px;
         }
-        
+
         .theading-sub {
             width: 50%;
             padding: 8px;
         }
-        
+
         .asset-body tbody tr {
             border: 1px solid #cfcfcf !important;
             padding: 5px;
@@ -46,7 +44,7 @@
             height: 151px;
             overflow-y: auto;
         }
-        
+
         .test-scroll thead th {
             position: sticky;
             top: 0;
@@ -55,65 +53,72 @@
         #viewAssetTable2 {
             width: 100%;
         }
-        
+
         div#currentAssetsTable_length {
             display: none !important;
         }
 
-        .menu{
-            margin-top:-30px;
-        }
-        .menu-text{
+
+
+        .menu-text {
             position: absolute;
             margin: -35px 0 0 50px;
             width: 100px
         }
-        #menu-bar:hover{
+
+        #menu-bar:hover {
             cursor: pointer;
         }
 
-        #menu-list{
+        #menu-list {
             display: none;
             position: absolute;
             color: black;
             background: white;
             border-radius: 5px;
             width: 200px;
-            height:160px;
-            border:1px solid #ccc;
-            margin-top:10px;
+            height: 160px;
+            border: 1px solid #ccc;
+            margin-top: 10px;
         }
 
-        .menu-group{
+        .menu-group {
             list-style: none;
             margin: 0;
             padding: 0;
         }
 
-        .menu-item{
+        .menu-item {
             padding: 4px 0 6px 33px;
             font-weight: 200;
         }
 
-        .menu-item:hover:not(.active){
-            padding-left:60px;
+        .menu-item:hover:not(.active) {
+            padding-left: 60px;
             background: #ccc;
             transition: 500ms;
         }
 
-        .active{
+        .active {
             background: #343b40;
             color: white;
         }
-        </style>
-<link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+        #username {
+            font-size: 15pt;
+            color: white;
+            font-weight: bolder;
+            padding: 5px;
+        }
+    </style>
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
 
 <body>
     <div id="overlay-asset">
         <div class="asset-details animated bounceInUp" id="assetView">
             <span class="exit-asset" onclick="closeAsset()">&times;</span>
-            
+
             <div class="asset-body">
                 <div id="viewAssets">
                     <table id="viewAssetTable" style="width:100%;border:1px solid #ccc;border-radius: 5px;">
@@ -196,11 +201,26 @@
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
             style="background: rgb(59, 56, 56);height:80px">
-            <div class="col-md-3" id="menu-bar" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
-               <span onclick="showNav()">
-                    <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40"/></div>
-                    <div class="menu-text">MENU</div>
-               </span> 
+            <div class="col-md-3" id="menu-bar"
+                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+                <span onclick="showNav()">
+                    <div class="row" style="margin-top:-25px;">
+                        <div class="col-md-2">
+                            <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40" /></div>
+                            <div class="menu-text">MENU</div>
+                        </div>
+
+                        <div class="col-md-7 offset-3">
+                            <select class="form-control text-muted user-class" disabled>
+                                <option value="user_class">ALL EQUIPMENT</option>
+                                <!-- <option value="1">FACILITIES MANAGEMENT</option>
+                                        <option value="2">IT EQUIPMENT</option>
+                                        <option value="3">MEDICAL EQUIPMENT</option> -->
+                            </select>
+                        </div>
+                    </div>
+
+                </span>
                 <div id="menu-list">
                     <ul class="menu-group">
                         <li class="menu-item active">view</li>
@@ -211,17 +231,13 @@
                 </div>
             </div>
             <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
-                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span></div> 
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
+                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span></div>
             </div>
             <div class=" col-md-3">
                 <div class="row">
-                    <div class="col-md-7 offset-3">
-                        <select class="form-control text-muted py-2 user-class">
-                            <option value="user_class">ALL EQUIPMENT</option>
-                            <!-- <option value="1">FACILITIES MANAGEMENT</option>
-                            <option value="2">IT EQUIPMENT</option>
-                            <option value="3">MEDICAL EQUIPMENT</option> -->
-                        </select>
+                    <div class="col-md-4 offset-6">
+                        <div id="username">Username</div>
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;">
@@ -333,7 +349,7 @@
                                         </div>
                                     </tbody>
 
-        
+
                                 </table>
                             </div>
                         </div>
@@ -351,8 +367,17 @@
 
     <script>
 
-       function showNav(){
+        function showNav() {
             $('#menu-list').slideToggle('fast');
+        }
+
+        document.getElementById('username').innerHTML = replaceAll('"', '', localStorage.username);
+
+        function replaceAll(find, replace, str) {
+            while (str.indexOf(find) > -1) {
+                str = str.replace(find, replace);
+            }
+            return str;
         }
     </script>
 

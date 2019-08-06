@@ -287,11 +287,9 @@ caption{
 /*-----------------------------------------------------------------------------------------------------------*/
 
 #loginLoader{
-    display: none;
-    position: absolute;
     z-index: 1;
     width: 100%;
-    margin: 584px auto 0 auto;
+    margin: 0 auto 0 auto;
 }
 
 #loginLoader img {
