@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-  var timeout = 2000;
+  var timeout = 1000;
   var count = 0;
 
   var url_string =  window.location;
@@ -13,6 +13,7 @@ $(document).ready(function() {
   // localStorage.username = c;
   // console.log(c);
 
+
     $('#loginLoader').fadeIn(500);
     $("#btnSave").attr("disabled", true);
     $.ajax({
@@ -21,11 +22,13 @@ $(document).ready(function() {
       data: '{"username" :"'+c+'"}',
       method: "POST",
       success: function(data) {
+
         console.log(data[0].filter);
         filter = data[0].filter;
         if (filter !== null && filter !== '') {
           localStorage.filter = filter;
           setTimeout(function() {
+
             window.location.href = "../AMS/views/viewAssets.html";
           }, timeout);
         }
@@ -39,6 +42,7 @@ $(document).ready(function() {
       }
     });
 
+  })
 })
 
 //     // var username = document.getElementById("inlineFormInputGroup").value;
