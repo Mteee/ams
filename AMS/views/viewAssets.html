@@ -14,106 +14,7 @@
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
     <style>
-        .subList {
-            border-left: 1px solid #e1e1e1;
-            margin-left: -56px;
-            padding-left: 16px;
-        }
-
-        #subAsset {
-            list-style: none;
-        }
-
-        .theading {
-            width: 50%;
-            background: #e1e1e1;
-            padding: 6px 4px;
-        }
-
-        #asset-info td{
-            padding: 6px 4px;
-        }
-
-        .theading-sub {
-            width: 50%;
-            padding: 8px;
-        }
-
-        .asset-body tbody tr {
-            border: 1px solid #cfcfcf !important;
-            padding: 5px;
-        }
-
-        .test-scroll {
-            height: 151px;
-            overflow-y: auto;
-        }
-
-        .test-scroll thead th {
-            position: sticky;
-            top: 0;
-        }
-
-        #viewAssetTable2 {
-            width: 100%;
-        }
-
-        div#currentAssetsTable_length {
-            display: none !important;
-        }
-
-
-
-        .menu-text {
-            position: absolute;
-            margin: -35px 0 0 50px;
-            width: 100px
-        }
-
-        #menu-bar:hover {
-            cursor: pointer;
-        }
-
-        #menu-list {
-            display: none;
-            position: absolute;
-            color: black;
-            background: white;
-            border-radius: 5px;
-            width: 200px;
-            height: 160px;
-            border: 1px solid #ccc;
-            margin-top: 10px;
-        }
-
-        .menu-group {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .menu-item {
-            padding: 4px 0 6px 33px;
-            font-weight: 200;
-        }
-
-        .menu-item:hover:not(.active) {
-            padding-left: 60px;
-            background: #ccc;
-            transition: 500ms;
-        }
-
-        .active {
-            background: #343b40;
-            color: white;
-        }
-
-        #username {
-            font-size: 15pt;
-            color: white;
-            font-weight: bolder;
-            padding: 5px;
-        }
+ 
     </style>
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
@@ -228,7 +129,7 @@
                 <div id="menu-list">
                     <ul class="menu-group">
                         <li class="menu-item active">view</li>
-                        <li class="menu-item">movement</li>
+                        <a href="./moveAssets.html" target="_self"><li class="menu-item">movement</li></a>
                         <li class="menu-item">certificates</li>
                         <li class="menu-item">commissioning</li>
                     </ul>
