@@ -13,108 +13,7 @@
     <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-    <style>
-        .subList {
-            border-left: 1px solid #e1e1e1;
-            margin-left: -56px;
-            padding-left: 16px;
-        }
 
-        #subAsset {
-            list-style: none;
-        }
-
-        .theading {
-            width: 50%;
-            background: #e1e1e1;
-            padding: 6px 4px;
-        }
-
-        #asset-info td{
-            padding: 6px 4px;
-        }
-
-        .theading-sub {
-            width: 50%;
-            padding: 8px;
-        }
-
-        .asset-body tbody tr {
-            border: 1px solid #cfcfcf !important;
-            padding: 5px;
-        }
-
-        .test-scroll {
-            height: 151px;
-            overflow-y: auto;
-        }
-
-        .test-scroll thead th {
-            position: sticky;
-            top: 0;
-        }
-
-        #viewAssetTable2 {
-            width: 100%;
-        }
-
-        div#currentAssetsTable_length {
-            display: none !important;
-        }
-
-
-
-        .menu-text {
-            position: absolute;
-            margin: -35px 0 0 50px;
-            width: 100px
-        }
-
-        #menu-bar:hover {
-            cursor: pointer;
-        }
-
-        #menu-list {
-            display: none;
-            position: absolute;
-            color: black;
-            background: white;
-            border-radius: 5px;
-            width: 200px;
-            height: 160px;
-            border: 1px solid #ccc;
-            margin-top: 10px;
-        }
-
-        .menu-group {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .menu-item {
-            padding: 4px 0 6px 33px;
-            font-weight: 200;
-        }
-
-        .menu-item:hover:not(.active) {
-            padding-left: 60px;
-            background: #ccc;
-            transition: 500ms;
-        }
-
-        .active {
-            background: #343b40;
-            color: white;
-        }
-
-        #username {
-            font-size: 15pt;
-            color: white;
-            font-weight: bolder;
-            padding: 5px;
-        }
-    </style>
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
 
@@ -202,7 +101,7 @@
     </div>
 
 
-    <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
+    <div class="container-fluid" style="border-left:1px soild rgba(0,0,0,0.5)">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
             style="background: rgb(59, 56, 56);height:80px">
             <div class="col-md-3" id="menu-bar"
@@ -227,8 +126,8 @@
                 </span>
                 <div id="menu-list">
                     <ul class="menu-group">
-                        <li class="menu-item active">view</li>
-                        <li class="menu-item">movement</li>
+                            <a href="./viewAssets.html" target="_self"><li class="menu-item">view</li></a>
+                        <li class="menu-item active">movement</li>
                         <li class="menu-item">certificates</li>
                         <li class="menu-item">commissioning</li>
                     </ul>
@@ -266,27 +165,14 @@
 
             </div>
         </nav>
+
         <div class="row" style="margin-top: 2.897%;">
             <div class="col-md-12" style="height:80vh;padding-right:40px;">
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-3 text-center" style="font-size:15pt;font-weight: bolder">
-                                <br />
-                            </div>
-                            <div class="col-md-9 ">
-                                <!-- <div class="form-group">
-                                            Filter : <input type="text" class="form-control" style="width:170px;"
-                                                placeholder="Search ...">
-                                        </div> -->
-                            </div>
-                        </div>
-                        <div class="row">
-
-                            <div class="col-md-12">
-                                <table class="table">
+                    <div class="col-md-12" style="margin-top: 0.5%;">
+                            <table class="table">
                                     <tr>
-                                        <th>
+                                        <th style="padding: 16px; padding-left: 50px;">
                                             Search
                                         </th>
                                         <th>
@@ -315,8 +201,26 @@
                                     </tr>
 
                                 </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                    <table class="table">
+                                            <tr>
+                                                <th colspan="6" style="padding: 11px;text-align: left;font-size: 20pt;"
+                                                    class="text-primary">
+                                                    <span style="padding: 5px; width:100px;">CURRENT</span>
+                                                </th>
+
+                                            </tr>
+
+                                        </table>
                                 <table class="table" id="currentAssetsTable">
-                                    <thead>
+                                    <thead style="background:#000000;color:#ffffff;">
                                         <tr>
                                             <th scope="col">
                                                 #
@@ -335,6 +239,10 @@
                                             </th>
                                             <th scope="col">
                                                 Description
+
+                                            </th>
+                                            <th scope="col">
+                                                Has Sub Assets
 
                                             </th>
                                             <th scope="col">
@@ -357,6 +265,141 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+                    <div style="border-left:1px solid #ccc" class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12" style="height: 450px;">
+                                        <table class="table">
+                                            <tr>
+                                                <th colspan="6" style="padding: 11px;text-align: right;font-size: 20pt;"
+                                                    class="text-danger">
+                                                    <span style="padding: 5px; width:100px;">OUT</span>
+                                                </th>
+
+                                            </tr>
+
+                                        </table>
+                                        <table class="table" id="currentAssetsTable">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">
+                                                        #
+                                                    </th>
+                                                    <th scope="col">
+                                                        Asset No
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        Room
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        Location
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        Description
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        Has Sub Assets
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        View
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="current">
+                                                <div id="loader" class="loader">
+                                                    <img src="../img/loading-transparent.gif" alt="">
+                                                </div>
+                                                <div id="searchView" class="search_start">
+                                                    <p style="margin-top:200px">Please search your asset using the
+                                                        search above
+                                                    </p>
+                                                    <img width="200" src="../img/loupe.png" alt="Search">
+                                                </div>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12 text-right">
+                                        <button class="btn btn-danger btn-lg">CANCEL</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top: 10px;">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12" style="height: 450px;">
+                                            <table class="table">
+                                                <tr>
+                                                    <th colspan="6" style="padding: 11px;text-align: right;font-size: 20pt;"
+                                                        class="text-success">
+                                                        <span style="padding: 5px; width:100px;">IN</span>
+                                                    </th>
+    
+                                                </tr>
+    
+                                            </table>
+                                            <table class="table" id="currentAssetsTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">
+                                                            #
+                                                        </th>
+                                                        <th scope="col">
+                                                            Asset No
+    
+                                                        </th>
+                                                        <th scope="col">
+                                                            Room
+    
+                                                        </th>
+                                                        <th scope="col">
+                                                            Location
+    
+                                                        </th>
+                                                        <th scope="col">
+                                                            Description
+    
+                                                        </th>
+                                                        <th scope="col">
+                                                            Has Sub Assets
+    
+                                                        </th>
+                                                        <th scope="col">
+                                                            View
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="current">
+                                                    <div id="loader" class="loader">
+                                                        <img src="../img/loading-transparent.gif" alt="">
+                                                    </div>
+                                                    <div id="searchView" class="search_start">
+                                                        <p style="margin-top:200px">Please search your asset using the
+                                                            search above
+                                                        </p>
+                                                        <img width="200" src="../img/loupe.png" alt="Search">
+                                                    </div>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12 text-right">
+                                            <button class="btn btn-success btn-lg">APPROVE</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                      
                     </div>
                 </div>
             </div>
