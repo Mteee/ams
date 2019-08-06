@@ -21,7 +21,6 @@ function closeAsset() {
 
 function viewAsset(assetId) {
     var currentItem = "";
-    console.log(assetId);
     document.getElementById('overlay-asset').style.display = "block";
     console.log($('#assetBody'));
     $('#assetBody')['0'].innerHTML = assetId;
@@ -113,11 +112,6 @@ function search() {
 
                     table = createTable("#currentAssetsTable", data.data);
 
-
-                    
-
-                   
-
                 }
 
                 $('#currentAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
@@ -130,9 +124,15 @@ function search() {
                 $('#currentAssetsTable tbody').on('click', 'button', function () {
                     var data = table.row($(this).parents('tr')).data();
                     if(data == null || data == undefined){
-                        data = localStorage.tableDataSet ;
+                        data = (localStorage.tableDataSet).split(',');
+                        console.log("---------------localStorage---------------");
+                        console.log(data);
+                        console.log("---------------data---------------");
                     }else{
                         localStorage.tableDataSet = data;
+                        console.log("---------------Default---------------");
+                        console.log(data);
+                        console.log("---------------data---------------");
                     }
                     viewAsset(data[0]);
                 });
