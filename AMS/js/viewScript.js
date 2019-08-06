@@ -9,6 +9,12 @@
 
 $('#searchView').fadeIn(500);
 
+var user_class = localStorage.getItem("filter");
+
+$('.user-class option').text(user_class);
+
+console.log(user_class);
+
 function closeAsset() {
     document.getElementById('overlay-asset').style.display = "none"
 }
@@ -94,9 +100,6 @@ function search() {
 
                     table = createTable("#currentAssetsTable", str.data);
 
-
-                    console.log(table);
-
                     $('#currentAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
                         var data = table.row($(this).parents('tr')).data();
                         alert(data[0] + "'s salary is: " + data[4]);
@@ -106,6 +109,8 @@ function search() {
                         var data = table.row($(this).parents('tr')).data();
                         viewAsset(data[0]);
                     });
+
+                    // table.clear().draw();
 
 
                 }
@@ -146,6 +151,7 @@ function search() {
                 "searching": false,
                 "ordering": true,
                 "info": false,
+                "destroy":true,
                 "columnDefs": [{
                     "targets": 0,
                     "data": null,
