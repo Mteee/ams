@@ -21,7 +21,6 @@ function closeAsset() {
 
 function viewAsset(assetId) {
     var currentItem = "";
-    console.log(assetId);
     document.getElementById('overlay-asset').style.display = "block";
     console.log($('#assetBody'));
     $('#assetBody')['0'].innerHTML = assetId;
@@ -66,7 +65,7 @@ function search() {
             url: "../../ams_apis/slimTest/index.php/getAssets",
             type: "POST",
             dataType: 'json',
-            data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '"}',
+            data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '","asset_class":"' + localStorage.filter + '"}',
             success: function (data) {
                 // console.log(data);
                 var table = null;
@@ -82,33 +81,24 @@ function search() {
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_LOCATION_AREA + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '"]'
+                                data.data[k].ASSET_DESCRIPTION + '","' +
+                                updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
                             str += '["' + data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_LOCATION_AREA + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '"],'
+                                data.data[k].ASSET_DESCRIPTION + '","' +
+                                updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
                         }
                     }
                     str += ']}'
                     str = (JSON.parse(str));
                     console.log(str.data);
 
-
-
-
                     table = createTable("#currentAssetsTable", str.data);
 
-                    $('#currentAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
-                        var data = table.row($(this).parents('tr')).data();
-                        alert(data[0] + "'s salary is: " + data[4]);
-                    });
 
-                    $('#currentAssetsTable tbody').on('click', 'button', function () {
-                        var data = table.row($(this).parents('tr')).data();
-                        viewAsset(data[0]);
-                    });
 
                     // table.clear().draw();
 
@@ -121,20 +111,43 @@ function search() {
 
                     table = createTable("#currentAssetsTable", data.data);
 
-
-                    $('#currentAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
-                        var data = table.row($(this).parents('tr')).data();
-                        alert(data[0] + "'s salary is: " + data[4]);
-                    });
-                    $('#currentAssetsTable tbody').on('click', 'button', function () {
-                        var data = table.row($(this).parents('tr')).data();
-                        viewAsset(data[0]);
-                    });
-
-                   
-
                 }
+
+                $('#currentAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
+                    var data = table.row($(this).parents('tr')).data();
+                    if (checkboxSelectedLength() > 0) {
+                        $('#printAssetsView').fadeIn(500);
+                    } else {
+                        $('#printAssetsView').fadeOut(500);
+                    }
+
+                    // if(data == null || data == undefined){
+                    //     data = (localStorage.b).split(',');
+                    // console.log("---------------localStorage---------------");
+                    // console.log(data);
+                    // console.log("---------------data---------------");
+                    // }else{
+                    //     localStorage.b = data;
+                    //     console.log("---------------Default---------------");
+                    //     console.log(data);
+                    //     console.log("---------------data---------------");
+                    // }
+
+                    // alert(data[0] + "'s salary is: " + data[4]);
+                });
+
+                $('#currentAssetsTable tbody').on('click', 'button', function () {
+
+                    var data = table.row($(this).parents('tr')).data();
+                    if (data == null || data == undefined) {
+                        data = (localStorage.tableDataSet).split(',');
+                    } else {
+                        localStorage.tableDataSet = data;
+                    }
+                    viewAsset(data[0]);
+                });
                 $('#loader').hide();
+                // $('#printAssetsView').fadeIn(500);
 
             },
             error: function (err) {
@@ -145,30 +158,6 @@ function search() {
             }
         });
 
-        function createTable(tableID, tableData) {
-            var table = $(tableID).DataTable({
-                "data": tableData,
-                "searching": false,
-                "ordering": true,
-                "info": false,
-                "destroy":true,
-                "columnDefs": [{
-                    "targets": 0,
-                    "data": null,
-                    "defaultContent": "<input type='checkbox'/>"
-                }, {
-                    "targets": -1,
-                    "data": null,
-                    "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
-                }]
-            });
-
-            return table;
-        }
-
-      
-
-        
 
         // $.ajax({
         //     url: "../../ams_apis/slimTest/index.php/getAssets",
@@ -205,6 +194,36 @@ function search() {
     }
 }
 
+function createTable(tableID, tableData) {
+    var table = $(tableID).DataTable({
+        "data": tableData,
+        "searching": false,
+        "ordering": true,
+        "destroy": true,
+        "columnDefs": [{
+            "targets": 0,
+            "data": null,
+            "defaultContent": "<input class='checkitem' type='checkbox'/>"
+        },
+        {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
+        },
+        {
+            "className": "dt-center",
+            "targets": [-2,0]
+        },
+        {
+            "targets": [-1, -2, 0],
+            "orderable": false
+        }
+        ]
+    });
+
+    return table;
+}
+
 
 
 /*-------   Zoom handler -------*/
@@ -219,3 +238,48 @@ function toggleZoomScreen(value) {
     document.body.style.zoom = value;
 }
 /*------   Zoom handler -----*/
+
+function printView() {
+
+    var id = $('.checkitem:checked').map(function () {
+        return $(this).val();
+    }).get().join(' ');
+
+    console.log(id);
+}
+
+
+function checkboxSelectedLength() {
+    var lengthh = $(":checkbox:checked").length;
+    return lengthh;
+}
+
+//updating y to icons
+function updateLetterToIcon(letter) {
+
+
+    var results = "";
+
+    switch (letter) {
+        case "y":
+            results = "<i class='fa fa-check-circle text-center' style='color:green;font-size:16pt;'></i>";
+            break;
+        case "n":
+            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            break;
+        case null:
+            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            break;
+        case "null":
+            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            break;
+        case " ":
+            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            break;
+        case "":
+            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            break;
+    }
+
+    return results;
+}//close updateLetterToIcon function
