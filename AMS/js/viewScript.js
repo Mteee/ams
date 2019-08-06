@@ -115,6 +115,11 @@ function search() {
 
                 $('#currentAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
                     var data = table.row($(this).parents('tr')).data();
+                    if (checkboxSelectedLength() > 0) {
+                        $('#printAssetsView').fadeIn(500);
+                    } else {
+                        $('#printAssetsView').fadeOut(500);
+                    }
 
                     // if(data == null || data == undefined){
                     //     data = (localStorage.b).split(',');
@@ -142,6 +147,7 @@ function search() {
                     viewAsset(data[0]);
                 });
                 $('#loader').hide();
+                // $('#printAssetsView').fadeIn(500);
 
             },
             error: function (err) {
@@ -151,61 +157,6 @@ function search() {
                 alert('Ooops');
             }
         });
-        //updating y to icons
-        function updateLetterToIcon(letter) {
-
-
-            var results = "";
-
-            switch (letter) {
-                case "y":
-                    results = "<i class='fa fa-check-circle text-center' style='color:green;font-size:16pt;'></i>";
-                    break;
-                case "n":
-                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-                    break;
-                case null:
-                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-                    break;
-                case "null":
-                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-                    break;
-                case " ":
-                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-                    break;
-                case "":
-                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-                    break;
-            }
-
-            return results;
-        }//close updateLetterToIcon function
-
-        function createTable(tableID, tableData) {
-            var table = $(tableID).DataTable({
-                "data": tableData,
-                "searching": false,
-                "ordering": true,
-                "destroy": true,
-                "columnDefs": [{
-                    "targets": 0,
-                    "data": null,
-                    "defaultContent": "<input type='checkbox'/>"
-                }, {
-                    "targets": -1,
-                    "data": null,
-                    "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
-                },
-                { "className": "dt-center",
-                 "targets": -2 }
-                ]
-            });
-
-            return table;
-        }
-
-
-
 
 
         // $.ajax({
@@ -243,6 +194,36 @@ function search() {
     }
 }
 
+function createTable(tableID, tableData) {
+    var table = $(tableID).DataTable({
+        "data": tableData,
+        "searching": false,
+        "ordering": true,
+        "destroy": true,
+        "columnDefs": [{
+            "targets": 0,
+            "data": null,
+            "defaultContent": "<input class='checkitem' type='checkbox'/>"
+        },
+        {
+            "targets": -1,
+            "data": null,
+            "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
+        },
+        {
+            "className": "dt-center",
+            "targets": [-2,0]
+        },
+        {
+            "targets": [-1, -2, 0],
+            "orderable": false
+        }
+        ]
+    });
+
+    return table;
+}
+
 
 
 /*-------   Zoom handler -------*/
@@ -257,3 +238,48 @@ function toggleZoomScreen(value) {
     document.body.style.zoom = value;
 }
 /*------   Zoom handler -----*/
+
+function printView() {
+
+    var id = $('.checkitem:checked').map(function () {
+        return $(this).val();
+    }).get().join(' ');
+
+    console.log(id);
+}
+
+
+function checkboxSelectedLength() {
+    var lengthh = $(":checkbox:checked").length;
+    return lengthh;
+}
+
+//updating y to icons
+function updateLetterToIcon(letter) {
+
+
+    var results = "";
+
+    switch (letter) {
+        case "y":
+            results = "<i class='fa fa-check-circle text-center' style='color:green;font-size:16pt;'></i>";
+            break;
+        case "n":
+            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            break;
+        case null:
+            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            break;
+        case "null":
+            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            break;
+        case " ":
+            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            break;
+        case "":
+            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            break;
+    }
+
+    return results;
+}//close updateLetterToIcon function
