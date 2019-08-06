@@ -152,6 +152,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
 $app->map(['GET','POST'],'/login',function(Request $request, Response $response){
     
     global $func;
+    $data = json_decode(file_get_contents('php://input') );
     $response = array();
     $username = strtoupper($data->username);
    if($username != null && $username != ''){
