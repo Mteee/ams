@@ -111,7 +111,11 @@ function search() {
                     "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
                 },
                 { "className": "dt-center",
-                 "targets": -2 }
+                 "targets": -2 },
+                 {
+                    "targets": [-1, -2, 0],
+                    "orderable": false
+                }
                 ]
             });
 
