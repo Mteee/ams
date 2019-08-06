@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AMS - VIEW ASSEST</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <style>
+        .subList {
+            border-left: 1px solid #e1e1e1;
+            margin-left: -56px;
+            padding-left: 16px;
+        }
+
+        #subAsset {
+            list-style: none;
+        }
+
+        .theading {
+            width: 50%;
+            background: #e1e1e1;
+            padding: 6px 4px;
+        }
+
+        #asset-info td{
+            padding: 6px 4px;
+        }
+
+        .theading-sub {
+            width: 50%;
+            padding: 8px;
+        }
+
+        .asset-body tbody tr {
+            border: 1px solid #cfcfcf !important;
+            padding: 5px;
+        }
+
+        .test-scroll {
+            height: 151px;
+            overflow-y: auto;
+        }
+
+        .test-scroll thead th {
+            position: sticky;
+            top: 0;
+        }
+
+        #viewAssetTable2 {
+            width: 100%;
+        }
+
+        div#currentAssetsTable_length {
+            display: none !important;
+        }
+
+
+
+        .menu-text {
+            position: absolute;
+            margin: -35px 0 0 50px;
+            width: 100px
+        }
+
+        #menu-bar:hover {
+            cursor: pointer;
+        }
+
+        #menu-list {
+            display: none;
+            position: absolute;
+            color: black;
+            background: white;
+            border-radius: 5px;
+            width: 200px;
+            height: 160px;
+            border: 1px solid #ccc;
+            margin-top: 10px;
+        }
+
+        .menu-group {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu-item {
+            padding: 4px 0 6px 33px;
+            font-weight: 200;
+        }
+
+        .menu-item:hover:not(.active) {
+            padding-left: 60px;
+            background: #ccc;
+            transition: 500ms;
+        }
+
+        .active {
+            background: #343b40;
+            color: white;
+        }
+
+        #username {
+            font-size: 15pt;
+            color: white;
+            font-weight: bolder;
+            padding: 5px;
+        }
+    </style>
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+</head>
+
+<body>
+    <div id="overlay-asset">
+        <div class="asset-details animated bounceInUp" id="assetView">
+            <span class="exit-asset" onclick="closeAsset()">&times;</span>
+
+            <div class="asset-body">
+                <div id="viewAssets">
+                    <table id="viewAssetTable" style="width:100%;border:1px solid #ccc;border-radius: 5px;">
+                        <thead>
+                            <tr>
+                                <div class="asset-header text-center">
+                                    Asset#
+                                </div>
+                            </tr>
+                        </thead>
+
+                        <tbody id="asset-info">
+                            <tr id="assetLocation">
+                                <th class="theading">Location</th>
+                                <td></td>
+                            </tr>
+                            <tr id="assetRoom">
+                                <th class="theading">Room </th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th class="theading">Primary </th>
+                                <td><span id="assetBody">Test</span></td>
+                            </tr>
+                            <!-- loop -->
+                            <tr>
+                                <th class="theading">Sub Item</th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+                    <!-- <div class="row text-center">
+                        <div class="col-md-6">
+                            <p class="text-muted">
+                                <strong>Room</strong>:<span id="roomValue"> xxxxx</span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="text-muted">
+                                <strong>Location</strong>:<span id="locValue"> xxxxx</span>
+                            </p>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-6 offset-3">
+                            <ul id="primaryAssets">
+                                <li class="primaryList">
+                                    <span id="assetBody">Test</span> - <span id="primDescription">xxxxxxx</span>
+                                    <ul id="subAsset">
+                                        <li class="subList">Sub Assets 1</li>
+                                        <li class="subList">Sub Assets 2</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div> -->
+                </div>
+
+            </div>
+            <div class="asset-footer text-center">
+                <div class="row">
+                    <div class="col-offset-10 col-2">
+                        <button class="btn btn-default" onclick="closeAsset()">back</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sub-item-number text-center py-2">
+                <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
+                            class="text-dark">5</span></strong></p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+            style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar"
+                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+                <span onclick="showNav()">
+                    <div class="row" style="margin-top:-25px;">
+                        <div class="col-md-2">
+                            <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40" /></div>
+                            <div class="menu-text">MENU</div>
+                        </div>
+
+                        <div class="col-md-7 offset-3">
+                            <select class="form-control text-muted user-class" disabled>
+                                <option value="user_class">ALL EQUIPMENT</option>
+                                <!-- <option value="1">FACILITIES MANAGEMENT</option>
+                                        <option value="2">IT EQUIPMENT</option>
+                                        <option value="3">MEDICAL EQUIPMENT</option> -->
+                            </select>
+                        </div>
+                    </div>
+
+                </span>
+                <div id="menu-list">
+                    <ul class="menu-group">
+                        <li class="menu-item active">view</li>
+                        <li class="menu-item">movement</li>
+                        <li class="menu-item">certificates</li>
+                        <li class="menu-item">commissioning</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
+                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span></div>
+            </div>
+            <div class=" col-md-3">
+                <div class="row">
+                    <div class="col-md-4 offset-6">
+                        <div id="username">Username</div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;">
+                            <span style="color:white" class="fa fa-power-off"></span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <!-- <div class="nav-item dropdown">
+                    <a class="btn btn-secondary form-control btn-light dropdown-toggle text-left rounded-top rounded-bottom" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        All
+                      </a>
+                    
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" href="#"></a>
+                        <a class="dropdown-item" href="#">IT Equipment</a>
+                        <a class="dropdown-item" href="#">Medical Equipment</a>
+                      </div>
+                  </div>
+                 -->
+
+            </div>
+        </nav>
+        <div class="row" style="margin-top: 2.897%;">
+            <div class="col-md-12" style="height:80vh;padding-right:40px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3 text-center" style="font-size:15pt;font-weight: bolder">
+                                <br />
+                            </div>
+                            <div class="col-md-9 ">
+                                <!-- <div class="form-group">
+                                            Filter : <input type="text" class="form-control" style="width:170px;"
+                                                placeholder="Search ...">
+                                        </div> -->
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <tr>
+                                        <th>
+                                            Search
+                                        </th>
+                                        <th>
+                                            <input id="asseetsno" type="text" class="form-control"
+                                                placeholder="Asset no...">
+                                        </th>
+                                        <th>
+                                            <input type="text" id="roomno" class="form-control" placeholder="Room...">
+                                        </th>
+                                        <th>
+                                            <input type="text" id="location" class="form-control"
+                                                placeholder="Location...">
+                                        </th>
+
+                                        <th>
+                                            <input type="text" id="description" class="form-control"
+                                                placeholder="Description...">
+                                        </th>
+
+                                        <th>
+                                            <button onclick="search()" type="text" class="btn btn-success">
+                                                <span class="fa fa-search"></span>
+                                                Search
+                                            </button>
+                                        </th>
+                                    </tr>
+
+                                </table>
+                                <table class="table" id="currentAssetsTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">
+                                                #
+                                            </th>
+                                            <th scope="col">
+                                                Asset No
+
+                                            </th>
+                                            <th scope="col">
+                                                Room
+
+                                            </th>
+                                            <th scope="col">
+                                                Location
+
+                                            </th>
+                                            <th scope="col">
+                                                Description
+
+                                            </th>
+                                            <th scope="col">
+                                                View
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="current">
+                                        <div id="loader" class="loader">
+                                            <img src="../img/loading-transparent.gif" alt="">
+                                        </div>
+                                        <div id="searchView" class="search_start">
+                                            <p style="margin-top:200px">Please search your asset using the search above
+                                            </p>
+                                            <img width="200" src="../img/loupe.png" alt="Search">
+                                        </div>
+                                    </tbody>
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/viewScript.js"></script>
+    <script src="../js/bootstrap.js"></script>
+    <script src="../js/tablefilter.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+
+    <script>
+
+        function showNav() {
+            $('#menu-list').slideToggle('fast');
+        }
+
+        document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
+
+        function replaceAll(find, replace, str) {
+            while (str.indexOf(find) > -1) {
+                str = str.replace(find, replace);
+            }
+            return str;
+        }
+    </script>
+
+</body>
+
+</html>

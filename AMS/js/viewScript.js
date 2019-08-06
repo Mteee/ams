@@ -116,12 +116,28 @@ function search() {
 
                 $('#currentAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
                     var data = table.row($(this).parents('tr')).data();
-                    // console.log(data);
-                    
-                    alert(data[0] + "'s salary is: " + data[4]);
+                    console.log(data);
+                    console.log("---------------localStorage---------------");
+                    console.log(table);
+                    console.log("---------------data---------------");
+
+                    // if(data == null || data == undefined){
+                    //     data = (localStorage.b).split(',');
+                        // console.log("---------------localStorage---------------");
+                        // console.log(data);
+                        // console.log("---------------data---------------");
+                    // }else{
+                    //     localStorage.b = data;
+                    //     console.log("---------------Default---------------");
+                    //     console.log(data);
+                    //     console.log("---------------data---------------");
+                    // }
+
+                    // alert(data[0] + "'s salary is: " + data[4]);
                 });
 
                 $('#currentAssetsTable tbody').on('click', 'button', function () {
+                    
                     var data = table.row($(this).parents('tr')).data();
                     if(data == null || data == undefined){
                         data = (localStorage.tableDataSet).split(',');
