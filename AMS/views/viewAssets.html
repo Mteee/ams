@@ -375,7 +375,7 @@
             $('#menu-list').slideToggle('fast');
         }
 
-        document.getElementById('username').innerHTML = replaceAll('"', '', localStorage.username);
+        document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
         function replaceAll(find, replace, str) {
             while (str.indexOf(find) > -1) {
