@@ -46,7 +46,6 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
 
 });
 
-
 $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $response){
 
     $data = json_decode(file_get_contents('php://input') );
@@ -185,6 +184,39 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
         return json_encode($response);
     }
 
+
+});
+
+$app->map(['GET','POST'],'/asset_no',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $ASSET_CLASS = strtoupper($data->asset_class);
+
+    if($ASSET_CLASS == 'ALL EQUIPMENT'){
+        $ASSET_CLASS = '';
+    }
+
+    $sql = "SELECT ASSET_ID FROM AMSD.ASSETS_VW WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID=ASSET_PRIMARY_ID";
+    // $sql = "SELECT * FROM AMSD.ASSETS_VW";
+
+    $assets_no =$func->executeQuery($sql);
+    $response = array();
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_ID;
+
+        }
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>""));
+
+    }
 
 });
 
