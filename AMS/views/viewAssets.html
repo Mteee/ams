@@ -14,7 +14,14 @@
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
     <style>
- 
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #searchWith th {
+            width: 350px;
+        }
     </style>
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
@@ -129,7 +136,9 @@
                 <div id="menu-list">
                     <ul class="menu-group">
                         <li class="menu-item active">view</li>
-                        <a href="./moveAssets.html" target="_self"><li class="menu-item">movement</li></a>
+                        <a href="./moveAssets.html" target="_self">
+                            <li class="menu-item">movement</li>
+                        </a>
                         <li class="menu-item">certificates</li>
                         <li class="menu-item">commissioning</li>
                     </ul>
@@ -185,21 +194,74 @@
                         <div class="row">
 
                             <div class="col-md-12">
-                                <table class="table">
+                                <table class="table" id="searchWith">
                                     <tr>
                                         <th>
                                             Search
                                         </th>
                                         <th>
-                                            <input id="asseetsno" type="text" class="form-control"
-                                                placeholder="Asset no...">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ASSET NO...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_assets">
+                                                    <form class="px-4 py-2">
+                                                        <input type="search" id="asseetsno" class="form-control"
+                                                            placeholder="room..." autofocus="autofocus">
+
+                                                        <!-- <input type="search" class="form-control" id="searchCoin"
+                                                                            placeholder="BTC" autofocus="autofocus"> -->
+                                                    </form>
+                                                    <div id="menuAssets"></div>
+                                                    <div id="emptyAsset" class="dropdown-header">No assets found</div>
+                                                </div>
+                                            </div>
+                                            <!-- <input id="asseetsno" type="text" class="form-control"
+                                                placeholder="Asset no..."> -->
                                         </th>
                                         <th>
-                                            <input type="text" id="roomno" class="form-control" placeholder="Room...">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_room" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ROOM...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_room">
+                                                    <form class="px-4 py-2">
+                                                        <input type="search" id="roomno" class="form-control"
+                                                            placeholder="room..." autofocus="autofocus">
+
+                                                        <!-- <input type="search" class="form-control" id="searchCoin"
+                                                                    placeholder="BTC" autofocus="autofocus"> -->
+                                                    </form>
+                                                    <div id="menuRoom"></div>
+                                                    <div id="emptyRoom" class="dropdown-header">No room found</div>
+                                                </div>
+                                            </div>
+                                            <!-- <input type="text" id="roomno" class="form-control" placeholder="Room..."> -->
                                         </th>
                                         <th>
-                                            <input type="text" id="location" class="form-control"
-                                                placeholder="Location...">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_location" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    LOCATION ...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_location">
+                                                    <form class="px-4 py-2">
+                                                        <input type="search" id="location" class="form-control"
+                                                            placeholder="Location..." autofocus="autofocus">
+
+                                                        <!-- <input type="search" class="form-control" id="searchCoin"
+                                                            placeholder="BTC" autofocus="autofocus"> -->
+                                                    </form>
+                                                    <div id="menuLocation"></div>
+                                                    <div id="emptyLocation" class="dropdown-header">No location found</div>
+                                                </div>
+                                            </div>
+
                                         </th>
 
                                         <th>
@@ -264,7 +326,8 @@
                         </div>
                         <div class="row" id="printAssetsView" style="display: none">
                             <div class="col-md-12">
-                                <button id="printAssets" onclick="printView()" class="btn btn-sm btn-info"><span class="fa fa-print"></span> Print View</button>
+                                <button id="printAssets" onclick="printView()" class="btn btn-sm btn-info"><span
+                                        class="fa fa-print"></span> Print View</button>
                             </div>
                         </div>
                     </div>
@@ -274,7 +337,8 @@
     </div>
     <script src="../js/jquery.js"></script>
     <script src="../js/viewScript.js"></script>
-    <script src="../js/bootstrap.js"></script>
+    <!-- <script src="../js/bootstrap.js"></script> -->
+    <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
@@ -284,6 +348,84 @@
         function showNav() {
             $('#menu-list').slideToggle('fast');
         }
+
+        let names = ["BTC", "XRP", "ETH", "BCH", "ADA", "XEM", "LTC", "XLM", "TRX", "MIOTA", "DASH", "EOS", "XMR", "NEO", "QTUM", "BTG", "ETC", "ICX", "LSK", "XRB", "OMG", "SC", "BCN", "ZEC", "XVG", "BCC", "DCN", "BTS", "PPT", "DOGE", "BNB", "KCS", "STRAT", "ARDR", "SNT", "STEEM", "USDT", "WAVES", "VEN", "DGB", "KMD", "DRGN", "HSR", "KIN", "ETN", "GNT", "REP", "VERI", "ETHOS", "RDD", "ARK", "XP", "FUN", "KNC", "BAT", "DCR", "SALT", "DENT", "ZRX", "PIVX", "QASH", "NXS", "ELF", "AE", "FCT", "POWR", "REQ", "AION", "SUB", "BTM", "WAX", "XDN", "NXT", "QSP", "MAID", "RHOC"];
+
+        let asset_no = document.getElementById("asseetsno");
+        let room_no = document.getElementById("roomno");
+        let loc = document.getElementById("location");
+
+        let items = document.getElementsByClassName("dropdown-item");
+
+        function buildDropDown(viewId,values,isEmpty) {
+            let contents = []
+            for (let name of values) {
+                contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + name + '"/>')
+            }
+            $(viewId).append(contents.join(""))
+
+            //Hide the row that shows no items were found
+            $(isEmpty).hide()
+
+        }
+
+
+        //Capture the event when user types into the search box
+        window.addEventListener('#asseetsno', function () {
+            filter(asset_no.value.trim().toLowerCase(),'#emptyAsset')
+        })
+        window.addEventListener('#roomno', function () {
+            filter(room_no.value.trim().toLowerCase(),'#emptyRoom')
+        })
+        window.addEventListener('#location', function () {
+            filter(loc.value.trim().toLowerCase(),'#emptyAsset')
+        })
+
+        //For every word entered by the user, check if the symbol starts with that word
+        //If it does show the symbol, else hide it
+        function filter(word,myId) {
+            let length = items.length
+            let collection = []
+            let hidden = 0
+            for (let i = 0; i < length; i++) {
+                if (items[i].value.toLowerCase().startsWith(word)) {
+                    $(items[i]).show()
+                }
+                else {
+                    $(items[i]).hide()
+                    hidden++
+                }
+            }
+
+            //If all items are hidden, show the empty view
+            if (hidden === length) {
+                $(myId).show()
+            }
+            else {
+                $(myId).hide()
+            }
+            
+        }
+
+        
+
+        //If the user clicks on any item, set the title of the button as the text of the item
+        $('#menuAssets').on('click', '.dropdown-item', function () {
+            $('#dropdown_assets').text($(this)[0].value)
+            $("#dropdown_assets").dropdown('toggle');
+        })
+        $('#menuRoom').on('click', '.dropdown-item', function () {
+            $('#dropdown_room').text($(this)[0].value)
+            $("#dropdown_room").dropdown('toggle');
+        })
+        $('#menuLocation').on('click', '.dropdown-item', function () {
+            $('#dropdown_location').text($(this)[0].value)
+            $("#dropdown_location").dropdown('toggle');
+        })
+
+        buildDropDown('#menuAssets',names);
+        buildDropDown('#menuRoom',names);
+        buildDropDown('#menuLocation',names);
 
         document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
