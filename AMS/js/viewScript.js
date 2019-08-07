@@ -253,22 +253,10 @@ function updateLetterToIcon(letter) {
 
     switch (letter) {
         case "y":
-            results = "<i class='fa fa-check-circle text-center' style='color:green;font-size:16pt;'></i>";
+            results = "<p class='text-success'><strong>YES</strong></p>";
             break;
         case "n":
-            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-            break;
-        case null:
-            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-            break;
-        case "null":
-            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-            break;
-        case " ":
-            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-            break;
-        case "":
-            results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
+            results = "<p class='text-danger'><strong>NO</strong></p>";
             break;
     }
 

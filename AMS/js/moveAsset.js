@@ -55,6 +55,8 @@ function search() {
 
     if (" -  -  - " == results) {
         alert("Please enter alteast one filter");
+    }else if(room == "" && location == ""){
+        alert("Please enter room or location to assist filtering data");
     } else {
         $('#searchView').hide();
         $('#outSearch').hide();
@@ -66,61 +68,6 @@ function search() {
         makeCall('#inAssetsTable',5);
         makeCall('#outAssetsTable',5);
 
-     
-        //updating y to icons
-        function updateLetterToIcon(letter) {
-            var results = "";
-            switch (letter) {
-                case "y":
-                    results = "<i class='fa fa-check-circle text-center' style='color:green;font-size:16pt;'></i>";
-                    break;
-                case "n":
-                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-                    break;
-                case null:
-                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-                    break;
-                case "null":
-                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-                    break;
-                case " ":
-                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-                    break;
-                case "":
-                    results = "<i class='fa fa-times-circle text-center' style='color:red;font-size:16pt;'></i>";
-                    break;
-            }
-
-            return results;
-        }//close updateLetterToIcon function
-
-        function createTable(tableID, tableData, length) {
-            var table = $(tableID).DataTable({
-                "data": tableData,
-                "searching": false,
-                "ordering": true,
-                "destroy": true,
-                "pageLength":length,
-                "columnDefs": [{
-                    "targets": 0,
-                    "data": null,
-                    "defaultContent": "<input type='checkbox'/>"
-                }, {
-                    "targets": -1,
-                    "data": null,
-                    "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
-                },
-                { "className": "dt-center",
-                 "targets": -2 },
-                 {
-                    "targets": [-1, -2, 0],
-                    "orderable": false
-                }
-                ]
-            });
-
-            return table;
-        }
     }
 
     function makeCall(table_dom, length){
@@ -213,6 +160,49 @@ function search() {
                 alert('Ooops');
             }
         });
+    }
+
+    //updating y to icons
+    function updateLetterToIcon(letter) {
+        var results = "";
+        switch (letter) {
+            case "y":
+                results = "<p class='text-success'><strong>YES</strong></p>";
+                break;
+            case "n":
+                results = "<p class='text-danger'><strong>NO</strong></p>";
+                break;
+        }
+    
+        return results;
+    }//close updateLetterToIcon function
+    
+    function createTable(tableID, tableData, length) {
+        var table = $(tableID).DataTable({
+            "data": tableData,
+            "searching": false,
+            "ordering": true,
+            "destroy": true,
+            "pageLength":length,
+            "columnDefs": [{
+                "targets": 0,
+                "data": null,
+                "defaultContent": "<input type='checkbox'/>"
+            }, {
+                "targets": -1,
+                "data": null,
+                "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
+            },
+            { "className": "dt-center",
+             "targets": -2 },
+             {
+                "targets": [-1, -2, 0],
+                "orderable": false
+            }
+            ]
+        });
+
+        return table;
     }
 }
 
