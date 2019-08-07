@@ -55,6 +55,8 @@ function search() {
 
     if (" -  -  - " == results) {
         alert("Please enter alteast one filter");
+    }else if(room == "" && location == ""){
+        alert("Please enter room or location to assist filtering data");
     } else {
         $('#searchView').hide();
         $('#outSearch').hide();
