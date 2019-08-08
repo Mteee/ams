@@ -4,17 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AMS - VIEW ASSEST</title>
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/bootstrap-theme.css">
     <link rel="stylesheet" href="../css/animate.css">
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/clusterize.css">
     <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
     <style>
- 
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #searchWith th {
+            width: 350px;
+        }
     </style>
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
@@ -129,7 +136,9 @@
                 <div id="menu-list">
                     <ul class="menu-group">
                         <li class="menu-item active">view</li>
-                        <a href="./moveAssets.html" target="_self"><li class="menu-item">movement</li></a>
+                        <a href="./moveAssets.html" target="_self">
+                            <li class="menu-item">movement</li>
+                        </a>
                         <li class="menu-item">certificates</li>
                         <li class="menu-item">commissioning</li>
                     </ul>
@@ -185,21 +194,105 @@
                         <div class="row">
 
                             <div class="col-md-12">
-                                <table class="table">
+                                <table class="table" id="searchWith">
                                     <tr>
                                         <th>
                                             Search
                                         </th>
                                         <th>
-                                            <input id="asseetsno" type="text" class="form-control"
-                                                placeholder="Asset no...">
+                                            <!-- <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ASSET NO...
+                                                </button>
+                                                <div class="dropdown-menu" id="scrollArea" aria-labelledby="dropdown_assets">
+                                                    <form class="px-4 py-2">
+                                                        <input type="search" id="asseetsno" class="form-control"
+                                                            placeholder="room..." autofocus="autofocus" onkeyup="filterAssets('#asseetsno','#emptyAsset')">
+
+                                                       <input type="search" class="form-control" id="searchCoin"
+                                                                            placeholder="BTC" autofocus="autofocus"> 
+                                                    </form>
+                                                    <div id="menuAssets"></div>
+                                                    <div id="emptyAsset" class="dropdown-header">No assets found</div>
+                                                </div>
+                                            </div> -->
+
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ASSET NO...
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
+                                                    aria-labelledby="dropdown_assets">
+                                                    <form class="px-4 py-2">
+                                                        <input type="search" id="searchasset" class="form-control"
+                                                            placeholder="room..." autofocus="autofocus">
+
+                                                        <!-- <input type="search" class="form-control" id="searchCoin"
+                                                                                placeholder="BTC" autofocus="autofocus"> -->
+                                                    </form>
+                                                    <div id="menuAssets" class="text-center">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="emptyAsset" class="dropdown-header">No assets found</div>
+                                                </div>
+                                            </div>
+                                            <!-- <input id="asseetsno" type="text" class="form-control"
+                                                placeholder="Asset no..."> -->
                                         </th>
                                         <th>
-                                            <input type="text" id="roomno" class="form-control" placeholder="Room...">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_room" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ROOM...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_room"
+                                                    id="scrollRoom">
+                                                    <form class="px-4 py-2">
+                                                        <input type="search" id="searchroomno" class="form-control"
+                                                            placeholder="room..." autofocus="autofocus">
+
+                                                        <!-- <input type="search" class="form-control" id="searchCoin"
+                                                                    placeholder="BTC" autofocus="autofocus"> -->
+                                                    </form>
+                                                    <div id="menuRoom">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="emptyRoom" class="dropdown-header">No room found</div>
+                                                </div>
+                                            </div>
+                                            <!-- <input type="text" id="roomno" class="form-control" placeholder="Room..."> -->
                                         </th>
                                         <th>
-                                            <input type="text" id="location" class="form-control"
-                                                placeholder="Location...">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_location" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    LOCATION ...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_location"
+                                                    id="scrollLocation">
+                                                    <form class="px-4 py-2">
+                                                        <input type="search" id="searchlocation" class="form-control"
+                                                            placeholder="Location..." autofocus="autofocus">
+
+                                                        <!-- <input type="search" class="form-control" id="searchCoin"
+                                                            placeholder="BTC" autofocus="autofocus"> -->
+                                                    </form>
+                                                    <div id="menuLocation"></div>
+                                                    <div id="emptyLocation" class="dropdown-header">No location found
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </th>
 
                                         <th>
@@ -262,14 +355,22 @@
                                 </table>
                             </div>
                         </div>
+                        <div class="row" id="printAssetsView" style="display: none">
+                            <div class="col-md-12">
+                                <button id="printAssets" onclick="printView()" class="btn btn-sm btn-info"><span
+                                        class="fa fa-print"></span> Print View</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script src="../js/jquery.js"></script>
+    <script src="../js/clusterize.min.js"></script>
     <script src="../js/viewScript.js"></script>
-    <script src="../js/bootstrap.js"></script>
+    <!-- <script src="../js/bootstrap.js"></script> -->
+    <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
@@ -280,6 +381,7 @@
             $('#menu-list').slideToggle('fast');
         }
 
+
         document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
         function replaceAll(find, replace, str) {
@@ -288,6 +390,27 @@
             }
             return str;
         }
+
+        /*-------   Zoom handler -------*/
+        // var width = screen.width;
+        // var height = screen.height;
+
+        // console.log(width + " - " +height);
+
+        // if ((width < 1920) && (height < 1080)) {
+        //     toggleZoomScreen("80%");
+        // } else {
+        //     toggleZoomScreen("100%");
+        // }
+
+        toggleZoomScreen(window.innerWidth / window.outerWidth);
+
+        function toggleZoomScreen(value) {
+            document.body.style.zoom = value;
+        }
+
+     
+        /*------   Zoom handler -----*/
     </script>
 
 </body>
