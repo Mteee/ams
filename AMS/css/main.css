@@ -277,6 +277,23 @@ caption{
     text-align: center;
 }
 
+.dropdown-loader{
+    /* position: absolute;
+    margin: 320px auto;
+    z-index: 1;
+    width: 50px; */
+    text-align: center;
+}
+
+.dropdown-loader img{
+    width: 50px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.dropdown-menu {
+    padding:0 !important;
+}
 
 /*-----------------------------------------------------------------------------------------------------------*/
 /*----------------------------------------------- Asset View Loader -----------------------------------------*/
@@ -438,4 +455,11 @@ div#inAssetsTable_length{
 
 .table {
     margin-bottom: 0 !important;
+}
+
+
+/* ================================Hide Cluster==================================== */
+
+.clusterize-no-data,.dropdown-header{
+    display: none;
 }
