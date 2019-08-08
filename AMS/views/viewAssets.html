@@ -220,17 +220,25 @@
                                                 </div>
                                             </div> -->
 
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    ASSET NO...
-                                                </button>
+                                            <div class="dropdown dropdown-toggle-split">
+                                                    <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                        type="button" id="dropdown_assets" data-toggle="dropdown"
+                                                        aria-haspopup="true" aria-expanded="false">
+                                                        ASSET NO...
+                                                    </button>
+                                                 
+
                                                 <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
                                                     aria-labelledby="dropdown_assets">
                                                     <form class="px-4 py-2">
-                                                        <input type="search" id="searchasset" class="form-control"
-                                                            placeholder="room..." autofocus="autofocus">
+                                                        <div class="input-group mb-3">
+                                                            <input type="search" id="searchasset" class="form-control"
+                                                                placeholder="asset no..." autofocus="autofocus">
+                                                                <div class="input-group-append">
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clearAssets"><i class="fa fa-close"></i></span>
+                                                                </div>
+                                                        </div>
+
 
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                                                 placeholder="BTC" autofocus="autofocus"> -->
@@ -377,6 +385,9 @@
 
 
     <script>
+
+        // var clearAssets = document.getElementById('clearAssets');
+
 
         function showNav() {
             $('#menu-list').slideToggle('fast');
