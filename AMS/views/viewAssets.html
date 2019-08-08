@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../css/bootstrap-theme.css">
     <link rel="stylesheet" href="../css/animate.css">
     <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/clusterize.css">
     <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
@@ -200,21 +201,45 @@
                                             Search
                                         </th>
                                         <th>
+                                            <!-- <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ASSET NO...
+                                                </button>
+                                                <div class="dropdown-menu" id="scrollArea" aria-labelledby="dropdown_assets">
+                                                    <form class="px-4 py-2">
+                                                        <input type="search" id="asseetsno" class="form-control"
+                                                            placeholder="room..." autofocus="autofocus" onkeyup="filterAssets('#asseetsno','#emptyAsset')">
+
+                                                       <input type="search" class="form-control" id="searchCoin"
+                                                                            placeholder="BTC" autofocus="autofocus"> 
+                                                    </form>
+                                                    <div id="menuAssets"></div>
+                                                    <div id="emptyAsset" class="dropdown-header">No assets found</div>
+                                                </div>
+                                            </div> -->
+
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
                                                     type="button" id="dropdown_assets" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ASSET NO...
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_assets">
+                                                <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
+                                                    aria-labelledby="dropdown_assets">
                                                     <form class="px-4 py-2">
-                                                        <input type="search" id="asseetsno" class="form-control"
+                                                        <input type="search" id="searchasset" class="form-control"
                                                             placeholder="room..." autofocus="autofocus">
 
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                            placeholder="BTC" autofocus="autofocus"> -->
+                                                                                placeholder="BTC" autofocus="autofocus"> -->
                                                     </form>
-                                                    <div id="menuAssets"></div>
+                                                    <div id="menuAssets" class="text-center">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
                                                     <div id="emptyAsset" class="dropdown-header">No assets found</div>
                                                 </div>
                                             </div>
@@ -228,15 +253,20 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ROOM...
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_room">
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_room"
+                                                    id="scrollRoom">
                                                     <form class="px-4 py-2">
-                                                        <input type="search" id="roomno" class="form-control"
+                                                        <input type="search" id="searchroomno" class="form-control"
                                                             placeholder="room..." autofocus="autofocus">
 
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                                     placeholder="BTC" autofocus="autofocus"> -->
                                                     </form>
-                                                    <div id="menuRoom"></div>
+                                                    <div id="menuRoom">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
                                                     <div id="emptyRoom" class="dropdown-header">No room found</div>
                                                 </div>
                                             </div>
@@ -249,16 +279,18 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     LOCATION ...
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_location">
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_location"
+                                                    id="scrollLocation">
                                                     <form class="px-4 py-2">
-                                                        <input type="search" id="location" class="form-control"
+                                                        <input type="search" id="searchlocation" class="form-control"
                                                             placeholder="Location..." autofocus="autofocus">
 
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                             placeholder="BTC" autofocus="autofocus"> -->
                                                     </form>
                                                     <div id="menuLocation"></div>
-                                                    <div id="emptyLocation" class="dropdown-header">No location found</div>
+                                                    <div id="emptyLocation" class="dropdown-header">No location found
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -336,6 +368,7 @@
         </div>
     </div>
     <script src="../js/jquery.js"></script>
+    <script src="../js/clusterize.min.js"></script>
     <script src="../js/viewScript.js"></script>
     <!-- <script src="../js/bootstrap.js"></script> -->
     <script src="../js/bootstrap.bundle.js"></script>
