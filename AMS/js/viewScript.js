@@ -349,7 +349,7 @@ function updateLetterToIcon(letter) {
 
 //If the user clicks on any item, set the title of the button as the text of the item
 $('#menuAssets').on('click', '.dropdown-item', function () {
-    $('#dropdown_assets').text($(this)[0].value)
+    $('#dropdown_assets').text($(this)[0].value);
     $("#dropdown_assets").dropdown('toggle');
     $('#searchasset').val($(this)[0].value);
 })
@@ -367,15 +367,16 @@ $('#menuLocation').on('click', '.dropdown-item', function () {
 
 
     // get assets
-     getItems('../../ams_apis/slimTest/index.php/asset_no','searchasset','scrollAssets','menuAssets','#emptyAsset');
+    //  getItems('../../ams_apis/slimTest/index.php/asset_no','searchasset','scrollAssets','menuAssets','#emptyAsset');
     // get room_no
-     getItems('../../ams_apis/slimTest/index.php/room_no','searchroomno','scrollRoom','menuRoom','emptyRoom');
+    //  getItems('../../ams_apis/slimTest/index.php/room_no','searchroomno','scrollRoom','menuRoom','emptyRoom');
     // get location
      getItems('../../ams_apis/slimTest/index.php/location','searchlocation','scrollLocation','menuLocation','emptyLocation');
     
 
 
 function getItems(url,id,scrollArea,menuid,emptyId){
+
     $.ajax({
         url: url,
         method: 'POST',
@@ -417,61 +418,165 @@ function getItems(url,id,scrollArea,menuid,emptyId){
     })
 }
 
-
-
-
-       
+function filterItems(rows,scrollArea,menuid ,emptyId){
+    var filterRows = function (rows) {
+        var results = [];
+        for (var i = 0, ii = rows.length; i < ii; i++) {
+            if (rows[i].active) results.push(rows[i].markup)
+        }
         
+        return results;
+    }
+    
+    
+    var clusterize = new Clusterize({
+        rows: filterRows(rows),
+        scrollId: scrollArea,
+        contentId: menuid
+    });
+    
+  
+    
+    $("#clearAssets").on('click', function(){
+        if(searchasset.value.length>0){
+            $('#dropdown_assets').text("ASSET NO...");
+            $('#searchasset').val('');
+            console.log(searchasset.value.length);
+        }
+        // $('#dropdown_assets').text("ASSET NO...");
+        // console.log(searchasset.val());
+    });
 
-        function filterItems(rows,scrollArea,menuid ,emptyId){
-            var filterRows = function (rows) {
-                var results = [];
-                for (var i = 0, ii = rows.length; i < ii; i++) {
-                    if (rows[i].active) results.push(rows[i].markup)
-                }
-                
-                return results;
-            }
-            
-            
-            var clusterize = new Clusterize({
-                rows: filterRows(rows),
-                scrollId: scrollArea,
-                contentId: menuid
-            });
-            
-            var onSearch = function () {
-                // console.log(rows);
-                // console.log(searchasset.value);
+    var onSearch = function () {
+        // console.log(rows);
+        // console.log(searchasset.value);
 
-                var found = false;
+        var found = false;
+        console.log(searchasset.value.length);
 
-                for (var i = 0; i < rows.length; i++) {
-                    
-                    var suitable = false;
-                    
-                    // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
-                        if (rows[i].values[0].toString().indexOf(searchasset.value) + 1){
-                            suitable = true;
-                            found = true;
-                        }
-
-                    rows[i].active = suitable;
-                }
-                console.log(found);
-                console.log(emptyId);
-                if(found){
-                    $(emptyId).css("display","none");
-                }else{
-                    $(emptyId).css("display","block");
-                }
-                clusterize.update(filterRows(rows));
-            }
-            
-            searchasset.onkeyup = onSearch;
+        if(searchasset.value.length==0){
+            $('#dropdown_assets').text("ASSET NO...");
+            console.log("Empty");
         }
 
+        for (var i = 0; i < rows.length; i++) {
+            
+            var suitable = false;
+            
+            // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+                if (rows[i].values[0].toString().indexOf(searchasset.value) + 1){
+                    suitable = true;
+                    found = true;
+                }
 
+            rows[i].active = suitable;
+        }
+
+        console.log(found);
+        console.log(emptyId);
+        if(found){
+            $(emptyId).css("display","none");
+        }else{
+            $(emptyId).css("display","block");
+        }
+        clusterize.update(filterRows(rows));
+    }
+    
+    searchasset.onkeyup = onSearch;
+}
+
+
+
+// ====================================================================ASSETS NO FILITER==================================================================
+
+    $.ajax({
+        url: '../../ams_apis/slimTest/index.php/asset_no',
+        method: 'POST',
+        dataType: 'JSON',
+        data: '{"asset_class":"' + localStorage.filter + '"}',
+        success: function (data) {
+            console.log(data);
+            var rows = [];
+            var searchasset = document.getElementById('searchasset');
+            for (var i = 0; i < data.rows; i++) {
+                rows.push({
+                    values: [data.data[i]],
+                    markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
+                    active: true
+                });
+            }
+    
+            filterItems(rows,'scrollAssets','menuAssets','emptyAsset');
+            // // console.log(data.data);
+            // // buildDropDown('menuAssets', data.data, '#emptyAssets');
+            // // let contents = []
+            // // for(var i=0;i<data.rows;i++){
+    
+            // //     contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>')
+    
+            // //     $('#menuAssets').append(contents.join(""))
+    
+            // //     //Hide the row that shows no items were found
+            // //     $('#emptyAssets').hide()
+            // // }
+            // console.log('done');
+            // // buildDropDown('#menuAssets',data.data);
+            
+        },
+        error: function (data_err) {
+            console.log(data_err);
+            console.log(localStorage.filter);
+        }
+    })
+
+
+// ====================================================================END ASSETS NO FILITER==================================================================
+
+// ====================================================================ROOM NO FILITER==================================================================
+getItems('../../ams_apis/slimTest/index.php/room_no','searchroomno','scrollRoom','menuRoom','emptyRoom');
+
+
+$.ajax({
+    url: '../../ams_apis/slimTest/index.php/room_no',
+    method: 'POST',
+    dataType: 'JSON',
+    data: '{"asset_class":"' + localStorage.filter + '"}',
+    success: function (data) {
+        console.log(data);
+        var rows = [];
+        var searchasset = document.getElementById('searchroomno');
+        for (var i = 0; i < data.rows; i++) {
+            rows.push({
+                values: [data.data[i]],
+                markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
+                active: true
+            });
+        }
+
+        filterItems(rows,'scrollRoom','menuRoom','emptyRoom');
+        // // console.log(data.data);
+        // // buildDropDown('menuAssets', data.data, '#emptyAssets');
+        // // let contents = []
+        // // for(var i=0;i<data.rows;i++){
+
+        // //     contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>')
+
+        // //     $('#menuAssets').append(contents.join(""))
+
+        // //     //Hide the row that shows no items were found
+        // //     $('#emptyAssets').hide()
+        // // }
+        // console.log('done');
+        // // buildDropDown('#menuAssets',data.data);
+        
+    },
+    error: function (data_err) {
+        console.log(data_err);
+        console.log(localStorage.filter);
+    }
+})
+
+// ====================================================================ROOM NO FILITER==================================================================
 
 
 // buildDropDown('#menuRoom',names);
