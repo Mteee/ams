@@ -37,7 +37,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
             echo $assets;
         }
         else{
-            echo json_encode(array("rows" => 0 ,"data" =>""));
+            echo json_encode(array("rows" => 0 ,"data" =>[]));
 
         }
 

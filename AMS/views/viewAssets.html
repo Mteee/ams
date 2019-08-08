@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AMS - VIEW ASSEST</title>
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/bootstrap-theme.css">
@@ -391,6 +390,27 @@
             }
             return str;
         }
+
+        /*-------   Zoom handler -------*/
+        // var width = screen.width;
+        // var height = screen.height;
+
+        // console.log(width + " - " +height);
+
+        // if ((width < 1920) && (height < 1080)) {
+        //     toggleZoomScreen("80%");
+        // } else {
+        //     toggleZoomScreen("100%");
+        // }
+
+        toggleZoomScreen(window.innerWidth / window.outerWidth);
+
+        function toggleZoomScreen(value) {
+            document.body.style.zoom = value;
+        }
+
+     
+        /*------   Zoom handler -----*/
     </script>
 
 </body>

@@ -203,11 +203,13 @@ function createTable(tableID, tableData) {
         "columnDefs": [{
             "targets": 0,
             "data": null,
+            "orderable": false,
             "defaultContent": "<input class='checkitem' type='checkbox'/>"
         },
         {
             "targets": -1,
             "data": null,
+            "orderable": false,
             "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
         },
         {
@@ -215,7 +217,7 @@ function createTable(tableID, tableData) {
             "targets": [-2, 0]
         },
         {
-            "targets": [-1, -2, 0],
+            "targets": -2,
             "orderable": false
         }
         ]
@@ -226,18 +228,7 @@ function createTable(tableID, tableData) {
 
 
 
-/*-------   Zoom handler -------*/
-var width = screen.width;
-var height = screen.height;
-if ((width > 700) && (height < 700) || (width < 1400) && (height < 900)) {
-    toggleZoomScreen("80%");
-} else {
-    toggleZoomScreen("100%");
-}
-function toggleZoomScreen(value) {
-    document.body.style.zoom = value;
-}
-/*------   Zoom handler -----*/
+
 
 function printView() {
 
