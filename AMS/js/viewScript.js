@@ -93,6 +93,9 @@ function search() {
                         }
                     }
                     str += ']}'
+
+                    str = replaceAll("\r\n", "", str);
+
                     str = (JSON.parse(str));
                     console.log(str.data);
 
@@ -196,9 +199,40 @@ function search() {
 
 function createTable(tableID, tableData) {
     var table = $(tableID).DataTable({
-        "data": tableData,
+        "paging" : true,
+        "processing": true,
         "searching": false,
-        "ordering": true,
+        "ordering": false,
+        "serverSide": true,
+        ajax: function ( data, callback, settings ) {
+             var out = [];
+            console.log("=======================");
+            console.log(data);
+            console.log("=======================");
+            for ( var i=data.start, ien=data.start+data.length ; i<ien ; i++ ) {
+                if(tableData[i] == undefined){
+                    break;
+                }else{
+                    out.push(tableData[i]);
+                }
+                
+            }
+
+            console.log("=========out=========");
+            console.log(out);
+            console.log("========out==========");
+            setTimeout( function () {
+                callback( {
+                    draw: data.draw,
+                    data: out,
+                    recordsTotal: tableData.length,
+                    recordsFiltered: tableData.length
+                } );
+            }, 50 );
+        },
+        // scroller: {
+        //     loadingIndicator: true
+        // },
         "destroy": true,
         "columnDefs": [{
             "targets": 0,
@@ -384,7 +418,7 @@ function getItems(url,id,scrollArea,menuid,emptyId){
         success: function (data) {
             console.log(data);
             var rows = [];
-            var searchasset = document.getElementById(id);
+            var searchValue = document.getElementById(id);
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
@@ -393,7 +427,7 @@ function getItems(url,id,scrollArea,menuid,emptyId){
                 });
             }
     
-            filterItems(rows,scrollArea,menuid,emptyId);
+            filterItems(rows,scrollArea,menuid,emptyId,searchValue);
             // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
             // // let contents = []
@@ -419,11 +453,12 @@ function getItems(url,id,scrollArea,menuid,emptyId){
 
 
 
-
+var clusterize = [];
+var count = 0;
        
         
 
-        function filterItems(rows,scrollArea,menuid ,emptyId){
+        function filterItems(rows,scrollArea,menuid ,emptyId,searchValue){
             var filterRows = function (rows) {
                 var results = [];
                 for (var i = 0, ii = rows.length; i < ii; i++) {
@@ -434,16 +469,18 @@ function getItems(url,id,scrollArea,menuid,emptyId){
             }
             
             
-            var clusterize = new Clusterize({
+            clusterize.push(new Clusterize({
                 rows: filterRows(rows),
                 scrollId: scrollArea,
                 contentId: menuid
-            });
+            }));
             
-            var onSearch = function () {
+            var onSearch = function (element) {
                 // console.log(rows);
                 // console.log(searchasset.value);
-
+                console.log("element");
+                console.log(element);
+                console.log("element");
                 var found = false;
 
                 for (var i = 0; i < rows.length; i++) {
@@ -451,7 +488,7 @@ function getItems(url,id,scrollArea,menuid,emptyId){
                     var suitable = false;
                     
                     // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
-                        if (rows[i].values[0].toString().indexOf(searchasset.value) + 1){
+                        if (rows[i].values[0].toString().indexOf(searchValue.value) + 1){
                             suitable = true;
                             found = true;
                         }
@@ -465,10 +502,15 @@ function getItems(url,id,scrollArea,menuid,emptyId){
                 }else{
                     $(emptyId).css("display","block");
                 }
-                clusterize.update(filterRows(rows));
+
+                console.log(clusterize);
+
+                    clusterize[count].update(filterRows(rows));
+                    count++;
+               
             }
             
-            searchasset.onkeyup = onSearch;
+            searchValue.onkeyup = onSearch(this);
         }
 
 
@@ -476,3 +518,10 @@ function getItems(url,id,scrollArea,menuid,emptyId){
 
 // buildDropDown('#menuRoom',names);
 // buildDropDown('#menuLocation',names);
+
+function replaceAll(find, replace, str) {
+    while (str.indexOf(find) > -1) {
+        str = str.replace(find, replace);
+    }
+    return str;
+}
