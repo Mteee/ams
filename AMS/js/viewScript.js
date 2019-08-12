@@ -336,7 +336,7 @@ function getItems(url, id, scrollArea, menuid) {
         dataType: 'JSON',
         data: '{"asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
             // console.log("=============searchValue================");
