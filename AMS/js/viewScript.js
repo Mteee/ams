@@ -42,7 +42,6 @@ function viewAsset(assetId) {
     });
 }
 
-
 function search() {
     var assetNo = document.getElementById('searchasset').value,
         room = document.getElementById('searchroomno').value,
