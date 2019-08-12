@@ -1,4 +1,3 @@
-
 /*!
  * AME SYSADMIN Library JS
  * website
@@ -69,7 +68,7 @@ function search() {
             success: function (data) {
                 // console.log(data);
                 var table = null;
-
+                console.log("test");
                 console.log(data);
 
                 if (data.rows > 0) {
@@ -199,41 +198,40 @@ function search() {
 
 function createTable(tableID, tableData) {
     var table = $(tableID).DataTable({
-        "paging" : true,
+        // "data": tableData,
+        "paging": true,
         "processing": true,
         "searching": false,
+        // "ordering": true,
         "ordering": false,
         "serverSide": true,
-        ajax: function ( data, callback, settings ) {
-             var out = [];
+        "destroy": true,
+        ajax: function (data, callback, settings) {
+            var out = [];
             console.log("=======================");
             console.log(data);
             console.log("=======================");
-            for ( var i=data.start, ien=data.start+data.length ; i<ien ; i++ ) {
-                if(tableData[i] == undefined){
+            for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
+                if (tableData[i] == undefined) {
                     break;
-                }else{
+                } else {
                     out.push(tableData[i]);
                 }
-                
+
             }
 
             console.log("=========out=========");
             console.log(out);
             console.log("========out==========");
-            setTimeout( function () {
-                callback( {
+            setTimeout(function () {
+                callback({
                     draw: data.draw,
                     data: out,
                     recordsTotal: tableData.length,
                     recordsFiltered: tableData.length
-                } );
-            }, 50 );
+                });
+            }, 50);
         },
-        // scroller: {
-        //     loadingIndicator: true
-        // },
-        "destroy": true,
         "columnDefs": [{
             "targets": 0,
             "data": null,
@@ -259,9 +257,6 @@ function createTable(tableID, tableData) {
 
     return table;
 }
-
-
-
 
 
 function printView() {
@@ -299,85 +294,6 @@ function updateLetterToIcon(letter) {
 
 
 
-/*-----------------------------------------------------*/
-/*--------------   Plugin Dropdown Search -------------*/
-/*-----------------------------------------------------*/
-
-// let names = ["BTC", "XRP", "ETH", "BCH", "ADA", "XEM", "LTC", "XLM", "TRX", "MIOTA", "DASH", "EOS", "XMR", "NEO", "QTUM", "BTG", "ETC", "ICX", "LSK", "XRB", "OMG", "SC", "BCN", "ZEC", "XVG", "BCC", "DCN", "BTS", "PPT", "DOGE", "BNB", "KCS", "STRAT", "ARDR", "SNT", "STEEM", "USDT", "WAVES", "VEN", "DGB", "KMD", "DRGN", "HSR", "KIN", "ETN", "GNT", "REP", "VERI", "ETHOS", "RDD", "ARK", "XP", "FUN", "KNC", "BAT", "DCR", "SALT", "DENT", "ZRX", "PIVX", "QASH", "NXS", "ELF", "AE", "FCT", "POWR", "REQ", "AION", "SUB", "BTM", "WAX", "XDN", "NXT", "QSP", "MAID", "RHOC"];
-
-
-// let asset_no = document.getElementById("asseetsno");
-// let room_no = document.getElementById("roomno");
-// let loc = document.getElementById("location");
-
-// let items = document.getElementsByClassName("dropdown-item");
-
-// function buildDropDown(viewId, values, isEmpty) {
-//     // let contents = []
-//     // console.log(values.data);
-//     var clusterize = new Clusterize({
-//         rows: values,
-//         scrollId: 'scrollArea',
-//         contentId: 'menuAssets'
-//     });
-//     // for (var i=0;i<(values.length);i++) {
-//     // contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + values[i] + '"/>')
-
-//     // }
-//     // $(viewId).append(contents.join(""))
-//     // document.getElementById(viewId).innerHTML = values;
-//     console.log(values)
-
-//     //Hide the row that shows no items were found
-//     $(isEmpty).hide()
-
-// }
-
-
-//Capture the event when user types into the search box
-// window.addEventListener('#asseetsno', function () {
-//     console.log('here');
-//     filter(asset_no.value.trim().toLowerCase(), '#emptyAsset')
-// })
-// window.addEventListener('#roomno', function () {
-//     filter(room_no.value.trim().toLowerCase(), '#emptyRoom')
-// })
-// window.addEventListener('#location', function () {
-//     filter(loc.value.trim().toLowerCase(), '#emptyAsset')
-// })
-
-// function filterAssets(id,empytyId){
-//     var element = document.getElementById(id.replace('#',''));
-//     console.log(element.value)
-//     filter(element.value.trim().toLowerCase(), empytyId)
-// }
-
-//For every word entered by the user, check if the symbol starts with that word
-//If it does show the symbol, else hide it
-// function filter(word, myId) {
-//     let length = items.length
-//     console.log(items);
-//     let collection = []
-//     let hidden = 0
-//     for (let i = 0; i < length; i++) {
-//         if (items[i].value.toLowerCase().startsWith(word)) {
-//             $(items[i]).show()
-//         }
-//         else {
-//             $(items[i]).hide()
-//             hidden++
-//         }
-//     }
-
-//     //If all items are hidden, show the empty view
-//     if (hidden === length) {
-//         $(myId).show()
-//     }
-//     else {
-//         $(myId).hide()
-//     }
-
-// }
 
 
 
@@ -400,16 +316,16 @@ $('#menuLocation').on('click', '.dropdown-item', function () {
 
 
 
-    // get assets
-     getItems('../../ams_apis/slimTest/index.php/asset_no','searchasset','scrollAssets','menuAssets','#emptyAsset');
-    // get room_no
-     getItems('../../ams_apis/slimTest/index.php/room_no','searchroomno','scrollRoom','menuRoom','emptyRoom');
-    // get location
-     getItems('../../ams_apis/slimTest/index.php/location','searchlocation','scrollLocation','menuLocation','emptyLocation');
-    
+// get assets
+getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
+// get room_no
+getItems('../../ams_apis/slimTest/index.php/room_no', 'searchroomno', 'scrollRoom', 'menuRoom', 'emptyRoom');
+// get location
+getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
 
 
-function getItems(url,id,scrollArea,menuid,emptyId){
+
+function getItems(url, id, scrollArea, menuid) {
     $.ajax({
         url: url,
         method: 'POST',
@@ -419,6 +335,9 @@ function getItems(url,id,scrollArea,menuid,emptyId){
             console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
+            console.log("=============searchValue================");
+            console.log(searchValue);
+            console.log("=============searchValue=================");
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
@@ -426,23 +345,27 @@ function getItems(url,id,scrollArea,menuid,emptyId){
                     active: true
                 });
             }
-    
-            filterItems(rows,scrollArea,menuid,emptyId,searchValue);
+
+            // localStorage.setItem(id, JSON.stringify(rows));
+
+            
+
+            filterItems(rows, scrollArea, menuid);
             // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
             // // let contents = []
             // // for(var i=0;i<data.rows;i++){
-    
+
             // //     contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>')
-    
+
             // //     $('#menuAssets').append(contents.join(""))
-    
+
             // //     //Hide the row that shows no items were found
             // //     $('#emptyAssets').hide()
             // // }
             // console.log('done');
             // // buildDropDown('#menuAssets',data.data);
-            
+
         },
         error: function (data_err) {
             console.log(data_err);
@@ -451,211 +374,87 @@ function getItems(url,id,scrollArea,menuid,emptyId){
     })
 }
 
-<<<<<<< HEAD
-
-
-<<<<<<< HEAD
-
 var clusterize = [];
 var count = 0;
-       
-        
 
-        function filterItems(rows,scrollArea,menuid ,emptyId,searchValue){
-            var filterRows = function (rows) {
-                var results = [];
-                for (var i = 0, ii = rows.length; i < ii; i++) {
-                    if (rows[i].active) results.push(rows[i].markup)
-                }
-                
-                return results;
-            }
-
-        var found = false;
-        console.log(searchasset.value.length);
-=======
->>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
-=======
-
-
->>>>>>> parent of 7ce3a40... clear search
-
-       
-        
-
-<<<<<<< HEAD
-<<<<<<< HEAD
-        for (var i = 0; i < rows.length; i++) {
-
-=======
-=======
->>>>>>> parent of 7ce3a40... clear search
-        function filterItems(rows,scrollArea,menuid ,emptyId){
-            var filterRows = function (rows) {
-                var results = [];
-                for (var i = 0, ii = rows.length; i < ii; i++) {
-                    if (rows[i].active) results.push(rows[i].markup)
-                }
-                
-                return results;
-            }
-<<<<<<< HEAD
->>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
-            
-            
-<<<<<<< HEAD
-
-            clusterize.push(new Clusterize({
-                rows: filterRows(rows),
-                scrollId: scrollArea,
-                contentId: menuid
-            }));
-            
-            var onSearch = function (element) {
-                // console.log(rows);
-                // console.log(searchasset.value);
-                console.log("element");
-                console.log(element);
-                console.log("element");
-=======
-=======
-            
-            
->>>>>>> parent of 7ce3a40... clear search
-            var clusterize = new Clusterize({
-                rows: filterRows(rows),
-                scrollId: scrollArea,
-                contentId: menuid
-            });
-            
-            var onSearch = function () {
-                // console.log(rows);
-                // console.log(searchasset.value);
-
-<<<<<<< HEAD
->>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
-=======
->>>>>>> parent of 7ce3a40... clear search
-                var found = false;
-
-                for (var i = 0; i < rows.length; i++) {
-                    
-                    var suitable = false;
-                    
-                    // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        if (rows[i].values[0].toString().indexOf(searchValue.value) + 1){
-                            suitable = true;
-                            found = true;
-                        }
-
-                    rows[i].active = suitable;
-                }
-                console.log(found);
-                console.log(emptyId);
-                if(found){
-                    $(emptyId).css("display","none");
-                }else{
-                    $(emptyId).css("display","block");
-                }
-
-                console.log(clusterize);
-
-                    clusterize[count].update(filterRows(rows));
-                    count++;
-               
-
-            // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
-                if (rows[i].values[0].toString().indexOf(searchasset.value) + 1){
-                    suitable = true;
-                    found = true;
-                }
-
-            rows[i].active = suitable;
+function filterItems(rows, scrollArea, menuid) {
+    var filterRows = function (rows) {
+        var results = [];
+        for (var i = 0, ii = rows.length; i < ii; i++) {
+            if (rows[i].active) results.push(rows[i].markup)
         }
 
-        console.log(found);
-        console.log(emptyId);
-        if(found){
-            $(emptyId).css("display","none");
-        }else{
-            $(emptyId).css("display","block");
-        }
-        clusterize.update(filterRows(rows));
+        return results;
     }
-    
-    searchasset.onkeyup = onSearch;
+
+    clusterize.push(new Clusterize({
+        rows: filterRows(rows),
+        scrollId: scrollArea,
+        contentId: menuid
+    }));
+
 }
 
+var onSearch = function (searchValue, emptyId) {
 
+    // console.log(rows);
+    console.log(searchValue + "," + emptyId);
+    console.log(searchasset.value);
+    console.log("element");
+    console.log(searchValue);
+    console.log("element");
+    var found = false;
+    console.log(localStorage.getItem("rows"));
+    var rows = JSON.parse(localStorage.getItem("rows"))
 
-// ====================================================================ASSETS NO FILITER==================================================================
+    for (var i = 0; i < rows.length; i++) {
 
-    $.ajax({
-        url: '../../ams_apis/slimTest/index.php/asset_no',
-        method: 'POST',
-        dataType: 'JSON',
-        data: '{"asset_class":"' + localStorage.filter + '"}',
-        success: function (data) {
-            console.log(data);
-            var rows = [];
-            var searchasset = document.getElementById('searchasset');
-            for (var i = 0; i < data.rows; i++) {
-                rows.push({
-                    values: [data.data[i]],
-                    markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
-                    active: true
-                });
+        var suitable = false;
 
-=======
-                        if (rows[i].values[0].toString().indexOf(searchasset.value) + 1){
-                            suitable = true;
-                            found = true;
-                        }
+        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
 
-=======
-                        if (rows[i].values[0].toString().indexOf(searchasset.value) + 1){
-                            suitable = true;
-                            found = true;
-                        }
-
->>>>>>> parent of 7ce3a40... clear search
-                    rows[i].active = suitable;
-                }
-                console.log(found);
-                console.log(emptyId);
-                if(found){
-                    $(emptyId).css("display","none");
-                }else{
-                    $(emptyId).css("display","block");
-                }
-                clusterize.update(filterRows(rows));
-<<<<<<< HEAD
->>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
-            }
-            
-<<<<<<< HEAD
-
-            searchValue.onkeyup = onSearch(this);
-
-        },
-        error: function (data_err) {
-            console.log(data_err);
-            console.log(localStorage.filter);
-
-=======
-            searchasset.onkeyup = onSearch;
->>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
+        if (rows[i].values[0].toString().indexOf(searchValue.value) + 1) {
+            suitable = true;
+            found = true;
         }
 
-=======
-            }
-            
-            searchasset.onkeyup = onSearch;
-        }
+        rows[i].active = suitable;
+    }
+    console.log(found);
+    console.log(emptyId);
+    if (found) {
+        $(emptyId).css("display", "none");
+    } else {
+        $(emptyId).css("display", "block");
+    }
 
->>>>>>> parent of 7ce3a40... clear search
+
+    console.log(clusterize);
+
+    clusterize[count].update(filterRows(rows));
+    count++;
+
+
+    //     // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+    //     if (rows[i].values[0].toString().indexOf(searchasset.value) + 1) {
+    //         suitable = true;
+    //         found = true;
+    //     }
+
+    //     rows[i].active = suitable;
+    // }
+
+    // console.log(found);
+    // console.log(emptyId);
+    // if (found) {
+    //     $(emptyId).css("display", "none");
+    // } else {
+    //     $(emptyId).css("display", "block");
+    // }
+    // clusterize.update(filterRows(rows));
+}
+
+// searchasset.onkeyup = onSearch(this);
 
 
 
@@ -668,3 +467,4 @@ function replaceAll(find, replace, str) {
     }
     return str;
 }
+

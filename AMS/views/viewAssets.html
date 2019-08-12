@@ -228,29 +228,17 @@
                                                 <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
                                                     aria-labelledby="dropdown_assets">
                                                     <form class="px-4 py-2">
-<<<<<<< HEAD
-<<<<<<< HEAD
 
 <!--                                                         <input type="search" id="searchasset" class="form-control"
                                                             placeholder="room..." autofocus="autofocus" onkeyup="onSearch(this)">
  -->
                                                         <div class="input-group mb-3">
                                                             <input type="search" id="searchasset" class="form-control"
-                                                                placeholder="asset no..." autofocus="autofocus">
+                                                                placeholder="asset no..." onkeyup="onSearch('#searchasset','#emptyAsset')" autofocus="autofocus">
                                                                 <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clearAssets"><i class="fa fa-close"></i></span>
                                                                 </div>
                                                         </div>
-
-=======
-                                                        <input type="search" id="searchasset" class="form-control"
-                                                            placeholder="room..." autofocus="autofocus">
->>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
-=======
-                                                        <input type="search" id="searchasset" class="form-control"
-                                                            placeholder="room..." autofocus="autofocus">
->>>>>>> parent of 7ce3a40... clear search
-
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                                                 placeholder="BTC" autofocus="autofocus"> -->
                                                     </form>
@@ -276,7 +264,7 @@
                                                     id="scrollRoom">
                                                     <form class="px-4 py-2">
                                                         <input type="search" id="searchroomno" class="form-control"
-                                                            placeholder="room..." autofocus="autofocus" onkeyup="onSearch(this)">
+                                                            placeholder="room..." autofocus="autofocus">
 
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                                     placeholder="BTC" autofocus="autofocus"> -->
@@ -302,7 +290,7 @@
                                                     id="scrollLocation">
                                                     <form class="px-4 py-2">
                                                         <input type="search" id="searchlocation" class="form-control"
-                                                            placeholder="Location..." autofocus="autofocus" onkeyup="onSearch(this)">
+                                                            placeholder="Location..." autofocus="autofocus">
 
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                             placeholder="BTC" autofocus="autofocus"> -->
@@ -386,21 +374,14 @@
             </div>
         </div>
     </div>
-    <!-- <script src="../js/jquery.js"></script> -->
-    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="../js/jquery.js"></script>
     <script src="../js/clusterize.min.js"></script>
     <script src="../js/viewScript.js"></script>
     <!-- <script src="../js/bootstrap.js"></script> -->
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/scroller/2.0.0/js/dataTables.scroller.min.js"></script>
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> parent of 7ce3a40... clear search
     <script>
 
         function showNav() {
@@ -410,12 +391,7 @@
 
         document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
-        function replaceAll(find, replace, str) {
-            while (str.indexOf(find) > -1) {
-                str = str.replace(find, replace);
-            }
-            return str;
-        }
+        
 
         /*-------   Zoom handler -------*/
         // var width = screen.width;
