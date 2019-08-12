@@ -424,7 +424,7 @@ var onSearch = function (searchValue, emptyId) {
 
         // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
 
-        if (rows[i].values[0].toString().indexOf(searchValue.value) + 1) {
+        if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
             found = true;
         }
@@ -458,3 +458,22 @@ function replaceAll(find, replace, str) {
     }
     return str;
 }
+
+function clearData(input,btnDafualtId,text){
+    // var inputData = document.getElementById(input).(val);
+    var value = $(input).val();
+    if(value.length > 0){
+        $(input).val("");
+        $(btnDafualtId).text(text);
+    }
+}
+
+// $('#clearAssets').on('click', function(){
+//     console.log('searchValue');
+
+//     if(searchValue.value.length > 0){
+//         console.log('searchValue');
+//         $(searchValue).text('');
+//     }
+// });
+
