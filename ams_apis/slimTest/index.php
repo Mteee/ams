@@ -37,7 +37,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
             echo $assets;
         }
         else{
-            echo json_encode(array("rows" => 0 ,"data" =>""));
+            echo json_encode(array("rows" => 0 ,"data" =>[]));
 
         }
 
@@ -196,7 +196,7 @@ $app->map(['GET','POST'],'/asset_no',function(Request $request, Response $respon
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT ASSET_ID FROM AMSD.ASSETS_VW WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID=ASSET_PRIMARY_ID";
+    $sql = "SELECT ASSET_ID FROM AMSD.ASSETS_VW WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID=ASSET_PRIMARY_ID ORDER BY ASSET_ID ASC";
     // $sql = "SELECT * FROM AMSD.ASSETS_VW";
 
     $assets_no =$func->executeQuery($sql);
@@ -233,11 +233,11 @@ $app->map(['GET','POST'],'/room_no',function(Request $request, Response $respons
     if($ASSET_CLASS == 'ALL EQUIPMENT'){
         $ASSET_CLASS = '';
     }
-    $sql = "SELECT AL.ASSET_ROOM_NO,ASSET_CLASS
-    FROM AMSD.ASSETS_LOCATION AL, AMSD.ASSETS A
-    WHERE A.ASSET_ROOM_NO = AL.ASSET_ROOM_NO
-    AND ASSET_CLASS LIKE '%$ASSET_CLASS%'
-    GROUP BY AL.ASSET_ROOM_NO,ASSET_CLASS";
+    $sql = "SELECT ASSET_ROOM_NO
+    FROM AMSD.ASSETS_VW
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
+    GROUP BY ASSET_ROOM_NO
+    ORDER BY ASSET_ROOM_NO ASC";
     // $sql = "SELECT ASSET_ROOM_NO FROM AMSD.ASSETS_LOCATION WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' GROUP BY ASSET_ROOM_NO";
     // $sql = "SELECT * FROM AMSD.ASSETS_VW";
 
@@ -276,11 +276,11 @@ $app->map(['GET','POST'],'/location',function(Request $request, Response $respon
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT ASSET_LOCATION_AREA,ASSET_CLASS
-    FROM AMSD.ASSETS_LOCATION AL, AMSD.ASSETS A
-    WHERE A.ASSET_ROOM_NO = AL.ASSET_ROOM_NO
-    AND ASSET_CLASS LIKE '%$ASSET_CLASS%'
-    GROUP BY ASSET_LOCATION_AREA,ASSET_CLASS";
+    $sql = "SELECT ASSET_LOCATION_AREA
+    FROM AMSD.ASSETS_VW
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
+    GROUP BY ASSET_LOCATION_AREA
+    ORDER BY ASSET_LOCATION_AREA ASC";
     // $sql = "SELECT ASSET_LOCATION_AREA FROM AMSD.ASSETS_LOCATION WHERE  GROUP BY ASSET_LOCATION_AREA";
     // $sql = "SELECT * FROM AMSD.ASSETS_VW";
 

@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AMS - VIEW ASSEST</title>
     <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="../css/bootstrap-theme.css">
@@ -220,26 +219,26 @@
                                                 </div>
                                             </div> -->
 
-                                            <div class="dropdown dropdown-toggle-split">
-                                                    <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                        type="button" id="dropdown_assets" data-toggle="dropdown"
-                                                        aria-haspopup="true" aria-expanded="false">
-                                                        ASSET NO...
-                                                    </button>
-                                                 
-
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ASSET NO...
+                                                </button>
                                                 <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
                                                     aria-labelledby="dropdown_assets">
                                                     <form class="px-4 py-2">
+
+<!--                                                         <input type="search" id="searchasset" class="form-control"
+                                                            placeholder="room..." autofocus="autofocus" onkeyup="onSearch(this)">
+ -->
                                                         <div class="input-group mb-3">
                                                             <input type="search" id="searchasset" class="form-control"
-                                                                placeholder="asset no..." autofocus="autofocus">
+                                                                placeholder="asset no..." onkeyup="onSearch('#searchasset','#emptyAsset')" autofocus="autofocus">
                                                                 <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clearAssets"><i class="fa fa-close"></i></span>
                                                                 </div>
                                                         </div>
-
-
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                                                 placeholder="BTC" autofocus="autofocus"> -->
                                                     </form>
@@ -383,11 +382,7 @@
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
 
-
     <script>
-
-        // var clearAssets = document.getElementById('clearAssets');
-
 
         function showNav() {
             $('#menu-list').slideToggle('fast');
@@ -396,12 +391,28 @@
 
         document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
-        function replaceAll(find, replace, str) {
-            while (str.indexOf(find) > -1) {
-                str = str.replace(find, replace);
-            }
-            return str;
+        
+
+        /*-------   Zoom handler -------*/
+        // var width = screen.width;
+        // var height = screen.height;
+
+        // console.log(width + " - " +height);
+
+        // if ((width < 1920) && (height < 1080)) {
+        //     toggleZoomScreen("80%");
+        // } else {
+        //     toggleZoomScreen("100%");
+        // }
+
+        toggleZoomScreen(window.innerWidth / window.outerWidth);
+
+        function toggleZoomScreen(value) {
+            document.body.style.zoom = value;
         }
+
+     
+        /*------   Zoom handler -----*/
     </script>
 
 </body>

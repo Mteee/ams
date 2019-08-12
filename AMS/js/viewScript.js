@@ -1,4 +1,3 @@
-
 /*!
  * AME SYSADMIN Library JS
  * website
@@ -69,7 +68,7 @@ function search() {
             success: function (data) {
                 // console.log(data);
                 var table = null;
-
+                console.log("test");
                 console.log(data);
 
                 if (data.rows > 0) {
@@ -93,6 +92,9 @@ function search() {
                         }
                     }
                     str += ']}'
+
+                    str = replaceAll("\r\n", "", str);
+
                     str = (JSON.parse(str));
                     console.log(str.data);
 
@@ -196,18 +198,50 @@ function search() {
 
 function createTable(tableID, tableData) {
     var table = $(tableID).DataTable({
-        "data": tableData,
+        // "data": tableData,
+        "paging": true,
+        "processing": true,
         "searching": false,
-        "ordering": true,
+        // "ordering": true,
+        "ordering": false,
+        "serverSide": true,
         "destroy": true,
+        ajax: function (data, callback, settings) {
+            var out = [];
+            console.log("=======================");
+            console.log(data);
+            console.log("=======================");
+            for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
+                if (tableData[i] == undefined) {
+                    break;
+                } else {
+                    out.push(tableData[i]);
+                }
+
+            }
+
+            console.log("=========out=========");
+            console.log(out);
+            console.log("========out==========");
+            setTimeout(function () {
+                callback({
+                    draw: data.draw,
+                    data: out,
+                    recordsTotal: tableData.length,
+                    recordsFiltered: tableData.length
+                });
+            }, 50);
+        },
         "columnDefs": [{
             "targets": 0,
             "data": null,
+            "orderable": false,
             "defaultContent": "<input class='checkitem' type='checkbox'/>"
         },
         {
             "targets": -1,
             "data": null,
+            "orderable": false,
             "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
         },
         {
@@ -215,7 +249,7 @@ function createTable(tableID, tableData) {
             "targets": [-2, 0]
         },
         {
-            "targets": [-1, -2, 0],
+            "targets": -2,
             "orderable": false
         }
         ]
@@ -224,20 +258,6 @@ function createTable(tableID, tableData) {
     return table;
 }
 
-
-
-/*-------   Zoom handler -------*/
-var width = screen.width;
-var height = screen.height;
-if ((width > 700) && (height < 700) || (width < 1400) && (height < 900)) {
-    toggleZoomScreen("80%");
-} else {
-    toggleZoomScreen("100%");
-}
-function toggleZoomScreen(value) {
-    document.body.style.zoom = value;
-}
-/*------   Zoom handler -----*/
 
 function printView() {
 
@@ -274,91 +294,12 @@ function updateLetterToIcon(letter) {
 
 
 
-/*-----------------------------------------------------*/
-/*--------------   Plugin Dropdown Search -------------*/
-/*-----------------------------------------------------*/
-
-// let names = ["BTC", "XRP", "ETH", "BCH", "ADA", "XEM", "LTC", "XLM", "TRX", "MIOTA", "DASH", "EOS", "XMR", "NEO", "QTUM", "BTG", "ETC", "ICX", "LSK", "XRB", "OMG", "SC", "BCN", "ZEC", "XVG", "BCC", "DCN", "BTS", "PPT", "DOGE", "BNB", "KCS", "STRAT", "ARDR", "SNT", "STEEM", "USDT", "WAVES", "VEN", "DGB", "KMD", "DRGN", "HSR", "KIN", "ETN", "GNT", "REP", "VERI", "ETHOS", "RDD", "ARK", "XP", "FUN", "KNC", "BAT", "DCR", "SALT", "DENT", "ZRX", "PIVX", "QASH", "NXS", "ELF", "AE", "FCT", "POWR", "REQ", "AION", "SUB", "BTM", "WAX", "XDN", "NXT", "QSP", "MAID", "RHOC"];
-
-
-// let asset_no = document.getElementById("asseetsno");
-// let room_no = document.getElementById("roomno");
-// let loc = document.getElementById("location");
-
-// let items = document.getElementsByClassName("dropdown-item");
-
-// function buildDropDown(viewId, values, isEmpty) {
-//     // let contents = []
-//     // console.log(values.data);
-//     var clusterize = new Clusterize({
-//         rows: values,
-//         scrollId: 'scrollArea',
-//         contentId: 'menuAssets'
-//     });
-//     // for (var i=0;i<(values.length);i++) {
-//     // contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + values[i] + '"/>')
-
-//     // }
-//     // $(viewId).append(contents.join(""))
-//     // document.getElementById(viewId).innerHTML = values;
-//     console.log(values)
-
-//     //Hide the row that shows no items were found
-//     $(isEmpty).hide()
-
-// }
-
-
-//Capture the event when user types into the search box
-// window.addEventListener('#asseetsno', function () {
-//     console.log('here');
-//     filter(asset_no.value.trim().toLowerCase(), '#emptyAsset')
-// })
-// window.addEventListener('#roomno', function () {
-//     filter(room_no.value.trim().toLowerCase(), '#emptyRoom')
-// })
-// window.addEventListener('#location', function () {
-//     filter(loc.value.trim().toLowerCase(), '#emptyAsset')
-// })
-
-// function filterAssets(id,empytyId){
-//     var element = document.getElementById(id.replace('#',''));
-//     console.log(element.value)
-//     filter(element.value.trim().toLowerCase(), empytyId)
-// }
-
-//For every word entered by the user, check if the symbol starts with that word
-//If it does show the symbol, else hide it
-// function filter(word, myId) {
-//     let length = items.length
-//     console.log(items);
-//     let collection = []
-//     let hidden = 0
-//     for (let i = 0; i < length; i++) {
-//         if (items[i].value.toLowerCase().startsWith(word)) {
-//             $(items[i]).show()
-//         }
-//         else {
-//             $(items[i]).hide()
-//             hidden++
-//         }
-//     }
-
-//     //If all items are hidden, show the empty view
-//     if (hidden === length) {
-//         $(myId).show()
-//     }
-//     else {
-//         $(myId).hide()
-//     }
-
-// }
 
 
 
 //If the user clicks on any item, set the title of the button as the text of the item
 $('#menuAssets').on('click', '.dropdown-item', function () {
-    $('#dropdown_assets').text($(this)[0].value);
+    $('#dropdown_assets').text($(this)[0].value)
     $("#dropdown_assets").dropdown('toggle');
     $('#searchasset').val($(this)[0].value);
 })
@@ -375,17 +316,16 @@ $('#menuLocation').on('click', '.dropdown-item', function () {
 
 
 
-    // get assets
-    //  getItems('../../ams_apis/slimTest/index.php/asset_no','searchasset','scrollAssets','menuAssets','#emptyAsset');
-    // get room_no
-    //  getItems('../../ams_apis/slimTest/index.php/room_no','searchroomno','scrollRoom','menuRoom','emptyRoom');
-    // get location
-     getItems('../../ams_apis/slimTest/index.php/location','searchlocation','scrollLocation','menuLocation','emptyLocation');
-    
+// get assets
+getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
+// get room_no
+getItems('../../ams_apis/slimTest/index.php/room_no', 'searchroomno', 'scrollRoom', 'menuRoom', 'emptyRoom');
+// get location
+getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
 
 
-function getItems(url,id,scrollArea,menuid,emptyId){
 
+function getItems(url, id, scrollArea, menuid) {
     $.ajax({
         url: url,
         method: 'POST',
@@ -394,7 +334,10 @@ function getItems(url,id,scrollArea,menuid,emptyId){
         success: function (data) {
             console.log(data);
             var rows = [];
-            var searchasset = document.getElementById(id);
+            var searchValue = document.getElementById(id);
+            console.log("=============searchValue================");
+            console.log(searchValue);
+            console.log("=============searchValue=================");
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
@@ -402,23 +345,27 @@ function getItems(url,id,scrollArea,menuid,emptyId){
                     active: true
                 });
             }
-    
-            filterItems(rows,scrollArea,menuid,emptyId);
+
+            // localStorage.setItem(id, JSON.stringify(rows));
+
+            
+
+            filterItems(rows, scrollArea, menuid);
             // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
             // // let contents = []
             // // for(var i=0;i<data.rows;i++){
-    
+
             // //     contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>')
-    
+
             // //     $('#menuAssets').append(contents.join(""))
-    
+
             // //     //Hide the row that shows no items were found
             // //     $('#emptyAssets').hide()
             // // }
             // console.log('done');
             // // buildDropDown('#menuAssets',data.data);
-            
+
         },
         error: function (data_err) {
             console.log(data_err);
@@ -427,166 +374,97 @@ function getItems(url,id,scrollArea,menuid,emptyId){
     })
 }
 
-function filterItems(rows,scrollArea,menuid ,emptyId){
+var clusterize = [];
+var count = 0;
+
+function filterItems(rows, scrollArea, menuid) {
     var filterRows = function (rows) {
         var results = [];
         for (var i = 0, ii = rows.length; i < ii; i++) {
             if (rows[i].active) results.push(rows[i].markup)
         }
-        
+
         return results;
     }
-    
-    
-    var clusterize = new Clusterize({
+
+    clusterize.push(new Clusterize({
         rows: filterRows(rows),
         scrollId: scrollArea,
         contentId: menuid
-    });
-    
-  
-    
-    $("#clearAssets").on('click', function(){
-        if(searchasset.value.length>0){
-            $('#dropdown_assets').text("ASSET NO...");
-            $('#searchasset').val('');
-            console.log(searchasset.value.length);
-        }
-        // $('#dropdown_assets').text("ASSET NO...");
-        // console.log(searchasset.val());
-    });
+    }));
 
-    var onSearch = function () {
-        // console.log(rows);
-        // console.log(searchasset.value);
-
-        var found = false;
-        console.log(searchasset.value.length);
-
-        if(searchasset.value.length==0){
-            $('#dropdown_assets').text("ASSET NO...");
-            console.log("Empty");
-        }
-
-        for (var i = 0; i < rows.length; i++) {
-            
-            var suitable = false;
-            
-            // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
-                if (rows[i].values[0].toString().indexOf(searchasset.value) + 1){
-                    suitable = true;
-                    found = true;
-                }
-
-            rows[i].active = suitable;
-        }
-
-        console.log(found);
-        console.log(emptyId);
-        if(found){
-            $(emptyId).css("display","none");
-        }else{
-            $(emptyId).css("display","block");
-        }
-        clusterize.update(filterRows(rows));
-    }
-    
-    searchasset.onkeyup = onSearch;
 }
 
+var onSearch = function (searchValue, emptyId) {
 
+    // console.log(rows);
+    console.log(searchValue + "," + emptyId);
+    console.log(searchasset.value);
+    console.log("element");
+    console.log(searchValue);
+    console.log("element");
+    var found = false;
+    console.log(localStorage.getItem("rows"));
+    var rows = JSON.parse(localStorage.getItem("rows"))
 
-// ====================================================================ASSETS NO FILITER==================================================================
+    for (var i = 0; i < rows.length; i++) {
 
-    $.ajax({
-        url: '../../ams_apis/slimTest/index.php/asset_no',
-        method: 'POST',
-        dataType: 'JSON',
-        data: '{"asset_class":"' + localStorage.filter + '"}',
-        success: function (data) {
-            console.log(data);
-            var rows = [];
-            var searchasset = document.getElementById('searchasset');
-            for (var i = 0; i < data.rows; i++) {
-                rows.push({
-                    values: [data.data[i]],
-                    markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
-                    active: true
-                });
-            }
-    
-            filterItems(rows,'scrollAssets','menuAssets','emptyAsset');
-            // // console.log(data.data);
-            // // buildDropDown('menuAssets', data.data, '#emptyAssets');
-            // // let contents = []
-            // // for(var i=0;i<data.rows;i++){
-    
-            // //     contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>')
-    
-            // //     $('#menuAssets').append(contents.join(""))
-    
-            // //     //Hide the row that shows no items were found
-            // //     $('#emptyAssets').hide()
-            // // }
-            // console.log('done');
-            // // buildDropDown('#menuAssets',data.data);
-            
-        },
-        error: function (data_err) {
-            console.log(data_err);
-            console.log(localStorage.filter);
-        }
-    })
+        var suitable = false;
 
+        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
 
-// ====================================================================END ASSETS NO FILITER==================================================================
-
-// ====================================================================ROOM NO FILITER==================================================================
-getItems('../../ams_apis/slimTest/index.php/room_no','searchroomno','scrollRoom','menuRoom','emptyRoom');
-
-
-$.ajax({
-    url: '../../ams_apis/slimTest/index.php/room_no',
-    method: 'POST',
-    dataType: 'JSON',
-    data: '{"asset_class":"' + localStorage.filter + '"}',
-    success: function (data) {
-        console.log(data);
-        var rows = [];
-        var searchasset = document.getElementById('searchroomno');
-        for (var i = 0; i < data.rows; i++) {
-            rows.push({
-                values: [data.data[i]],
-                markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
-                active: true
-            });
+        if (rows[i].values[0].toString().indexOf(searchValue.value) + 1) {
+            suitable = true;
+            found = true;
         }
 
-        filterItems(rows,'scrollRoom','menuRoom','emptyRoom');
-        // // console.log(data.data);
-        // // buildDropDown('menuAssets', data.data, '#emptyAssets');
-        // // let contents = []
-        // // for(var i=0;i<data.rows;i++){
-
-        // //     contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>')
-
-        // //     $('#menuAssets').append(contents.join(""))
-
-        // //     //Hide the row that shows no items were found
-        // //     $('#emptyAssets').hide()
-        // // }
-        // console.log('done');
-        // // buildDropDown('#menuAssets',data.data);
-        
-    },
-    error: function (data_err) {
-        console.log(data_err);
-        console.log(localStorage.filter);
+        rows[i].active = suitable;
     }
-})
+    console.log(found);
+    console.log(emptyId);
+    if (found) {
+        $(emptyId).css("display", "none");
+    } else {
+        $(emptyId).css("display", "block");
+    }
 
-// ====================================================================ROOM NO FILITER==================================================================
+
+    console.log(clusterize);
+
+    clusterize[count].update(filterRows(rows));
+    count++;
+
+
+    //     // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+    //     if (rows[i].values[0].toString().indexOf(searchasset.value) + 1) {
+    //         suitable = true;
+    //         found = true;
+    //     }
+
+    //     rows[i].active = suitable;
+    // }
+
+    // console.log(found);
+    // console.log(emptyId);
+    // if (found) {
+    //     $(emptyId).css("display", "none");
+    // } else {
+    //     $(emptyId).css("display", "block");
+    // }
+    // clusterize.update(filterRows(rows));
+}
+
+// searchasset.onkeyup = onSearch(this);
+
 
 
 // buildDropDown('#menuRoom',names);
 // buildDropDown('#menuLocation',names);
+
+function replaceAll(find, replace, str) {
+    while (str.indexOf(find) > -1) {
+        str = str.replace(find, replace);
+    }
+    return str;
+}
+
