@@ -347,7 +347,7 @@ function getItems(url, id, scrollArea, menuid) {
             }
 
             // localStorage.setItem(id, JSON.stringify(rows));
-
+            setObject(id,rows);
             
 
             filterItems(rows, scrollArea, menuid);
@@ -404,8 +404,10 @@ var onSearch = function (searchValue, emptyId) {
     console.log(searchValue);
     console.log("element");
     var found = false;
-    console.log(localStorage.getItem("rows"));
-    var rows = JSON.parse(localStorage.getItem("rows"))
+    // console.log(localStorage.getItem("rows"));
+    
+    // var rows = JSON.parse(localStorage.getItem("rows"))
+    var rows = getObject(searchValue);
 
     for (var i = 0; i < rows.length; i++) {
 
@@ -468,3 +470,27 @@ function replaceAll(find, replace, str) {
     return str;
 }
 
+
+
+/**
+ * Extending the Local Storage Object to allow saving of objects.
+ *
+ * @param  int|string   key     object key
+ * @param  int|string   value   object value
+ * @return bool                 true|false
+ */
+Storage.prototype.setObject = function(key, value) {
+    this.setItem(key, JSON.stringify(value));
+};
+
+/**
+ * Extending the Local Storage Object to allow returning of saved objects.
+ *
+ * @param  int|string   key     object key
+ * @return int|string           value
+ */
+Storage.prototype.getObject = function(key) {
+    var value = this.getItem(key);
+
+    return value && JSON.parse(value);
+};
