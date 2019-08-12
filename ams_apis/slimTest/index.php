@@ -46,6 +46,84 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
 
 });
 
+$app->map(['GET','POST'],'/singleAssetInfo_asset_no',function(Request $request, Response $response){
+
+    $data = json_decode(file_get_contents('php://input') );
+
+    $ASSET_NO = strtoupper($data->value);
+
+    $response = array();
+    global $func;
+
+    if(!empty($ASSET_NO)){
+
+        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID='$ASSET_NO' AND ASSET_ID = ASSET_PRIMARY_ID";
+
+        $assets =$func->executeQuery($sql);
+
+        if($assets){
+            echo $assets;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"No data"));
+    
+        }
+    }
+
+});
+
+// $app->map(['GET','POST'],'/singleAssetInfo_room_no',function(Request $request, Response $response){
+
+//     $data = json_decode(file_get_contents('php://input') );
+
+//     $ASSET_NO = strtoupper($data->value);
+
+//     $response = array();
+//     global $func;
+
+//     if(!empty($ASSET_NO)){
+
+//         $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID='$ASSET_NO' AND ASSET_ID = ASSET_PRIMARY_ID";
+
+//         $assets =$func->executeQuery($sql);
+
+//         if($assets){
+//             echo $assets;
+//         }
+//         else{
+//             echo json_encode(array("rows" => 0 ,"data" =>"No data"));
+    
+//         }
+//     }
+
+// });
+
+// $app->map(['GET','POST'],'/singleAssetInfo_location',function(Request $request, Response $response){
+
+//     $data = json_decode(file_get_contents('php://input') );
+
+//     $ASSET_NO = strtoupper($data->value);
+
+//     $response = array();
+//     global $func;
+
+//     if(!empty($ASSET_NO)){
+
+//         $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID='$ASSET_NO' AND ASSET_ID = ASSET_PRIMARY_ID";
+
+//         $assets =$func->executeQuery($sql);
+
+//         if($assets){
+//             echo $assets;
+//         }
+//         else{
+//             echo json_encode(array("rows" => 0 ,"data" =>"No data"));
+    
+//         }
+//     }
+
+// });
+
 $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $response){
 
     $data = json_decode(file_get_contents('php://input') );

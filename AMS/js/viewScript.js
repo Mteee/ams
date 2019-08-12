@@ -25,7 +25,7 @@ function viewAsset(assetId) {
     $('#assetBody')['0'].innerHTML = assetId;
 
     $.ajax({
-        url: "../../ams_apis//slimTest/index.php/singleAsset",
+        url: "../../ams_apis/slimTest/index.php/singleAsset",
         method: "POST",
         dataType: "JSON",
         data: '{"primary_asset_id" :"' + assetId + '"}',
@@ -296,7 +296,20 @@ function updateLetterToIcon(letter) {
 $('#menuAssets').on('click', '.dropdown-item', function () {
     $('#dropdown_assets').text($(this)[0].value)
     $("#dropdown_assets").dropdown('toggle');
-    $('#searchasset').val($(this)[0].value);
+    
+    $.ajax({
+        url: '../../ams_apis/slimTest/index.php/singleAssetInfo_asset_no',
+        method: 'POST',
+        data: '{"value": "'+$(this)[0].value+'"}',
+        dataType : 'JSON',
+        success : function (data) {
+            setSearchValues(data.data[0].ASSET_ID,data.data[0].ASSET_ROOM_NO,data.data[0].ASSET_LOCATION_AREA);
+        },
+        error : function (err) {
+            console.log(err);
+        }
+    });
+
 })
 $('#menuRoom').on('click', '.dropdown-item', function () {
     $('#dropdown_room').text($(this)[0].value)
@@ -308,6 +321,18 @@ $('#menuLocation').on('click', '.dropdown-item', function () {
     $("#dropdown_location").dropdown('toggle');
     $('#searchlocation').val($(this)[0].value);
 })
+
+function setSearchValues(a,b,c){
+    // button
+    $('#dropdown_assets').text(a);
+    $('#dropdown_room').text(b);
+    $('#dropdown_location').text(c);
+
+    // input
+    $('#searchasset').val(a);
+    $('#searchroomno').val(b);
+    $('#searchlocation').val(c);
+}
 
 // get assets
 getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
