@@ -292,11 +292,6 @@ function updateLetterToIcon(letter) {
     return results;
 }//close updateLetterToIcon function
 
-
-
-
-
-
 //If the user clicks on any item, set the title of the button as the text of the item
 $('#menuAssets').on('click', '.dropdown-item', function () {
     $('#dropdown_assets').text($(this)[0].value)
@@ -314,8 +309,6 @@ $('#menuLocation').on('click', '.dropdown-item', function () {
     $('#searchlocation').val($(this)[0].value);
 })
 
-
-
 // get assets
 getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
 // get room_no
@@ -324,6 +317,17 @@ getItems('../../ams_apis/slimTest/index.php/room_no', 'searchroomno', 'scrollRoo
 getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
 
 
+
+
+var allArr = {
+    searchasset : [],
+    searchroomno : [],
+    searchlocation : []
+};
+
+console.log("allArr");
+console.log(allArr);
+console.log("allArr");
 
 function getItems(url, id, scrollArea, menuid) {
     $.ajax({
@@ -346,11 +350,13 @@ function getItems(url, id, scrollArea, menuid) {
                 });
             }
 
+            allArr[id] = rows ;
+
             // localStorage.setItem(id, JSON.stringify(rows));
-            setObject(id,rows);
+            // Storage.prototype._setItem(id,rows);
             
 
-            filterItems(rows, scrollArea, menuid);
+            filterItems(rows,id, scrollArea, menuid);
             // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
             // // let contents = []
@@ -374,20 +380,28 @@ function getItems(url, id, scrollArea, menuid) {
     })
 }
 
-var clusterize = [];
+
+
+var clusterize = {
+    searchasset : [],
+    searchroomno : [],
+    searchlocation : []
+};
+
+
 var count = 0;
 
-function filterItems(rows, scrollArea, menuid) {
-    var filterRows = function (rows) {
-        var results = [];
-        for (var i = 0, ii = rows.length; i < ii; i++) {
-            if (rows[i].active) results.push(rows[i].markup)
-        }
-
-        return results;
+var filterRows = function (rows) {
+    var results = [];
+    for (var i = 0, ii = rows.length; i < ii; i++) {
+        if (rows[i].active) results.push(rows[i].markup)
     }
 
-    clusterize.push(new Clusterize({
+    return results;
+}
+
+function filterItems(rows,value, scrollArea, menuid) {
+    clusterize[value] = (new Clusterize({
         rows: filterRows(rows),
         scrollId: scrollArea,
         contentId: menuid
@@ -395,19 +409,18 @@ function filterItems(rows, scrollArea, menuid) {
 
 }
 
+
 var onSearch = function (searchValue, emptyId) {
 
-    // console.log(rows);
-    console.log(searchValue + "," + emptyId);
-    console.log(searchasset.value);
-    console.log("element");
-    console.log(searchValue);
-    console.log("element");
+    var getId = searchValue;
+
     var found = false;
     // console.log(localStorage.getItem("rows"));
-    
-    // var rows = JSON.parse(localStorage.getItem("rows"))
-    var rows = getObject(searchValue);
+
+    // var rows = JSON.parse(localStorage.getItem(searchValue));
+    var rows = allArr[searchValue];
+
+    searchValue = document.getElementById(searchValue);
 
     for (var i = 0; i < rows.length; i++) {
 
@@ -422,8 +435,7 @@ var onSearch = function (searchValue, emptyId) {
 
         rows[i].active = suitable;
     }
-    console.log(found);
-    console.log(emptyId);
+
     if (found) {
         $(emptyId).css("display", "none");
     } else {
@@ -431,29 +443,11 @@ var onSearch = function (searchValue, emptyId) {
     }
 
 
-    console.log(clusterize);
+    console.log(clusterize[getId]);
 
-    clusterize[count].update(filterRows(rows));
-    count++;
+    clusterize[getId].update(filterRows(rows));
 
 
-    //     // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
-    //     if (rows[i].values[0].toString().indexOf(searchasset.value) + 1) {
-    //         suitable = true;
-    //         found = true;
-    //     }
-
-    //     rows[i].active = suitable;
-    // }
-
-    // console.log(found);
-    // console.log(emptyId);
-    // if (found) {
-    //     $(emptyId).css("display", "none");
-    // } else {
-    //     $(emptyId).css("display", "block");
-    // }
-    // clusterize.update(filterRows(rows));
 }
 
 // searchasset.onkeyup = onSearch(this);
@@ -469,28 +463,3 @@ function replaceAll(find, replace, str) {
     }
     return str;
 }
-
-
-
-/**
- * Extending the Local Storage Object to allow saving of objects.
- *
- * @param  int|string   key     object key
- * @param  int|string   value   object value
- * @return bool                 true|false
- */
-Storage.prototype.setObject = function(key, value) {
-    this.setItem(key, JSON.stringify(value));
-};
-
-/**
- * Extending the Local Storage Object to allow returning of saved objects.
- *
- * @param  int|string   key     object key
- * @return int|string           value
- */
-Storage.prototype.getObject = function(key) {
-    var value = this.getItem(key);
-
-    return value && JSON.parse(value);
-};
