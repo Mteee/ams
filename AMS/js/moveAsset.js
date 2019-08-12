@@ -43,11 +43,11 @@ function viewAsset(assetId) {
     });
 }
 
-
 function search() {
-    var assetNo = document.getElementById('asseetsno').value,
-        room = document.getElementById('roomno').value,
-        location = document.getElementById('location').value,
+    console.log('called');
+    var assetNo = document.getElementById('searchasset').value,
+        room = document.getElementById('searchroomno').value,
+        location = document.getElementById('searchlocation').value,
         description = document.getElementById('description').value;
 
     var results = (assetNo + " - " + room + " - " + location + " - " + description);
@@ -206,7 +206,215 @@ function search() {
     }
 }
 
+// get assets
+getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
+// get room_no
+getItems('../../ams_apis/slimTest/index.php/room_no', 'searchroomno', 'scrollRoom', 'menuRoom', 'emptyRoom');
+// get location
+getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
 
+
+var allArr = {
+    searchasset: [],
+    searchroomno: [],
+    searchlocation: []
+};
+
+// console.log("allArr");
+// console.log(allArr);
+// console.log("allArr");
+
+function getItems(url, id, scrollArea, menuid) {
+    $.ajax({
+        url: url,
+        method: 'POST',
+        dataType: 'JSON',
+        data: '{"asset_class":"' + localStorage.filter + '"}',
+        success: function (data) {
+            // console.log(data);
+            var rows = [];
+            var searchValue = document.getElementById(id);
+            // console.log("=============searchValue================");
+            // console.log(searchValue);
+            // console.log("=============searchValue=================");
+            for (var i = 0; i < data.rows; i++) {
+                rows.push({
+                    values: [data.data[i]],
+                    markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
+                    active: true
+                });
+            }
+
+            allArr[id] = rows;
+
+            // localStorage.setItem(id, JSON.stringify(rows));
+            // Storage.prototype._setItem(id,rows);
+
+
+            filterItems(rows, id, scrollArea, menuid);
+            // // console.log(data.data);
+            // // buildDropDown('menuAssets', data.data, '#emptyAssets');
+            // // let contents = []
+            // // for(var i=0;i<data.rows;i++){
+
+            // //     contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>')
+
+            // //     $('#menuAssets').append(contents.join(""))
+
+            // //     //Hide the row that shows no items were found
+            // //     $('#emptyAssets').hide()
+            // // }
+            // console.log('done');
+            // // buildDropDown('#menuAssets',data.data);
+
+        },
+        error: function (data_err) {
+            console.log(data_err);
+            console.log(localStorage.filter);
+        }
+    })
+}
+
+var clusterize = {
+    searchasset: [],
+    searchroomno: [],
+    searchlocation: []
+};
+
+var count = 0;
+
+var filterRows = function (rows) {
+    var results = [];
+    for (var i = 0, ii = rows.length; i < ii; i++) {
+        if (rows[i].active) results.push(rows[i].markup)
+    }
+
+    return results;
+}
+
+function filterItems(rows, value, scrollArea, menuid) {
+    clusterize[value] = (new Clusterize({
+        rows: filterRows(rows),
+        scrollId: scrollArea,
+        contentId: menuid
+    }));
+
+}
+
+
+function checkFilter(key){
+    var res = {};
+
+    switch (key) {
+        case "searchasset":
+            res =  {"btnId":"dropdown_assets","btnContent":"ASSET NO..."};
+            break;
+        case "searchroomno":
+            res =  {"btnId":"dropdown_room","btnContent":"ROOM NO..."};
+            break;
+        case "searchlocation":
+            res =  {"btnId":"dropdown_location","btnContent":"LOCATION..."};
+            break;
+        default:
+            res =  {"btnId":"not found","btnContent":"not found"};
+            break;
+    }
+
+    return res;
+}
+
+
+var onSearch = function (searchValue, emptyId) {
+
+    var getId = searchValue;
+
+    var found = false;
+    // console.log(localStorage.getItem("rows"));
+
+    // var rows = JSON.parse(localStorage.getItem(searchValue));
+    var rows = allArr[searchValue];
+
+    searchValue = document.getElementById(searchValue);
+
+    for (var i = 0; i < rows.length; i++) {
+
+        var suitable = false;
+
+        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+
+        if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
+            suitable = true;
+            found = true;
+        }
+
+        rows[i].active = suitable;
+    }
+
+    if(searchValue.value.length == 0){
+        var resObj  = checkFilter(getId);
+        $('#dropdown_location').text($(this)[0].value);
+        ;
+        $('#'+resObj.btnId).text(resObj.btnContent);
+    }
+
+    if (found) {
+        $(emptyId).css("display", "none");
+    } else {
+        $(emptyId).css("display", "block");
+    }
+
+    // console.log(clusterize[getId]);
+
+    clusterize[getId].update(filterRows(rows));
+
+
+}
+
+// searchasset.onkeyup = onSearch(this);
+
+
+
+// buildDropDown('#menuRoom',names);
+// buildDropDown('#menuLocation',names);
+
+function replaceAll(find, replace, str) {
+    while (str.indexOf(find) > -1) {
+        str = str.replace(find, replace);
+    }
+    return str;
+}
+
+function clearData(input,btnDafualtId,text){
+    // var inputData = document.getElementById(input).(val);
+    var value = $(input).val();
+    if(value.length > 0){
+        $(input).val("");
+        $(btnDafualtId).text(text);
+    }
+}
+
+
+
+
+
+
+
+//If the user clicks on any item, set the title of the button as the text of the item
+$('#menuAssets').on('click', '.dropdown-item', function () {
+    $('#dropdown_assets').text($(this)[0].value)
+    $("#dropdown_assets").dropdown('toggle');
+    $('#searchasset').val($(this)[0].value);
+})
+$('#menuRoom').on('click', '.dropdown-item', function () {
+    $('#dropdown_room').text($(this)[0].value)
+    $("#dropdown_room").dropdown('toggle');
+    $('#searchroomno').val($(this)[0].value);
+})
+$('#menuLocation').on('click', '.dropdown-item', function () {
+    $('#dropdown_location').text($(this)[0].value)
+    $("#dropdown_location").dropdown('toggle');
+    $('#searchlocation').val($(this)[0].value);
+})
 
 /*-------   Zoom handler -------*/
 var width = screen.width;

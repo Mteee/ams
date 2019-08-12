@@ -300,6 +300,7 @@ $('#menuAssets').on('click', '.dropdown-item', function () {
 })
 $('#menuRoom').on('click', '.dropdown-item', function () {
     $('#dropdown_room').text($(this)[0].value)
+
     $("#dropdown_room").dropdown('toggle');
     $('#searchroomno').val($(this)[0].value);
 })
@@ -406,6 +407,28 @@ function filterItems(rows, value, scrollArea, menuid) {
 
 }
 
+function checkFilter(key){
+    var res = {};
+
+    switch (key) {
+        case "searchasset":
+            res =  {"btnId":"dropdown_assets","btnContent":"ASSET NO..."};
+            break;
+        case "searchroomno":
+            res =  {"btnId":"dropdown_room","btnContent":"ROOM NO..."};
+            break;
+        case "searchlocation":
+            res =  {"btnId":"dropdown_location","btnContent":"LOCATION..."};
+            break;
+        default:
+            res =  {"btnId":"not found","btnContent":"not found"};
+            break;
+    }
+
+    return res;
+}
+
+
 var onSearch = function (searchValue, emptyId) {
 
     var getId = searchValue;
@@ -430,6 +453,14 @@ var onSearch = function (searchValue, emptyId) {
         }
 
         rows[i].active = suitable;
+    }
+
+
+    if(searchValue.value.length == 0){
+        var resObj  = checkFilter(getId);
+        $('#dropdown_location').text($(this)[0].value);
+        ;
+        $('#'+resObj.btnId).text(resObj.btnContent);
     }
 
     if (found) {
