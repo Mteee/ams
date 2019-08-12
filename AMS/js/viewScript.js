@@ -451,6 +451,7 @@ function getItems(url,id,scrollArea,menuid,emptyId){
     })
 }
 
+<<<<<<< HEAD
 
 
 <<<<<<< HEAD
@@ -474,14 +475,21 @@ var count = 0;
         console.log(searchasset.value.length);
 =======
 >>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
+=======
+
+
+>>>>>>> parent of 7ce3a40... clear search
 
        
         
 
 <<<<<<< HEAD
+<<<<<<< HEAD
         for (var i = 0; i < rows.length; i++) {
 
 =======
+=======
+>>>>>>> parent of 7ce3a40... clear search
         function filterItems(rows,scrollArea,menuid ,emptyId){
             var filterRows = function (rows) {
                 var results = [];
@@ -491,6 +499,7 @@ var count = 0;
                 
                 return results;
             }
+<<<<<<< HEAD
 >>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
             
             
@@ -509,6 +518,10 @@ var count = 0;
                 console.log(element);
                 console.log("element");
 =======
+=======
+            
+            
+>>>>>>> parent of 7ce3a40... clear search
             var clusterize = new Clusterize({
                 rows: filterRows(rows),
                 scrollId: scrollArea,
@@ -519,7 +532,10 @@ var count = 0;
                 // console.log(rows);
                 // console.log(searchasset.value);
 
+<<<<<<< HEAD
 >>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
+=======
+>>>>>>> parent of 7ce3a40... clear search
                 var found = false;
 
                 for (var i = 0; i < rows.length; i++) {
@@ -527,6 +543,7 @@ var count = 0;
                     var suitable = false;
                     
                     // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+<<<<<<< HEAD
 <<<<<<< HEAD
                         if (rows[i].values[0].toString().indexOf(searchValue.value) + 1){
                             suitable = true;
@@ -597,6 +614,13 @@ var count = 0;
                             found = true;
                         }
 
+=======
+                        if (rows[i].values[0].toString().indexOf(searchasset.value) + 1){
+                            suitable = true;
+                            found = true;
+                        }
+
+>>>>>>> parent of 7ce3a40... clear search
                     rows[i].active = suitable;
                 }
                 console.log(found);
@@ -607,6 +631,7 @@ var count = 0;
                     $(emptyId).css("display","block");
                 }
                 clusterize.update(filterRows(rows));
+<<<<<<< HEAD
 >>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
             }
             
@@ -624,6 +649,13 @@ var count = 0;
 >>>>>>> parent of b623d5b... Merge pull request #91 from Mteee/talent-branch
         }
 
+=======
+            }
+            
+            searchasset.onkeyup = onSearch;
+        }
+
+>>>>>>> parent of 7ce3a40... clear search
 
 
 
