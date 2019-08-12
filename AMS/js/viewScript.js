@@ -12,7 +12,7 @@ var user_class = localStorage.getItem("filter");
 
 $('.user-class option').text(user_class);
 
-console.log(user_class);
+// console.log(user_class);
 
 function closeAsset() {
     document.getElementById('overlay-asset').style.display = "none"
@@ -21,7 +21,7 @@ function closeAsset() {
 function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
-    console.log($('#assetBody'));
+    // console.log($('#assetBody'));
     $('#assetBody')['0'].innerHTML = assetId;
 
     $.ajax({
@@ -30,7 +30,7 @@ function viewAsset(assetId) {
         dataType: "JSON",
         data: '{"primary_asset_id" :"' + assetId + '"}',
         success: function (data) {
-            console.log("success");
+            // console.log("success");
             document.getElementById('viewAssets').innerHTML = data[0].table;
             document.getElementById('subItemCount').innerText = data[0].items;
         },
@@ -51,7 +51,7 @@ function search() {
 
     var results = (assetNo + " - " + room + " - " + location + " - " + description);
     var current = "";
-    console.log(results);
+    // console.log(results);
     if (" -  -  - " == results) {
         alert("Please enter alteast one filter");
     } else {
@@ -68,8 +68,8 @@ function search() {
             success: function (data) {
                 // console.log(data);
                 var table = null;
-                console.log("test");
-                console.log(data);
+                // console.log("test");
+                // console.log(data);
 
                 if (data.rows > 0) {
 
@@ -96,7 +96,7 @@ function search() {
                     str = replaceAll("\r\n", "", str);
 
                     str = (JSON.parse(str));
-                    console.log(str.data);
+                    // console.log(str.data);
 
                     table = createTable("#currentAssetsTable", str.data);
 
@@ -109,7 +109,7 @@ function search() {
                 else {
                     // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
                     $('#searchView').fadeIn(500);
-                    console.log(data.data);
+                    // console.log(data.data);
 
                     table = createTable("#currentAssetsTable", data.data);
 
@@ -208,9 +208,9 @@ function createTable(tableID, tableData) {
         "destroy": true,
         ajax: function (data, callback, settings) {
             var out = [];
-            console.log("=======================");
-            console.log(data);
-            console.log("=======================");
+            // console.log("=======================");
+            // console.log(data);
+            // console.log("=======================");
             for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
                 if (tableData[i] == undefined) {
                     break;
@@ -220,9 +220,9 @@ function createTable(tableID, tableData) {
 
             }
 
-            console.log("=========out=========");
-            console.log(out);
-            console.log("========out==========");
+            // console.log("=========out=========");
+            // console.log(out);
+            // console.log("========out==========");
             setTimeout(function () {
                 callback({
                     draw: data.draw,
@@ -292,11 +292,6 @@ function updateLetterToIcon(letter) {
     return results;
 }//close updateLetterToIcon function
 
-
-
-
-
-
 //If the user clicks on any item, set the title of the button as the text of the item
 $('#menuAssets').on('click', '.dropdown-item', function () {
     $('#dropdown_assets').text($(this)[0].value)
@@ -314,8 +309,6 @@ $('#menuLocation').on('click', '.dropdown-item', function () {
     $('#searchlocation').val($(this)[0].value);
 })
 
-
-
 // get assets
 getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
 // get room_no
@@ -325,6 +318,17 @@ getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scroll
 
 
 
+
+var allArr = {
+    searchasset: [],
+    searchroomno: [],
+    searchlocation: []
+};
+
+// console.log("allArr");
+// console.log(allArr);
+// console.log("allArr");
+
 function getItems(url, id, scrollArea, menuid) {
     $.ajax({
         url: url,
@@ -332,12 +336,12 @@ function getItems(url, id, scrollArea, menuid) {
         dataType: 'JSON',
         data: '{"asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
-            console.log("=============searchValue================");
-            console.log(searchValue);
-            console.log("=============searchValue=================");
+            // console.log("=============searchValue================");
+            // console.log(searchValue);
+            // console.log("=============searchValue=================");
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
@@ -346,11 +350,13 @@ function getItems(url, id, scrollArea, menuid) {
                 });
             }
 
+            allArr[id] = rows;
+
             // localStorage.setItem(id, JSON.stringify(rows));
+            // Storage.prototype._setItem(id,rows);
 
-            
 
-            filterItems(rows, scrollArea, menuid);
+            filterItems(rows, id, scrollArea, menuid);
             // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
             // // let contents = []
@@ -374,20 +380,25 @@ function getItems(url, id, scrollArea, menuid) {
     })
 }
 
-var clusterize = [];
+var clusterize = {
+    searchasset: [],
+    searchroomno: [],
+    searchlocation: []
+};
+
 var count = 0;
 
-function filterItems(rows, scrollArea, menuid) {
-    var filterRows = function (rows) {
-        var results = [];
-        for (var i = 0, ii = rows.length; i < ii; i++) {
-            if (rows[i].active) results.push(rows[i].markup)
-        }
-
-        return results;
+var filterRows = function (rows) {
+    var results = [];
+    for (var i = 0, ii = rows.length; i < ii; i++) {
+        if (rows[i].active) results.push(rows[i].markup)
     }
 
-    clusterize.push(new Clusterize({
+    return results;
+}
+
+function filterItems(rows, value, scrollArea, menuid) {
+    clusterize[value] = (new Clusterize({
         rows: filterRows(rows),
         scrollId: scrollArea,
         contentId: menuid
@@ -397,15 +408,15 @@ function filterItems(rows, scrollArea, menuid) {
 
 var onSearch = function (searchValue, emptyId) {
 
-    // console.log(rows);
-    console.log(searchValue + "," + emptyId);
-    console.log(searchasset.value);
-    console.log("element");
-    console.log(searchValue);
-    console.log("element");
+    var getId = searchValue;
+
     var found = false;
-    console.log(localStorage.getItem("rows"));
-    var rows = JSON.parse(localStorage.getItem("rows"))
+    // console.log(localStorage.getItem("rows"));
+
+    // var rows = JSON.parse(localStorage.getItem(searchValue));
+    var rows = allArr[searchValue];
+
+    searchValue = document.getElementById(searchValue);
 
     for (var i = 0; i < rows.length; i++) {
 
@@ -420,38 +431,18 @@ var onSearch = function (searchValue, emptyId) {
 
         rows[i].active = suitable;
     }
-    console.log(found);
-    console.log(emptyId);
+
     if (found) {
         $(emptyId).css("display", "none");
     } else {
         $(emptyId).css("display", "block");
     }
 
+    // console.log(clusterize[getId]);
 
-    console.log(clusterize);
-
-    clusterize[count].update(filterRows(rows));
-    count++;
+    clusterize[getId].update(filterRows(rows));
 
 
-    //     // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
-    //     if (rows[i].values[0].toString().indexOf(searchasset.value) + 1) {
-    //         suitable = true;
-    //         found = true;
-    //     }
-
-    //     rows[i].active = suitable;
-    // }
-
-    // console.log(found);
-    // console.log(emptyId);
-    // if (found) {
-    //     $(emptyId).css("display", "none");
-    // } else {
-    //     $(emptyId).css("display", "block");
-    // }
-    // clusterize.update(filterRows(rows));
 }
 
 // searchasset.onkeyup = onSearch(this);
@@ -467,4 +458,3 @@ function replaceAll(find, replace, str) {
     }
     return str;
 }
-
