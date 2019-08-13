@@ -115,24 +115,21 @@
             style="background: rgb(59, 56, 56);height:80px">
             <div class="col-md-3" id="menu-bar"
                 style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
-                <span onclick="showNav()">
-                    <div class="row" style="margin-top:-25px;">
+                <div class="row" style="margin-top:-25px;">
+                    <span onclick="showNav()">
                         <div class="col-md-2">
                             <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40" /></div>
                             <div class="menu-text">MENU</div>
                         </div>
+                    </span>
 
-                        <div class="col-md-7 offset-3">
-                            <select class="form-control text-muted user-class" disabled>
-                                <option value="user_class">ALL EQUIPMENT</option>
-                                <!-- <option value="1">FACILITIES MANAGEMENT</option>
-                                        <option value="2">IT EQUIPMENT</option>
-                                        <option value="3">MEDICAL EQUIPMENT</option> -->
-                            </select>
-                        </div>
+                    <div class="col-md-7 offset-3">
+                        <select class="form-control text-muted user-class" id="class-options">
+
+                        </select>
                     </div>
+                </div>
 
-                </span>
                 <div id="menu-list">
                     <ul class="menu-group">
                         <li class="menu-item active">view</li>
@@ -321,7 +318,7 @@
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                                                 placeholder="BTC" autofocus="autofocus"> -->
                                                     </form>
-                                                    <div id="menuAssets" class="text-center">
+                                                    <div id="menuAssets" class="text-center" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -406,18 +403,21 @@
     </div>
     <script src="../js/jquery.js"></script>
     <script src="../js/clusterize.min.js"></script>
-    <script src="../js/viewScript.js"></script>
     <!-- <script src="../js/bootstrap.js"></script> -->
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
+    <script src="../js/viewScript.js"></script>
+    
     <script>
 
         function showNav() {
             $('#menu-list').slideToggle('fast');
         }
 
+        
+
+   
 
         document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 

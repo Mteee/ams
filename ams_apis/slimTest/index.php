@@ -310,4 +310,21 @@ $app->map(['GET','POST'],'/location',function(Request $request, Response $respon
 
 });
 
+$app->map(['GET','POST'],'/filter_with_var',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    if ($data != null){
+        $input_var = $data->input_var;
+
+        $sql_query = "";
+
+        $results = $func->executeQuery($sql_query);
+
+        if($results){
+            
+        }
+    }
+
+});
+
 $app->run();
