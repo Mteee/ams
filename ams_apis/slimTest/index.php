@@ -22,7 +22,6 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
 
-
     if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
 
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
@@ -45,6 +44,84 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
     }
 
 });
+
+$app->map(['GET','POST'],'/singleAssetInfo_asset_no',function(Request $request, Response $response){
+
+    $data = json_decode(file_get_contents('php://input') );
+
+    $ASSET_NO = strtoupper($data->value);
+
+    $response = array();
+    global $func;
+
+    if(!empty($ASSET_NO)){
+
+        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID='$ASSET_NO' AND ASSET_ID = ASSET_PRIMARY_ID";
+
+        $assets =$func->executeQuery($sql);
+
+        if($assets){
+            echo $assets;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"No data"));
+    
+        }
+    }
+
+});
+
+// $app->map(['GET','POST'],'/singleAssetInfo_room_no',function(Request $request, Response $response){
+
+//     $data = json_decode(file_get_contents('php://input') );
+
+//     $ASSET_NO = strtoupper($data->value);
+
+//     $response = array();
+//     global $func;
+
+//     if(!empty($ASSET_NO)){
+
+//         $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID='$ASSET_NO' AND ASSET_ID = ASSET_PRIMARY_ID";
+
+//         $assets =$func->executeQuery($sql);
+
+//         if($assets){
+//             echo $assets;
+//         }
+//         else{
+//             echo json_encode(array("rows" => 0 ,"data" =>"No data"));
+    
+//         }
+//     }
+
+// });
+
+// $app->map(['GET','POST'],'/singleAssetInfo_location',function(Request $request, Response $response){
+
+//     $data = json_decode(file_get_contents('php://input') );
+
+//     $ASSET_NO = strtoupper($data->value);
+
+//     $response = array();
+//     global $func;
+
+//     if(!empty($ASSET_NO)){
+
+//         $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID='$ASSET_NO' AND ASSET_ID = ASSET_PRIMARY_ID";
+
+//         $assets =$func->executeQuery($sql);
+
+//         if($assets){
+//             echo $assets;
+//         }
+//         else{
+//             echo json_encode(array("rows" => 0 ,"data" =>"No data"));
+    
+//         }
+//     }
+
+// });
 
 $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $response){
 
@@ -338,5 +415,52 @@ $app->map(['GET','POST'],'/filter_with_var',function(Request $request, Response 
 
 });
 
-$app->run();
+$app->map(['GET','POST'],'/printView',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $ASSET_CLASS = strtoupper($data->asset_class);
+    $ASSET_NO = strtoupper($data->primary_asset_id);
 
+    if($ASSET_CLASS == 'ALL EQUIPMENT'){
+        $ASSET_CLASS = '';
+    }
+
+    $sql = "SELECT *
+    FROM AMSD.ASSETS_VW
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
+    AND ASSET_PRIMARY_ID IN ($ASSET_NO)";
+
+
+    // $sql = "SELECT ASSET_LOCATION_AREA FROM AMSD.ASSETS_LOCATION WHERE  GROUP BY ASSET_LOCATION_AREA";
+    // $sql = "SELECT * FROM AMSD.ASSETS_VW";
+
+    $assets_no =$func->executeQuery($sql);
+    $response = "";
+    $main = json_decode("[]");
+    $count = 0;
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $resData = $res->data;
+        foreach($resData as $value){
+
+         if($value->ASSET_PRIMARY_ID == $value->ASSET_ID){
+             array_push($main,array("primary" => [$value->ASSET_LOCATION_AREA,$value->ASSET_ROOM_NO,$value->ASSET_PRIMARY_ID,$value->ASSET_DESCRIPTION]));
+             $count++;
+         }
+             
+           
+        }
+
+        echo json_encode($main);
+        // echo $items;
+        //  echo $response;
+    }
+    else{
+        // echo json_encode(array("rows" => 0 ,"data" =>""));
+
+    }
+
+});
+
+$app->run();
