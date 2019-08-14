@@ -13,6 +13,8 @@
     <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css"
+        rel="stylesheet" />
     <style>
         .dropdown-menu {
             max-height: 300px;
@@ -209,6 +211,7 @@
                                                 <div class="dropdown-menu" aria-labelledby="dropdown_location"
                                                     id="scrollLocation">
                                                     <form class="px-4 py-2">
+
                                                         <div class="input-group">
                                                             <input type="search" id="searchlocation"
                                                                 class="form-control" placeholder="Location..."
@@ -219,9 +222,9 @@
                                                                     id="clearLocation"
                                                                     onclick="clearData('#searchlocation','#dropdown_location','LOCATION...')"><i
                                                                         class="fa fa-close"></i></span>
+
                                                             </div>
                                                         </div>
-
 
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                                 placeholder="BTC" autofocus="autofocus"> -->
@@ -246,6 +249,7 @@
                                                 <div class="dropdown-menu" aria-labelledby="dropdown_room"
                                                     id="scrollRoom">
                                                     <form class="px-4 py-2">
+
                                                         <div class="input-group">
                                                             <input type="search" id="searchroomno" class="form-control"
                                                                 placeholder="room..."
@@ -258,7 +262,6 @@
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
-
 
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                                         placeholder="BTC" autofocus="autofocus"> -->
@@ -302,7 +305,6 @@
                                                 <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
                                                     aria-labelledby="dropdown_assets">
                                                     <form class="px-4 py-2">
-
                                                         <!--                                                         <input type="search" id="searchasset" class="form-control"
                                                             placeholder="room..." autofocus="autofocus" onkeyup="onSearch(this)">
  -->
@@ -347,58 +349,61 @@
                                     </tr>
 
                                 </table>
-                                <table class="table" id="currentAssetsTable">
-                                    <thead style="background:#000000;color:#ffffff;">
-                                        <tr>
-                                            <th scope="col">
-                                                #
-                                            </th>
-                                            <th scope="col">
-                                                Asset No
+                                <form id="frm-example" method="POST">
+                                    <table class="table" id="currentAssetsTable">
+                                        <thead style="background:#000000;color:#ffffff;">
+                                            <tr>
+                                                <th scope="col">
+                                                    #
+                                                </th>
+                                                <th scope="col">
+                                                    Asset No
 
-                                            </th>
-                                            <th scope="col">
-                                                Room
+                                                </th>
+                                                <th scope="col">
+                                                    Room
 
-                                            </th>
-                                            <th scope="col">
-                                                Location
+                                                </th>
+                                                <th scope="col">
+                                                    Location
 
-                                            </th>
-                                            <th scope="col">
-                                                Description
+                                                </th>
+                                                <th scope="col">
+                                                    Description
 
-                                            </th>
-                                            <th scope="col">
-                                                Has Sub Assets
+                                                </th>
+                                                <th scope="col">
+                                                    Has Sub Assets
 
-                                            </th>
-                                            <th scope="col">
-                                                View
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="current">
-                                        <div id="loader" class="loader">
-                                            <img src="../img/loading-transparent.gif" alt="">
-                                        </div>
-                                        <div id="searchView" class="search_start">
-                                            <p style="margin-top:200px">Please search your asset using the search above
-                                            </p>
-                                            <img width="200" src="../img/loupe.png" alt="Search">
-                                        </div>
-                                    </tbody>
+                                                </th>
+                                                <th scope="col">
+                                                    View
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="current">
+                                            <div id="loader" class="loader">
+                                                <img src="../img/loading-transparent.gif" alt="">
+                                            </div>
+                                            <div id="searchView" class="search_start">
+                                                <p style="margin-top:200px">Please search your asset using the search
+                                                    above
+                                                </p>
+                                                <img width="200" src="../img/loupe.png" alt="Search">
+                                            </div>
+                                        </tbody>
 
 
-                                </table>
+                                    </table>
                             </div>
                         </div>
-                        <div class="row" id="printAssetsView" style="display: none">
+                        <div class="row">
                             <div class="col-md-12">
-                                <button id="printAssets" onclick="printView()" class="btn btn-sm btn-info"><span
-                                        class="fa fa-print"></span> Print View</button>
+                                <button id="printAssets" class="btn btn-sm btn-info"><span class="fa fa-print"></span>
+                                    Print View</button>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -411,6 +416,9 @@
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <script type="text/javascript"
+        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
     <script>
 
