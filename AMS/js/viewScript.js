@@ -307,7 +307,6 @@ function createTable(tableID, tableData) {
 
             e.preventDefault();
         
-
     });
 
 
