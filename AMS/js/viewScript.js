@@ -6,6 +6,13 @@
  * Date: 2019-07-29
  */
 
+//check for filter in local storage
+if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
+    localStorage.backupFilter = localStorage.filter;
+} else {
+    localStorage.filter = localStorage.backupFilter;
+}
+
 $('#searchView').fadeIn(500);
 
 var user_class = localStorage.getItem("filter");
@@ -232,41 +239,91 @@ function createTable(tableID, tableData) {
                 });
             }, 50);
         },
-        "columnDefs": [{
-            "targets": 0,
-            "data": null,
-            "orderable": false,
-            "defaultContent": "<input class='checkitem' type='checkbox'/>"
-        },
-        {
-            "targets": -1,
-            "data": null,
-            "orderable": false,
-            "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
-        },
-        {
-            "className": "dt-center",
-            "targets": [-2, 0]
-        },
-        {
-            "targets": -2,
-            "orderable": false
+        "columnDefs": [
+            // {
+            //     "targets": 0,
+            //     "data": tableData,
+            //     "orderable": false,
+            //     "defaultContent": "<input class='checkitem' type='checkbox' value=''/>"
+            // },
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                }
+            },
+            {
+                "targets": -1,
+                "data": null,
+                "orderable": false,
+                "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
+            },
+            {
+                "className": "dt-center",
+                "targets": [-2, 0]
+            },
+            {
+                "targets": -2,
+                "orderable": false
+            }
+        ], 'select': {
+            'style': 'multi'
         }
-        ]
     });
+
+
+    // Handle form submission event 
+    $('#frm-example').on('submit', function (e) {
+        // Prevent actual form submission
+        e.preventDefault();
+        var rows_selected = table.column(0).checkboxes.selected();
+        if (rows_selected.length < 1) {
+            alert("Please select items to print");
+
+        } else {
+            var form = $('#frm-example');
+
+            // Iterate over all selected checkboxes
+            $.each(rows_selected, function (index, rowId) {
+                // Create a hidden element 
+                $(form).append(
+                    $('<input>')
+                        .attr('type', 'hidden')
+                        .attr('name', 'id[]')
+                        .val(rowId)
+                );
+            });
+
+            // FOR DEMONSTRATION ONLY
+            // The code below is not needed in production
+
+            // Output form data to a console     
+            console.log((rows_selected.join(",")).split(","));
+
+            // Output form data to a console     
+            // console.log($(form).serialize());
+
+            // Remove added elements
+            $('input[name="id\[\]"]', form).remove();
+
+            e.preventDefault();
+        }
+
+    });
+
 
     return table;
 }
 
 
-function printView() {
+// function printView() {
 
-    var id = $('.checkitem:checked').map(function () {
-        return $(this).val();
-    }).get().join(' ');
+//     var id = $('.checkitem:checked').map(function () {
+//         return $(this).val();
+//     }).get().join(' ');
 
-    console.log(id);
-}
+//     console.log(id);
+// }
 
 
 function checkboxSelectedLength() {
@@ -294,35 +351,70 @@ function updateLetterToIcon(letter) {
 
 //If the user clicks on any item, set the title of the button as the text of the item
 $('#menuAssets').on('click', '.dropdown-item', function () {
-    $('#dropdown_assets').text($(this)[0].value)
+    $('#dropdown_assets').text($(this)[0].value);
+    localStorage.menuAssets = $(this)[0].value;
+    populate_dropdown();
     $("#dropdown_assets").dropdown('toggle');
-    
+
     $.ajax({
         url: '../../ams_apis/slimTest/index.php/singleAssetInfo_asset_no',
         method: 'POST',
-        data: '{"value": "'+$(this)[0].value+'"}',
-        dataType : 'JSON',
-        success : function (data) {
-            setSearchValues(data.data[0].ASSET_ID,data.data[0].ASSET_ROOM_NO,data.data[0].ASSET_LOCATION_AREA);
+        data: '{"value": "' + $(this)[0].value + '"}',
+        dataType: 'JSON',
+        success: function (data) {
+            setSearchValues(data.data[0].ASSET_ID, data.data[0].ASSET_ROOM_NO, data.data[0].ASSET_LOCATION_AREA);
         },
-        error : function (err) {
+        error: function (err) {
             console.log(err);
         }
     });
-
 })
+
 $('#menuRoom').on('click', '.dropdown-item', function () {
     $('#dropdown_room').text($(this)[0].value)
+    localStorage.menuRoom = $(this)[0].value;
+    populate_dropdown();
     $("#dropdown_room").dropdown('toggle');
     $('#searchroomno').val($(this)[0].value);
+
 })
+
 $('#menuLocation').on('click', '.dropdown-item', function () {
     $('#dropdown_location').text($(this)[0].value)
+    localStorage.menuLocation = $(this)[0].value;
+    populate_dropdown();
     $("#dropdown_location").dropdown('toggle');
     $('#searchlocation').val($(this)[0].value);
 })
 
-function setSearchValues(a,b,c){
+
+function populate_dropdown() {
+
+    // get assets
+    getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
+    // get room_no
+    getItems('../../ams_apis/slimTest/index.php/room_no', 'searchroomno', 'scrollRoom', 'menuRoom', 'emptyRoom');
+    // get location
+    getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
+
+
+}
+
+populate_dropdown();
+
+// onchanged menu
+
+function onItemSelect(menuId){
+
+    $('#menuAssets').on('click', '.dropdown-item', function(){
+        // $('#dropdown_assets').text()
+        console.log($(this)[0].value);
+    });
+    
+}
+
+
+function setSearchValues(a, b, c) {
     // button
     $('#dropdown_assets').text(a);
     $('#dropdown_room').text(b);
@@ -333,15 +425,6 @@ function setSearchValues(a,b,c){
     $('#searchroomno').val(b);
     $('#searchlocation').val(c);
 }
-
-// get assets
-getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
-// get room_no
-getItems('../../ams_apis/slimTest/index.php/room_no', 'searchroomno', 'scrollRoom', 'menuRoom', 'emptyRoom');
-// get location
-getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
-
-
 
 
 var allArr = {
@@ -359,9 +442,10 @@ function getItems(url, id, scrollArea, menuid) {
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"asset_class":"' + localStorage.filter + '"}',
+        data: '{"asset_class":"' + localStorage.filter + '","asset_location":"'+localStorage.menuLocation+'","asset_room":"'+localStorage.menuRoom+'","asset_id":"'+localStorage.menuAssets+'"}',
         success: function (data) {
-            // console.log(data);
+            console.log(JSON.parse('{"asset_class":"' + localStorage.filter + '","asset_location":"'+localStorage.menuLocation+'","asset_room":"'+localStorage.menuRoom+'","asset_id":"'+localStorage.menuAssets+'"}'));
+            console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
             // console.log("=============searchValue================");
@@ -402,8 +486,13 @@ function getItems(url, id, scrollArea, menuid) {
             console.log(data_err);
             console.log(localStorage.filter);
         }
-    })
+    });
+
+
+
+
 }
+
 
 var clusterize = {
     searchasset: [],
@@ -431,6 +520,28 @@ function filterItems(rows, value, scrollArea, menuid) {
 
 }
 
+function checkFilter(key) {
+    var res = {};
+
+    switch (key) {
+        case "searchasset":
+            res = { "btnId": "dropdown_assets", "btnContent": "ASSET NO..." };
+            break;
+        case "searchroomno":
+            res = { "btnId": "dropdown_room", "btnContent": "ROOM NO..." };
+            break;
+        case "searchlocation":
+            res = { "btnId": "dropdown_location", "btnContent": "LOCATION..." };
+            break;
+        default:
+            res = { "btnId": "not found", "btnContent": "not found" };
+            break;
+    }
+
+    return res;
+}
+
+
 var onSearch = function (searchValue, emptyId) {
 
     var getId = searchValue;
@@ -449,12 +560,24 @@ var onSearch = function (searchValue, emptyId) {
 
         // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
 
-        if (rows[i].values[0].toString().indexOf(searchValue.value) + 1) {
+        if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
             found = true;
         }
 
         rows[i].active = suitable;
+    }
+
+
+    if (searchValue.value.length == 0) {
+        var resObj = checkFilter(getId);
+        $('#dropdown_location').text($(this)[0].value);
+        // localStorage.menuId
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = '';
+        localStorage.menuRoom  = '';
+        populate_dropdown();
+        $('#' + resObj.btnId).text(resObj.btnContent);
     }
 
     if (found) {
@@ -482,4 +605,70 @@ function replaceAll(find, replace, str) {
         str = str.replace(find, replace);
     }
     return str;
+}
+
+function clearData(input, btnDafualtId, text) {
+    // var inputData = document.getElementById(input).(val);
+    var value = $(input).val();
+    if (value.length > 0) {
+        populate_dropdown();
+        $(input).val("");
+        $(btnDafualtId).text(text);
+    }
+}
+
+
+function resetBtn(resetId, resetTxt) {
+    $(resetId).text(resetTxt);
+}
+
+function resetInput(resetId, resetTxt) {
+    $(resetId).val(resetTxt);
+}
+
+
+// $('#clearAssets').on('click', function(){
+//     console.log('searchValue');
+
+//     if(searchValue.value.length > 0){
+//         console.log('searchValue');
+//         $(searchValue).text('');
+//     }
+// });
+
+if (localStorage.filter == "All EQUIPMENT") {
+
+    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+    $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
+    $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+    $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
+    $('#class-options').prop('disabled', false);
+
+    $('#class-options').on('change', function () {
+        var filter = $("#class-options option:selected").text();
+        localStorage.filter = filter;
+        //clear btn text
+        resetBtn('#dropdown_assets', 'ASSET NO...');
+        resetBtn('#dropdown_room', 'ROOM...');
+        resetBtn('#dropdown_location', 'LOCATION ...');
+
+        //clear search inputs
+        resetInput('#searchlocation', '');
+        resetInput('#searchroomno', '');
+        resetInput('#searchasset', '');
+        populate_dropdown();
+    });
+
+} else {
+    $('#class-options').append(new Option(localStorage.filter, "user_class"));
+    $('#class-options').css({ "-moz-appearance": "none" });
+    $('#class-options').prop('disabled', 'disabled');
+}
+
+function resetBtn(resetId, resetTxt) {
+    $(resetId).text(resetTxt);
+}
+
+function resetInput(resetId, resetTxt) {
+    $(resetId).val(resetTxt);
 }

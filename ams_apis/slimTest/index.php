@@ -22,7 +22,6 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
 
-
     if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
 
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
@@ -268,13 +267,15 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
 $app->map(['GET','POST'],'/asset_no',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
-    $ASSET_CLASS = strtoupper($data->asset_class);
-
+     $ASSET_CLASS = $func->checkValue(strtoupper($data->asset_class));
+    $ASSET_LOCATION = $func->checkValue(strtoupper($data->asset_location));
+    $ASSET_ROOM_NO = $func->checkValue(strtoupper($data->asset_room));
+    $ASSET_ID = $func->checkValue(strtoupper($data->asset_id));
     if($ASSET_CLASS == 'ALL EQUIPMENT'){
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT ASSET_ID FROM AMSD.ASSETS_VW WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID=ASSET_PRIMARY_ID ORDER BY ASSET_ID ASC";
+    $sql = "SELECT ASSET_ID FROM AMSD.ASSETS_VW WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID LIKE '%$ASSET_ID%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' AND ASSET_ID=ASSET_PRIMARY_ID ORDER BY ASSET_ID ASC";
     // $sql = "SELECT * FROM AMSD.ASSETS_VW";
 
     $assets_no =$func->executeQuery($sql);
@@ -306,14 +307,19 @@ $app->map(['GET','POST'],'/asset_no',function(Request $request, Response $respon
 $app->map(['GET','POST'],'/room_no',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
-    $ASSET_CLASS = strtoupper($data->asset_class);
+    $ASSET_CLASS = $func->checkValue(strtoupper($data->asset_class));
+    $ASSET_LOCATION = $func->checkValue(strtoupper($data->asset_location));
+    $ASSET_ROOM_NO = $func->checkValue(strtoupper($data->asset_room));
+    $ASSET_ID = $func->checkValue(strtoupper($data->asset_id));
 
-    if($ASSET_CLASS == 'ALL EQUIPMENT'){
+
+    if($ASSET_CLASS == 'ALL EQUIPMENT' ){
         $ASSET_CLASS = '';
     }
+
     $sql = "SELECT ASSET_ROOM_NO
     FROM AMSD.ASSETS_VW
-    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID LIKE '%$ASSET_ID%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
     GROUP BY ASSET_ROOM_NO
     ORDER BY ASSET_ROOM_NO ASC";
     // $sql = "SELECT ASSET_ROOM_NO FROM AMSD.ASSETS_LOCATION WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' GROUP BY ASSET_ROOM_NO";
@@ -348,17 +354,21 @@ $app->map(['GET','POST'],'/room_no',function(Request $request, Response $respons
 $app->map(['GET','POST'],'/location',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
-    $ASSET_CLASS = strtoupper($data->asset_class);
+    $ASSET_CLASS = $func->checkValue(strtoupper($data->asset_class));
+    $ASSET_LOCATION = $func->checkValue(strtoupper($data->asset_location));
+    $ASSET_ROOM_NO = $func->checkValue(strtoupper($data->asset_room));
+    $ASSET_ID = $func->checkValue(strtoupper($data->asset_id));
 
-    if($ASSET_CLASS == 'ALL EQUIPMENT'){
+   if($ASSET_CLASS == 'ALL EQUIPMENT'){
         $ASSET_CLASS = '';
     }
 
     $sql = "SELECT ASSET_LOCATION_AREA
     FROM AMSD.ASSETS_VW
-    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID LIKE '%$ASSET_ID%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%'
     GROUP BY ASSET_LOCATION_AREA
     ORDER BY ASSET_LOCATION_AREA ASC";
+
     // $sql = "SELECT ASSET_LOCATION_AREA FROM AMSD.ASSETS_LOCATION WHERE  GROUP BY ASSET_LOCATION_AREA";
     // $sql = "SELECT * FROM AMSD.ASSETS_VW";
 
@@ -380,6 +390,71 @@ $app->map(['GET','POST'],'/location',function(Request $request, Response $respon
 
         // echo $items;
          echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        // echo json_encode(array("rows" => 0 ,"data" =>""));
+
+    }
+
+});
+
+$app->map(['GET','POST'],'/filter_with_var',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    if ($data != null){
+        $input_var = $data->input_var;
+
+        $sql_query = "";
+
+        $results = $func->executeQuery($sql_query);
+
+        if($results){
+            
+        }
+    }
+
+});
+
+$app->map(['GET','POST'],'/printView',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $ASSET_CLASS = strtoupper($data->asset_class);
+    $ASSET_NO = strtoupper($data->primary_asset_id);
+
+    if($ASSET_CLASS == 'ALL EQUIPMENT'){
+        $ASSET_CLASS = '';
+    }
+
+    $sql = "SELECT *
+    FROM AMSD.ASSETS_VW
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
+    AND ASSET_PRIMARY_ID IN ($ASSET_NO)";
+
+
+    // $sql = "SELECT ASSET_LOCATION_AREA FROM AMSD.ASSETS_LOCATION WHERE  GROUP BY ASSET_LOCATION_AREA";
+    // $sql = "SELECT * FROM AMSD.ASSETS_VW";
+
+    $assets_no =$func->executeQuery($sql);
+    $response = "";
+    $main = json_decode("[]");
+    $count = 0;
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $resData = $res->data;
+        foreach($resData as $value){
+
+         if($value->ASSET_PRIMARY_ID == $value->ASSET_ID){
+             array_push($main,array("primary" => [$value->ASSET_LOCATION_AREA,$value->ASSET_ROOM_NO,$value->ASSET_PRIMARY_ID,$value->ASSET_DESCRIPTION]));
+             $count++;
+         }
+             
+           
+        }
+
+        echo json_encode($main);
+        // echo $items;
+        //  echo $response;
     }
     else{
         // echo json_encode(array("rows" => 0 ,"data" =>""));

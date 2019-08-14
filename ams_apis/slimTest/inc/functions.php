@@ -57,6 +57,14 @@ class Functions{
 		}
 
 	}
+
+	public function checkValue($value){
+
+		if($value == "UNDEFINED" || $value == 'UNDEFINED'){
+			$value = '';
+		}
+		return $value;
+	}
 }
 
 
