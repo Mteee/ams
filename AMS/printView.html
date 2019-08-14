@@ -71,34 +71,46 @@
             dataType: "json",
             success: function (data) {
                 console.log(data);
-                // var html_view = "";
-                // if (data.rows > 0) {
-                //     for (var i = 0; i < data.rows; i++) {
-                //         var primary_info = "";
-                //         // var primary_id = data.data[i].asset.primary[0];
-                //         var len_primary = data.data[i].asset.primary.length;
-                //         var len_sub = data.data[i].asset.sub_assets.length;
-                //         var th_primary = "<tr style='background:#464040;color:#ffffff;'>";
+                var html_view = "";
 
-                //         if (len_sub > 0) {
-                //             th_primary += "<td><span class='toggle-btn' onclick=\"toggle_subs('.sub" + i + "')\"> + </span></td>";
-                //         }
+                var count = 0;
+                if (data.rows > 0) {
+                    for (var i = 0; i < data.rows; i++) {
+                        // var primary_info = "";
+                        // var primary_id = data.data[i].asset.primary[0];
+                        // var len_primary = "";
+                        var sub_info = "";
+                        var th_primary = "<tr style='background:#464040;color:#ffffff;'>";
+                        if(data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID){
+
+                            count = 0;
+                            th_primary += "<td><span class='toggle-btn' onclick=\"toggle_subs('.sub" + i + "')\"> + </span></td>";
+                         
+                            th_primary += "<td>" + data.data[i].ASSET_LOCATION_AREA+ "</td><td>" + data.data[i].ASSET_ROOM_NO+ "</td><td>" + data.data[i].ASSET_ID+ "</td><td>" + data.data[i].ASSET_DESCRIPTION+ "</td></tr>";
+                           
+                        }else{
+                           sub_info += "<tr class='sub" + i + "'><td>"+(count)+"</td>";
+                         
+                            sub_info += "<td colspan='2'><td>" + data.data[i].ASSET_ID+ "</td><td>" + data.data[i].ASSET_DESCRIPTION+ "</td></tr>";
+                        }
+                        // var len_sub = data.data[i].asset.sub_assets.length;
+                      
+                        count++;
+                //         
                 //         else {
                 //             th_primary += "<td></td>";
                 //         }
 
-                //         for (var p = 0; p < len_primary; p++) {
-                //             primary_info += "<td>" + data.data[i].asset.primary[p] + "</td>";
-                //         }
+                //         
                 //         th_primary += primary_info;
 
-                //         html_view += th_primary + "</tr>";
+                        html_view += th_primary + sub_info;
 
                 //         console.log(len_sub);
                 //         if (len_sub > 0) {
                 //             var sub_info = "";
                 //             for (var s = 0; s < len_sub; s++) {
-                //                 sub_info += "<tr class='sub" + i + "' style='display:none'><td colspan='3'></td>";
+                //                
                 //                 for (var s_i = 0; s_i < 2; s_i++) {
                 //                     sub_info += "<td>" + data.data[i].asset.sub_assets[s][s_i] + "</td>";
                 //                 }
@@ -108,9 +120,9 @@
 
                 //         }
                 //         console.log(html_view);
-                //     }
-                //     document.getElementById('tbodyPrint').innerHTML = html_view;
-                // }
+                    }
+                    document.getElementById('tbodyPrint').innerHTML = html_view;
+                }
             },
             error: function (err) {
                 console.log(err);
