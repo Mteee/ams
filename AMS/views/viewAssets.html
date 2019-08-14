@@ -13,6 +13,8 @@
     <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css"
+        rel="stylesheet" />
     <style>
         .dropdown-menu {
             max-height: 300px;
@@ -115,24 +117,21 @@
             style="background: rgb(59, 56, 56);height:80px">
             <div class="col-md-3" id="menu-bar"
                 style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
-                <span onclick="showNav()">
-                    <div class="row" style="margin-top:-25px;">
+                <div class="row" style="margin-top:-25px;">
+                    <span onclick="showNav()">
                         <div class="col-md-2">
                             <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40" /></div>
                             <div class="menu-text">MENU</div>
                         </div>
+                    </span>
 
-                        <div class="col-md-7 offset-3">
-                            <select class="form-control text-muted user-class" disabled>
-                                <option value="user_class">ALL EQUIPMENT</option>
-                                <!-- <option value="1">FACILITIES MANAGEMENT</option>
-                                        <option value="2">IT EQUIPMENT</option>
-                                        <option value="3">MEDICAL EQUIPMENT</option> -->
-                            </select>
-                        </div>
+                    <div class="col-md-7 offset-3">
+                        <select class="form-control text-muted user-class" id="class-options">
+
+                        </select>
                     </div>
+                </div>
 
-                </span>
                 <div id="menu-list">
                     <ul class="menu-group">
                         <li class="menu-item active">view</li>
@@ -165,7 +164,6 @@
                     <a class="btn btn-secondary form-control btn-light dropdown-toggle text-left rounded-top rounded-bottom" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         All
                       </a>
-                    
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                         <a class="dropdown-item" href="#"></a>
                         <a class="dropdown-item" href="#">IT Equipment</a>
@@ -200,6 +198,81 @@
                                             Search
                                         </th>
                                         <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_location" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    LOCATION ...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_location"
+                                                    id="scrollLocation">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="searchlocation"
+                                                                class="form-control" placeholder="Location..."
+                                                                onkeyup="onSearch('searchlocation','#emptyLocation')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clearLocation"
+                                                                    onclick="clearData('#searchlocation','#dropdown_location','LOCATION...')"><i
+                                                                        class="fa fa-close"></i></span>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- <input type="search" class="form-control" id="searchCoin"
+                                                                placeholder="BTC" autofocus="autofocus"> -->
+                                                    </form>
+                                                    <div id="menuLocation">
+                                                        <div id="Roomload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="emptyLocation" class="dropdown-header">No location found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_room" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ROOM...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_room"
+                                                    id="scrollRoom">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="searchroomno" class="form-control"
+                                                                placeholder="room..."
+                                                                onkeyup="onSearch('searchroomno','#emptyRoom')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clearRoom"
+                                                                    onclick="clearData('#searchroomno','#dropdown_room','ROOM...')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+
+                                                        <!-- <input type="search" class="form-control" id="searchCoin"
+                                                                        placeholder="BTC" autofocus="autofocus"> -->
+                                                    </form>
+                                                    <div id="menuRoom">
+                                                        <div id="Roomload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="emptyRoom" class="dropdown-header">No room found</div>
+                                                </div>
+                                            </div>
+                                            <!-- <input type="text" id="roomno" class="form-control" placeholder="Room..."> -->
+                                        </th>
+                                        <th>
                                             <!-- <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
                                                     type="button" id="dropdown_assets" data-toggle="dropdown"
@@ -228,13 +301,25 @@
                                                 <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
                                                     aria-labelledby="dropdown_assets">
                                                     <form class="px-4 py-2">
-                                                        <input type="search" id="searchasset" class="form-control"
-                                                            placeholder="room..." autofocus="autofocus">
-
+                                                        <!--                                                         <input type="search" id="searchasset" class="form-control"
+                                                            placeholder="room..." autofocus="autofocus" onkeyup="onSearch(this)">
+ -->
+                                                        <div class="input-group">
+                                                            <input type="search" id="searchasset" class="form-control"
+                                                                placeholder="asset no..."
+                                                                onkeyup="onSearch('searchasset','#emptyAsset')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clearAssets"
+                                                                    onclick="clearData('#searchasset','#dropdown_assets','ASSET NO...')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
                                                         <!-- <input type="search" class="form-control" id="searchCoin"
                                                                                 placeholder="BTC" autofocus="autofocus"> -->
                                                     </form>
-                                                    <div id="menuAssets" class="text-center">
+                                                    <div id="menuAssets" class="text-center" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -244,55 +329,6 @@
                                             </div>
                                             <!-- <input id="asseetsno" type="text" class="form-control"
                                                 placeholder="Asset no..."> -->
-                                        </th>
-                                        <th>
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_room" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    ROOM...
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_room"
-                                                    id="scrollRoom">
-                                                    <form class="px-4 py-2">
-                                                        <input type="search" id="searchroomno" class="form-control"
-                                                            placeholder="room..." autofocus="autofocus">
-
-                                                        <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                    placeholder="BTC" autofocus="autofocus"> -->
-                                                    </form>
-                                                    <div id="menuRoom">
-                                                        <div id="Assetload" class="dropdown-loader">
-                                                            <img src="../img/loading-transparent.gif" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div id="emptyRoom" class="dropdown-header">No room found</div>
-                                                </div>
-                                            </div>
-                                            <!-- <input type="text" id="roomno" class="form-control" placeholder="Room..."> -->
-                                        </th>
-                                        <th>
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_location" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    LOCATION ...
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_location"
-                                                    id="scrollLocation">
-                                                    <form class="px-4 py-2">
-                                                        <input type="search" id="searchlocation" class="form-control"
-                                                            placeholder="Location..." autofocus="autofocus">
-
-                                                        <!-- <input type="search" class="form-control" id="searchCoin"
-                                                            placeholder="BTC" autofocus="autofocus"> -->
-                                                    </form>
-                                                    <div id="menuLocation"></div>
-                                                    <div id="emptyLocation" class="dropdown-header">No location found
-                                                    </div>
-                                                </div>
-                                            </div>
-
                                         </th>
 
                                         <th>
@@ -309,58 +345,61 @@
                                     </tr>
 
                                 </table>
-                                <table class="table" id="currentAssetsTable">
-                                    <thead style="background:#000000;color:#ffffff;">
-                                        <tr>
-                                            <th scope="col">
-                                                #
-                                            </th>
-                                            <th scope="col">
-                                                Asset No
+                                <form id="frm-example" method="POST">
+                                    <table class="table" id="currentAssetsTable">
+                                        <thead style="background:#000000;color:#ffffff;">
+                                            <tr>
+                                                <th scope="col">
+                                                    #
+                                                </th>
+                                                <th scope="col">
+                                                    Asset No
 
-                                            </th>
-                                            <th scope="col">
-                                                Room
+                                                </th>
+                                                <th scope="col">
+                                                    Room
 
-                                            </th>
-                                            <th scope="col">
-                                                Location
+                                                </th>
+                                                <th scope="col">
+                                                    Location
 
-                                            </th>
-                                            <th scope="col">
-                                                Description
+                                                </th>
+                                                <th scope="col">
+                                                    Description
 
-                                            </th>
-                                            <th scope="col">
-                                                Has Sub Assets
+                                                </th>
+                                                <th scope="col">
+                                                    Has Sub Assets
 
-                                            </th>
-                                            <th scope="col">
-                                                View
-                                            </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="current">
-                                        <div id="loader" class="loader">
-                                            <img src="../img/loading-transparent.gif" alt="">
-                                        </div>
-                                        <div id="searchView" class="search_start">
-                                            <p style="margin-top:200px">Please search your asset using the search above
-                                            </p>
-                                            <img width="200" src="../img/loupe.png" alt="Search">
-                                        </div>
-                                    </tbody>
+                                                </th>
+                                                <th scope="col">
+                                                    View
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="current">
+                                            <div id="loader" class="loader">
+                                                <img src="../img/loading-transparent.gif" alt="">
+                                            </div>
+                                            <div id="searchView" class="search_start">
+                                                <p style="margin-top:200px">Please search your asset using the search
+                                                    above
+                                                </p>
+                                                <img width="200" src="../img/loupe.png" alt="Search">
+                                            </div>
+                                        </tbody>
 
 
-                                </table>
+                                    </table>
                             </div>
                         </div>
-                        <div class="row" id="printAssetsView" style="display: none">
+                        <div class="row">
                             <div class="col-md-12">
-                                <button id="printAssets" onclick="printView()" class="btn btn-sm btn-info"><span
-                                        class="fa fa-print"></span> Print View</button>
+                                <button id="printAssets" class="btn btn-sm btn-info"><span class="fa fa-print"></span>
+                                    Print View</button>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -368,28 +407,27 @@
     </div>
     <script src="../js/jquery.js"></script>
     <script src="../js/clusterize.min.js"></script>
-    <script src="../js/viewScript.js"></script>
     <!-- <script src="../js/bootstrap.js"></script> -->
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-
-
+    <script src="../js/viewScript.js"></script>
+    <script type="text/javascript"
+    src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    
     <script>
 
         function showNav() {
             $('#menu-list').slideToggle('fast');
         }
 
+        
+
+   
 
         document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
-        function replaceAll(find, replace, str) {
-            while (str.indexOf(find) > -1) {
-                str = str.replace(find, replace);
-            }
-            return str;
-        }
+
 
         /*-------   Zoom handler -------*/
         // var width = screen.width;
@@ -409,7 +447,7 @@
             document.body.style.zoom = value;
         }
 
-     
+
         /*------   Zoom handler -----*/
     </script>
 

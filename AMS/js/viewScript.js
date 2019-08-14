@@ -1,4 +1,3 @@
-
 /*!
  * AME SYSADMIN Library JS
  * website
@@ -7,13 +6,20 @@
  * Date: 2019-07-29
  */
 
+//check for filter in local storage
+if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
+    localStorage.backupFilter = localStorage.filter;
+} else {
+    localStorage.filter = localStorage.backupFilter;
+}
+
 $('#searchView').fadeIn(500);
 
 var user_class = localStorage.getItem("filter");
 
 $('.user-class option').text(user_class);
 
-console.log(user_class);
+// console.log(user_class);
 
 function closeAsset() {
     document.getElementById('overlay-asset').style.display = "none"
@@ -22,16 +28,16 @@ function closeAsset() {
 function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
-    console.log($('#assetBody'));
+    // console.log($('#assetBody'));
     $('#assetBody')['0'].innerHTML = assetId;
 
     $.ajax({
-        url: "../../ams_apis//slimTest/index.php/singleAsset",
+        url: "../../ams_apis/slimTest/index.php/singleAsset",
         method: "POST",
         dataType: "JSON",
         data: '{"primary_asset_id" :"' + assetId + '"}',
         success: function (data) {
-            console.log("success");
+            // console.log("success");
             document.getElementById('viewAssets').innerHTML = data[0].table;
             document.getElementById('subItemCount').innerText = data[0].items;
         },
@@ -52,7 +58,7 @@ function search() {
 
     var results = (assetNo + " - " + room + " - " + location + " - " + description);
     var current = "";
-    console.log(results);
+    // console.log(results);
     if (" -  -  - " == results) {
         alert("Please enter alteast one filter");
     } else {
@@ -69,8 +75,8 @@ function search() {
             success: function (data) {
                 // console.log(data);
                 var table = null;
-
-                console.log(data);
+                // console.log("test");
+                // console.log(data);
 
                 if (data.rows > 0) {
 
@@ -93,8 +99,11 @@ function search() {
                         }
                     }
                     str += ']}'
+
+                    str = replaceAll("\r\n", "", str);
+
                     str = (JSON.parse(str));
-                    console.log(str.data);
+                    // console.log(str.data);
 
                     table = createTable("#currentAssetsTable", str.data);
 
@@ -107,7 +116,7 @@ function search() {
                 else {
                     // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
                     $('#searchView').fadeIn(500);
-                    console.log(data.data);
+                    // console.log(data.data);
 
                     table = createTable("#currentAssetsTable", data.data);
 
@@ -196,48 +205,125 @@ function search() {
 
 function createTable(tableID, tableData) {
     var table = $(tableID).DataTable({
-        "data": tableData,
+        // "data": tableData,
+        "paging": true,
+        "processing": true,
         "searching": false,
-        "ordering": true,
+        // "ordering": true,
+        "ordering": false,
+        "serverSide": true,
         "destroy": true,
-        "columnDefs": [{
-            "targets": 0,
-            "data": null,
-            "orderable": false,
-            "defaultContent": "<input class='checkitem' type='checkbox'/>"
+        ajax: function (data, callback, settings) {
+            var out = [];
+            // console.log("=======================");
+            // console.log(data);
+            // console.log("=======================");
+            for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
+                if (tableData[i] == undefined) {
+                    break;
+                } else {
+                    out.push(tableData[i]);
+                }
+
+            }
+
+            // console.log("=========out=========");
+            // console.log(out);
+            // console.log("========out==========");
+            setTimeout(function () {
+                callback({
+                    draw: data.draw,
+                    data: out,
+                    recordsTotal: tableData.length,
+                    recordsFiltered: tableData.length
+                });
+            }, 50);
         },
-        {
-            "targets": -1,
-            "data": null,
-            "orderable": false,
-            "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
-        },
-        {
-            "className": "dt-center",
-            "targets": [-2, 0]
-        },
-        {
-            "targets": -2,
-            "orderable": false
+        "columnDefs": [
+            // {
+            //     "targets": 0,
+            //     "data": tableData,
+            //     "orderable": false,
+            //     "defaultContent": "<input class='checkitem' type='checkbox' value=''/>"
+            // },
+            {
+                'targets': 0,
+                'checkboxes': {
+                    'selectRow': true
+                }
+            },
+            {
+                "targets": -1,
+                "data": null,
+                "orderable": false,
+                "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
+            },
+            {
+                "className": "dt-center",
+                "targets": [-2, 0]
+            },
+            {
+                "targets": -2,
+                "orderable": false
+            }
+        ], 'select': {
+            'style': 'multi'
         }
-        ]
     });
+
+
+    // Handle form submission event 
+    $('#frm-example').on('submit', function (e) {
+        // Prevent actual form submission
+        e.preventDefault();
+        var rows_selected = table.column(0).checkboxes.selected();
+        if (rows_selected.length < 1) {
+            alert("Please select items to print");
+
+        } else {
+            var form = $('#frm-example');
+
+            // Iterate over all selected checkboxes
+            $.each(rows_selected, function (index, rowId) {
+                // Create a hidden element 
+                $(form).append(
+                    $('<input>')
+                        .attr('type', 'hidden')
+                        .attr('name', 'id[]')
+                        .val(rowId)
+                );
+            });
+
+            // FOR DEMONSTRATION ONLY
+            // The code below is not needed in production
+
+            // Output form data to a console     
+            console.log((rows_selected.join(",")).split(","));
+
+            // Output form data to a console     
+            // console.log($(form).serialize());
+
+            // Remove added elements
+            $('input[name="id\[\]"]', form).remove();
+
+            e.preventDefault();
+        }
+
+    });
+
 
     return table;
 }
 
 
+// function printView() {
 
+//     var id = $('.checkitem:checked').map(function () {
+//         return $(this).val();
+//     }).get().join(' ');
 
-
-function printView() {
-
-    var id = $('.checkitem:checked').map(function () {
-        return $(this).val();
-    }).get().join(' ');
-
-    console.log(id);
-}
+//     console.log(id);
+// }
 
 
 function checkboxSelectedLength() {
@@ -263,128 +349,97 @@ function updateLetterToIcon(letter) {
     return results;
 }//close updateLetterToIcon function
 
-
-
-/*-----------------------------------------------------*/
-/*--------------   Plugin Dropdown Search -------------*/
-/*-----------------------------------------------------*/
-
-// let names = ["BTC", "XRP", "ETH", "BCH", "ADA", "XEM", "LTC", "XLM", "TRX", "MIOTA", "DASH", "EOS", "XMR", "NEO", "QTUM", "BTG", "ETC", "ICX", "LSK", "XRB", "OMG", "SC", "BCN", "ZEC", "XVG", "BCC", "DCN", "BTS", "PPT", "DOGE", "BNB", "KCS", "STRAT", "ARDR", "SNT", "STEEM", "USDT", "WAVES", "VEN", "DGB", "KMD", "DRGN", "HSR", "KIN", "ETN", "GNT", "REP", "VERI", "ETHOS", "RDD", "ARK", "XP", "FUN", "KNC", "BAT", "DCR", "SALT", "DENT", "ZRX", "PIVX", "QASH", "NXS", "ELF", "AE", "FCT", "POWR", "REQ", "AION", "SUB", "BTM", "WAX", "XDN", "NXT", "QSP", "MAID", "RHOC"];
-
-
-// let asset_no = document.getElementById("asseetsno");
-// let room_no = document.getElementById("roomno");
-// let loc = document.getElementById("location");
-
-// let items = document.getElementsByClassName("dropdown-item");
-
-// function buildDropDown(viewId, values, isEmpty) {
-//     // let contents = []
-//     // console.log(values.data);
-//     var clusterize = new Clusterize({
-//         rows: values,
-//         scrollId: 'scrollArea',
-//         contentId: 'menuAssets'
-//     });
-//     // for (var i=0;i<(values.length);i++) {
-//     // contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + values[i] + '"/>')
-
-//     // }
-//     // $(viewId).append(contents.join(""))
-//     // document.getElementById(viewId).innerHTML = values;
-//     console.log(values)
-
-//     //Hide the row that shows no items were found
-//     $(isEmpty).hide()
-
-// }
-
-
-//Capture the event when user types into the search box
-// window.addEventListener('#asseetsno', function () {
-//     console.log('here');
-//     filter(asset_no.value.trim().toLowerCase(), '#emptyAsset')
-// })
-// window.addEventListener('#roomno', function () {
-//     filter(room_no.value.trim().toLowerCase(), '#emptyRoom')
-// })
-// window.addEventListener('#location', function () {
-//     filter(loc.value.trim().toLowerCase(), '#emptyAsset')
-// })
-
-// function filterAssets(id,empytyId){
-//     var element = document.getElementById(id.replace('#',''));
-//     console.log(element.value)
-//     filter(element.value.trim().toLowerCase(), empytyId)
-// }
-
-//For every word entered by the user, check if the symbol starts with that word
-//If it does show the symbol, else hide it
-// function filter(word, myId) {
-//     let length = items.length
-//     console.log(items);
-//     let collection = []
-//     let hidden = 0
-//     for (let i = 0; i < length; i++) {
-//         if (items[i].value.toLowerCase().startsWith(word)) {
-//             $(items[i]).show()
-//         }
-//         else {
-//             $(items[i]).hide()
-//             hidden++
-//         }
-//     }
-
-//     //If all items are hidden, show the empty view
-//     if (hidden === length) {
-//         $(myId).show()
-//     }
-//     else {
-//         $(myId).hide()
-//     }
-
-// }
-
-
-
 //If the user clicks on any item, set the title of the button as the text of the item
 $('#menuAssets').on('click', '.dropdown-item', function () {
-    $('#dropdown_assets').text($(this)[0].value)
+    $('#dropdown_assets').text($(this)[0].value);
+    localStorage.menuAssets = $(this)[0].value;
+    populate_dropdown();
     $("#dropdown_assets").dropdown('toggle');
     $('#searchasset').val($(this)[0].value);
 })
+
 $('#menuRoom').on('click', '.dropdown-item', function () {
     $('#dropdown_room').text($(this)[0].value)
+    localStorage.menuRoom = $(this)[0].value;
+    populate_dropdown();
     $("#dropdown_room").dropdown('toggle');
     $('#searchroomno').val($(this)[0].value);
+
 })
+
+
 $('#menuLocation').on('click', '.dropdown-item', function () {
     $('#dropdown_location').text($(this)[0].value)
+    localStorage.menuLocation = $(this)[0].value;
+    populate_dropdown();
     $("#dropdown_location").dropdown('toggle');
     $('#searchlocation').val($(this)[0].value);
 })
 
 
+function populate_dropdown() {
 
     // get assets
-     getItems('../../ams_apis/slimTest/index.php/asset_no','searchasset','scrollAssets','menuAssets','#emptyAsset');
+    getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
     // get room_no
-     getItems('../../ams_apis/slimTest/index.php/room_no','searchroomno','scrollRoom','menuRoom','emptyRoom');
+    getItems('../../ams_apis/slimTest/index.php/room_no', 'searchroomno', 'scrollRoom', 'menuRoom', 'emptyRoom');
     // get location
-     getItems('../../ams_apis/slimTest/index.php/location','searchlocation','scrollLocation','menuLocation','emptyLocation');
-    
+    getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
 
 
-function getItems(url,id,scrollArea,menuid,emptyId){
+}
+
+populate_dropdown();
+
+// onchanged menu
+
+function onItemSelect(menuId) {
+
+    $('#menuAssets').on('click', '.dropdown-item', function () {
+        // $('#dropdown_assets').text()
+        console.log($(this)[0].value);
+    });
+
+}
+
+
+function setSearchValues(a, b, c) {
+    // button
+    $('#dropdown_assets').text(a);
+    $('#dropdown_room').text(b);
+    $('#dropdown_location').text(c);
+
+    // input
+    $('#searchasset').val(a);
+    $('#searchroomno').val(b);
+    $('#searchlocation').val(c);
+}
+
+
+var allArr = {
+    searchasset: [],
+    searchroomno: [],
+    searchlocation: []
+};
+
+// console.log("allArr");
+// console.log(allArr);
+// console.log("allArr");
+
+function getItems(url, id, scrollArea, menuid) {
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"asset_class":"' + localStorage.filter + '"}',
+        data: '{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}',
         success: function (data) {
+            console.log(JSON.parse('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}'));
             console.log(data);
             var rows = [];
-            var searchasset = document.getElementById(id);
+            var searchValue = document.getElementById(id);
+            // console.log("=============searchValue================");
+            // console.log(searchValue);
+            // console.log("=============searchValue=================");
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
@@ -392,87 +447,220 @@ function getItems(url,id,scrollArea,menuid,emptyId){
                     active: true
                 });
             }
-    
-            filterItems(rows,scrollArea,menuid,emptyId);
+
+            allArr[id] = rows;
+
+            // localStorage.setItem(id, JSON.stringify(rows));
+            // Storage.prototype._setItem(id,rows);
+
+
+            filterItems(rows, id, scrollArea, menuid);
             // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
             // // let contents = []
             // // for(var i=0;i<data.rows;i++){
-    
+
             // //     contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>')
-    
+
             // //     $('#menuAssets').append(contents.join(""))
-    
+
             // //     //Hide the row that shows no items were found
             // //     $('#emptyAssets').hide()
             // // }
             // console.log('done');
             // // buildDropDown('#menuAssets',data.data);
-            
+
         },
         error: function (data_err) {
             console.log(data_err);
             console.log(localStorage.filter);
         }
-    })
+    });
+
+
+
+
 }
 
 
+var clusterize = {
+    searchasset: [],
+    searchroomno: [],
+    searchlocation: []
+};
+
+var count = 0;
+
+var filterRows = function (rows) {
+    var results = [];
+    for (var i = 0, ii = rows.length; i < ii; i++) {
+        if (rows[i].active) results.push(rows[i].markup)
+    }
+
+    return results;
+}
+
+function filterItems(rows, value, scrollArea, menuid) {
+    clusterize[value] = (new Clusterize({
+        rows: filterRows(rows),
+        scrollId: scrollArea,
+        contentId: menuid
+    }));
+
+}
+
+function checkFilter(key) {
+    var res = {};
+
+    switch (key) {
+        case "searchasset":
+            res = { "btnId": "dropdown_assets", "btnContent": "ASSET NO..." };
+            break;
+        case "searchroomno":
+            res = { "btnId": "dropdown_room", "btnContent": "ROOM NO..." };
+            break;
+        case "searchlocation":
+            res = { "btnId": "dropdown_location", "btnContent": "LOCATION..." };
+            break;
+        default:
+            res = { "btnId": "not found", "btnContent": "not found" };
+            break;
+    }
+
+    return res;
+}
 
 
-       
-        
+var onSearch = function (searchValue, emptyId) {
 
-        function filterItems(rows,scrollArea,menuid ,emptyId){
-            var filterRows = function (rows) {
-                var results = [];
-                for (var i = 0, ii = rows.length; i < ii; i++) {
-                    if (rows[i].active) results.push(rows[i].markup)
-                }
-                
-                return results;
-            }
-            
-            
-            var clusterize = new Clusterize({
-                rows: filterRows(rows),
-                scrollId: scrollArea,
-                contentId: menuid
-            });
-            
-            var onSearch = function () {
-                // console.log(rows);
-                // console.log(searchasset.value);
+    var getId = searchValue;
 
-                var found = false;
+    var found = false;
+    // console.log(localStorage.getItem("rows"));
 
-                for (var i = 0; i < rows.length; i++) {
-                    
-                    var suitable = false;
-                    
-                    // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
-                        if (rows[i].values[0].toString().indexOf(searchasset.value) + 1){
-                            suitable = true;
-                            found = true;
-                        }
+    // var rows = JSON.parse(localStorage.getItem(searchValue));
+    var rows = allArr[searchValue];
 
-                    rows[i].active = suitable;
-                }
-                console.log(found);
-                console.log(emptyId);
-                if(found){
-                    $(emptyId).css("display","none");
-                }else{
-                    $(emptyId).css("display","block");
-                }
-                clusterize.update(filterRows(rows));
-            }
-            
-            searchasset.onkeyup = onSearch;
+    searchValue = document.getElementById(searchValue);
+
+    for (var i = 0; i < rows.length; i++) {
+
+        var suitable = false;
+
+        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+
+        if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
+            suitable = true;
+            found = true;
         }
 
+        rows[i].active = suitable;
+    }
+
+
+    if (searchValue.value.length == 0) {
+        var resObj = checkFilter(getId);
+        $('#dropdown_location').text($(this)[0].value);
+        // localStorage.menuId
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = '';
+        localStorage.menuRoom = '';
+        populate_dropdown();
+        $('#' + resObj.btnId).text(resObj.btnContent);
+    }
+
+    if (found) {
+        $(emptyId).css("display", "none");
+    } else {
+        $(emptyId).css("display", "block");
+    }
+
+    // console.log(clusterize[getId]);
+
+    clusterize[getId].update(filterRows(rows));
+
+
+}
+
+// searchasset.onkeyup = onSearch(this);
 
 
 
 // buildDropDown('#menuRoom',names);
 // buildDropDown('#menuLocation',names);
+
+function replaceAll(find, replace, str) {
+    while (str.indexOf(find) > -1) {
+        str = str.replace(find, replace);
+    }
+    return str;
+}
+
+function clearData(input, btnDafualtId, text) {
+    // var inputData = document.getElementById(input).(val);
+    var value = $(input).val();
+    if (value.length > 0) {
+        localStorage.menuRoom = '';
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = '';
+        populate_dropdown();
+        $(input).val("");
+        $(btnDafualtId).text(text);
+    }
+}
+
+
+function resetBtn(resetId, resetTxt) {
+    $(resetId).text(resetTxt);
+}
+
+function resetInput(resetId, resetTxt) {
+    $(resetId).val(resetTxt);
+}
+
+
+// $('#clearAssets').on('click', function(){
+//     console.log('searchValue');
+
+//     if(searchValue.value.length > 0){
+//         console.log('searchValue');
+//         $(searchValue).text('');
+//     }
+// });
+
+if (localStorage.filter == "All EQUIPMENT") {
+
+    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+    $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
+    $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+    $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
+    $('#class-options').prop('disabled', false);
+
+    $('#class-options').on('change', function () {
+        var filter = $("#class-options option:selected").text();
+        localStorage.filter = filter;
+        //clear btn text
+        resetBtn('#dropdown_assets', 'ASSET NO...');
+        resetBtn('#dropdown_room', 'ROOM...');
+        resetBtn('#dropdown_location', 'LOCATION ...');
+
+        //clear search inputs
+        resetInput('#searchlocation', '');
+        resetInput('#searchroomno', '');
+        resetInput('#searchasset', '');
+        populate_dropdown();
+    });
+
+} else {
+    $('#class-options').append(new Option(localStorage.filter, "user_class"));
+    $('#class-options').css({ "-moz-appearance": "none" });
+    $('#class-options').prop('disabled', 'disabled');
+}
+
+function resetBtn(resetId, resetTxt) {
+    $(resetId).text(resetTxt);
+}
+
+function resetInput(resetId, resetTxt) {
+    $(resetId).val(resetTxt);
+}
