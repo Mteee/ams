@@ -301,17 +301,23 @@ function updateLetterToIcon(letter) {
 
 //If the user clicks on any item, set the title of the button as the text of the item
 $('#menuAssets').on('click', '.dropdown-item', function () {
-    $('#dropdown_assets').text($(this)[0].value)
+    $('#dropdown_assets').text($(this)[0].value);
+    localStorage.menuAssets = $(this)[0].value;
+    populate_dropdown();
     $("#dropdown_assets").dropdown('toggle');
     $('#searchasset').val($(this)[0].value);
 })
 $('#menuRoom').on('click', '.dropdown-item', function () {
     $('#dropdown_room').text($(this)[0].value)
+    localStorage.menuRoom = $(this)[0].value;
+    populate_dropdown();
     $("#dropdown_room").dropdown('toggle');
     $('#searchroomno').val($(this)[0].value);
 })
 $('#menuLocation').on('click', '.dropdown-item', function () {
     $('#dropdown_location').text($(this)[0].value)
+    localStorage.menuLocation = $(this)[0].value;
+    populate_dropdown();
     $("#dropdown_location").dropdown('toggle');
     $('#searchlocation').val($(this)[0].value);
 })
@@ -361,9 +367,10 @@ function getItems(url, id, scrollArea, menuid) {
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"asset_class":"' + localStorage.filter + '"}',
+        data: '{"asset_class":"' + localStorage.filter + '","asset_location":"'+localStorage.menuLocation+'","asset_room":"'+localStorage.menuRoom+'","asset_id":"'+localStorage.menuAssets+'"}',
         success: function (data) {
-            // console.log(data);
+            console.log(JSON.parse('{"asset_class":"' + localStorage.filter + '","asset_location":"'+localStorage.menuLocation+'","asset_room":"'+localStorage.menuRoom+'","asset_id":"'+localStorage.menuAssets+'"}'));
+            console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
             // console.log("=============searchValue================");
@@ -490,7 +497,11 @@ var onSearch = function (searchValue, emptyId) {
     if (searchValue.value.length == 0) {
         var resObj = checkFilter(getId);
         $('#dropdown_location').text($(this)[0].value);
-        ;
+        // localStorage.menuId
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = '';
+        localStorage.menuRoom  = '';
+        populate_dropdown();
         $('#' + resObj.btnId).text(resObj.btnContent);
     }
 
@@ -525,6 +536,7 @@ function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);
     var value = $(input).val();
     if (value.length > 0) {
+        populate_dropdown();
         $(input).val("");
         $(btnDafualtId).text(text);
     }
