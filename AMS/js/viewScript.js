@@ -122,13 +122,16 @@ function search() {
 
                 }
 
-                $('#currentAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
-                    var data = table.row($(this).parents('tr')).data();
-                    if (checkboxSelectedLength() > 0) {
-                        $('#printAssetsView').fadeIn(500);
-                    } else {
-                        $('#printAssetsView').fadeOut(500);
-                    }
+                $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
+                    // var data = table.row($(this).parents('tr')).data();
+                    setTimeout(function(){
+                        console.log(checkboxSelectedLength());
+                        if (checkboxSelectedLength() > 0) {
+                            $('#printAssets').fadeIn(500);
+                        } else {
+                            $('#printAssets').fadeOut(500);
+                        }
+                    },500);
 
                     // if(data == null || data == undefined){
                     //     data = (localStorage.b).split(',');
@@ -277,10 +280,7 @@ function createTable(tableID, tableData) {
         // Prevent actual form submission
         e.preventDefault();
         var rows_selected = table.column(0).checkboxes.selected();
-        if (rows_selected.length < 1) {
-            alert("Please select items to print");
-
-        } else {
+       
             var form = $('#frm-example');
 
             // Iterate over all selected checkboxes
@@ -307,7 +307,7 @@ function createTable(tableID, tableData) {
             $('input[name="id\[\]"]', form).remove();
 
             e.preventDefault();
-        }
+        
 
     });
 
