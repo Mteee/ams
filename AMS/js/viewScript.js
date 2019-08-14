@@ -355,19 +355,7 @@ $('#menuAssets').on('click', '.dropdown-item', function () {
     localStorage.menuAssets = $(this)[0].value;
     populate_dropdown();
     $("#dropdown_assets").dropdown('toggle');
-
-    $.ajax({
-        url: '../../ams_apis/slimTest/index.php/singleAssetInfo_asset_no',
-        method: 'POST',
-        data: '{"value": "' + $(this)[0].value + '"}',
-        dataType: 'JSON',
-        success: function (data) {
-            setSearchValues(data.data[0].ASSET_ID, data.data[0].ASSET_ROOM_NO, data.data[0].ASSET_LOCATION_AREA);
-        },
-        error: function (err) {
-            console.log(err);
-        }
-    });
+    $('#searchasset').val($(this)[0].value);
 })
 
 $('#menuRoom').on('click', '.dropdown-item', function () {
@@ -378,6 +366,7 @@ $('#menuRoom').on('click', '.dropdown-item', function () {
     $('#searchroomno').val($(this)[0].value);
 
 })
+
 
 $('#menuLocation').on('click', '.dropdown-item', function () {
     $('#dropdown_location').text($(this)[0].value)
@@ -404,13 +393,13 @@ populate_dropdown();
 
 // onchanged menu
 
-function onItemSelect(menuId){
+function onItemSelect(menuId) {
 
-    $('#menuAssets').on('click', '.dropdown-item', function(){
+    $('#menuAssets').on('click', '.dropdown-item', function () {
         // $('#dropdown_assets').text()
         console.log($(this)[0].value);
     });
-    
+
 }
 
 
@@ -442,9 +431,9 @@ function getItems(url, id, scrollArea, menuid) {
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"asset_class":"' + localStorage.filter + '","asset_location":"'+localStorage.menuLocation+'","asset_room":"'+localStorage.menuRoom+'","asset_id":"'+localStorage.menuAssets+'"}',
+        data: '{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}',
         success: function (data) {
-            console.log(JSON.parse('{"asset_class":"' + localStorage.filter + '","asset_location":"'+localStorage.menuLocation+'","asset_room":"'+localStorage.menuRoom+'","asset_id":"'+localStorage.menuAssets+'"}'));
+            console.log(JSON.parse('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}'));
             console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
@@ -575,7 +564,7 @@ var onSearch = function (searchValue, emptyId) {
         // localStorage.menuId
         localStorage.menuAssets = '';
         localStorage.menuLocation = '';
-        localStorage.menuRoom  = '';
+        localStorage.menuRoom = '';
         populate_dropdown();
         $('#' + resObj.btnId).text(resObj.btnContent);
     }
@@ -611,6 +600,9 @@ function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);
     var value = $(input).val();
     if (value.length > 0) {
+        localStorage.menuRoom = '';
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = '';
         populate_dropdown();
         $(input).val("");
         $(btnDafualtId).text(text);
