@@ -235,10 +235,37 @@ input[type="checkbox"]:disabled:after {
     background: rgba(0, 0, 0, 0.5);
 }
 
+
+#overlay-transfer{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height:100%;
+    top:0;
+    left:0;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
+}
+
 .asset-details {
+
     position: relative;
     margin: 10% auto;
     width: 500px;
+    height: 500px;
+    border-radius: 5px;
+    background: white;
+    z-index: 2;
+    position: relative;
+}
+
+
+.asset-transfer-details{
+    position: relative;
+    margin: 10% auto;
+    width:668px;
     height: 500px;
     border-radius: 5px;
     background: white;
@@ -445,7 +472,18 @@ caption {
     overflow-y: auto;
 }
 
+
+.transfer-scroll {
+    height: 151px;
+    overflow-y: auto;
+}
+
 .test-scroll thead th {
+    position: sticky;
+    top: 0;
+}
+
+.transfer-scroll thead {
     position: sticky;
     top: 0;
 }
