@@ -1,34 +1,8 @@
 {
     "rows" : 4,
     "data": {
-        
+        "0": {
                 "primary" : ["ADMITTING","3D12-2","BW0012-1374","HOLDER BINSAC FIRE RETARDANT SMALL"],
-
-                "sub_assets" : [
-                    ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
-                    ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
-                    ["BC0053-1702","BIN WASTE PAPER ROUND METAL"],
-                    ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
-                    ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
-                    ["BA0002-1347","CHAIR SWIVEL/ARMS/HT ADJ - FABRIC"],
-                    ["BA0002-1223","CABINET FILING 4 DRAWER METAL + 100 FILES"]
-                 ],
-            
-                "primary" : ["ADMITTING","3D12-2","BW0012-1372","HOLDER BINSAC FIRE RETARDANT SMALL"],
-                
-                "sub_assets" : [
-                                 ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
-                                 ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
-                                 ["BC0053-1702","BIN WASTE PAPER ROUND METAL"],
-                                 ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
-                                 ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
-                                 ["BA0002-1347","CHAIR SWIVEL/ARMS/HT ADJ - FABRIC"],
-                                 ["BA0002-1223","CABINET FILING 4 DRAWER METAL + 100 FILES"]
-                              ],
-            
-       
-                "primary" : ["ADMITTING","3D12-2","BW0012-1373","HOLDER BINSAC FIRE RETARDANT SMALL"],
-
                 "sub_assets" : [
                     ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
                     ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
@@ -39,7 +13,37 @@
                     ["BA0002-1223","CABINET FILING 4 DRAWER METAL + 100 FILES"]
                  ]
             
-                
-
+        },
+        "1": {
+                "primary" : ["ADMITTING","3D12-2","BW0012-1372","HOLDER BINSAC FIRE RETARDANT SMALL"],
+                "sub_assets" : [
+                                 ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
+                                 ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
+                                 ["BC0053-1702","BIN WASTE PAPER ROUND METAL"],
+                                 ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
+                                 ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
+                                 ["BA0002-1347","CHAIR SWIVEL/ARMS/HT ADJ - FABRIC"],
+                                 ["BA0002-1223","CABINET FILING 4 DRAWER METAL + 100 FILES"]
+                              ]
+            
+        },
+        "2": {
+                "primary" : ["ADMITTING","3D12-2","BW0012-1371","HOLDER BINSAC FIRE RETARDANT SMALL"],
+                "sub_assets" : [ ]
+            }
+        },
+        "3": {
+                "primary" : ["ADMITTING","3D12-2","BW0012-1373","HOLDER BINSAC FIRE RETARDANT SMALL"],
+                "sub_assets" : [
+                    ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
+                    ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
+                    ["BC0053-1702","BIN WASTE PAPER ROUND METAL"],
+                    ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
+                    ["BA0002-1223","CLOCK WALL INCL BATTERY & WALL MOUNT"],
+                    ["BA0002-1347","CHAIR SWIVEL/ARMS/HT ADJ - FABRIC"],
+                    ["BA0002-1223","CABINET FILING 4 DRAWER METAL + 100 FILES"]
+                 ]
+            
+        
     }
 }

@@ -13,25 +13,107 @@
     <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css"
-        rel="stylesheet" />
+    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />
     <style>
         .dropdown-menu {
             max-height: 300px;
             overflow-y: auto;
         }
-
+        
         #searchWith th {
             width: 350px;
+        }
+        
+        .toggle-btn {
+            border-radius: 50%;
+            border: 2px solid white;
+            background: green;
+            padding: 2px 10px 5px 9px;
+            font-weight: bolder;
+            font-size: 18px;
+        }
+        
+        .toggle-btn:hover {
+            cursor: pointer;
+        }
+        
+        .print_scroll {
+            height: 620px;
+            overflow: auto;
+        }
+        
+        .print_scroll thead {
+            position: sticky;
+            top: 0;
+        }
+        /* *{
+            font-size:12pt;
+        } */
+        
+        #overlay-printView table,
+        #overlay-printView table th {
+            border: 1px solid #ccc;
         }
     </style>
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
 
 <body>
+    <div id="overlay-printView">
+        <div class="asset-details animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
+            <span class="exit-asset" onclick="closeAsset('overlay-printView')">&times;</span>
+
+            <div class="asset-body" style="font-size: 12pt;">
+                <div class="print_scroll">
+                    <table class="table" id="tablePrint" style="">
+                        <thead class="bg-light text-dark">
+                            <th scope="col">
+                                #
+                            </th>
+                            <th scope="col">
+                                Location
+                            </th>
+                            <th scope="col">
+                                Room
+                            </th>
+                            <th scope="col">
+                                Asset No
+                            </th>
+                            <th scope="col">
+                                Description
+                            </th>
+                        </thead>
+                        <tbody id="tbodyPrint"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="print-asset-footer text-center">
+
+                <div class="col-md-12" style="text-align: right">
+                    <button class="btn btn-danger" onclick="closeAsset('overlay-printView')">Cancel</button>
+                    <button type="submit" class="btn btn-success  export" value="Export" onclick="doit('xlsx','tablePrint');">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i> <span
+                            style="padding-left:10px;">Export</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary  export" onclick="printData()">
+                        <i class="fa fa-file" aria-hidden="true"></i> <span
+                            style="padding-left:10px;">Print</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- <div class="sub-item-number text-center py-2">
+                        <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
+                                    class="text-dark">5</span></strong></p>
+                    </div> -->
+    </div>
+
     <div id="overlay-asset">
         <div class="asset-details animated bounceInUp" id="assetView">
-            <span class="exit-asset" onclick="closeAsset()">&times;</span>
+            <span class="exit-asset" onclick="closeAsset('overlay-asset')">&times;</span>
 
             <div class="asset-body">
                 <div id="viewAssets">
@@ -99,7 +181,7 @@
             <div class="asset-footer text-center">
                 <div class="row">
                     <div class="col-offset-10 col-2">
-                        <button class="btn btn-default" onclick="closeAsset()">back</button>
+                        <button class="btn btn-default" onclick="closeAsset('overlay-asset')">back</button>
                     </div>
                 </div>
             </div>
@@ -113,10 +195,8 @@
 
 
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-            style="background: rgb(59, 56, 56);height:80px">
-            <div class="col-md-3" id="menu-bar"
-                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
                 <div class="row" style="margin-top:-25px;">
                     <span onclick="showNav()">
                         <div class="col-md-2">
@@ -144,8 +224,7 @@
                 </div>
             </div>
             <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
-                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
-                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span></div>
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span></div>
             </div>
             <div class=" col-md-3">
                 <div class="row">
@@ -199,24 +278,16 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_location" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_location" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     LOCATION ...
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_location"
-                                                    id="scrollLocation">
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_location" id="scrollLocation">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="searchlocation"
-                                                                class="form-control" placeholder="Location..."
-                                                                onkeyup="onSearch('searchlocation','#emptyLocation')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="searchlocation" class="form-control" placeholder="Location..." onkeyup="onSearch('searchlocation','#emptyLocation')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clearLocation"
-                                                                    onclick="clearData('#searchlocation','#dropdown_location','LOCATION...')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clearLocation" onclick="clearData('#searchlocation','#dropdown_location','LOCATION...')"><i
                                                                         class="fa fa-close"></i></span>
 
                                                             </div>
@@ -237,24 +308,16 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_room" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_room" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ROOM...
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_room"
-                                                    id="scrollRoom">
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_room" id="scrollRoom">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="searchroomno" class="form-control"
-                                                                placeholder="room..."
-                                                                onkeyup="onSearch('searchroomno','#emptyRoom')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="searchroomno" class="form-control" placeholder="room..." onkeyup="onSearch('searchroomno','#emptyRoom')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clearRoom"
-                                                                    onclick="clearData('#searchroomno','#dropdown_room','ROOM...')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clearRoom" onclick="clearData('#searchroomno','#dropdown_room','ROOM...')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -293,26 +356,18 @@
                                             </div> -->
 
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_assets" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ASSET NO...
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
-                                                    aria-labelledby="dropdown_assets">
+                                                <div class="dropdown-menu clusterize-scroll" id="scrollAssets" aria-labelledby="dropdown_assets">
                                                     <form class="px-4 py-2">
                                                         <!--                                                         <input type="search" id="searchasset" class="form-control"
                                                             placeholder="room..." autofocus="autofocus" onkeyup="onSearch(this)">
  -->
                                                         <div class="input-group">
-                                                            <input type="search" id="searchasset" class="form-control"
-                                                                placeholder="asset no..."
-                                                                onkeyup="onSearch('searchasset','#emptyAsset')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="searchasset" class="form-control" placeholder="asset no..." onkeyup="onSearch('searchasset','#emptyAsset')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clearAssets"
-                                                                    onclick="clearData('#searchasset','#dropdown_assets','ASSET NO...')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clearAssets" onclick="clearData('#searchasset','#dropdown_assets','ASSET NO...')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -332,8 +387,7 @@
                                         </th>
 
                                         <th>
-                                            <input type="text" id="description" class="form-control"
-                                                placeholder="Description...">
+                                            <input type="text" id="description" class="form-control" placeholder="Description...">
                                         </th>
 
                                         <th>
@@ -382,8 +436,7 @@
                                                 <img src="../img/loading-transparent.gif" alt="">
                                             </div>
                                             <div id="searchView" class="search_start">
-                                                <p style="margin-top:200px">Please search your asset using the search
-                                                    above
+                                                <p style="margin-top:200px">Please search your asset using the search above
                                                 </p>
                                                 <img width="200" src="../img/loupe.png" alt="Search">
                                             </div>
@@ -395,7 +448,8 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button id="printAssets" class="btn btn-sm btn-info"><span class="fa fa-print"></span>
+                                <button id="printAssets" style="display: none" class="btn btn-sm btn-info"><span
+                                        class="fa fa-print"></span>
                                     Print View</button>
                             </div>
                         </div>
@@ -411,19 +465,21 @@
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="../js/export/shim.min.js"></script>
+    <script src="../js/export/xlsx.full.min.js"></script>
+    <script src="../js/export/Blob.js"></script>
+    <script src="../js/export/FileSaver.js"></script>
     <script src="../js/viewScript.js"></script>
-    <script type="text/javascript"
-    src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
-    
-    <script>
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
+    <script>
         function showNav() {
             $('#menu-list').slideToggle('fast');
         }
 
-        
 
-   
+
+
 
         document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 

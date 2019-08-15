@@ -425,7 +425,7 @@ $app->map(['GET','POST'],'/printView',function(Request $request, Response $respo
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT *
+    $sql = "SELECT ASSET_LOCATION_AREA,ASSET_ROOM_NO,ASSET_PRIMARY_ID,ASSET_ID,ASSET_DESCRIPTION,ASSET_IS_SUB
     FROM AMSD.ASSETS_VW
     WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
     AND ASSET_PRIMARY_ID IN ($ASSET_NO)";
@@ -436,59 +436,51 @@ $app->map(['GET','POST'],'/printView',function(Request $request, Response $respo
 
     
     $assets_no =$func->executeQuery($sql);
-    $response = "";
-    $main = new stdClass();
-    $primary = new stdClass();
-    // $sub = new stdClass();
-    $getSubs = 0;
 
-    $main_data = [];
-    
-    
-    $count = 0;
+    // $response = "";
+    // $main = "";
+    // $primary = [];
+    // $sub = [];
+    // $getSubs = 0;
+    // $getPrimary = 0;
     if($assets_no){
         
-        $res = json_decode($assets_no);
-        $resData = $res->data;
-        foreach($resData as $value){
+        // $res = json_decode($assets_no);
+        // $resData = $res->data;
+        // foreach($resData as $value){
+      
+        //  if($value->ASSET_PRIMARY_ID == $value->ASSET_ID){
 
-         if($value->ASSET_PRIMARY_ID == $value->ASSET_ID){
+        //      $primary [] = '["'.$value->ASSET_LOCATION_AREA.'","'.$value->ASSET_ROOM_NO.'","'.$value->ASSET_PRIMARY_ID.'","'.$value->ASSET_DESCRIPTION.'"],';
+        //      foreach($resData as $value2){
+        //          if($value->ASSET_PRIMARY_ID == $value2->ASSET_PRIMARY_ID && $value2->ASSET_PRIMARY_ID != $value2->ASSET_ID){
+        //             $sub [] = $value2->ASSET_ID.','.$value2->ASSET_DESCRIPTION;
+        //             $getSubs++;
+        //          }
+        //      }
 
-            $sub_assets =$func->executeQuery($sql);
-
-
-
-
-            // $main_data[] = [$value->ASSET_LOCATION_AREA,$value->ASSET_ROOM_NO,$value->ASSET_PRIMARY_ID,$value->ASSET_DESCRIPTION];
-            // $main->data[]->primary = $main_data;
-
-            // foreach($resData as $value2){
-
-            //     if($value->ASSET_PRIMARY_ID == $value2->ASSET_PRIMARY_ID && $value2->ASSET_PRIMARY_ID != $value2->ASSET_ID){
-            //       $main_data[] = [$value2->ASSET_ID.','.$value2->ASSET_DESCRIPTION];
-            //        $main->data[]->sub_assets = $main_data;
-            //        $getSubs++;
-            //     }
-
-            // }
-
-            $main_data = array('');
-
-            // $main->data[]->sub_assets = $$main_data[];
-
-
-
-            //  array_push($main,array("primary" => [$value->ASSET_LOCATION_AREA,$value->ASSET_ROOM_NO,$value->ASSET_PRIMARY_ID,$value->ASSET_DESCRIPTION]));
-            //  $count++;
-         }
-             
+        //     //  $main [] = json_encode(array("primary" => $primary[$getPrimary] ,"sub_assets" => $sub));
+        //     // echo ("primary =>". $primary[$getPrimary] ."sub_assets =>".  print_r($sub));
+        //     // echo "primary =>".$primary[$getPrimary];
+        //     // echo "<br/>sub_assets =>";
+        //     $test = json_encode(array("primary" => $primary[$getPrimary])).",";
            
-        }
+        //     // ,"sub_assets" => json_encode($sub)
+        //     $sub = array('');
+        //     // //  array_push($main,array("primary"=>  $primary,array("sub_assets" => $sub)));
+        //      $getPrimary++;
+        //  }
 
+        //  echo substr($test,0,strlen($test) - 2);
 
-        echo json_encode($main);
+        //  $primary = array('');
+        // }
+        // print_r($main );
+        // echo json_encode(array($main));
+        // print_r($main);
+        // echo $sub;
         // echo $items;
-        //  echo $response;
+         echo $assets_no;
     }
     else{
         // echo json_encode(array("rows" => 0 ,"data" =>""));

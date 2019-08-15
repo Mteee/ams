@@ -30,8 +30,8 @@ $('.user-class option').text(user_class);
 
 // console.log(user_class);
 
-function closeAsset() {
-    document.getElementById('overlay-asset').style.display = "none"
+function closeAsset(id) {
+    document.getElementById(id).style.display = "none"
 }
 
 function viewAsset(assetId) {
@@ -57,7 +57,6 @@ function viewAsset(assetId) {
         }
     });
 }
-
 
 function search() {
     var assetNo = document.getElementById('searchasset').value,
@@ -131,13 +130,16 @@ function search() {
 
                 }
 
-                $('#currentAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
-                    var data = table.row($(this).parents('tr')).data();
-                    if (checkboxSelectedLength() > 0) {
-                        $('#printAssetsView').fadeIn(500);
-                    } else {
-                        $('#printAssetsView').fadeOut(500);
-                    }
+                $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
+                    // var data = table.row($(this).parents('tr')).data();
+                    setTimeout(function () {
+                        console.log(checkboxSelectedLength());
+                        if (checkboxSelectedLength() > 0) {
+                            $('#printAssets').fadeIn(500);
+                        } else {
+                            $('#printAssets').fadeOut(500);
+                        }
+                    }, 500);
 
                     // if(data == null || data == undefined){
                     //     data = (localStorage.b).split(',');
@@ -205,10 +207,6 @@ function search() {
         //         console.log(err);
         //     }//close error function
         // });//close ajax function
-
-
-
-
     }
 }
 
@@ -258,7 +256,16 @@ function createTable(tableID, tableData) {
             {
                 'targets': 0,
                 'checkboxes': {
-                    'selectRow': true
+                    'selectRow': true,
+                   
+                },
+                render: function (data, type, row, meta) {
+                    var checkbox = $("<input/>", {
+                        "type": "checkbox"
+                    });
+                    
+                    checkbox.prop("value", data);
+                    return checkbox.prop("outerHTML")
                 }
             },
             {
@@ -278,7 +285,8 @@ function createTable(tableID, tableData) {
         ], 'select': {
             'style': 'multi'
         },
-        fnCreatedRow: function( nRow, aData, iDataIndex ) {
+
+        fnCreatedRow: function (nRow, aData, iDataIndex) {
             $(nRow).attr('id', aData[0]);
         }
     });
@@ -289,37 +297,34 @@ function createTable(tableID, tableData) {
         // Prevent actual form submission
         e.preventDefault();
         var rows_selected = table.column(0).checkboxes.selected();
-        if (rows_selected.length < 1) {
-            alert("Please select items to print");
 
-        } else {
-            var form = $('#frm-example');
+        var form = $('#frm-example');
 
-            // Iterate over all selected checkboxes
-            $.each(rows_selected, function (index, rowId) {
-                // Create a hidden element 
-                $(form).append(
-                    $('<input>')
-                        .attr('type', 'hidden')
-                        .attr('name', 'id[]')
-                        .val(rowId)
-                );
-            });
+        // Iterate over all selected checkboxes
+        $.each(rows_selected, function (index, rowId) {
+            // Create a hidden element 
+            $(form).append(
+                $('<input>')
+                    .attr('type', 'hidden')
+                    .attr('name', 'id[]')
+                    .val(rowId)
+            );
+        });
 
-            // FOR DEMONSTRATION ONLY
-            // The code below is not needed in production
+        // FOR DEMONSTRATION ONLY
+        // The code below is not needed in production
 
-            // Output form data to a console     
-            console.log((rows_selected.join(",")).split(","));
+        // Output form data to a console     
 
-            // Output form data to a console     
-            // console.log($(form).serialize());
+        var rowsSelected = rows_selected.join(",").split(",");
 
-            // Remove added elements
-            $('input[name="id\[\]"]', form).remove();
+        // Output form data to a console     
+        // console.log($(form).serialize());
+        viewPrintAssets(rowsSelected);
+        // Remove added elements
+        $('input[name="id\[\]"]', form).remove();
 
-            e.preventDefault();
-        }
+        e.preventDefault();
 
     });
 
@@ -327,7 +332,96 @@ function createTable(tableID, tableData) {
     return table;
 }
 
+function viewPrintAssets(assets) {
+    var currentItem = "";
+    document.getElementById('overlay-printView').style.display = "block";
+    // console.log($('#assetBody'));
 
+    console.log(assets);
+
+    var assets_arr = assets;
+    var send_assets = "";
+    for (var i = 0; i < assets_arr.length; i++) {
+        if (i == assets_arr.length - 1) {
+            send_assets += "\'" + assets_arr[i] + "\'";
+        } else {
+            send_assets += "\'" + assets_arr[i] + "\',";
+        }
+
+    }
+
+    console.log(send_assets);
+
+    $.ajax({
+        // url: "assets.json",
+        url: "../../ams_apis/slimTest/index.php/printView",
+        method: "post",
+        data: '{"asset_class":"","primary_asset_id" : "' + send_assets + '"}',
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            var html_view = "";
+            var p_count = 0;
+            var count = 0;
+            if (data.rows > 0) {
+                for (var i = 0; i < data.rows; i++) {
+                    // var primary_info = "";
+                    // var primary_id = data.data[i].asset.primary[0];
+                    // var len_primary = "";
+                    var sub_info = "";
+                    var th_primary = "<tr style='background: #717171;;color:#ffffff;'>";
+                    if (data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID) {
+                        p_count++;
+                        count = 0;
+
+                        if (data.data[i].ASSET_IS_SUB == "YES") {
+                            th_primary += "<td><span class='toggle-btn' onclick=\"toggle_subs('.sub" + p_count + "')\"> + </span></td>";
+                        } else {
+                            th_primary += "<td> - </td>";
+                        }
+
+
+
+                        th_primary += "<td>" + data.data[i].ASSET_LOCATION_AREA + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+                        html_view += th_primary;
+                    } else {
+                        sub_info += "<tr class='sub" + p_count + "'><td>" + (count) + "</td>";
+
+                        sub_info += "<td colspan='2'><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+                        html_view += sub_info;
+                    }
+                    count++;
+                }
+                document.getElementById('tbodyPrint').innerHTML = html_view;
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}
+
+function printData() {
+    var divToPrint = document.getElementById("tablePrint");
+    newWin = window.open("");
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.print();
+    newWin.close();
+}
+
+function toggle_subs(sub_class) {
+    $(sub_class).slideToggle('fast');
+}
+
+//table export
+function doit(type, fn, dl) {
+    var elt = document.getElementById(fn);
+    var wb = XLSX.utils.table_to_book(elt, { sheet: fn });
+
+    return dl ?
+        XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+        XLSX.writeFile(wb, 'Assets Selected ' + fn + " ." + (type || 'xlsx') || ('test.' + (type || 'xlsx')));
+}
 // function printView() {
 
 //     var id = $('.checkitem:checked').map(function () {
@@ -398,7 +492,6 @@ function populate_dropdown() {
     // get location
     getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
 
-
 }
 
 populate_dropdown();
@@ -414,7 +507,6 @@ function onItemSelect(menuId) {
 
 }
 
-
 function setSearchValues(a, b, c) {
     // button
     $('#dropdown_assets').text(a);
@@ -426,7 +518,6 @@ function setSearchValues(a, b, c) {
     $('#searchroomno').val(b);
     $('#searchlocation').val(c);
 }
-
 
 var allArr = {
     searchasset: [],
@@ -465,7 +556,6 @@ function getItems(url, id, scrollArea, menuid) {
             // localStorage.setItem(id, JSON.stringify(rows));
             // Storage.prototype._setItem(id,rows);
 
-
             filterItems(rows, id, scrollArea, menuid);
             // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
@@ -488,12 +578,7 @@ function getItems(url, id, scrollArea, menuid) {
             console.log(localStorage.filter);
         }
     });
-
-
-
-
 }
-
 
 var clusterize = {
     searchasset: [],
@@ -590,8 +675,6 @@ var onSearch = function (searchValue, emptyId) {
     // console.log(clusterize[getId]);
 
     clusterize[getId].update(filterRows(rows));
-
-
 }
 
 // searchasset.onkeyup = onSearch(this);
