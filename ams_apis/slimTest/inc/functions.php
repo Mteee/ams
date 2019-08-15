@@ -67,5 +67,11 @@ class Functions{
 	}
 }
 
+class Assets{
+	
+	public function Assets(){
+		$primary = new stdClass;
+	}
+}
 
 ?>
