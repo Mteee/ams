@@ -123,14 +123,14 @@ function search() {
 
                 $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
                     // var data = table.row($(this).parents('tr')).data();
-                    setTimeout(function(){
+                    setTimeout(function () {
                         console.log(checkboxSelectedLength());
                         if (checkboxSelectedLength() > 0) {
                             $('#printAssets').fadeIn(500);
                         } else {
                             $('#printAssets').fadeOut(500);
                         }
-                    },500);
+                    }, 500);
 
                     // if(data == null || data == undefined){
                     //     data = (localStorage.b).split(',');
@@ -247,7 +247,16 @@ function createTable(tableID, tableData) {
             {
                 'targets': 0,
                 'checkboxes': {
-                    'selectRow': true
+                    'selectRow': true,
+                   
+                },
+                render: function (data, type, row, meta) {
+                    var checkbox = $("<input/>", {
+                        "type": "checkbox"
+                    });
+                    
+                    checkbox.prop("value", data);
+                    return checkbox.prop("outerHTML")
                 }
             },
             {
@@ -267,7 +276,7 @@ function createTable(tableID, tableData) {
         ], 'select': {
             'style': 'multi'
         },
-        fnCreatedRow: function( nRow, aData, iDataIndex ) {
+        fnCreatedRow: function (nRow, aData, iDataIndex) {
             $(nRow).attr('id', aData[0]);
         }
     });
@@ -278,35 +287,35 @@ function createTable(tableID, tableData) {
         // Prevent actual form submission
         e.preventDefault();
         var rows_selected = table.column(0).checkboxes.selected();
-       
-            var form = $('#frm-example');
 
-            // Iterate over all selected checkboxes
-            $.each(rows_selected, function (index, rowId) {
-                // Create a hidden element 
-                $(form).append(
-                    $('<input>')
-                        .attr('type', 'hidden')
-                        .attr('name', 'id[]')
-                        .val(rowId)
-                );
-            });
+        var form = $('#frm-example');
 
-            // FOR DEMONSTRATION ONLY
-            // The code below is not needed in production
+        // Iterate over all selected checkboxes
+        $.each(rows_selected, function (index, rowId) {
+            // Create a hidden element 
+            $(form).append(
+                $('<input>')
+                    .attr('type', 'hidden')
+                    .attr('name', 'id[]')
+                    .val(rowId)
+            );
+        });
 
-            // Output form data to a console     
+        // FOR DEMONSTRATION ONLY
+        // The code below is not needed in production
 
-             var rowsSelected =rows_selected.join(",").split(",");
+        // Output form data to a console     
 
-            // Output form data to a console     
-            // console.log($(form).serialize());
-            viewPrintAssets(rowsSelected);
-            // Remove added elements
-            $('input[name="id\[\]"]', form).remove();
+        var rowsSelected = rows_selected.join(",").split(",");
 
-            e.preventDefault();
-        
+        // Output form data to a console     
+        // console.log($(form).serialize());
+        viewPrintAssets(rowsSelected);
+        // Remove added elements
+        $('input[name="id\[\]"]', form).remove();
+
+        e.preventDefault();
+
     });
 
 
@@ -322,13 +331,13 @@ function viewPrintAssets(assets) {
 
     var assets_arr = assets;
     var send_assets = "";
-    for(var i=0;i<assets_arr.length;i++){
-        if(i == assets_arr.length-1){
-            send_assets += "\'"+assets_arr[i]+"\'";
-        }else{
-            send_assets += "\'"+assets_arr[i]+"\',";
+    for (var i = 0; i < assets_arr.length; i++) {
+        if (i == assets_arr.length - 1) {
+            send_assets += "\'" + assets_arr[i] + "\'";
+        } else {
+            send_assets += "\'" + assets_arr[i] + "\',";
         }
-        
+
     }
 
     console.log(send_assets);
@@ -337,7 +346,7 @@ function viewPrintAssets(assets) {
         // url: "assets.json",
         url: "../../ams_apis/slimTest/index.php/printView",
         method: "post",
-        data : '{"asset_class":"","primary_asset_id" : "'+send_assets+'"}',
+        data: '{"asset_class":"","primary_asset_id" : "' + send_assets + '"}',
         dataType: "json",
         success: function (data) {
             console.log(data);
@@ -351,24 +360,24 @@ function viewPrintAssets(assets) {
                     // var len_primary = "";
                     var sub_info = "";
                     var th_primary = "<tr style='background: #717171;;color:#ffffff;'>";
-                    if(data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID){
+                    if (data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID) {
                         p_count++;
                         count = 0;
 
-                        if(data.data[i].ASSET_IS_SUB == "YES"){
+                        if (data.data[i].ASSET_IS_SUB == "YES") {
                             th_primary += "<td><span class='toggle-btn' onclick=\"toggle_subs('.sub" + p_count + "')\"> + </span></td>";
-                        }else{
+                        } else {
                             th_primary += "<td> - </td>";
                         }
 
-                        
-                     
-                        th_primary += "<td>" + data.data[i].ASSET_LOCATION_AREA+ "</td><td>" + data.data[i].ASSET_ROOM_NO+ "</td><td>" + data.data[i].ASSET_ID+ "</td><td>" + data.data[i].ASSET_DESCRIPTION+ "</td></tr>";
+
+
+                        th_primary += "<td>" + data.data[i].ASSET_LOCATION_AREA + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
                         html_view += th_primary;
-                    }else{
-                       sub_info += "<tr class='sub" + p_count + "'><td>"+(count)+"</td>";
-                     
-                        sub_info += "<td colspan='2'><td>" + data.data[i].ASSET_ID+ "</td><td>" + data.data[i].ASSET_DESCRIPTION+ "</td></tr>";
+                    } else {
+                        sub_info += "<tr class='sub" + p_count + "'><td>" + (count) + "</td>";
+
+                        sub_info += "<td colspan='2'><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
                         html_view += sub_info;
                     }
                     count++;
@@ -382,13 +391,12 @@ function viewPrintAssets(assets) {
     });
 }
 
-function printData()
-{
-   var divToPrint=document.getElementById("tablePrint");
-   newWin= window.open("");
-   newWin.document.write(divToPrint.outerHTML);
-   newWin.print();
-   newWin.close();
+function printData() {
+    var divToPrint = document.getElementById("tablePrint");
+    newWin = window.open("");
+    newWin.document.write(divToPrint.outerHTML);
+    newWin.print();
+    newWin.close();
 }
 
 function toggle_subs(sub_class) {
