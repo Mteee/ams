@@ -13,6 +13,15 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
     localStorage.filter = localStorage.backupFilter;
 }
 
+window.onload = function(){
+    if(localStorage.menuAssets !== '' || localStorage.menuRoom !== '' || localStorage.menuLocation !== ''){
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = ''
+        localStorage.menuRoom = ''
+        populate_dropdown();
+    }
+}
+
 $('#searchView').fadeIn(500);
 
 var user_class = localStorage.getItem("filter");
@@ -268,6 +277,9 @@ function createTable(tableID, tableData) {
             }
         ], 'select': {
             'style': 'multi'
+        },
+        fnCreatedRow: function( nRow, aData, iDataIndex ) {
+            $(nRow).attr('id', aData[0]);
         }
     });
 
@@ -434,7 +446,7 @@ function getItems(url, id, scrollArea, menuid) {
         data: '{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}',
         success: function (data) {
             console.log(JSON.parse('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}'));
-            console.log(data);
+            // console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
             // console.log("=============searchValue================");
@@ -639,6 +651,13 @@ if (localStorage.filter == "All EQUIPMENT") {
     $('#class-options').on('change', function () {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
+
+        localStorage.menuRoom = '';
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = '';
+
+        populate_dropdown();
+
         //clear btn text
         resetBtn('#dropdown_assets', 'ASSET NO...');
         resetBtn('#dropdown_room', 'ROOM...');
