@@ -257,15 +257,7 @@ function createTable(tableID, tableData) {
                 'targets': 0,
                 'checkboxes': {
                     'selectRow': true,
-                   
-                },
-                render: function (data, type, row, meta) {
-                    var checkbox = $("<input/>", {
-                        "type": "checkbox"
-                    });
-                    
-                    checkbox.prop("value", data);
-                    return checkbox.prop("outerHTML")
+                    'value' : tableData[0]
                 }
             },
             {
@@ -285,9 +277,10 @@ function createTable(tableID, tableData) {
         ], 'select': {
             'style': 'multi'
         },
+        fnCreatedRow: function (nTd,nRow, aData, iDataIndex) {
 
-        fnCreatedRow: function (nRow, aData, iDataIndex) {
             $(nRow).attr('id', aData[0]);
+            // console.log($(nTd).children()[0].children);
         }
     });
 
