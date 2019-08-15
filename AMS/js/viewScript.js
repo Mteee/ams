@@ -271,6 +271,9 @@ function createTable(tableID, tableData) {
             }
         ], 'select': {
             'style': 'multi'
+        },
+        fnCreatedRow: function( nRow, aData, iDataIndex ) {
+            $(nRow).attr('id', aData[0]);
         }
     });
 
