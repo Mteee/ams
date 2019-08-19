@@ -525,5 +525,111 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
 
 });
 
+$app->map(['GET','POST'],'/pendingTransfer',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $ASSET_NO = strtoupper($data->primary_asset_id);
+
+
+    $sql = "SELECT ASSET_ROOM_NO,ASSET_PRIMARY_ID
+    FROM AMSD.ASSETS_VW
+    WHERE ASSET_PRIMARY_ID IN ($ASSET_NO)";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+         echo $assets_no;
+    }
+    else{
+        // echo json_encode(array("rows" => 0 ,"data" =>""));
+    }
+
+});
+
+$app->map(['GET','POST'],'/confirmTransfer',function(Request $request, Response $response){
+    try{
+        global $connect;
+        $data = json_decode(file_get_contents('php://input'));
+        $ASSET_NO = strtoupper($data->assetIds);
+        $LOCATION = strtoupper($data->location);
+        $ROOM = strtoupper($data->room);
+        $USERNAME = strtoupper($data->username);
+        $RESULT = '';
+
+        // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
+
+        $sql = "BEGIN AMSD.ASSET_TRANSFER_MOVEMENT(:USERNAME,:ASSET_NO,:LOCATION,:ROOM,:RESULT); END;";
+        $statement = oci_parse($connect,$sql);
+        oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
+        oci_bind_by_name($statement, ':ASSET_NO', $ASSET_NO, 4000);
+        oci_bind_by_name($statement, ':LOCATION', $LOCATION, 30);
+        oci_bind_by_name($statement, ':ROOM', $ROOM, 30);
+        oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($RESULT == "y"){
+            echo json_encode(array("rows" => 0 ,"data" =>"TRANSFER WAS SUCCESSFUL"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"TRANSFER WAS NOT SUCCESSFUL"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+    
+
+});
+
+$app->map(['GET','POST'],'/proctest',function(Request $request, Response $response){
+    try {
+        global $connect;
+        $RES = "";
+        
+        $sql='BEGIN AMSD.CalSum(0,-1,:res); END;';
+
+        $statement = oci_parse($connect,$sql);
+        // oci_bind_by_name($statement, ':main', $main, 30);
+        // oci_bind_by_name($statement, ':billno', $billno, 30);
+        // oci_bind_by_name($statement, ':acc', $acc, 30);
+        // oci_bind_by_name($statement, ':loca', $loca, 30);
+        oci_bind_by_name($statement, ':res', $RES, 30);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+        echo $RES;
+        // if($RES == 'y'){
+        //     echo "HELLO";
+        //     // return true;
+        // }else{
+        //     echo "FAILED";
+        //     // return false;
+        // }
+    } catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+
+    // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
+    // $sql = "BEGIN ";
+
+    // $assets_no =$func->executeNonQuery($sql);
+
+    // echo $RES;
+    // if($RESULT == "y"){
+    //     echo json_encode(array("rows" => 0 ,"data" =>"TRANSFER WAS SUCCESSFUL"));
+    // }
+    // else{
+    //     echo json_encode(array("rows" => 0 ,"data" =>"TRANSFER WAS NOT SUCCESSFUL"));
+    // }
+
+});
+
+
+
+
 
 $app->run();
