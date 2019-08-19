@@ -27,7 +27,14 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
-        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' AND ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID=ASSET_PRIMARY_ID";
+        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB 
+                FROM AMSD.ASSETS_VW 
+                WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
+                AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
+                AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
+                AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
+                AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
+                AND ASSET_ID=ASSET_PRIMARY_ID";
         // $sql = "SELECT * FROM AMSD.ASSETS_VW";
 
         $assets =$func->executeQuery($sql);
@@ -39,8 +46,6 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
             echo json_encode(array("rows" => 0 ,"data" =>[]));
 
         }
-
-
     }
 
 });
@@ -431,65 +436,18 @@ $app->map(['GET','POST'],'/printView',function(Request $request, Response $respo
     AND ASSET_PRIMARY_ID IN ($ASSET_NO)";
 
 
-    // $sql = "SELECT ASSET_LOCATION_AREA FROM AMSD.ASSETS_LOCATION WHERE  GROUP BY ASSET_LOCATION_AREA";
-    // $sql = "SELECT * FROM AMSD.ASSETS_VW";
-
-    
     $assets_no =$func->executeQuery($sql);
 
-    // $response = "";
-    // $main = "";
-    // $primary = [];
-    // $sub = [];
-    // $getSubs = 0;
-    // $getPrimary = 0;
     if($assets_no){
-        
-        // $res = json_decode($assets_no);
-        // $resData = $res->data;
-        // foreach($resData as $value){
-      
-        //  if($value->ASSET_PRIMARY_ID == $value->ASSET_ID){
 
-        //      $primary [] = '["'.$value->ASSET_LOCATION_AREA.'","'.$value->ASSET_ROOM_NO.'","'.$value->ASSET_PRIMARY_ID.'","'.$value->ASSET_DESCRIPTION.'"],';
-        //      foreach($resData as $value2){
-        //          if($value->ASSET_PRIMARY_ID == $value2->ASSET_PRIMARY_ID && $value2->ASSET_PRIMARY_ID != $value2->ASSET_ID){
-        //             $sub [] = $value2->ASSET_ID.','.$value2->ASSET_DESCRIPTION;
-        //             $getSubs++;
-        //          }
-        //      }
-
-        //     //  $main [] = json_encode(array("primary" => $primary[$getPrimary] ,"sub_assets" => $sub));
-        //     // echo ("primary =>". $primary[$getPrimary] ."sub_assets =>".  print_r($sub));
-        //     // echo "primary =>".$primary[$getPrimary];
-        //     // echo "<br/>sub_assets =>";
-        //     $test = json_encode(array("primary" => $primary[$getPrimary])).",";
-           
-        //     // ,"sub_assets" => json_encode($sub)
-        //     $sub = array('');
-        //     // //  array_push($main,array("primary"=>  $primary,array("sub_assets" => $sub)));
-        //      $getPrimary++;
-        //  }
-
-        //  echo substr($test,0,strlen($test) - 2);
-
-        //  $primary = array('');
-        // }
-        // print_r($main );
-        // echo json_encode(array($main));
-        // print_r($main);
-        // echo $sub;
-        // echo $items;
          echo $assets_no;
     }
     else{
-        // echo json_encode(array("rows" => 0 ,"data" =>""));
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
 
     }
 
 });
-
-
 
 $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Response $response){
 
@@ -520,10 +478,8 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
 
         }
 
-
     }
 
 });
-
 
 $app->run();
