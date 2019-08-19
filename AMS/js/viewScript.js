@@ -221,6 +221,7 @@ function createTable(tableID, tableData) {
                     break;
                 } else {
                     out.push(tableData[i]);
+                
                 }
 
             }
@@ -357,7 +358,7 @@ function viewPrintAssets(assets) {
                         p_count++;
                         count = 0;
 
-                        if (data.data[i].ASSET_IS_SUB == "YES") {
+                        if (data.data[i].ASSET_IS_SUB == "y") {
                             th_primary += "<td><span class='toggle-btn' onclick=\"toggle_subs('.sub" + p_count + "')\"> + </span></td>";
                         } else {
                             th_primary += "<td> - </td>";
@@ -386,8 +387,16 @@ function viewPrintAssets(assets) {
 
 function printData() {
     var divToPrint = document.getElementById("tablePrint");
+    var htmlToPrint = '' +
+        '<style type="text/css">' +
+        'table th, table td {' +
+        'border:1px solid #000;' +
+        'padding:0.5em;' +
+        '}' +
+        '</style>';
+    htmlToPrint += divToPrint.outerHTML;
     newWin = window.open("");
-    newWin.document.write(divToPrint.outerHTML);
+    newWin.document.write(htmlToPrint);
     newWin.print();
     newWin.close();
 }
