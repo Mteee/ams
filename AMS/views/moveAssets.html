@@ -37,6 +37,10 @@
         #btnCancel {
             display: none;
         }
+
+        th.dt-checkboxes-select-all input {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -466,7 +470,7 @@
 
                                         </tr>
                                     </table>
-                                    <table class="table" id="currentAssetsTable" style="width: 1190px !important;">
+                                    <table class="table" id="currentAssetsTable" style="width: 1180px !important;">
                                         <thead style="background:#000000;color:#ffffff;">
                                             <tr>
                                                 <th scope="col">
@@ -513,7 +517,7 @@
                                 <div class="row">
                                     <div class="col-md-12 text-right my-2">
                                         <button class="btn btn-info" id="btnTransfer"
-                                            onclick="transfrAssets('currentAssetsTable')"
+                                            onclick="getSelectedItems('currentAssetsTable')"
                                             type="submit">TRANSFER</button>
                                     </div>
                                 </div>
@@ -582,7 +586,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 text-right actionBtn">
-                                        <button class="btn btn-danger" id="btnCancel">CANCEL</button>
+                                        <button class="btn btn-danger" id="btnCancel" onclick="getSelectedItems('outAssetsTable')">CANCEL</button>
                                     </div>
                                 </div>
                             </div>
