@@ -114,20 +114,20 @@ function search() {
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
                         if (data.data[k].ASSET_TRANSACTION_STATUS == "Pending") {
-                            console.log(data.data[k].ASSET_ID);
-                            rowIds.push(data.data[k].ASSET_ID);
+                            console.log(data.data[k].ASSET_PRIMARY_ID);
+                            rowIds.push(data.data[k].ASSET_PRIMARY_ID);
 
                         };
                         if ((data.rows - 1) == k) {
-                            str += '["' + data.data[k].ASSET_ID + '","' +
-                                data.data[k].ASSET_ID + '","' +
+                            str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
+                                data.data[k].ASSET_PRIMARY_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_LOCATION_AREA + '","' +
                                 data.data[k].ASSET_DESCRIPTION + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
-                            str += '["' + data.data[k].ASSET_ID + '","' +
-                                data.data[k].ASSET_ID + '","' +
+                            str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
+                                data.data[k].ASSET_PRIMARY_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_LOCATION_AREA + '","' +
                                 data.data[k].ASSET_DESCRIPTION + '","' +
