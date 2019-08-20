@@ -516,8 +516,8 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
         AND AVW.ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
         AND AVW.ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
         AND AVW.ASSET_CLASS LIKE '%$ASSET_CLASS%'
-        AND AVW.ASSET_ID=ASSET_PRIMARY_ID
-        GROUP BY AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB";
+        AND AVW.ASSET_PRIMARY_ID = LVW.ASSET_PRIMARY_ID
+        GROUP BY AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,AVW.ASSET_IS_SUB";
         // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
 
         $assets =$func->executeQuery($sql);
@@ -550,16 +550,22 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
+        if($ASSET_ROOM == ''){
+            $ASSET_ROOM_OLD = "empty";
+        }
         $sql = "SELECT AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB
         FROM AMSD.ASSET_LOG_PENDING_VW LVW, AMSD.ASSETS_VW AVW
         WHERE ASSET_TRANSACTION_STATUS = 'Pending'
         AND ASSET_LOCATION_AREA_NEW LIKE '%$ASSET_LOCATION%'
         AND LVW.ASSET_ROOM_NO_NEW LIKE '%$ASSET_ROOM%'
+        OR  LVW.ASSET_ROOM_NO_NEW IS NULL
+        -- AND LVW.ASSET_ROOM_NO_OLD <> '$ASSET_ROOM_OLD'
         AND AVW.ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
-        AND AVW.ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
+        -- AND AVW.ASSET_ROOM_NO LIKE '%$ASSET_ROOM%'
         -- AND AVW.ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
         AND AVW.ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
         AND AVW.ASSET_CLASS LIKE '%$ASSET_CLASS%'
+        AND AVW.ASSET_PRIMARY_ID = LVW.ASSET_PRIMARY_ID
         GROUP BY AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB";
 
         $assets =$func->executeQuery($sql);
@@ -671,5 +677,14 @@ $app->map(['GET','POST'],'/cancelTransfer',function(Request $request, Response $
 
 });
 
+$app->map(['GET','POST'],'/approveAsset', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $ASSET_NO = strtoupper($data->assetIds);
+    $LOCATION = strtoupper($data->location);
+    $ROOM = strtoupper($data->room);
+    $USERNAME = strtoupper($data->username);
+
+});
 
 $app->run();

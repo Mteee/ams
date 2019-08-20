@@ -564,9 +564,25 @@ function getSelectedItems(id) {
     var assetValues = createAssetDelimeter(rowsSelected);
 
     if (id == "outAssetsTable") {
-        if (confirm("Are you sure you want to cancel?"))
+        if (confirm("Are you sure you want to cancel?")) {
             cancelAssets(assetValues);
-        search();
+            search();
+        }
+    }
+    else if (id == "inAssetsTable") {
+    var comma_del = "";
+        for (var i = 0; i < rowsSelected.length; i++) {
+            if (i == rowsSelected.length - 1) {
+                comma_del += "\'" + rowsSelected[i] + "\'";
+            } else {
+                comma_del += "\'" + rowsSelected[i] + "\',";
+            }
+    
+        }
+
+        console.log(comma_del);
+        
+        // approveAssets(assetValues);
     }
     else {
         document.getElementById('overlay-transfer').style.display = "block";
@@ -610,6 +626,21 @@ function cancelAssets(selectedItems) {
             console.log(dataErr);
         }
     })
+}
+
+function approveAssets(assetValues){
+    $.ajax({
+        url:'../../ams_apis/slimTest/index.php/approveAsset',
+        dataType:'JSON',
+        method:'POST',
+        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetValues + '","location":"' + location + '","room":"' + room + '"}',
+        success: function(data){
+            console.log(data);
+        },
+        error: function(dataErr){
+            console.log(dataErr);
+        }
+    });
 }
 
 function createAssetDelimeter(assets_arr) {
