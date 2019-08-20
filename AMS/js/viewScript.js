@@ -575,6 +575,7 @@ function getItems(url, id, scrollArea, menuid) {
         },
         error: function (data_err) {
             console.log(data_err);
+            console.log("Error");
             console.log(localStorage.filter);
         }
     });

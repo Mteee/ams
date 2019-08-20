@@ -27,7 +27,14 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
-        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' AND ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID=ASSET_PRIMARY_ID";
+        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB 
+        FROM AMSD.ASSETS_VW 
+        WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
+        AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
+        AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
+        AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
+        AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
+        AND ASSET_ID=ASSET_PRIMARY_ID";
         // $sql = "SELECT * FROM AMSD.ASSETS_VW";
 
         $assets =$func->executeQuery($sql);
@@ -298,8 +305,7 @@ $app->map(['GET','POST'],'/asset_no',function(Request $request, Response $respon
          echo json_encode(array("rows"=>$length,"data" =>$response));
     }
     else{
-        // echo json_encode(array("rows" => 0 ,"data" =>""));
-
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
     }
 
 });
@@ -345,7 +351,7 @@ $app->map(['GET','POST'],'/room_no',function(Request $request, Response $respons
          echo json_encode(array("rows"=>$length,"data" =>$response));
     }
     else{
-        // echo json_encode(array("rows" => 0 ,"data" =>""));
+        echo json_encode(array("rows" => 0 ,"data" =>""));
 
     }
 
@@ -392,7 +398,7 @@ $app->map(['GET','POST'],'/location',function(Request $request, Response $respon
          echo json_encode(array("rows"=>$length,"data" =>$response));
     }
     else{
-        // echo json_encode(array("rows" => 0 ,"data" =>""));
+        echo json_encode(array("rows" => 0 ,"data" =>""));
 
     }
 
@@ -507,7 +513,7 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
-        $sql = "SELECT ASSET_PRIMARY_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_TRANSACTION_STATUS,ASSET_IS_SUB 
+        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_TRANSACTION_STATUS,ASSET_IS_SUB 
         FROM AMSD.ASSETS_VW 
         WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
         AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
@@ -550,7 +556,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
-        $sql = "SELECT AVW.ASSET_PRIMARY_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB
+        $sql = "SELECT AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB
         FROM AMSD.ASSET_LOG_PENDING_VW LVW, AMSD.ASSETS_VW AVW
         WHERE ASSET_TRANSACTION_STATUS = 'Pending'
         AND ASSET_LOCATION_AREA_OLD LIKE '%$ASSET_LOCATION%'
@@ -561,7 +567,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
         AND AVW.ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
         AND AVW.ASSET_CLASS LIKE '%$ASSET_CLASS%'
         AND AVW.ASSET_PRIMARY_ID = LVW.ASSET_PRIMARY_ID
-        GROUP BY AVW.ASSET_PRIMARY_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,AVW.ASSET_IS_SUB";
+        GROUP BY AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,AVW.ASSET_IS_SUB";
         // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
 
         $assets =$func->executeQuery($sql);
@@ -595,7 +601,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
             $ASSET_CLASS = '';
         }
 
-        $sql = "SELECT AVW.ASSET_PRIMARY_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB
+        $sql = "SELECT AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB
         FROM AMSD.ASSET_LOG_PENDING_VW LVW, AMSD.ASSETS_VW AVW
         WHERE ASSET_TRANSACTION_STATUS = 'Pending'
         AND ASSET_LOCATION_AREA_NEW LIKE '%$ASSET_LOCATION%'
@@ -607,22 +613,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
         AND AVW.ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
         AND AVW.ASSET_CLASS LIKE '%$ASSET_CLASS%'
         AND AVW.ASSET_PRIMARY_ID = LVW.ASSET_PRIMARY_ID
-        AND AVW.ASSET_PRIMARY_ID NOT IN (
-            SELECT DISTINCT AVW.ASSET_PRIMARY_ID FROM (
-            SELECT AVW.ASSET_PRIMARY_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB
-            FROM AMSD.ASSET_LOG_PENDING_VW LVW, AMSD.ASSETS_VW AVW
-            WHERE ASSET_TRANSACTION_STATUS = 'Pending'
-            AND ASSET_LOCATION_AREA_OLD LIKE '%$ASSET_LOCATION%'
-            AND LVW.ASSET_ROOM_NO_OLD LIKE '%$ASSET_ROOM%'
-            AND AVW.ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
-            AND AVW.ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
-            AND AVW.ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
-            AND AVW.ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
-            AND AVW.ASSET_CLASS LIKE '%$ASSET_CLASS%'
-            AND AVW.ASSET_PRIMARY_ID = LVW.ASSET_PRIMARY_ID
-            GROUP BY AVW.ASSET_PRIMARY_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,AVW.ASSET_IS_SUB
-        ))
-        GROUP BY AVW.ASSET_PRIMARY_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB";
+        GROUP BY AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB";
 
         $assets =$func->executeQuery($sql);
 
@@ -689,7 +680,7 @@ $app->map(['GET','POST'],'/confirmTransfer',function(Request $request, Response 
             echo json_encode(array("rows" => 0 ,"data" =>"TRANSFER WAS SUCCESSFUL"));
         }
         else{
-            echo json_encode(array("rows" => 0 ,"data" =>"TRANSFER WAS NOT SUCCESSFUL"));
+            echo json_encode(array("rows" => 0 ,"data" =>"TRASNSFER WAS NOT SUCCESSFUL"));
         }
 
     }catch (Exception $pdoex) {
