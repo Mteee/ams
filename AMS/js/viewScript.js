@@ -230,6 +230,7 @@ function createTable(tableID, tableData) {
                     break;
                 } else {
                     out.push(tableData[i]);
+                
                 }
 
             }
@@ -284,8 +285,6 @@ function createTable(tableID, tableData) {
         }
     });
 
-
-    // Handle form submission event 
     $('#frm-example').on('submit', function (e) {
         // Prevent actual form submission
         e.preventDefault();
@@ -302,17 +301,10 @@ function createTable(tableID, tableData) {
                     .attr('name', 'id[]')
                     .val(rowId)
             );
-        });
-
-        // FOR DEMONSTRATION ONLY
-        // The code below is not needed in production
-
-        // Output form data to a console     
+        }); 
 
         var rowsSelected = rows_selected.join(",").split(",");
 
-        // Output form data to a console     
-        // console.log($(form).serialize());
         viewPrintAssets(rowsSelected);
         // Remove added elements
         $('input[name="id\[\]"]', form).remove();
@@ -362,18 +354,16 @@ function viewPrintAssets(assets) {
                     // var primary_id = data.data[i].asset.primary[0];
                     // var len_primary = "";
                     var sub_info = "";
-                    var th_primary = "<tr style='background: #717171;;color:#ffffff;'>";
+                    var th_primary = "<tr style='background:#222;color:#ffffff;'>";
                     if (data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID) {
                         p_count++;
                         count = 0;
 
-                        if (data.data[i].ASSET_IS_SUB == "YES") {
-                            th_primary += "<td><span class='toggle-btn' onclick=\"toggle_subs('.sub" + p_count + "')\"> + </span></td>";
+                        if (data.data[i].ASSET_IS_SUB == "y") {
+                            th_primary += "<td class='text-center'><span class='toggle-btn' onclick=\"toggle_subs('.sub" + p_count + "')\"> + </span></td>";
                         } else {
-                            th_primary += "<td> - </td>";
+                            th_primary += "<td class='text-center'> - </td>";
                         }
-
-
 
                         th_primary += "<td>" + data.data[i].ASSET_LOCATION_AREA + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
                         html_view += th_primary;
@@ -396,8 +386,16 @@ function viewPrintAssets(assets) {
 
 function printData() {
     var divToPrint = document.getElementById("tablePrint");
+    var htmlToPrint = '' +
+        '<style type="text/css">' +
+        'table th, table td {' +
+        'border:1px solid #000;' +
+        'padding:0.5em;' +
+        '}' +
+        '</style>';
+    htmlToPrint += divToPrint.outerHTML;
     newWin = window.open("");
-    newWin.document.write(divToPrint.outerHTML);
+    newWin.document.write(htmlToPrint);
     newWin.print();
     newWin.close();
 }
@@ -465,7 +463,6 @@ $('#menuRoom').on('click', '.dropdown-item', function () {
     $('#searchroomno').val($(this)[0].value);
 
 })
-
 
 $('#menuLocation').on('click', '.dropdown-item', function () {
     $('#dropdown_location').text($(this)[0].value)
@@ -671,9 +668,6 @@ var onSearch = function (searchValue, emptyId) {
 }
 
 // searchasset.onkeyup = onSearch(this);
-
-
-
 // buildDropDown('#menuRoom',names);
 // buildDropDown('#menuLocation',names);
 
@@ -696,7 +690,6 @@ function clearData(input, btnDafualtId, text) {
         $(btnDafualtId).text(text);
     }
 }
-
 
 function resetBtn(resetId, resetTxt) {
     $(resetId).text(resetTxt);
