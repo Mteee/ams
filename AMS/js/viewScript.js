@@ -391,6 +391,7 @@ function printData() {
         'table th, table td {' +
         'border:1px solid #000;' +
         'padding:0.5em;' +
+        'font-size:12pt;' +
         '}' +
         '</style>';
     htmlToPrint += divToPrint.outerHTML;

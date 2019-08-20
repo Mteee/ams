@@ -529,8 +529,6 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
             echo json_encode(array("rows" => 0 ,"data" =>[]));
 
         }
-
-
     }
 
 });
@@ -554,6 +552,9 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
         FROM AMSD.ASSET_LOG_PENDING_VW LVW, AMSD.ASSETS_VW AVW
         WHERE ASSET_TRANSACTION_STATUS = 'Pending'
         AND ASSET_LOCATION_AREA_NEW LIKE '%$ASSET_LOCATION%'
+        AND LVW.ASSET_ID NOT IN (SELECT ASSET_ID FROM AMSD.ASSET_LOG_PENDING_VW 
+                                WHERE ASSET_LOCATION_AREA_OLD LIKE '%$ASSET_LOCATION%'
+                                AND ASSET_LOCATION_AREA_NEW IS NULL)
         AND LVW.ASSET_ROOM_NO_NEW LIKE '%$ASSET_ROOM%'
         AND AVW.ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
         AND AVW.ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
