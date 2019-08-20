@@ -13,6 +13,15 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
     localStorage.filter = localStorage.backupFilter;
 }
 
+window.onload = function(){
+    if(localStorage.menuAssets !== '' || localStorage.menuRoom !== '' || localStorage.menuLocation !== ''){
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = ''
+        localStorage.menuRoom = ''
+        populate_dropdown();
+    }
+}
+
 $('#searchView').fadeIn(500);
 
 var user_class = localStorage.getItem("filter");
@@ -248,15 +257,7 @@ function createTable(tableID, tableData) {
                 'targets': 0,
                 'checkboxes': {
                     'selectRow': true,
-                   
-                },
-                render: function (data, type, row, meta) {
-                    var checkbox = $("<input/>", {
-                        "type": "checkbox"
-                    });
-                    
-                    checkbox.prop("value", data);
-                    return checkbox.prop("outerHTML")
+                    'value' : tableData[0]
                 }
             },
             {
@@ -276,8 +277,10 @@ function createTable(tableID, tableData) {
         ], 'select': {
             'style': 'multi'
         },
-        fnCreatedRow: function (nRow, aData, iDataIndex) {
+        fnCreatedRow: function (nTd,nRow, aData, iDataIndex) {
+
             $(nRow).attr('id', aData[0]);
+            // console.log($(nTd).children()[0].children);
         }
     });
 
@@ -527,7 +530,7 @@ function getItems(url, id, scrollArea, menuid) {
         data: '{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}',
         success: function (data) {
             console.log(JSON.parse('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}'));
-            console.log(data);
+            // console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
             // console.log("=============searchValue================");
@@ -724,6 +727,13 @@ if (localStorage.filter == "All EQUIPMENT") {
     $('#class-options').on('change', function () {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
+
+        localStorage.menuRoom = '';
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = '';
+
+        populate_dropdown();
+
         //clear btn text
         resetBtn('#dropdown_assets', 'ASSET NO...');
         resetBtn('#dropdown_room', 'ROOM...');

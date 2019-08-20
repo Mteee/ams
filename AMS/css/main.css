@@ -235,11 +235,38 @@ input[type="checkbox"]:disabled:after {
     background: rgba(0, 0, 0, 0.5);
 }
 
+
+#overlay-transfer{
+    display: none;
+    position: fixed;
+    width: 100%;
+    height:100%;
+    top:0;
+    left:0;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
+}
+
 .asset-details {
+
     position: relative;
     margin: 10% auto;
     width: 500px;
     height: 500px;
+    border-radius: 5px;
+    background: white;
+    z-index: 2;
+    position: relative;
+}
+
+
+.asset-transfer-details{
+    position: relative;
+    margin: 10% auto;
+    width:668px;
+    height: 459px;
     border-radius: 5px;
     background: white;
     z-index: 2;
@@ -258,12 +285,28 @@ input[type="checkbox"]:disabled:after {
     border-top: 1px solid rgba(0, 0, 0, 0.13);
 }
 
+.asset-transfer-body {
+    color: black;
+    height: 400px;
+    padding: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+}
+
 .asset-footer {
     position: relative;
     /* bottom:0; */
     padding: 10px;
     border-top: 1px solid rgba(0, 0, 0, 0.13);
 }
+
+.asset-transfer-footer {
+    position: absolute;
+    width: 100%;
+    bottom:0;
+    padding: 10px;  
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+}
+
 
 .print-asset-footer {
     position: absolute;
@@ -383,6 +426,17 @@ caption {
 }
 
 
+#loaderTrans {
+    z-index: 1;
+    width: 100%;
+    margin: 5px auto 0 auto;
+    text-align: center;
+}
+
+#loaderTrans img{
+    width: 55px;
+}
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
 
@@ -445,7 +499,18 @@ caption {
     overflow-y: auto;
 }
 
+
+.transfer-scroll {
+    height: 151px;
+    overflow-y: auto;
+}
+
 .test-scroll thead th {
+    position: sticky;
+    top: 0;
+}
+
+.transfer-scroll thead {
     position: sticky;
     top: 0;
 }

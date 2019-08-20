@@ -9,10 +9,8 @@ $(document).ready(function() {
   localStorage.username = c;
   console.log(c);
 
-
   // localStorage.username = c;
   // console.log(c);
-
 
     $('#loginLoader').fadeIn(500);
     $("#btnSave").attr("disabled", true);
