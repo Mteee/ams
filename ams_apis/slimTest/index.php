@@ -507,7 +507,15 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
-        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_TRANSACTION_STATUS,ASSET_IS_SUB FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' AND ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID=ASSET_PRIMARY_ID ORDER BY ASSET_ID ASC";
+        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_TRANSACTION_STATUS,ASSET_IS_SUB 
+        FROM AMSD.ASSETS_VW 
+        WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
+        AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
+        AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
+        AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
+        AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
+        AND ASSET_ID=ASSET_PRIMARY_ID 
+        ORDER BY ASSET_ID ASC";
         // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
 
         $assets =$func->executeQuery($sql);
@@ -524,6 +532,191 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
     }
 
 });
+
+
+$app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $response){
+
+    global $func;
+    $data = json_decode(file_get_contents('php://input') );
+    $ASSET_NO = strtoupper($data->v_assetNo);
+    $ASSET_ROOM = strtoupper($data->v_room);
+    $ASSET_LOCATION = strtoupper($data->v_location);
+    $ASSET_DESCRIPTION = strtoupper($data->v_description);
+    $ASSET_CLASS = strtoupper($data->asset_class);
+    $response = array();
+
+    if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
+
+        if($ASSET_CLASS == 'ALL EQUIPMENT'){
+            $ASSET_CLASS = '';
+        }
+        $sql = "SELECT AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB
+        FROM AMSD.ASSET_LOG_PENDING_VW LVW, AMSD.ASSETS_VW AVW
+        WHERE ASSET_TRANSACTION_STATUS = 'Pending'
+        AND ASSET_LOCATION_AREA_OLD LIKE '%$ASSET_LOCATION%'
+        AND LVW.ASSET_ROOM_NO_OLD LIKE '%$ASSET_ROOM%'
+        AND AVW.ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
+        AND AVW.ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
+        AND AVW.ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
+        AND AVW.ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
+        AND AVW.ASSET_CLASS LIKE '%$ASSET_CLASS%'
+        AND AVW.ASSET_ID=ASSET_PRIMARY_ID
+        GROUP BY AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB";
+        // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
+
+        $assets =$func->executeQuery($sql);
+
+        if($assets){
+            echo $assets;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>[]));
+
+        }
+
+
+    }
+
+});
+
+$app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $response){
+
+    global $func;
+    $data = json_decode(file_get_contents('php://input') );
+    $ASSET_NO = strtoupper($data->v_assetNo);
+    $ASSET_ROOM = strtoupper($data->v_room);
+    $ASSET_LOCATION = strtoupper($data->v_location);
+    $ASSET_DESCRIPTION = strtoupper($data->v_description);
+    $ASSET_CLASS = strtoupper($data->asset_class);
+
+    if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
+
+        if($ASSET_CLASS == 'ALL EQUIPMENT'){
+            $ASSET_CLASS = '';
+        }
+        $sql = "SELECT AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB
+        FROM AMSD.ASSET_LOG_PENDING_VW LVW, AMSD.ASSETS_VW AVW
+        WHERE ASSET_TRANSACTION_STATUS = 'Pending'
+        AND ASSET_LOCATION_AREA_NEW LIKE '%$ASSET_LOCATION%'
+        AND LVW.ASSET_ROOM_NO_NEW LIKE '%$ASSET_ROOM%'
+        AND AVW.ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
+        AND AVW.ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
+        -- AND AVW.ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
+        AND AVW.ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
+        AND AVW.ASSET_CLASS LIKE '%$ASSET_CLASS%'
+        GROUP BY AVW.ASSET_ID,AVW.ASSET_ROOM_NO,AVW.ASSET_LOCATION_AREA,AVW.ASSET_DESCRIPTION,ASSET_IS_SUB";
+
+        $assets =$func->executeQuery($sql);
+
+        if($assets){
+            echo $assets;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>[]));
+
+        }
+
+
+    }
+
+});
+
+
+$app->map(['GET','POST'],'/pendingTransfer',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $ASSET_NO = strtoupper($data->primary_asset_id);
+
+
+    $sql = "SELECT ASSET_ROOM_NO,ASSET_PRIMARY_ID
+    FROM AMSD.ASSETS_VW
+    WHERE ASSET_PRIMARY_ID IN ($ASSET_NO)";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+         echo $assets_no;
+    }
+    else{
+        // echo json_encode(array("rows" => 0 ,"data" =>""));
+    }
+
+});
+
+$app->map(['GET','POST'],'/confirmTransfer',function(Request $request, Response $response){
+    try{
+        global $connect;
+        $data = json_decode(file_get_contents('php://input'));
+        $ASSET_NO = strtoupper($data->assetIds);
+        $LOCATION = strtoupper($data->location);
+        $ROOM = strtoupper($data->room);
+        $USERNAME = strtoupper($data->username);
+        $RESULT = '';
+
+        // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
+
+        $sql = "BEGIN AMSD.ASSET_TRANSFER_MOVEMENT(:USERNAME,:ASSET_NO,:LOCATION,:ROOM,:RESULT); END;";
+        $statement = oci_parse($connect,$sql);
+        oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
+        oci_bind_by_name($statement, ':ASSET_NO', $ASSET_NO, 4000);
+        oci_bind_by_name($statement, ':LOCATION', $LOCATION, 30);
+        oci_bind_by_name($statement, ':ROOM', $ROOM, 30);
+        oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($RESULT == "y"){
+            echo json_encode(array("rows" => 0 ,"data" =>"TRANSFER WAS SUCCESSFUL"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"TRANSFER WAS NOT SUCCESSFUL"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+    
+
+});
+
+$app->map(['GET','POST'],'/cancelTransfer',function(Request $request, Response $response){
+    try{
+        global $connect;
+        $data = json_decode(file_get_contents('php://input'));
+        $ASSET_NO = strtoupper($data->asset_id);
+        $USERNAME = strtoupper($data->username);
+        $RESULT = '';
+
+        // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
+
+        $sql = "BEGIN amsd.asset_cancel_movement(:USERNAME,:ASSET_NO,:RESULT); END;";
+        $statement = oci_parse($connect,$sql);
+        oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
+        oci_bind_by_name($statement, ':ASSET_NO', $ASSET_NO, 4000);
+        oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($RESULT == "y"){
+            echo json_encode(array("rows" => 0 ,"data" =>"CANCEL WAS SUCCESSFUL"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"CANCEL WAS NOT SUCCESSFUL"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+    
+
+});
+
+
+
 
 
 $app->run();
