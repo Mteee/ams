@@ -14,8 +14,8 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
     localStorage.filter = localStorage.backupFilter;
 }
 
-window.onload = function(){
-    if(localStorage.menuAssets !== '' || localStorage.menuRoom !== '' || localStorage.menuLocation !== ''){
+window.onload = function () {
+    if (localStorage.menuAssets !== '' || localStorage.menuRoom !== '' || localStorage.menuLocation !== '') {
         localStorage.menuAssets = '';
         localStorage.menuLocation = ''
         localStorage.menuRoom = ''
@@ -59,6 +59,13 @@ function viewAsset(assetId) {
     });
 }
 
+var tableArr = {
+    currentAssetsTable: [],
+    inAssetsTable: [],
+    outAssetsTable: []
+};
+
+
 function search() {
     console.log('called');
     var assetNo = document.getElementById('searchasset').value,
@@ -80,32 +87,36 @@ function search() {
         $('#loader').fadeIn(500);
         document.getElementById('current').innerHTML = "";
 
-        makeCall("../../ams_apis/slimTest/index.php/getCurrentAssets",'#btnTransfer','#currentAssetsTable', 10);
-        // makeCall("../../ams_apis/slimTest/index.php/getOutAssets",'#btnApprove','#inAssetsTable', 3);
-        // makeCall("../../ams_apis/slimTest/index.php/getInAssets",'#btnCancel','#outAssetsTable', 3);
+        makeCall("../../ams_apis/slimTest/index.php/getCurrentAssets", '#btnTransfer', '#currentAssetsTable', 10);
+
+        makeCall("../../ams_apis/slimTest/index.php/getOutAssets", '#btnCancel', '#outAssetsTable', 4);
+
+        makeCall("../../ams_apis/slimTest/index.php/getInAssets", '#btnApprove', '#inAssetsTable', 4);
 
     }
 
-    function makeCall(url,actionBtn,table_dom, length) {
+
+    function makeCall(url, actionBtn, table_dom, length) {
 
         $.ajax({
             url: url,
             type: "POST",
             dataType: 'json',
-            data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '","asset_class":"' + localStorage.filter + '"}',
+            data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '","asset_class":"' + localStorage.filter + '","username":"' + localStorage.username + '"}',
             success: function (data) {
-                console.log("=====================================================data==================================================");
-                console.log(data);
+                $('#searchView').hide();
                 $('#loader').hide();
                 var table = null;
                 var rowIds = [];
                 if (data.rows > 0) {
-
+                    localStorage.table_len = data.rows;
+                    console.log(data);
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
-                        if(data.data[k].ASSET_TRANSACTION_STATUS == "Pending"){
+                        if (data.data[k].ASSET_TRANSACTION_STATUS == "Pending") {
                             console.log(data.data[k].ASSET_ID);
                             rowIds.push(data.data[k].ASSET_ID);
+
                         };
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_ID + '","' +
@@ -131,24 +142,44 @@ function search() {
 
                     // console.log(table_dom);
 
-                    table = createTable(table_dom, str.data, length,rowIds);
+                    table = createTable(table_dom, str.data, length, rowIds);
 
-                    $(actionBtn).fadeIn(500);
+                    var _table_id = table_dom.replace("#", "");
+                    tableArr[_table_id] = table;
+
+
+
+                    $(table_dom + ' tbody, ' + table_dom + ' thead').on('click', 'input[type="checkbox"]', function () {
+                        // var data = table.row($(this).parents('tr')).data();
+                        setTimeout(function () {
+                            console.log(checkboxSelectedLength());
+                            if (checkboxSelectedLength() > 0) {
+                                $(actionBtn).fadeIn(500);
+                                // console.log("Test");
+                            } else {
+                                // console.log("Else Test");
+                                $(actionBtn).fadeOut(500);
+                            }
+                        }, 500);
+                    });
+
+
                     // table.clear().draw();
 
 
                 }
                 else {
                     // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
-                    $('#searchView').fadeIn(500);
+                    // $('#searchView').fadeIn(500);
                     console.log(data.data);
 
                     table = createTable(table_dom, data.data);
 
                 }
 
-                $(table_dom +' tbody').on('click', 'input[type="checkbox"]', function () {
-                    var data = table.row($(this).parents('tr')).data();
+                $(table_dom + ' tbody').on('click', 'input[type="checkbox"]', function () {
+
+                    // var data = table.row($(this).parents('tr')).data();
 
                     // if(data == null || data == undefined){
                     //     data = (localStorage.b).split(',');
@@ -185,6 +216,12 @@ function search() {
                 alert('Ooops');
             }
         });
+    }
+
+    function checkboxSelectedLength() {
+        var lengthh = $(":checkbox:checked").length;
+        console.log(lengthh);
+        return lengthh;
     }
 
     //updating y to icons
@@ -236,7 +273,8 @@ function search() {
     //     return table;
     // }
 
-    function createTable(tableID, tableData, length,rowIds) {
+    function createTable(tableID, tableData, length, rowIds) {
+
         var table = $(tableID).DataTable({
             // "data": tableData,
             "paging": true,
@@ -258,9 +296,9 @@ function search() {
                     } else {
                         out.push(tableData[i]);
                     }
-    
+
                 }
-    
+
                 // console.log("=========out=========");
                 // console.log(out);
                 // console.log("========out==========");
@@ -284,15 +322,7 @@ function search() {
                     'targets': 0,
                     'checkboxes': {
                         'selectRow': true
-                    },
-                     render: function (data, type, row, meta) {
-                    var checkbox = $("<input/>", {
-                        "type": "checkbox"
-                    });
-                    
-                    checkbox.prop("value", data);
-                    return checkbox.prop("outerHTML")
-                }
+                    }
                 },
                 {
                     "targets": -1,
@@ -311,12 +341,24 @@ function search() {
             ], 'select': {
                 'style': 'multi'
             },
-            fnCreatedRow: function( nRow, aData, iDataIndex ) {
-                $(nRow).attr('id', aData[0]);
+            fnCreatedRow: function (nRow, aData, iDataIndex) {
+                if (tableID == '#currentAssetsTable') {
+                    for (var t = 0; t < rowIds.length; t++) {
+                        if (rowIds[t] == aData[0]) {
+                            $(nRow).css({
+                                'background-color': '#948d8d7d',
+                                'pointer-events': 'none',
+                                'cursor': 'not-allowed',
+                                'color': '#4e4d4d',
+                                'transition': '500ms'
+                            });
+                        }
+                    }
+                }
             }
         });
-    
-    
+
+
         // Handle form submission event 
         $('#frm-example').on('submit', function (e) {
             // Prevent actual form submission
@@ -324,10 +366,10 @@ function search() {
             var rows_selected = table.column(0).checkboxes.selected();
             if (rows_selected.length < 1) {
                 alert("Please select items to print");
-    
+
             } else {
                 var form = $('#frm-example');
-    
+
                 // Iterate over all selected checkboxes
                 $.each(rows_selected, function (index, rowId) {
                     // Create a hidden element 
@@ -338,41 +380,33 @@ function search() {
                             .val(rowId)
                     );
                 });
-    
+
                 // FOR DEMONSTRATION ONLY
                 // The code below is not needed in production
-    
+
                 // Output form data to a console     
                 console.log((rows_selected.join(",")).split(","));
-    
+
                 // Output form data to a console     
                 // console.log($(form).serialize());
-    
+
                 // Remove added elements
                 $('input[name="id\[\]"]', form).remove();
-    
+
                 e.preventDefault();
             }
-    
+
         });
 
-        var table_len = (table.columns('#asset-id').data()[0]).length;
+        // console.log(tableArr[tableID].data().count());
+        // var table_len = (table.columns('#asset-id').data()[0]).length;
+        // var table_len = table.rows(0).data().length;
 
-        if(rowIds.length>0){
+        // if ( ! tableArr["currentAssets"].data().count() ) {
+        //     alert( 'Empty table' );
+        // }
 
-            for(var t=0;t<table_len;t++){
-                console.log("=========================================================================for loop=========================================================================");
-                $('#'+rowIds[t]).css({
-                    'background-color': '#948d8d7d',
-                    'pointer-events': 'none',
-                    'cursor': 'not-allowed',
-                    'color': '#4e4d4d',
-                    'transition': '500ms'
-                });
-            }
 
-        }
-    
         return table;
     }
 }
@@ -388,7 +422,7 @@ function populate_dropdown() {
 
 }
 
-function populate_tran_dropdown(){
+function populate_tran_dropdown() {
     // get room_no
     getItems('../../ams_apis/slimTest/index.php/room_no', 'search_transfer_roomno', 'scroll_transfer_room', 'menu_transfer_Room', 'empty_transfer_Room');
     // get location
@@ -509,20 +543,188 @@ function checkFilter(key) {
 
 
 
-function transfrAssets(id){
+function getSelectedItems(id) {
 
     localStorage.menuRoom = '';
     localStorage.menuAssets = '';
     localStorage.menuLocation = '';
 
+    var rows_selected = tableArr[id].column(0).checkboxes.selected();
 
-    var rows_selected = $(id+" input:checkbox:checked").val().join(',');
+    // var data = table.row($("<input type='checkbox' value='' class='dt-checkboxes'>").parents('tr')).data();
 
     console.log(rows_selected);
+    // var rows_selected = $(id+" input:checkbox:checked").val()
+    var rowsSelected = rows_selected.join(",").split(",");
+
+    document.getElementById('movItemCount').innerHTML = rowsSelected.length;
 
     populate_tran_dropdown();
-    document.getElementById('overlay-transfer').style.display = "block";
+    getSelectedAssets(rowsSelected);
+    var assetValues = createAssetDelimeter(rowsSelected);
+
+    if (id == "outAssetsTable") {
+        if (confirm("Are you sure you want to cancel?"))
+            cancelAssets(assetValues);
+        search();
+    }
+    else {
+        document.getElementById('overlay-transfer').style.display = "block";
+        $("#confirmTransfer").click(function () {
+            var input_location = $("#dropdown_transfer_location").text();
+            var input_Room = $("#dropdown_transfer_room").text();
+
+
+            if (input_location.indexOf("LOCATION...") > -1) {
+                alert("Location is required");
+            }
+            else {
+                if (input_Room.indexOf("ROOM...") > -1) {
+                    if (confirm("Are you sure you want to continue without selecting the room")) {
+                        input_Room = "";
+                        confirmAssets(assetValues, input_location, input_Room);
+                    }
+                } else {
+                    confirmAssets(assetValues, input_location, input_Room);
+                }
+            }
+
+
+        });
+    }
+
 }
+
+function cancelAssets(selectedItems) {
+    $.ajax({
+        url: '../../ams_apis/slimTest/index.php/cancelTransfer',
+        method: 'POST',
+        data: '{"username":"' + localStorage.username + '","asset_id":"' + selectedItems + '"}',
+        dataType: 'JSON',
+        success: function (data) {
+            console.log(data);
+            console.log('{"username":"' + localStorage.username + '","asset_id":"' + selectedItems + '"}');
+
+        },
+        error: function (dataErr) {
+            console.log(dataErr);
+        }
+    })
+}
+
+function createAssetDelimeter(assets_arr) {
+    var send_assets = "";
+    for (var i = 0; i < assets_arr.length; i++) {
+        if (i == assets_arr.length - 1) {
+            send_assets += assets_arr[i];
+        } else {
+            send_assets += assets_arr[i] + "^";
+        }
+    }
+
+    return send_assets;
+}
+
+function confirmAssets(assetIds, location, room) {
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/confirmTransfer",
+        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + location + '","room":"' + room + '"}',
+        method: "POST",
+        dataType: "JSON",
+        success: function (data) {
+            console.log(data);
+            alert(data.data);
+            document.getElementById('overlay-transfer').style.display = "none";
+            localStorage.menuRoom = room;
+            search();
+            $('#btnTransfer').fadeOut(500);
+        },
+        error: function (dataErr) {
+            console.log('{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + location + '","room":"' + room + '"}');
+            console.log(dataErr);
+        }
+
+    })
+}
+
+function getSelectedAssets(assets) {
+    var currentItem = "";
+
+    // console.log($('#assetBody'));
+
+
+    var assets_arr = assets;
+    var send_assets = "";
+    for (var i = 0; i < assets_arr.length; i++) {
+        if (i == assets_arr.length - 1) {
+            send_assets += "\'" + assets_arr[i] + "\'";
+        } else {
+            send_assets += "\'" + assets_arr[i] + "\',";
+        }
+
+    }
+    $('#loaderTrans').fadeIn(500);
+
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/pendingTransfer",
+        method: "post",
+        data: '{"primary_asset_id" : "' + send_assets + '"}',
+        dataType: "json",
+        success: function (data) {
+            $('#loaderTrans').fadeOut(500);
+            console.log("===============================data===============================");
+            console.log(data);
+            console.log("===============================/////data/////===============================");
+            var current = "";
+            if (data.rows > 0) {
+                for (var i = 0; i < data.rows; i++) {
+                    current += "<tr><td>" + data.data[i].ASSET_PRIMARY_ID + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td></tr>";
+                }
+            }
+            document.getElementById('assetTbodyTransfer').innerHTML = current;
+            console.log(current);
+            // var html_view = "";
+            // var p_count = 0;
+            // var count = 0;
+            // if (data.rows > 0) {
+            //     for (var i = 0; i < data.rows; i++) {
+            //         // var primary_info = "";
+            //         // var primary_id = data.data[i].asset.primary[0];
+            //         // var len_primary = "";
+            //         // var sub_info = "";
+            //         // var th_primary = "<tr style='background: #717171;;color:#ffffff;'>";
+            //         // if (data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID) {
+            //         //     p_count++;
+            //         //     count = 0;
+
+            //         //     if (data.data[i].ASSET_IS_SUB == "YES") {
+            //         //         th_primary += "<td><span class='toggle-btn' onclick=\"toggle_subs('.sub" + p_count + "')\"> + </span></td>";
+            //         //     } else {
+            //         //         th_primary += "<td> - </td>";
+            //         //     }
+
+
+
+            //         //     th_primary += "<td>" + data.data[i].ASSET_LOCATION_AREA + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+            //         //     html_view += th_primary;
+            //         // } else {
+            //         //     sub_info += "<tr class='sub" + p_count + "'><td>" + (count) + "</td>";
+
+            //         //     sub_info += "<td colspan='2'><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+            //         //     html_view += sub_info;
+            //         // }
+            //         // count++;
+            //     }
+            //     document.getElementById('tbodyPrint').innerHTML = html_view;
+            // }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}
+
+
 
 
 var onSearch = function (searchValue, emptyId) {
