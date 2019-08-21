@@ -124,35 +124,6 @@
                             </tr>
                         </tbody>
                     </table>
-
-
-
-                    <!-- <div class="row text-center">
-                        <div class="col-md-6">
-                            <p class="text-muted">
-                                <strong>Room</strong>:<span id="roomValue"> xxxxx</span>
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <p class="text-muted">
-                                <strong>Location</strong>:<span id="locValue"> xxxxx</span>
-                            </p>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6 offset-3">
-                            <ul id="primaryAssets">
-                                <li class="primaryList">
-                                    <span id="assetBody">Test</span> - <span id="primDescription">xxxxxxx</span>
-                                    <ul id="subAsset">
-                                        <li class="subList">Sub Assets 1</li>
-                                        <li class="subList">Sub Assets 2</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> -->
                 </div>
 
             </div>
@@ -455,7 +426,7 @@
                                                                         placeholder="BTC" autofocus="autofocus"> -->
                                             </form>
                                             <div id="menuLocation">
-                                                <div id="Roomload" class="dropdown-loader">
+                                                <div id="locationLoader" class="dropdown-loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
                                             </div>
@@ -487,7 +458,7 @@
                                                                         placeholder="BTC" autofocus="autofocus"> -->
                                             </form>
                                             <div id="menuRoom">
-                                                <div id="Roomload" class="dropdown-loader">
+                                                <div id="roomLoader" class="dropdown-loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
                                             </div>
@@ -503,10 +474,6 @@
                                         </button>
                                         <div class="dropdown-menu clusterize-scroll" id="scrollAssets" aria-labelledby="dropdown_assets">
                                             <form class="px-4 py-2">
-
-                                                <!--<input type="search" id="searchasset" class="form-control"
-                                                            placeholder="room..." autofocus="autofocus" onkeyup="onSearch(this)">
- -->
                                                 <div class="input-group">
                                                     <input type="search" id="searchasset" class="form-control" placeholder="asset no..." onkeyup="onSearch('searchasset','#emptyAsset')" autofocus="autofocus">
                                                     <div class="input-group-append">
@@ -514,11 +481,9 @@
                                                                 class="fa fa-close"></i></span>
                                                     </div>
                                                 </div>
-                                                <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                placeholder="BTC" autofocus="autofocus"> -->
                                             </form>
                                             <div id="menuAssets" class="text-center">
-                                                <div id="Assetload" class="dropdown-loader">
+                                                <div id="assetLoader" class="dropdown-loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
                                             </div>
@@ -608,6 +573,7 @@
                                 </div>
                             </div>
 
+                            
                         </div>
                     </div>
                     <div style="border-left:1px solid #ccc" class="col-md-6">
@@ -769,8 +735,8 @@
             console.log(`Error: ${error}`);
         }
 
-        // var setting = browser.tabs.setZoom(2);
-        // setting.then(null, onError);
+        var setting = browser.tabs.setZoom(2);
+        setting.then(null, onError);
     </script>
 
 </body>
