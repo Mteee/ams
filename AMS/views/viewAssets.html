@@ -50,9 +50,10 @@
             font-size:12pt;
         } */
         
-        #overlay-printView table,
-        #overlay-printView table th {
-            border: 1px solid #ccc;
+        #overlay-printView table th,
+        #overlay-printView table td {
+            border: 2px solid #000;
+            padding: 0.5em;
         }
     </style>
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
@@ -65,7 +66,7 @@
 
             <div class="asset-body" style="font-size: 12pt;">
                 <div class="print_scroll">
-                    <table class="table" id="tablePrint" style="">
+                    <table class="table" id="tablePrint">
                         <thead class="bg-light text-dark">
                             <th scope="col">
                                 #
@@ -96,8 +97,7 @@
                             style="padding-left:10px;">Export</span>
                     </button>
                     <button type="submit" class="btn btn-primary  export" onclick="printData()">
-                        <i class="fa fa-file" aria-hidden="true"></i> <span
-                            style="padding-left:10px;">Print</span>
+                        <i class="fa fa-file" aria-hidden="true"></i> <span style="padding-left:10px;">Print</span>
                     </button>
                 </div>
 
@@ -469,8 +469,10 @@
     <script src="../js/export/xlsx.full.min.js"></script>
     <script src="../js/export/Blob.js"></script>
     <script src="../js/export/FileSaver.js"></script>
+    <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
     <script src="../js/viewScript.js"></script>
     <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+
 
     <script>
         function showNav() {
