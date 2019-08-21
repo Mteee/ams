@@ -121,8 +121,8 @@ function search() {
                             ASSET_ROOM_NO = data.data[k].ASSET_ROOM_NO;
                         }
                         if (data.data[k].ASSET_TRANSACTION_STATUS == "Pending") {
-                            console.log(data.data[k].ASSET_PRIMARY_ID);
-                            rowIds.push(data.data[k].ASSET_PRIMARY_ID);
+                            console.log(data.data[k].ASSET_ID);
+                            rowIds.push(data.data[k].ASSET_ID);
 
                         };
                         if ((data.rows - 1) == k) {
@@ -133,6 +133,7 @@ function search() {
                                 data.data[k].ASSET_DESCRIPTION + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
+
                             str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
                                 data.data[k].ASSET_PRIMARY_ID + '","' +
                                 ASSET_ROOM_NO + '","' +
@@ -500,7 +501,9 @@ function getItems(url, id, scrollArea, menuid) {
 
         },
         error: function (data_err) {
+            console.log("Error");
             console.log(data_err);
+            console.error(data_err);
             console.log(localStorage.filter);
         }
     })
@@ -579,6 +582,7 @@ function getSelectedItems(id) {
         }
     }
     else if (id == "inAssetsTable") {
+
         document.getElementById('approveItemCount').innerHTML = rowsSelected.length;
         var comma_del = "";
         for (var i = 0; i < rowsSelected.length; i++) {
@@ -608,8 +612,6 @@ function getSelectedItems(id) {
             }
         });
 
-
-
     }
     else {
 
@@ -621,6 +623,7 @@ function getSelectedItems(id) {
 
         document.getElementById('overlay-transfer').style.display = "block";
         $("#confirmTransfer").click(function () {
+            console.log("Clicked");
             var input_location = $("#dropdown_transfer_location").text();
             var input_Room = $("#dropdown_transfer_room").text();
 
@@ -635,6 +638,7 @@ function getSelectedItems(id) {
                         confirmAssets(assetValues, input_location, input_Room);
                     }
                 } else {
+                    console.log("yes");
                     confirmAssets(assetValues, input_location, input_Room);
                 }
             }
@@ -692,7 +696,7 @@ function cancelAssets(selectedItems) {
         data: '{"username":"' + localStorage.username + '","asset_id":"' + selectedItems + '"}',
         dataType: 'JSON',
         success: function (data) {
-            console.log(data);
+            console.log(data.data);
             console.log('{"username":"' + localStorage.username + '","asset_id":"' + selectedItems + '"}');
 
         },
@@ -732,13 +736,16 @@ function createAssetDelimeter(assets_arr) {
 }
 
 function confirmAssets(assetIds, location, room) {
+    var tracker="";
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/confirmTransfer",
         data: '{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + location + '","room":"' + room + '"}',
         method: "POST",
         dataType: "JSON",
         success: function (data) {
+            console.log("success");
             console.log(data);
+            tracker ="success";
             alert(data.data);
             document.getElementById('overlay-transfer').style.display = "none";
             localStorage.menuRoom = room;
@@ -746,11 +753,14 @@ function confirmAssets(assetIds, location, room) {
             $('#btnTransfer').fadeOut(500);
         },
         error: function (dataErr) {
+            console.log("failed");
+            tracker ="failed";
             console.log('{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + location + '","room":"' + room + '"}');
             console.log(dataErr);
         }
+    });
 
-    })
+    console.log(tracker);
 }
 
 function getSelectedAssets(assets) {
