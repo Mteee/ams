@@ -121,8 +121,8 @@ function search() {
                             ASSET_ROOM_NO = data.data[k].ASSET_ROOM_NO;
                         }
                         if (data.data[k].ASSET_TRANSACTION_STATUS == "Pending") {
-                            console.log(data.data[k].ASSET_PRIMARY_ID);
-                            rowIds.push(data.data[k].ASSET_PRIMARY_ID);
+                            console.log(data.data[k].ASSET_ID);
+                            rowIds.push(data.data[k].ASSET_ID);
 
                         };
                         if ((data.rows - 1) == k) {
@@ -133,6 +133,7 @@ function search() {
                                 data.data[k].ASSET_DESCRIPTION + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
+
                             str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
                                 data.data[k].ASSET_PRIMARY_ID + '","' +
                                 ASSET_ROOM_NO + '","' +
@@ -500,7 +501,9 @@ function getItems(url, id, scrollArea, menuid) {
 
         },
         error: function (data_err) {
+            console.log("Error");
             console.log(data_err);
+            console.error(data_err);
             console.log(localStorage.filter);
         }
     })
@@ -580,6 +583,7 @@ function getSelectedItems(id) {
         document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continueCancel(\'' + assetValues + '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';     
     }
     else if (id == "inAssetsTable") {
+
         document.getElementById('approveItemCount').innerHTML = rowsSelected.length;
         var comma_del = "";
         for (var i = 0; i < rowsSelected.length; i++) {
@@ -615,8 +619,6 @@ function getSelectedItems(id) {
             }
         });
 
-
-
     }
     else {
 
@@ -628,6 +630,7 @@ function getSelectedItems(id) {
 
         document.getElementById('overlay-transfer').style.display = "block";
         $("#confirmTransfer").click(function () {
+            console.log("Clicked");
             var input_location = $("#dropdown_transfer_location").text();
             var input_Room = $("#dropdown_transfer_room").text();
 
@@ -651,6 +654,7 @@ function getSelectedItems(id) {
                     document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_location + '\',\'' + input_Room + '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
 
                 } else {
+                    console.log("yes");
                     confirmAssets(assetValues, input_location, input_Room);
                 }
             }
@@ -715,12 +719,14 @@ function cancelAssets(selectedItems) {
         data: '{"username":"' + localStorage.username + '","asset_id":"' + selectedItems + '"}',
         dataType: 'JSON',
         success: function (data) {
+
             console.log(data);
             document.getElementById('overlay-alert-message').style.display = "none";
             document.getElementById('overlay-alert-message').style.display = "block";
             document.getElementById('alert_header').innerHTML = "Assets Cancel";
             document.getElementById('alert-message-body').innerHTML = ' <img src="../img/success.gif" alt="success" style="width: 51px;margin: 8px 11px;"><br /><span style="color:green;font-weight: bold;">' + data.data + '</span>';
             document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+
 
             console.log('{"username":"' + localStorage.username + '","asset_id":"' + selectedItems + '"}');
 
@@ -769,13 +775,16 @@ function createAssetDelimeter(assets_arr) {
 }
 
 function confirmAssets(assetIds, location, room) {
+    var tracker="";
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/confirmTransfer",
         data: '{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + location + '","room":"' + room + '"}',
         method: "POST",
         dataType: "JSON",
         success: function (data) {
+            console.log("success");
             console.log(data);
+
             document.getElementById('overlay-alert-message').style.display = "none";
             document.getElementById('overlay-alert-message').style.display = "block";
             document.getElementById('alert_header').innerHTML = "Assets Transfer";
@@ -783,17 +792,21 @@ function confirmAssets(assetIds, location, room) {
             document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
             // alert();
+
             document.getElementById('overlay-transfer').style.display = "none";
             localStorage.menuRoom = room;
             search();
             $('#btnTransfer').fadeOut(500);
         },
         error: function (dataErr) {
+            console.log("failed");
+            tracker ="failed";
             console.log('{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + location + '","room":"' + room + '"}');
             console.log(dataErr);
         }
+    });
 
-    })
+    console.log(tracker);
 }
 
 function getSelectedAssets(assets) {
