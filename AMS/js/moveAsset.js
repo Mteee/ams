@@ -121,8 +121,8 @@ function search() {
                             ASSET_ROOM_NO = data.data[k].ASSET_ROOM_NO;
                         }
                         if (data.data[k].ASSET_TRANSACTION_STATUS == "Pending") {
-                            console.log(data.data[k].ASSET_ID);
-                            rowIds.push(data.data[k].ASSET_ID);
+                            console.log(data.data[k].ASSET_PRIMARY_ID);
+                            rowIds.push(data.data[k].ASSET_PRIMARY_ID);
 
                         };
                         if ((data.rows - 1) == k) {
