@@ -682,6 +682,9 @@ function replaceAll(find, replace, str) {
 
 function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);
+    document.getElementById('menuLocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menuRoom').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menuAssets').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
     var value = $(input).val();
     if (value.length > 0) {
         localStorage.menuRoom = '';
