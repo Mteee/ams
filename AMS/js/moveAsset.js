@@ -108,11 +108,18 @@ function search() {
                 $('#loader').hide();
                 var table = null;
                 var rowIds = [];
+                var ASSET_ROOM_NO = "";
                 if (data.rows > 0) {
                     localStorage.table_len = data.rows;
                     console.log(data);
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
+
+                        if (data.data[k].ASSET_ROOM_NO == null) {
+                            ASSET_ROOM_NO = "NOT SPECIFIED";
+                        } else {
+                            ASSET_ROOM_NO = data.data[k].ASSET_ROOM_NO;
+                        }
                         if (data.data[k].ASSET_TRANSACTION_STATUS == "Pending") {
                             console.log(data.data[k].ASSET_PRIMARY_ID);
                             rowIds.push(data.data[k].ASSET_PRIMARY_ID);
@@ -121,14 +128,14 @@ function search() {
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
                                 data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_ROOM_NO + '","' +
+                                ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_LOCATION_AREA + '","' +
                                 data.data[k].ASSET_DESCRIPTION + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
                             str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
                                 data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_ROOM_NO + '","' +
+                                ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_LOCATION_AREA + '","' +
                                 data.data[k].ASSET_DESCRIPTION + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
@@ -432,6 +439,12 @@ function populate_tran_dropdown() {
 populate_dropdown();
 
 
+// populate room no
+function populate_room() {
+    getItems('../../ams_apis/slimTest/index.php/room_no', 'search_approve_roomno', 'scroll_approve_room', 'menu_approve_Room', 'empty_approve_Room');
+}
+
+
 var allArr = {
     searchasset: [],
     searchroomno: [],
@@ -545,10 +558,6 @@ function checkFilter(key) {
 
 function getSelectedItems(id) {
 
-    localStorage.menuRoom = '';
-    localStorage.menuAssets = '';
-    localStorage.menuLocation = '';
-
     var rows_selected = tableArr[id].column(0).checkboxes.selected();
 
     // var data = table.row($("<input type='checkbox' value='' class='dt-checkboxes'>").parents('tr')).data();
@@ -570,21 +579,46 @@ function getSelectedItems(id) {
         }
     }
     else if (id == "inAssetsTable") {
-    var comma_del = "";
+        document.getElementById('approveItemCount').innerHTML = rowsSelected.length;
+        var comma_del = "";
         for (var i = 0; i < rowsSelected.length; i++) {
             if (i == rowsSelected.length - 1) {
                 comma_del += "\'" + rowsSelected[i] + "\'";
             } else {
                 comma_del += "\'" + rowsSelected[i] + "\',";
             }
-    
+
         }
 
         console.log(comma_del);
-        
-        // approveAssets(assetValues);
+        checkNullRoom(comma_del,assetValues);
+
+        // get_selected_room
+
+
+        $("#confirmApprove").click(function () {
+
+            var input_Room = $("#dropdown_approve_room").text();
+
+            if (input_Room.indexOf("ROOM...") > -1) {
+                alert("Please select room");
+            } else {
+                console.log(assetValues);
+                approveAssets(assetValues, input_Room);
+            }
+        });
+
+
+
     }
     else {
+
+        localStorage.menuRoom = '';
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = '';
+
+        populate_tran_dropdown();
+
         document.getElementById('overlay-transfer').style.display = "block";
         $("#confirmTransfer").click(function () {
             var input_location = $("#dropdown_transfer_location").text();
@@ -611,7 +645,47 @@ function getSelectedItems(id) {
 
 }
 
+
+function checkNullRoom(assetvalues,asset_values_cap_del) {
+
+    $.ajax({
+        url: '../../ams_apis/slimTest/index.php/checkRoom',
+        method: 'POST',
+        data: '{"asset_id":"' + assetvalues + '"}',
+        dataType: 'JSON',
+        success: function (data) {
+            console.log(data);
+            if (data.rows > 0) {
+                // console.log("here");
+                document.getElementById('dropdown_approve_location').innerHTML = localStorage.menuLocation;
+                populate_room();
+                var current = "";
+                if (data.rows > 0) {
+                    for (var i = 0; i < data.rows; i++) {
+                        current += "<tr><td>" + data.data[i].ASSET_PRIMARY_ID + "</td><td>" + data.data[i].ASSET_ROOM_NO_OLD + "</td></tr>";
+                    }
+                }
+                $('#loaderApprove').fadeOut(500);
+                document.getElementById('assetTbodyApprove').innerHTML = current;
+
+                document.getElementById('overlay-approve').style.display = "block";
+
+            }
+            else{
+                approveAssets(asset_values_cap_del, "");
+            }
+
+        },
+        error: function (dataErr) {
+            console.log(dataErr);
+            console.log(assetvalues);
+        }
+    })
+
+}
+
 function cancelAssets(selectedItems) {
+
     $.ajax({
         url: '../../ams_apis/slimTest/index.php/cancelTransfer',
         method: 'POST',
@@ -628,16 +702,17 @@ function cancelAssets(selectedItems) {
     })
 }
 
-function approveAssets(assetValues){
+function approveAssets(assetValues,room) {
     $.ajax({
-        url:'../../ams_apis/slimTest/index.php/approveAsset',
-        dataType:'JSON',
-        method:'POST',
-        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetValues + '","location":"' + location + '","room":"' + room + '"}',
-        success: function(data){
+        url: '../../ams_apis/slimTest/index.php/approveAsset',
+        dataType: 'JSON',
+        method: 'POST',
+        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetValues + '","location":"' + localStorage.menuLocation + '","room":"' + room + '"}',
+        success: function (data) {
+            alert(data.data);
             console.log(data);
         },
-        error: function(dataErr){
+        error: function (dataErr) {
             console.log(dataErr);
         }
     });
@@ -789,6 +864,7 @@ var onSearch = function (searchValue, emptyId) {
         $('#dropdown_location').text($(this)[0].value);
         ;
         $('#' + resObj.btnId).text(resObj.btnContent);
+        populate_room();
     }
 
     if (found) {
@@ -821,14 +897,24 @@ function replaceAll(find, replace, str) {
 function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);
     var value = $(input).val();
+
     if (value.length > 0) {
-        localStorage.menuRoom = '';
-        localStorage.menuAssets = '';
-        localStorage.menuLocation = '';
-        populate_dropdown();
-        populate_tran_dropdown();
-        $(input).val("");
-        $(btnDafualtId).text(text);
+        if (btnDafualtId == "#dropdown_approve_room") {
+            populate_room();
+            $(input).val("");
+            $(btnDafualtId).text(text);
+
+        }
+        else{
+            localStorage.menuRoom = '';
+            localStorage.menuAssets = '';
+            localStorage.menuLocation = '';
+            populate_dropdown();
+            populate_tran_dropdown();
+            $(input).val("");
+            $(btnDafualtId).text(text);
+        }
+
     }
 }
 
@@ -878,6 +964,15 @@ $('#menu_transfer_Location').on('click', '.dropdown-item', function () {
     populate_tran_dropdown();
     $("#dropdown_transfer_location").dropdown('toggle');
     $('#search_transfer_location').val($(this)[0].value);
+})
+
+//Approve
+
+$('#menu_approve_Room').on('click', '.dropdown-item', function () {
+    $('#dropdown_approve_room').text($(this)[0].value);
+    populate_room();
+    $("#dropdown_approve_room").dropdown('toggle');
+    $('#search_approve_roomno').val($(this)[0].value);
 })
 
 
