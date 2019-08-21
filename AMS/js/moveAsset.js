@@ -114,20 +114,20 @@ function search() {
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
                         if (data.data[k].ASSET_TRANSACTION_STATUS == "Pending") {
-                            console.log(data.data[k].ASSET_ID);
-                            rowIds.push(data.data[k].ASSET_ID);
+                            console.log(data.data[k].ASSET_PRIMARY_ID);
+                            rowIds.push(data.data[k].ASSET_PRIMARY_ID);
 
                         };
                         if ((data.rows - 1) == k) {
-                            str += '["' + data.data[k].ASSET_ID + '","' +
-                                data.data[k].ASSET_ID + '","' +
+                            str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
+                                data.data[k].ASSET_PRIMARY_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_LOCATION_AREA + '","' +
                                 data.data[k].ASSET_DESCRIPTION + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
-                            str += '["' + data.data[k].ASSET_ID + '","' +
-                                data.data[k].ASSET_ID + '","' +
+                            str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
+                                data.data[k].ASSET_PRIMARY_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_LOCATION_AREA + '","' +
                                 data.data[k].ASSET_DESCRIPTION + '","' +
@@ -564,9 +564,25 @@ function getSelectedItems(id) {
     var assetValues = createAssetDelimeter(rowsSelected);
 
     if (id == "outAssetsTable") {
-        if (confirm("Are you sure you want to cancel?"))
+        if (confirm("Are you sure you want to cancel?")) {
             cancelAssets(assetValues);
-        search();
+            search();
+        }
+    }
+    else if (id == "inAssetsTable") {
+    var comma_del = "";
+        for (var i = 0; i < rowsSelected.length; i++) {
+            if (i == rowsSelected.length - 1) {
+                comma_del += "\'" + rowsSelected[i] + "\'";
+            } else {
+                comma_del += "\'" + rowsSelected[i] + "\',";
+            }
+    
+        }
+
+        console.log(comma_del);
+        
+        // approveAssets(assetValues);
     }
     else {
         document.getElementById('overlay-transfer').style.display = "block";
@@ -610,6 +626,21 @@ function cancelAssets(selectedItems) {
             console.log(dataErr);
         }
     })
+}
+
+function approveAssets(assetValues){
+    $.ajax({
+        url:'../../ams_apis/slimTest/index.php/approveAsset',
+        dataType:'JSON',
+        method:'POST',
+        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetValues + '","location":"' + location + '","room":"' + room + '"}',
+        success: function(data){
+            console.log(data);
+        },
+        error: function(dataErr){
+            console.log(dataErr);
+        }
+    });
 }
 
 function createAssetDelimeter(assets_arr) {
