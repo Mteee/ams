@@ -77,9 +77,21 @@ function search() {
     var current = "";
 
     if (" -  -  - " == results) {
-        alert("Please enter alteast one filter");
+        // alert("Please enter alteast one filter");
+        document.getElementById('overlay-alert-message').style.display = "none";
+        document.getElementById('overlay-alert-message').style.display = "block";
+        document.getElementById('alert_header').innerHTML = "Assets Transfer";
+        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter alteast one filter</span>';
+        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+    
     } else if (room == "" && location == "") {
-        alert("Please enter room or location to assist filtering data");
+        // alert("Please enter room or location to assist filtering data");
+        document.getElementById('overlay-alert-message').style.display = "none";
+        document.getElementById('overlay-alert-message').style.display = "block";
+        document.getElementById('alert_header').innerHTML = "Assets Transfer";
+        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter room or location to assist filtering data</span>';
+        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+    
     } else {
         $('#searchView').hide();
         $('#outSearch').hide();
@@ -727,7 +739,7 @@ function cancelAssets(selectedItems) {
             document.getElementById('alert-message-body').innerHTML = ' <img src="../img/success.gif" alt="success" style="width: 51px;margin: 8px 11px;"><br /><span style="color:green;font-weight: bold;">' + data.data + '</span>';
             document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
-
+            $('#btnCancel').fadeOut(500);
             console.log('{"username":"' + localStorage.username + '","asset_id":"' + selectedItems + '"}');
 
         },
@@ -754,6 +766,7 @@ function approveAssets(assetValues, room) {
             console.log(data);
             document.getElementById('overlay-approve').style.display = "none";
             search();
+            $('#btnApprove').fadeOut(500);
         },
         error: function (dataErr) {
             console.log(dataErr);
