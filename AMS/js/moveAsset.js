@@ -77,9 +77,21 @@ function search() {
     var current = "";
 
     if (" -  -  - " == results) {
-        alert("Please enter alteast one filter");
+        // alert("Please enter alteast one filter");
+        document.getElementById('overlay-alert-message').style.display = "none";
+        document.getElementById('overlay-alert-message').style.display = "block";
+        document.getElementById('alert_header').innerHTML = "Assets Transfer";
+        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter alteast one filter</span>';
+        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+    
     } else if (room == "" && location == "") {
-        alert("Please enter room or location to assist filtering data");
+        // alert("Please enter room or location to assist filtering data");
+        document.getElementById('overlay-alert-message').style.display = "none";
+        document.getElementById('overlay-alert-message').style.display = "block";
+        document.getElementById('alert_header').innerHTML = "Assets Transfer";
+        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter room or location to assist filtering data</span>';
+        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+    
     } else {
         $('#searchView').hide();
         $('#outSearch').hide();
@@ -121,8 +133,8 @@ function search() {
                             ASSET_ROOM_NO = data.data[k].ASSET_ROOM_NO;
                         }
                         if (data.data[k].ASSET_TRANSACTION_STATUS == "Pending") {
-                            console.log(data.data[k].ASSET_ID);
-                            rowIds.push(data.data[k].ASSET_ID);
+                            console.log(data.data[k].ASSET_PRIMARY_ID);
+                            rowIds.push(data.data[k].ASSET_PRIMARY_ID);
 
                         };
                         if ((data.rows - 1) == k) {
@@ -576,10 +588,11 @@ function getSelectedItems(id) {
     var assetValues = createAssetDelimeter(rowsSelected);
 
     if (id == "outAssetsTable") {
-        if (confirm("Are you sure you want to cancel?")) {
-            cancelAssets(assetValues);
-            search();
-        }
+        document.getElementById('overlay-alert-message').style.display = "none";
+        document.getElementById('overlay-alert-message').style.display = "block";
+        document.getElementById('alert_header').innerHTML = "Assets Cancel";
+        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to cancel?</span>';
+        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continueCancel(\'' + assetValues + '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';     
     }
     else if (id == "inAssetsTable") {
 
@@ -595,7 +608,7 @@ function getSelectedItems(id) {
         }
 
         console.log(comma_del);
-        checkNullRoom(comma_del,assetValues);
+        checkNullRoom(comma_del, assetValues);
 
         // get_selected_room
 
@@ -605,10 +618,16 @@ function getSelectedItems(id) {
             var input_Room = $("#dropdown_approve_room").text();
 
             if (input_Room.indexOf("ROOM...") > -1) {
-                alert("Please select room");
+                // alert("Please select room");
+                document.getElementById('overlay-alert-message').style.display = "block";
+                document.getElementById('alert_header').innerHTML = "Assets Approve";
+                document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;">Please select room</span>';
+                document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+
             } else {
                 console.log(assetValues);
                 approveAssets(assetValues, input_Room);
+
             }
         });
 
@@ -629,28 +648,44 @@ function getSelectedItems(id) {
 
 
             if (input_location.indexOf("LOCATION...") > -1) {
-                alert("Location is required");
+                // alert("Location is required");
+                document.getElementById('overlay-alert-message').style.display = "none";
+                document.getElementById('overlay-alert-message').style.display = "block";
+                document.getElementById('alert_header').innerHTML = "Assets Transfer";
+                document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Location is required</span>';
+                document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
             }
             else {
                 if (input_Room.indexOf("ROOM...") > -1) {
-                    if (confirm("Are you sure you want to continue without selecting the room")) {
-                        input_Room = "";
-                        confirmAssets(assetValues, input_location, input_Room);
-                    }
+                    input_Room = '';
+                    console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
+                    document.getElementById('overlay-alert-message').style.display = "none";
+                    document.getElementById('overlay-alert-message').style.display = "block";
+                    document.getElementById('alert_header').innerHTML = "Assets Transfer";
+                    document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
+                    document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_location + '\',\'' + input_Room + '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
+
                 } else {
                     console.log("yes");
                     confirmAssets(assetValues, input_location, input_Room);
                 }
             }
-
-
         });
     }
 
 }
 
+function continueCancel(assetValues) {
+    cancelAssets(assetValues);
+    search();
+}
 
-function checkNullRoom(assetvalues,asset_values_cap_del) {
+function continuee(assetValues, input_location, input_Room) {
+   
+    confirmAssets(assetValues, input_location, input_Room);
+}
+
+function checkNullRoom(assetvalues, asset_values_cap_del) {
 
     $.ajax({
         url: '../../ams_apis/slimTest/index.php/checkRoom',
@@ -675,7 +710,7 @@ function checkNullRoom(assetvalues,asset_values_cap_del) {
                 document.getElementById('overlay-approve').style.display = "block";
 
             }
-            else{
+            else {
                 approveAssets(asset_values_cap_del, "");
             }
 
@@ -696,7 +731,15 @@ function cancelAssets(selectedItems) {
         data: '{"username":"' + localStorage.username + '","asset_id":"' + selectedItems + '"}',
         dataType: 'JSON',
         success: function (data) {
-            console.log(data.data);
+
+            console.log(data);
+            document.getElementById('overlay-alert-message').style.display = "none";
+            document.getElementById('overlay-alert-message').style.display = "block";
+            document.getElementById('alert_header').innerHTML = "Assets Cancel";
+            document.getElementById('alert-message-body').innerHTML = ' <img src="../img/success.gif" alt="success" style="width: 51px;margin: 8px 11px;"><br /><span style="color:green;font-weight: bold;">' + data.data + '</span>';
+            document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+
+            $('#btnCancel').fadeOut(500);
             console.log('{"username":"' + localStorage.username + '","asset_id":"' + selectedItems + '"}');
 
         },
@@ -706,15 +749,24 @@ function cancelAssets(selectedItems) {
     })
 }
 
-function approveAssets(assetValues,room) {
+function approveAssets(assetValues, room) {
     $.ajax({
         url: '../../ams_apis/slimTest/index.php/approveAsset',
         dataType: 'JSON',
         method: 'POST',
         data: '{"username":"' + localStorage.username + '","assetIds":"' + assetValues + '","location":"' + localStorage.menuLocation + '","room":"' + room + '"}',
         success: function (data) {
-            alert(data.data);
+            // alert();
+            document.getElementById('overlay-alert-message').style.display = "none";
+            document.getElementById('overlay-alert-message').style.display = "block";
+            document.getElementById('alert_header').innerHTML = "Assets Approve";
+            document.getElementById('alert-message-body').innerHTML = ' <img src="../img/success.gif" alt="success" style="width: 51px;margin: 8px 11px;"><br /><span style="color:green;font-weight: bold;">' + data.data + '</span>';
+            document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+
             console.log(data);
+            document.getElementById('overlay-approve').style.display = "none";
+            search();
+            $('#btnApprove').fadeOut(500);
         },
         error: function (dataErr) {
             console.log(dataErr);
@@ -745,8 +797,15 @@ function confirmAssets(assetIds, location, room) {
         success: function (data) {
             console.log("success");
             console.log(data);
-            tracker ="success";
-            alert(data.data);
+
+            document.getElementById('overlay-alert-message').style.display = "none";
+            document.getElementById('overlay-alert-message').style.display = "block";
+            document.getElementById('alert_header').innerHTML = "Assets Transfer";
+            document.getElementById('alert-message-body').innerHTML = ' <img src="../img/success.gif" alt="success" style="width: 51px;margin: 8px 11px;"><br /><span style="color:green;font-weight: bold;">' + data.data + '</span>';
+            document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+
+            // alert();
+
             document.getElementById('overlay-transfer').style.display = "none";
             localStorage.menuRoom = room;
             search();
@@ -915,7 +974,7 @@ function clearData(input, btnDafualtId, text) {
             $(btnDafualtId).text(text);
 
         }
-        else{
+        else {
             localStorage.menuRoom = '';
             localStorage.menuAssets = '';
             localStorage.menuLocation = '';
