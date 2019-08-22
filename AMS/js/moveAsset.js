@@ -628,8 +628,8 @@ function getSelectedItems(id) {
 
         // get_selected_room
 
-
-        $("#confirmApprove").click(function () {
+        $("#confirmApprove").off().on('click',function (e) {
+            e.preventDefault();
 
             var input_Room = $("#dropdown_approve_room").text();
 
@@ -643,10 +643,8 @@ function getSelectedItems(id) {
             } else {
                 // console.log(assetValues);
                 approveAssets(assetValues, input_Room);
-
             }
         });
-
     }
     else {
 
@@ -665,7 +663,9 @@ function getSelectedItems(id) {
         populate_tran_dropdown();
 
         document.getElementById('overlay-transfer').style.display = "block";
-        $("#confirmTransfer").click(function () {
+
+        $("#confirmTransfer").off().on('click',function (e) {
+            e.preventDefault();
             var input_location = $("#dropdown_transfer_location").text();
             var input_Room = $("#dropdown_transfer_room").text();
 
@@ -849,10 +849,7 @@ function confirmAssets(assetIds, location, room) {
 
 function getSelectedAssets(assets) {
     var currentItem = "";
-
     // console.log($('#assetBody'));
-
-
     var assets_arr = assets;
     var send_assets = "";
     for (var i = 0; i < assets_arr.length; i++) {
@@ -927,9 +924,6 @@ function getSelectedAssets(assets) {
     });
 }
 
-
-
-
 var onSearch = function (searchValue, emptyId) {
 
     var getId = searchValue;
@@ -973,14 +967,9 @@ var onSearch = function (searchValue, emptyId) {
     // console.log(clusterize[getId]);
 
     clusterize[getId].update(filterRows(rows));
-
-
 }
 
 // searchasset.onkeyup = onSearch(this);
-
-
-
 // buildDropDown('#menuRoom',names);
 // buildDropDown('#menuLocation',names);
 
@@ -1000,7 +989,6 @@ function clearData(input, btnDafualtId, text) {
             populate_room();
             $(input).val("");
             $(btnDafualtId).text(text);
-
         }
         else {
             document.getElementById('menuLocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
@@ -1016,15 +1004,8 @@ function clearData(input, btnDafualtId, text) {
             $(input).val("");
             $(btnDafualtId).text(text);
         }
-
     }
 }
-
-
-
-
-
-
 
 //If the user clicks on any item, set the title of the button as the text of the item
 $('#menuAssets').on('click', '.dropdown-item', function () {
@@ -1048,7 +1029,6 @@ $('#menuLocation').on('click', '.dropdown-item', function () {
     $("#dropdown_location").dropdown('toggle');
     $('#searchlocation').val($(this)[0].value);
 })
-
 
 //Transfer Overlay View
 
@@ -1076,7 +1056,6 @@ $('#menu_approve_Room').on('click', '.dropdown-item', function () {
     $("#dropdown_approve_room").dropdown('toggle');
     $('#search_approve_roomno').val($(this)[0].value);
 })
-
 
 // dropdown hangler
 
