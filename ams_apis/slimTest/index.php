@@ -525,8 +525,6 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
                                             AND (lvw.asset_room_no_new LIKE '%$ASSET_ROOM%'
                                             OR     lvw.asset_room_no_new IS NULL)
                                             AND avw.asset_primary_id LIKE '%$ASSET_NO%'
-                                            AND avw.asset_room_no LIKE '%$ASSET_ROOM%'
-                                            AND avw.asset_location_area LIKE '%$ASSET_LOCATION%'
                                             AND avw.asset_description LIKE '%$ASSET_DESCRIPTION%'
                                             AND avw.asset_class LIKE '%$ASSET_CLASS%'
                                             AND avw.asset_primary_id = lvw.asset_primary_id
@@ -598,8 +596,6 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                                             AND (lvw.asset_room_no_new LIKE '%$ASSET_ROOM%'
                                             OR     lvw.asset_room_no_new IS NULL)
                                             AND avw.asset_primary_id LIKE '%$ASSET_NO%'
-                                            AND avw.asset_room_no LIKE '%$ASSET_ROOM%'
-                                            AND avw.asset_location_area LIKE '%%'
                                             AND avw.asset_description LIKE '%$ASSET_DESCRIPTION%'
                                             AND avw.asset_class LIKE '%$ASSET_CLASS%'
                                             AND avw.asset_primary_id = lvw.asset_primary_id
