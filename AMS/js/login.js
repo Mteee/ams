@@ -3,16 +3,16 @@ $(document).ready(function() {
   var timeout = 1000;
   var count = 0;
 
+  localStorage.clear();
+
   var url_string =  window.location;
   var arr = (url_string).toString().split("=");
   var c = arr[arr.length-1];
   localStorage.username = c;
   console.log(c);
 
-
   // localStorage.username = c;
   // console.log(c);
-
 
     $('#loginLoader').fadeIn(500);
     $("#btnSave").attr("disabled", true);

@@ -1,17 +1,25 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto');
-/*-----------------------------------------------------------------------------------------------------------*/
-  /*----------------------------------------------------AME AFRICA--------------------------------------------*/
-   /*---------------------------------------------------------------------------------------------------------*/
 
-   @import url('https://fonts.googleapis.com/css?family=Roboto');
-   /*!
+/*-----------------------------------------------------------------------------------------------------------*/
+
+
+/*----------------------------------------------------AME AFRICA--------------------------------------------*/
+
+
+/*---------------------------------------------------------------------------------------------------------*/
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+/*!
  * AME SYSADMIN Library CSS
  * website
  * Copyright AME SOFTWARE DEVELOPMENT TEAM (Talent & Melusi)
  * Released under the AME license
  * Date: 2019-07-29
  */
- /*-----------------------------------------------------------------------------------------------------------*/
+
+
+/*-----------------------------------------------------------------------------------------------------------*/
 
 * {
     outline: 0 !important;
@@ -20,22 +28,36 @@
 
 
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /*-------------------------------------------------- Wrapper ------------------------------------------------*/
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /* Starts */
-.container{
+
+.container {
     box-shadow: 0px -20px 20px #00000047;
     padding: 5px 15px;
 }
+
 
 /* ends Wrapper */
 
 
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /*----------------------------------------------- Navigation ------------------------------------------------*/
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
+
 /* Starts */
+
 .logo {
     margin-top: -3px;
 }
@@ -46,8 +68,8 @@
     width: 100px
 }
 
-/* ends navigation */
 
+/* ends navigation */
 
 .form-control {
     display: inline-block !important;
@@ -55,10 +77,16 @@
 
 
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /*----------------------------------------------- Checkbox --------------------------------------------------*/
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
+
 /* Starts */
+
 input[type="checkbox"] {
     cursor: pointer;
     -webkit-appearance: none;
@@ -106,14 +134,21 @@ input[type="checkbox"]:disabled:after {
     border-color: #7b7b7b;
 }
 
+
 /* end Checkbox */
 
 
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /*----------------------------------------------- Table Header ----------------------------------------------*/
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
+
 /* Starts */
+
 .headerFreeze {
     /* display: none; */
     width: 15%;
@@ -123,8 +158,8 @@ input[type="checkbox"]:disabled:after {
     margin: -37px 0 0 -10px !important;
     background: rgb(54, 52, 52);
     padding-top: 12px;
-    padding-left:0;
-    color:white;
+    padding-left: 0;
+    color: white;
 }
 
 .headerFreezeView {
@@ -135,19 +170,26 @@ input[type="checkbox"]:disabled:after {
     margin: -37px 0 0 -10px !important;
     background: rgb(54, 52, 52);
     padding-top: 12px;
-    padding-left:0;
-    color:white;
+    padding-left: 0;
+    color: white;
 }
+
 
 /* ends table header */
 
 
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /*----------------------------------------------- Table Filters ---------------------------------------------*/
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
+
 /* Starts */
-.filerSearch{
+
+.filerSearch {
     width: 20%;
     height: 50px;
     font-weight: bolder;
@@ -155,40 +197,75 @@ input[type="checkbox"]:disabled:after {
     margin: -95px 0 0 -10px !important;
     /* background: rgb(54, 52, 52); */
     padding-top: 12px;
-    padding-left:0;
-    color:black;
+    padding-left: 0;
+    color: black;
 }
 
-.filerSearch input{
+.filerSearch input {
     margin-left: -5px;
-    width:70%;
+    width: 70%;
 }
+
 
 /* ends Table filters*/
 
 
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /*----------------------------------------------- Assets info Modal -----------------------------------------*/
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
+
 /* starts */
-#overlay-asset{
+
+#overlay-asset,
+#overlay-printView,
+#overlay-alert-message {
     display: none;
     position: fixed;
     width: 100%;
-    height:100%;
-    top:0;
-    left:0;
+    height: 100%;
+    top: 0;
+    left: 0;
     margin: 0;
     padding: 0;
     z-index: 1;
     background: rgba(0, 0, 0, 0.5);
 }
 
-.asset-details{
+#overlay-transfer {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+#overlay-approve {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.asset-details {
     position: relative;
     margin: 10% auto;
-    width:500px;
+    width: 500px;
     height: 500px;
     border-radius: 5px;
     background: white;
@@ -196,36 +273,78 @@ input[type="checkbox"]:disabled:after {
     position: relative;
 }
 
-.asset-header{
-    padding:20px;
+.asset-transfer-details {
+    position: relative;
+    margin: 10% auto;
+    width: 668px;
+    height: 459px;
+    border-radius: 5px;
+    background: white;
+    z-index: 2;
+    position: relative;
+}
+
+.asset-header {
+    padding: 20px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.13);
 }
 
-.asset-body{
-    color:black;
+.asset-body {
+    color: black;
     height: 375px;
-    padding:20px;
+    padding: 20px;
     border-top: 1px solid rgba(0, 0, 0, 0.13);
 }
 
-.asset-footer{
+.asset-transfer-body {
+    color: black;
+    height: 400px;
+    padding: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+}
+
+.asset-approve-body {
+    color: black;
+    height: 400px;
+    padding: 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+}
+
+.asset-footer {
     position: relative;
     /* bottom:0; */
-    padding:10px;
+    padding: 10px;
     border-top: 1px solid rgba(0, 0, 0, 0.13);
 }
 
-.exit-asset{
+.asset-transfer-footer {
     position: absolute;
-    font-size:12pt;
-    right:-10px;
-    top:-10px;
-    width:30px;
+    width: 100%;
+    bottom: 0;
+    padding: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+}
+
+.print-asset-footer {
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+    bottom: 0;
+    width: 100%;
+}
+
+.exit-asset {
+    position: absolute;
+    font-size: 12pt;
+    right: -10px;
+    top: -10px;
+    width: 30px;
     height: 30px;
     background: grey;
-    color:rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
     font-weight: bolder;
-    padding:0;
+    padding: 0;
     border-radius: 50%;
     text-align: center;
     border: 1px solid white;
@@ -235,9 +354,7 @@ input[type="checkbox"]:disabled:after {
 
 /* ends Assets info Modal*/
 
-
-
-.form-control{
+.form-control {
     padding: 0.375rem 0.75rem !important;
 }
 
@@ -245,29 +362,31 @@ input[type="checkbox"]:disabled:after {
     max-width: 1600px !important;
 }
 
-caption{
+caption {
     display: none !important;
 }
 
-.search_start{
+.search_start {
     z-index: 0;
     width: 98.4%;
     height: 90%;
     position: absolute;
     text-align: center;
-    overflow:none;
+    overflow: none;
     color: #7b7b7b;
     font-weight: bolder;
-    
 }
 
 
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /*----------------------------------------------- Asset View Loader -----------------------------------------*/
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
-
-#loader{
+#loader {
     display: none;
     position: absolute;
     margin: 320px auto;
@@ -277,7 +396,7 @@ caption{
     text-align: center;
 }
 
-.dropdown-loader{
+.dropdown-loader {
     /* position: absolute;
     margin: 320px auto;
     z-index: 1;
@@ -285,26 +404,35 @@ caption{
     text-align: center;
 }
 
-.dropdown-loader img{
+.dropdown-loader img {
     width: 50px;
     text-align: center;
     margin: 0 auto;
 }
 
 .dropdown-menu {
-    padding:0 !important;
+    padding: 0 !important;
 }
 
+
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /*----------------------------------------------- Asset View Loader -----------------------------------------*/
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
 
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /*----------------------------------------------- Login Loader -----------------------------------------*/
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
-#loginLoader{
+#loginLoader {
     z-index: 1;
     width: 100%;
     margin: 0 auto 0 auto;
@@ -314,11 +442,38 @@ caption{
     width: 100px;
 }
 
-/*-----------------------------------------------------------------------------------------------------------*/
-/*----------------------------------------------- End Login Loader -----------------------------------------*/
+#loaderTrans {
+    z-index: 1;
+    width: 100%;
+    margin: 5px auto 0 auto;
+    text-align: center;
+}
+
+#loaderTrans img {
+    width: 55px;
+}
+
+#loaderApprove {
+    z-index: 1;
+    width: 100%;
+    margin: 5px auto 0 auto;
+    text-align: center;
+}
+
+#loaderApprove img {
+    width: 55px;
+}
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
-#search_start{
+
+/*----------------------------------------------- End Login Loader -----------------------------------------*/
+
+
+/*-----------------------------------------------------------------------------------------------------------*/
+
+#search_start {
     display: none;
 }
 
@@ -329,10 +484,12 @@ caption{
 }
 
 
-
-
 /*-----------------------------------------------------------------------------------------------------------*/
+
+
 /*----------------------------------------------- AssetView Style Start -----------------------------------------*/
+
+
 /*-----------------------------------------------------------------------------------------------------------*/
 
 .subList {
@@ -351,7 +508,7 @@ caption{
     padding: 6px 4px;
 }
 
-#asset-info td{
+#asset-info td {
     padding: 6px 4px;
 }
 
@@ -370,7 +527,17 @@ caption{
     overflow-y: auto;
 }
 
+.transfer-scroll {
+    height: 151px;
+    overflow-y: auto;
+}
+
 .test-scroll thead th {
+    position: sticky;
+    top: 0;
+}
+
+.transfer-scroll thead {
     position: sticky;
     top: 0;
 }
@@ -383,14 +550,13 @@ div#currentAssetsTable_length {
     display: none !important;
 }
 
-div#outAssetsTable_length{
+div#outAssetsTable_length {
     display: none !important;
 }
 
-div#inAssetsTable_length{
+div#inAssetsTable_length {
     display: none !important;
 }
-
 
 .menu-text {
     position: absolute;
@@ -419,9 +585,13 @@ div#inAssetsTable_length{
     margin: 0;
     padding: 0;
 }
-.menu-group a, .menu-group a:hover, .menu-group a:active, .menu-group a::after{
-  color:black !important;
-  text-decoration: none !important;
+
+.menu-group a,
+.menu-group a:hover,
+.menu-group a:active,
+.menu-group a::after {
+    color: black !important;
+    text-decoration: none !important;
 }
 
 .menu-item {
@@ -460,6 +630,7 @@ div#inAssetsTable_length{
 
 /* ================================Hide Cluster==================================== */
 
-.clusterize-no-data,.dropdown-header{
+.clusterize-no-data,
+.dropdown-header {
     display: none;
 }

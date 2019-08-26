@@ -16,13 +16,13 @@
             font-weight: bolder;
             font-size: 18px;
         }
-
+        
         .toggle-btn:hover {
             cursor: pointer;
         }
-
-        *{
-            font-size:12pt;
+        
+        * {
+            font-size: 12pt;
         }
     </style>
 </head>
@@ -50,7 +50,7 @@
                 </thead>
                 <tbody id="tbodyPrint"></tbody>
             </table>
-             <!-- <button id="printTabel" onclick="write_headers_to_excel('tableTest')">Print Table</button> -->
+            <!-- <button id="printTabel" onclick="write_headers_to_excel('tableTest')">Print Table</button> -->
             <button type="submit" class="btn btn_btn export" value="Export" onclick="doit('xlsx','tableTest');">
                 <i class="fa fa-file-excel-o" aria-hidden="true"></i> Print Table
             </button>
@@ -67,12 +67,12 @@
             // url: "assets.json",
             url: "../ams_apis/slimTest/index.php/printView",
             method: "post",
-            data : '{"asset_class":"","primary_asset_id" : "\'SG82G490D4\',\'SG82G490D1\'"}',
+            data: '{"asset_class":"","primary_asset_id" : "\'SG82G490D4\',\'SG82G490D1\'"}',
             dataType: "json",
-            success: function (data) {
+            success: function(data) {
                 console.log(data);
                 var html_view = "";
-
+                var p_count = 0;
                 var count = 0;
                 if (data.rows > 0) {
                     for (var i = 0; i < data.rows; i++) {
@@ -81,50 +81,28 @@
                         // var len_primary = "";
                         var sub_info = "";
                         var th_primary = "<tr style='background:#464040;color:#ffffff;'>";
-                        if(data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID){
-
+                        if (data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID) {
+                            p_count++;
                             count = 0;
-                            th_primary += "<td><span class='toggle-btn' onclick=\"toggle_subs('.sub" + i + "')\"> + </span></td>";
-                         
-                            th_primary += "<td>" + data.data[i].ASSET_LOCATION_AREA+ "</td><td>" + data.data[i].ASSET_ROOM_NO+ "</td><td>" + data.data[i].ASSET_ID+ "</td><td>" + data.data[i].ASSET_DESCRIPTION+ "</td></tr>";
-                           
-                        }else{
-                           sub_info += "<tr class='sub" + i + "'><td>"+(count)+"</td>";
-                         
-                            sub_info += "<td colspan='2'><td>" + data.data[i].ASSET_ID+ "</td><td>" + data.data[i].ASSET_DESCRIPTION+ "</td></tr>";
-                        }
-                        // var len_sub = data.data[i].asset.sub_assets.length;
-                      
-                        count++;
-                //         
-                //         else {
-                //             th_primary += "<td></td>";
-                //         }
+                            th_primary += "<td><span class='toggle-btn' onclick=\"toggle_subs('.sub" + p_count + "')\"> + </span></td>";
 
-                //         
-                //         th_primary += primary_info;
+                            th_primary += "<td>" + data.data[i].ASSET_LOCATION_AREA + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+
+                        } else {
+                            sub_info += "<tr class='sub" + p_count + "'><td>" + (count) + "</td>";
+
+                            sub_info += "<td colspan='2'><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+                        }
+
+                        count++;
 
                         html_view += th_primary + sub_info;
 
-                //         console.log(len_sub);
-                //         if (len_sub > 0) {
-                //             var sub_info = "";
-                //             for (var s = 0; s < len_sub; s++) {
-                //                
-                //                 for (var s_i = 0; s_i < 2; s_i++) {
-                //                     sub_info += "<td>" + data.data[i].asset.sub_assets[s][s_i] + "</td>";
-                //                 }
-                //                 sub_info += "</tr>";
-                //             }
-                //             html_view += sub_info;
-
-                //         }
-                //         console.log(html_view);
                     }
                     document.getElementById('tbodyPrint').innerHTML = html_view;
                 }
             },
-            error: function (err) {
+            error: function(err) {
                 console.log(err);
             }
         });
@@ -136,10 +114,16 @@
         //table export
         function doit(type, fn, dl) {
             var elt = document.getElementById(fn);
-            var wb = XLSX.utils.table_to_book(elt, { sheet: fn });
+            var wb = XLSX.utils.table_to_book(elt, {
+                sheet: fn
+            });
 
             return dl ?
-                XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+                XLSX.write(wb, {
+                    bookType: type,
+                    bookSST: true,
+                    type: 'base64'
+                }) :
                 XLSX.writeFile(wb, 'Assets Selected ' + fn + " ." + (type || 'xlsx') || ('test.' + (type || 'xlsx')));
         }
     </script>

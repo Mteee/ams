@@ -13,6 +13,15 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
     localStorage.filter = localStorage.backupFilter;
 }
 
+window.onload = function(){
+    if(localStorage.menuAssets !== '' || localStorage.menuRoom !== '' || localStorage.menuLocation !== ''){
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = ''
+        localStorage.menuRoom = ''
+        populate_dropdown();
+    }
+}
+
 $('#searchView').fadeIn(500);
 
 var user_class = localStorage.getItem("filter");
@@ -21,8 +30,8 @@ $('.user-class option').text(user_class);
 
 // console.log(user_class);
 
-function closeAsset() {
-    document.getElementById('overlay-asset').style.display = "none"
+function closeAsset(id) {
+    document.getElementById(id).style.display = "none"
 }
 
 function viewAsset(assetId) {
@@ -48,7 +57,6 @@ function viewAsset(assetId) {
         }
     });
 }
-
 
 function search() {
     var assetNo = document.getElementById('searchasset').value,
@@ -124,14 +132,14 @@ function search() {
 
                 $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
                     // var data = table.row($(this).parents('tr')).data();
-                    setTimeout(function(){
+                    setTimeout(function () {
                         console.log(checkboxSelectedLength());
                         if (checkboxSelectedLength() > 0) {
                             $('#printAssets').fadeIn(500);
                         } else {
                             $('#printAssets').fadeOut(500);
                         }
-                    },500);
+                    }, 500);
 
                     // if(data == null || data == undefined){
                     //     data = (localStorage.b).split(',');
@@ -199,10 +207,6 @@ function search() {
         //         console.log(err);
         //     }//close error function
         // });//close ajax function
-
-
-
-
     }
 }
 
@@ -226,6 +230,7 @@ function createTable(tableID, tableData) {
                     break;
                 } else {
                     out.push(tableData[i]);
+                
                 }
 
             }
@@ -252,7 +257,8 @@ function createTable(tableID, tableData) {
             {
                 'targets': 0,
                 'checkboxes': {
-                    'selectRow': true
+                    'selectRow': true,
+                    'value' : tableData[0]
                 }
             },
             {
@@ -272,52 +278,142 @@ function createTable(tableID, tableData) {
         ], 'select': {
             'style': 'multi'
         },
-        fnCreatedRow: function( nRow, aData, iDataIndex ) {
+        fnCreatedRow: function (nTd,nRow, aData, iDataIndex) {
+
             $(nRow).attr('id', aData[0]);
+            // console.log($(nTd).children()[0].children);
         }
     });
 
-
-    // Handle form submission event 
     $('#frm-example').on('submit', function (e) {
         // Prevent actual form submission
         e.preventDefault();
         var rows_selected = table.column(0).checkboxes.selected();
-       
-            var form = $('#frm-example');
 
-            // Iterate over all selected checkboxes
-            $.each(rows_selected, function (index, rowId) {
-                // Create a hidden element 
-                $(form).append(
-                    $('<input>')
-                        .attr('type', 'hidden')
-                        .attr('name', 'id[]')
-                        .val(rowId)
-                );
-            });
+        var form = $('#frm-example');
 
-            // FOR DEMONSTRATION ONLY
-            // The code below is not needed in production
+        // Iterate over all selected checkboxes
+        $.each(rows_selected, function (index, rowId) {
+            // Create a hidden element 
+            $(form).append(
+                $('<input>')
+                    .attr('type', 'hidden')
+                    .attr('name', 'id[]')
+                    .val(rowId)
+            );
+        }); 
 
-            // Output form data to a console     
-            console.log((rows_selected.join(",")).split(","));
+        var rowsSelected = rows_selected.join(",").split(",");
 
-            // Output form data to a console     
-            // console.log($(form).serialize());
+        viewPrintAssets(rowsSelected);
+        // Remove added elements
+        $('input[name="id\[\]"]', form).remove();
 
-            // Remove added elements
-            $('input[name="id\[\]"]', form).remove();
+        e.preventDefault();
 
-            e.preventDefault();
-        
     });
 
 
     return table;
 }
 
+function viewPrintAssets(assets) {
+    var currentItem = "";
+    document.getElementById('overlay-printView').style.display = "block";
+    // console.log($('#assetBody'));
 
+    console.log(assets);
+
+    var assets_arr = assets;
+    var send_assets = "";
+    for (var i = 0; i < assets_arr.length; i++) {
+        if (i == assets_arr.length - 1) {
+            send_assets += "\'" + assets_arr[i] + "\'";
+        } else {
+            send_assets += "\'" + assets_arr[i] + "\',";
+        }
+
+    }
+
+    console.log(send_assets);
+
+    $.ajax({
+        // url: "assets.json",
+        url: "../../ams_apis/slimTest/index.php/printView",
+        method: "post",
+        data: '{"asset_class":"","primary_asset_id" : "' + send_assets + '"}',
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            var html_view = "";
+            var p_count = 0;
+            var count = 0;
+            if (data.rows > 0) {
+                for (var i = 0; i < data.rows; i++) {
+                    // var primary_info = "";
+                    // var primary_id = data.data[i].asset.primary[0];
+                    // var len_primary = "";
+                    var sub_info = "";
+                    var th_primary = "<tr style='background:#222;color:#ffffff;'>";
+                    if (data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID) {
+                        p_count++;
+                        count = 0;
+
+                        if (data.data[i].ASSET_IS_SUB == "y") {
+                            th_primary += "<td class='text-center'><span class='toggle-btn' onclick=\"toggle_subs('.sub" + p_count + "')\"> + </span></td>";
+                        } else {
+                            th_primary += "<td class='text-center'> - </td>";
+                        }
+
+                        th_primary += "<td>" + data.data[i].ASSET_LOCATION_AREA + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+                        html_view += th_primary;
+                    } else {
+                        sub_info += "<tr class='sub" + p_count + "'><td>" + (count) + "</td>";
+
+                        sub_info += "<td colspan='2'><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+                        html_view += sub_info;
+                    }
+                    count++;
+                }
+                document.getElementById('tbodyPrint').innerHTML = html_view;
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+}
+
+function printData() {
+    var divToPrint = document.getElementById("tablePrint");
+    var htmlToPrint = '' +
+        '<style type="text/css">' +
+        'table th, table td {' +
+        'border:1px solid #000;' +
+        'padding:0.5em;' +
+        'font-size:12pt;' +
+        '}' +
+        '</style>';
+    htmlToPrint += divToPrint.outerHTML;
+    newWin = window.open("");
+    newWin.document.write(htmlToPrint);
+    newWin.print();
+    newWin.close();
+}
+
+function toggle_subs(sub_class) {
+    $(sub_class).slideToggle('fast');
+}
+
+//table export
+function doit(type, fn, dl) {
+    var elt = document.getElementById(fn);
+    var wb = XLSX.utils.table_to_book(elt, { sheet: fn });
+
+    return dl ?
+        XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+        XLSX.writeFile(wb, 'Assets Selected ' + fn + " ." + (type || 'xlsx') || ('test.' + (type || 'xlsx')));
+}
 // function printView() {
 
 //     var id = $('.checkitem:checked').map(function () {
@@ -369,7 +465,6 @@ $('#menuRoom').on('click', '.dropdown-item', function () {
 
 })
 
-
 $('#menuLocation').on('click', '.dropdown-item', function () {
     $('#dropdown_location').text($(this)[0].value)
     localStorage.menuLocation = $(this)[0].value;
@@ -388,7 +483,6 @@ function populate_dropdown() {
     // get location
     getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
 
-
 }
 
 populate_dropdown();
@@ -404,7 +498,6 @@ function onItemSelect(menuId) {
 
 }
 
-
 function setSearchValues(a, b, c) {
     // button
     $('#dropdown_assets').text(a);
@@ -416,7 +509,6 @@ function setSearchValues(a, b, c) {
     $('#searchroomno').val(b);
     $('#searchlocation').val(c);
 }
-
 
 var allArr = {
     searchasset: [],
@@ -436,7 +528,7 @@ function getItems(url, id, scrollArea, menuid) {
         data: '{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}',
         success: function (data) {
             console.log(JSON.parse('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}'));
-            console.log(data);
+            // console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
             // console.log("=============searchValue================");
@@ -454,7 +546,6 @@ function getItems(url, id, scrollArea, menuid) {
 
             // localStorage.setItem(id, JSON.stringify(rows));
             // Storage.prototype._setItem(id,rows);
-
 
             filterItems(rows, id, scrollArea, menuid);
             // // console.log(data.data);
@@ -475,15 +566,11 @@ function getItems(url, id, scrollArea, menuid) {
         },
         error: function (data_err) {
             console.log(data_err);
+            console.log("Error");
             console.log(localStorage.filter);
         }
     });
-
-
-
-
 }
-
 
 var clusterize = {
     searchasset: [],
@@ -580,14 +667,9 @@ var onSearch = function (searchValue, emptyId) {
     // console.log(clusterize[getId]);
 
     clusterize[getId].update(filterRows(rows));
-
-
 }
 
 // searchasset.onkeyup = onSearch(this);
-
-
-
 // buildDropDown('#menuRoom',names);
 // buildDropDown('#menuLocation',names);
 
@@ -600,6 +682,9 @@ function replaceAll(find, replace, str) {
 
 function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);
+    document.getElementById('menuLocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menuRoom').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menuAssets').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
     var value = $(input).val();
     if (value.length > 0) {
         localStorage.menuRoom = '';
@@ -610,7 +695,6 @@ function clearData(input, btnDafualtId, text) {
         $(btnDafualtId).text(text);
     }
 }
-
 
 function resetBtn(resetId, resetTxt) {
     $(resetId).text(resetTxt);
@@ -641,6 +725,13 @@ if (localStorage.filter == "All EQUIPMENT") {
     $('#class-options').on('change', function () {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
+
+        localStorage.menuRoom = '';
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = '';
+
+        populate_dropdown();
+
         //clear btn text
         resetBtn('#dropdown_assets', 'ASSET NO...');
         resetBtn('#dropdown_room', 'ROOM...');
