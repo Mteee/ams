@@ -1085,6 +1085,7 @@ function clearData(input, btnDafualtId, text) {
 $('#menuAssets').on('click', '.dropdown-item', function () {
     $('#dropdown_assets').text($(this)[0].value);
     localStorage.menuAssets = $(this)[0].value;
+    $('#clearAllFilters').prop('disabled', false);
     populate_dropdown();
     $("#dropdown_assets").dropdown('toggle');
     $('#searchasset').val($(this)[0].value);
@@ -1092,6 +1093,7 @@ $('#menuAssets').on('click', '.dropdown-item', function () {
 $('#menuRoom').on('click', '.dropdown-item', function () {
     $('#dropdown_room').text($(this)[0].value);
     localStorage.menuRoom = $(this)[0].value;
+    $('#clearAllFilters').prop('disabled', false);
     populate_dropdown();
     $("#dropdown_room").dropdown('toggle');
     $('#searchroomno').val($(this)[0].value);
@@ -1099,6 +1101,7 @@ $('#menuRoom').on('click', '.dropdown-item', function () {
 $('#menuLocation').on('click', '.dropdown-item', function () {
     $('#dropdown_location').text($(this)[0].value);
     localStorage.menuLocation = $(this)[0].value;
+    $('#clearAllFilters').prop('disabled', false);
     populate_dropdown();
     $("#dropdown_location").dropdown('toggle');
     $('#searchlocation').val($(this)[0].value);
@@ -1190,7 +1193,22 @@ function toggleZoomScreen(value) {
 }
 /*------   Zoom handler -----*/
 
+function clearFunction(){
 
+    localStorage.menuLocation = '';
+    localStorage.menuRoom = '';
+    localStorage.menuAssets = '';
+    populate_dropdown();
+
+    $('#searchlocation').val("");
+    $('#dropdown_location').text("LOCATION...");
+    $('#searchroomno').val("");
+    $('#dropdown_room').text("ROOM...");
+    $('#searchasset').val("");
+    $('#dropdown_assets').text("ASSET NO...");
+    $('#clearAllFilters').prop('disabled', true);
+
+}
 
 // close application
 
