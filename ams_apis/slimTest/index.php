@@ -528,6 +528,8 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
                                             AND avw.asset_description LIKE '%$ASSET_DESCRIPTION%'
                                             AND avw.asset_class LIKE '%$ASSET_CLASS%'
                                             AND avw.asset_primary_id = lvw.asset_primary_id
+                                            AND avw.asset_id = lvw.asset_id
+                                            AND avw.asset_primary_id = lvw.asset_id
                                     union all            
                                     SELECT avw.asset_primary_id,
                                             lvw.asset_room_no_old,
@@ -544,7 +546,9 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
                                             AND avw.asset_location_area LIKE '%$ASSET_LOCATION%'
                                             AND avw.asset_description LIKE '%$ASSET_DESCRIPTION%'
                                             AND avw.asset_class LIKE '%$ASSET_CLASS%'
-                                            AND avw.asset_primary_id = lvw.asset_primary_id) a
+                                            AND avw.asset_primary_id = lvw.asset_primary_id
+                                            AND avw.asset_id = lvw.asset_id
+                                            AND avw.asset_primary_id = lvw.asset_id) a
                                 where a.movement_type = 'OUT'";
                                 
         // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
@@ -599,6 +603,8 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                                             AND avw.asset_description LIKE '%$ASSET_DESCRIPTION%'
                                             AND avw.asset_class LIKE '%$ASSET_CLASS%'
                                             AND avw.asset_primary_id = lvw.asset_primary_id
+                                            AND avw.asset_id = lvw.asset_id
+                                            AND avw.asset_primary_id = lvw.asset_id
                                     union all            
                                     SELECT avw.asset_primary_id,
                                             lvw.asset_room_no_old,
@@ -615,7 +621,9 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                                             AND avw.asset_location_area LIKE '%$ASSET_LOCATION%'
                                             AND avw.asset_description LIKE '%$ASSET_DESCRIPTION%'
                                             AND avw.asset_class LIKE '%$ASSET_CLASS%'
-                                            AND avw.asset_primary_id = lvw.asset_primary_id) a
+                                            AND avw.asset_primary_id = lvw.asset_primary_id
+                                            AND avw.asset_id = lvw.asset_id
+                                            AND avw.asset_primary_id = lvw.asset_id) a
                                 where a.movement_type = 'IN'
                 ";
 
@@ -643,8 +651,11 @@ $app->map(['GET','POST'],'/pendingTransfer',function(Request $request, Response 
 
 
     $sql = "SELECT ASSET_ROOM_NO,ASSET_PRIMARY_ID
-    FROM AMSD.ASSETS_VW
-    WHERE ASSET_PRIMARY_ID IN ($ASSET_NO)";
+            FROM AMSD.ASSETS_VW
+            WHERE ASSET_PRIMARY_ID IN ($ASSET_NO)
+            AND ASSET_ID = ASSET_PRIMARY_ID";
+
+
 
     $assets_no =$func->executeQuery($sql);
 
