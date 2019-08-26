@@ -1152,6 +1152,10 @@ if (localStorage.filter == "All EQUIPMENT") {
         resetInput('#searchlocation', '');
         resetInput('#searchroomno', '');
         resetInput('#searchasset', '');
+
+        localStorage.menuAssets = '';
+        localStorage.menuLocation ='';
+        localStorage.menuRoom='';
         populate_dropdown();
     });
 
