@@ -95,6 +95,22 @@
             margin-left: 27px;
             margin-top: -8px;
         }
+
+        /* table width */
+        #currentAssetsTable_wrapper,
+        #currentAssetsTable,
+        #inAssetsTable_wrapper,
+        #inAssetsTable,
+        #outAssetsTable_wrapper,
+        #outAssetsTable {
+            width: 100% !important;
+        }
+
+        * {
+
+            font-size: 10pt !important;
+
+        }
     </style>
 </head>
 
@@ -608,8 +624,9 @@
                                 </th>
                                 <th>
                                     <div class="clearAll">
-                                        </span><button class="btn btn-danger text-light form-control"
-                                            onclick="clearFunction()" disabled id="clearAllFilters"><span class="fa fa-times"></span> Clear all
+                                        </span><button class="btn btn-danger text-light form-control" class="fa fa-times" data-step="8"
+                                        data-intro="Clear all filters with this button"
+                                            onclick="clearFunction()" disabled id="clearAllFilters"><span></span> Clear all
                                             filters</button>
                                     </div>
                                 </th>
@@ -634,8 +651,8 @@
 
                                         </tr>
                                     </table>
-                                    <table class="table" id="currentAssetsTable" style="width: 1180px !important;"
-                                        data-step="8" data-intro="Assets currently in the room or location">
+                                    <table class="table" id="currentAssetsTable" data-step="9"
+                                        data-intro="Assets currently in the room or location">
                                         <thead style="background:#000000;color:#ffffff;">
                                             <tr>
                                                 <th scope="col">
@@ -706,7 +723,7 @@
                                             </tr>
 
                                         </table>
-                                        <table class="table" id="outAssetsTable" data-step="9"
+                                        <table class="table" id="outAssetsTable" data-step="10"
                                             data-intro="Assets moving out">
                                             <thead style="background:#000000;color:#ffffff;">
                                                 <tr>
@@ -773,7 +790,7 @@
                                             </tr>
 
                                         </table>
-                                        <table class="table" id="inAssetsTable" data-step="10"
+                                        <table class="table" id="inAssetsTable" data-step="11"
                                             data-intro="Assets moving in">
                                             <thead style="background:#000000;color:#ffffff;">
                                                 <tr>

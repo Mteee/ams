@@ -322,6 +322,7 @@ function search() {
             "processing": true,
             "searching": false,
             // "ordering": true,
+            "responsive":true,
             "ordering": false,
             "pageLength": length,
             "serverSide": true,
@@ -379,7 +380,8 @@ function search() {
                     "targets": -2,
                     "orderable": false
                 }
-            ], 'select': {
+            ],
+             'select': {
                 'style': 'multi'
             },
             fnCreatedRow: function (nRow, aData, iDataIndex) {
