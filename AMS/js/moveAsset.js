@@ -1137,7 +1137,7 @@ $('#menu_approve_Room').on('click', '.dropdown-item', function () {
 
 // dropdown hangler
 
-if (localStorage.filter == "All EQUIPMENT") {
+if (localStorage.filter == "ALL EQUIPMENT") {
 
     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
