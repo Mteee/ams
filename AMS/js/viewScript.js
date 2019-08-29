@@ -178,6 +178,33 @@ function search() {
             }
         });
 
+<<<<<<< Updated upstream
+=======
+        function createTable(tableID, tableData) {
+            var table = $(tableID).DataTable({
+                "data": tableData,
+                "searching": false,
+                "ordering": true,
+                "bDestroy":true,
+                "info": false,
+                "columnDefs": [{
+                    "targets": 0,
+                    "data": null,
+                    "defaultContent": "<input type='checkbox'/>"
+                }, {
+                    "targets": -1,
+                    "data": null,
+                    "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
+                }]
+            });
+
+            return table;
+        }
+
+      
+
+        
+>>>>>>> Stashed changes
 
         // $.ajax({
         //     url: "../../ams_apis/slimTest/index.php/getAssets",
