@@ -102,15 +102,17 @@ function search() {
         document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter alteast one filter</span>';
         document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
-    } else if (room == "" && location == "") {
-        // alert("Please enter room or location to assist filtering data");
-        document.getElementById('overlay-alert-message').style.display = "none";
-        document.getElementById('overlay-alert-message').style.display = "block";
-        document.getElementById('alert_header').innerHTML = "Assets Transfer";
-        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter room or location to assist filtering data</span>';
-        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+    } 
+    // else if (room == "" && location == "") {
+    //     // alert("Please enter room or location to assist filtering data");
+    //     document.getElementById('overlay-alert-message').style.display = "none";
+    //     document.getElementById('overlay-alert-message').style.display = "block";
+    //     document.getElementById('alert_header').innerHTML = "Assets Transfer";
+    //     document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter room or location to assist filtering data</span>';
+    //     document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
-    } else {
+    // } 
+    else {
         $('#searchView').hide();
         $('#outSearch').hide();
         $('#inSearch').hide();
