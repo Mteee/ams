@@ -1,3 +1,21 @@
 {
-    "liveServer.settings.port": 5502
+    "liveServer.settings.port": 5502,
+    "editor.fontSize": 18,
+    "background.enabled": true,
+    "background.useDefault":false,
+    "background.style":{
+        "content": "''",
+        "pointer-events": "none",
+        "position": "absolute",
+        "z-index": "1",
+        "width": "100%",
+        "height": "100%",
+        "top":0,
+        "background-position": "100% 100%",
+        "background-repeat": "no-repeat",
+        "opacity": 0.6
+    },
+    "background.customImages": [
+        "C:/Users/talen/Desktop/Naruto-Ashura-PNG-Clipart.png"
+    ]
 }
