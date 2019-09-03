@@ -264,7 +264,7 @@ input[type="checkbox"]:disabled:after {
 
 .asset-details {
     position: relative;
-    margin: 10% auto;
+    margin: 6% auto;
     width: 500px;
     height: 500px;
     border-radius: 5px;
@@ -634,3 +634,4 @@ div#inAssetsTable_length {
 .dropdown-header {
     display: none;
 }
+
