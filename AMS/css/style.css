@@ -182,10 +182,10 @@ body {
 }
 
 .inner .form-row .form-holder {
-    width: 50%;
-    padding: 0 10px;
-    margin-bottom: 19px;
-    position: relative;
+    /* width: 50%; */
+    /* padding: 0 10px; */
+    /* margin-bottom: 19px; */
+    /* position: relative; */
 }
 
 .inner .form-row .form-holder.form-holder-1 {
@@ -194,7 +194,7 @@ body {
 
 .inner .form-row .form-holder.form-holder-2 {
     width: 100%;
-    position: relative;
+    /* position: relative; */
 }
 
 .inner .form-row .form-holder label {
@@ -206,9 +206,9 @@ body {
 }
 
 .inner .form-row .form-holder, .inner .form-row .form-holder {
-    width: 100%;
-    padding: 12px 20px;
-    border: 1px solid #e5e5e5;
+    /* width: 100%; */
+    /* padding: 12px 20px; */
+    /* border: 1px solid #e5e5e5; */
     appearance: unset;
     -moz-appearance: unset;
     -webkit-appearance: unset;
@@ -219,12 +219,12 @@ body {
     -webkit-outline: none;
     -o-outline: none;
     -ms-outline: none;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    color: #333;
-    box-sizing: border-box;
-    -webkit-box-sizing: border-box;
+    /* font-family: 'Open Sans', sans-serif; */
+    /* font-weight: 600; */
+    /* font-size: 16px; */
+    /* color: #333; */
+    /* box-sizing: border-box; */
+    /* -webkit-box-sizing: border-box; */
     -moz-box-sizing: border-box;
     -o-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -308,7 +308,7 @@ body {
 
 .actions {
     float: right;
-    width: 530px;
+    width: 72%;
     background: #fff;
 }
 

@@ -52,172 +52,182 @@
                 <div class="page-content">
                     <div class="wizard-v7-content">
                         <div class="wizard-form">
-                            <form class="form-register" action="#" method="post">
-                                <div id="form-total">
-                                    <!-- SECTION 1 -->
-                                    <h2>
-                                        <p class="step-icon"><span>1</span></p>
-                                        <div class="step-text">
-                                            <span class="step-inner-1">Information</span>
-                                            <span class="step-inner-2">Asset Basic Info</span>
-                                        </div>
-                                    </h2>
-                                    <section>
-                                        <div class="inner">
-                                            <div class="wizard-header" style="background:#343a40;">
-                                                <h3 class="heading">Asset Basic Information</h3>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-holder form-holder-2">
-                                                    <label for="asset_class">Asset Class</label>
-                                                    <select name="asset_class" id="asset_class" class="form-control"
-                                                        required="required">
-                                                        <option value="0" selected disabled>SELECT ASSET CLASS</option>
-                                                        <option value="1">ALL EQUIMENT</option>
-                                                        <option value="2">FACILITIES EQUIMENT</option>
-                                                        <option value="3">IT EQUIMENT</option>
-                                                        <option value="4">MEDICAL EQUIMENT</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-holder form-holder-2">
-                                                    <label for="password">Room No</label>
-                                                    <div class="input-group">
-                                                        <input type="search" id="searchlocation" class="form-control"
-                                                            placeholder="Room.."
-                                                            onkeyup="onSearch('searchlocation','#emptyLocation')"
-                                                            autofocus="autofocus" required="required">
-                                                        <div class="input-group-append">
-                                                            <span class="input-group-text btn btn-primary text-light"
-                                                                id="clearLocation"><span class="fa fa-search"></span>
-                                                                search</span>
+                            <form class="form-register" id="form-total" action="#" method="post">
 
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-holder form-holder-2">
-                                                    <label for="classfifiacation name">Classification Name</label>
-                                                    <input type="text" name="classification name"
-                                                        id="classifiction nsame" class="form-control"
-                                                        placeholder="e.g furniture" required>
+                                <!-- SECTION 1 -->
+                                <h2>
+                                    <p class="step-icon"><span>1</span></p>
+                                    <div class="step-text">
+                                        <span class="step-inner-1">Information</span>
+                                        <span class="step-inner-2">Asset Basic Info</span>
+                                    </div>
+                                </h2>
+                                <section>
+                                    <div class="inner">
+                                        <div class="wizard-header" style="background:#343a40;">
+                                            <h3 class="heading">Asset Basic Information</h3>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2" style="margin-bottom: 10px;">
+                                                <label for="asset_class">Asset Class (*)</label>
+                                                <select name="asset_class" id="asset_class" class="form-control">
+                                                    <option value="0" selected disabled>SELECT ASSET CLASS</option>
+                                                    <option value="1">ALL EQUIMENT</option>
+                                                    <option value="2">FACILITIES EQUIMENT</option>
+                                                    <option value="3">IT EQUIMENT</option>
+                                                    <option value="4">MEDICAL EQUIMENT</option>
+                                                </select>
+                                                <div id="error-msg-asset-class" class=""
+                                                    style="font-weight:400; margin-bottom:0.5rem; font-size: 16px; line-height: 24px; color:#b92c28;">
                                                 </div>
                                             </div>
                                         </div>
-                                    </section>
-                                    <!-- SECTION 2 -->
-                                    <h2>
-                                        <p class="step-icon"><span>2</span></p>
-                                        <div class="step-text">
-                                            <span class="step-inner-1">Date Info</span>
-                                            <span class="step-inner-2">Date Details</span>
-                                        </div>
-                                    </h2>
-                                    <section>
-                                        <div class="inner">
-                                            <div class="wizard-header">
-                                                <h3 class="heading">Date Info</h3>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-holder form-holder-2">
-                                                    <label for="card_name">Card Holder Name</label>
-                                                    <input type="text" name="card_name"
-                                                        placeholder="Taylor Fuller" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-holder form-holder-2">
-                                                    <label for="cvc">CVC</label>
-                                                    <input type="password" name="cvc" class="form-control"
-                                                        required>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-holder form-holder-2">
-                                                    <label for="expiration">Expiration(MM/YYYY)</label>
-                                                    <input type="text" name="expiration"
-                                                        placeholder="MM/YYYY" class="form-control" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
-                                    <!-- SECTION 3 -->
-                                    <h2>
-                                        <p class="step-icon"><span>3</span></p>
-                                        <div class="step-text">
-                                            <span class="step-inner-1">Service</span>
-                                            <span class="step-inner-2">Service data</span>
-                                        </div>
-                                    </h2>
-                                    <section>
-                                        <div class="inner">
-                                            <div class="wizard-header">
-                                                <h3 class="heading">Service Data</h3>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-holder form-holder-2">
-                                                    <label for="card_name">Card Holder Name</label>
-                                                    <input type="text" name="card_name" id="card_name"
-                                                        placeholder="Taylor Fuller" class="form-control" required>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-holder form-holder-2">
-                                                    <label for="cvc">CVC</label>
-                                                    <input type="password" name="cvc" id="cvc" class="form-control"
-                                                        required>
-                                                </div>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-holder form-holder-2">
-                                                    <label for="expiration">Expiration(MM/YYYY)</label>
-                                                    <input type="text" name="expiration" id="expiration"
-                                                        placeholder="MM/YYYY" class="form-control" required>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </section>
-
-                                    <!-- SECTION 4 -->
-                                    <h2>
-                                        <p class="step-icon"><span>4</span></p>
-                                        <div class="step-text">
-                                            <span class="step-inner-1">Serial Info</span>
-                                            <span class="step-inner-2">Serial Details</span>
-                                        </div>
-                                    </h2>
-                                    <section>
-                                        <div class="inner">
-                                            <div class="wizard-header">
-                                                <h3 class="heading">Serial Info</h3>
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-holder form-holder-2">
-                                                    <div class="content-inner">
-                                                        <p>Massa placerat duis ultricies lacus sed turpis tin Elementum
-                                                            sagittis vitae et leo duis ut diam quam nulla. Viverra
-                                                            mauris in aliquam sem fringilla ut. Id leo in vitae turpis
-                                                            massa sed elementum tempus. Aliquet
-                                                            enim tortor at auctor urna nunc id cursus. Nulla aliquet
-                                                            enim tortor at auctor .Consquat nisl vel pretium lectus quam
-                                                            id leo.</p>
-                                                        <div class="form-checkbox">
-                                                            <label class="container">
-                                                                <p>I read agreement and i have not any objection.</p>
-                                                                <input type="checkbox" name="checkbox">
-                                                                <span class="checkmark"></span>
-                                                            </label>
-                                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2">
+                                                <label for="newRoom">Room No (*)</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Room.."
+                                                        autofocus="autofocus" id="newRoom">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text btn btn-primary text-light"><span
+                                                                class="fa fa-search"></span>
+                                                            search</span>
                                                     </div>
                                                 </div>
+                                                <div id="error-msg-room" class=""
+                                                    style="font-weight:400; margin-bottom:0.5rem; font-size: 16px; line-height: 24px; color:#b92c28;">
+                                                </div>
                                             </div>
                                         </div>
-                                    </section>
-                                </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2">
+                                                <label for="classifiction_name">Classification Name (*)</label>
+                                                <input type="text" name="classification_name" id="classifiction_name"
+                                                    class="form-control required error" placeholder="e.g furniture">
+                                                <div id="error-msg-class-name" class=""
+                                                    style="font-weight:400; margin-bottom:0.5rem; font-size: 16px; line-height: 24px; color:#b92c28;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- SECTION 2 -->
+                                <h2>
+                                    <p class="step-icon"><span>2</span></p>
+                                    <div class="step-text">
+                                        <span class="step-inner-1">Date Info</span>
+                                        <span class="step-inner-2">Date Details</span>
+                                    </div>
+                                </h2>
+                                <section>
+                                    <div class="inner">
+                                        <div class="wizard-header">
+                                            <h3 class="heading">Date Info</h3>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2">
+                                                <label for="pur_date_id">Purchase date</label>
+                                                <input type="date" name="card_name" id="pur_date_id" placeholder=""
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2 py-2">
+                                                <label for="war_date_id">Warranty Date</label>
+                                                <input type="date" name="war_date" id="war_date_id" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2 py-2">
+                                                <label for="expiration">Disposal Date</label>
+                                                <input type="date" name="disposal_date" placeholder=""
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- SECTION 3 -->
+                                <h2>
+                                    <p class="step-icon"><span>3</span></p>
+                                    <div class="step-text">
+                                        <span class="step-inner-1">Service</span>
+                                        <span class="step-inner-2">Service data</span>
+                                    </div>
+                                </h2>
+                                <section>
+                                    <div class="inner">
+                                        <div class="wizard-header">
+                                            <h3 class="heading">Service Data</h3>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2">
+                                                <label for="serv_date">Service Date</label>
+                                                <input type="date" name="card_name" id="serv_date"
+                                                    placeholder="" class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2 py-2">
+                                                <label for="service_by_id">Serviced By</label>
+                                                <input type="text" name="cvc" id="service_by_id" class="form-control"
+                                                    placeholder="" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2 py-2">
+                                                <label for="serv_due_id">Service Due Date</label>
+                                                <input type="date" name="serv_due_date" id="serv_due_id"
+                                                    placeholder="MM/YYYY" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- SECTION 4 -->
+                                <h2>
+                                    <p class="step-icon"><span>4</span></p>
+                                    <div class="step-text">
+                                        <span class="step-inner-1">Serial Info</span>
+                                        <span class="step-inner-2">Serial Details</span>
+                                    </div>
+                                </h2>
+                                <section>
+                                    <div class="inner">
+                                        <div class="wizard-header">
+                                            <h3 class="heading">Serial Info</h3>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2">
+                                                <div class="content-inner">
+                                                    <div class="form-row">
+                                                        <div class="form-holder form-holder-2">
+                                                            <label for="asset_id">Asset Number</label>
+                                                            <input type="text" name="new_asset_number" id="asset_id" class="form-control"
+                                                                placeholder="" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-holder form-holder-2 py-2">
+                                                            <label for="description_id">Description</label>
+                                                            <input type="text" name="new_description" id="description_id"
+                                                                placeholder="" class="form-control"
+                                                                required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-holder form-holder-2 py-2">
+                                                            <label for="model_id">Model</label>
+                                                            <input type="text" name="new_model" id="model_id"
+                                                                placeholder="" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
                             </form>
+                            <!-- <div id="error-note"></div> -->
                         </div>
                     </div>
                 </div>
@@ -524,25 +534,62 @@
             transitionEffectSpeed: 400,
             titleTemplate: '<div class="title">#title#</div>',
             labels: {
-                previous: '<i class="fa fa-chevron-left"></i>Previous',
+                previous: '<i class="py-2 fa fa-arrow-circle-left"></i> Previous',
                 next: 'Next <i class="py-2 fa fa-arrow-circle-right"></i>',
                 cancel: "Cancel",
                 current: "current step:",
                 pagination: "Pagination",
-                finish: "Finish",
+                finish: 'Finish <i class="fa fa-thumbs-up"></i>',
                 loading: "Loading ..."
             },
             onFinished: function () { closeAsset('overlay-printView'); },
+            onStepChanged: function (event, current, next) {
+                if (current > 0) {
+                    $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
+                } else {
+                    $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:0 !important');
+                }
+
+                if (current == 3) {
+                    $('.actions ul li.disabled, .actions ul li:nth-child(2)').attr('style', 'opacity:0 !important');
+
+                } else {
+                    $('.actions ul li.disabled, .actions ul li:nth-child(2)').attr('style', 'opacity:1 !important');
+
+                }
+            },
             onStepChanging: function (event, currentIndex, newIndex) {
-                
                 var form = $(this);
+                var check = true;
+                if (currentIndex == 0) {
 
-                form.validate({
-                    rules: { field: { required: true, extension: "jpeg|jpg" } },errorPlacement: function (error, element) { }
-                }).settings.ignore = ":disabled,:hidden";
-                console.log(form.valid());
-                return form.valid();
+                    if (($("#newRoom").val()).length == 0) {
+                        $("#error-msg-room").text("This field is required");
+                        check = false;
+                    } else {
+                        $("#error-msg-room").text("");
+                    }
+                    if (($("#classifiction_name").val()).length == 0) {
+                        $("#error-msg-class-name").text("This field is required");
+                        check = false;
+                    } else {
+                        $("#error-msg-class-name").text("");
+                    }
+                    if ($("#asset_class")[0].selectedIndex == 0) {
+                        $("#error-msg-asset-class").text("This field is required");
+                        check = false;
+                    } else {
+                        $("#error-msg-asset-class").text("");
+                    }
 
+
+                }
+
+                if (currentIndex == 1) {
+
+                }
+
+                return true;
             }
         })
 

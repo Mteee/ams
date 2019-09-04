@@ -395,6 +395,24 @@ caption {
     height: 100%;
     text-align: center;
 }
+#inLoader {
+    display: none;
+    position: absolute;
+    margin: 320px auto;
+    z-index: 1;
+    width: 90%;
+    height: 100%;
+    text-align: center;
+}
+#outLoader {
+    display: none;
+    position: absolute;
+    margin: 320px auto;
+    z-index: 1;
+    width: 90%;
+    height: 100%;
+    text-align: center;
+}
 
 .dropdown-loader {
     /* position: absolute;
