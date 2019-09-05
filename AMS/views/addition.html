@@ -134,7 +134,8 @@
                                         <div class="form-row">
                                             <div class="form-holder form-holder-2 py-2">
                                                 <label for="war_date_id">Warranty Date</label>
-                                                <input type="date" name="war_date" id="war_date_id" class="form-control" required>
+                                                <input type="date" name="war_date" id="war_date_id" class="form-control"
+                                                    required>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -162,8 +163,8 @@
                                         <div class="form-row">
                                             <div class="form-holder form-holder-2">
                                                 <label for="serv_date">Service Date</label>
-                                                <input type="date" name="card_name" id="serv_date"
-                                                    placeholder="" class="form-control" required>
+                                                <input type="date" name="card_name" id="serv_date" placeholder=""
+                                                    class="form-control" required>
                                             </div>
                                         </div>
                                         <div class="form-row">
@@ -202,15 +203,15 @@
                                                     <div class="form-row">
                                                         <div class="form-holder form-holder-2">
                                                             <label for="asset_id">Asset Number</label>
-                                                            <input type="text" name="new_asset_number" id="asset_id" class="form-control"
-                                                                placeholder="" required>
+                                                            <input type="text" name="new_asset_number" id="asset_id"
+                                                                class="form-control" placeholder="" required>
                                                         </div>
                                                     </div>
                                                     <div class="form-row">
                                                         <div class="form-holder form-holder-2 py-2">
                                                             <label for="description_id">Description</label>
-                                                            <input type="text" name="new_description" id="description_id"
-                                                                placeholder="" class="form-control"
+                                                            <input type="text" name="new_description"
+                                                                id="description_id" placeholder="" class="form-control"
                                                                 required>
                                                         </div>
                                                     </div>
@@ -515,6 +516,8 @@
 
     <script>
 
+        $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
+
         function addAssets() {
             $('#overlay-printView').fadeIn(500);
         }
@@ -542,19 +545,26 @@
                 finish: 'Finish <i class="fa fa-thumbs-up"></i>',
                 loading: "Loading ..."
             },
-            onFinished: function () { closeAsset('overlay-printView'); },
+            destroy: true,
+            onFinished: function () {
+                $('#form-total').steps("reset");
+                $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
+                closeAsset('overlay-printView');
+            },
             onStepChanged: function (event, current, next) {
                 if (current > 0) {
-                    $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
-                } else {
-                    $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:0 !important');
+                    $('.actions ul li:first-child').attr('style', 'opacity:1 !important;transition:500ms;');
+                    console.log('back000');
+                } else if(current == 0) {
+                    console.log('back');
+                    $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
                 }
 
                 if (current == 3) {
-                    $('.actions ul li.disabled, .actions ul li:nth-child(2)').attr('style', 'opacity:0 !important');
+                    $('.actions ul li:nth-child(2)').attr('style', 'opacity:0 !important;transition:500ms;');
 
                 } else {
-                    $('.actions ul li.disabled, .actions ul li:nth-child(2)').attr('style', 'opacity:1 !important');
+                    $('.actions ul li:nth-child(2)').attr('style', 'opacity:1 !important;transition:500ms;');
 
                 }
             },
