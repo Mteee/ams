@@ -223,8 +223,16 @@
                         <a href="./moveAssets.html" target="_self">
                             <li class="menu-item">movement</li>
                         </a>
-                        <li class="menu-item">certificates</li>
-                        <li class="menu-item">commissioning</li>
+                        <li class="menu-item"><a href="#">certificates</a></li>
+                        <div class="dropright dropdown" id="drodown-menu">
+                            <li class="menu-item" data-toggle="dropdown">commissioning</li>
+                            <ul class="dropdown-menu">
+                                <li class="menu-item">addition</li>
+                                <li class="divider"></li>
+                                <li class="menu-item">removal</li>
+                            </ul>
+                        </div>
+                        <li class="menu-item"><a href="./linkAssets.html" target="_self">asset link</a></li>
                     </ul>
                 </div>
             </div>
@@ -506,7 +514,6 @@
     <script type="text/javascript"
         src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
-
     <script>
         function showNav() {
             $('#menu-list').slideToggle('fast');
@@ -530,6 +537,9 @@
         function toggleZoomScreen(value) {
             document.body.style.zoom = value;
         }
+
+
+        // tables
 
 
         /*------   Zoom handler -----*/

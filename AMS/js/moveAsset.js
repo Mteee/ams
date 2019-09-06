@@ -494,7 +494,6 @@ var allArr = {
 // console.log("allArr");
 
 function getItems(url, id, scrollArea, menuid) {
-    console.log("get items for dropdown");
     console.log('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}');
     $.ajax({
         url: url,
