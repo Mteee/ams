@@ -12,12 +12,10 @@ function replaceAll(find, replace, str) {
 }
 
 //reset
-if (localStorage.menuAssets != '' || localStorage.menuRoom != '' || localStorage.menuLocation != '') {
-    localStorage.menuAssets = '';
-    localStorage.menuLocation = '';
-    localStorage.menuRoom = '';
-    // populate_dropdown();
-}
+localStorage.building = '';
+localStorage.level = '';
+localStorage.area = '';
+localStorage.room_no = '';
 
 // populate filters
 var user_class = localStorage.getItem("filter");
@@ -30,7 +28,7 @@ var tableArr = {
 
 var allArr = {
     primAssetsTable: [],
-    searchroomno: []
+    subAssetsTable: []
 };
 
 sub_location_filters();
@@ -38,10 +36,10 @@ assets_filters();
 
 function sub_location_filters() {
     /*Sub Location Filters*/
-    getItems('../../ams_apis/slimTest/index.php/new_filter', 'search_link_location', 'scroll_link_Location', 'menu_link_location', 'empty_link_location');
-    getItems('../../ams_apis/slimTest/index.php/new_filter', 'search_prim_level', 'scrol_prim_level', 'menu_prim_level', 'empty_prim_level');
-    getItems('../../ams_apis/slimTest/index.php/new_filter', 'search_prim_area', 'scrol_prim_area', 'menu_prim_area', 'empty_prim_area');
-    getItems('../../ams_apis/slimTest/index.php/new_filter', 'search_prim_room', 'scrol_prim_room', 'menu_prim_room', 'empty_prim_room');
+    getItems('../../ams_apis/slimTest/index.php/building', 'search_link_location', 'scroll_link_Location', 'menu_link_location', 'empty_link_location');
+    getItems('../../ams_apis/slimTest/index.php/asset_level_new', 'search_prim_level', 'scrol_prim_level', 'menu_prim_level', 'empty_prim_level');
+    getItems('../../ams_apis/slimTest/index.php/asset_area', 'search_prim_area', 'scrol_prim_area', 'menu_prim_area', 'empty_prim_area');
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no', 'search_prim_room', 'scrol_prim_room', 'menu_prim_room', 'empty_prim_room');
 }
 function assets_filters() {
     /**Assets*/
@@ -89,7 +87,9 @@ var count = 0;
 
 var clusterize = {
     search_link_location: [],
-    search_link_room: []
+    search_prim_level: [],
+    search_prim_area: [],
+    search_prim_room: []
 };
 
 var filterRows = function (rows) {
@@ -97,7 +97,6 @@ var filterRows = function (rows) {
     for (var i = 0, ii = rows.length; i < ii; i++) {
         if (rows[i].active) results.push(rows[i].markup)
     }
-
     return results;
 }
 
