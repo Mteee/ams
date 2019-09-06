@@ -264,7 +264,7 @@ input[type="checkbox"]:disabled:after {
 
 .asset-details {
     position: relative;
-    margin: 10% auto;
+    margin: 6% auto;
     width: 500px;
     height: 500px;
     border-radius: 5px;
@@ -387,6 +387,24 @@ caption {
 /*-----------------------------------------------------------------------------------------------------------*/
 
 #loader {
+    display: none;
+    position: absolute;
+    margin: 320px auto;
+    z-index: 1;
+    width: 90%;
+    height: 100%;
+    text-align: center;
+}
+#inLoader {
+    display: none;
+    position: absolute;
+    margin: 320px auto;
+    z-index: 1;
+    width: 90%;
+    height: 100%;
+    text-align: center;
+}
+#outLoader {
     display: none;
     position: absolute;
     margin: 320px auto;
@@ -575,7 +593,7 @@ div#inAssetsTable_length {
     background: white;
     border-radius: 5px;
     width: 200px;
-    height: 160px;
+    height: 205px;
     border: 1px solid #ccc;
     margin-top: 10px;
 }
@@ -634,3 +652,4 @@ div#inAssetsTable_length {
 .dropdown-header {
     display: none;
 }
+
