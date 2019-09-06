@@ -32,7 +32,7 @@ var allArr = {
 };
 
 sub_location_filters();
-assets_filters();
+// assets_filters();
 
 function sub_location_filters() {
     /*Sub Location Filters*/
@@ -144,23 +144,49 @@ function createAssetDelimeter(assets_arr) {
     return send_assets;
 }
 
-// $('#menuRoom').on('click', '.dropdown-item', function () {
-//     $('#dropdown_room').text($(this)[0].value);
-//     localStorage.menuRoom = $(this)[0].value;
-//     $('#clearAllFilters').prop('disabled', false);
-//     populate_dropdown();
-//     $("#dropdown_room").dropdown('toggle');
-//     $('#searchroomno').val($(this)[0].value);
-// });
 
-// $('#menuLocation').on('click', '.dropdown-item', function () {
-//     $('#dropdown_location').text($(this)[0].value);
-//     localStorage.menuLocation = $(this)[0].value;
-//     $('#clearAllFilters').prop('disabled', false);
-//     populate_dropdown();
-//     $("#dropdown_location").dropdown('toggle');
-//     $('#searchlocation').val($(this)[0].value);
-// });
+//set text on click
+// Building
+$('#menu_link_location').on('click', '.dropdown-item', function () {
+    $('#dropdown_link_location').text($(this)[0].value);
+    localStorage.building = $(this)[0].value;
+    $('#clearAllFilters').prop('disabled', false);
+    sub_location_filters();
+    $("#dropdown_link_location").dropdown('toggle');
+    $('#search_link_location').val($(this)[0].value);
+});
+
+// level
+$('#menu_prim_level').on('click', '.dropdown-item', function () {
+    $('#dropdown_prim_level').text($(this)[0].value);
+    localStorage.level = $(this)[0].value;
+    $('#clearAllFilters').prop('disabled', false);
+    sub_location_filters();
+    $("#dropdown_prim_level").dropdown('toggle');
+    $('#search_prim_level').val($(this)[0].value);
+});
+
+// area
+$('#menu_prim_area').on('click', '.dropdown-item', function () {
+    $('#dropdown_prim_area').text($(this)[0].value);
+    localStorage.level = $(this)[0].value;
+    $('#clearAllFilters').prop('disabled', false);
+    sub_location_filters();
+    $("#dropdown_prim_area").dropdown('toggle');
+    $('#search_prim_area').val($(this)[0].value);
+});
+
+//room
+// area
+$('#menu_prim_room').on('click', '.dropdown-item', function () {
+    $('#dropdown_prim_room').text($(this)[0].value);
+    localStorage.level = $(this)[0].value;
+    $('#clearAllFilters').prop('disabled', false);
+    sub_location_filters();
+    $("#dropdown_prim_room").dropdown('toggle');
+    $('#search_prim_room').val($(this)[0].value);
+});
+
 //Department Dropdown Check
 if (localStorage.filter == "ALL EQUIPMENT") {
 
