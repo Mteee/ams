@@ -821,6 +821,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     }
  
 });
+
 $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -860,5 +861,34 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
  
 });
 
+$app->map(['GET','POST'],'/new_filter', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+
+    $sql = "SELECT 
+                ASSET_BUILDING,
+                ASSET_LEVEL_NEW,
+                ASSET_AREA,
+                ASSET_AREA_NAME,
+                ASSET_ROOM_NO
+            FROM 
+                AMSD.ASSETS_LOCATION_NEW l_new
+            WHERE l_new.ASSET_BUILDING LIKE '%$building%'
+            AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
+            AND l_new.ASSET_AREA_NAME LIKE '%$area%'
+            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+         echo $assets_no;
+    }else{
+        echo json_encode(array("rows"=>0,"data"=>[]));
+    }
+});
 
 $app->run();
