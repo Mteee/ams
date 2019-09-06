@@ -99,18 +99,20 @@ function search() {
         document.getElementById('overlay-alert-message').style.display = "none";
         document.getElementById('overlay-alert-message').style.display = "block";
         document.getElementById('alert_header').innerHTML = "Assets Transfer";
-        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter alteast one filter</span>';
+        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=50 /></div><br><span style="font-weight: bold;color:red;">Please enter alteast one filter</span>';
         document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
-    } else if (room == "" && location == "") {
-        // alert("Please enter room or location to assist filtering data");
-        document.getElementById('overlay-alert-message').style.display = "none";
-        document.getElementById('overlay-alert-message').style.display = "block";
-        document.getElementById('alert_header').innerHTML = "Assets Transfer";
-        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter room or location to assist filtering data</span>';
-        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+    } 
+    // else if (room == "" && location == "") {
+    //     // alert("Please enter room or location to assist filtering data");
+    //     document.getElementById('overlay-alert-message').style.display = "none";
+    //     document.getElementById('overlay-alert-message').style.display = "block";
+    //     document.getElementById('alert_header').innerHTML = "Assets Transfer";
+    //     document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter room or location to assist filtering data</span>';
+    //     document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
-    } else {
+    // } 
+    else {
         $('#searchView').hide();
         $('#outSearch').hide();
         $('#inSearch').hide();
@@ -322,6 +324,7 @@ function search() {
             "processing": true,
             "searching": false,
             // "ordering": true,
+            "responsive":true,
             "ordering": false,
             "pageLength": length,
             "serverSide": true,
@@ -379,7 +382,8 @@ function search() {
                     "targets": -2,
                     "orderable": false
                 }
-            ], 'select': {
+            ],
+             'select': {
                 'style': 'multi'
             },
             fnCreatedRow: function (nRow, aData, iDataIndex) {
@@ -490,7 +494,6 @@ var allArr = {
 // console.log("allArr");
 
 function getItems(url, id, scrollArea, menuid) {
-    console.log("get items for dropdown");
     console.log('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}');
     $.ajax({
         url: url,
@@ -1083,6 +1086,7 @@ function clearData(input, btnDafualtId, text) {
 $('#menuAssets').on('click', '.dropdown-item', function () {
     $('#dropdown_assets').text($(this)[0].value);
     localStorage.menuAssets = $(this)[0].value;
+    $('#clearAllFilters').prop('disabled', false);
     populate_dropdown();
     $("#dropdown_assets").dropdown('toggle');
     $('#searchasset').val($(this)[0].value);
@@ -1090,6 +1094,7 @@ $('#menuAssets').on('click', '.dropdown-item', function () {
 $('#menuRoom').on('click', '.dropdown-item', function () {
     $('#dropdown_room').text($(this)[0].value);
     localStorage.menuRoom = $(this)[0].value;
+    $('#clearAllFilters').prop('disabled', false);
     populate_dropdown();
     $("#dropdown_room").dropdown('toggle');
     $('#searchroomno').val($(this)[0].value);
@@ -1097,6 +1102,7 @@ $('#menuRoom').on('click', '.dropdown-item', function () {
 $('#menuLocation').on('click', '.dropdown-item', function () {
     $('#dropdown_location').text($(this)[0].value);
     localStorage.menuLocation = $(this)[0].value;
+    $('#clearAllFilters').prop('disabled', false);
     populate_dropdown();
     $("#dropdown_location").dropdown('toggle');
     $('#searchlocation').val($(this)[0].value);
@@ -1132,7 +1138,7 @@ $('#menu_approve_Room').on('click', '.dropdown-item', function () {
 
 // dropdown hangler
 
-if (localStorage.filter == "All EQUIPMENT") {
+if (localStorage.filter == "ALL EQUIPMENT") {
 
     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
@@ -1152,6 +1158,10 @@ if (localStorage.filter == "All EQUIPMENT") {
         resetInput('#searchlocation', '');
         resetInput('#searchroomno', '');
         resetInput('#searchasset', '');
+
+        localStorage.menuAssets = '';
+        localStorage.menuLocation ='';
+        localStorage.menuRoom='';
         populate_dropdown();
     });
 
@@ -1184,7 +1194,22 @@ function toggleZoomScreen(value) {
 }
 /*------   Zoom handler -----*/
 
+function clearFunction(){
 
+    localStorage.menuLocation = '';
+    localStorage.menuRoom = '';
+    localStorage.menuAssets = '';
+    populate_dropdown();
+
+    $('#searchlocation').val("");
+    $('#dropdown_location').text("LOCATION...");
+    $('#searchroomno').val("");
+    $('#dropdown_room').text("ROOM...");
+    $('#searchasset').val("");
+    $('#dropdown_assets').text("ASSET NO...");
+    $('#clearAllFilters').prop('disabled', true);
+
+}
 
 // close application
 

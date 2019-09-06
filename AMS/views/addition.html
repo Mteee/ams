@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AMS | Addition</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <!-- Add IntroJs styles -->
+    <link href="../css/introjs.css" rel="stylesheet">
+    <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+
+    <style>
+        .form-register .steps li a .step-text {
+
+            margin-top: 10px;
+            text-align: left !important;
+            width: 100%;
+            margin-left: 10px;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="overlay-printView">
+
+        <div class="asset-details animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
+            <span class="exit-asset" onclick="closeAsset('overlay-printView')">&times;</span>
+
+            <table id="viewAssetTable" style="width:100%;border:1px solid #ccc;border-radius: 5px;">
+                <thead>
+                    <tr>
+                        <div class="asset-header text-center text-muted">
+                            New Asset Info
+                        </div>
+                    </tr>
+                </thead>
+            </table>
+
+            <div class="asset-body" style="font-size: 12pt;">
+                <!-- start wizard -->
+                <div class="page-content">
+                    <div class="wizard-v7-content">
+                        <div class="wizard-form">
+                            <form class="form-register" id="form-total" action="#" method="post">
+
+                                <!-- SECTION 1 -->
+                                <h2>
+                                    <p class="step-icon"><span>1</span></p>
+                                    <div class="step-text">
+                                        <span class="step-inner-1">Information</span>
+                                        <span class="step-inner-2">Asset Basic Info</span>
+                                    </div>
+                                </h2>
+                                <section>
+                                    <div class="inner">
+                                        <div class="wizard-header" style="background:#343a40;">
+                                            <h3 class="heading">Asset Basic Information</h3>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2" style="margin-bottom: 10px;">
+                                                <label for="asset_class">Asset Class (*)</label>
+                                                <select name="asset_class" id="asset_class" class="form-control">
+                                                    <option value="0" selected disabled>SELECT ASSET CLASS</option>
+                                                    <option value="1">ALL EQUIMENT</option>
+                                                    <option value="2">FACILITIES EQUIMENT</option>
+                                                    <option value="3">IT EQUIMENT</option>
+                                                    <option value="4">MEDICAL EQUIMENT</option>
+                                                </select>
+                                                <div id="error-msg-asset-class" class=""
+                                                    style="font-weight:400; margin-bottom:0.5rem; font-size: 16px; line-height: 24px; color:#b92c28;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2">
+                                                <label for="newRoom">Room No (*)</label>
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="Room.."
+                                                        autofocus="autofocus" id="newRoom">
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text btn btn-primary text-light"><span
+                                                                class="fa fa-search"></span>
+                                                            search</span>
+                                                    </div>
+                                                </div>
+                                                <div id="error-msg-room" class=""
+                                                    style="font-weight:400; margin-bottom:0.5rem; font-size: 16px; line-height: 24px; color:#b92c28;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2">
+                                                <label for="classifiction_name">Classification Name (*)</label>
+                                                <input type="text" name="classification_name" id="classifiction_name"
+                                                    class="form-control required error" placeholder="e.g furniture">
+                                                <div id="error-msg-class-name" class=""
+                                                    style="font-weight:400; margin-bottom:0.5rem; font-size: 16px; line-height: 24px; color:#b92c28;">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- SECTION 2 -->
+                                <h2>
+                                    <p class="step-icon"><span>2</span></p>
+                                    <div class="step-text">
+                                        <span class="step-inner-1">Date Info</span>
+                                        <span class="step-inner-2">Date Details</span>
+                                    </div>
+                                </h2>
+                                <section>
+                                    <div class="inner">
+                                        <div class="wizard-header">
+                                            <h3 class="heading">Date Info</h3>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2">
+                                                <label for="pur_date_id">Purchase date</label>
+                                                <input type="date" name="card_name" id="pur_date_id" placeholder=""
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2 py-2">
+                                                <label for="war_date_id">Warranty Date</label>
+                                                <input type="date" name="war_date" id="war_date_id" class="form-control"
+                                                    required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2 py-2">
+                                                <label for="expiration">Disposal Date</label>
+                                                <input type="date" name="disposal_date" placeholder=""
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- SECTION 3 -->
+                                <h2>
+                                    <p class="step-icon"><span>3</span></p>
+                                    <div class="step-text">
+                                        <span class="step-inner-1">Service</span>
+                                        <span class="step-inner-2">Service data</span>
+                                    </div>
+                                </h2>
+                                <section>
+                                    <div class="inner">
+                                        <div class="wizard-header">
+                                            <h3 class="heading">Service Data</h3>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2">
+                                                <label for="serv_date">Service Date</label>
+                                                <input type="date" name="card_name" id="serv_date" placeholder=""
+                                                    class="form-control" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2 py-2">
+                                                <label for="service_by_id">Serviced By</label>
+                                                <input type="text" name="cvc" id="service_by_id" class="form-control"
+                                                    placeholder="" required>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2 py-2">
+                                                <label for="serv_due_id">Service Due Date</label>
+                                                <input type="date" name="serv_due_date" id="serv_due_id"
+                                                    placeholder="MM/YYYY" class="form-control" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <!-- SECTION 4 -->
+                                <h2>
+                                    <p class="step-icon"><span>4</span></p>
+                                    <div class="step-text">
+                                        <span class="step-inner-1">Serial Info</span>
+                                        <span class="step-inner-2">Serial Details</span>
+                                    </div>
+                                </h2>
+                                <section>
+                                    <div class="inner">
+                                        <div class="wizard-header">
+                                            <h3 class="heading">Serial Info</h3>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-holder form-holder-2">
+                                                <div class="content-inner">
+                                                    <div class="form-row">
+                                                        <div class="form-holder form-holder-2">
+                                                            <label for="asset_id">Asset Number</label>
+                                                            <input type="text" name="new_asset_number" id="asset_id"
+                                                                class="form-control" placeholder="" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-holder form-holder-2 py-2">
+                                                            <label for="description_id">Description</label>
+                                                            <input type="text" name="new_description"
+                                                                id="description_id" placeholder="" class="form-control"
+                                                                required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-holder form-holder-2 py-2">
+                                                            <label for="model_id">Model</label>
+                                                            <input type="text" name="new_model" id="model_id"
+                                                                placeholder="" class="form-control" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </form>
+                            <!-- <div id="error-note"></div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- end wizard -->
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container-fluid" style="border-left:1px soild rgba(0,0,0,0.5)">
+        <!-- navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+            style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar"
+                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+                <span>
+                    <div class="row" style="margin-top:-25px;" data-step="1"
+                        data-intro="This is a navigation menu, with your class or department">
+                        <div class="col-md-2" onclick="showNav()">
+                            <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40" /></div>
+                            <div class="menu-text">MENU</div>
+                        </div>
+
+                        <div class="col-md-7 offset-3">
+                            <select class="form-control text-muted user-class" id="class-options">
+
+                            </select>
+                        </div>
+                    </div>
+
+                </span>
+                <div id="menu-list">
+                    <ul class="menu-group" style="font-size: 15pt !important;">
+                        <a href="./viewAssets.html" target="_self">
+                            <li class="menu-item">view</li>
+                        </a>
+                        <li class="menu-item">movement</li>
+
+                        <li class="menu-item">certificates</li>
+                        <div class="dropright dropdown" id="drodown-menu">
+                            <li class="menu-item active" data-toggle="dropdown">commissioning</li>
+                            <ul class="dropdown-menu">
+                                <li class="menu-item active">addition</li>
+                                <li class="divider"></li>
+                                <li class="menu-item">removal</li>
+                            </ul>
+                        </div>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
+                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span></div>
+            </div>
+            <div class=" col-md-3">
+                <div class="row">
+                    <div class="col-md-4 offset-6">
+                        <div id="username">Username</div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;"
+                            onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
+                            <span style="color:white" class="fa fa-power-off"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- end navigation  -->
+
+        <div class="row" style="margin-top: 2.897%;">
+            <div class="col-md-12" style="height:80vh;padding-right:40px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3 text-center" style="font-size:15pt;font-weight: bolder">
+                                <br />
+                            </div>
+                            <div class="col-md-9">
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <table class="table" id="searchWith">
+                                    <tr>
+                                        <th>
+                                            Search
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_location" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    LOCATION ...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_location"
+                                                    id="scrollLocation">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="searchlocation"
+                                                                class="form-control" placeholder="Location..."
+                                                                onkeyup="onSearch('searchlocation','#emptyLocation')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clearLocation"
+                                                                    onclick="clearData('#searchlocation','#dropdown_location','LOCATION...')"><i
+                                                                        class="fa fa-close"></i></span>
+
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menuLocation">
+                                                        <div id="locationLoader" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="emptyLocation" class="dropdown-header">No location found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_room" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ROOM...
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_room"
+                                                    id="scrollRoom">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="searchroomno" class="form-control"
+                                                                placeholder="room..."
+                                                                onkeyup="onSearch('searchroomno','#emptyRoom')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clearRoom"
+                                                                    onclick="clearData('#searchroomno','#dropdown_room','ROOM...')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+
+                                                    </form>
+                                                    <div id="menuRoom">
+                                                        <div id="Roomload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="emptyRoom" class="dropdown-header">No room found</div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ASSET NO...
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
+                                                    aria-labelledby="dropdown_assets">
+                                                    <form class="px-4 py-2">
+                                                        <div class="input-group">
+                                                            <input type="search" id="searchasset" class="form-control"
+                                                                placeholder="asset no..."
+                                                                onkeyup="onSearch('searchasset','#emptyAsset')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clearAssets"
+                                                                    onclick="clearData('#searchasset','#dropdown_assets','ASSET NO...')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menuAssets" class="text-center" onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="emptyAsset" class="dropdown-header">No assets found</div>
+                                                </div>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <input type="text" id="description" class="form-control"
+                                                placeholder="Description...">
+                                        </th>
+
+                                        <th>
+                                            <button onclick="search()" type="text" class="btn btn-success">
+                                                <span class="fa fa-search"></span>
+                                                Search
+                                            </button>
+
+                                            <button type="text" onclick="addAssets()" class="btn btn-primary">
+                                                <span class="fa fa-plus"></span>
+                                                New
+                                            </button>
+                                        </th>
+
+
+                                    </tr>
+
+                                </table>
+                                <form id="frm-example" method="POST">
+                                    <table class="table" id="currentAssetsTable" style="font-size:13pt">
+                                        <thead style="background:#000000;color:#ffffff;">
+                                            <tr>
+                                                <th scope="col">
+                                                    Asset Class
+                                                </th>
+                                                <th scope="col">
+                                                    Asset ID
+                                                </th>
+                                                <th scope="col">
+                                                    Asset Description
+                                                </th>
+                                                <th scope="col">
+                                                    Model
+                                                </th>
+                                                <th scope="col">
+                                                    Classification Name
+                                                </th>
+                                                <th scope="col">
+                                                    Room Number
+                                                </th>
+                                                <th scope="col">
+                                                    Vendor Name
+                                                </th>
+                                                <th scope="col">
+                                                    Useful Life
+                                                </th>
+                                                <th scope="col">
+                                                    Status
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="current">
+                                            <!-- <div id="loader" class="loader">
+                                                <img src="../img/loading-transparent.gif" alt="">
+                                            </div>
+                                            <div id="searchView" class="search_start">
+                                                <p style="margin-top:200px">Please search your asset using the search
+                                                    above
+                                                </p>
+                                                <img width="200" src="../img/loupe.png" alt="Search">
+                                            </div> -->
+
+                                            <tr>
+
+                                            </tr>
+                                        </tbody>
+
+
+                                    </table>
+                                </form>
+                            </div>
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/clusterize.min.js"></script>
+    <script src="../js/moveAsset.js"></script>
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/jquery.steps.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+    <script src="../js/tablefilter.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="../js/intro.js"></script>
+
+    <script src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+
+    <script>
+
+        $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
+
+        function addAssets() {
+            $('#overlay-printView').fadeIn(500);
+        }
+
+        $("#form-total").steps({
+            headerTag: "h2",
+            bodyTag: "section",
+            transitionEffect: "fade",
+            enableAllSteps: false,
+            cssClass: "wizard",
+            enablePagination: true,
+            stepsOrientation: "vertical",
+            autoFocus: true,
+            enableCancelButton: false,
+            forceMoveForward: false,
+            stepsContainerTag: "div",
+            transitionEffectSpeed: 400,
+            titleTemplate: '<div class="title">#title#</div>',
+            labels: {
+                previous: '<i class="py-2 fa fa-arrow-circle-left"></i> Previous',
+                next: 'Next <i class="py-2 fa fa-arrow-circle-right"></i>',
+                cancel: "Cancel",
+                current: "current step:",
+                pagination: "Pagination",
+                finish: 'Finish <i class="fa fa-thumbs-up"></i>',
+                loading: "Loading ..."
+            },
+            destroy: true,
+            onFinished: function () {
+                $('#form-total').steps("reset");
+                $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
+                closeAsset('overlay-printView');
+            },
+            onStepChanged: function (event, current, next) {
+                if (current > 0) {
+                    $('.actions ul li:first-child').attr('style', 'opacity:1 !important;transition:500ms;');
+                    console.log('back000');
+                } else if(current == 0) {
+                    console.log('back');
+                    $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
+                }
+
+                if (current == 3) {
+                    $('.actions ul li:nth-child(2)').attr('style', 'opacity:0 !important;transition:500ms;');
+
+                } else {
+                    $('.actions ul li:nth-child(2)').attr('style', 'opacity:1 !important;transition:500ms;');
+
+                }
+            },
+            onStepChanging: function (event, currentIndex, newIndex) {
+                var form = $(this);
+                var check = true;
+                if (currentIndex == 0) {
+
+                    if (($("#newRoom").val()).length == 0) {
+                        $("#error-msg-room").text("This field is required");
+                        check = false;
+                    } else {
+                        $("#error-msg-room").text("");
+                    }
+                    if (($("#classifiction_name").val()).length == 0) {
+                        $("#error-msg-class-name").text("This field is required");
+                        check = false;
+                    } else {
+                        $("#error-msg-class-name").text("");
+                    }
+                    if ($("#asset_class")[0].selectedIndex == 0) {
+                        $("#error-msg-asset-class").text("This field is required");
+                        check = false;
+                    } else {
+                        $("#error-msg-asset-class").text("");
+                    }
+
+
+                }
+
+                if (currentIndex == 1) {
+
+                }
+
+                return true;
+            }
+        })
+
+        $(".dropdown, .btn-group").hover(function () {
+            var dropdownMenu = $(this).children(".dropdown-menu");
+            if (dropdownMenu.is(":visible")) {
+                console.log('not visible');
+                // dropdownMenu.parent().toggleClass("open");
+            } else {
+                console.log('visible');
+                $(this).toggleClass("open");
+            }
+        });
+
+        function showNav() {
+            $('#menu-list').slideToggle('fast');
+        }
+
+        document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
+
+        function replaceAll(find, replace, str) {
+            while (str.indexOf(find) > -1) {
+                str = str.replace(find, replace);
+            }
+            return str;
+        }
+
+        function onError(error) {
+            console.log(`Error: ${error}`);
+        }
+
+        var setting = browser.tabs.setZoom(2);
+        setting.then(null, onError);
+    </script>
+
+</body>
+
+</html>
