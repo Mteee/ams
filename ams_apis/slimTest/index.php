@@ -761,16 +761,16 @@ $app->map(['GET','POST'],'/approveAsset',function(Request $request, Response $re
         $RESULT = '';
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
-
+        
         $sql = "BEGIN AMSD.asset_approve_movement(:USERNAME,:ASSET_NO,:ROOM,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
         oci_bind_by_name($statement, ':ASSET_NO', $ASSET_NO, 4000);
         oci_bind_by_name($statement, ':ROOM', $ROOM, 30);
         oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
-
+        
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
-
+        
         oci_commit($connect);
 
         if($RESULT == "y"){
@@ -786,5 +786,79 @@ $app->map(['GET','POST'],'/approveAsset',function(Request $request, Response $re
     
 
 });
+
+$app->map(['GET','POST'],'/sub_location', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+
+    $sql = "SELECT 
+    a.ASSET AS \"AL_NO\"
+    -- l_new.ASSET_BUILDING,
+    -- l_new.ASSET_LEVEL_NEW,
+    -- l_new.ASSET_AREA,
+    -- l_new.ASSET_AREA_NAME,
+    -- l_new.ASSET_ROOM_NO
+    FROM 
+        amsd.ASSETS_ALL_HD a,
+        AMSD.ASSETS_LOCATION_NEW l_new
+    WHERE a.ASSET_ROOM = l_new.ASSET_ROOM_NO
+    AND substr(a.asset,1,1) <> 'M'
+    AND l_new.ASSET_BUILDING LIKE '%$building%'
+    AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
+    AND l_new.ASSET_AREA_NAME LIKE '%$area%'
+    AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+         echo $assets_no;
+    }else{
+        echo json_encode(array("rows"=>0,"data"=>[]));
+    }
+ 
+});
+$app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $description = strtoupper($data->description);
+
+    $sql = "SELECT 
+                a_new.ASSET_CLASS,
+                a_new.ASSET_ID
+                -- a_new.ASSET_PRIMARY_ID,
+                --l_new.ASSET_BUILDING,
+                --l_new.ASSET_LEVEL_NEW,
+                --l_new.ASSET_AREA,
+                --l_new.ASSET_AREA_NAME,
+                --l_new.ASSET_ROOM_NO
+            FROM 
+                amsd.assets_new a_new,
+                AMSD.ASSETS_LOCATION_NEW l_new
+            WHERE a_new.ASSET_ROOM_NO = l_new.ASSET_ROOM_NO
+            AND a_new.ASSET_CLASS LIKE '%IT EQUIPMENT%'
+            AND a_new.ASSET_DESCRIPTION LIKE '%$description%'
+            AND l_new.ASSET_BUILDING LIKE '%$building%'
+            AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
+            AND l_new.ASSET_AREA_NAME LIKE '%$area%'
+            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+         echo $assets_no;
+    }else{
+        echo json_encode(array("rows"=>0,"data"=>[]));
+    }
+ 
+});
+
 
 $app->run();
