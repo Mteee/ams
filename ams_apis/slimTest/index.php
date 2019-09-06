@@ -879,23 +879,37 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $response = array();
 
     $sql = "SELECT 
                 ASSET_BUILDING
-                
             FROM 
                 AMSD.ASSETS_LOCATION_NEW l_new
             WHERE l_new.ASSET_BUILDING LIKE '%$building%'
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
-            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'";
+            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
+            GROUP BY ASSET_BUILDING";
 
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-         echo $assets_no;
-    }else{
-        echo json_encode(array("rows"=>0,"data"=>[]));
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_BUILDING;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
     }
  
 });
@@ -907,27 +921,38 @@ $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $response = array();
 
     $sql = "SELECT 
                 ASSET_LEVEL_NEW 
-                ASSET_AREA,
-                ASSET_AREA_NAME,
-                ASSET_ROOM_NO
             FROM 
                 AMSD.ASSETS_LOCATION_NEW l_new
             WHERE l_new.ASSET_BUILDING LIKE '%$building%'
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
-            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'";
+            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
+            GROUP BY ASSET_LEVEL_NEW";
 
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-         echo $assets_no;
-    }else{
-        echo json_encode(array("rows"=>0,"data"=>[]));
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_LEVEL_NEW;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
     }
- 
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
 });
 
 $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $response){
@@ -937,26 +962,38 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $response = array();
 
     $sql = "SELECT 
                 ASSET_AREA
-                -- l_new.ASSET_AREA_NAME,
-                -- l_new.ASSET_ROOM_NO
             FROM 
                 AMSD.ASSETS_LOCATION_NEW l_new
             WHERE l_new.ASSET_BUILDING LIKE '%$building%'
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
-            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'";
+            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
+            GROUP BY ASSET_AREA";
 
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-         echo $assets_no;
-    }else{
-        echo json_encode(array("rows"=>0,"data"=>[]));
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_AREA;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
     }
- 
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
 });
 
 $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response $response){
@@ -966,23 +1003,36 @@ $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
-    $room_no = strtoupper($data->room_no);
+    $response = array();
 
     $sql = "SELECT ASSET_AREA_NAME
-                -- l_new.ASSET_ROOM_NO
             FROM 
                 AMSD.ASSETS_LOCATION_NEW l_new
             WHERE l_new.ASSET_BUILDING LIKE '%$building%'
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
-            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'";
+            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
+            GROUP BY ASSET_AREA_NAME";
 
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-         echo $assets_no;
-    }else{
-        echo json_encode(array("rows"=>0,"data"=>[]));
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_AREA_NAME;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
     }
  
 });
@@ -994,6 +1044,7 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $response = array();
 
     $sql = "SELECT ASSET_ROOM_NO
             FROM 
@@ -1001,14 +1052,28 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
             WHERE l_new.ASSET_BUILDING LIKE '%$building%'
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
-            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'";
+            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
+            GROUP BY ASSET_ROOM_NO";
 
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-         echo $assets_no;
-    }else{
-        echo json_encode(array("rows"=>0,"data"=>[]));
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response [] = $value->ASSET_ROOM_NO;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
     }
  
 });
