@@ -34,6 +34,30 @@ var allArr = {
 sub_location_filters();
 // assets_filters();
 
+function closeAsset(overlay_id) {
+    document.getElementById(overlay_id).style.display = "none";
+}
+
+function search() {
+
+    var building = document.getElementById('search_link_location').value,
+        level = document.getElementById('search_level').value,
+        area = document.getElementById('search_prim_level').value,
+        room_no = document.getElementById('search_prim_room').value;
+
+    var results = (building + " - " + level + " - " + area + " - " + room_no);
+
+    if (" -  -  - " == results) {
+        // alert("Please enter alteast one filter");
+        document.getElementById('overlay-alert-message').style.display = "none";
+        document.getElementById('overlay-alert-message').style.display = "block";
+        document.getElementById('alert_header').innerHTML = "Assets Linking";
+        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=50 /></div><br><span style="font-weight: bold;color:red;">Please enter alteast one filter</span>';
+        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+
+    }
+}
+
 function sub_location_filters() {
     /*Sub Location Filters*/
     getItems('../../ams_apis/slimTest/index.php/building', 'search_link_location', 'scroll_link_Location', 'menu_link_location', 'empty_link_location');
@@ -169,18 +193,17 @@ $('#menu_prim_level').on('click', '.dropdown-item', function () {
 // area
 $('#menu_prim_area').on('click', '.dropdown-item', function () {
     $('#dropdown_prim_area').text($(this)[0].value);
-    localStorage.level = $(this)[0].value;
+    localStorage.area = $(this)[0].value;
     $('#clearAllFilters').prop('disabled', false);
     sub_location_filters();
     $("#dropdown_prim_area").dropdown('toggle');
     $('#search_prim_area').val($(this)[0].value);
 });
 
-//room
-// area
+// room
 $('#menu_prim_room').on('click', '.dropdown-item', function () {
     $('#dropdown_prim_room').text($(this)[0].value);
-    localStorage.level = $(this)[0].value;
+    localStorage.room_no = $(this)[0].value;
     $('#clearAllFilters').prop('disabled', false);
     sub_location_filters();
     $("#dropdown_prim_room").dropdown('toggle');
