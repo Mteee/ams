@@ -879,6 +879,7 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $response = array();
 
     $sql = "SELECT 
                 ASSET_BUILDING
@@ -893,9 +894,22 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-         echo $assets_no;
-    }else{
-        echo json_encode(array("rows"=>0,"data"=>[]));
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_BUILDING;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
     }
  
 });
@@ -907,6 +921,7 @@ $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $response = array();
 
     $sql = "SELECT 
                 ASSET_LEVEL_NEW 
@@ -921,11 +936,23 @@ $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-         echo $assets_no;
-    }else{
-        echo json_encode(array("rows"=>0,"data"=>[]));
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_LEVEL_NEW;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
     }
- 
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
 });
 
 $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $response){
@@ -935,6 +962,7 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $response = array();
 
     $sql = "SELECT 
                 ASSET_AREA
@@ -949,11 +977,23 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-         echo $assets_no;
-    }else{
-        echo json_encode(array("rows"=>0,"data"=>[]));
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_AREA;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
     }
- 
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
 });
 
 $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response $response){
@@ -963,7 +1003,7 @@ $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
-    $room_no = strtoupper($data->room_no);
+    $response = array();
 
     $sql = "SELECT ASSET_AREA_NAME
             FROM 
@@ -977,9 +1017,22 @@ $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-         echo $assets_no;
-    }else{
-        echo json_encode(array("rows"=>0,"data"=>[]));
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_AREA_NAME;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
     }
  
 });
@@ -991,6 +1044,7 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $response = array();
 
     $sql = "SELECT ASSET_ROOM_NO
             FROM 
@@ -1004,9 +1058,22 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-         echo $assets_no;
-    }else{
-        echo json_encode(array("rows"=>0,"data"=>[]));
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response [] = $value->ASSET_ROOM_NO;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
     }
  
 });
