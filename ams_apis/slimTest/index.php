@@ -808,9 +808,9 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
 
     $sql = "SELECT 
     a.ASSET AS \"AL_NO\"
-    -- l_new.ASSET_BUILDING,
-    -- l_new.ASSET_LEVEL_NEW,
-    -- l_new.ASSET_AREA,
+    a.ASSET_LOCATION,
+    a.ASSET_DESC,
+    a.ASSET_ROOM
     -- l_new.ASSET_AREA_NAME,
     -- l_new.ASSET_ROOM_NO
     FROM 
@@ -843,10 +843,8 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
     $description = strtoupper($data->description);
 
     $sql = "SELECT 
-                a_new.ASSET_CLASS,
-                a_new.ASSET_ID
-                -- a_new.ASSET_PRIMARY_ID,
-                --l_new.ASSET_BUILDING,
+                a_new.ASSET_ID,
+                a_new.ASSET_DESCRIPTION,
                 --l_new.ASSET_LEVEL_NEW,
                 --l_new.ASSET_AREA,
                 --l_new.ASSET_AREA_NAME,
@@ -860,7 +858,8 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
             AND l_new.ASSET_BUILDING LIKE '%$building%'
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
-            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'";
+            AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
+            AND a_new.ASSET_ID = a_new.ASSET_PRIMARY_ID";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -889,7 +888,8 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
             AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY ASSET_BUILDING";
+            GROUP BY ASSET_BUILDING
+            ORDER BY ASSET_BUILDING";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -931,7 +931,8 @@ $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
             AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY ASSET_LEVEL_NEW";
+            GROUP BY ASSET_LEVEL_NEW
+            ORDER BY ASSET_LEVEL_NEW";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -972,7 +973,8 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
             AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY ASSET_AREA";
+            GROUP BY ASSET_AREA
+            ORDER BY ASSET_AREA";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -1012,7 +1014,8 @@ $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
             AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY ASSET_AREA_NAME";
+            GROUP BY ASSET_AREA_NAME
+            ORDER BY ASSET_AREA_NAME";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -1053,7 +1056,8 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
             AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
             AND l_new.ASSET_AREA_NAME LIKE '%$area%'
             AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY ASSET_ROOM_NO";
+            GROUP BY ASSET_ROOM_NO
+            ORDER BY ASSET_ROOM_NO";
 
     $assets_no =$func->executeQuery($sql);
 
