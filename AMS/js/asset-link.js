@@ -12,12 +12,10 @@ function replaceAll(find, replace, str) {
 }
 
 //reset
-if (localStorage.menuAssets != '' || localStorage.menuRoom != '' || localStorage.menuLocation != '') {
-    localStorage.menuAssets = '';
-    localStorage.menuLocation = '';
-    localStorage.menuRoom = '';
-    // populate_dropdown();
-}
+localStorage.building = '';
+localStorage.level = '';
+localStorage.area = '';
+localStorage.room_no = '';
 
 // populate filters
 var user_class = localStorage.getItem("filter");
