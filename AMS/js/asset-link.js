@@ -38,7 +38,7 @@ var allArr = {
 
 
 sub_location_filters();
-// assets_filters();
+assets_filters();
 
 function closeAsset(overlay_id) {
     document.getElementById(overlay_id).style.display = "none";
@@ -146,6 +146,24 @@ function search() {
     }
 }
 
+function searchasset(){
+    var building = document.getElementById('search_link_location').value,
+        level = document.getElementById('search_level').value,
+        area = document.getElementById('search_prim_level').value,
+        room_no = document.getElementById('search_prim_room').value;
+
+    var results = (building + " - " + level + " - " + area + " - " + room_no);
+
+    if (" -  -  - " == results) {
+        document.getElementById('overlay-alert-message').style.display = "none";
+        document.getElementById('overlay-alert-message').style.display = "block";
+        document.getElementById('alert_header').innerHTML = "Assets Linking";
+        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><br><span class="text-muted">please select at least one filter</span>';
+        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+
+    }
+}
+
 function checkboxSelectedLength() {
     var lengthh = $("#subLocationTable input:checkbox:checked").length;
     console.log(lengthh);
@@ -164,8 +182,7 @@ function assets_filters() {
     getItems('../../ams_apis/slimTest/index.php/building', 'search_sub_location', 'scroll_sub_location', 'meun_sub_location', 'empty_sub_location');
     getItems('../../ams_apis/slimTest/index.php/asset_level_new', 'search_level', 'scroll_sub_level', 'menu_level', 'empty_level');
     getItems('../../ams_apis/slimTest/index.php/asset_area', 'search_area', 'scroll_area', 'menu_area', 'empty_area');
-    getItems('../../ams_apis/slimTest/index.php/asset_room_no', 'search_prim_room', 'scrol_prim_room', 'menu_room_sub', 'empty_room_sub');
-    getItems('../../ams_apis/slimTest/index.php/asset_room_no', 'search_prim_room', 'scrol_prim_room', 'menu_room_sub', 'empty_room_sub');
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no', 'search_room_sub', 'scrol_room_sub', 'menu_room_sub', 'empty_room_sub');
 }
 
 function createTable(tableID, tableData) {
