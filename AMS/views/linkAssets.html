@@ -347,7 +347,7 @@
 
 
                                                     <th>
-                                                        <button onclick="searchLocation()" type="text"
+                                                        <button onclick="search()" type="text"
                                                             class="btn btn-success text-light">
                                                             <span class="fa fa-search"></span>
                                                         </button>
@@ -578,8 +578,8 @@
                                                     </th>
 
                                                     <th>
-                                                        <button onclick="search()" type="text"
-                                                            class="btn btn-success form-control bg-transparent">
+                                                        <button onclick="searchAssets()" type="text"
+                                                            class="btn btn-success form-control">
                                                             <span class="fa fa-search"></span>
 
                                                         </button>
@@ -644,7 +644,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-right">
-                                <button id="printAssets" class="btn btn-info btn-md"><span
+                                <button class="btn btn-info btn-md" style="display: none;" id="linkBtn" onclick="linkAssets('subLocationTable')"><span
                                         class="fa fa-link"></span>
                                     Asset Link</button>
                             </div>
@@ -655,17 +655,16 @@
         </div>
     </div>
 
-
     <script src="../js/jquery.js"></script>
     <script src="../js/clusterize.min.js"></script>
     <!-- <script src="../js/bootstrap.js"></script> -->
     <script src="../js/bootstrap.bundle.js"></script>
-    <script src="../js/asset-link.js"></script>
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
     <script type="text/javascript"
-        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    <script src="../js/asset-link.js"></script>
 
 
 </body>

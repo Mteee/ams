@@ -263,7 +263,6 @@ function search() {
 
     function checkboxSelectedLength() {
         var lengthh = $(":checkbox:checked").length;
-        // console.log(lengthh);
         return lengthh;
     }
 
@@ -667,6 +666,7 @@ function getSelectedItems(id) {
         $('#dropdown_transfer_room').text("ROOM...");
         $('#search_transfer_roomno').val("");
 
+        console.log(rowsSelected);
         getSelectedAssets(rowsSelected);
         localStorage.menuRoom = '';
         localStorage.menuAssets = '';
