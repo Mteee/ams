@@ -395,6 +395,17 @@ caption {
     height: 100%;
     text-align: center;
 }
+
+#currentLoader {
+    display: none;
+    position: absolute;
+    margin: 320px auto;
+    z-index: 1;
+    width: 90%;
+    height: 100%;
+    text-align: center;
+}
+
 #inLoader {
     display: none;
     position: absolute;
@@ -568,6 +579,14 @@ div#currentAssetsTable_length {
     display: none !important;
 }
 
+div.dataTables_length {
+    display: none !important;
+}
+
+#subLocationTable .sorting_disabled input{
+    display: none;
+}
+
 div#outAssetsTable_length {
     display: none !important;
 }
@@ -652,4 +671,3 @@ div#inAssetsTable_length {
 .dropdown-header {
     display: none;
 }
-
