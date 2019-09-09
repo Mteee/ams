@@ -175,12 +175,11 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <form id="frm-example" method="POST">
                                     <div class="row card-body">
                                         <!-- sub location main area -->
                                         <div class="col-md-6" style="height: 80vh;">
                                             <!-- Sub Location Filter -->
-                                            <table class="table" id="searchWith">
+                                            <table class="table text-center" id="searchWith">
                                                 <tr>
                                                     <th>
                                                         <div class="dropdown">
@@ -252,12 +251,9 @@
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                            placeholder="BTC" autofocus="autofocus"> -->
                                                                 </form>
                                                                 <div id="menu_prim_level">
-                                                                    <div id="Roomload" class="dropdown-loader">
+                                                                    <div id="prim_level_loader" class="dropdown-loader">
                                                                         <img src="../img/loading-transparent.gif"
                                                                             alt="">
                                                                     </div>
@@ -295,9 +291,6 @@
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                            placeholder="BTC" autofocus="autofocus"> -->
                                                                 </form>
                                                                 <div id="menu_prim_area">
                                                                     <div id="prim_area_loader" class="dropdown-loader">
@@ -338,12 +331,9 @@
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                            placeholder="BTC" autofocus="autofocus"> -->
                                                                 </form>
                                                                 <div id="menu_prim_room">
-                                                                    <div id="Roomload" class="dropdown-loader">
+                                                                    <div id="prim_Room_load" class="dropdown-loader">
                                                                         <img src="../img/loading-transparent.gif"
                                                                             alt="">
                                                                     </div>
@@ -357,10 +347,9 @@
 
 
                                                     <th>
-                                                        <button onclick="search()" type="text"
-                                                            class="btn btn-success form-control">
+                                                        <button onclick="searchLocation()" type="text"
+                                                            class="btn btn-success text-light">
                                                             <span class="fa fa-search"></span>
-
                                                         </button>
                                                     </th>
                                                 </tr>
@@ -378,7 +367,7 @@
                                             </table>
                                             <!-- end sub location header -->
                                             <!-- main sub location table -->
-                                            <table class="table" id="primAssetsTable">
+                                            <table class="table" id="subLocationTable">
                                                 <thead style="background:#000000;color:#ffffff;">
                                                     <tr>
                                                         <th scope="col">
@@ -406,7 +395,7 @@
                                                     <div id="loader" class="loader">
                                                         <img src="../img/loading-transparent.gif" alt="">
                                                     </div>
-                                                    <div id="searchView" class="search_start">
+                                                    <div id="primSearchView" class="search_start">
                                                         <p style="margin-top:200px">Please search your asset using the
                                                             search
                                                             above
@@ -447,7 +436,7 @@
                                                                             <span
                                                                                 class="input-group-text btn btn-danger text-light"
                                                                                 id="clear_sub_location"
-                                                                                onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING...')"><i
+                                                                                onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING')"><i
                                                                                     class="fa fa-close"></i></span>
 
                                                                         </div>
@@ -531,9 +520,6 @@
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                                    placeholder="BTC" autofocus="autofocus"> -->
                                                                 </form>
                                                                 <div id="menu_area">
                                                                     <div id="menu_area_loader" class="dropdown-loader">
@@ -573,9 +559,6 @@
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                                    placeholder="BTC" autofocus="autofocus"> -->
                                                                 </form>
                                                                 <div id="menu_room_sub">
                                                                     <div id="sub_room_loader" class="dropdown-loader">
@@ -640,11 +623,11 @@
                                                         </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="current">
-                                                    <div id="loader" class="loader">
+                                                <tbody id="currentAssets">
+                                                    <div id="currentLoader" class="loader">
                                                         <img src="../img/loading-transparent.gif" alt="">
                                                     </div>
-                                                    <div id="searchView" class="search_start">
+                                                    <div id="subAssetsSearch" class="search_start">
                                                         <p style="margin-top:200px">Please search your asset using the
                                                             search
                                                             above
@@ -660,13 +643,12 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <button id="printAssets" style="display: none" class="btn btn-sm btn-info"><span
-                                        class="fa fa-print"></span>
-                                    Assign Primary</button>
+                            <div class="col-md-12 text-right">
+                                <button id="printAssets" class="btn btn-info btn-md"><span
+                                        class="fa fa-link"></span>
+                                    Asset Link</button>
                             </div>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
