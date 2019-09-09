@@ -241,6 +241,23 @@
     <script src="../js/jquery.js "></script>
     <script src="../js/jspdf.debug.js "></script>
     <script>
+        var assets = "";
+        for (var i = 0; i < 100; i++) {
+            assets += "<tr>" +
+                "<td>H471B</td>" +
+                "<td>EPSON</td>" +
+                "<td>RKEF5X</td>" +
+                "<td>RKEF5X</td>" +
+                "<td>UNKNOWN</td>" +
+                "<td>L5-553</td>" +
+                "<td>Board Room</td>" +
+                "<td>09.05.2016</td>" +
+                "<td>14.08.2019</td>" +
+                "</tr>"
+        }
+
+        document.getElementById('cert_assets_selected').innerHTML = assets;
+
         function PDF1() {
             var doc = new jsPDF('l', 'pt', 'a4', true);
             // doc.setFont("courier");
@@ -249,21 +266,6 @@
                     return true;
                 }
             };
-
-            var assets = "";
-            for (var i = 0; i < 100; i++) {
-                assets += "<tr>" +
-                    "<td>H471B</td>" +
-                    "<td>EPSON</td>" +
-                    "<td>RKEF5X</td>" +
-                    "<td>RKEF5X</td>" +
-                    "<td>UNKNOWN</td>" +
-                    "<td>L5-553</td>" +
-                    "<td>Board Room</td>" +
-                    "<td>09.05.2016</td>" +
-                    "<td>14.08.2019</td>" +
-                    "</tr>"
-            }
 
             iu, iu, i, i
             var source = window.document.getElementsByClassName("container")[0];
