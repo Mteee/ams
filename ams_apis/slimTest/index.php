@@ -840,21 +840,23 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
     $description = strtoupper($data->description);
 
     $sql = "SELECT 
-                ASSET_ID,
-                ASSET_DESCRIPTION,
-                --ASSET_LEVEL_NEW,
-                --ASSET_AREA,
-                --ASSET_AREA_NAME,
-                --ASSET_ROOM_NO
-            FROM 
-                AMSD.ASSET_LOCATION_TEST_VW 
-            WHERE ASSET_ROOM_NO = ASSET_ROOM_NO
-            AND ASSET_CLASS LIKE '%IT EQUIPMENT%'
-            AND ASSET_DESCRIPTION LIKE '%$description%'
-            AND ASSET_BUILDING LIKE '%$building%'
-            AND ASSET_LEVEL LIKE '%$level%'
-            AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
-            AND ASSET_ROOM_NO LIKE '%$room_no%'";
+    a_new.ASSET_ID,
+    l_new.ASSET_ROOM_NO,
+    l_new.ASSET_AREA_NAME,
+    a_new.ASSET_DESCRIPTION
+    --l_new.ASSET_LEVEL_NEW,
+    --l_new.ASSET_AREA,
+FROM 
+    amsd.assets_new a_new,
+    AMSD.ASSETS_LOCATION_NEW l_new
+WHERE a_new.ASSET_ROOM_NO = l_new.ASSET_ROOM_NO
+AND a_new.ASSET_CLASS LIKE '%IT EQUIPMENT%'
+AND a_new.ASSET_DESCRIPTION LIKE '%$description%'
+AND l_new.ASSET_BUILDING LIKE '%$building%'
+AND l_new.ASSET_LEVEL_NEW LIKE '%$level%'
+AND l_new.ASSET_AREA_NAME LIKE '%$area%'
+AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
+AND a_new.ASSET_ID = a_new.ASSET_PRIMARY_ID";
 
     $assets_no =$func->executeQuery($sql);
 
