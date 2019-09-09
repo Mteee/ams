@@ -62,6 +62,38 @@
 </head>
 
 <body>
+    <div id="overlay-alert-message" style="z-index: 999">
+        <div class="asset-details animated bounceInUp" id="alert-message" style="margin: 15% auto;
+                width: 752px;
+                height: 266px;z-index: 9999999999999999">
+            <span class="exit-asset" onclick="closeAsset('overlay-alert-message')">&times;</span>
+            <div class="asset-header">
+                <span id="alert_header" style="font-weight:bolder;font-size:15pt;">Loading...</span>
+            </div>
+            <div class="asset-body text-center">
+                <span id="alert-message-body">
+                    Loading...
+
+                </span>
+            </div>
+            <div class="asset-footer text-center" style="position: absolute;
+                    bottom: 0;
+                    padding: 10px;
+                    border-top: 1px solid rgba(0, 0, 0, 0.13);
+                    width: 100%;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span id="alert-footer">
+                            <!-- <button class="btn btn-success" onclick="closeAsset('overlay-alert-message')" style="width:100px">OK</button> -->
+                            Loading...
+                        </span>
+
+                        <!-- <button class="btn btn-danger" style="width:100px">Cancel</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -143,12 +175,11 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <form id="frm-example" method="POST">
                                     <div class="row card-body">
                                         <!-- sub location main area -->
                                         <div class="col-md-6" style="height: 80vh;">
                                             <!-- Sub Location Filter -->
-                                            <table class="table" id="searchWith">
+                                            <table class="table text-center" id="searchWith">
                                                 <tr>
                                                     <th>
                                                         <div class="dropdown">
@@ -166,8 +197,7 @@
 
                                                                     <div class="input-group">
                                                                         <input type="search" id="search_link_location"
-                                                                            class="form-control"
-                                                                            placeholder="BUILDING"
+                                                                            class="form-control" placeholder="BUILDING"
                                                                             onkeyup="onSearch('search_link_location','#empty_link_location')"
                                                                             autofocus="autofocus">
                                                                         <div class="input-group-append">
@@ -221,12 +251,9 @@
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                            placeholder="BTC" autofocus="autofocus"> -->
                                                                 </form>
                                                                 <div id="menu_prim_level">
-                                                                    <div id="Roomload" class="dropdown-loader">
+                                                                    <div id="prim_level_loader" class="dropdown-loader">
                                                                         <img src="../img/loading-transparent.gif"
                                                                             alt="">
                                                                     </div>
@@ -264,9 +291,6 @@
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                            placeholder="BTC" autofocus="autofocus"> -->
                                                                 </form>
                                                                 <div id="menu_prim_area">
                                                                     <div id="prim_area_loader" class="dropdown-loader">
@@ -307,12 +331,9 @@
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                            placeholder="BTC" autofocus="autofocus"> -->
                                                                 </form>
                                                                 <div id="menu_prim_room">
-                                                                    <div id="Roomload" class="dropdown-loader">
+                                                                    <div id="prim_Room_load" class="dropdown-loader">
                                                                         <img src="../img/loading-transparent.gif"
                                                                             alt="">
                                                                     </div>
@@ -326,10 +347,9 @@
 
 
                                                     <th>
-                                                        <button onclick="search()" type="text"
-                                                            class="btn btn-success form-control">
+                                                        <button onclick="searchLocation()" type="text"
+                                                            class="btn btn-success text-light">
                                                             <span class="fa fa-search"></span>
-
                                                         </button>
                                                     </th>
                                                 </tr>
@@ -347,7 +367,7 @@
                                             </table>
                                             <!-- end sub location header -->
                                             <!-- main sub location table -->
-                                            <table class="table" id="primAssetsTable">
+                                            <table class="table" id="subLocationTable">
                                                 <thead style="background:#000000;color:#ffffff;">
                                                     <tr>
                                                         <th scope="col">
@@ -375,7 +395,7 @@
                                                     <div id="loader" class="loader">
                                                         <img src="../img/loading-transparent.gif" alt="">
                                                     </div>
-                                                    <div id="searchView" class="search_start">
+                                                    <div id="primSearchView" class="search_start">
                                                         <p style="margin-top:200px">Please search your asset using the
                                                             search
                                                             above
@@ -416,7 +436,7 @@
                                                                             <span
                                                                                 class="input-group-text btn btn-danger text-light"
                                                                                 id="clear_sub_location"
-                                                                                onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING...')"><i
+                                                                                onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING')"><i
                                                                                     class="fa fa-close"></i></span>
 
                                                                         </div>
@@ -500,9 +520,6 @@
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                                    placeholder="BTC" autofocus="autofocus"> -->
                                                                 </form>
                                                                 <div id="menu_area">
                                                                     <div id="menu_area_loader" class="dropdown-loader">
@@ -542,9 +559,6 @@
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
-
-                                                                    <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                                    placeholder="BTC" autofocus="autofocus"> -->
                                                                 </form>
                                                                 <div id="menu_room_sub">
                                                                     <div id="sub_room_loader" class="dropdown-loader">
@@ -609,11 +623,11 @@
                                                         </th>
                                                     </tr>
                                                 </thead>
-                                                <tbody id="current">
-                                                    <div id="loader" class="loader">
+                                                <tbody id="currentAssets">
+                                                    <div id="currentLoader" class="loader">
                                                         <img src="../img/loading-transparent.gif" alt="">
                                                     </div>
-                                                    <div id="searchView" class="search_start">
+                                                    <div id="subAssetsSearch" class="search_start">
                                                         <p style="margin-top:200px">Please search your asset using the
                                                             search
                                                             above
@@ -629,13 +643,12 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
-                                <button id="printAssets" style="display: none" class="btn btn-sm btn-info"><span
-                                        class="fa fa-print"></span>
-                                    Assign Primary</button>
+                            <div class="col-md-12 text-right">
+                                <button id="printAssets" class="btn btn-info btn-md"><span
+                                        class="fa fa-link"></span>
+                                    Asset Link</button>
                             </div>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
