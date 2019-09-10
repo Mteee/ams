@@ -75,7 +75,7 @@
 
 
         <!-- Certificate Number Details -->
-        <div class="row" style="margin-top: 20px;background: black;color: white;padding:10px;margin-top:-20px;">
+        <div class="row" style="margin-top: 20px;background: black;text-emphasis-color: white;padding:10px;margin-top:-20px;">
             <div class="col-md-12 text-center">
                 <!-- end Transaction Type -->
                 <table style="width:100%">
@@ -155,9 +155,9 @@
                                 On Behalf of Service Provider :</th>
                         </tr>
                         <tr class="" style="font-weight:bolder;">
-                            <td style="width:33.33%;padding:5px;"> Name : _________________________________________</td>
-                            <td style="width:33.33%;padding:5px;"> Title : _________________________________________</td>
-                            <td style="width:33.33%;padding:5px;">Date : _________________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Name : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Title : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;">Date : _________________________________</td>
                         </tr>
                     </table>
                 </div>
@@ -173,9 +173,9 @@
                                 On Behalf of Inkosi Albert Luthuli Central Hospital:</th>
                         </tr>
                         <tr class="" style="font-weight:bolder;">
-                            <td style="width:33.33%;padding:5px;"> Name : _________________________________________</td>
-                            <td style="width:33.33%;padding:5px;"> Title : _________________________________________</td>
-                            <td style="width:33.33%;padding:5px;">Date : _________________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Name : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Title : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;">Date : _________________________________</td>
                         </tr>
                     </table>
                 </div>
@@ -189,9 +189,9 @@
                                 On Behalf of Impilo Consortium:</th>
                         </tr>
                         <tr class="" style="font-weight:bolder;">
-                            <td style="width:33.33%;padding:5px;"> Name : _________________________________________</td>
-                            <td style="width:33.33%;padding:5px;"> Title : _________________________________________</td>
-                            <td style="width:33.33%;padding:5px;">Date : _________________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Name : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Title : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;">Date : _________________________________</td>
                         </tr>
                     </table>
                 </div>
@@ -204,10 +204,6 @@
     </div>
 
     <button id="ignorePDF" onclick="javascript:pdf()">Print Certificate</button>
-
-
-
-
 
     <!-- <table class="table ">
             <tr>
@@ -239,7 +235,7 @@
     <script src="../js/printThis.js "></script>
     <script>
         var assets = "";
-        for (var i = 0; i < 100; i++) {
+        for (var i = 0; i < 10; i++) {
             assets += "<tr>" +
                 "<td>H471B</td>" +
                 "<td>EPSON</td>" +
@@ -264,7 +260,7 @@
                 loadCSS: "http://localhost/AMEProjects/ams/AMS/css/bootstrap.css", // path to additional css file - use an array [] for multiple
                 pageTitle: "Inkosi Albert Luthuli Central Hospital \nImpilo Commissioning Certificate", // add title to print page
                 removeInline: false, // remove inline styles from print elements
-                removeInlineSelector: "*", // custom selectors to filter inline styles. removeInline must be true
+                removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
                 printDelay: 333, // variable print delay
                 header: null, // prefix to html
                 footer: null, // postfix to html
@@ -280,7 +276,6 @@
             });
         }
     </script>
-
 </body>
 
 </html>
