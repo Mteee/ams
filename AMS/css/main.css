@@ -264,7 +264,7 @@ input[type="checkbox"]:disabled:after {
 
 .asset-details {
     position: relative;
-    margin: 10% auto;
+    margin: 6% auto;
     width: 500px;
     height: 500px;
     border-radius: 5px;
@@ -386,7 +386,10 @@ caption {
 
 /*-----------------------------------------------------------------------------------------------------------*/
 
-#loader {
+
+
+.loader,#outLoader, #inLoader,#loader,
+#AssetsLoader {
     display: none;
     position: absolute;
     margin: 320px auto;
@@ -395,6 +398,11 @@ caption {
     height: 100%;
     text-align: center;
 }
+#loader,
+#AssetsLoader {
+    margin: 149px auto;
+}
+
 
 .dropdown-loader {
     /* position: absolute;
@@ -477,12 +485,11 @@ caption {
     display: none;
 }
 
-#loader img {
+#loader img, #AssetsLoader img {
     margin: auto;
     width: 100px;
     position: fixed;
 }
-
 
 /*-----------------------------------------------------------------------------------------------------------*/
 
@@ -518,7 +525,7 @@ caption {
 }
 
 .asset-body tbody tr {
-    border: 1px solid #cfcfcf !important;
+    border: 1px solid #ffffff !important;
     padding: 5px;
 }
 
@@ -550,6 +557,16 @@ div#currentAssetsTable_length {
     display: none !important;
 }
 
+div.dataTables_length {
+    display: none !important;
+}
+
+#subAssetsTable .sorting_disabled input,
+#subLocationTable .sorting_disabled input{
+    display: none;
+}
+
+
 div#outAssetsTable_length {
     display: none !important;
 }
@@ -575,7 +592,7 @@ div#inAssetsTable_length {
     background: white;
     border-radius: 5px;
     width: 200px;
-    height: 160px;
+    height: 205px;
     border: 1px solid #ccc;
     margin-top: 10px;
 }
