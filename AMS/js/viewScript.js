@@ -680,19 +680,85 @@ function replaceAll(find, replace, str) {
     return str;
 }
 
+// function clearData(input, btnDafualtId, text) {
+//     // var inputData = document.getElementById(input).(val);
+//     document.getElementById('menuLocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+//     document.getElementById('menuRoom').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+//     document.getElementById('menuAssets').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+//     var value = $(input).val();
+//     if (value.length > 0) {
+//         localStorage.menuRoom = '';
+//         localStorage.menuAssets = '';
+//         localStorage.menuLocation = '';
+//         populate_dropdown();
+//         $(input).val("");
+//         $(btnDafualtId).text(text);
+//     }
+// }
+
+
 function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);
-    document.getElementById('menuLocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-    document.getElementById('menuRoom').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-    document.getElementById('menuAssets').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
     var value = $(input).val();
+
     if (value.length > 0) {
-        localStorage.menuRoom = '';
-        localStorage.menuAssets = '';
-        localStorage.menuLocation = '';
-        populate_dropdown();
-        $(input).val("");
-        $(btnDafualtId).text(text);
+
+        if (input == "#searchlocation") {
+            document.getElementById('menuLocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menuRoom').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menuAssets').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
+        
+            localStorage.menuLocation = '';
+            localStorage.menuRoom = '';
+            localStorage.menuAssets = '';
+            populate_dropdown();
+  
+            $(input).val("");
+            $(btnDafualtId).text(text);
+
+            $('#searchlocation').val("");
+            $('#dropdown_location').text("LOCATION...");
+            $('#searchroomno').val("");
+            $('#dropdown_room').text("ROOM...");
+            $('#searchasset').val("");
+            $('#dropdown_assets').text("ASSET NO...");
+            
+
+        } else if (input == "#searchroomno") {
+            document.getElementById('menuRoom').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menuAssets').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
+            localStorage.menuRoom = '';
+            localStorage.menuAssets = '';
+            populate_dropdown();
+
+            $(input).val("");
+            $(btnDafualtId).text(text);
+
+            $('#searchroom').val("");
+            $('#dropdown_room').text("ROOM...");
+            $('#searchasset').val("");
+            $('#dropdown_assets').text("ASSET NO...");
+
+        } else if (input == "#searchasset") {
+
+            document.getElementById('menuAssets').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            localStorage.menuAssets = '';
+
+            populate_dropdown();
+  
+            $(input).val("");
+            $(btnDafualtId).text(text);
+
+        } 
+
+
+        // if (btnDafualtId == "#dropdown_approve_room") {
+        //     populate_room();
+        //     $(input).val("");
+        //     $(btnDafualtId).text(text);
+        // }
     }
 }
 
@@ -714,7 +780,7 @@ function resetInput(resetId, resetTxt) {
 //     }
 // });
 
-if (localStorage.filter == "All EQUIPMENT") {
+if (localStorage.filter == "ALL EQUIPMENT") {
 
     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
