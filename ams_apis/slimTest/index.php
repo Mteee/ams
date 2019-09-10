@@ -934,6 +934,41 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
  
 });
 
+$app->map(['GET','POST'],'/room_al_no', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $room_no = strtoupper($data->room_no);
+    $response = array();
+
+    $sql = "SELECT 
+                HD_ASSET_ROOM_LOCATION
+            FROM AMSD.ASSETS_LOCATION_NEW
+            WHERE ASSET_ROOM_NO = '$room_no'
+            AND SUBSTR(HD_ASSET_ROOM_LOCATION,1,1) <> 'M'";
+
+        $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->HD_ASSET_ROOM_LOCATION;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
 $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -1059,6 +1094,8 @@ $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response
     }
  
 });
+
+
 
 $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $response){
     global $func;
