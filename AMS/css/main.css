@@ -396,12 +396,12 @@ caption {
     text-align: center;
 }
 
-#currentLoader {
+#AssetsLoader {
     display: none;
     position: absolute;
-    margin: 320px auto;
+    margin: 149px auto;
     z-index: 1;
-    width: 90%;
+    width: 100%;
     height: 100%;
     text-align: center;
 }
@@ -583,9 +583,11 @@ div.dataTables_length {
     display: none !important;
 }
 
+#subAssetsTable .sorting_disabled input,
 #subLocationTable .sorting_disabled input{
     display: none;
 }
+
 
 div#outAssetsTable_length {
     display: none !important;
