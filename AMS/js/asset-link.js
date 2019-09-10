@@ -66,7 +66,7 @@ function closeAsset(overlay_id) {
 
 var asset_link = {
     al_no: null,
-    selected_assets : null
+    selected_assets: null
 }
 
 var dataInfo = "";
@@ -151,7 +151,7 @@ function search() {
 
                         console.log($(this).prop("checked"));
                         if ($(this).prop("checked") == true) {
-                            $('input[type=checkbox]').prop("checked", false);
+                            $('#subLocationTable tbody input[type=checkbox]').prop("checked", false);
                             $(this).prop("checked", true);
                             console.log("test1");
                             asset_link.al_no = dataInfo[0];
@@ -254,7 +254,7 @@ function searchasset() {
                         // var data = table.row($(this).parents('tr')).data();
                         setTimeout(function () {
                             // console.log(checkboxSelectedLength());
-                            if (checkboxSelectedLength() > 0) {
+                            if (checkboxSelectedLength('#subAssetsTable') > 0) {
                                 $("#linkBtn").fadeIn(500);
                                 console.log("Test");
                             } else {
@@ -298,8 +298,8 @@ function searchasset() {
     }
 }
 
-function checkboxSelectedLength() {
-    var lengthh = $("#subLocationTable input:checkbox:checked").length;
+function checkboxSelectedLength(id) {
+    var lengthh = $(id + " input:checkbox:checked").length;
     console.log(lengthh);
     return lengthh;
 }
@@ -897,11 +897,15 @@ function linkAssets(id) {
     asset_link.selected_assets = createAssetDelimeter(rowsSelected);
 
     if (asset_link.al_no == null) {
-        alert("select sub Location");
+        document.getElementById('overlay-alert-message').style.display = "none";
+        document.getElementById('overlay-alert-message').style.display = "block";
+        document.getElementById('alert_header').innerHTML = "<span class='text-center'>Select Sub Location</span>";
+        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><p class="text-muted">Sub Location is required</p>';
+        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
     } else {
 
-        var assets_selected = "<select id='primary_asset_id' required>";
-        assets_selected += "<option value='0' selected>Select Primary Asset Id </option>";
+        var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
+        assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
         for (var i = 0; i < rowsSelected.length; i++) {
             assets_selected += "<option value='" + rowsSelected[i] + "' >" + rowsSelected[i] + "</option>"
         }
@@ -910,7 +914,7 @@ function linkAssets(id) {
         document.getElementById('overlay-alert-message').style.display = "none";
         document.getElementById('overlay-alert-message').style.display = "block";
         document.getElementById('alert_header').innerHTML = "Selected Primary Asset ID";
-        document.getElementById('alert-message-body').innerHTML = '<div class="text-center">' + assets_selected + '</span>';
+        document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5" style="margin-top:15px;">' + assets_selected + '</span>';
         document.getElementById('alert-footer').innerHTML = '<button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button> | <button class="btn btn-success" onclick="confirmLink()" style="width:100px">OK</button>';
 
     }
@@ -927,14 +931,23 @@ function confirmLink() {
     var p_id = e.options[e.selectedIndex].value;
 
     $.ajax({
-        url:"../../ams_apis/slimTest/index.php/asset_room_no",
-        method:"POST",
-        data: '{"al_no":"'+asset_link.al_no+'","assetIds" : "'+asset_link.selected_assets+'","primary_asset_id" : "'+p_id+'"}',
-        dataType : "JSON",
-        success : function(data){
+        url: "../../ams_apis/slimTest/index.php/link_assets",
+        method: "POST",
+        data: '{"al_no":"' + asset_link.al_no + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + p_id + '","username":"' + localStorage.username + '"}',
+        dataType: "JSON",
+        success: function (data) {
+            if(data.data == "LINK WAS SUCCESSFUL"){
+                searchasset()
+                search();
+                document.getElementById('alert_header').innerHTML = "Hooray!!!!";
+                document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5"><img src="../img/success.gif" width=60/> <p class="text-muted">Assets linked successfully</p></span>';
+                document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button>';
+            }
+            console.log("======================data================")
             console.log(data);
+            console.log("======================data================")
         },
-        error: function(errr){
+        error: function (errr) {
             console.log(errr);
         }
     });
