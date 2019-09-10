@@ -35,9 +35,7 @@ window.onload = function () {
         localStorage.level_assets = '';
         localStorage.room_no_assets = '';
 
-
-        sub_location_filters();
-        assets_filters();
+        allFilter()
     }
 }
 
@@ -50,11 +48,15 @@ var tableArr = {
     subAssetsTable: []
 };
 
+allFilter()
 
 
+function allFilter() {
 
-sub_location_filters();
-assets_filters();
+    sub_location_filters();
+    assets_filters();
+
+}
 
 function closeAsset(overlay_id) {
     document.getElementById(overlay_id).style.display = "none";
@@ -305,7 +307,7 @@ var allArr = {
     search_prim_level: [],
     search_prim_area: [],
     search_prim_room: [],
-    
+
     search_sub_location: [],
     search_level: [],
     search_area: [],
@@ -509,7 +511,12 @@ var clusterize = {
     search_link_location: [],
     search_prim_level: [],
     search_prim_area: [],
-    search_prim_room: []
+    search_prim_room: [],
+    
+    search_sub_location: [],
+    search_level: [],
+    search_area: [],
+    search_room_sub: []
 };
 
 function getSelectedAssets(assets) {
@@ -945,7 +952,7 @@ function confirmLink() {
         data: '{"al_no":"' + asset_link.al_no + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + p_id + '","username":"' + localStorage.username + '"}',
         dataType: "JSON",
         success: function (data) {
-            if(data.data == "LINK WAS SUCCESSFUL"){
+            if (data.data == "LINK WAS SUCCESSFUL") {
                 searchasset()
                 search();
                 document.getElementById('alert_header').innerHTML = "Hooray!!!!";
@@ -963,12 +970,12 @@ function confirmLink() {
 }
 
 
-var onSearch = function (searchValue, emptyId) {
+var onSearch = function (table,searchValue, emptyId) {
 
     var getId = searchValue;
 
     var found = false;
-    
+
     var rows = allArr[searchValue];
 
     searchValue = document.getElementById(searchValue);
@@ -977,7 +984,7 @@ var onSearch = function (searchValue, emptyId) {
 
         var suitable = false;
 
-        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+        console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
 
         if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
@@ -988,10 +995,20 @@ var onSearch = function (searchValue, emptyId) {
     }
 
     if (searchValue.value.length == 0) {
-        var resObj = checkFilter(getId);
-        $('#dropdown_location').text($(this)[0].value);
-        $('#' + resObj.btnId).text(resObj.btnContent);
-        populate_room();
+        
+        // var resObj = checkFilter(getId);
+        // $('#dropdown_location').text($(this)[0].value);
+        // $('#' + resObj.btnId).text(resObj.btnContent);
+        // populate_room();
+
+        if(table == 'sub'){
+            sub_location_filters();
+        }
+        else if(table == 'assets'){
+            assets_filters();
+        }
+
+
     }
 
     if (found) {
@@ -1005,4 +1022,25 @@ var onSearch = function (searchValue, emptyId) {
     clusterize[getId].update(filterRows(rows));
 }
 
+
+function checkFilter(key) {
+    var res = {};
+
+    switch (key) {
+        case "searchasset":
+            res = { "btnId": "dropdown_assets", "btnContent": "ASSET NO..." };
+            break;
+        case "searchroomno":
+            res = { "btnId": "dropdown_room", "btnContent": "ROOM NO..." };
+            break;
+        case "searchlocation":
+            res = { "btnId": "dropdown_location", "btnContent": "LOCATION..." };
+            break;
+        default:
+            res = { "btnId": "not found", "btnContent": "not found" };
+            break;
+    }
+
+    return res;
+}
 
