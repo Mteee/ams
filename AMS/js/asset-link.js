@@ -51,10 +51,6 @@ var tableArr = {
 };
 
 
-var allArr = {
-    subLocationTable: [],
-    subAssetsTable: []
-};
 
 
 sub_location_filters();
@@ -303,6 +299,19 @@ function checkboxSelectedLength(id) {
     console.log(lengthh);
     return lengthh;
 }
+
+var allArr = {
+    search_link_location: [],
+    search_prim_level: [],
+    search_prim_area: [],
+    search_prim_room: [],
+    
+    search_sub_location: [],
+    search_level: [],
+    search_area: [],
+    search_room_sub: []
+};
+
 
 function sub_location_filters() {
     /*Sub Location Filters*/
@@ -951,6 +960,49 @@ function confirmLink() {
             console.log(errr);
         }
     });
+}
+
+
+var onSearch = function (searchValue, emptyId) {
+
+    var getId = searchValue;
+
+    var found = false;
+    
+    var rows = allArr[searchValue];
+
+    searchValue = document.getElementById(searchValue);
+
+    for (var i = 0; i < rows.length; i++) {
+
+        var suitable = false;
+
+        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+
+        if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
+            suitable = true;
+            found = true;
+        }
+
+        rows[i].active = suitable;
+    }
+
+    if (searchValue.value.length == 0) {
+        var resObj = checkFilter(getId);
+        $('#dropdown_location').text($(this)[0].value);
+        $('#' + resObj.btnId).text(resObj.btnContent);
+        populate_room();
+    }
+
+    if (found) {
+        $(emptyId).css("display", "none");
+    } else {
+        $(emptyId).css("display", "block");
+    }
+
+    // console.log(clusterize[getId]);
+
+    clusterize[getId].update(filterRows(rows));
 }
 
 
