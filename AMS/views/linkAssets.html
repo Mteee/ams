@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AMS - ASSET LINK</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/clusterize.css">
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <style>
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        #searchWith th {
+            width: 350px;
+        }
+
+        .toggle-btn {
+            border-radius: 50%;
+            border: 2px solid white;
+            background: green;
+            padding: 2px 10px 5px 9px;
+            font-weight: bolder;
+            font-size: 18px;
+        }
+
+        .toggle-btn:hover {
+            cursor: pointer;
+        }
+
+        .print_scroll {
+            height: 620px;
+            overflow: auto;
+        }
+
+        .print_scroll thead {
+            position: sticky;
+            top: 0;
+        }
+
+        /* *{
+                font-size:12pt;
+            } */
+
+        #overlay-printView table th,
+        #overlay-printView table td {
+            border: 2px solid #000;
+            padding: 0.5em;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="overlay-alert-message" style="z-index: 999">
+        <div class="asset-details animated bounceInUp" id="alert-message" style="margin: 15% auto;
+                width: 752px;
+                height: 266px;z-index: 9999999999999999">
+            <span class="exit-asset" onclick="closeAsset('overlay-alert-message')">&times;</span>
+            <div class="asset-header">
+                <span id="alert_header" class="text-center" style="font-weight:bolder;font-size:15pt;">Loading...</span>
+            </div>
+            <div class="asset-body text-center">
+                <span id="alert-message-body">
+                    Loading...
+
+                </span>
+            </div>
+            <div class="asset-footer text-center" style="position: absolute;
+                    bottom: 0;
+                    padding: 10px;
+                    border-top: 1px solid rgba(0, 0, 0, 0.13);
+                    width: 100%;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <span id="alert-footer">
+                            <!-- <button class="btn btn-success" onclick="closeAsset('overlay-alert-message')" style="width:100px">OK</button> -->
+                            Loading...
+                        </span>
+
+                        <!-- <button class="btn btn-danger" style="width:100px">Cancel</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid" style="border-left:1px soild rgba(0,0,0,0.5)">
+        <!-- navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+            style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar"
+                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+                <div class="row" style="margin-top:-25px;">
+                    <span onclick="showNav()">
+                        <div class="col-md-2">
+                            <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40" /></div>
+                            <div class="menu-text">MENU</div>
+                        </div>
+                    </span>
+
+                    <div class="col-md-7 offset-3">
+                        <select class="form-control text-muted user-class" id="class-options">
+
+                        </select>
+                    </div>
+                </div>
+
+                <div id="menu-list">
+                    <ul class="menu-group">
+                        <a href="./viewAssets.html" target="_self">
+                            <li class="menu-item">view</li>
+                        </a>
+                        <a href="./moveAssets.html" target="_self">
+                            <li class="menu-item">movement</li>
+                        </a>
+                        <a href="#" target="_self">
+                            <li class="menu-item">certificates</li>
+                        </a>
+                        <div class="dropright dropdown" id="drodown-menu">
+                            <li class="menu-item" data-toggle="dropdown">commissioning</li>
+                            <ul class="dropdown-menu">
+                                <li class="menu-item active">addition</li>
+                                <li class="divider"></li>
+                                <li class="menu-item">removal</li>
+                            </ul>
+                        </div>
+
+                        <li class="menu-item active">asset link</li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
+                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span></div>
+            </div>
+            <div class=" col-md-3">
+                <div class="row">
+                    <div class="col-md-4 offset-6">
+                        <div id="username">Username</div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;">
+                            <span style="color:white" class="fa fa-power-off"></span>
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </nav>
+        <!-- end navigation -->
+
+        <!-- search filters -->
+        <div class="row" style="margin-top: 2.897%;">
+            <div class="col-md-12" style="height:80vh;padding-right:40px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3 text-center" style="font-size:15pt;font-weight: bolder">
+                                <br />
+                            </div>
+                            <div class="col-md-9 ">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                    <div class="row card-body">
+                                        <!-- sub location main area -->
+                                        <div class="col-md-6" style="height: 80vh;">
+                                            <!-- Sub Location Filter -->
+                                            <table class="table text-center" id="searchWith">
+                                                <tr>
+                                                    <th>
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-outline-info form-control dropdown-toggle"
+                                                                type="button" id="dropdown_link_location"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                BUILDING
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="dropdown_link_location"
+                                                                id="scroll_link_Location">
+                                                                <form class="px-4 py-2">
+
+                                                                    <div class="input-group">
+                                                                        <input type="search" id="search_link_location"
+                                                                            class="form-control" placeholder="BUILDING"
+                                                                            onkeyup="onSearch('search_link_location','#empty_link_location')"
+                                                                            autofocus="autofocus">
+                                                                        <div class="input-group-append">
+                                                                            <span
+                                                                                class="input-group-text btn btn-danger text-light"
+                                                                                id="clear_link_Location"
+                                                                                onclick="clearData('#search_link_location','#dropdown_link_location','BUILDING')"><i
+                                                                                    class="fa fa-close"></i></span>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <div id="menu_link_location">
+                                                                    <div id="location_link_Loader"
+                                                                        class="dropdown-loader">
+                                                                        <img src="../img/loading-transparent.gif"
+                                                                            alt="">
+                                                                    </div>
+                                                                </div>
+                                                                <div id="empty_link_location" class="dropdown-header">No
+                                                                    building
+                                                                    found
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-outline-info form-control dropdown-toggle"
+                                                                type="button" id="dropdown_prim_level"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                LEVEL
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="dropdown_prim_level"
+                                                                id="scrol_prim_level">
+                                                                <form class="px-4 py-2">
+
+                                                                    <div class="input-group">
+                                                                        <input type="search" id="search_prim_level"
+                                                                            class="form-control" placeholder="Level"
+                                                                            onkeyup="onSearch('search_prim_level','#empty_prim_level')"
+                                                                            autofocus="autofocus">
+                                                                        <div class="input-group-append">
+                                                                            <span
+                                                                                class="input-group-text btn btn-danger text-light"
+                                                                                id="clear_prim_level"
+                                                                                onclick="clearData('#search_prim_level','#dropdown_prim_level','LEVEL')"><i
+                                                                                    class="fa fa-close"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <div id="menu_prim_level">
+                                                                    <div id="prim_level_loader" class="dropdown-loader">
+                                                                        <img src="../img/loading-transparent.gif"
+                                                                            alt="">
+                                                                    </div>
+                                                                </div>
+                                                                <div id="empty_prim_level" class="dropdown-header">No
+                                                                    level found
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-outline-info form-control dropdown-toggle"
+                                                                type="button" id="dropdown_prim_area"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                AREA
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="dropdown_prim_area"
+                                                                id="scrol_prim_area">
+                                                                <form class="px-4 py-2">
+
+                                                                    <div class="input-group">
+                                                                        <input type="search" id="search_prim_area"
+                                                                            class="form-control" placeholder="area"
+                                                                            onkeyup="onSearch('search_prim_area','#empty_prim_area')"
+                                                                            autofocus="autofocus">
+                                                                        <div class="input-group-append">
+                                                                            <span
+                                                                                class="input-group-text btn btn-danger text-light"
+                                                                                id="clear_prim_area"
+                                                                                onclick="clearData('#search_prim_area','#dropdown_prim_area','AREA')"><i
+                                                                                    class="fa fa-close"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <div id="menu_prim_area">
+                                                                    <div id="prim_area_loader" class="dropdown-loader">
+                                                                        <img src="../img/loading-transparent.gif"
+                                                                            alt="">
+                                                                    </div>
+                                                                </div>
+                                                                <div id="empty_prim_area" class="dropdown-header">No
+                                                                    area found
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-outline-info form-control dropdown-toggle"
+                                                                type="button" id="dropdown_prim_room"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                ROOM
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="dropdown_prim_room"
+                                                                id="scrol_prim_room">
+                                                                <form class="px-4 py-2">
+
+                                                                    <div class="input-group">
+                                                                        <input type="search" id="search_prim_room"
+                                                                            class="form-control" placeholder="room"
+                                                                            onkeyup="onSearch('search_prim_room','#empty_prim_room')"
+                                                                            autofocus="autofocus">
+                                                                        <div class="input-group-append">
+                                                                            <span
+                                                                                class="input-group-text btn btn-danger text-light"
+                                                                                id="clear_prim_room"
+                                                                                onclick="clearData('#search_prim_room','#dropdown_prim_room','ROOM')"><i
+                                                                                    class="fa fa-close"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <div id="menu_prim_room">
+                                                                    <div id="prim_Room_load" class="dropdown-loader">
+                                                                        <img src="../img/loading-transparent.gif"
+                                                                            alt="" width="160">
+                                                                    </div>
+                                                                </div>
+                                                                <div id="empty_prim_room" class="dropdown-header">No
+                                                                    room found
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+
+
+                                                    <th>
+                                                        <button onclick="search()" type="text"
+                                                            class="btn btn-success text-light">
+                                                            <span class="fa fa-search"></span>
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                            <!-- end sub location filter -->
+                                            <!-- sub location header -->
+                                            <table class="table">
+                                                <tr>
+                                                    <th colspan="6"
+                                                        style="padding: 5px;text-align: left;font-size: 12pt;"
+                                                        class="text-danger">
+                                                        <span style="padding: 5px; width:100px;">Sub Locations</span>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                            <!-- end sub location header -->
+                                            <!-- main sub location table -->
+                                            <table class="table" id="subLocationTable">
+                                                <thead style="background:#000000;color:#ffffff;">
+                                                    <tr>
+                                                        <th scope="col">
+                                                            #
+                                                        </th>
+                                                        <th scope="col">
+                                                            Asset No
+
+                                                        </th>
+                                                        <th scope="col">
+                                                            Room
+
+                                                        </th>
+                                                        <th scope="col">
+                                                            Location
+
+                                                        </th>
+                                                        <th scope="col">
+                                                            Description
+
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="current">
+                                                    <div id="loader" class="loader">
+                                                        <img src="../img/loading-transparent.gif" alt="">
+                                                    </div>
+                                                    <div id="primSearchView" class="search_start">
+                                                        <p style="margin-top:200px">Please search your asset using the
+                                                            search
+                                                            above
+                                                        </p>
+                                                        <img width="100" src="../img/loupe.png" alt="Search">
+                                                    </div>
+                                                </tbody>
+                                            </table>
+                                            <!-- end main sub lovcation table -->
+                                        </div>
+                                        <!-- end sub  locfation main area -->
+                                        <!-- assets main area -->
+                                        <div class="col-md-6" style="border-left: 1px solid #ccc;height: 80vh;">
+                                            <!-- Assets Filter -->
+                                            <table class="table" id="subSearch">
+                                                <tr>
+                                                    <th>
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-outline-info form-control dropdown-toggle"
+                                                                type="button" id="dropdown_sub_location"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                BUILDING
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="dropdown_sub_location"
+                                                                id="scroll_sub_location">
+                                                                <form class="px-4 py-2">
+
+                                                                    <div class="input-group">
+                                                                        <input type="search" id="search_sub_location"
+                                                                            class="form-control"
+                                                                            placeholder="Building..."
+                                                                            onkeyup="onSearch('search_sub_location','#empty_sub_location')"
+                                                                            autofocus="autofocus">
+                                                                        <div class="input-group-append">
+                                                                            <span
+                                                                                class="input-group-text btn btn-danger text-light"
+                                                                                id="clear_sub_location"
+                                                                                onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING')"><i
+                                                                                    class="fa fa-close"></i></span>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <div id="meun_sub_location">
+                                                                    <div id="sub_location_loader"
+                                                                        class="dropdown-loader">
+                                                                        <img src="../img/loading-transparent.gif"
+                                                                            alt="">
+                                                                    </div>
+                                                                </div>
+                                                                <div id="empty_sub_location" class="dropdown-header">No
+                                                                    building found
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-outline-info form-control dropdown-toggle"
+                                                                type="button" id="sub_level_dropdown"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                LEVEL
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="sub_level_dropdown"
+                                                                id="scroll_sub_level">
+                                                                <form class="px-4 py-2">
+
+                                                                    <div class="input-group">
+                                                                        <input type="search" id="search_level"
+                                                                            class="form-control" placeholder="level"
+                                                                            onkeyup="onSearch('search_level','#empty_level')"
+                                                                            autofocus="autofocus">
+                                                                        <div class="input-group-append">
+                                                                            <span
+                                                                                class="input-group-text btn btn-danger text-light"
+                                                                                id="clear_level"
+                                                                                onclick="clearData('#search_level','#sub_level_dropdown','LEVEL')"><i
+                                                                                    class="fa fa-close"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <div id="menu_level">
+                                                                    <div id="levelLoader" class="dropdown-loader">
+                                                                        <img src="../img/loading-transparent.gif"
+                                                                            alt="">
+                                                                    </div>
+                                                                </div>
+                                                                <div id="empty_level" class="dropdown-header">No
+                                                                    level found
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-outline-info form-control dropdown-toggle"
+                                                                type="button" id="area_dropdown" data-toggle="dropdown"
+                                                                aria-haspopup="true" aria-expanded="false">
+                                                                AREA
+                                                            </button>
+                                                            <div class="dropdown-menu" aria-labelledby="area_dropdown"
+                                                                id="scroll_area">
+                                                                <form class="px-4 py-2">
+
+                                                                    <div class="input-group">
+                                                                        <input type="search" id="search_area"
+                                                                            class="form-control" placeholder="area..."
+                                                                            onkeyup="onSearch('search_area','#empty_area')"
+                                                                            autofocus="autofocus">
+                                                                        <div class="input-group-append">
+                                                                            <span
+                                                                                class="input-group-text btn btn-danger text-light"
+                                                                                id="clear_area"
+                                                                                onclick="clearData('#search_area','#area_dropdown','AREA...')"><i
+                                                                                    class="fa fa-close"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <div id="menu_area">
+                                                                    <div id="menu_area_loader" class="dropdown-loader">
+                                                                        <img src="../img/loading-transparent.gif"
+                                                                            alt="">
+                                                                    </div>
+                                                                </div>
+                                                                <div id="empty_area" class="dropdown-header">No
+                                                                    area found
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <div class="dropdown">
+                                                            <button
+                                                                class="btn btn-outline-info form-control dropdown-toggle"
+                                                                type="button" id="dropdown_room_sub"
+                                                                data-toggle="dropdown" aria-haspopup="true"
+                                                                aria-expanded="false">
+                                                                ROOM
+                                                            </button>
+                                                            <div class="dropdown-menu"
+                                                                aria-labelledby="dropdown_room_sub" id="scrol_room_sub">
+                                                                <form class="px-4 py-2">
+
+                                                                    <div class="input-group">
+                                                                        <input type="search" id="search_room_sub"
+                                                                            class="form-control" placeholder="room"
+                                                                            onkeyup="onSearch('search_room_sub','#empty_room_sub')"
+                                                                            autofocus="autofocus">
+                                                                        <div class="input-group-append">
+                                                                            <span
+                                                                                class="input-group-text btn btn-danger text-light"
+                                                                                id="clear_room_sub"
+                                                                                onclick="clearData('#search_room_sub','#dropdown_room_sub','ROOM')"><i
+                                                                                    class="fa fa-close"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                                <div id="menu_room_sub">
+                                                                    <div id="sub_room_loader" class="dropdown-loader">
+                                                                        <img src="../img/loading-transparent.gif"
+                                                                            alt="">
+                                                                    </div>
+                                                                </div>
+                                                                <div id="empty_room_sub" class="dropdown-header">No
+                                                                    room found
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                    <th>
+                                                        <input type="text" id="sub_description" class="form-control"
+                                                            placeholder="Description...">
+                                                    </th>
+
+                                                    <th>
+                                                        <button onclick="searchasset()" type="text"
+                                                            class="btn btn-success form-control">
+                                                            <span class="fa fa-search"></span>
+
+                                                        </button>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                            <!-- end assets filter -->
+                                            <!-- Assets Header  -->
+                                            <table class="table" id="subAssets">
+                                                <tr>
+                                                    <th colspan="6"
+                                                        style="padding: 5px;text-align: left;font-size: 12pt;"
+                                                        class="text-info">
+                                                        <span style="padding: 5px; width:100px;">Assets</span>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                            <!-- end assets header -->
+                                            <!-- assets main table -->
+                                            <table class="table" id="subAssetsTable">
+                                                <thead style="background:#000000;color:#ffffff;">
+                                                    <tr>
+                                                        <th scope="col">
+                                                            #
+                                                        </th>
+                                                        <th scope="col">
+                                                            Asset No
+
+                                                        </th>
+                                                        <th scope="col">
+                                                            Room
+
+                                                        </th>
+                                                        <th scope="col">
+                                                            Location
+
+                                                        </th>
+                                                        <th scope="col">
+                                                            Description
+
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="currentAssets">
+                                                    <div id="AssetsLoader" class="loader">
+                                                        <img src="../img/loading-transparent.gif" alt="" width="160">
+                                                    </div>
+                                                    <div id="subAssetsSearch" class="search_start">
+                                                        <p style="margin-top:200px">Please search your asset using the
+                                                            search
+                                                            above
+                                                        </p>
+                                                        <img width="100" src="../img/loupe.png" alt="Search">
+                                                    </div>
+                                                </tbody>
+                                            </table>
+                                            <!-- end assets table -->
+                                        </div>
+                                        <!-- end assets main area -->
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 text-right">
+                                <button class="btn btn-info btn-md" style="display: none;" id="linkBtn" onclick="linkAssets('subLocationTable')"><span
+                                        class="fa fa-link"></span>
+                                    Asset Link</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/clusterize.min.js"></script>
+    <!-- <script src="../js/bootstrap.js"></script> -->
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/tablefilter.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
+    <script type="text/javascript"
+    src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    <script src="../js/asset-link.js"></script>
+
+
+</body>
+
+</html>
