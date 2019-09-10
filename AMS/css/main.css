@@ -386,44 +386,23 @@ caption {
 
 /*-----------------------------------------------------------------------------------------------------------*/
 
-#loader {
-    display: none;
-    position: absolute;
-    margin: 320px auto;
-    z-index: 1;
-    width: 90%;
-    height: 100%;
-    text-align: center;
-}
 
+
+.loader,#outLoader, #inLoader,#loader,
 #AssetsLoader {
     display: none;
     position: absolute;
-    margin: 149px auto;
+    margin: 320px auto;
     z-index: 1;
-    width: 100%;
+    width: 90%;
     height: 100%;
     text-align: center;
+}
+#loader,
+#AssetsLoader {
+    margin: 149px auto;
 }
 
-#inLoader {
-    display: none;
-    position: absolute;
-    margin: 320px auto;
-    z-index: 1;
-    width: 90%;
-    height: 100%;
-    text-align: center;
-}
-#outLoader {
-    display: none;
-    position: absolute;
-    margin: 320px auto;
-    z-index: 1;
-    width: 90%;
-    height: 100%;
-    text-align: center;
-}
 
 .dropdown-loader {
     /* position: absolute;
@@ -506,12 +485,11 @@ caption {
     display: none;
 }
 
-#loader img {
+#loader img, #AssetsLoader img {
     margin: auto;
     width: 100px;
     position: fixed;
 }
-
 
 /*-----------------------------------------------------------------------------------------------------------*/
 
@@ -547,7 +525,7 @@ caption {
 }
 
 .asset-body tbody tr {
-    border: 1px solid #cfcfcf !important;
+    border: 1px solid #ffffff !important;
     padding: 5px;
 }
 
