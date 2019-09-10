@@ -68,7 +68,7 @@
                 height: 266px;z-index: 9999999999999999">
             <span class="exit-asset" onclick="closeAsset('overlay-alert-message')">&times;</span>
             <div class="asset-header">
-                <span id="alert_header" style="font-weight:bolder;font-size:15pt;">Loading...</span>
+                <span id="alert_header" class="text-center" style="font-weight:bolder;font-size:15pt;">Loading...</span>
             </div>
             <div class="asset-body text-center">
                 <span id="alert-message-body">
@@ -335,7 +335,7 @@
                                                                 <div id="menu_prim_room">
                                                                     <div id="prim_Room_load" class="dropdown-loader">
                                                                         <img src="../img/loading-transparent.gif"
-                                                                            alt="">
+                                                                            alt="" width="160">
                                                                     </div>
                                                                 </div>
                                                                 <div id="empty_prim_room" class="dropdown-header">No
@@ -578,7 +578,7 @@
                                                     </th>
 
                                                     <th>
-                                                        <button onclick="searchAssets()" type="text"
+                                                        <button onclick="searchasset()" type="text"
                                                             class="btn btn-success form-control">
                                                             <span class="fa fa-search"></span>
 
@@ -624,8 +624,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody id="currentAssets">
-                                                    <div id="currentLoader" class="loader">
-                                                        <img src="../img/loading-transparent.gif" alt="">
+                                                    <div id="AssetsLoader" class="loader">
+                                                        <img src="../img/loading-transparent.gif" alt="" width="160">
                                                     </div>
                                                     <div id="subAssetsSearch" class="search_start">
                                                         <p style="margin-top:200px">Please search your asset using the
