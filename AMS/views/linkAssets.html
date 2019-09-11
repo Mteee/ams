@@ -59,6 +59,12 @@
             border: 2px solid #000;
             padding: 0.5em;
         }
+
+        .big_btn {
+            height: 100px;
+            width: 122px;
+            font-size: 29pt;
+        }
     </style>
 </head>
 
@@ -379,6 +385,19 @@
                                                         </div>
                                                     </div>
                                                 </th>
+                                                <th rowspan="2">
+                                                    <button onclick="search()" type="text"
+                                                        class="btn btn-success text-light big_btn">
+                                                        <span class="fa fa-search"></span>
+                                                    </button>
+                                                    <button type="text" class="btn btn-danger text-light big_btn">
+                                                        <span class="fa fa-close"></span>
+                                                    </button>
+                                                </th>
+                                            </tr>
+
+                                            <!-- second row -->
+                                            <tr>
                                                 <th>
                                                     <div class="dropdown">
                                                         <button
@@ -417,19 +436,16 @@
                                                         </div>
                                                     </div>
                                                 </th>
-
-
                                                 <th>
-                                                    <button onclick="search()" type="text"
-                                                        class="btn btn-success text-light">
-                                                        <span class="fa fa-search"></span>
-                                                    </button>
-
-                                                    <button type="text" class="btn btn-danger text-light">
-                                                        <span class="fa fa-close"></span>
-                                                    </button>
+                                                    <input type="text" id="prim_description" class="form-control"
+                                                        placeholder="Description...">
+                                                </th>
+                                                <th>
+                                                    <input type="text" id="prim_classification" class="form-control"
+                                                        placeholder="Asset Classification...">
                                                 </th>
                                             </tr>
+                                            <!-- close second row -->
                                         </table>
                                         <!-- end sub location filter -->
                                         <!-- sub location header -->
@@ -608,6 +624,18 @@
                                                         </div>
                                                     </div>
                                                 </th>
+
+                                                <th rowspan="2">
+                                                    <button onclick="searchasset()" type="text" class="btn btn-success big_btn">
+                                                        <span class="fa fa-search"></span>
+
+                                                    </button>
+                                                    <button type="text" class="btn btn-danger text-light big_btn">
+                                                        <span class="fa fa-close"></span>
+                                                    </button>
+                                                </th>
+                                            </tr>
+                                            <tr>
                                                 <th>
                                                     <div class="dropdown">
                                                         <button
@@ -649,15 +677,9 @@
                                                     <input type="text" id="sub_description" class="form-control"
                                                         placeholder="Description...">
                                                 </th>
-
                                                 <th>
-                                                    <button onclick="searchasset()" type="text" class="btn btn-success">
-                                                        <span class="fa fa-search"></span>
-
-                                                    </button>
-                                                    <button type="text" class="btn btn-danger text-light">
-                                                        <span class="fa fa-close"></span>
-                                                    </button>
+                                                    <input type="text" id="sub_classification" class="form-control"
+                                                        placeholder="Asset Classification...">
                                                 </th>
                                             </tr>
                                         </table>
