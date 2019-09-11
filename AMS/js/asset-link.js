@@ -75,15 +75,34 @@ function search() {
         level = document.getElementById('search_level').value,
         area = document.getElementById('search_prim_level').value,
         room_no = document.getElementById('search_prim_room').value;
+        description = document.getElementById('prim_description').value;
+        classification = document.getElementById('prim_classification').value;
 
-    var results = (building + " - " + level + " - " + area + " - " + room_no);
+    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + classification);
 
-    if (" -  -  - " == results) {
-        document.getElementById('overlay-alert-message').style.display = "none";
-        document.getElementById('overlay-alert-message').style.display = "block";
-        document.getElementById('alert_header').innerHTML = "Assets Linking";
-        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><br><span class="text-muted">please select at least one filter</span>';
-        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+    if (" -  -  -  -  - " == results) {
+
+        swal.fire({
+            title: "Error",
+            text: 'please select at least one filter',
+            type:'error',
+            animation:false,
+            customClass: {
+                popup: 'animated tada'
+              },
+              backdrop: `rgba(0,0,0,0.4)
+                        url("/images/nyan-cat.gif")
+                        center left
+                        no-repeat
+                    `,
+            allowOutsideClick: true,
+        })
+
+        // document.getElementById('overlay-alert-message').style.display = "none";
+        // document.getElementById('overlay-alert-message').style.display = "block";
+        // document.getElementById('alert_header').innerHTML = "Assets Linking";
+        // document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><br><span class="text-muted">please select at least one filter</span>';
+        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
     } else {
         console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}');
@@ -156,7 +175,7 @@ function search() {
                             $('#subLocationTable tbody input[type=checkbox]').prop("checked", false);
                             $(this).prop("checked", true);
                             console.log("test1");
-                            asset_link.al_no = [dataInfo[0],dataInfo[4]];
+                            asset_link.al_no = [dataInfo[0], dataInfo[4]];
                         } else {
                             asset_link.al_no = null;
                         }
@@ -994,22 +1013,22 @@ function linkAssets(id) {
     } else {
 
         $.ajax({
-            url: "../../ams_apis/slimTest/index.php/room_no_al",
+            url: "../../ams_apis/slimTest/index.php/room_al_no",
             method: "POST",
             dataType: "JSON",
-            data: '{"primary_asset_id" :"' + assetId + '"}',
+            data: '{"room_no" :"' + asset_link.al_no[1] + '"}',
             success: function (data) {
-                console.log("success");
+                console.log(data.data[0]);
                 // document.getElementById('viewAssets').innerHTML = data[0].table;
                 // document.getElementById('subItemCount').innerText = data[0].items;
+                JSalert(data.data);
             },
             error: function (err) {
                 console.log(err);
-                console.log("error");
-    
+                // console.log("error");
+
             }
         });
-        // JSalert();
 
         // var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
         // assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
@@ -1028,30 +1047,67 @@ function linkAssets(id) {
 
 }
 
-function confirmLink() {
+function confirmLink(test) {
+
     var e = document.getElementById("primary_asset_id");
-    // $('#primary_asset_id').on('change', function () {
+    var p_id;
 
-    // });
+    if (test == "alc_no") {
+        p_id = e.options[e.selectedIndex].value;
+    } else {
+        p_id = "SKIP";
+    }
 
-    console.log(e);
-    var p_id = e.options[e.selectedIndex].value;
+
+    console.log('{"al_no":"' + p_id + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + asset_link.al_no[0] + '","username":"' + localStorage.username + '"}');
 
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/link_assets",
         method: "POST",
-        data: '{"al_no":"' + asset_link.al_no + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + p_id + '","username":"' + localStorage.username + '"}',
+        data: '{"al_no":"' + p_id + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + asset_link.al_no[0] + '","username":"' + localStorage.username + '"}',
         dataType: "JSON",
         success: function (data) {
             if (data.data == "LINK WAS SUCCESSFUL") {
                 searchasset()
                 search();
-                document.getElementById('alert_header').innerHTML = "Hooray!!!!";
-                document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5"><img src="../img/success.gif" width=60/> <p class="text-muted">Assets linked successfully</p></span>';
-                document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button>';
+                swal.fire({
+                    title: "Assignment Success",
+                    text: data.data,
+                    type:"success",
+                    allowOutsideClick: true,
+    
+                }).then(function (result) {
+                    if (result.value) {
+
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        
+                    }
+                })
+                console.log(data);
+
+            }else if(data.data == "LINK WAS NOT SUCCESSFUL"){
+                searchasset()
+                search();
+                swal.fire({
+                    title: "Assignment Failed",
+                    text: data.data,
+                    type:"error",
+                    allowOutsideClick: true,
+    
+                }).then(function (result) {
+                    if (result.value) {
+
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+                        
+                    }
+                })
+                console.log(data);
             }
             console.log("======================data================")
-            console.log(data);
             console.log("======================data================")
         },
         error: function (errr) {
@@ -1152,7 +1208,7 @@ function updateLetterToIcon(letter) {
 
 
 function JSalert(rowsSelected) {
-
+    var test = "";
     var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
     assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
     for (var i = 0; i < rowsSelected.length; i++) {
@@ -1162,47 +1218,45 @@ function JSalert(rowsSelected) {
 
     swal.fire({
         title: "Would you like to assign a sub location?",
-        text: "Select Sub Location",
-        type: "warning",
+        type: "question",
         showCancelButton: true,
-        confirmButtonColor: "#DD6B55",
-        confirmButtonText: "Yes, Select Sub Location",
-        cancelButtonText: "Not this!",
+        confirmButtonColor: "#419641",
+        confirmButtonText: "Yes",
+        cancelButtonText: "No",
+        cancelButtonColor:"#C12E2A",
         closeOnConfirm: false,
-        closeOnCancel: false
+        closeOnCancel: false,
+        allowOutsideClick: false,
     }).then((result) => {
         if (result.value) {
             console.log("here1");
             swal.fire({
                 title: "assign a sub location?",
-                html: assets_selected
+                html: assets_selected,
+                allowOutsideClick: false,
+                showCancelButton: true,
+                cancelButtonText: "Cancel!"
+
+            }).then(function (result) {
+                if (result.value) {
+                    test = "alc_no";
+                    confirmLink(test);
+                } else if (
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    
+                }
             })
         } else if (
             /* Read more about handling dismissals below */
             result.dismiss === Swal.DismissReason.cancel
         ) {
+            confirmLink(test);
+            console.log("no ALC");
             console.log("here2");
-            swalWithBootstrapButtons.fire(
-                'Cancelled',
-                'Your imaginary file is safe :)',
-                'error'
-            )
+            
         }
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

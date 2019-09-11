@@ -812,7 +812,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     A_NEW.ASSET_CLASSIFICATION,
     A_NEW.ASSET_ROOM_NO,
     A_NEW.ASSET_IT_LOCATION,
-    amsd.fn_is_sub_asset (A_NEW.ASSET_PRIMARY_ID)  AS HAS_SUB
+    amsd.fn_asset_has_subs (A_NEW.ASSET_PRIMARY_ID)  AS HAS_SUB
     FROM 
         AMSD.ASSETS_LOCATION_NEW L_NEW, ASSETS_NEW A_NEW   
     WHERE A_NEW.ASSET_ROOM_NO = L_NEW.ASSET_ROOM_NO
