@@ -218,7 +218,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
             }
             else{
                 $sub .= '<tr class="text-center py-4">
-                            <td colspan="2"><p class="text-muted py-4">No sub assets found</p></td>
+                            <td colspan="3"><p class="text-muted py-4">No sub assets found</p></td>
                         </tr>
                         ';
                 $sub .= ' 
