@@ -1281,22 +1281,6 @@ function JSalert(rowsSelected) {
     });
 
 
- function unlinkSub(assetId){
-        $.ajax({
-            url: "../../ams_apis/slimTest/index.php/unlink_assets",
-            method: "POST",
-            dataType: "JSON",
-            data: '{"assetid" :"' + assetId + '","username" :"' + localStorage.username + '"}',
-            success: function (data) {
-                console.log(data);
-            },
-            error: function (err) {
-                console.log(err);
-                console.log("error");
-            }
-        });
-    }
-
 
     // ,
     //     function (isConfirm) {
@@ -1328,6 +1312,22 @@ function JSalert(rowsSelected) {
     //     });
 }
 
+
+function unlinkSub(assetId){
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/unlink_assets",
+        method: "POST",
+        dataType: "JSON",
+        data: '{"assetid" :"' + assetId + '","username" :"' + localStorage.username + '"}',
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (err) {
+            console.log(err);
+            console.log("error");
+        }
+    });
+}
 
 //clear prmary filters
 function clearPrimFilters() {
