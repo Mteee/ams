@@ -458,10 +458,7 @@ function checkboxSelectedLength() {
 
 //updating y to icons
 function updateLetterToIcon(letter) {
-
-
     var results = "";
-
     switch (letter) {
         case "y":
             results = "<p class='text-success'><strong>YES</strong></p>";
