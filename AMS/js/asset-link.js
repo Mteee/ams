@@ -181,12 +181,12 @@ function search() {
 
                     $('#subLocationTable tbody').on('click', 'button', function () {
                         console.log("click");
-                        var data = table.row($(this).parents('tr')).data();
-                        if (data == null || data == undefined) {
-                            data = (localStorage.tableDataSet).split(',');
-                        } else {
-                            localStorage.tableDataSet = data;
-                        }
+                        var data = tableArr["subLocationTable"].row($(this).parents('tr')).data();
+                        // if (data == null || data == undefined) {
+                        //     data = (localStorage.tableDataSet).split(',');
+                        // } else {
+                        //     localStorage.tableDataSet = data;
+                        // }
                         viewAsset(data[0]);
                     });
 
@@ -1281,20 +1281,18 @@ function JSalert(rowsSelected) {
     });
 
 
-    function unlinkSub(assetId){
+ function unlinkSub(assetId){
         $.ajax({
             url: "../../ams_apis/slimTest/index.php/unlink_assets",
             method: "POST",
             dataType: "JSON",
             data: '{"assetid" :"' + assetId + '","username" :"' + localStorage.username + '"}',
             success: function (data) {
-
-               
+                console.log(data);
             },
             error: function (err) {
                 console.log(err);
                 console.log("error");
-    
             }
         });
     }
