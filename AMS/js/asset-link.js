@@ -1136,6 +1136,11 @@ function confirmLink(test) {
 
 var onSearch = function (table, searchValue, emptyId) {
 
+    // var keycode = (e.keyCode ? e.keyCode : e.which);
+    // if (keycode == '13') {
+    //     alert('You pressed enter! - plain javascript');
+    // }
+
     var getId = searchValue;
 
     var found = false;

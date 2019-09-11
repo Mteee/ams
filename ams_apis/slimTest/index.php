@@ -1214,7 +1214,7 @@ $app->map(['GET','POST'],'/link_assets',function(Request $request, Response $res
 
 });
 
-$app->map(['GET','POST'],'/link_assets',function(Request $request, Response $response){
+$app->map(['GET','POST'],'/unlink_assets',function(Request $request, Response $response){
     try{
         global $connect;
         $data = json_decode(file_get_contents('php://input'));
