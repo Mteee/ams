@@ -75,26 +75,21 @@ function search() {
         level = document.getElementById('search_level').value,
         area = document.getElementById('search_prim_level').value,
         room_no = document.getElementById('search_prim_room').value;
-        description = document.getElementById('prim_description').value;
-        classification = document.getElementById('prim_classification').value;
+    description = document.getElementById('prim_description').value;
+    classicification = document.getElementById('prim_classification').value;
 
-    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + classification);
+    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + classicification);
 
     if (" -  -  -  -  - " == results) {
 
         swal.fire({
             title: "Error",
             text: 'please select at least one filter',
-            type:'error',
-            animation:false,
+            type: 'error',
+            animation: false,
             customClass: {
                 popup: 'animated tada'
-              },
-              backdrop: `rgba(0,0,0,0.4)
-                        url("/images/nyan-cat.gif")
-                        center left
-                        no-repeat
-                    `,
+            },
             allowOutsideClick: true,
         })
 
@@ -105,7 +100,7 @@ function search() {
         // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
     } else {
-        console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}');
+        console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '","classicification":"' + classicification + '"}');
 
         $('#primSearchView').hide();
         $('#loader').fadeIn(500);
@@ -114,7 +109,7 @@ function search() {
             url: '../../ams_apis/slimTest/index.php/sub_location',
             method: 'POST',
             dataType: 'JSON',
-            data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}',
+            data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '","classicification":"' + classicification + '"}',
             success: function (data) {
                 var table = null;
                 console.log(data);
@@ -186,12 +181,12 @@ function search() {
 
                     $('#subLocationTable tbody').on('click', 'button', function () {
                         console.log("click");
-                        var data = table.row($(this).parents('tr')).data();
-                        if (data == null || data == undefined) {
-                            data = (localStorage.tableDataSet).split(',');
-                        } else {
-                            localStorage.tableDataSet = data;
-                        }
+                        var data = tableArr["subLocationTable"].row($(this).parents('tr')).data();
+                        // if (data == null || data == undefined) {
+                        //     data = (localStorage.tableDataSet).split(',');
+                        // } else {
+                        //     localStorage.tableDataSet = data;
+                        // }
                         viewAsset(data[0]);
                     });
 
@@ -226,26 +221,41 @@ function searchasset() {
         area = document.getElementById('search_area').value,
         room_no = document.getElementById('search_room_sub').value;
     description = document.getElementById('sub_description').value;
+    classicification = document.getElementById('sub_classification').value;
 
-    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
+    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + classicification);
 
-    if (" -  -  -  - " == results) {
-        document.getElementById('overlay-alert-message').style.display = "none";
-        document.getElementById('overlay-alert-message').style.display = "block";
-        document.getElementById('alert_header').innerHTML = "Assets Linking";
-        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><br><span class="text-muted">please select at least one filter</span>';
-        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+    if (" -  -  -  -  - " == results) {
+
+        swal.fire({
+            title: "Error",
+            text: 'please select at least one filter',
+            type: 'error',
+            animation: false,
+            customClass: {
+                popup: 'animated tada'
+            },
+            backdrop: `rgba(0,0,0,0.4)`,
+            allowOutsideClick: true,
+        })
+
+        // document.getElementById('overlay-alert-message').style.display = "none";
+        // document.getElementById('overlay-alert-message').style.display = "block";
+        // document.getElementById('alert_header').innerHTML = "Assets Linking";
+        // document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><br><span class="text-muted">please select at least one filter</span>';
+        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
     }
     else {
         $('#subAssetsSearch').hide();
         $('#AssetsLoader').fadeIn(500);
-
+        console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","classicification":"' + classicification + '"}');
+        
         $.ajax({
             url: '../../ams_apis/slimTest/index.php/assets_not_linked',
             method: 'POST',
             dataType: 'JSON',
-            data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '"}',
+            data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","classicification":"' + classicification + '"}',
             success: function (data) {
                 var table = null;
                 console.log(data);
@@ -524,13 +534,17 @@ function createTable(tableID, tableData) {
 
 function getItems(url, id, scrollArea, menuid) {
 
-    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}');
+
+    var description = document.getElementById('prim_description').value;
+    var classicification = document.getElementById('prim_classification').value;
+
+    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '","classicification":"' + classicification + '"}');
 
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}',
+        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '","classicification":"' + classicification + '"}',
         success: function (data) {
             console.log(data);
             var rows = [];
@@ -561,13 +575,16 @@ function getItems(url, id, scrollArea, menuid) {
 
 function getAssetsFilter(url, id, scrollArea, menuid) {
 
-    console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '"}');
+    var description = document.getElementById('sub_description').value;
+    var classicification = document.getElementById('sub_classification').value;
+    
+    console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","classicification":"' + classicification + '"}');
 
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '"}',
+        data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","classicification":"' + classicification + '"}',
         success: function (data) {
             console.log(data);
             var rows = [];
@@ -1073,36 +1090,36 @@ function confirmLink(test) {
                 swal.fire({
                     title: "Assignment Success",
                     text: data.data,
-                    type:"success",
+                    type: "success",
                     allowOutsideClick: true,
-    
+
                 }).then(function (result) {
                     if (result.value) {
 
                     } else if (
                         result.dismiss === Swal.DismissReason.cancel
                     ) {
-                        
+
                     }
                 })
                 console.log(data);
 
-            }else if(data.data == "LINK WAS NOT SUCCESSFUL"){
+            } else if (data.data == "LINK WAS NOT SUCCESSFUL") {
                 searchasset()
                 search();
                 swal.fire({
                     title: "Assignment Failed",
                     text: data.data,
-                    type:"error",
+                    type: "error",
                     allowOutsideClick: true,
-    
+
                 }).then(function (result) {
                     if (result.value) {
 
                     } else if (
                         result.dismiss === Swal.DismissReason.cancel
                     ) {
-                        
+
                     }
                 })
                 console.log(data);
@@ -1118,6 +1135,11 @@ function confirmLink(test) {
 
 
 var onSearch = function (table, searchValue, emptyId) {
+
+    // var keycode = (e.keyCode ? e.keyCode : e.which);
+    // if (keycode == '13') {
+    //     alert('You pressed enter! - plain javascript');
+    // }
 
     var getId = searchValue;
 
@@ -1206,7 +1228,7 @@ function updateLetterToIcon(letter) {
     return results;
 }//close updateLetterToIcon function
 
-
+//Asset Link Popup
 function JSalert(rowsSelected) {
     var test = "";
     var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
@@ -1223,7 +1245,7 @@ function JSalert(rowsSelected) {
         confirmButtonColor: "#419641",
         confirmButtonText: "Yes",
         cancelButtonText: "No",
-        cancelButtonColor:"#C12E2A",
+        cancelButtonColor: "#C12E2A",
         closeOnConfirm: false,
         closeOnCancel: false,
         allowOutsideClick: false,
@@ -1244,7 +1266,7 @@ function JSalert(rowsSelected) {
                 } else if (
                     result.dismiss === Swal.DismissReason.cancel
                 ) {
-                    
+
                 }
             })
         } else if (
@@ -1254,7 +1276,7 @@ function JSalert(rowsSelected) {
             confirmLink(test);
             console.log("no ALC");
             console.log("here2");
-            
+
         }
     });
 
@@ -1288,4 +1310,78 @@ function JSalert(rowsSelected) {
     //             swal("Hurray", "Account is not removed!", "error");
     //         }
     //     });
+}
+
+
+function unlinkSub(assetId){
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/unlink_assets",
+        method: "POST",
+        dataType: "JSON",
+        data: '{"assetid" :"' + assetId + '","username" :"' + localStorage.username + '"}',
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (err) {
+            console.log(err);
+            console.log("error");
+        }
+    });
+}
+
+//clear prmary filters
+function clearPrimFilters() {
+
+    localStorage.building = '';
+    localStorage.area = '';
+    localStorage.level = '';
+    localStorage.room_no = '';
+
+    sub_location_filters();
+
+    //building
+    $('#search_link_location').val("");
+    $('#dropdown_link_location').text("BUILDING");
+    //level
+    $('#search_prim_level').val("");
+    $('#dropdown_prim_level').text("LEVEL");
+    //Area
+    $('#search_prim_area').val("");
+    $('#dropdown_prim_area').text("AREA");
+    //room_no
+    $('#search_prim_room').val("");
+    $('#dropdown_prim_room').text("ROOM");
+    //description
+    $('#prim_description').val("");
+    //classiffication
+    $('#prim_classification').val("");
+}
+
+//clear sub asset filters
+function clearSubFilters() {
+
+    localStorage.building_assets = '';
+    localStorage.area_assets = '';
+    localStorage.level_assets = '';
+    localStorage.room_no_assets = '';
+
+    assets_filters();
+
+    //building
+    $('#search_sub_location').val("");
+    $('#dropdown_sub_location').text("BUILDING");
+    //level
+    $('#search_level').val("");
+    $('#sub_level_dropdown').text("LEVEL");
+    //Area
+    $('#search_area').val("");
+    $('#area_dropdown').text("AREA");
+    //room_no
+    $('#search_room_sub').val("");
+    $('#dropdown_room_sub').text("ROOM");
+    //description
+    $('#sub_description').val("");
+    //classification
+    $('#sub_classification').val("");
+
 }
