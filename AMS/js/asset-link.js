@@ -156,7 +156,7 @@ function search() {
                             $('#subLocationTable tbody input[type=checkbox]').prop("checked", false);
                             $(this).prop("checked", true);
                             console.log("test1");
-                            asset_link.al_no = [dataInfo[0],dataInfo[4]];
+                            asset_link.al_no = [dataInfo[0], dataInfo[4]];
                         } else {
                             asset_link.al_no = null;
                         }
@@ -994,22 +994,22 @@ function linkAssets(id) {
     } else {
 
         $.ajax({
-            url: "../../ams_apis/slimTest/index.php/room_no_al",
+            url: "../../ams_apis/slimTest/index.php/room_al_no",
             method: "POST",
             dataType: "JSON",
-            data: '{"primary_asset_id" :"' + assetId + '"}',
+            data: '{"room_no" :"' + asset_link.al_no[1] + '"}',
             success: function (data) {
-                console.log("success");
+                console.log(data.data[0]);
                 // document.getElementById('viewAssets').innerHTML = data[0].table;
                 // document.getElementById('subItemCount').innerText = data[0].items;
+                JSalert(data.data);
             },
             error: function (err) {
                 console.log(err);
-                console.log("error");
-    
+                // console.log("error");
+
             }
         });
-        // JSalert();
 
         // var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
         // assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
@@ -1036,11 +1036,13 @@ function confirmLink() {
 
     console.log(e);
     var p_id = e.options[e.selectedIndex].value;
-
+    
+    console.log('{"al_no":"' + p_id + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + asset_link.al_no[0] + '","username":"' + localStorage.username + '"}');
+    
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/link_assets",
         method: "POST",
-        data: '{"al_no":"' + asset_link.al_no + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + p_id + '","username":"' + localStorage.username + '"}',
+        data: '{"al_no":"' + p_id + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + asset_link.al_no[0] + '","username":"' + localStorage.username + '"}',
         dataType: "JSON",
         success: function (data) {
             if (data.data == "LINK WAS SUCCESSFUL") {
@@ -1169,13 +1171,19 @@ function JSalert(rowsSelected) {
         confirmButtonText: "Yes, Select Sub Location",
         cancelButtonText: "Not this!",
         closeOnConfirm: false,
-        closeOnCancel: false
+        closeOnCancel: false,
+        allowOutsideClick: false,
     }).then((result) => {
         if (result.value) {
             console.log("here1");
             swal.fire({
                 title: "assign a sub location?",
-                html: assets_selected
+                html: assets_selected,
+                allowOutsideClick: false
+            }).then(function (result) {
+                if (result.value) {
+                    confirmLink();
+                }
             })
         } else if (
             /* Read more about handling dismissals below */
@@ -1189,20 +1197,6 @@ function JSalert(rowsSelected) {
             )
         }
     });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
