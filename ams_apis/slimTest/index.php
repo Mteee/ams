@@ -139,11 +139,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
     $count = 0;
     global $func;
 
-    function unlinkFunc($asset_id){
-        return '<script type="text/javascript">unlinkSub("'.$asset_id.'")</script>';
-    }
-
-
+ 
 
     if(!empty($ASSET_NO)){
 
@@ -197,8 +193,6 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
                 // echo $res->ASSET_ID.'<br>';
                 
                 if($ASSET_NO != $res->ASSET_ID){
-                    // $myFunc = unlinkFunc();
-                //    TO-Do Limit description length
                 $sub .= '<tr>
                                 <td>'.$res->ASSET_ID.'</td>
                                 <td>'.$res->ASSET_DESCRIPTION.'</td>
