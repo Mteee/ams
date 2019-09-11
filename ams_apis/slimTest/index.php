@@ -806,7 +806,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $description = strtoupper($data->description);
-    $classcification = strtoupper($data->classcification);
+    $classicification = strtoupper($data->classicification);
 
     $sql = "SELECT 
     A_NEW.ASSET_PRIMARY_ID,
@@ -826,7 +826,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
     AND A_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
     AND A_NEW.ASSET_DESCRIPTION LIKE '%$description%'
-    AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classcification%'
+    AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classicification%'
     GROUP BY A_NEW.ASSET_PRIMARY_ID,A_NEW.ASSET_DESCRIPTION,A_NEW.ASSET_CLASSIFICATION,A_NEW.ASSET_ROOM_NO,A_NEW.ASSET_IT_LOCATION";
 
     $assets_no =$func->executeQuery($sql);
@@ -847,7 +847,7 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $description = strtoupper($data->description);
-    $classcification = strtoupper($data->classcification);
+    $classicification = strtoupper($data->classicification);
 
 //     $sql = "SELECT 
 //     a_new.ASSET_ID,
@@ -885,7 +885,7 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
     AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
     AND A_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
     AND A_NEW.ASSET_DESCRIPTION LIKE '%$description%'
-    AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classcification%'
+    AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classicification%'
     GROUP BY A_NEW.ASSET_ID,A_NEW.ASSET_DESCRIPTION,A_NEW.ASSET_CLASSIFICATION,A_NEW.ASSET_ROOM_NO";
 
     $assets_no =$func->executeQuery($sql);
@@ -906,7 +906,7 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $description = strtoupper($data->description);
-    $classcification = strtoupper($data->classcification);
+    $classicification = strtoupper($data->classicification);
     $response = array();
 
     $sql = "SELECT 
@@ -919,7 +919,7 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
             AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_NEW.ASSET_DESCRIPTION LIKE '%$description%'
-            AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classcification%'
+            AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classicification%'
             GROUP BY L_NEW.ASSET_BUILDING
             ORDER BY L_NEW.ASSET_BUILDING";
 
@@ -989,7 +989,7 @@ $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $description = strtoupper($data->description);
-    $classcification = strtoupper($data->classcification);
+    $classicification = strtoupper($data->classicification);
     $response = array();
 
     $sql = "SELECT 
@@ -1001,7 +1001,7 @@ $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response
             AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_NEW.ASSET_DESCRIPTION LIKE '%$description%'
-            AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classcification%'
+            AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classicification%'
             AND A_NEW.ASSET_ROOM_NO = L_NEW.ASSET_ROOM_NO
             GROUP BY L_NEW.ASSET_LEVEL
             ORDER BY L_NEW.ASSET_LEVEL";
@@ -1036,7 +1036,7 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $description = strtoupper($data->description);
-    $classcification = strtoupper($data->classcification);
+    $classicification = strtoupper($data->classicification);
     $response = array();
 
     $sql = "SELECT 
@@ -1048,7 +1048,7 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
             AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_NEW.ASSET_DESCRIPTION LIKE '%$description%'
-            AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classcification%'
+            AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classicification%'
             AND A_NEW.ASSET_ROOM_NO = L_NEW.ASSET_ROOM_NO
             GROUP BY L_NEW.ASSET_AREA
             ORDER BY L_NEW.ASSET_AREA";
@@ -1083,7 +1083,7 @@ $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $description = strtoupper($data->description);
-    $classcification = strtoupper($data->classcification);
+    $classicification = strtoupper($data->classicification);
     $response = array();
 
     $sql = "SELECT L_NEW.ASSET_AREA_NAME
@@ -1094,7 +1094,7 @@ $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response
             AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_NEW.ASSET_DESCRIPTION LIKE '%$description%'
-            AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classcification%'
+            AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classicification%'
             AND A_NEW.ASSET_ROOM_NO = L_NEW.ASSET_ROOM_NO
             GROUP BY L_NEW.ASSET_AREA_NAME
             ORDER BY L_NEW.ASSET_AREA_NAME";
@@ -1132,7 +1132,7 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $description = strtoupper($data->description);
-    $classcification = strtoupper($data->classcification);
+    $classicification = strtoupper($data->classicification);
 
     $response = array();
 
@@ -1144,7 +1144,7 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
             AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_NEW.ASSET_DESCRIPTION LIKE '%$description%'
-            AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classcification%'
+            AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classicification%'
             AND A_NEW.ASSET_ROOM_NO = L_NEW.ASSET_ROOM_NO
             GROUP BY L_NEW.ASSET_ROOM_NO
             ORDER BY L_NEW.ASSET_ROOM_NO";
