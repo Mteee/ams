@@ -90,7 +90,7 @@ function search() {
             customClass: {
                 popup: 'animated tada'
               },
-              backdrop: `rgba(0,0,123,0.4)
+              backdrop: `rgba(0,0,0,0.4)
                         url("/images/nyan-cat.gif")
                         center left
                         no-repeat
