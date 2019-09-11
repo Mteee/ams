@@ -182,6 +182,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
                     <tr style="" class="text-light">
                         <th class="theading-sub bg-dark">Sub Asset(s)</th>
                         <th class="theading-sub bg-dark">Description</th>
+                        <th class="theading-sub bg-dark">Unlink</th>
                     </tr>
                 </thead>
                 <tbody id="asset-info">
@@ -196,6 +197,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
                 $sub .= '<tr>
                                 <td>'.$res->ASSET_ID.'</td>
                                 <td>'.$res->ASSET_DESCRIPTION.'</td>
+                                <td><button class="btn btn-danger" onclick="javascript:unlinkSub('.$res->ASSET_ID.')">X</button></td>
                             </tr>
                         ';
 
@@ -1203,6 +1205,40 @@ $app->map(['GET','POST'],'/link_assets',function(Request $request, Response $res
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"LINK WAS NOT SUCCESSFUL"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+    
+
+});
+
+$app->map(['GET','POST'],'/link_assets',function(Request $request, Response $response){
+    try{
+        global $connect;
+        $data = json_decode(file_get_contents('php://input'));
+        $ASSETS_ID = strtoupper($data->assetid);
+        $USERNAME = strtoupper($data->username);
+        $RESULT = '';
+
+        // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
+
+        $sql = "BEGIN amsd.asset_it_fix_unlink_sub(:ASSET_ID,:RESULT); END;";
+        $statement = oci_parse($connect,$sql);
+        // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
+        oci_bind_by_name($statement, ':ASSET_ID', $ASSETS_ID, 30);
+        oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($RESULT == "y"){
+            echo json_encode(array("rows" => 0 ,"data" =>"UNLINK WAS SUCCESSFUL"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"UNLINK WAS NOT SUCCESSFUL"));
         }
 
     }catch (Exception $pdoex) {
