@@ -87,6 +87,7 @@ function search() {
             text: 'please select at least one filter',
             type: 'error',
             showCloseButton: true,
+            closeButtonColor:'#3DB3D7',
             animation: false,
             customClass: {
                 popup: 'animated tada'
@@ -353,6 +354,15 @@ function viewAsset(assetId) {
             // console.log("success");
             document.getElementById('viewAssets').innerHTML = data[0].table;
             document.getElementById('subItemCount').innerText = data[0].items;
+
+            if(data[0].items > 0){
+                $('#unlink_all').fadeIn(500);
+                $('#unlink_all').on('click',function(){
+                    unlinkAll(assetId);
+                });
+            }else{
+                $('#unlink_all').hide();
+            }
         },
         error: function (err) {
             console.log(err);
@@ -362,6 +372,23 @@ function viewAsset(assetId) {
     });
 }
 
+
+function unlinkAll(assetId){
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/unlink_all_subs",
+        method: "POST",
+        dataType: "JSON",
+        data: '{"asset_primary_id" :"' + assetId + '","username":"'+localStorage.username+'"}',
+        success: function (data) {
+            console.log(data);
+        },
+        error: function (err) {
+            console.log(err);
+            console.log("error");
+
+        }
+    });
+}
 
 function checkboxSelectedLength(id) {
     var lengthh = $(id + " input:checkbox:checked").length;
