@@ -9,6 +9,36 @@ localStorage.area_assets = '';
 localStorage.level_assets = '';
 localStorage.room_no_assets = '';
 
+console.log(localStorage.username);
+document.getElementById('username').innerHTML = ("guest").toUpperCase();
+if (localStorage.username.indexOf("http") > -1) {
+    // open("linkAssets.html", '_self');
+    // window.close();
+    document.getElementById('username').innerHTML = ("guest").toUpperCase();
+    swal.fire({
+        title: "Unauthorized Access",
+        text: "Please Restart Desktop Application to Access System",
+        showCloseButton: true,
+        confirmButtonColor: "#C12E2A",
+        type: "error",
+        allowOutsideClick: false,
+        animation: false,
+        customClass: {
+            popup: "animated tada"
+        }
+    }).then(function (result) {
+        if (result.value) {
+            open("../index.html", '_self');
+            window.close();
+        } else if (
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+
+        }
+    })
+
+}
+
 //empty primary table inputs
 $('#search_link_location').val('');
 $('#search_prim_level').val('');
@@ -384,7 +414,7 @@ function viewAsset(assetId) {
 
             if (data[0].items > 0) {
                 $('#unlink_all').fadeIn(500);
-                $('#unlink_all').on('click', function () {
+                $('#unlink_all').off().on('click', function () {
                     unlinkAll(assetId);
                 });
             } else {
@@ -412,7 +442,7 @@ function unlinkAll(assetId) {
                 closeAsset('overlay-asset');
                 searchasset()
                 search();
-                
+
                 swal.fire({
                     title: "unlinked Successfully",
                     text: data.data,
@@ -861,40 +891,81 @@ $('#menu_room_sub').on('click', '.dropdown-item', function () {
 // end assets menu  onclick 
 
 //Department Dropdown Check
-if (localStorage.filter == "ALL EQUIPMENT") {
+// if (localStorage.filter == "ALL EQUIPMENT") {
 
-    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
-    $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
-    $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
-    $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
-    $('#class-options').prop('disabled', false);
+//     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+//     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
+//     $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+//     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
+//     $('#class-options').prop('disabled', false);
 
-    $('#class-options').on('change', function () {
-        var filter = $("#class-options option:selected").text();
-        localStorage.filter = filter;
-        //clear btn text
-        resetBtn('#dropdown_assets', 'ASSET NO...');
-        resetBtn('#dropdown_room', 'ROOM...');
-        resetBtn('#dropdown_location', 'LOCATION ...');
+//     $('#class-options').on('change', function () {
+//         var filter = $("#class-options option:selected").text();
+//         localStorage.filter = filter;
+//         //clear btn text
+//         resetBtn('#dropdown_assets', 'ASSET NO...');
+//         resetBtn('#dropdown_room', 'ROOM...');
+//         resetBtn('#dropdown_location', 'LOCATION ...');
 
-        //clear search inputs
-        resetInput('#searchlocation', '');
-        resetInput('#searchroomno', '');
-        resetInput('#searchasset', '');
+//         //clear search inputs
+//         resetInput('#searchlocation', '');
+//         resetInput('#searchroomno', '');
+//         resetInput('#searchasset', '');
 
-        localStorage.menuAssets = '';
-        localStorage.menuLocation = '';
-        localStorage.menuRoom = '';
-        populate_dropdown();
-    });
+//         localStorage.menuAssets = '';
+//         localStorage.menuLocation = '';
+//         localStorage.menuRoom = '';
+//         populate_dropdown();
+//     });
 
+// }
+// else {
+//     $('#class-options').append(new Option(localStorage.filter, "user_class"));
+//     $('#class-options').css({ "-moz-appearance": "none" });
+//     $('#class-options').prop('disabled', 'disabled');
+// }
+
+
+function closeApp() {
+    swal.fire({
+        title: "Exit Application",
+        text: "Are you sure you want to exit?",
+        type: "question",
+        showCloseButton: true,
+        confirmButtonColor: "#C12E2A",
+        allowOutsideClick: true,
+        animation: false,
+        customClass: {
+            popup: 'animated tada'
+        }
+
+    }).then(function (result) {
+        if (result.value) {
+            closeMe();
+        } else if (
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+
+        }
+    })
 }
-else {
-    $('#class-options').append(new Option(localStorage.filter, "user_class"));
-    $('#class-options').css({ "-moz-appearance": "none" });
-    $('#class-options').prop('disabled', 'disabled');
-}
 
+function closeMe() {
+    // reset 
+    localStorage.building = '';
+    localStorage.area = '';
+    localStorage.level = '';
+    localStorage.room_no = '';
+
+    localStorage.building_assets = '';
+    localStorage.area_assets = '';
+    localStorage.level_assets = '';
+    localStorage.room_no_assets = '';
+
+    open("../index.html", '_self')
+    window.location.replace("../index.html");
+    window.close();
+}
 
 //function clear button
 function clearData(input, btnDafualtId, text) {
