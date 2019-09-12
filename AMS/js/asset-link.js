@@ -86,6 +86,7 @@ function search() {
             title: "Error",
             text: 'please select at least one filter',
             type: 'error',
+            showCloseButton: true,
             animation: false,
             customClass: {
                 popup: 'animated tada'
@@ -1067,6 +1068,7 @@ function linkAssets(id) {
 function confirmLink(test) {
 
     var e = document.getElementById("primary_asset_id");
+    // p_id = e.options[e.selectedIndex].value;
     var p_id;
 
     if (test == "alc_no") {
@@ -1091,6 +1093,7 @@ function confirmLink(test) {
                     title: "Assignment Success",
                     text: data.data,
                     type: "success",
+                    showCloseButton: true,
                     allowOutsideClick: true,
 
                 }).then(function (result) {
@@ -1110,6 +1113,7 @@ function confirmLink(test) {
                 swal.fire({
                     title: "Assignment Failed",
                     text: data.data,
+                    showCloseButton: true,
                     type: "error",
                     allowOutsideClick: true,
 
@@ -1305,27 +1309,12 @@ function JSalert(rowsSelected) {
         cancelButtonColor: "#C12E2A",
         closeOnConfirm: false,
         closeOnCancel: false,
+        showCloseButton: true,
         allowOutsideClick: false,
     }).then((result) => {
         if (result.value) {
-            console.log("here1");
-            swal.fire({
-                title: "assign a sub location?",
-                html: assets_selected,
-                allowOutsideClick: false,
-                showCancelButton: true,
-                cancelButtonText: "Cancel!"
+            showDropdown(assets_selected);
 
-            }).then(function (result) {
-                if (result.value) {
-                    test = "alc_no";
-                    confirmLink(test);
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-
-                }
-            })
         } else if (
             /* Read more about handling dismissals below */
             result.dismiss === Swal.DismissReason.cancel
@@ -1333,9 +1322,66 @@ function JSalert(rowsSelected) {
             confirmLink(test);
             console.log("no ALC");
             console.log("here2");
-
         }
     });
+
+    function showDropdown(assets_selected) {
+        console.log("here1");
+        swal.fire({
+            title: "assign a sub location?",
+            html: assets_selected,
+            allowOutsideClick: false,
+            confirmButtonColor: "#419641",
+            showCancelButton: true,
+            cancelButtonColor: "#C12E2A",
+            closeOnConfirm: false,
+            showCloseButton: true,
+            showLoaderOnConfirm: true,
+            cancelButtonText: "Cancel!"
+
+        }).then(function (result) {
+            if (result.value) {
+                var e = document.getElementById("primary_asset_id"),
+                    p_id = e.options[e.selectedIndex].value;
+                if (p_id == 0) {
+                    showToast(assets_selected)
+                } else {
+                    confirmLink(test);
+                }
+                console.log(p_id);
+                // test = "alc_no";
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+
+            }
+        })
+    }
+
+    function showToast(assets_selected) {
+        Swal.fire({
+            type: 'error',
+            title: 'please select sub location',
+            confirmButtonColor: "#C12E2A",
+            showConfirmButton: true,
+            animation: false,
+            customClass: {
+                popup: 'animated tada'
+            },
+            allowOutsideClick: true,
+        }).then(function (result) {
+            if (result.value) {
+                showDropdown(assets_selected);
+                // test = "alc_no";
+                // confirmLink(test);
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+
+            }
+
+        });
+    }
 
     // ,
     //     function (isConfirm) {
