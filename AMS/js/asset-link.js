@@ -72,11 +72,16 @@ var dataInfo = "";
 function search() {
 
     var building = document.getElementById('search_link_location').value,
-        level = document.getElementById('search_level').value,
-        area = document.getElementById('search_prim_level').value,
+        level = document.getElementById('search_prim_level').value,
+        area = document.getElementById('search_prim_area').value,
         room_no = document.getElementById('search_prim_room').value;
     description = document.getElementById('prim_description').value;
     classicification = document.getElementById('prim_classification').value;
+
+    localStorage.building = building;
+    localStorage.level = level;
+    localStorage.area = area;
+    localStorage.room_no = room_no;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + classicification);
 
@@ -116,6 +121,9 @@ function search() {
                 var table = null;
                 console.log(data);
                 $('#loader').fadeOut(500);
+                // console.log("data.rows");
+                // console.log(data.rows);
+                // console.log("data.rows");
 
                 if (data.rows > 0) {
 
@@ -192,20 +200,17 @@ function search() {
                         viewAsset(data[0]);
                     });
 
-
-
-
-
                     // table.clear().draw();
-
 
                 }
                 else {
                     // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
-                    $('#searchView').fadeIn(500);
+                    // $('#searchView').fadeIn(500);
+                    // console.log("test");
                     // console.log(data.data);
+                    // console.log("test");
 
-                    table = createTable("#currentAssetsTable", data.data);
+                    table = createTable("#subLocationTable", data.data);
 
                 }
             },
@@ -224,6 +229,11 @@ function searchasset() {
         room_no = document.getElementById('search_room_sub').value;
     description = document.getElementById('sub_description').value;
     classicification = document.getElementById('sub_classification').value;
+
+    localStorage.building_assets = building;
+    localStorage.level_assets = level;
+    localStorage.area_assets = area;
+    localStorage.room_no_assets = room_no;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + classicification);
 
@@ -407,7 +417,6 @@ var allArr = {
     search_area: [],
     search_room_sub: []
 };
-
 
 function sub_location_filters() {
     /*Sub Location Filters*/
@@ -1133,6 +1142,9 @@ function confirmLink(test) {
                     }
                 })
                 console.log(data);
+                asset_link.selected_assets = null;
+                asset_link.al_no = null;
+                $("#linkBtn").fadeOut(500);
 
             } else if (data.data == "LINK WAS NOT SUCCESSFUL") {
                 searchasset()
@@ -1164,16 +1176,70 @@ function confirmLink(test) {
     });
 }
 
+// window.addEventListener('keypress', function (e) {
+
+//     if (e.keyCode == 13) {
+//         search();
+//     }
+// }, false);
+
+
+
+// function enterPress(input){
+//     input.addEventListener('keypress', function (e) {
+
+//     if (e.keyCode == 13) {
+//         search();
+//     }
+
+// }, false);
+
+// }
+
+// function runScript(e) {
+//     //See notes about 'which' and 'key'
+//     if (e.keyCode == 13) {
+//         preventDefault();l
+//         search();
+//     }
+// }
+
+var onSearch_new = function (table, searchValue, emptyId){
+    document.getElementById(searchValue).onkeypress = function (e) {
+       
+        console.log(e.keyCode + " " + table);
+            if (e.keyCode == 13 && table == "subLocation") {
+                e.preventDefault();
+                search();
+            }
+
+            if (e.keyCode == 13 && table == "assets") {
+                e.preventDefault();
+                searchasset();
+            }
+
+    }
+}
 
 var onSearch = function (table, searchValue, emptyId) {
 
-    // var keycode = (e.keyCode ? e.keyCode : e.which);
-    // if (keycode == '13') {
-    //     alert('You pressed enter! - plain javascript');
-    // }
-
     var getId = searchValue;
 
+    document.getElementById(searchValue).onkeypress = function (e) {
+       
+        console.log(e.keyCode + " " + table);
+            if (e.keyCode == 13 && table == "subLocation") {
+                e.preventDefault();
+                search();
+            }
+
+            if (e.keyCode == 13 && table == "assets") {
+                e.preventDefault();
+                searchasset();
+            }
+
+        }
+        
     var found = false;
 
     var rows = allArr[searchValue];
@@ -1184,7 +1250,7 @@ var onSearch = function (table, searchValue, emptyId) {
 
         var suitable = false;
 
-        console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
 
         if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
@@ -1201,7 +1267,7 @@ var onSearch = function (table, searchValue, emptyId) {
         // $('#' + resObj.btnId).text(resObj.btnContent);
         // populate_room();
 
-        if (table == 'sub') {
+        if (table == 'subLocation') {
             sub_location_filters();
         }
         else if (table == 'assets') {
