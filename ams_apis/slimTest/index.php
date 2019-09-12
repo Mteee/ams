@@ -196,7 +196,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
                 $sub .= '<tr>
                                 <td>'.$res->ASSET_ID.'</td>
                                 <td>'.$res->ASSET_DESCRIPTION.'</td>
-                                <td><button class="btn btn-danger" onclick="unlinkSub(\''.$res->ASSET_ID.'\')">X</button></td>
+                                <td><button class="btn btn-info" onclick="unlinkSub(\''.$res->ASSET_ID.'\')"><i class="fa fa-chain-broken"></i></button></td>
                             </tr>
                         ';
 
