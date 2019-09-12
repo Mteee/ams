@@ -54,9 +54,6 @@
             border: 2px solid #000;
             padding: 0.5em;
         }
-        /* * {
-            font-size: 12pt !important;
-        } */
         
         .big_btn {
             height: 100px;
@@ -273,7 +270,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_link_location" class="form-control" placeholder="BUILDING" onkeyup="onSearch('subLocation','search_link_location','#empty_link_location')" autofocus="autofocus">
+                                                                    <input type="text" id="search_link_location" class="form-control" placeholder="BUILDING" onkeyup="onSearch('subLocation','search_link_location','#empty_link_location')" autofocus="autofocus">
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_link_Location" onclick="clearData('#search_link_location','#dropdown_link_location','BUILDING')"><i
                                                                                 class="fa fa-close"></i></span>
@@ -300,7 +297,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_prim_level" class="form-control" placeholder="Level" onkeyup="onSearch('subLocation','search_prim_level','#empty_prim_level')" autofocus="autofocus">
+                                                                    <input type="text" id="search_prim_level" class="form-control" placeholder="Level" onkeyup="onSearch('subLocation','search_prim_level','#empty_prim_level')" autofocus="autofocus">
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_prim_level" onclick="clearData('#search_prim_level','#dropdown_prim_level','LEVEL')"><i
                                                                                 class="fa fa-close"></i></span>
@@ -326,7 +323,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_prim_area" class="form-control" placeholder="area" onkeyup="onSearch('subLocation','search_prim_area','#empty_prim_area')" autofocus="autofocus">
+                                                                    <input type="text" id="search_prim_area" class="form-control" placeholder="area" onkeyup="onSearch('subLocation','search_prim_area','#empty_prim_area')" autofocus="autofocus">
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_prim_area" onclick="clearData('#search_prim_area','#dropdown_prim_area','AREA')"><i
                                                                                 class="fa fa-close"></i></span>
@@ -364,7 +361,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_prim_room" class="form-control" placeholder="room" onkeyup="onSearch('sub','search_prim_room','#empty_prim_room')" autofocus="autofocus">
+                                                                    <input type="text" id="search_prim_room" class="form-control" placeholder="room" onkeyup="onSearch('subLocation','search_prim_room','#empty_prim_room')" autofocus="autofocus">
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_prim_room" onclick="clearData('#search_prim_room','#dropdown_prim_room','ROOM')"><i
                                                                                 class="fa fa-close"></i></span>
@@ -382,10 +379,10 @@
                                                     </div>
                                                 </th>
                                                 <th>
-                                                    <input type="text" id="prim_description" class="form-control" placeholder="Description...">
+                                                    <input type="text" id="prim_description" class="form-control" placeholder="Description..." onkeyup="onSearch_new('subLocation','prim_description','#empty_prim_room')">
                                                 </th>
                                                 <th>
-                                                    <input type="text" id="prim_classification" class="form-control" placeholder="Asset Classification...">
+                                                    <input type="text" id="prim_classification" class="form-control" placeholder="Asset Classification..." onkeyup="onSearch_new('subLocation','prim_classification','#empty_prim_room')">
                                                 </th>
                                             </tr>
                                             <!-- close second row -->
@@ -459,7 +456,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_sub_location" class="form-control" placeholder="Building..." onkeyup="onSearch('assets','search_sub_location','#empty_sub_location')" autofocus="autofocus">
+                                                                    <input type="text" id="search_sub_location" class="form-control" placeholder="Building..." onkeyup="onSearch('assets','search_sub_location','#empty_sub_location')" autofocus="autofocus">
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_sub_location" onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING')"><i
                                                                                 class="fa fa-close"></i></span>
@@ -486,7 +483,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_level" class="form-control" placeholder="level" onkeyup="onSearch('assets','search_level','#empty_level')" autofocus="autofocus">
+                                                                    <input type="text" id="search_level" class="form-control" placeholder="level" onkeyup="onSearch('assets','search_level','#empty_level')" autofocus="autofocus">
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_level" onclick="clearData('#search_level','#sub_level_dropdown','LEVEL')"><i
                                                                                 class="fa fa-close"></i></span>
@@ -512,7 +509,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_area" class="form-control" placeholder="area..." onkeyup="onSearch('assets','search_area','#empty_area')" autofocus="autofocus">
+                                                                    <input type="text" id="search_area" class="form-control" placeholder="area..." onkeyup="onSearch('assets','search_area','#empty_area')" autofocus="autofocus">
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_area" onclick="clearData('#search_area','#area_dropdown','AREA...')"><i
                                                                                 class="fa fa-close"></i></span>
@@ -550,7 +547,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_room_sub" class="form-control" placeholder="room" onkeyup="onSearch('assets','search_room_sub','#empty_room_sub')" autofocus="autofocus">
+                                                                    <input type="text" id="search_room_sub" class="form-control" placeholder="room" onkeyup="onSearch('assets','search_room_sub','#empty_room_sub')" autofocus="autofocus">
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_room_sub" onclick="clearData('#search_room_sub','#dropdown_room_sub','ROOM')"><i
                                                                                 class="fa fa-close"></i></span>
@@ -568,10 +565,10 @@
                                                     </div>
                                                 </th>
                                                 <th>
-                                                    <input type="text" id="sub_description" class="form-control" placeholder="Description...">
+                                                    <input type="text" id="sub_description" class="form-control" placeholder="Description..." onkeyup="onSearch_new('assets','sub_description','#empty_prim_room')">
                                                 </th>
                                                 <th>
-                                                    <input type="text" id="sub_classification" class="form-control" placeholder="Asset Classification...">
+                                                    <input type="text" id="sub_classification" class="form-control" placeholder="Asset Classification..." onkeyup="onSearch_new('assets','sub_classification','#empty_prim_room')">
                                                 </th>
                                             </tr>
                                         </table>
