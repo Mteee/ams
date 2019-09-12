@@ -9,6 +9,23 @@ localStorage.area_assets = '';
 localStorage.level_assets = '';
 localStorage.room_no_assets = '';
 
+//empty primary table inputs
+$('#search_link_location').val('');
+$('#search_prim_level').val('');
+$('#search_prim_area').val('');
+$('#search_prim_room').val('');
+$('#prim_description').val('');
+$('#prim_classification').val('');
+
+
+//empty sub assets table
+$('#search_sub_location').val('');
+$('#search_level').val('');
+$('#search_area').val('');
+$('#search_room_sub').val('');
+$('#sub_description').val('');
+$('#sub_classification').val('');
+
 function showNav() {
     $('#menu-list').slideToggle('fast');
 }
