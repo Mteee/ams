@@ -954,10 +954,18 @@ $app->map(['GET','POST'],'/room_al_no', function(Request $request, Response $res
     $response = array();
 
     $sql = "SELECT 
-                HD_ASSET_ROOM_LOCATION
-            FROM AMSD.ASSETS_LOCATION_NEW
-            WHERE ASSET_ROOM_NO = '$room_no'
-            AND SUBSTR(HD_ASSET_ROOM_LOCATION,1,1) <> 'M'";
+    HD_ASSET_ROOM_LOCATION
+    FROM AMSD.ASSETS_LOCATION_NEW
+    WHERE ASSET_ROOM_NO = '$room_no'
+    AND SUBSTR(HD_ASSET_ROOM_LOCATION,1,1) <> 'M'
+    AND HD_ASSET_ROOM_LOCATION NOT IN (SELECT 
+                                ASSET_SUB_LOCATION 
+                            FROM ASSETS_NEW 
+                            WHERE ASSET_SUB_LOCATION LIKE 'AL%'
+                            AND ASSET_ROOM_NO = '$room_no'
+                            GROUP BY ASSET_SUB_LOCATION)";
+
+
 
         $assets_no =$func->executeQuery($sql);
 
