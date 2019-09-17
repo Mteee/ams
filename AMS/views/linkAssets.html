@@ -17,13 +17,18 @@
     <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <style>
+        * {
+            font-size: 10pt !important;
+        }
+        
         .dropdown-menu {
             max-height: 300px;
             overflow-y: auto;
         }
         
-        #searchWith th {
-            width: 350px;
+        #searchWith th,
+        #subSearch th {
+            width: 350px !important;
         }
         
         .toggle-btn {
@@ -56,11 +61,12 @@
         }
         
         .big_btn {
-            height: 93px;
-            width: 93px;
+            height: 70px;
+            width: 70px;
+            margin-top: 17px;
         }
-
-        .card-body{
+        
+        .card-body {
             margin-top: -10px;
             padding: 0 1.25rem 1.25rem 1.25rem !important;
         }
@@ -190,13 +196,13 @@
             <div class="col-md-3" id="menu-bar" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
                 <div class="row" style="margin-top:-25px;">
                     <span>
-                        <div class="col-md-2">
+                        <div class="col-md-2 col-xs-2 col-lg-2">
                             <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40" /></div>
                             <div class="menu-text">MENU</div>
                         </div>
                     </span>
 
-                    <div class="col-md-7 offset-3">
+                    <div class="col-md-7 col-xs-7 col-lg-7 offset-5" style="margin-top: -38px">
                         <select class="form-control text-muted user-class" id="class-options" disabled style="-moz-appearance:none">
                                 <option value="all_equip">IT EQUIPMENT</option>
                         </select>
@@ -249,17 +255,11 @@
         <!-- end navigation -->
 
         <!-- search filters -->
-        <div class="row" style="margin-top: 2.897%;">
-            <div class="col-md-12" style="height:80vh;padding-right:40px;">
+        <div class="row" style="margin-top: 5.5%;">
+            <div class="col-md-12" style="height:80vh;">
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-3 text-center" style="font-size:15pt;font-weight: bolder">
-                                <br />
-                            </div>
-                            <div class="col-md-9 ">
-                            </div>
-                        </div>
+
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row card-body">

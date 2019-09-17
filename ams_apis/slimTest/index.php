@@ -814,7 +814,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     A_NEW.ASSET_DESCRIPTION,
     A_NEW.ASSET_CLASSIFICATION,
     A_NEW.ASSET_ROOM_NO,
-    A_NEW.ASSET_IT_LOCATION,
+    A_NEW.ASSET_SUB_LOCATION,
     amsd.fn_asset_has_subs (A_NEW.ASSET_PRIMARY_ID)  AS HAS_SUB
     FROM 
         AMSD.ASSETS_LOCATION_NEW L_NEW, ASSETS_NEW A_NEW   
@@ -828,7 +828,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     AND A_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
     AND A_NEW.ASSET_DESCRIPTION LIKE '%$description%'
     AND A_NEW.ASSET_CLASSIFICATION LIKE '%$classicification%'
-    GROUP BY A_NEW.ASSET_PRIMARY_ID,A_NEW.ASSET_DESCRIPTION,A_NEW.ASSET_CLASSIFICATION,A_NEW.ASSET_ROOM_NO,A_NEW.ASSET_IT_LOCATION";
+    GROUP BY A_NEW.ASSET_PRIMARY_ID,A_NEW.ASSET_DESCRIPTION,A_NEW.ASSET_CLASSIFICATION,A_NEW.ASSET_ROOM_NO,A_NEW.ASSET_SUB_LOCATION";
 
     $assets_no =$func->executeQuery($sql);
 

@@ -182,7 +182,7 @@ function search() {
                                 data.data[k].ASSET_DESCRIPTION + '","' +
                                 data.data[k].ASSET_CLASSIFICATION + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
-                                data.data[k].ASSET_IT_LOCATION + '","' +
+                                data.data[k].ASSET_SUB_LOCATION + '","' +
                                 updateLetterToIcon(data.data[k].HAS_SUB) + '"]';
                         } else {
                             str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
@@ -190,7 +190,7 @@ function search() {
                                 data.data[k].ASSET_DESCRIPTION + '","' +
                                 data.data[k].ASSET_CLASSIFICATION + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
-                                data.data[k].ASSET_IT_LOCATION + '","' +
+                                data.data[k].ASSET_SUB_LOCATION + '","' +
                                 updateLetterToIcon(data.data[k].HAS_SUB) + '"],';
                         }
                     }
