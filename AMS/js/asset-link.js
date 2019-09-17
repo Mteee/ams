@@ -1170,11 +1170,29 @@ function linkAssets(id) {
     asset_link.selected_assets = createAssetDelimeter(rowsSelected);
 
     if (asset_link.al_no == null) {
-        document.getElementById('overlay-alert-message').style.display = "none";
-        document.getElementById('overlay-alert-message').style.display = "block";
-        document.getElementById('alert_header').innerHTML = "<span class='text-center'>Select Sub Location</span>";
-        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><p class="text-muted">Asset Primary is required</p>';
-        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+
+        swal.fire({
+            title: "Select Sub Location",
+            type: "error",
+            showCloseButton: true,
+            allowOutsideClick: true,
+
+        }).then(function (result) {
+            if (result.value) {
+
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+
+            }
+        })
+
+        // document.getElementById('overlay-alert-message').style.display = "none";
+        // document.getElementById('overlay-alert-message').style.display = "block";
+        // document.getElementById('alert_header').innerHTML = "<span class='text-center'>Select Sub Location</span>";
+        // document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><p class="text-muted">Asset Primary is required</p>';
+        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+
     } else {
 
         $.ajax({
