@@ -540,25 +540,25 @@ caption {
     padding: 5px;
 }
 
-.test-scroll {
+.test-scroll, .transfer-scroll {
     height: 151px;
     overflow-y: auto;
 }
 
-.transfer-scroll {
+ /* {
     height: 151px;
     overflow-y: auto;
-}
+} */
 
-.test-scroll thead th {
+.test-scroll thead th, .transfer-scroll thead  {
     position: sticky;
     top: 0;
 }
 
-.transfer-scroll thead {
+ /* {
     position: sticky;
     top: 0;
-}
+} */
 
 #viewAssetTable2 {
     width: 100%;
