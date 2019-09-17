@@ -1223,9 +1223,9 @@ function closeApp() {
 
 }
 
-// function closeMe()
-// {
-//     localStorage.clear();
-//     open(location, '_self') 
-//     window.close();
-// }
+function closeMe()
+{
+    localStorage.clear();
+    open(location, '_self') 
+    window.close();
+}
