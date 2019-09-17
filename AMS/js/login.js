@@ -1,7 +1,6 @@
 var timeout = 1000;
 var count = 0;
 $('#loginLoader').fadeOut(500);
-
 var url_string = window.location;
 var arr = (url_string).toString().split("=");
 var c = arr[arr.length - 1];
@@ -47,7 +46,7 @@ function startApp() {
           localStorage.filter = filter;
           setTimeout(function () {
 
-            window.location.href = "../AMS/views/linkAssets.html";
+            window.location.href = "../AMS/views/viewAssets.html";
           }, timeout);
         }
 

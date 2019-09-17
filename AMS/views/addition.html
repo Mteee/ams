@@ -12,231 +12,322 @@
     <link rel="stylesheet" href="../css/main.css">
     <link rel="stylesheet" href="../css/font-awesome.css">
     <!-- Add IntroJs styles -->
-    <link href="../css/introjs.css" rel="stylesheet">
+    <!-- <link href="../css/introjs.css" rel="stylesheet"> -->
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="../css/style.css">
 
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
+    <link href="../css/material-bootstrap-wizard.css" rel="stylesheet" />
+
     <style>
-        .form-register .steps li a .step-text {
+        #wizard .nav {
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
+        }
 
-            margin-top: 10px;
-            text-align: left !important;
+        #wizard {
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            font-weight: 300;
+            line-height: 1.5em;
+        }
+
+        #wizard .nav-pills {
+            background-color: rgba(200, 200, 200, 0.2);
+        }
+
+        #wizard .nav-pills>li {
+            float: left;
+        }
+
+        #wizard .nav>li {
+            position: relative;
+            display: block;
+        }
+
+        #wizard .nav>li>a {
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+        }
+
+        .wizard-container {
+            padding-top: 100px;
+            z-index: 3;
+        }
+
+        .wizard-container .wizard-navigation {
+            position: relative;
+        }
+
+        .wizard-card {
+            min-height: 410px;
+            box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .card {
+            background-color: #FFFFFF;
+            padding: 10px 0;
             width: 100%;
-            margin-left: 10px;
+            border-radius: 6px;
+            color: rgba(0, 0, 0, 0.87);
+            background: #fff;
+        }
 
+        .card {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+        }
+
+
+        .wizard-card .wizard-header {
+            text-align: center;
+            padding: 25px 0 35px;
+        }
+
+        .wizard-card .wizard-title {
+            margin: 0;
+        }
+
+
+        .card-title,
+        .card-title a,
+        .wizard-title,
+        .wizard-title a {
+            color: #3C4858;
+            text-decoration: none;
+        }
+
+        .title,
+        .card-title,
+        .wizard-title {
+            font-weight: 700;
+        }
+
+        .wizard-container .wizard-navigation {
+            position: relative;
         }
     </style>
+
 </head>
 
 <body>
 
-    <div id="overlay-printView">
+    <div id="overlay-newAssetView">
 
-        <div class="asset-details animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
-            <span class="exit-asset" onclick="closeAsset('overlay-printView')">&times;</span>
+        <div class="row">
+            <div class="col-sm-6 offset-3">
+                <!--      Wizard container        -->
+                <div class="wizard-container">
+                    <div class="card wizard-card" data-color="green" id="wizard">
+                        <form action="" method="">
+                            <div class="wizard-header">
+                                <h3 class="wizard-title">
+                                    New Asset Info
+                                </h3>
+                                <h5>Creating new assets and commissioning</h5>
+                            </div>
+                            <div class="wizard-navigation">
+                                <ul>
+                                    <li><a href="#basic" data-toggle="tab">Asset Basic Info</a></li>
+                                    <li><a href="#date" data-toggle="tab">Date Details</a></li>
+                                    <li><a href="#service" data-toggle="tab">Service data</a></li>
+                                    <li><a href="#serial" data-toggle="tab">Serial Details</a></li>
+                                    <li><a href="#commissioning" data-toggle="tab">commissioning</a></li>
+                                </ul>
+                            </div>
 
-            <table id="viewAssetTable" style="width:100%;border:1px solid #ccc;border-radius: 5px;">
-                <thead>
-                    <tr>
-                        <div class="asset-header text-center text-muted">
-                            New Asset Info
-                        </div>
-                    </tr>
-                </thead>
-            </table>
-
-            <div class="asset-body" style="font-size: 12pt;">
-                <!-- start wizard -->
-                <div class="page-content">
-                    <div class="wizard-v7-content">
-                        <div class="wizard-form">
-                            <form class="form-register" id="form-total" action="#" method="post">
-
-                                <!-- SECTION 1 -->
-                                <h2>
-                                    <p class="step-icon"><span>1</span></p>
-                                    <div class="step-text">
-                                        <span class="step-inner-1">Information</span>
-                                        <span class="step-inner-2">Asset Basic Info</span>
-                                    </div>
-                                </h2>
-                                <section>
-                                    <div class="inner">
-                                        <div class="wizard-header" style="background:#343a40;">
-                                            <h3 class="heading">Asset Basic Information</h3>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="basic">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h4 class="info-text"> Let's start with the basic details</h4>
                                         </div>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2" style="margin-bottom: 10px;">
-                                                <label for="asset_class">Asset Class (*)</label>
-                                                <select name="asset_class" id="asset_class" class="form-control">
-                                                    <option value="0" selected disabled>SELECT ASSET CLASS</option>
-                                                    <option value="1">ALL EQUIMENT</option>
-                                                    <option value="2">FACILITIES EQUIMENT</option>
-                                                    <option value="3">IT EQUIMENT</option>
-                                                    <option value="4">MEDICAL EQUIMENT</option>
+                                        <div class="col-sm-5 offset-1">
+                                            <div class="form-group label-floating">
+
+                                                <label class="control-label">Asset Class *</label>
+                                                <select name="asset_class" class="form-control" id="asset_class">
+                                                    <option disabled="" selected=""></option>
+                                                    <option value="2">FACILITIES EQUIPMENT</option>
+                                                    <option value="3">IT EQUIPMENT</option>
+                                                    <option value="4">MEDICAL EQUIPMENT</option>
                                                 </select>
-                                                <div id="error-msg-asset-class" class=""
-                                                    style="font-weight:400; margin-bottom:0.5rem; font-size: 16px; line-height: 24px; color:#b92c28;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2">
-                                                <label for="newRoom">Room No (*)</label>
-                                                <div class="input-group">
-                                                    <input type="text" class="form-control" placeholder="Room.."
-                                                        autofocus="autofocus" id="newRoom">
-                                                    <div class="input-group-append">
-                                                        <span class="input-group-text btn btn-primary text-light"><span
-                                                                class="fa fa-search"></span>
-                                                            search</span>
-                                                    </div>
-                                                </div>
-                                                <div id="error-msg-room" class=""
-                                                    style="font-weight:400; margin-bottom:0.5rem; font-size: 16px; line-height: 24px; color:#b92c28;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2">
-                                                <label for="classifiction_name">Classification Name (*)</label>
-                                                <input type="text" name="classification_name" id="classifiction_name"
-                                                    class="form-control required error" placeholder="e.g furniture">
-                                                <div id="error-msg-class-name" class=""
-                                                    style="font-weight:400; margin-bottom:0.5rem; font-size: 16px; line-height: 24px; color:#b92c28;">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                                <!-- SECTION 2 -->
-                                <h2>
-                                    <p class="step-icon"><span>2</span></p>
-                                    <div class="step-text">
-                                        <span class="step-inner-1">Date Info</span>
-                                        <span class="step-inner-2">Date Details</span>
-                                    </div>
-                                </h2>
-                                <section>
-                                    <div class="inner">
-                                        <div class="wizard-header">
-                                            <h3 class="heading">Date Info</h3>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2">
-                                                <label for="pur_date_id">Purchase date</label>
-                                                <input type="date" name="card_name" id="pur_date_id" placeholder=""
-                                                    class="form-control" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2 py-2">
-                                                <label for="war_date_id">Warranty Date</label>
-                                                <input type="date" name="war_date" id="war_date_id" class="form-control"
-                                                    required>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2 py-2">
-                                                <label for="expiration">Disposal Date</label>
-                                                <input type="date" name="disposal_date" placeholder=""
-                                                    class="form-control" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
-                                <!-- SECTION 3 -->
-                                <h2>
-                                    <p class="step-icon"><span>3</span></p>
-                                    <div class="step-text">
-                                        <span class="step-inner-1">Service</span>
-                                        <span class="step-inner-2">Service data</span>
-                                    </div>
-                                </h2>
-                                <section>
-                                    <div class="inner">
-                                        <div class="wizard-header">
-                                            <h3 class="heading">Service Data</h3>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2">
-                                                <label for="serv_date">Service Date</label>
-                                                <input type="date" name="card_name" id="serv_date" placeholder=""
-                                                    class="form-control" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2 py-2">
-                                                <label for="service_by_id">Serviced By</label>
-                                                <input type="text" name="cvc" id="service_by_id" class="form-control"
-                                                    placeholder="" required>
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2 py-2">
-                                                <label for="serv_due_id">Service Due Date</label>
-                                                <input type="date" name="serv_due_date" id="serv_due_id"
-                                                    placeholder="MM/YYYY" class="form-control" required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
 
-                                <!-- SECTION 4 -->
-                                <h2>
-                                    <p class="step-icon"><span>4</span></p>
-                                    <div class="step-text">
-                                        <span class="step-inner-1">Serial Info</span>
-                                        <span class="step-inner-2">Serial Details</span>
-                                    </div>
-                                </h2>
-                                <section>
-                                    <div class="inner">
-                                        <div class="wizard-header">
-                                            <h3 class="heading">Serial Info</h3>
+                                            </div>
                                         </div>
-                                        <div class="form-row">
-                                            <div class="form-holder form-holder-2">
-                                                <div class="content-inner">
-                                                    <div class="form-row">
-                                                        <div class="form-holder form-holder-2">
-                                                            <label for="asset_id">Asset Number</label>
-                                                            <input type="text" name="new_asset_number" id="asset_id"
-                                                                class="form-control" placeholder="" required>
+                                        <div class="col-sm-5">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Room *</label>
+                                                <input type="text" name="room_no" class="form-control" id="room_no">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10 offset-1">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Classification Name *</label>
+                                                <input type="text" class="form-control" name="classification_name">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="date">
+                                    <h4 class="info-text">Asset date information</h4>
+                                    <div class="row">
+                                        <div class="col-sm-5 offset-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Purchase date *</label>
+                                                <div class="input-group">
+                                                    <input type="date" class="form-control" name="purchase_date">
+                                                    <span class="input-group-addon"><i
+                                                            class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label class="control-label">Warranty Date *</label>
+                                                <div class="input-group">
+                                                    <input type="date" class="form-control" name="warranty_date">
+                                                    <span class="input-group-addon"><i
+                                                            class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10 offset-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Disposal Date *</label>
+                                                <div class="input-group">
+                                                    <input type="date" class="form-control" name="disposal_date">
+                                                    <span class="input-group-addon"><i
+                                                            class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="service">
+                                    <h4 class="info-text">Tell us more about facilities. </h4>
+                                    <div class="row">
+                                        <div class="col-sm-5 offset-1">
+                                            <div class="form-group">
+                                                <label class="control-label">Service Date *</label>
+                                                <div class="input-group">
+                                                    <input type="date" class="form-control" name="service_date">
+                                                    <span class="input-group-addon"><i
+                                                            class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="form-group">
+                                                <label class="control-label">Service Due Date *</label>
+                                                <div class="input-group">
+                                                    <input type="date" class="form-control" name="service_due_date">
+                                                    <span class="input-group-addon"><i
+                                                            class="fa fa-calendar"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5 offset-1">
+
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Serviced By *</label>
+                                                <input type="text" class="form-control" name="serviced_by">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="serial">
+                                    <h4 class="info-text"> Asset serial info </h4>
+                                    <div class="row">
+                                        <div class="col-sm-5 offset-1">
+
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Asset Number *</label>
+                                                <input type="text" class="form-control" name="asset_number">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Model *</label>
+                                                <input type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-10 offset-1">
+                                            <label class="control-label">Asset description *</label>
+                                            <textarea class="form-control" placeholder="" rows="6"
+                                                name="asset_description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="commissioning">
+                                    <h4 class="info-text">Create Commissioning Certificate</h4>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-6">
+                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip"
+                                                        title="Select this option if you have a house.">
+                                                        <input type="radio" name="type" value="House">
+                                                        <div class="icon">
+                                                            <i class="material-icons">check</i>
                                                         </div>
+                                                        <h6>Yes</h6>
                                                     </div>
-                                                    <div class="form-row">
-                                                        <div class="form-holder form-holder-2 py-2">
-                                                            <label for="description_id">Description</label>
-                                                            <input type="text" name="new_description"
-                                                                id="description_id" placeholder="" class="form-control"
-                                                                required>
+                                                </div>
+                                                <div class="col-sm-6">
+                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip"
+                                                        title="Select this option if you have an appartment">
+                                                        <input type="radio" name="type" value="Appartment">
+                                                        <div class="icon">
+                                                            <i class="material-icons">cancel</i>
                                                         </div>
-                                                    </div>
-                                                    <div class="form-row">
-                                                        <div class="form-holder form-holder-2 py-2">
-                                                            <label for="model_id">Model</label>
-                                                            <input type="text" name="new_model" id="model_id"
-                                                                placeholder="" class="form-control" required>
-                                                        </div>
+                                                        <h6>No</h6>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </section>
-                            </form>
-                            <!-- <div id="error-note"></div> -->
+                                </div>
+                            </div>
+                            <div class="wizard-footer">
+                                <div class="pull-right">
+                                    <input type='button' class='btn btn-next btn-fill btn-success btn-wd' name='next'
+                                        value='Next' />
+                                    <input type='button' class='btn btn-finish btn-fill btn-success btn-wd'
+                                        name='finish' value='Finish' />
+                                </div>
+                                <div class="pull-left">
+                                    <input type='button' class='btn btn-previous btn-fill btn-dark btn-wd'
+                                        name='previous' value='Previous' />
+                                </div>
+                                <div class="clearfix"></div>
+                            </div>
+                        </form>
+                        <div class="card-footer text-center text-muted">
+                            <p>Required Fields (*)</p>
                         </div>
                     </div>
-                </div>
-                <!-- end wizard -->
+                </div> <!-- wizard container -->
             </div>
-        </div>
-    </div>
+        </div> <!-- row -->
 
+    </div>
 
     <div class="container-fluid" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
@@ -505,136 +596,146 @@
     </div>
 
     <script src="../js/jquery.js"></script>
-    <script src="../js/clusterize.min.js"></script>
+    <!--<script src="../js/clusterize.min.js"></script>
     <script src="../js/moveAsset.js"></script>
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/jquery.steps.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="../js/intro.js"></script>
+    <script type="text/javascript" src="../js/intro.js"></script> -->
+    <!--  Plugin for the Wizard -->
+
+    <!-- <script src="../js/assets/jquery-2.2.4.min.js"></script> -->
+    <script src="../js/assets/bootstrap.min.js"></script>
+    <script src="../js/assets/material-bootstrap-wizard.js"></script>
+    <script src="../js/assets/jquery.bootstrap.js"></script>
+
+
+    <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+    <script src="../js/jquery.validate.min.js"></script>
 
     <script src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
     <script>
 
-        $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
+        // $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
 
-        function addAssets() {
-            $('#overlay-printView').fadeIn(500);
-        }
+        // function addAssets() {
+        //     $('#overlay-printView').fadeIn(500);
+        // }
 
-        $("#form-total").steps({
-            headerTag: "h2",
-            bodyTag: "section",
-            transitionEffect: "fade",
-            enableAllSteps: false,
-            cssClass: "wizard",
-            enablePagination: true,
-            stepsOrientation: "vertical",
-            autoFocus: true,
-            enableCancelButton: false,
-            forceMoveForward: false,
-            stepsContainerTag: "div",
-            transitionEffectSpeed: 400,
-            titleTemplate: '<div class="title">#title#</div>',
-            labels: {
-                previous: '<i class="py-2 fa fa-arrow-circle-left"></i> Previous',
-                next: 'Next <i class="py-2 fa fa-arrow-circle-right"></i>',
-                cancel: "Cancel",
-                current: "current step:",
-                pagination: "Pagination",
-                finish: 'Finish <i class="fa fa-thumbs-up"></i>',
-                loading: "Loading ..."
-            },
-            destroy: true,
-            onFinished: function () {
-                $('#form-total').steps("reset");
-                $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
-                closeAsset('overlay-printView');
-            },
-            onStepChanged: function (event, current, next) {
-                if (current > 0) {
-                    $('.actions ul li:first-child').attr('style', 'opacity:1 !important;transition:500ms;');
-                    console.log('back000');
-                } else if(current == 0) {
-                    console.log('back');
-                    $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
-                }
+        // $("#form-total").steps({
+        //     headerTag: "h2",
+        //     bodyTag: "section",
+        //     transitionEffect: "fade",
+        //     enableAllSteps: false,
+        //     cssClass: "wizard",
+        //     enablePagination: true,
+        //     stepsOrientation: "vertical",
+        //     autoFocus: true,
+        //     enableCancelButton: false,
+        //     forceMoveForward: false,
+        //     stepsContainerTag: "div",
+        //     transitionEffectSpeed: 400,
+        //     titleTemplate: '<div class="title">#title#</div>',
+        //     labels: {
+        //         previous: '<i class="py-2 fa fa-arrow-circle-left"></i> Previous',
+        //         next: 'Next <i class="py-2 fa fa-arrow-circle-right"></i>',
+        //         cancel: "Cancel",
+        //         current: "current step:",
+        //         pagination: "Pagination",
+        //         finish: 'Finish <i class="fa fa-thumbs-up"></i>',
+        //         loading: "Loading ..."
+        //     },
+        //     destroy: true,
+        //     onFinished: function () {
+        //         $('#form-total').steps("reset");
+        //         $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
+        //         closeAsset('overlay-printView');
+        //     },
+        //     onStepChanged: function (event, current, next) {
+        //         if (current > 0) {
+        //             $('.actions ul li:first-child').attr('style', 'opacity:1 !important;transition:500ms;');
+        //             console.log('back000');
+        //         } else if(current == 0) {
+        //             console.log('back');
+        //             $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
+        //         }
 
-                if (current == 3) {
-                    $('.actions ul li:nth-child(2)').attr('style', 'opacity:0 !important;transition:500ms;');
+        //         if (current == 3) {
+        //             $('.actions ul li:nth-child(2)').attr('style', 'opacity:0 !important;transition:500ms;');
 
-                } else {
-                    $('.actions ul li:nth-child(2)').attr('style', 'opacity:1 !important;transition:500ms;');
+        //         } else {
+        //             $('.actions ul li:nth-child(2)').attr('style', 'opacity:1 !important;transition:500ms;');
 
-                }
-            },
-            onStepChanging: function (event, currentIndex, newIndex) {
-                var form = $(this);
-                var check = true;
-                if (currentIndex == 0) {
+        //         }
+        //     },
+        //     onStepChanging: function (event, currentIndex, newIndex) {
+        //         var form = $(this);
+        //         var check = true;
+        //         if (currentIndex == 0) {
 
-                    if (($("#newRoom").val()).length == 0) {
-                        $("#error-msg-room").text("This field is required");
-                        check = false;
-                    } else {
-                        $("#error-msg-room").text("");
-                    }
-                    if (($("#classifiction_name").val()).length == 0) {
-                        $("#error-msg-class-name").text("This field is required");
-                        check = false;
-                    } else {
-                        $("#error-msg-class-name").text("");
-                    }
-                    if ($("#asset_class")[0].selectedIndex == 0) {
-                        $("#error-msg-asset-class").text("This field is required");
-                        check = false;
-                    } else {
-                        $("#error-msg-asset-class").text("");
-                    }
+        //             if (($("#newRoom").val()).length == 0) {
+        //                 $("#error-msg-room").text("This field is required");
+        //                 check = false;
+        //             } else {
+        //                 $("#error-msg-room").text("");
+        //             }
+        //             if (($("#classifiction_name").val()).length == 0) {
+        //                 $("#error-msg-class-name").text("This field is required");
+        //                 check = false;
+        //             } else {
+        //                 $("#error-msg-class-name").text("");
+        //             }
+        //             if ($("#asset_class")[0].selectedIndex == 0) {
+        //                 $("#error-msg-asset-class").text("This field is required");
+        //                 check = false;
+        //             } else {
+        //                 $("#error-msg-asset-class").text("");
+        //             }
 
 
-                }
+        //         }
 
-                if (currentIndex == 1) {
+        //         if (currentIndex == 1) {
 
-                }
+        //         }
 
-                return true;
-            }
-        })
+        //         return true;
+        //     }
+        // })
 
-        $(".dropdown, .btn-group").hover(function () {
-            var dropdownMenu = $(this).children(".dropdown-menu");
-            if (dropdownMenu.is(":visible")) {
-                console.log('not visible');
-                // dropdownMenu.parent().toggleClass("open");
-            } else {
-                console.log('visible');
-                $(this).toggleClass("open");
-            }
-        });
+        // $(".dropdown, .btn-group").hover(function () {
+        //     var dropdownMenu = $(this).children(".dropdown-menu");
+        //     if (dropdownMenu.is(":visible")) {
+        //         console.log('not visible');
+        //         // dropdownMenu.parent().toggleClass("open");
+        //     } else {
+        //         console.log('visible');
+        //         $(this).toggleClass("open");
+        //     }
+        // });
 
-        function showNav() {
-            $('#menu-list').slideToggle('fast');
-        }
+        // function showNav() {
+        //     $('#menu-list').slideToggle('fast');
+        // }
 
-        document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
+        // document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
-        function replaceAll(find, replace, str) {
-            while (str.indexOf(find) > -1) {
-                str = str.replace(find, replace);
-            }
-            return str;
-        }
+        // function replaceAll(find, replace, str) {
+        //     while (str.indexOf(find) > -1) {
+        //         str = str.replace(find, replace);
+        //     }
+        //     return str;
+        // }
 
-        function onError(error) {
-            console.log(`Error: ${error}`);
-        }
+        // function onError(error) {
+        //     console.log(`Error: ${error}`);
+        // }
 
-        var setting = browser.tabs.setZoom(2);
-        setting.then(null, onError);
+        // var setting = browser.tabs.setZoom(2);
+        // setting.then(null, onError);
     </script>
 
 </body>
