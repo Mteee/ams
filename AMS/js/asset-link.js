@@ -1514,10 +1514,13 @@ function updateLetterToIcon(letter) {
 //Asset Link Popup
 function JSalert(rowsSelected) {
     var test = "alc_no";
+    console.log(rowsSelected);
     var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
     assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
     for (var i = 0; i < rowsSelected.length; i++) {
-        assets_selected += "<option value='" + rowsSelected[i] + "' >" + rowsSelected[i] + "</option>"
+        console.log("==================================check=================================")
+        console.log(rowsSelected[1]);
+        assets_selected += "<option value='" + (rowsSelected[i])[0] + "' >" + (rowsSelected[i])[1] + "</option>"
     }
     assets_selected += "</select>";
 
