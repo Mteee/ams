@@ -954,16 +954,18 @@ $app->map(['GET','POST'],'/room_al_no', function(Request $request, Response $res
     $response = array();
 
     $sql = "SELECT 
-    HD_ASSET_ROOM_LOCATION
-    FROM AMSD.ASSETS_LOCATION_NEW
-    WHERE ASSET_ROOM_NO = '$room_no'
-    AND SUBSTR(HD_ASSET_ROOM_LOCATION,1,1) <> 'M'
-    AND HD_ASSET_ROOM_LOCATION NOT IN (SELECT 
-                                ASSET_SUB_LOCATION 
-                            FROM ASSETS_NEW 
-                            WHERE ASSET_SUB_LOCATION LIKE 'AL%'
-                            AND ASSET_ROOM_NO = '$room_no'
-                            GROUP BY ASSET_SUB_LOCATION)";
+            HD_ASSET_ROOM_LOCATION AS \"VALUE\",HD_ASSET_ROOM_LOCATION || ' - ' || HD_ASSET_DESC AS \"OPTION\"
+            FROM AMSD.ASSETS_LOCATION_NEW
+            WHERE ASSET_ROOM_NO LIKE '$room_no'
+            AND SUBSTR(HD_ASSET_ROOM_LOCATION,1,1) <> 'M'
+            AND HD_ASSET_ROOM_LOCATION NOT IN (SELECT 
+                                        ASSET_SUB_LOCATION 
+                                    FROM ASSETS_NEW 
+                                    WHERE ASSET_SUB_LOCATION LIKE 'AL%'
+                                    AND ASSET_ROOM_NO = '$room_no'
+                                    GROUP BY ASSET_SUB_LOCATION)";
+
+
 
 
 
@@ -975,7 +977,7 @@ $app->map(['GET','POST'],'/room_al_no', function(Request $request, Response $res
         $length = $res->rows;
         foreach($res->data as $value){
 
-            $response []= $value->HD_ASSET_ROOM_LOCATION;
+            $response []= array($value->VALUE,$value->OPTION);
             // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
             // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
