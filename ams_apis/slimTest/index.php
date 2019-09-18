@@ -813,12 +813,14 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     ASSET_ROOM_NO
     FROM 
         AMSD.ASSETS_LOCATION_NEW 
-    WHERE  substr(HD_ASSET_ROOM_LOCATION,1,1) <> 'M'
+    WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')   
+    --WHERE  substr(HD_ASSET_ROOM_LOCATION,1,1) <> 'M'
     --AND substr(a.asset,1,2) = 'AL'
     AND ASSET_BUILDING LIKE '%$building%'
     AND ASSET_LEVEL LIKE '%$level%'
     AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
-    AND ASSET_ROOM_NO LIKE '%$room_no%'";
+    AND ASSET_ROOM_NO LIKE '%$room_no%'
+    order by asset_room_no";
 
     $assets_no =$func->executeQuery($sql);
 

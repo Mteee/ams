@@ -220,13 +220,13 @@ function searchasset() {
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
                         if ((data.rows - 1) == k) {
-                            str += '["' + data.data[k].ASSET_ID + '","' +
+                            str += '["' + data.data[k].ASSET_ID + '|'+data.data[k].ASSET_DESCRIPTION+'","' +
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_AREA_NAME + '","' +
                                 data.data[k].ASSET_DESCRIPTION + '"]';
                         } else {
-                            str += '["' + data.data[k].ASSET_ID + '","' +
+                            str += '["' +data.data[k].ASSET_ID + '|'+data.data[k].ASSET_DESCRIPTION + '","' +
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_AREA_NAME + '","' +
@@ -888,6 +888,9 @@ function linkAssets(id) {
 
     var rows_selected = tableArr["subAssetsTable"].column(0).checkboxes.selected();
 
+    console.log("rows_selected-1");
+      console.log(rows_selected);
+    
     // var form = $('#frm-example');
 
     // // Iterate over all selected checkboxes
@@ -901,9 +904,23 @@ function linkAssets(id) {
     //     );
     // }); 
 
-    var rowsSelected = rows_selected.join(",").split(",");
+    // var rowsSelected = rows_selected.join(",").split(",");
+    // console.log("rows_selected-2");
+    console.log(rows_selected);
 
-    asset_link.selected_assets = createAssetDelimeter(rowsSelected);
+    var arr = [];
+    var values = []; 
+
+    for(var i=0;i<rows_selected.length;i++){
+        var value = rows_selected[i].split("|");
+        values.push(rows_selected[i].split("|"));
+        arr.push(value[0]);
+    }
+
+    console.log(arr);
+    console.log(values);
+
+    asset_link.selected_assets = createAssetDelimeter(arr);
 
     if (asset_link.al_no == null) {
         document.getElementById('overlay-alert-message').style.display = "none";
@@ -915,8 +932,8 @@ function linkAssets(id) {
 
         var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
         assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
-        for (var i = 0; i < rowsSelected.length; i++) {
-            assets_selected += "<option value='" + rowsSelected[i] + "' >" + rowsSelected[i] + "</option>"
+        for (var i = 0; i < arr.length; i++) {
+            assets_selected += "<option value='" + (values[i])[0] + "' >" + (values[i])[0] + " - " + (values[i])[1] + "</option>"
         }
         assets_selected += "</select>";
 
