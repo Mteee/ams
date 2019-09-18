@@ -1232,23 +1232,23 @@ function linkAssets(id) {
 
 function confirmLink(test) {
 
-    var e = document.getElementById("primary_asset_id");
-    // p_id = e.options[e.selectedIndex].value;
-    var p_id;
+    // var e = document.getElementById("primary_asset_id");
+    // // p_id = e.options[e.selectedIndex].value;
+    // var p_id;
 
-    if (test == "alc_no") {
-        p_id = e.options[e.selectedIndex].value;
-    } else {
-        p_id = "SKIP";
-    }
+    // if (test == "alc_no") {
+    //     p_id = e.options[e.selectedIndex].value;
+    // } else {
+    //     p_id = "SKIP";
+    // }
 
 
-    console.log('{"al_no":"' + p_id + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + asset_link.al_no[0] + '","username":"' + localStorage.username + '"}');
+    console.log('{"al_no":"' + test + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + asset_link.al_no[0] + '","username":"' + localStorage.username + '"}');
 
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/link_assets",
         method: "POST",
-        data: '{"al_no":"' + p_id + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + asset_link.al_no[0] + '","username":"' + localStorage.username + '"}',
+        data: '{"al_no":"' + test + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + asset_link.al_no[0] + '","username":"' + localStorage.username + '"}',
         dataType: "JSON",
         success: function (data) {
             if (data.data == "LINK WAS SUCCESSFUL") {
@@ -1513,7 +1513,7 @@ function updateLetterToIcon(letter) {
 
 //Asset Link Popup
 function JSalert(rowsSelected) {
-    var test = "";
+    var test = "alc_no";
     var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
     assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
     for (var i = 0; i < rowsSelected.length; i++) {
@@ -1541,9 +1541,9 @@ function JSalert(rowsSelected) {
             /* Read more about handling dismissals below */
             result.dismiss === Swal.DismissReason.cancel
         ) {
-            confirmLink(test);
-            console.log("no ALC");
-            console.log("here2");
+            confirmLink("SKIP");
+            // console.log("no ALC");
+            // console.log("here2");
         }
     });
 
@@ -1568,7 +1568,7 @@ function JSalert(rowsSelected) {
                 if (p_id == 0) {
                     showToast(assets_selected)
                 } else {
-                    confirmLink(test);
+                    confirmLink(p_id);
                 }
                 console.log(p_id);
                 // test = "alc_no";
