@@ -1129,13 +1129,28 @@ function confirmLink() {
 }
 
 
-var onSearch = function (searchValue, emptyId) {
+var onSearch = function (table,searchValue, emptyId) {
 
     var getId = searchValue;
 
     var found = false;
     
     var rows = allArr[searchValue];
+
+    document.getElementById(searchValue).onkeypress = function (e) {
+
+        console.log(e.keyCode + " " + table);
+        if (e.keyCode == 13 && table == "searchWith") {
+            e.preventDefault();
+            search();
+        }
+
+        if (e.keyCode == 13 && table == "subSearch") {
+            e.preventDefault();
+            searchasset();
+        }
+
+    }
 
     searchValue = document.getElementById(searchValue);
 

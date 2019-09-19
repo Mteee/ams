@@ -935,6 +935,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $description = strtoupper($data->description);
 
     $sql = "SELECT 
     HD_ASSET_ROOM_LOCATION AS \"AL_NO\",
@@ -952,6 +953,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     AND ASSET_LEVEL LIKE '%$level%'
     AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
     AND ASSET_ROOM_NO LIKE '%$room_no%'
+    AND HD_ASSET_DESC LIKE '%$description%'
     order by asset_room_no";
 
     $assets_no =$func->executeQuery($sql);
