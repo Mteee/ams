@@ -9,6 +9,8 @@ localStorage.area_assets = '';
 localStorage.level_assets = '';
 localStorage.room_no_assets = '';
 
+
+
 console.log(localStorage.username);
 document.getElementById('username').innerHTML = ("guest").toUpperCase();
 if (localStorage.username.indexOf("http") > -1) {
@@ -159,6 +161,13 @@ function search() {
         $('#primSearchView').hide();
         $('#loader').fadeIn(500);
 
+        // disable checkbox 
+        // , #subLocationTable .sorting_disabled input
+        // console
+        $('#subAssetsTable .sorting_disabled input').prop("disabled",true);
+        console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        console.log($('#subAssetsTable .sorting_disabled input'));
+        
         $.ajax({
             url: '../../ams_apis/slimTest/index.php/sub_location',
             method: 'POST',
@@ -171,7 +180,7 @@ function search() {
                 // console.log("data.rows");
                 // console.log(data.rows);
                 // console.log("data.rows");
-
+                
                 if (data.rows > 0) {
 
                     var str = '{"data" : [';
@@ -192,20 +201,25 @@ function search() {
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_SUB_LOCATION + '","' +
                                 updateLetterToIcon(data.data[k].HAS_SUB) + '"],';
+                            }
                         }
-                    }
-                    str += ']}'
-
-                    str = replaceAll("\r\n", "", str);
-
-                    str = (JSON.parse(str));
-                    // console.log(str.data);
-                    table_dom = "#subLocationTable";
-
-                    table = createTable("#subLocationTable", str.data);
-
-                    var _table_id = table_dom.replace("#", "");
-                    tableArr[_table_id] = table;
+                        str += ']}'
+                        
+                        str = replaceAll("\r\n", "", str);
+                        
+                        str = (JSON.parse(str));
+                        // console.log(str.data);
+                        table_dom = "#subLocationTable";
+                        
+                        table = createTable("#subLocationTable", str.data);
+                        
+                        var _table_id = table_dom.replace("#", "");
+                        tableArr[_table_id] = table;
+                        
+                        console.log("====================================++++++++++++++++++++++++++++++++++==============================");
+                        console.log($('#subLocationTable tbody input[type="checkbox"]'));
+                        
+                        $('#subLocationTable tbody input[type="checkbox"]').prop("checked", true);
 
                     $('#subLocationTable tbody').on('click', 'input[type="checkbox"]', function () {
 
@@ -440,7 +454,7 @@ function unlinkAll(assetId) {
             console.log(data);
             if (data.data == "UNLINKING ALL SUBS WAS SUCCESSFUL") {
                 closeAsset('overlay-asset');
-                searchasset()
+                searchasset();
                 search();
 
                 swal.fire({
