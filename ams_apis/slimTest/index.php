@@ -953,13 +953,14 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
     a_new.ASSET_ID,
     l_new.ASSET_ROOM_NO,
     l_new.ASSET_AREA_NAME,
-    a_new.ASSET_DESCRIPTION
+    a_new.ASSET_CLASSIFICATION || ' - ' || ASSET_DESCRIPTION AS ASSET_DESCRIPTION
     --l_new.ASSET_LEVEL_NEW,
     --l_new.ASSET_AREA,
 FROM 
     amsd.assets_new a_new,
     AMSD.ASSETS_LOCATION_NEW l_new
 WHERE a_new.ASSET_ROOM_NO = l_new.ASSET_ROOM_NO
+AND a_new.ASSET_ROOM_NO = a_new.ASSET_SUB_LOCATION
 AND a_new.ASSET_CLASS LIKE '%IT EQUIPMENT%'
 AND a_new.ASSET_DESCRIPTION LIKE '%$description%'
 AND l_new.ASSET_BUILDING LIKE '%$building%'
@@ -967,7 +968,7 @@ AND l_new.ASSET_LEVEL LIKE '%$level%'
 AND l_new.ASSET_AREA LIKE '%$area%'
 AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
 AND a_new.ASSET_ID = a_new.ASSET_PRIMARY_ID
-GROUP BY a_new.ASSET_ID,l_new.ASSET_ROOM_NO,l_new.ASSET_AREA_NAME, a_new.ASSET_DESCRIPTION";
+GROUP BY a_new.ASSET_ID,l_new.ASSET_ROOM_NO,l_new.ASSET_AREA_NAME,a_new.ASSET_CLASSIFICATION || ' - ' || ASSET_DESCRIPTION";
 
     $assets_no =$func->executeQuery($sql);
 
