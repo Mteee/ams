@@ -76,6 +76,11 @@ function search() {
 
     var results = (building + " - " + level + " - " + area + " - " + room_no);
 
+    localStorage.building = building;
+    localStorage.level = level;
+    localStorage.area = area;
+    localStorage.room_no = room_no;
+
     if (" -  -  - " == results) {
         document.getElementById('overlay-alert-message').style.display = "none";
         document.getElementById('overlay-alert-message').style.display = "block";
@@ -252,7 +257,12 @@ function searchasset() {
         level = document.getElementById('search_level').value,
         area = document.getElementById('search_area').value,
         room_no = document.getElementById('search_room_sub').value;
-    description = document.getElementById('sub_description').value;
+        description = document.getElementById('sub_description').value;
+        
+        localStorage.building_assets = building;
+        localStorage.area_assets = level;
+        localStorage.level_assets = room_no;
+        localStorage.room_no_assets = description;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
