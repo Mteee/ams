@@ -109,6 +109,7 @@ function search() {
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].HD_ASSET_LOCATION + '","' +
                                 data.data[k].HD_ASSET_DESC + '","' +
+                                updateLetterToIcon(data.data[k].HAS_PRI) + '","' +
                                 updateLetterToIcon(data.data[k].HAS_SUB) + '"]';
                         } else {
                             str += '["' + data.data[k].AL_NO + '","' +
@@ -116,6 +117,7 @@ function search() {
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].HD_ASSET_LOCATION + '","' +
                                 data.data[k].HD_ASSET_DESC + '","' +
+                                updateLetterToIcon(data.data[k].HAS_PRI) + '","' +
                                 updateLetterToIcon(data.data[k].HAS_SUB) + '"],';
                         }
                     }
@@ -961,10 +963,81 @@ function linkAssets(id) {
     // console.log(rows_selected.length);
     // console.log(rows_selected[rows_selected.length - 1]);
 
-    var rows_selected = tableArr["subAssetsTable"].column(0).checkboxes.selected();
+    if (asset_link.al_no == null) {
+        document.getElementById('overlay-alert-message').style.display = "none";
+        document.getElementById('overlay-alert-message').style.display = "block";
+        document.getElementById('alert_header').innerHTML = "<span class='text-center'>Select Sub Location</span>";
+        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><p class="text-muted">Sub Location is required</p>';
+        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+    } else{
 
-    console.log("rows_selected-1");
-      console.log(rows_selected);
+    
+    var newArr = [];
+    var rows_selected = tableArr["subAssetsTable"].column(0).checkboxes.selected();
+    for(var i=0;i<rows_selected.length;i++){
+        newArr.push(rows_selected[i]);
+    }
+    console.log("newArr-1");
+      console.log(newArr);
+      console.log(asset_link.al_no);
+
+    var arrAPI = [];
+
+    $.ajax({
+        url:'../../ams_apis/slimTest/index.php/getAssets_al_no',
+        method : 'POST',
+        data: '{"al_no":"'+asset_link.al_no+'"}',
+        dataType : 'JSON',
+        success: function(data){
+            console.log("flag")
+            console.log(data)
+            console.log("flag")
+            for(var i=0;i<data.data.length;i++){
+                newArr.push((data.data[i])["A_A"]);
+            }
+
+            console.log(newArr);
+
+            var arr = [];
+            var values = []; 
+        
+            for(var i=0;i<newArr.length;i++){
+                var value = newArr[i].split("|");
+                values.push(newArr[i].split("|"));
+                arr.push(value[0]);
+            }
+        
+            console.log(arr);
+            console.log(values);
+        
+            asset_link.selected_assets = createAssetDelimeter(arr);
+        
+         
+        
+                var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
+                assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
+                for (var i = 0; i < arr.length; i++) {
+                    assets_selected += "<option value='" + (values[i])[0] + "' >" + (values[i])[0] + " - " + (values[i])[1] + "</option>"
+                }
+                assets_selected += "</select>";
+        
+                document.getElementById('overlay-alert-message').style.display = "none";
+                document.getElementById('overlay-alert-message').style.display = "block";
+                document.getElementById('alert_header').innerHTML = "Selected Primary Asset ID";
+                document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5" style="margin-top:15px;">' + assets_selected + '</span>';
+                document.getElementById('alert-footer').innerHTML = '<button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button> | <button class="btn btn-success" onclick="confirmLink()" style="width:100px">OK</button>';
+        
+            
+        },
+        error: function(error){
+            console.log("error")
+            console.log(error)
+            console.log("error")
+        }
+    
+        
+    });
+}
     
     // var form = $('#frm-example');
 
@@ -981,44 +1054,7 @@ function linkAssets(id) {
 
     // var rowsSelected = rows_selected.join(",").split(",");
     // console.log("rows_selected-2");
-    console.log(rows_selected);
-
-    var arr = [];
-    var values = []; 
-
-    for(var i=0;i<rows_selected.length;i++){
-        var value = rows_selected[i].split("|");
-        values.push(rows_selected[i].split("|"));
-        arr.push(value[0]);
-    }
-
-    console.log(arr);
-    console.log(values);
-
-    asset_link.selected_assets = createAssetDelimeter(arr);
-
-    if (asset_link.al_no == null) {
-        document.getElementById('overlay-alert-message').style.display = "none";
-        document.getElementById('overlay-alert-message').style.display = "block";
-        document.getElementById('alert_header').innerHTML = "<span class='text-center'>Select Sub Location</span>";
-        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><p class="text-muted">Sub Location is required</p>';
-        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
-    } else {
-
-        var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
-        assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
-        for (var i = 0; i < arr.length; i++) {
-            assets_selected += "<option value='" + (values[i])[0] + "' >" + (values[i])[0] + " - " + (values[i])[1] + "</option>"
-        }
-        assets_selected += "</select>";
-
-        document.getElementById('overlay-alert-message').style.display = "none";
-        document.getElementById('overlay-alert-message').style.display = "block";
-        document.getElementById('alert_header').innerHTML = "Selected Primary Asset ID";
-        document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5" style="margin-top:15px;">' + assets_selected + '</span>';
-        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button> | <button class="btn btn-success" onclick="confirmLink()" style="width:100px">OK</button>';
-
-    }
+   
 
 }
 

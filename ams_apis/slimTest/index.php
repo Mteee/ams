@@ -234,6 +234,8 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
     }
 
 });
+
+
 $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Response $response){
 
     $data = json_decode(file_get_contents('php://input') );
@@ -337,6 +339,27 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
             }
 
             // echo $sub;
+        }
+    }
+
+});
+$app->map(['GET','POST'],'/getAssets_al_no',function(Request $request, Response $response){
+
+    $data = json_decode(file_get_contents('php://input') );
+    $ASSET_NO = strtoupper($data->al_no);
+
+    global $func;
+
+    if(!empty($ASSET_NO)){
+
+        $sql = "SELECT ASSET_ID || '|' || ASSET_CLASSIFICATION ||' - '||ASSET_DESCRIPTION  AS A_A FROM AMSD.ASSETS_NEW WHERE ASSET_SUB_LOCATION='$ASSET_NO'";
+
+        $assets =$func->executeQuery($sql);
+
+        if($assets){
+            echo $assets;
+        }else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
         }
     }
 
@@ -918,7 +941,8 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     HD_ASSET_LOCATION,
     HD_ASSET_DESC,
     ASSET_ROOM_NO,
-    amsd.fn_sub_assigned_new (HD_ASSET_ROOM_LOCATION)  AS HAS_SUB
+    amsd.fn_sub_assigned_new (HD_ASSET_ROOM_LOCATION)  AS HAS_SUB,
+    amsd.fn_pri_assigned_new (HD_ASSET_ROOM_LOCATION)  AS HAS_PRI
     FROM 
         AMSD.ASSETS_LOCATION_NEW 
     WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')   
