@@ -1516,7 +1516,7 @@ function JSalert(rowsSelected) {
     var test = "alc_no";
     console.log(rowsSelected);
     var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
-    assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
+    assets_selected += "<option value='0' selected disabled>Select Sub Location</option>";
     for (var i = 0; i < rowsSelected.length; i++) {
         console.log("==================================check=================================")
         console.log(rowsSelected[1]);
