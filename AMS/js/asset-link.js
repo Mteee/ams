@@ -73,7 +73,7 @@ function search() {
         level = document.getElementById('search_level').value,
         area = document.getElementById('search_prim_area').value,
         room_no = document.getElementById('search_prim_room').value;
-        description = document.getElementsByTagName('prim_description').value;
+        description = document.getElementById('prim_description').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
@@ -90,7 +90,7 @@ function search() {
         document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
     } else {
-        console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}');
+        console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '}');
 
         $('#primSearchView').hide();
         $('#loader').fadeIn(500);
@@ -99,7 +99,7 @@ function search() {
             url: '../../ams_apis/slimTest/index.php/sub_location',
             method: 'POST',
             dataType: 'JSON',
-            data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}',
+            data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '"}',
             success: function (data) {
                 var table = null;
                 console.log(data);
