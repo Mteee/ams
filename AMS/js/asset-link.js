@@ -216,6 +216,7 @@ function clearSublocation(){
 
     //building
     $('#search_link_location').val("");
+    $('#dropdown_link_location').text("BUILDING");
     //level
     $('#search_prim_level').val("");
     $('#dropdown_prim_level').text("LEVEL");
