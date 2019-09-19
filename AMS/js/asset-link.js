@@ -73,7 +73,7 @@ function search() {
         level = document.getElementById('search_level').value,
         area = document.getElementById('search_prim_area').value,
         room_no = document.getElementById('search_prim_room').value;
-        description = document.getElementsByTagName('prim_description').value;
+        description = document.getElementById('prim_description').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
@@ -99,7 +99,7 @@ function search() {
             url: '../../ams_apis/slimTest/index.php/sub_location',
             method: 'POST',
             dataType: 'JSON',
-            data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}',
+            data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"'+description+'"}',
             success: function (data) {
                 var table = null;
                 console.log(data);
@@ -618,6 +618,32 @@ function getAssetsFilter(url, id, scrollArea, menuid) {
 }
 
 
+function clearSubfilters(){
+
+    localStorage.building_assets = '';
+    localStorage.area_assets = '';
+    localStorage.level_assets = '';
+    localStorage.room_no_assets = '';
+
+    assets_filters();
+
+    //building
+    $('#search_sub_location').val("");
+    $('#dropdown_sub_location').text("BUILDING");
+    //level
+    $('#search_level').val("");
+    $('#sub_level_dropdown').text("LEVEL");
+    //Area
+    $('#search_area').val("");
+    $('#area_dropdown').text("AREA");
+    //room_no
+    $('#search_room_sub').val("");
+    $('#dropdown_room_sub').text("ROOM");
+    //description
+    $('#sub_description').val("");
+   
+}
+
 var count = 0;
 
 var clusterize = {
@@ -1124,6 +1150,63 @@ function confirmLink() {
         },
         error: function (errr) {
             console.log(errr);
+        }
+    });
+}
+
+
+function unlinkSub(assetId) {
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/unlink_assets",
+        method: "POST",
+        dataType: "JSON",
+        data: '{"assetid" :"' + assetId + '","username" :"' + localStorage.username + '"}',
+        success: function (data) {
+
+            if (data.data == "UNLINK WAS SUCCESSFUL") {
+                closeAsset('overlay-asset')
+                searchasset()
+                search();
+                swal.fire({
+                    title: "Unlink Success",
+                    text: data.data,
+                    type: "success",
+                    allowOutsideClick: true,
+
+                }).then(function (result) {
+                    if (result.value) {
+
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+
+            } else {
+                searchasset()
+                search();
+                swal.fire({
+                    title: "Unlink Failed",
+                    text: data.data,
+                    type: "error",
+                    allowOutsideClick: true,
+
+                }).then(function (result) {
+                    if (result.value) {
+
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+            }
+            console.log(data);
+        },
+        error: function (err) {
+            console.log(err);
+            console.log("error");
         }
     });
 }
