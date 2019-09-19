@@ -92,6 +92,90 @@
             </div>
         </div>
     </div>
+    <div id="overlay-asset">
+        <div class="asset-details animated bounceInUp" id="assetView">
+            <span class="exit-asset" onclick="closeAsset('overlay-asset')">&times;</span>
+
+            <div class="asset-body">
+                <div id="viewAssets">
+                    <table id="viewAssetTable" style="width:100%;border:1px solid #ccc;border-radius: 5px;">
+                        <thead>
+                            <tr>
+                                <div class="asset-header text-center">
+                                    Asset#
+                                </div>
+                            </tr>
+                        </thead>
+
+                        <tbody id="asset-info">
+                            <tr id="assetLocation">
+                                <th class="theading">Location</th>
+                                <td></td>
+                            </tr>
+                            <tr id="assetRoom">
+                                <th class="theading">Room </th>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th class="theading">Primary </th>
+                                <td><span id="assetBody">Test</span></td>
+                            </tr>
+                            <!-- loop -->
+                            <tr>
+                                <th class="theading">Sub Item</th>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+
+                    <!-- <div class="row text-center">
+                            <div class="col-md-6">
+                                <p class="text-muted">
+                                    <strong>Room</strong>:<span id="roomValue"> xxxxx</span>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="text-muted">
+                                    <strong>Location</strong>:<span id="locValue"> xxxxx</span>
+                                </p>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-6 offset-3">
+                                <ul id="primaryAssets">
+                                    <li class="primaryList">
+                                        <span id="assetBody">Test</span> - <span id="primDescription">xxxxxxx</span>
+                                        <ul id="subAsset">
+                                            <li class="subList">Sub Assets 1</li>
+                                            <li class="subList">Sub Assets 2</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div> -->
+                </div>
+
+            </div>
+            <div class="asset-footer">
+                <div class="row">
+                    <div class="col-md-6">
+                        <button class="btn btn-default" onclick="closeAsset('overlay-asset')">back</button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-default btn-success" id="unlink_all">Unlink All</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sub-item-number text-center py-2">
+                <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
+                            class="text-dark">5</span></strong></p>
+            </div>
+        </div>
+    </div>
     <div class="container-fluid" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgb(59, 56, 56);height:80px">
@@ -185,7 +269,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_link_location" class="form-control" placeholder="BUILDING" onkeyup="onSearch('search_link_location','#empty_link_location')" autofocus="autofocus">
+                                                                    <input type="search" id="search_link_location" class="form-control" placeholder="BUILDING" onkeyup="onSearch('search_link_location','#empty_link_location')" autofocus>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_link_Location" onclick="clearData('#search_link_location','#dropdown_link_location','BUILDING')"><i
                                                                                     class="fa fa-close"></i></span>
@@ -212,7 +296,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_prim_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_prim_level','#empty_prim_level')" autofocus="autofocus">
+                                                                    <input type="search" id="search_prim_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_prim_level','#empty_prim_level')" autofocus>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_prim_level" onclick="clearData('#search_prim_level','#dropdown_prim_level','LEVEL')"><i
                                                                                     class="fa fa-close"></i></span>
@@ -238,7 +322,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_prim_area" class="form-control" placeholder="area" onkeyup="onSearch('search_prim_area','#empty_prim_area')" autofocus="autofocus">
+                                                                    <input type="search" id="search_prim_area" class="form-control" placeholder="area" onkeyup="onSearch('search_prim_area','#empty_prim_area')" autofocus>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_prim_area" onclick="clearData('#search_prim_area','#dropdown_prim_area','AREA')"><i
                                                                                     class="fa fa-close"></i></span>
@@ -264,7 +348,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_prim_room" class="form-control" placeholder="room" onkeyup="onSearch('search_prim_room','#empty_prim_room')" autofocus="autofocus">
+                                                                    <input type="search" id="search_prim_room" class="form-control" placeholder="room" onkeyup="onSearch('search_prim_room','#empty_prim_room')" autofocus>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_prim_room" onclick="clearData('#search_prim_room','#dropdown_prim_room','ROOM')"><i
                                                                                     class="fa fa-close"></i></span>
@@ -283,18 +367,15 @@
                                                 </th>
 
                                                 <th>
-                                                    <input type="text" id="prim_description" class="form-control"
-                                                        placeholder="Description...">
+                                                    <input type="text" id="prim_description" class="form-control" placeholder="Description...">
                                                 </th>
 
 
                                                 <th>
-                                                    <button onclick="search()" type="text"
-                                                        class="btn btn-success text-light">
+                                                    <button onclick="search()" type="text" class="btn btn-success text-light">
                                                         <span class="fa fa-search"></span>
                                                     </button>
-                                                    <button onclick="clearAllfilter()" type="text"
-                                                        class="btn btn-danger text-light">
+                                                    <button onclick="clearAllfilter()" type="text" class="btn btn-danger text-light">
                                                         <span class="fa fa-close"></span>
                                                     </button>
                                                 </th>
@@ -365,6 +446,14 @@
                                                         Description
 
                                                     </th>
+                                                    <th scope="col">
+                                                        HAS ASSETS
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        View
+
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="current">
@@ -395,7 +484,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_sub_location" class="form-control" placeholder="Building..." onkeyup="onSearch('search_sub_location','#empty_sub_location')" autofocus="autofocus">
+                                                                    <input type="search" id="search_sub_location" class="form-control" placeholder="Building..." onkeyup="onSearch('search_sub_location','#empty_sub_location')" autofocus>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_sub_location" onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING')"><i
                                                                                     class="fa fa-close"></i></span>
@@ -422,7 +511,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_level" class="form-control" placeholder="level" onkeyup="onSearch('search_level','#empty_level')" autofocus="autofocus">
+                                                                    <input type="search" id="search_level" class="form-control" placeholder="level" onkeyup="onSearch('search_level','#empty_level')" autofocus>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_level" onclick="clearData('#search_level','#sub_level_dropdown','LEVEL')"><i
                                                                                     class="fa fa-close"></i></span>
@@ -448,7 +537,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_area" class="form-control" placeholder="area..." onkeyup="onSearch('search_area','#empty_area')" autofocus="autofocus">
+                                                                    <input type="search" id="search_area" class="form-control" placeholder="area..." onkeyup="onSearch('search_area','#empty_area')" autofocus>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_area" onclick="clearData('#search_area','#area_dropdown','AREA...')"><i
                                                                                     class="fa fa-close"></i></span>
@@ -474,7 +563,7 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_room_sub" class="form-control" placeholder="room" onkeyup="onSearch('search_room_sub','#empty_room_sub')" autofocus="autofocus">
+                                                                    <input type="search" id="search_room_sub" class="form-control" placeholder="room" onkeyup="onSearch('search_room_sub','#empty_room_sub')" autofocus>
                                                                     <div class="input-group-append">
                                                                         <span class="input-group-text btn btn-danger text-light" id="clear_room_sub" onclick="clearData('#search_room_sub','#dropdown_room_sub','ROOM')"><i
                                                                                     class="fa fa-close"></i></span>
@@ -492,8 +581,7 @@
                                                     </div>
                                                 </th>
                                                 <th>
-                                                    <input type="text" id="sub_description" class="form-control"
-                                                        placeholder="Description...">
+                                                    <input type="text" id="sub_description" class="form-control" placeholder="Description...">
                                                 </th>
 
                                                 <th>
@@ -501,8 +589,7 @@
                                                         <span class="fa fa-search"></span>
 
                                                     </button>
-                                                    <button onclick="clearAllfilter()" type="text"
-                                                        class="btn btn-danger">
+                                                    <button onclick="clearAllfilter()" type="text" class="btn btn-danger">
                                                         <span class="fa fa-close"></span>
                                                     </button>
                                                 </th>
@@ -512,8 +599,7 @@
                                         <!-- Assets Header  -->
                                         <table class="table" id="subAssets">
                                             <tr>
-                                                <th colspan="6" style="padding: 5px;text-align: left;font-size: 12pt;"
-                                                    class="text-info">
+                                                <th colspan="6" style="padding: 5px;text-align: left;font-size: 12pt;" class="text-info">
                                                     <span style="padding: 5px; width:100px;">Assets</span>
                                                 </th>
                                             </tr>
@@ -563,8 +649,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-right">
-                                <button class="btn btn-info btn-md" style="display: none;" id="linkBtn"
-                                    onclick="linkAssets('subLocationTable')"><span class="fa fa-link"></span>
+                                <button class="btn btn-info btn-md" style="display: none;" id="linkBtn" onclick="linkAssets('subLocationTable')"><span class="fa fa-link"></span>
                                     Asset Link</button>
                             </div>
                         </div>

@@ -234,6 +234,113 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
     }
 
 });
+$app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Response $response){
+
+    $data = json_decode(file_get_contents('php://input') );
+
+    $ASSET_NO = strtoupper($data->al_no);
+
+    $response = array();
+    $count = 0;
+    global $func;
+
+
+
+    if(!empty($ASSET_NO)){
+
+        $sql = "SELECT * FROM AMSD.ASSETS_NEW WHERE ASSET_SUB_LOCATION='$ASSET_NO'";
+
+        $assets =$func->executeQuery($sql);
+
+        if($assets){
+            // echo $assets;
+            $results = json_decode($assets);
+            $loc = $results->data[0]->ASSET_SUB_LOCATION;
+            $room = $results->data[0]->ASSET_ROOM_NO;
+            $asset_pr = $results->data[0]->ASSET_PRIMARY_ID;
+            $sub = '
+            <table id="viewAssetTable1" style="width:100%;border-radius: 5px;">
+                <thead>
+                    <tr>
+                        <div class="asset-header text-center">
+                            Asset#
+                        </div>
+                    </tr>
+                </thead>
+                <tbody id="asset-info">
+                    <tr id="assetLocation">
+                        <th class="theading">Sub Location</th>
+                        <td>'.$loc.'</td>
+                    </tr>
+                    <tr id="assetRoom">
+                        <th class="theading">Room</th>
+                        <td>'.$room.'</td>
+                    </tr>
+                    <tr>
+                        <th class="theading">Primary </th>
+                        <td><span id="assetBody">'.$asset_pr.'</span></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="test-scroll">
+            <table id="viewAssetTable2" class="table-bordered table-striped">
+                <thead>
+                    <tr style="" class="text-light">
+                        <th class="theading-sub bg-dark">Asset(s)</th>
+                        <th class="theading-sub bg-dark">CLASSIFICATION</th>
+                    </tr>
+                </thead>
+                <tbody id="asset-info">
+                    ';
+
+            foreach($results->data as $res){
+
+                // echo $res->ASSET_ID.'<br>';
+                
+                if($ASSET_NO != $res->ASSET_ID){
+                //    TO-Do Limit description length
+                $sub .= '<tr>
+                                <td>'.$res->ASSET_ID.'</td>
+                                <td>'.$res->ASSET_CLASSIFICATION.'</td>
+                            </tr>
+                        ';
+
+                            $count++;
+                }
+            }
+
+            
+
+            if($count > 0){
+
+                $sub .= ' 
+                    </tbody>
+                    </table>   
+                    </div>
+                    ';
+                array_push($response,array("items"=>$count,"table"=>$sub));
+                echo json_encode($response);
+            }
+            else{
+                $sub .= '<tr class="text-center py-4">
+                            <td colspan="2"><p class="text-muted py-4">No sub assets found</p></td>
+                        </tr>
+                        ';
+                $sub .= ' 
+                    </tbody>
+                    </table>   
+                    </div>
+                    ';
+                array_push($response,array("items"=>$count,"table"=>$sub));
+                echo json_encode($response);
+            }
+
+            // echo $sub;
+        }
+    }
+
+});
 
 $app->map(['GET','POST'],'/login',function(Request $request, Response $response){
     
@@ -810,7 +917,8 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     HD_ASSET_ROOM_LOCATION AS \"AL_NO\",
     HD_ASSET_LOCATION,
     HD_ASSET_DESC,
-    ASSET_ROOM_NO
+    ASSET_ROOM_NO,
+    amsd.fn_sub_assigned_new (HD_ASSET_ROOM_LOCATION)  AS HAS_SUB
     FROM 
         AMSD.ASSETS_LOCATION_NEW 
     WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')   

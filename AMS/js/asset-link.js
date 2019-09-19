@@ -100,7 +100,7 @@ function search() {
                 $('#loader').fadeOut(500);
 
                 if (data.rows > 0) {
-
+                    
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
                         if ((data.rows - 1) == k) {
@@ -108,13 +108,15 @@ function search() {
                                 data.data[k].AL_NO + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].HD_ASSET_LOCATION + '","' +
-                                data.data[k].HD_ASSET_DESC + '"]';
+                                data.data[k].HD_ASSET_DESC + '","' +
+                                updateLetterToIcon(data.data[k].HAS_SUB) + '"]';
                         } else {
                             str += '["' + data.data[k].AL_NO + '","' +
                                 data.data[k].AL_NO + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].HD_ASSET_LOCATION + '","' +
-                                data.data[k].HD_ASSET_DESC + '"],';
+                                data.data[k].HD_ASSET_DESC + '","' +
+                                updateLetterToIcon(data.data[k].HAS_SUB) + '"],';
                         }
                     }
                     str += ']}'
@@ -159,6 +161,17 @@ function search() {
 
                     });
 
+                    $('#subLocationTable tbody').on('click', 'button', function () {
+                        console.log("click");
+                        var data = tableArr["subLocationTable"].row($(this).parents('tr')).data();
+                        // if (data == null || data == undefined) {
+                        //     data = (localStorage.tableDataSet).split(',');
+                        // } else {
+                        //     localStorage.tableDataSet = data;
+                        // }
+                        viewAsset(data[0]);
+                    });
+
 
 
 
@@ -182,6 +195,54 @@ function search() {
         });
 
     }
+}
+
+//updating y to icons
+function updateLetterToIcon(letter) {
+    var results = "";
+    switch (letter) {
+        case "y":
+            results = "<p class='text-success'><strong>YES</strong></p>";
+            break;
+        case "n":
+            results = "<p class='text-danger'><strong>NO</strong></p>";
+            break;
+    }
+
+    return results;
+}//close updateLetterToIcon function
+
+function viewAsset(assetId) {
+    var currentItem = "";
+    document.getElementById('overlay-asset').style.display = "block";
+    // console.log($('#assetBody'));
+    $('#assetBody')['0'].innerHTML = assetId;
+
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/singleAsset_al_no",
+        method: "POST",
+        dataType: "JSON",
+        data: '{"al_no" :"' + assetId + '"}',
+        success: function (data) {
+            // console.log("success");
+            document.getElementById('viewAssets').innerHTML = data[0].table;
+            document.getElementById('subItemCount').innerText = data[0].items;
+
+            if (data[0].items > 0) {
+                $('#unlink_all').fadeIn(500);
+                $('#unlink_all').off().on('click', function () {
+                    unlinkAll(assetId);
+                });
+            } else {
+                $('#unlink_all').hide();
+            }
+        },
+        error: function (err) {
+            console.log(err);
+            console.log("error");
+
+        }
+    });
 }
 
 function searchasset() {
@@ -387,6 +448,20 @@ function createTable(tableID, tableData) {
             {
                 "targets": -2,
                 "orderable": false
+            },{
+                'targets': -1,
+                "render": function (data, type, row, meta) {
+                    // "data": null,
+                    // "orderable": false,
+                    // "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>",
+                    // "className": "dt-center"
+
+                    if (tableID == "#subLocationTable") {
+                        return "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>";
+                    } else {
+                        return data
+                    }
+                }
             }
         ],
         fnCreatedRow: function (nTd, nRow, aData, iDataIndex) {
