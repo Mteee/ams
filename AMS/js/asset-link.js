@@ -77,10 +77,10 @@ function search() {
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
-    localStorage.building = building;
-    localStorage.level = level;
-    localStorage.area = area;
-    localStorage.room_no = room_no;
+    // localStorage.building = building;
+    // localStorage.level = level;
+    // localStorage.area = area;
+    // localStorage.room_no = room_no;
 
     if (" -  -  -  - " == results) {
         document.getElementById('overlay-alert-message').style.display = "none";
@@ -90,7 +90,7 @@ function search() {
         document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
     } else {
-        console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}');
+        console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '}');
 
         $('#primSearchView').hide();
         $('#loader').fadeIn(500);
@@ -99,7 +99,7 @@ function search() {
             url: '../../ams_apis/slimTest/index.php/sub_location',
             method: 'POST',
             dataType: 'JSON',
-            data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"'+description+'"}',
+            data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '"}',
             success: function (data) {
                 var table = null;
                 console.log(data);
@@ -287,10 +287,10 @@ function searchasset() {
         room_no = document.getElementById('search_room_sub').value;
         description = document.getElementById('sub_description').value;
         
-        localStorage.building_assets = building;
-        localStorage.area_assets = level;
-        localStorage.level_assets = room_no;
-        localStorage.room_no_assets = description;
+        // localStorage.building_assets = building;
+        // localStorage.area_assets = level;
+        // localStorage.level_assets = room_no;
+        // localStorage.room_no_assets = description;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
