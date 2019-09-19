@@ -73,15 +73,16 @@ function search() {
         level = document.getElementById('search_level').value,
         area = document.getElementById('search_prim_area').value,
         room_no = document.getElementById('search_prim_room').value;
+        description = document.getElementsByTagName('prim_description').value;
 
-    var results = (building + " - " + level + " - " + area + " - " + room_no);
+    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
     localStorage.building = building;
     localStorage.level = level;
     localStorage.area = area;
     localStorage.room_no = room_no;
 
-    if (" -  -  - " == results) {
+    if (" -  -  -  - " == results) {
         document.getElementById('overlay-alert-message').style.display = "none";
         document.getElementById('overlay-alert-message').style.display = "block";
         document.getElementById('alert_header').innerHTML = "Assets Linking";
@@ -202,6 +203,32 @@ function search() {
         });
 
     }
+}
+
+
+function clearSublocation(){
+    localStorage.building = '';
+    localStorage.area = '';
+    localStorage.level = '';
+    localStorage.room_no = '';
+
+    sub_location_filters();
+
+    //building
+    $('#search_link_location').val("");
+    //level
+    $('#search_prim_level').val("");
+    $('#dropdown_prim_level').text("LEVEL");
+    //Area
+    $('#search_prim_area').val("");
+    $('#dropdown_prim_area').text("AREA");
+    //room_no
+    $('#search_prim_room').val("");
+    $('#dropdown_prim_room').text("ROOM");
+    //description
+    $('#prim_description').val("");
+    // //classiffication
+    // $('#prim_classification').val("");
 }
 
 //updating y to icons
