@@ -856,7 +856,7 @@ AND a_new.ASSET_CLASS LIKE '%IT EQUIPMENT%'
 AND a_new.ASSET_DESCRIPTION LIKE '%$description%'
 AND l_new.ASSET_BUILDING LIKE '%$building%'
 AND l_new.ASSET_LEVEL LIKE '%$level%'
-AND l_new.ASSET_AREA_NAME LIKE '%$area%'
+AND l_new.ASSET_AREA LIKE '%$area%'
 AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
 AND a_new.ASSET_ID = a_new.ASSET_PRIMARY_ID
 GROUP BY a_new.ASSET_ID,l_new.ASSET_ROOM_NO,l_new.ASSET_AREA_NAME, a_new.ASSET_DESCRIPTION";
