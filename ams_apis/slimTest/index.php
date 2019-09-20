@@ -1021,7 +1021,8 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
                 ASSET_BUILDING
             FROM 
                 AMSD.ASSETS_LOCATION_NEW 
-            WHERE ASSET_BUILDING LIKE '%$building%'
+            WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
+            AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
@@ -1064,7 +1065,8 @@ $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response
                 ASSET_LEVEL 
             FROM 
             AMSD.ASSETS_LOCATION_NEW 
-            WHERE ASSET_BUILDING LIKE '%$building%'
+            WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
+            AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
@@ -1106,7 +1108,8 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
                 ASSET_AREA
             FROM 
                 AMSD.ASSETS_LOCATION_NEW
-            WHERE ASSET_BUILDING LIKE '%$building%'
+                WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
+            AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
@@ -1147,7 +1150,8 @@ $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response
     $sql = "SELECT ASSET_AREA
             FROM 
                 AMSD.ASSETS_LOCATION_NEW 
-            WHERE ASSET_BUILDING LIKE '%$building%'
+                WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
+            AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
@@ -1189,7 +1193,8 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
     $sql = "SELECT ASSET_ROOM_NO
             FROM 
                 AMSD.ASSETS_LOCATION_NEW 
-            WHERE ASSET_BUILDING LIKE '%$building%'
+                WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
+            AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
             AND ASSET_AREA LIKE '%$area%'
             AND ASSET_ROOM_NO LIKE '%$room_no%'

@@ -193,7 +193,7 @@ function search() {
                     $('#searchView').fadeIn(500);
                     // console.log(data.data);
 
-                    table = createTable("#currentAssetsTable", data.data);
+                    table = createTable("#subLocationTable", data.data);
 
                 }
             },
