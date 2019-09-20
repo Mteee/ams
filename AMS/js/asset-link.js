@@ -77,10 +77,10 @@ function search() {
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
-    localStorage.building = building;
-    localStorage.level = level;
-    localStorage.area = area;
-    localStorage.room_no = room_no;
+    // localStorage.building = building;
+    // localStorage.level = level;
+    // localStorage.area = area;
+    // localStorage.room_no = room_no;
 
     if (" -  -  -  - " == results) {
         document.getElementById('overlay-alert-message').style.display = "none";
@@ -287,10 +287,10 @@ function searchasset() {
         room_no = document.getElementById('search_room_sub').value;
         description = document.getElementById('sub_description').value;
         
-        localStorage.building_assets = building;
-        localStorage.area_assets = level;
-        localStorage.level_assets = room_no;
-        localStorage.room_no_assets = description;
+        // localStorage.building_assets = building;
+        // localStorage.area_assets = level;
+        // localStorage.level_assets = room_no;
+        // localStorage.room_no_assets = description;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
@@ -1029,6 +1029,10 @@ function linkAssets(id) {
         success: function(data){
             console.log("flag")
             console.log(data)
+
+            if(data.data == "Error"){
+                data.data = [];
+            }
             console.log("flag")
             for(var i=0;i<data.data.length;i++){
                 newArr.push((data.data[i])["A_A"]);
