@@ -70,7 +70,7 @@ var dataInfo = "";
 function search() {
 
     var building = document.getElementById('search_link_location').value,
-        level = document.getElementById('search_level').value,
+        level = document.getElementById('search_prim_level').value,
         area = document.getElementById('search_prim_area').value,
         room_no = document.getElementById('search_prim_room').value;
         description = document.getElementById('prim_description').value;
