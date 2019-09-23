@@ -265,7 +265,7 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
                 <thead>
                     <tr>
                         <div class="asset-header text-center">
-                            Asset#
+                            Asset Location
                         </div>
                     </tr>
                 </thead>
@@ -289,9 +289,9 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
             <table id="viewAssetTable2" class="table-bordered table-striped">
                 <thead>
                     <tr style="" class="text-light">
-                        <th class="theading-sub bg-dark">Asset(s)</th>
+                        <th class="theading-sub bg-dark">ASSET(S)</th>
                         <th class="theading-sub bg-dark">CLASSIFICATION</th>
-                        <th class="theading-sub bg-dark">Unlink</th>
+                        <th class="theading-sub bg-dark">UNLINK</th>
                     </tr>
                 </thead>
                 <tbody id="asset-info">
@@ -328,7 +328,7 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
             }
             else{
                 $sub .= '<tr class="text-center py-4">
-                            <td colspan="2"><p class="text-muted py-4">No sub assets found</p></td>
+                            <td colspan="3"><p class="text-muted py-4">No assets found</p></td>
                         </tr>
                         ';
                 $sub .= ' 
@@ -341,7 +341,68 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
             }
 
             // echo $sub;
-        }
+        }else{
+            $sql = "SELECT * FROM AMSD.ASSETS_LOCATION_NEW WHERE HD_ASSET_ROOM_LOCATION='$ASSET_NO'";
+    
+            $assets =$func->executeQuery($sql);
+
+            if($assets){
+
+                // echo $assets;
+                $results = json_decode($assets);
+                $loc = $results->data[0]->HD_ASSET_ROOM_LOCATION;
+                $room = $results->data[0]->ASSET_ROOM_NO;
+                $asset_pr = "No Assets Assigned";
+                $sub = '
+                <table id="viewAssetTable1" style="width:100%;border-radius: 5px;">
+                 <thead>
+                 <tr>
+                         <div class="asset-header text-center">
+                         Asset Location
+                             </div>
+                     </tr>
+                 </thead>
+                 <tbody id="asset-info">
+                     <tr id="assetLocation">
+                     <th class="theading">Sub Location</th>
+                         <td>'.$loc.'</td>
+                     </tr>
+                     <tr id="assetRoom">
+                         <th class="theading">Room</th>
+                         <td>'.$room.'</td>
+                     </tr>
+                     <tr>
+                     <th class="theading">Primary </th>
+                         <td><span id="assetBody">'.$asset_pr.'</span></td>
+                     </tr>
+                     </tbody>
+             </table>
+             
+             <div class="test-scroll">
+             <table id="viewAssetTable2" class="table-bordered table-striped">
+                 <thead>
+                     <tr style="" class="text-light">
+                     <th class="theading-sub bg-dark">ASSET(S)</th>
+                         <th class="theading-sub bg-dark">CLASSIFICATION</th>
+                     </tr>
+                     </thead>
+                 <tbody id="asset-info">
+                     ';
+                     $sub .= '<tr class="text-center py-4">
+                     <td colspan="2"><p class="text-muted py-4">No assets found</p></td>
+                 </tr>
+                 ';
+                 $sub .= ' 
+                 </tbody>
+                 </table>   
+                 </div>
+                 ';
+
+                 array_push($response,array("items"=>$count,"table"=>$sub));
+                 echo json_encode($response);
+            }
+                 
+         }
     }
 
 });

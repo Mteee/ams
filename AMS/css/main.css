@@ -264,13 +264,14 @@ input[type="checkbox"]:disabled:after {
 
 .asset-details {
     position: relative;
-    margin: 6% auto;
+    margin: 12% auto;
     width: 500px;
-    height: 500px;
+    height: 428px;
     border-radius: 5px;
     background: white;
     z-index: 2;
     position: relative;
+
 }
 
 .asset-transfer-details {

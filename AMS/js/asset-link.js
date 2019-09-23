@@ -1,13 +1,27 @@
 // reset 
-localStorage.building = '';
-localStorage.area = '';
-localStorage.level = '';
-localStorage.room_no = '';
 
-localStorage.building_assets = '';
-localStorage.area_assets = '';
-localStorage.level_assets = '';
-localStorage.room_no_assets = '';
+function clearBothLocalStorage() {
+
+    clearLocalStorrageSubAssets();
+    clearLocalStorrageSubLocation();
+}
+
+clearLocalStorrageSubAssets();
+clearLocalStorrageSubLocation();
+
+function clearLocalStorrageSubLocation() {
+    localStorage.building = '';
+    localStorage.area = '';
+    localStorage.level = '';
+    localStorage.room_no = '';
+}
+
+function clearLocalStorrageSubAssets() {
+    localStorage.building_assets = '';
+    localStorage.area_assets = '';
+    localStorage.level_assets = '';
+    localStorage.room_no_assets = '';
+}
 
 function showNav() {
     $('#menu-list').slideToggle('fast');
@@ -24,18 +38,6 @@ function replaceAll(find, replace, str) {
 
 window.onload = function () {
     if (localStorage.building !== '' || localStorage.level !== '' || localStorage.area !== '' || localStorage.room_no !== '') {
-
-        localStorage.building = '';
-        localStorage.area = '';
-        localStorage.level = '';
-        localStorage.room_no = '';
-
-        localStorage.building_assets = '';
-        localStorage.area_assets = '';
-        localStorage.level_assets = '';
-        localStorage.room_no_assets = '';
-
-
         sub_location_filters();
         assets_filters();
     }
@@ -49,9 +51,6 @@ var tableArr = {
     subLocationTable: [],
     subAssetsTable: []
 };
-
-
-
 
 sub_location_filters();
 assets_filters();
@@ -73,14 +72,16 @@ function search() {
         level = document.getElementById('search_prim_level').value,
         area = document.getElementById('search_prim_area').value,
         room_no = document.getElementById('search_prim_room').value;
-        description = document.getElementById('prim_description').value;
+    description = document.getElementById('prim_description').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
-    // localStorage.building = building;
-    // localStorage.level = level;
-    // localStorage.area = area;
-    // localStorage.room_no = room_no;
+    localStorage.building = building;
+    localStorage.level = level;
+    localStorage.area = area;
+    localStorage.room_no = room_no;
+
+
 
     if (" -  -  -  - " == results) {
         document.getElementById('overlay-alert-message').style.display = "none";
@@ -90,7 +91,26 @@ function search() {
         document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
     } else {
-        console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '}');
+
+        console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '"}');
+
+        if (building !== '') {
+            $('#dropdown_link_location').text(building);
+        }
+        if (level !== '') {
+            $('#dropdown_prim_level').text(level);
+        }
+        if (area !== '') {
+            $('#dropdown_prim_area').text(area);
+        }
+        if (room_no !== '') {
+            $('#dropdown_prim_room').text(room_no);
+        }
+
+        //building
+        //level
+        //Area
+        //room_no
 
         $('#primSearchView').hide();
         $('#loader').fadeIn(500);
@@ -106,7 +126,7 @@ function search() {
                 $('#loader').fadeOut(500);
 
                 if (data.rows > 0) {
-                    
+
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
                         if ((data.rows - 1) == k) {
@@ -136,6 +156,9 @@ function search() {
                     table_dom = "#subLocationTable";
 
                     table = createTable("#subLocationTable", str.data);
+                    $(" #subLocationTable .sorting_disabled input" ).prop( "disabled", true ); //Disable
+                    $(" #subLocationTable .sorting_disabled input" ).css({"cursor":"none"}); 
+
 
                     var _table_id = table_dom.replace("#", "");
                     tableArr[_table_id] = table;
@@ -194,6 +217,8 @@ function search() {
                     // console.log(data.data);
 
                     table = createTable("#subLocationTable", data.data);
+                    $(" #subLocationTable .sorting_disabled input" ).prop( "disabled", true ); //Disable
+                    $(" #subLocationTable .sorting_disabled input" ).css({"cursor":"none"}); 
 
                 }
             },
@@ -206,7 +231,7 @@ function search() {
 }
 
 
-function clearSublocation(){
+function clearSublocation() {
     localStorage.building = '';
     localStorage.area = '';
     localStorage.level = '';
@@ -280,21 +305,33 @@ function viewAsset(assetId) {
     });
 }
 
+function resetToAssets() {
+    //building
+    $('#dropdown_sub_location').text("BUILDING");
+    //level
+    $('#sub_level_dropdown').text("LEVEL");
+    //Area
+    $('#area_dropdown').text("AREA");
+    //room_no
+    $('#dropdown_room_sub').text("ROOM");
+}
+
 function searchasset() {
     var building = document.getElementById('search_sub_location').value,
         level = document.getElementById('search_level').value,
         area = document.getElementById('search_area').value,
         room_no = document.getElementById('search_room_sub').value;
-        description = document.getElementById('sub_description').value;
-        
-        // localStorage.building_assets = building;
-        // localStorage.area_assets = level;
-        // localStorage.level_assets = room_no;
-        // localStorage.room_no_assets = description;
+    description = document.getElementById('sub_description').value;
+
+    localStorage.building_assets = building;
+    localStorage.area_assets = area;
+    localStorage.level_assets = level;
+    localStorage.room_no_assets = room_no;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
     if (" -  -  -  - " == results) {
+        resetToAssets();
         document.getElementById('overlay-alert-message').style.display = "none";
         document.getElementById('overlay-alert-message').style.display = "block";
         document.getElementById('alert_header').innerHTML = "Assets Linking";
@@ -303,6 +340,21 @@ function searchasset() {
 
     }
     else {
+
+        console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '"}');
+        if (building !== '') {
+            $('#dropdown_sub_location').text(building);
+        }
+        if (level !== '') {
+            $('#sub_level_dropdown').text(level);
+        }
+        if (area !== '') {
+            $('#area_dropdown').text(area);
+        }
+        if (room_no !== '') {
+            $('#dropdown_room_sub').text(room_no);
+        }
+
         $('#subAssetsSearch').hide();
         $('#AssetsLoader').fadeIn(500);
 
@@ -321,13 +373,13 @@ function searchasset() {
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
                         if ((data.rows - 1) == k) {
-                            str += '["' + data.data[k].ASSET_ID + '|'+data.data[k].ASSET_DESCRIPTION+'","' +
+                            str += '["' + data.data[k].ASSET_ID + '|' + data.data[k].ASSET_DESCRIPTION + '","' +
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_AREA_NAME + '","' +
                                 data.data[k].ASSET_DESCRIPTION + '"]';
                         } else {
-                            str += '["' +data.data[k].ASSET_ID + '|'+data.data[k].ASSET_DESCRIPTION + '","' +
+                            str += '["' + data.data[k].ASSET_ID + '|' + data.data[k].ASSET_DESCRIPTION + '","' +
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_AREA_NAME + '","' +
@@ -343,6 +395,8 @@ function searchasset() {
                     table_dom = "#subAssetsTable";
 
                     table = createTable("#subAssetsTable", str.data);
+                    $("#subAssetsTable .sorting_disabled input" ).prop( "disabled", true ); //Disable
+                    $("#subLocationTable .sorting_disabled input" ).css({"cursor":"none"}); 
 
                     var _table_id = table_dom.replace("#", "");
                     tableArr[_table_id] = table;
@@ -384,6 +438,8 @@ function searchasset() {
                     // console.log(data.data);
 
                     table = createTable("#subAssetsTable", data.data);
+                    $("#subAssetsTable .sorting_disabled input" ).prop( "disabled", true ); //Disable
+                    $("#subAssetsTable .sorting_disabled input:hover" ).css({"cursor":"auto"});
 
                 }
             },
@@ -406,7 +462,7 @@ var allArr = {
     search_prim_level: [],
     search_prim_area: [],
     search_prim_room: [],
-    
+
     search_sub_location: [],
     search_level: [],
     search_area: [],
@@ -488,7 +544,7 @@ function createTable(tableID, tableData) {
             {
                 "targets": -2,
                 "orderable": false
-            },{
+            }, {
                 'targets': -1,
                 "render": function (data, type, row, meta) {
                     // "data": null,
@@ -618,7 +674,7 @@ function getAssetsFilter(url, id, scrollArea, menuid) {
 }
 
 
-function clearSubfilters(){
+function clearSubfilters() {
 
     localStorage.building_assets = '';
     localStorage.area_assets = '';
@@ -641,7 +697,7 @@ function clearSubfilters(){
     $('#dropdown_room_sub').text("ROOM");
     //description
     $('#sub_description').val("");
-   
+
 }
 
 var count = 0;
@@ -845,11 +901,14 @@ else {
 
 
 //function clear button
-function clearData(input, btnDafualtId, text) {
+function clearData(input, btnDafualtId, text, emptyId) {
     // var inputData = document.getElementById(input).(val);
     var value = $(input).val();
 
     if (value.length > 0) {
+
+        $(emptyId).css("display", "none");
+
 
         if (input == "#search_link_location") {
 
@@ -883,7 +942,6 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('menu_prim_level').innerHTML = '<div id="prim_level_loader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_prim_area').innerHTML = '<div id="prim_area_loader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_prim_room').innerHTML = '<div id="prim_Room_load" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-
 
             localStorage.level = '';
             localStorage.area = '';
@@ -1008,8 +1066,8 @@ function clearData(input, btnDafualtId, text) {
             $('#dropdown_room_sub').text("ROOM");
             //description
             $('#sub_description').val("");
-        }
 
+        }
 
         // if (btnDafualtId == "#dropdown_approve_room") {
         //     populate_room();
@@ -1018,9 +1076,6 @@ function clearData(input, btnDafualtId, text) {
         // }
     }
 }
-
-
-
 
 function linkAssets(id) {
     // var rows_selected = tableArr[id].column(0).checkboxes.selected();
@@ -1033,80 +1088,78 @@ function linkAssets(id) {
         document.getElementById('alert_header').innerHTML = "<span class='text-center'>Select Sub Location</span>";
         document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><p class="text-muted">Sub Location is required</p>';
         document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
-    } else{
+    } else {
 
-    
-    var newArr = [];
-    var rows_selected = tableArr["subAssetsTable"].column(0).checkboxes.selected();
-    for(var i=0;i<rows_selected.length;i++){
-        newArr.push(rows_selected[i]);
-    }
-    console.log("newArr-1");
-      console.log(newArr);
-      console.log(asset_link.al_no);
 
-    var arrAPI = [];
+        var newArr = [];
+        var rows_selected = tableArr["subAssetsTable"].column(0).checkboxes.selected();
+        for (var i = 0; i < rows_selected.length; i++) {
+            newArr.push(rows_selected[i]);
+        }
+        console.log("newArr-1");
+        console.log(newArr);
+        console.log(asset_link.al_no);
 
-    $.ajax({
-        url:'../../ams_apis/slimTest/index.php/getAssets_al_no',
-        method : 'POST',
-        data: '{"al_no":"'+asset_link.al_no+'"}',
-        dataType : 'JSON',
-        success: function(data){
-            console.log("flag")
-            console.log(data)
+        var arrAPI = [];
 
-            if(data.data == "Error"){
-                data.data = [];
-            }
-            console.log("flag")
-            for(var i=0;i<data.data.length;i++){
-                newArr.push((data.data[i])["A_A"]);
-            }
+        $.ajax({
+            url: '../../ams_apis/slimTest/index.php/getAssets_al_no',
+            method: 'POST',
+            data: '{"al_no":"' + asset_link.al_no + '"}',
+            dataType: 'JSON',
+            success: function (data) {
+                console.log("flag")
+                console.log(data)
 
-            console.log(newArr);
+                if (data.data == "Error") {
+                    data.data = [];
+                }
+                console.log("flag")
+                for (var i = 0; i < data.data.length; i++) {
+                    newArr.push((data.data[i])["A_A"]);
+                }
 
-            var arr = [];
-            var values = []; 
-        
-            for(var i=0;i<newArr.length;i++){
-                var value = newArr[i].split("|");
-                values.push(newArr[i].split("|"));
-                arr.push(value[0]);
-            }
-        
-            console.log(arr);
-            console.log(values);
-        
-            asset_link.selected_assets = createAssetDelimeter(arr);
-        
-         
-        
+                console.log(newArr);
+
+                var arr = [];
+                var values = [];
+
+                for (var i = 0; i < newArr.length; i++) {
+                    var value = newArr[i].split("|");
+                    values.push(newArr[i].split("|"));
+                    arr.push(value[0]);
+                }
+
+                console.log(arr);
+                console.log(values);
+
+                asset_link.selected_assets = createAssetDelimeter(arr);
+
                 var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
                 assets_selected += "<option value='0' selected disabled>Select Primary Asset Id</option>";
                 for (var i = 0; i < arr.length; i++) {
                     assets_selected += "<option value='" + (values[i])[0] + "' >" + (values[i])[0] + " - " + (values[i])[1] + "</option>"
                 }
                 assets_selected += "</select>";
-        
+
                 document.getElementById('overlay-alert-message').style.display = "none";
                 document.getElementById('overlay-alert-message').style.display = "block";
                 document.getElementById('alert_header').innerHTML = "Selected Primary Asset ID";
                 document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5" style="margin-top:15px;">' + assets_selected + '</span>';
                 document.getElementById('alert-footer').innerHTML = '<button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button> | <button class="btn btn-success" onclick="confirmLink()" style="width:100px">OK</button>';
-        
-            
-        },
-        error: function(error){
-            console.log("error")
-            console.log(error)
-            console.log("error")
-        }
-    
-        
-    });
-}
-    
+
+
+            },
+            error: function (error) {
+                console.log("error")
+                console.log(error)
+                console.log("error")
+            }
+
+
+        });
+    }
+
     // var form = $('#frm-example');
 
     // // Iterate over all selected checkboxes
@@ -1122,7 +1175,7 @@ function linkAssets(id) {
 
     // var rowsSelected = rows_selected.join(",").split(",");
     // console.log("rows_selected-2");
-   
+
 
 }
 
@@ -1131,9 +1184,8 @@ function confirmLink() {
     // $('#primary_asset_id').on('change', function () {
 
     // });
-
-    console.log(e);
     var p_id = e.options[e.selectedIndex].value;
+    console.log('{"al_no":"' + asset_link.al_no + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + p_id + '","username":"' + localStorage.username + '"}');
 
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/link_assets",
@@ -1141,7 +1193,7 @@ function confirmLink() {
         data: '{"al_no":"' + asset_link.al_no + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + p_id + '","username":"' + localStorage.username + '"}',
         dataType: "JSON",
         success: function (data) {
-            if(data.data == "LINK WAS SUCCESSFUL"){
+            if (data.data == "LINK WAS SUCCESSFUL") {
                 searchasset()
                 search();
                 document.getElementById('alert_header').innerHTML = "Hooray!!!!";
@@ -1151,6 +1203,11 @@ function confirmLink() {
             console.log("======================data================")
             console.log(data);
             console.log("======================data================")
+
+            asset_link = {
+                al_no: null,
+                selected_assets: null
+            }
         },
         error: function (errr) {
             console.log(errr);
@@ -1160,6 +1217,16 @@ function confirmLink() {
 
 
 function unlinkSub(assetId) {
+
+    var building = document.getElementById('search_sub_location').value,
+    level = document.getElementById('search_level').value,
+    area = document.getElementById('search_area').value,
+    room_no = document.getElementById('search_room_sub').value;
+    description = document.getElementById('sub_description').value;
+
+
+var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
+
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/unlink_assets",
         method: "POST",
@@ -1168,8 +1235,11 @@ function unlinkSub(assetId) {
         success: function (data) {
 
             if (data.data == "UNLINK WAS SUCCESSFUL") {
-                closeAsset('overlay-asset')
-                searchasset()
+                if (" -  -  -  - " !== results) {
+                    searchasset();
+                }
+
+                closeAsset('overlay-asset');
                 search();
                 swal.fire({
                     title: "Unlink Success",
@@ -1216,12 +1286,12 @@ function unlinkSub(assetId) {
 }
 
 
-var onSearch = function (table,searchValue, emptyId) {
+var onSearch = function (table, searchValue, emptyId) {
 
     var getId = searchValue;
 
     var found = false;
-    
+
     var rows = allArr[searchValue];
 
     document.getElementById(searchValue).onkeypress = function (e) {
@@ -1245,7 +1315,7 @@ var onSearch = function (table,searchValue, emptyId) {
 
         var suitable = false;
 
-        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+        console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
 
         if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
@@ -1259,7 +1329,18 @@ var onSearch = function (table,searchValue, emptyId) {
         var resObj = checkFilter(getId);
         $('#dropdown_location').text($(this)[0].value);
         $('#' + resObj.btnId).text(resObj.btnContent);
-        populate_room();
+
+        if (table == "searchWith") {
+            clearLocalStorrageSubLocation();
+            sub_location_filters();
+        }
+
+        if (table == "subSearch") {
+            clearLocalStorrageSubAssets();
+            assets_filters();
+        }
+
+        // populate_room();
     }
 
     if (found) {
@@ -1271,6 +1352,23 @@ var onSearch = function (table,searchValue, emptyId) {
     // console.log(clusterize[getId]);
 
     clusterize[getId].update(filterRows(rows));
+}
+
+var onSearch_new = function (table, searchValue) {
+    document.getElementById(searchValue).onkeypress = function (e) {
+
+        console.log(e.keyCode + " " + table);
+        if (e.keyCode == 13 && table == "searchWith") {
+            e.preventDefault();
+            search();
+        }
+
+        if (e.keyCode == 13 && table == "subSearch") {
+            e.preventDefault();
+            searchasset();
+        }
+
+    }
 }
 
 
