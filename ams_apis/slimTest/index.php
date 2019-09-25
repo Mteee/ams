@@ -15,7 +15,8 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
 
     global $func;
     $data = json_decode(file_get_contents('php://input') );
-    // $ASSET_ROOM = strtoupper($data->v_room);
+    $level = strtoupper($data->level);
+    $room_no = strtoupper($data->room_no);
     $building = strtoupper($data->building);
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
@@ -30,9 +31,10 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         }
         
         $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB 
-        FROM AMSD.ASSETS_VW
+        FROM AMSD.ASSETS_VIEW
         WHERE ASSET_BUILDING LIKE '%$building%' 
         AND ASSET_LEVEL LIKE '%$level%' 
+        AND ASSET_ROOM_NO LIKE '%$room_no%' 
         AND ASSET_AREA LIKE '%$area%' 
         AND ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
         AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
@@ -1304,9 +1306,9 @@ $app->map(['GET','POST'],'/link_assets',function(Request $request, Response $res
         $sql = "BEGIN amsd.asset_it_fix (:AL_NO,:ASSET_IDS,:PRIMARY_ID,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
-        oci_bind_by_name($statement, ':AL_NO', $ALC_NO, 4000);
-        oci_bind_by_name($statement, ':ASSET_IDS', $ASSETS_IDS, 30);
-        oci_bind_by_name($statement, ':PRIMARY_ID', $PRIMARY_ID, 30);
+        oci_bind_by_name($statement, ':AL_NO', $ALC_NO, 100);
+        oci_bind_by_name($statement, ':ASSET_IDS', $ASSETS_IDS, 50000);
+        oci_bind_by_name($statement, ':PRIMARY_ID', $PRIMARY_ID, 50000);
         oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
