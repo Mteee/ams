@@ -60,15 +60,17 @@ function viewAsset(assetId) {
 }
 
 function search() {
-    var assetNo = document.getElementById('searchasset').value,
-        room = document.getElementById('searchroomno').value,
-        location = document.getElementById('searchlocation').value,
-        description = document.getElementById('description').value;
 
-    var results = (assetNo + " - " + room + " - " + location + " - " + description);
+    var building = document.getElementById('search_view_building').value,
+        level = document.getElementById('search_view_level').value,
+        area = document.getElementById('search_view_area').value,
+        room_no = document.getElementById('search_view_room').value;
+        description = document.getElementById('view_description').value;
+
+    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
     var current = "";
     // console.log(results);
-    if (" -  -  - " == results) {
+    if (" -  -  -  - " == results) {
         alert("Please enter alteast one filter");
     } else {
         $('#searchView').hide();
@@ -448,32 +450,41 @@ function updateLetterToIcon(letter) {
     return results;
 }//close updateLetterToIcon function
 
-//If the user clicks on any item, set the title of the button as the text of the item
-$('#menuAssets').on('click', '.dropdown-item', function () {
-    $('#dropdown_assets').text($(this)[0].value);
-    localStorage.menuAssets = $(this)[0].value;
+// Building
+$('#menu_view_building').on('click', '.dropdown-item', function () {
+    $('#building_view_filter').text($(this)[0].value);
+    localStorage.building = $(this)[0].value;
     populate_dropdown();
-    $("#dropdown_assets").dropdown('toggle');
-    $('#searchasset').val($(this)[0].value);
-})
+    $("#building_view_filter").dropdown('toggle');
+    $('#search_view_building').val($(this)[0].value);
+});
 
-$('#menuRoom').on('click', '.dropdown-item', function () {
-    $('#dropdown_room').text($(this)[0].value)
-    localStorage.menuRoom = $(this)[0].value;
+// level
+$('#menu_view_level').on('click', '.dropdown-item', function () {
+    $('#level_view_filter').text($(this)[0].value);
+    localStorage.level = $(this)[0].value;
     populate_dropdown();
-    $("#dropdown_room").dropdown('toggle');
-    $('#searchroomno').val($(this)[0].value);
+    $("#level_view_filter").dropdown('toggle');
+    $('#search_view_level').val($(this)[0].value);
+});
 
-})
-
-$('#menuLocation').on('click', '.dropdown-item', function () {
-    $('#dropdown_location').text($(this)[0].value)
-    localStorage.menuLocation = $(this)[0].value;
+// area
+$('#meun_view_area').on('click', '.dropdown-item', function () {
+    $('#area_view_filter').text($(this)[0].value);
+    localStorage.area = $(this)[0].value;
     populate_dropdown();
-    $("#dropdown_location").dropdown('toggle');
-    $('#searchlocation').val($(this)[0].value);
-})
+    $("#area_view_filter").dropdown('toggle');
+    $('#search_view_area').val($(this)[0].value);
+});
 
+// room
+$('#menu_room_sub').on('click', '.dropdown-item', function () {
+    $('#room_view_filter').text($(this)[0].value);
+    localStorage.room_no = $(this)[0].value;
+    populate_dropdown();
+    $("#room_view_filter").dropdown('toggle');
+    $('#search_view_room').val($(this)[0].value);
+});
 
 function populate_dropdown() {
 

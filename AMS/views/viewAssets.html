@@ -15,6 +15,8 @@
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
     <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css"
         rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
+
     <style>
         .dropdown-menu {
             max-height: 300px;
@@ -382,8 +384,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_view_area" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="meun_view_area" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -429,7 +430,7 @@
                                             </div>
                                         </th>
                                         <th>
-                                            <input type="text" id="description" class="form-control"
+                                            <input type="text" id="view_description" class="form-control"
                                                 placeholder="Description...">
                                         </th>
                                         <th>
@@ -517,6 +518,7 @@
     <script src="../js/export/FileSaver.js"></script>
     <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
     <script src="../js/viewScript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
     <script type="text/javascript"
         src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
