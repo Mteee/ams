@@ -15,9 +15,10 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
 
     global $func;
     $data = json_decode(file_get_contents('php://input') );
-    $ASSET_NO = strtoupper($data->v_assetNo);
+    $level = strtoupper($data->level);
     $ASSET_ROOM = strtoupper($data->v_room);
-    $ASSET_LOCATION = strtoupper($data->v_location);
+    $building = strtoupper($data->building);
+    $area = strtoupper($data->area);
     $ASSET_DESCRIPTION = strtoupper($data->v_description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
@@ -27,12 +28,12 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
-        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB 
-        FROM AMSD.ASSETS_VW 
-        WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
-        AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
-        AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
-        AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
+        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB 
+        FROM AMSD.ASSETS_VW
+        WHERE ASSET_BUILDING LIKE '%$building%' 
+        AND ASSET_LEVEL LIKE '%$level%' 
+        AND ASSET_AREA LIKE '%$area%' 
+        AND ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
         AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
         AND ASSET_ID=ASSET_PRIMARY_ID";
 
