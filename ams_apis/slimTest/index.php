@@ -16,7 +16,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
     global $func;
     $data = json_decode(file_get_contents('php://input') );
     $level = strtoupper($data->level);
-    $ASSET_ROOM = strtoupper($data->v_room);
+    $room_no = strtoupper($data->room_no);
     $building = strtoupper($data->building);
     $area = strtoupper($data->area);
     $ASSET_DESCRIPTION = strtoupper($data->v_description);
@@ -29,9 +29,10 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
             $ASSET_CLASS = '';
         }
         $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB 
-        FROM AMSD.ASSETS_VW
+        FROM AMSD.ASSETS_VIEW
         WHERE ASSET_BUILDING LIKE '%$building%' 
         AND ASSET_LEVEL LIKE '%$level%' 
+        AND ASSET_ROOM_NO LIKE '%$room_no%' 
         AND ASSET_AREA LIKE '%$area%' 
         AND ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
         AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
