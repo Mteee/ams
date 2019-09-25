@@ -664,6 +664,15 @@ var onSearch = function (searchValue, emptyId) {
     // var rows = JSON.parse(localStorage.getItem(searchValue));
     var rows = allArr[searchValue];
 
+    document.getElementById(searchValue).onkeypress = function (e) {
+
+        console.log(e.keyCode);
+        if (e.keyCode == 13 ) {
+            e.preventDefault();
+            search();
+        }
+    }
+
     searchValue = document.getElementById(searchValue);
 
     for (var i = 0; i < rows.length; i++) {
@@ -913,3 +922,16 @@ function cleaAllFilters(){
 
 
 }
+
+var onSearch_new = function (searchValue) {
+    document.getElementById(searchValue).onkeypress = function (e) {
+
+        console.log(e.keyCode);
+        if (e.keyCode == 13 ) {
+            e.preventDefault();
+            search();
+        }
+    }
+}
+
+
