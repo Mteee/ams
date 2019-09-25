@@ -1303,9 +1303,9 @@ $app->map(['GET','POST'],'/link_assets',function(Request $request, Response $res
         $sql = "BEGIN amsd.asset_it_fix (:AL_NO,:ASSET_IDS,:PRIMARY_ID,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
-        oci_bind_by_name($statement, ':AL_NO', $ALC_NO, 4000);
-        oci_bind_by_name($statement, ':ASSET_IDS', $ASSETS_IDS, 30);
-        oci_bind_by_name($statement, ':PRIMARY_ID', $PRIMARY_ID, 30);
+        oci_bind_by_name($statement, ':AL_NO', $ALC_NO, 100);
+        oci_bind_by_name($statement, ':ASSET_IDS', $ASSETS_IDS, 50000);
+        oci_bind_by_name($statement, ':PRIMARY_ID', $PRIMARY_ID, 50000);
         oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
