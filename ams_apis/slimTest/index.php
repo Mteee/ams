@@ -18,16 +18,18 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
     $level = strtoupper($data->level);
     $room_no = strtoupper($data->room_no);
     $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
     $area = strtoupper($data->area);
-    $ASSET_DESCRIPTION = strtoupper($data->v_description);
+    $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
 
-    if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
+    if(!empty($building) || !empty($level) || !empty($area) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
 
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
+        
         $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB 
         FROM AMSD.ASSETS_VIEW
         WHERE ASSET_BUILDING LIKE '%$building%' 
