@@ -266,7 +266,7 @@ input[type="checkbox"]:disabled:after {
     position: relative;
     margin: 12% auto;
     width: 500px;
-    height: 428px;
+    height: 442px;
     border-radius: 5px;
     background: white;
     z-index: 2;

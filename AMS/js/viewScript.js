@@ -40,6 +40,7 @@ function viewAsset(assetId) {
     document.getElementById('overlay-asset').style.display = "block";
     // console.log($('#assetBody'));
     $('#assetBody')['0'].innerHTML = assetId;
+    console.log('{"primary_asset_id" :"' + assetId + '"}');
 
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/singleAsset",
@@ -100,25 +101,28 @@ function search() {
                 console.log("======================data===============================");
                 console.log(data);
                 var table = null;
-                // console.log("test");
+                console.log("================test===============================");
                 // console.log(data);
+                console.log(data.data.ASSET_IS_SUB);
+
 
                 if (data.rows > 0) {
 
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
+                        console.log(data.data[k].ASSET_IS_SUB);
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
-                                data.data[k].ASSET_LOCATION_AREA + '","' +
+                                data.data[k].ASSET_AREA + '","' +
                                 data.data[k].ASSET_DESCRIPTION + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
                             str += '["' + data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
-                                data.data[k].ASSET_LOCATION_AREA + '","' +
+                                data.data[k].ASSET_AREA + '","' +
                                 data.data[k].ASSET_DESCRIPTION + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
                         }
@@ -132,15 +136,13 @@ function search() {
 
                     table = createTable("#currentAssetsTable", str.data);
 
-
-
                     // table.clear().draw();
 
 
                 }
                 else {
                     // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
-                    $('#searchView').fadeIn(500);
+                    // $('#searchView').fadeIn(500);
                     // console.log(data.data);
 
                     table = createTable("#currentAssetsTable", data.data);
@@ -206,7 +208,7 @@ function search() {
         //         console.log(data);
         //         if (data.rows > 0) {
         //             for (var i = 0; i < data.rows; i++) {
-        //                 current += '<tr id="c_row' + data.data[i].ASSET_ID + '"><th scope="row" style="width: 10%;"><input id="check' + data.data[i].ASSET_ID + '" class="currentItems" type="checkbox" value="' + data.data[i].ASSET_ID + '" onclick="getNumberOfSelectedItems(currentSelectedItems,`#current .currentItems:checked`)"></th><td>' + data.data[i].ASSET_ID + '</td><td>' + data.data[i].ASSET_ROOM_NO + '</td><td>' + data.data[i].ASSET_LOCATION_AREA + '</td><td class="" style="width: 24%;">' + (data.data[i].ASSET_DESCRIPTION).substring(0, 20) + '...</td><td class="text-center" ><button class="btn btn-default" style="border-radius:50%;" onclick="viewAsset(`' + data.data[i].ASSET_ID + '`)"><span class="fa fa-eye item-view"></span></button></td></tr>';
+        //                 current += '<tr id="c_row' + data.data[i].ASSET_ID + '"><th scope="row" style="width: 10%;"><input id="check' + data.data[i].ASSET_ID + '" class="currentItems" type="checkbox" value="' + data.data[i].ASSET_ID + '" onclick="getNumberOfSelectedItems(currentSelectedItems,`#current .currentItems:checked`)"></th><td>' + data.data[i].ASSET_ID + '</td><td>' + data.data[i].ASSET_ROOM_NO + '</td><td>' + data.data[i].ASSET_AREA + '</td><td class="" style="width: 24%;">' + (data.data[i].ASSET_DESCRIPTION).substring(0, 20) + '...</td><td class="text-center" ><button class="btn btn-default" style="border-radius:50%;" onclick="viewAsset(`' + data.data[i].ASSET_ID + '`)"><span class="fa fa-eye item-view"></span></button></td></tr>';
         //             }
         //         } else {
         //             current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
@@ -382,7 +384,7 @@ function viewPrintAssets(assets) {
                             th_primary += "<td class='text-center'> - </td>";
                         }
 
-                        th_primary += "<td>" + data.data[i].ASSET_LOCATION_AREA + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+                        th_primary += "<td>" + data.data[i].ASSET_AREA + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
                         html_view += th_primary;
                     } else {
                         sub_info += "<tr class='sub" + p_count + "'><td>" + (count) + "</td>";
@@ -453,10 +455,10 @@ function updateLetterToIcon(letter) {
     var results = "";
 
     switch (letter) {
-        case "y":
+        case "Y":
             results = "<p class='text-success'><strong>YES</strong></p>";
             break;
-        case "n":
+        case "N":
             results = "<p class='text-danger'><strong>NO</strong></p>";
             break;
     }

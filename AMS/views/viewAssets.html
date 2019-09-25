@@ -185,15 +185,18 @@
             </div>
             <div class="asset-footer text-center">
                 <div class="row">
-                    <div class="col-offset-10 col-2">
+                    <div class="col-md-3 text-left">
                         <button class="btn btn-default" onclick="closeAsset('overlay-asset')">back</button>
                     </div>
+                    <div class="col-md-6">
+                        <div class="sub-item-number text-center">
+                            <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount" class="text-dark">5</span></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-md-3 text-right">
+                        <button class="btn btn-default btn-success" onclick="closeAsset('overlay-asset')">Unlink All</button>
+                    </div>
                 </div>
-            </div>
-
-            <div class="sub-item-number text-center py-2">
-                <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
-                            class="text-dark">5</span></strong></p>
             </div>
         </div>
     </div>
@@ -418,8 +421,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_room"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_view_room" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>

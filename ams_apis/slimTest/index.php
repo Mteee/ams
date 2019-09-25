@@ -153,7 +153,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
 
         if($assets){
             $results = json_decode($assets);
-            $loc = $results->data[0]->ASSET_LOCATION_AREA;
+            $loc = $results->data[0]->ASSET_AREA;
             $room = $results->data[0]->ASSET_ROOM_NO;
             $sub = '
             <table id="viewAssetTable1" style="width:100%;border-radius: 5px;">
