@@ -5,6 +5,8 @@
  * Released under the AME license
  * Date: 2019-07-29
  */
+//Clear Local Storage
+clearLocalStorageFilters();
 
 //check for filter in local storage
 if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
@@ -880,4 +882,34 @@ function resetBtn(resetId, resetTxt) {
 
 function resetInput(resetId, resetTxt) {
     $(resetId).val(resetTxt);
+}
+
+function clearLocalStorageFilters(){
+    localStorage.building = '';
+    localStorage.level = '';
+    localStorage.area = '';
+    localStorage.room_no = '';
+
+    $('#search_view_building').val("");
+    $('#search_view_level').val("");
+    $('#search_view_area').val("");
+    $('#search_view_room').val("");
+
+}
+
+function cleaAllFilters(){
+
+    clearLocalStorageFilters();
+
+    populate_dropdown();
+
+    $('#building_view_filter').text("BUILDING");
+    $('#level_view_filter').text("LEVEL");
+    $('#area_view_filter').text("AREA");
+    $('#room_view_filter').text("ROOM");
+     
+     //description
+     $('#view_description').val("");
+
+
 }

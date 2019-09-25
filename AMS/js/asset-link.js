@@ -1384,5 +1384,3 @@ var onSearch_new = function (table, searchValue) {
 
     }
 }
-
-
