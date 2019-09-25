@@ -285,7 +285,7 @@
                         <div class="row">
 
                             <div class="col-md-12">
-                                <table class="table" id="searchWith">
+                                <table class="table" id="view_filters">
                                     <tr>
                                         <th>
                                             Search
@@ -293,37 +293,34 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_location" data-toggle="dropdown"
+                                                    type="button" id="building_view_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    LOCATION ...
+                                                    BUILDING
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_location"
-                                                    id="scrollLocation">
+                                                <div class="dropdown-menu" aria-labelledby="building_view_filter"
+                                                    id="scroll_view_building">
                                                     <form class="px-4 py-2">
-
                                                         <div class="input-group">
-                                                            <input type="search" id="searchlocation"
-                                                                class="form-control" placeholder="Location..."
-                                                                onkeyup="onSearch('searchlocation','#emptyLocation')"
+                                                            <input type="search" id="search_view_building"
+                                                                class="form-control" placeholder="Building"
+                                                                onkeyup="onSearch('search_view_building','#empty_view_building')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clearLocation"
-                                                                    onclick="clearData('#searchlocation','#dropdown_location','LOCATION...')"><i
-                                                                        class="fa fa-close"></i></span>
-
+                                                                    id="clear_view_building"
+                                                                    onclick="clearData('#search_view_building','#building_view_filter','BUILDING')"><i
+                                                                        class="fa fa-close"></i>
+                                                                </span>
                                                             </div>
                                                         </div>
-
-                                                        <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                placeholder="BTC" autofocus="autofocus"> -->
                                                     </form>
-                                                    <div id="menuLocation">
-                                                        <div id="locationLoader" class="dropdown-loader">
+                                                    <div id="menu_view_building">
+                                                        <div id="building_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="emptyLocation" class="dropdown-header">No location found
+                                                    <div id="empty_view_building" class="dropdown-header">No building
+                                                        found
                                                     </div>
                                                 </div>
                                             </div>
@@ -331,112 +328,121 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_room" data-toggle="dropdown"
+                                                    type="button" id="level_view_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    ROOM...
+                                                    LEVEL
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_room"
-                                                    id="scrollRoom">
+                                                <div class="dropdown-menu" aria-labelledby="level_view_filter"
+                                                    id="scroll_view_level">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="searchroomno" class="form-control"
-                                                                placeholder="room..."
-                                                                onkeyup="onSearch('searchroomno','#emptyRoom')"
+                                                            <input type="search" id="search_view_level"
+                                                                class="form-control" placeholder="Level"
+                                                                onkeyup="onSearch('search_view_level','#empty_view_level')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clearRoom"
-                                                                    onclick="clearData('#searchroomno','#dropdown_room','ROOM...')"><i
+                                                                    id="clear_view_level"
+                                                                    onclick="clearData('#search_view_level','#level_view_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
-
-                                                        <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                        placeholder="BTC" autofocus="autofocus"> -->
                                                     </form>
-                                                    <div id="menuRoom">
+                                                    <div id="menu_view_level">
                                                         <div id="Roomload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="emptyRoom" class="dropdown-header">No room found</div>
+                                                    <div id="empty_view_level" class="dropdown-header">No level found
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <!-- <input type="text" id="roomno" class="form-control" placeholder="Room..."> -->
                                         </th>
                                         <th>
-                                            <!-- <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    ASSET NO...
-                                                </button>
-                                                <div class="dropdown-menu" id="scrollArea" aria-labelledby="dropdown_assets">
-                                                    <form class="px-4 py-2">
-                                                        <input type="search" id="asseetsno" class="form-control"
-                                                            placeholder="room..." autofocus="autofocus" onkeyup="filterAssets('#asseetsno','#emptyAsset')">
-
-                                                       <input type="search" class="form-control" id="searchCoin"
-                                                                            placeholder="BTC" autofocus="autofocus"> 
-                                                    </form>
-                                                    <div id="menuAssets"></div>
-                                                    <div id="emptyAsset" class="dropdown-header">No assets found</div>
-                                                </div>
-                                            </div> -->
-
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
+                                                    type="button" id="area_view_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    ASSET NO...
+                                                    AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
-                                                    aria-labelledby="dropdown_assets">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_area"
+                                                    aria-labelledby="area_view_filter">
                                                     <form class="px-4 py-2">
-                                                        <!--                                                         <input type="search" id="searchasset" class="form-control"
-                                                            placeholder="room..." autofocus="autofocus" onkeyup="onSearch(this)">
- -->
                                                         <div class="input-group">
-                                                            <input type="search" id="searchasset" class="form-control"
-                                                                placeholder="asset no..."
-                                                                onkeyup="onSearch('searchasset','#emptyAsset')"
+                                                            <input type="search" id="search_view_area"
+                                                                class="form-control" placeholder="Area"
+                                                                onkeyup="onSearch('search_view_area','#empty_view_area')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clearAssets"
-                                                                    onclick="clearData('#searchasset','#dropdown_assets','ASSET NO...')"><i
+                                                                    id="clear_view_area"
+                                                                    onclick="clearData('#search_view_area','#area_view_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
-                                                        <!-- <input type="search" class="form-control" id="searchCoin"
-                                                                                placeholder="BTC" autofocus="autofocus"> -->
                                                     </form>
-                                                    <div id="menuAssets" class="text-center" onchange="testMethod()">
+                                                    <div id="meun_view_area" class="text-center"
+                                                        onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="emptyAsset" class="dropdown-header">No assets found</div>
+                                                    <div id="empty_view_area" class="dropdown-header">No area found
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <!-- <input id="asseetsno" type="text" class="form-control"
-                                                placeholder="Asset no..."> -->
                                         </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="room_view_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ROOM
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_room"
+                                                    aria-labelledby="room_view_filter">
+                                                    <form class="px-4 py-2">
 
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_view_room"
+                                                                class="form-control" placeholder="Room"
+                                                                onkeyup="onSearch('search_view_room','#empty_view_room')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_view_room"
+                                                                    onclick="clearData('#search_view_room','#room_view_filter','ROOM')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_view_room" class="text-center"
+                                                        onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_view_room" class="dropdown-header">No room found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
                                         <th>
                                             <input type="text" id="description" class="form-control"
                                                 placeholder="Description...">
                                         </th>
-
                                         <th>
                                             <button onclick="search()" type="text" class="btn btn-success">
                                                 <span class="fa fa-search"></span>
                                                 Search
                                             </button>
+                                            <button onclick="cleaAllFilters()" type="text" class="btn btn-danger">
+                                                <span class="fa fa-close"></span>
+                                                Clear
+                                            </button>
                                         </th>
                                     </tr>
-
                                 </table>
                                 <form id="frm-example" method="POST">
                                     <table class="table" id="currentAssetsTable">

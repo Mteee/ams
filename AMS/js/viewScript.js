@@ -15,9 +15,10 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
 
 window.onload = function(){
     if(localStorage.menuAssets !== '' || localStorage.menuRoom !== '' || localStorage.menuLocation !== ''){
-        localStorage.menuAssets = '';
-        localStorage.menuLocation = ''
-        localStorage.menuRoom = ''
+        localStorage.building = '';
+        localStorage.level = ''
+        localStorage.area = ''
+        localStorage.room_no = ''
         populate_dropdown();
     }
 }
@@ -476,12 +477,14 @@ $('#menuLocation').on('click', '.dropdown-item', function () {
 
 function populate_dropdown() {
 
-    // get assets
-    getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
-    // get room_no
-    getItems('../../ams_apis/slimTest/index.php/room_no', 'searchroomno', 'scrollRoom', 'menuRoom', 'emptyRoom');
-    // get location
-    getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
+    // get room
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no_view', 'search_view_room', 'scroll_view_room', 'menu_view_room', 'empty_view_room');
+    // get area
+    getItems('../../ams_apis/slimTest/index.php/asset_area_view', 'search_view_area', 'scroll_view_area', 'meun_view_area', 'empty_view_area');
+    // get level
+    getItems('../../ams_apis/slimTest/index.php/asset_level_new_view', 'search_view_level', 'scroll_view_level', 'menu_view_level', 'empty_view_level');
+    // get building
+    getItems('../../ams_apis/slimTest/index.php/building_view', 'search_view_building', 'scroll_view_building', 'menu_view_building', 'empty_view_building');
 
 }
 
@@ -521,14 +524,16 @@ var allArr = {
 // console.log("allArr");
 
 function getItems(url, id, scrollArea, menuid) {
+
+    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}');
+
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}',
+        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}',
         success: function (data) {
-            console.log(JSON.parse('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}'));
-            // console.log(data);
+            console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
             // console.log("=============searchValue================");
