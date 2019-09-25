@@ -627,7 +627,7 @@ $app->map(['GET','POST'],'/printView',function(Request $request, Response $respo
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT ASSET_LOCATION_AREA,ASSET_ROOM_NO,ASSET_PRIMARY_ID,ASSET_ID,ASSET_DESCRIPTION,ASSET_IS_SUB
+    $sql = "SELECT ASSET_AREA,ASSET_ROOM_NO,ASSET_PRIMARY_ID,ASSET_ID,ASSET_DESCRIPTION,ASSET_IS_SUB
     FROM AMSD.ASSETS_VW
     WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
     AND ASSET_PRIMARY_ID IN ($ASSET_NO)";
@@ -1307,8 +1307,8 @@ $app->map(['GET','POST'],'/link_assets',function(Request $request, Response $res
         $statement = oci_parse($connect,$sql);
         // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
         oci_bind_by_name($statement, ':AL_NO', $ALC_NO, 100);
-        oci_bind_by_name($statement, ':ASSET_IDS', $ASSETS_IDS, 50000);
-        oci_bind_by_name($statement, ':PRIMARY_ID', $PRIMARY_ID, 50000);
+        oci_bind_by_name($statement, ':ASSET_IDS', $ASSETS_IDS, 2000);
+        oci_bind_by_name($statement, ':PRIMARY_ID', $PRIMARY_ID, 2000);
         oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
