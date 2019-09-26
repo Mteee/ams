@@ -10,7 +10,6 @@ require './inc/functions.php';
 $app = new \Slim\App;
 $func = new Functions();
 
-
 $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $response){
 
     global $func;
