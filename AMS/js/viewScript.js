@@ -131,8 +131,14 @@ function search() {
                     }
                     str += ']}'
 
-                    str = replaceAll("\r\n", "", str);
-                    str = replaceAll("'", "^", str);
+                    console.log("Replace all");
+                    console.log(str);
+                    
+                    str = replaceAll("\n", "", str);
+                    str = replaceAll("\"", "`", str);
+                    // str = replaceAll("'", "^", str);
+                    
+                    console.log(str);
 
                     str = (JSON.parse(str));
                     // console.log(str.data);
@@ -555,13 +561,13 @@ var allArr = {
 
 function getItems(url, id, scrollArea, menuid) {
 
-    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}');
+    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '"}');
 
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '"}',
+        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
             console.log(data);
             var rows = [];
@@ -709,6 +715,7 @@ var onSearch = function (searchValue, emptyId) {
 // buildDropDown('#menuLocation',names);
 
 function replaceAll(find, replace, str) {
+    console.log(str.indexOf(find));
     while (str.indexOf(find) > -1) {
         str = str.replace(find, replace);
     }
@@ -853,22 +860,15 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
 
-        localStorage.menuRoom = '';
-        localStorage.menuAssets = '';
-        localStorage.menuLocation = '';
-
+        clearLocalStorageFilters();
         populate_dropdown();
 
         //clear btn text
-        resetBtn('#dropdown_assets', 'ASSET NO...');
-        resetBtn('#dropdown_room', 'ROOM...');
-        resetBtn('#dropdown_location', 'LOCATION ...');
-
-        //clear search inputs
-        resetInput('#searchlocation', '');
-        resetInput('#searchroomno', '');
-        resetInput('#searchasset', '');
-        populate_dropdown();
+        resetBtn('#building_view_filter', "BUILDING");
+        resetBtn('#level_view_filter', "LEVEL");
+        resetBtn('#area_view_filter', "AREA");
+        resetBtn('#room_view_filter', "ROOM");
+    
     });
 
 } else {
