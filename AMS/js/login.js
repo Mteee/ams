@@ -11,60 +11,34 @@
     console.log(c);
 
     function startApp() {
-  
-      if (c.indexOf("http") > -1) {
-        swal.fire({
-          title: "Unauthorized Access",
-          text: "Please Restart Desktop Application to Access System",
-          showCloseButton: true,
-          confirmButtonColor:"#C12E2A",
-          type: "error",
-          allowOutsideClick: true,
-          animation:false,
-          customClass:{
-            popup:"animated tada"
-          }
-        }).then(function (result) {
-          if (result.value) {
-    
-          } else if (
-            result.dismiss === Swal.DismissReason.cancel
-          ) {
-    
-          }
-        })
+
+      $('#loginLoader').slideToggle(500);
+
+    $.ajax({
+      url: "../../ams/ams_apis/slimTest/index.php/login",
+      dataType: "JSON",
+      data: '{"username" :"' + c + '"}',
+      method: "POST",
+      success: function (data) {
+
+        console.log(data[0].filter);
+        filter = data[0].filter;
+        if (filter !== null && filter !== '') {
+          localStorage.filter = filter;
+          setTimeout(function () {
+
+            window.location.href = "../AMS/views/viewAssets.html";
+          }, timeout);
+        }
+
+      },
+      error: function (err) {
+        console.log(err);
+        $("#btnSave").attr("disabled", false);
+        alert("Please contact system admin");
+        $('#loginLoader').hide();
       }
-      else {
-        $('#loginLoader').slideToggle(500);
-    
-        $.ajax({
-          url: "../../ams/ams_apis/slimTest/index.php/login",
-          dataType: "JSON",
-          data: '{"username" :"' + c + '"}',
-          method: "POST",
-          success: function (data) {
-    
-            console.log(data[0].filter);
-            filter = data[0].filter;
-            if (filter !== null && filter !== '') {
-              localStorage.filter = filter;
-              setTimeout(function () {
-    
-                window.location.href = "../AMS/views/linkAssets.html";
-              }, timeout);
-            }
-    
-          },
-          error: function (err) {
-            console.log(err);
-            $("#btnSave").attr("disabled", false);
-            alert("Please contact system admin");
-            $('#loginLoader').hide();
-          }
-        });
-    
-      }
-    
-    }
-    
+    });
+
+  }
 

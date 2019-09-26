@@ -132,6 +132,7 @@ function search() {
                     str += ']}'
 
                     str = replaceAll("\r\n", "", str);
+                    str = replaceAll("'", "^", str);
 
                     str = (JSON.parse(str));
                     // console.log(str.data);
@@ -230,46 +231,6 @@ function search() {
         // });//close ajax function
     }
 }
-
-function closeApp() {
-    swal.fire({
-        title: "Exit Application",
-        text: "Are you sure you want to exit?",
-        type: "question",
-        showCloseButton: true,
-        confirmButtonColor: "#C12E2A",
-        allowOutsideClick: true,
-        animation: false,
-        customClass: {
-            popup: 'animated tada'
-        }
-
-    }).then(function (result) {
-        if (result.value) {
-            closeMe();
-        } else if (
-            result.dismiss === Swal.DismissReason.cancel
-        ) {
-
-        }
-    })
-}
-
-function closeMe() {
-    // reset 
-    localStorage.building = '';
-    localStorage.area = '';
-    localStorage.level = '';
-    localStorage.room_no = '';
-
-    open("../index.html", '_self')
-    window.location.replace("../index.html");
-    window.close();
-}
-
-
-
-
 
 function createTable(tableID, tableData) {
     var table = $(tableID).DataTable({
@@ -704,15 +665,6 @@ var onSearch = function (searchValue, emptyId) {
     // var rows = JSON.parse(localStorage.getItem(searchValue));
     var rows = allArr[searchValue];
 
-    document.getElementById(searchValue).onkeypress = function (e) {
-
-        console.log(e.keyCode);
-        if (e.keyCode == 13 ) {
-            e.preventDefault();
-            search();
-        }
-    }
-
     searchValue = document.getElementById(searchValue);
 
     for (var i = 0; i < rows.length; i++) {
@@ -962,16 +914,3 @@ function cleaAllFilters(){
 
 
 }
-
-var onSearch_new = function (searchValue) {
-    document.getElementById(searchValue).onkeypress = function (e) {
-
-        console.log(e.keyCode);
-        if (e.keyCode == 13 ) {
-            e.preventDefault();
-            search();
-        }
-    }
-}
-
-
