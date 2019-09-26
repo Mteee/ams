@@ -255,16 +255,13 @@ function search() {
 
 function createTable(tableID, tableData) {
     var table = $(tableID).DataTable({
-         // "data": tableData,
-         "paging": true,
-         "processing": true,
-         "searching": false,
-         // "ordering": true,
-         "responsive":true,
-         "ordering": false,
-         "pageLength": length,
-         "serverSide": true,
-         "destroy": true,
+        "paging": true,
+        "processing": true,
+        "searching": false,
+        // "ordering": true,
+        "ordering": false,
+        "serverSide": true,
+        "destroy": true,
         ajax: function (data, callback, settings) {
             var out = [];
             // console.log("=======================");
