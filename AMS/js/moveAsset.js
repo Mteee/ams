@@ -164,24 +164,36 @@ function search() {
 
                         };
                         if ((data.rows - 1) == k) {
-                            str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_PRIMARY_ID + '","' +
-                                ASSET_ROOM_NO + '","' +
-                                data.data[k].ASSET_LOCATION_AREA + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
-                                updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
+
+                            if(data.data[k].ASSET_CLASS == "IT EQUIPMENT"){
+                                str += '["' + data.data[k].ASSET_SUB_LOCATION + '","';
+                                str +=    data.data[k].ASSET_SUB_LOCATION + '","';
+                            }else{
+                                str += '["' + data.data[k].ASSET_ID + '","';
+                                str +=    data.data[k].ASSET_ID + '","';
+                            }
+                            str += ASSET_ROOM_NO + '","';
+                            str += data.data[k].ASSET_AREA + '","';
+                            str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
+                            str += updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
 
-                            str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_PRIMARY_ID + '","' +
-                                ASSET_ROOM_NO + '","' +
-                                data.data[k].ASSET_LOCATION_AREA + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
-                                updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
+                            if(data.data[k].ASSET_CLASS == "IT EQUIPMENT"){
+                                str += '["' + data.data[k].ASSET_SUB_LOCATION + '","';
+                                str +=    data.data[k].ASSET_SUB_LOCATION + '","';
+                            }else{
+                                str += '["' + data.data[k].ASSET_PRIMARY_ID + '","';
+                                str +=    data.data[k].ASSET_PRIMARY_ID + '","';
+                            }
+                            
+                            str +=    ASSET_ROOM_NO + '","';
+                            str +=    data.data[k].ASSET_AREA + '","';
+                            str +=    replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
+                            str +=    updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
                         }
                     }
                     str += ']}'
-                    str = replaceAll("\r\n", "", str);
+                    str = replaceAll("\n", "", str);
                     str = (JSON.parse(str));
                     // console.log(str.data);
 
@@ -277,6 +289,13 @@ function search() {
                 results = "<p class='text-success'><strong>YES</strong></p>";
                 break;
             case "n":
+                results = "<p class='text-danger'><strong>NO</strong></p>";
+                break;
+                
+            case "Y":
+                results = "<p class='text-success'><strong>YES</strong></p>";
+                break;
+            case "N":
                 results = "<p class='text-danger'><strong>NO</strong></p>";
                 break;
         }
