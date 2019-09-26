@@ -16,7 +16,7 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
 }
 
 window.onload = function(){
-    if(localStorage.menuAssets !== '' || localStorage.menuRoom !== '' || localStorage.menuLocation !== ''){
+    if(localStorage.building !== '' || localStorage.level !== '' || localStorage.area !== '' || localStorage.room_no !== ''){
         localStorage.building = '';
         localStorage.level = ''
         localStorage.area = ''

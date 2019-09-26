@@ -11,12 +11,15 @@ if (localStorage.backupFilter == undefined) {
     window.close();
 }
 
-//reset
-if (localStorage.menuAssets != '' || localStorage.menuRoom != '' || localStorage.menuLocation != '') {
-    localStorage.menuAssets = '';
-    localStorage.menuLocation = '';
-    localStorage.menuRoom = '';
-    // populate_dropdown();
+//refreshh local storage on load
+window.onload = function () {
+    if (localStorage.building !== '' || localStorage.level !== '' || localStorage.area !== '' || localStorage.room_no !== '') {
+        localStorage.building = '';
+        localStorage.level = ''
+        localStorage.area = ''
+        localStorage.room_no = ''
+        populate_dropdown();
+    }
 }
 
 //check for filter in local storage || all asset users
@@ -29,11 +32,11 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
 // window.onload = function () {
 //     console.log('here');
 
-//     if (localStorage.menuAssets != '' || localStorage.menuRoom != '' || localStorage.menuLocation != '') {
+//     if (localStorage.building != '' || localStorage.level != '' || localStorage.area != '') {
 //         console.log('here');
-//         localStorage.menuAssets = '';
-//         localStorage.menuLocation = '';
-//         localStorage.menuRoom = '';
+//         localStorage.building = '';
+//         localStorage.area = '';
+//         localStorage.level = '';
 //         // populate_dropdown();
 //     }
 // }
@@ -86,32 +89,32 @@ var tableArr = {
 
 function search() {
 
-    var assetNo = document.getElementById('searchasset').value,
-        room = document.getElementById('searchroomno').value,
-        location = document.getElementById('searchlocation').value,
-        description = document.getElementById('description').value;
+    var building = document.getElementById('search_move_building').value,
+        level = document.getElementById('search_move_level').value,
+        area = document.getElementById('search_move_area').value,
+        room_no = document.getElementById('search_move_room').value;
+        description = document.getElementById('move_description').value;
 
-    var results = (assetNo + " - " + room + " - " + location + " - " + description);
+    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
     var current = "";
 
-    if (" -  -  - " == results) {
+    if (" -  -  -  - " == results) {
         // alert("Please enter alteast one filter");
-        document.getElementById('overlay-alert-message').style.display = "none";
-        document.getElementById('overlay-alert-message').style.display = "block";
-        document.getElementById('alert_header').innerHTML = "Assets Transfer";
-        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=50 /></div><br><span style="font-weight: bold;color:red;">Please enter alteast one filter</span>';
-        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+        swal.fire({
+            title: "Oooops!",
+            text: 'please select at least one filter',
+            type: 'error',
+            showCloseButton: true,
+            closeButtonColor: '#3DB3D7',
+            animation: false,
+            customClass: {
+                popup: 'animated tada'
+            },
+            allowOutsideClick: true,
+        })
 
-    } 
-    // else if (room == "" && location == "") {
-    //     // alert("Please enter room or location to assist filtering data");
-    //     document.getElementById('overlay-alert-message').style.display = "none";
-    //     document.getElementById('overlay-alert-message').style.display = "block";
-    //     document.getElementById('alert_header').innerHTML = "Assets Transfer";
-    //     document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter room or location to assist filtering data</span>';
-    //     document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
-
-    // } 
+    }
+    
     else {
         $('#searchView').hide();
         $('#outSearch').hide();
@@ -121,9 +124,9 @@ function search() {
 
         makeCall("../../ams_apis/slimTest/index.php/getCurrentAssets", '#btnTransfer', '#currentAssetsTable', 10);
 
-        makeCall("../../ams_apis/slimTest/index.php/getOutAssets", '#btnCancel', '#outAssetsTable', 4);
+        // makeCall("../../ams_apis/slimTest/index.php/getOutAssets", '#btnCancel', '#outAssetsTable', 4);
 
-        makeCall("../../ams_apis/slimTest/index.php/getInAssets", '#btnApprove', '#inAssetsTable', 4);
+        // makeCall("../../ams_apis/slimTest/index.php/getInAssets", '#btnApprove', '#inAssetsTable', 4);
 
     }
 
@@ -131,13 +134,13 @@ function search() {
     function makeCall(url, actionBtn, table_dom, length) {
 
         console.log("makecall->3 tables");
-        console.log('{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '","asset_class":"' + localStorage.filter + '","username":"' + localStorage.username + '"}');
+        console.log('"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_class":"' + localStorage.filter + '"');
 
         $.ajax({
             url: url,
             type: "POST",
             dataType: 'json',
-            data: '{"v_assetNo" :"' + assetNo + '","v_room" : "' + room + '","v_location" : "' + location + '","v_description" : "' + description + '","asset_class":"' + localStorage.filter + '","username":"' + localStorage.username + '"}',
+            data: '{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_class":"' + localStorage.filter + '"}',
             success: function (data) {
                 $('#searchView').hide();
                 $('#loader').hide();
@@ -323,7 +326,7 @@ function search() {
             "processing": true,
             "searching": false,
             // "ordering": true,
-            "responsive":true,
+            "responsive": true,
             "ordering": false,
             "pageLength": length,
             "serverSide": true,
@@ -382,7 +385,7 @@ function search() {
                     "orderable": false
                 }
             ],
-             'select': {
+            'select': {
                 'style': 'multi'
             },
             fnCreatedRow: function (nRow, aData, iDataIndex) {
@@ -457,12 +460,14 @@ function search() {
 
 function populate_dropdown() {
 
-    // get assets
-    getItems('../../ams_apis/slimTest/index.php/asset_no', 'searchasset', 'scrollAssets', 'menuAssets', 'emptyAsset');
-    // get room_no
-    getItems('../../ams_apis/slimTest/index.php/room_no', 'searchroomno', 'scrollRoom', 'menuRoom', 'emptyRoom');
-    // get location
-    getItems('../../ams_apis/slimTest/index.php/location', 'searchlocation', 'scrollLocation', 'menuLocation', 'emptyLocation');
+    // get room
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no_view', 'search_move_room', 'scroll_move_room', 'menu_move_room', 'empty_move_room');
+    // get area
+    getItems('../../ams_apis/slimTest/index.php/asset_area_view', 'search_move_area', 'scroll_move_area', 'meun_move_area', 'empty_move_area');
+    // get level
+    getItems('../../ams_apis/slimTest/index.php/asset_level_new_view', 'search_move_level', 'scroll_move_level', 'menu_move_level', 'empty_move_level');
+    // get building
+    getItems('../../ams_apis/slimTest/index.php/building_view', 'search_move_building', 'scroll_move_building', 'menu_move_building', 'empty_move_building');
 
 }
 
@@ -493,12 +498,12 @@ var allArr = {
 // console.log("allArr");
 
 function getItems(url, id, scrollArea, menuid) {
-    console.log('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}');
+    console.log('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.area + '","asset_room":"' + localStorage.level + '","asset_id":"' + localStorage.building + '"}');
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}',
+        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
             // console.log(data);
             var rows = [];
@@ -621,7 +626,7 @@ function getSelectedItems(id) {
 
         $('#search_approve_roomno').val("");
         $('#dropdown_approve_room').text("ROOM...");
-        
+
 
         document.getElementById('approveItemCount').innerHTML = rowsSelected.length;
         var comma_del = "";
@@ -668,9 +673,9 @@ function getSelectedItems(id) {
 
         console.log(rowsSelected);
         getSelectedAssets(rowsSelected);
-        localStorage.menuRoom = '';
-        localStorage.menuAssets = '';
-        localStorage.menuLocation = '';
+        localStorage.level = '';
+        localStorage.building = '';
+        localStorage.area = '';
 
         populate_tran_dropdown();
 
@@ -731,7 +736,7 @@ function checkNullRoom(assetvalues, asset_values_cap_del) {
             // console.log(data);
             if (data.rows > 0) {
                 // console.log("here");
-                document.getElementById('dropdown_approve_location').innerHTML = localStorage.menuLocation;
+                document.getElementById('dropdown_approve_location').innerHTML = localStorage.area;
                 populate_room();
                 var current = "";
                 if (data.rows > 0) {
@@ -788,12 +793,12 @@ function cancelAssets(selectedItems) {
 
 function approveAssets(assetValues, room) {
     console.log("Approve Assets")
-    console.log('{"username":"' + localStorage.username + '","assetIds":"' + assetValues + '","location":"' + localStorage.menuLocation + '","room":"' + room + '"}');
+    console.log('{"username":"' + localStorage.username + '","assetIds":"' + assetValues + '","location":"' + localStorage.area + '","room":"' + room + '"}');
     $.ajax({
         url: '../../ams_apis/slimTest/index.php/approveAsset',
         dataType: 'JSON',
         method: 'POST',
-        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetValues + '","location":"' + localStorage.menuLocation + '","room":"' + room + '"}',
+        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetValues + '","location":"' + localStorage.area + '","room":"' + room + '"}',
         success: function (data) {
             // alert();
             document.getElementById('overlay-alert-message').style.display = "none";
@@ -846,7 +851,7 @@ function confirmAssets(assetIds, location, room) {
             // alert();
 
             document.getElementById('overlay-transfer').style.display = "none";
-            localStorage.menuRoom = room;
+            localStorage.level = room;
             search();
             $('#btnTransfer').fadeOut(500);
         },
@@ -1003,12 +1008,12 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('menuRoom').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menuAssets').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-        
-            localStorage.menuLocation = '';
-            localStorage.menuRoom = '';
-            localStorage.menuAssets = '';
+
+            localStorage.area = '';
+            localStorage.level = '';
+            localStorage.building = '';
             populate_dropdown();
-  
+
             $(input).val("");
             $(btnDafualtId).text(text);
 
@@ -1018,14 +1023,14 @@ function clearData(input, btnDafualtId, text) {
             $('#dropdown_room').text("ROOM...");
             $('#searchasset').val("");
             $('#dropdown_assets').text("ASSET NO...");
-            
+
 
         } else if (input == "#searchroomno") {
             document.getElementById('menuRoom').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menuAssets').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-            localStorage.menuRoom = '';
-            localStorage.menuAssets = '';
+            localStorage.level = '';
+            localStorage.building = '';
             populate_dropdown();
 
             $(input).val("");
@@ -1039,19 +1044,19 @@ function clearData(input, btnDafualtId, text) {
         } else if (input == "#searchasset") {
 
             document.getElementById('menuAssets').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            localStorage.menuAssets = '';
+            localStorage.building = '';
 
             populate_dropdown();
-  
+
             $(input).val("");
             $(btnDafualtId).text(text);
 
         } else if (input == "#search_transfer_location") {
             document.getElementById('menu_transfer_Location').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_transfer_Room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            localStorage.menuLocation = '';
-            localStorage.menuRoom = '';
-        
+            localStorage.area = '';
+            localStorage.level = '';
+
             populate_tran_dropdown();
             $(input).val("");
             $(btnDafualtId).text(text);
@@ -1059,18 +1064,18 @@ function clearData(input, btnDafualtId, text) {
         } else if (input == "#search_transfer_roomno") {
 
             document.getElementById('menu_transfer_Room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            localStorage.menuRoom = '';
+            localStorage.level = '';
             populate_tran_dropdown();
             $(input).val("");
             $(btnDafualtId).text(text);
 
-        }else if(input == "#search_approve_roomno"){
+        } else if (input == "#search_approve_roomno") {
             document.getElementById('menu_approve_Room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            localStorage.menuRoom = '';
+            localStorage.level = '';
             populate_room();
             $(input).val("");
             $(btnDafualtId).text(text);
-           
+
         }
 
 
@@ -1083,36 +1088,41 @@ function clearData(input, btnDafualtId, text) {
 }
 
 //If the user clicks on any item, set the title of the button as the text of the item
-$('#menuAssets').on('click', '.dropdown-item', function () {
-    $('#dropdown_assets').text($(this)[0].value);
-    localStorage.menuAssets = $(this)[0].value;
-    $('#clearAllFilters').prop('disabled', false);
+$('#menu_move_building').on('click', '.dropdown-item', function () {
+    $('#building_move_filter').text($(this)[0].value);
+    localStorage.building = $(this)[0].value;
     populate_dropdown();
-    $("#dropdown_assets").dropdown('toggle');
-    $('#searchasset').val($(this)[0].value);
+    $("#building_move_filter").dropdown('toggle');
+    $('#search_move_building').val($(this)[0].value);
 })
-$('#menuRoom').on('click', '.dropdown-item', function () {
-    $('#dropdown_room').text($(this)[0].value);
-    localStorage.menuRoom = $(this)[0].value;
-    $('#clearAllFilters').prop('disabled', false);
+$('#menu_move_level').on('click', '.dropdown-item', function () {
+    $('#level_move_filter').text($(this)[0].value);
+    localStorage.level = $(this)[0].value;
     populate_dropdown();
-    $("#dropdown_room").dropdown('toggle');
-    $('#searchroomno').val($(this)[0].value);
+    $("#level_move_filter").dropdown('toggle');
+    $('#search_move_level').val($(this)[0].value);
 })
-$('#menuLocation').on('click', '.dropdown-item', function () {
-    $('#dropdown_location').text($(this)[0].value);
-    localStorage.menuLocation = $(this)[0].value;
-    $('#clearAllFilters').prop('disabled', false);
+$('#meun_move_area').on('click', '.dropdown-item', function () {
+    $('#area_move_filter').text($(this)[0].value);
+    localStorage.area = $(this)[0].value;
     populate_dropdown();
-    $("#dropdown_location").dropdown('toggle');
-    $('#searchlocation').val($(this)[0].value);
+    $("#area_move_filter").dropdown('toggle');
+    $('#search_move_area').val($(this)[0].value);
+})
+
+$('#menu_move_room').on('click', '.dropdown-item', function () {
+    $('#room_move_filter').text($(this)[0].value);
+    localStorage.room_no = $(this)[0].value;
+    populate_dropdown();
+    $("#room_move_filter").dropdown('toggle');
+    $('#search_move_room').val($(this)[0].value);
 })
 
 //Transfer Overlay View
 
 $('#menu_transfer_Room').on('click', '.dropdown-item', function () {
     $('#dropdown_transfer_room').text($(this)[0].value);
-    localStorage.menuRoom = $(this)[0].value;
+    localStorage.level = $(this)[0].value;
     populate_tran_dropdown();
     $("#dropdown_transfer_room").dropdown('toggle');
     $('#search_transfer_roomno').val($(this)[0].value);
@@ -1120,7 +1130,7 @@ $('#menu_transfer_Room').on('click', '.dropdown-item', function () {
 
 $('#menu_transfer_Location').on('click', '.dropdown-item', function () {
     $('#dropdown_transfer_location').text($(this)[0].value);
-    localStorage.menuLocation = $(this)[0].value;
+    localStorage.area = $(this)[0].value;
     populate_tran_dropdown();
     $("#dropdown_transfer_location").dropdown('toggle');
     $('#search_transfer_location').val($(this)[0].value);
@@ -1130,7 +1140,7 @@ $('#menu_transfer_Location').on('click', '.dropdown-item', function () {
 
 $('#menu_approve_Room').on('click', '.dropdown-item', function () {
     $('#dropdown_approve_room').text($(this)[0].value);
-    localStorage.menuRoom = $(this)[0].value;
+    localStorage.level = $(this)[0].value;
     populate_room();
     $("#dropdown_approve_room").dropdown('toggle');
     $('#search_approve_roomno').val($(this)[0].value);
@@ -1159,9 +1169,9 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         resetInput('#searchroomno', '');
         resetInput('#searchasset', '');
 
-        localStorage.menuAssets = '';
-        localStorage.menuLocation ='';
-        localStorage.menuRoom='';
+        localStorage.building = '';
+        localStorage.area = '';
+        localStorage.level = '';
         populate_dropdown();
     });
 
@@ -1194,11 +1204,11 @@ function toggleZoomScreen(value) {
 }
 /*------   Zoom handler -----*/
 
-function clearFunction(){
+function clearFunction() {
 
-    localStorage.menuLocation = '';
-    localStorage.menuRoom = '';
-    localStorage.menuAssets = '';
+    localStorage.area = '';
+    localStorage.level = '';
+    localStorage.building = '';
     populate_dropdown();
 
     $('#searchlocation').val("");
