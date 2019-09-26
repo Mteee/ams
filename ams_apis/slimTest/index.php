@@ -689,7 +689,7 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
 
 });
 
-$app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $response){
+$app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $response){
 
     global $func;
     $data = json_decode(file_get_contents('php://input') );
@@ -716,7 +716,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
                 FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
                 WHERE        asset_transaction_status = 'Pending'
                         AND avw.ASSET_BUILDING LIKE '%$building%' 
-                        AND avw.ASSET_AREA_NEW LIKE '%$area%' 
+                        AND lvw.ASSET_LOCATION_AREA_NEW LIKE '%$area%' 
                         AND (lvw.asset_room_no_new LIKE '%$room_no%'
                         OR     lvw.asset_room_no_new IS NULL)
                         AND avw.asset_primary_id LIKE '%$room_no%'
@@ -742,14 +742,13 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
 
 });
 
-$app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $response){
+$app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $response){
 
     global $func;
     $data = json_decode(file_get_contents('php://input') );
     $level = strtoupper($data->level);
     $room_no = strtoupper($data->room_no);
     $building = strtoupper($data->building);
-    $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
@@ -769,10 +768,12 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         'OUT' as movement_type
                 FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
                 WHERE        asset_transaction_status = 'Pending'
-                        AND ASSET_AREA_OLD LIKE '%$area%'
+                        AND ASSET_LOCATION_AREA_OLD LIKE '%$area%'
                         AND lvw.asset_room_no_old LIKE '%$room_no%'
                         AND avw.asset_room_no LIKE '%$room_no%'
                         AND avw.ASSET_AREA LIKE '%$area%' 
+                        AND avw.ASSET_BUILDING LIKE '%$building%' 
+                        AND avw.ASSET_LEVEL LIKE '%$level%' 
                         AND avw.ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
                         AND avw.asset_class LIKE '%$ASSET_CLASS%'
                         AND avw.asset_primary_id = lvw.asset_primary_id
