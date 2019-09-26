@@ -115,7 +115,7 @@ function search() {
                         console.log(data.data[k].ASSET_IS_SUB);
                         if ((data.rows - 1) == k) {
 
-                            if(data.data[k].ASSET_SUB_LOCATION != "IT EQUIPMENT"){
+                            if(data.data[k].ASSET_CLASS != "IT EQUIPMENT"){
                                 str += '["' + data.data[k].ASSET_ID + '","';
                                 str +=    data.data[k].ASSET_ID + '","';
                             }else{
@@ -130,7 +130,7 @@ function search() {
                             str +=    updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
 
-                            if(data.data[k].ASSET_SUB_LOCATION != "IT EQUIPMENT"){
+                            if(data.data[k].ASSET_CLASS != "IT EQUIPMENT"){
                                 str += '["' + data.data[k].ASSET_ID + '","';
                                 str +=    data.data[k].ASSET_ID + '","';
                             }else{
