@@ -30,7 +30,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
             $ASSET_CLASS = '';
         }
         
-        $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB 
+        $sql = "SELECT ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB 
         FROM AMSD.ASSETS_VIEW
         WHERE ASSET_BUILDING LIKE '%$building%' 
         AND ASSET_LEVEL LIKE '%$level%' 
