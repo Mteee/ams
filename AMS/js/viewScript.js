@@ -118,14 +118,14 @@ function search() {
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_AREA + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
+                                replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
                             str += '["' + data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ID + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_AREA + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
+                                replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
                         }
                     }
@@ -135,7 +135,6 @@ function search() {
                     console.log(str);
                     
                     str = replaceAll("\n", "", str);
-                    str = replaceAll("\"", "`", str);
                     // str = replaceAll("'", "^", str);
                     
                     console.log(str);
@@ -690,11 +689,12 @@ var onSearch = function (searchValue, emptyId) {
 
     if (searchValue.value.length == 0) {
         var resObj = checkFilter(getId);
-        $('#dropdown_location').text($(this)[0].value);
+        $('#building_view_filter').text($(this)[0].value);
         // localStorage.menuId
-        localStorage.menuAssets = '';
-        localStorage.menuLocation = '';
-        localStorage.menuRoom = '';
+        localStorage.building = '';
+        localStorage.area = '';
+        localStorage.level = '';
+        localStorage.room_no = '';
         populate_dropdown();
         $('#' + resObj.btnId).text(resObj.btnContent);
     }
@@ -715,7 +715,6 @@ var onSearch = function (searchValue, emptyId) {
 // buildDropDown('#menuLocation',names);
 
 function replaceAll(find, replace, str) {
-    console.log(str.indexOf(find));
     while (str.indexOf(find) > -1) {
         str = str.replace(find, replace);
     }
