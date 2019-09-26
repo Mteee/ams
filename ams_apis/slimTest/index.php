@@ -1080,6 +1080,7 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $room_no = strtoupper($data->room_no);
     $response = array();
 
     $sql = "SELECT 
@@ -1411,13 +1412,16 @@ $app->map(['GET','POST'],'/building_view', function(Request $request, Response $
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $asset_class = strtoupper($data->asset_class);
     $response = array();
 
     $sql = "SELECT 
                 ASSET_BUILDING
             FROM 
-                AMSD.ASSETS_LOCATION_NEW 
-            WHERE ASSET_BUILDING LIKE '%$building%'
+                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            AND ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
@@ -1454,13 +1458,16 @@ $app->map(['GET','POST'],'/asset_level_new_view', function(Request $request, Res
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $asset_class = strtoupper($data->asset_class);
     $response = array();
 
     $sql = "SELECT 
                 ASSET_LEVEL 
             FROM 
-            AMSD.ASSETS_LOCATION_NEW 
-            WHERE ASSET_BUILDING LIKE '%$building%'
+                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            AND ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
@@ -1496,13 +1503,16 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $asset_class = strtoupper($data->asset_class);
     $response = array();
 
     $sql = "SELECT 
                 ASSET_AREA
             FROM 
-                AMSD.ASSETS_LOCATION_NEW
-                WHERE ASSET_BUILDING LIKE '%$building%'
+                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            AND ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
@@ -1538,12 +1548,15 @@ $app->map(['GET','POST'],'/asset_area_name_view', function(Request $request, Res
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $asset_class = strtoupper($data->asset_class);
     $response = array();
 
     $sql = "SELECT ASSET_AREA
             FROM 
-                AMSD.ASSETS_LOCATION_NEW 
-                WHERE ASSET_BUILDING LIKE '%$building%'
+                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            AND ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
@@ -1580,12 +1593,15 @@ $app->map(['GET','POST'],'/asset_room_no_view', function(Request $request, Respo
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $asset_class = strtoupper($data->asset_class);
     $response = array();
 
     $sql = "SELECT ASSET_ROOM_NO
             FROM 
-                AMSD.ASSETS_LOCATION_NEW 
-                WHERE  ASSET_BUILDING LIKE '%$building%'
+                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            AND ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
             AND ASSET_AREA LIKE '%$area%'
             AND ASSET_ROOM_NO LIKE '%$room_no%'
