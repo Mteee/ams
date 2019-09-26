@@ -114,15 +114,16 @@ function search() {
                     for (var k = 0; k < data.rows; k++) {
                         console.log(data.data[k].ASSET_IS_SUB);
                         if ((data.rows - 1) == k) {
-                            str += '["' + data.data[k].ASSET_ID + '","' +
-                                data.data[k].ASSET_ID + '","' +
+                            
+                            str += '["' + data.data[k].ASSET_SUB_LOCATION + '","' +
+                                data.data[k].ASSET_SUB_LOCATION + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_AREA + '","' +
                                 replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","' +
                                 updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
-                            str += '["' + data.data[k].ASSET_ID + '","' +
-                                data.data[k].ASSET_ID + '","' +
+                            str += '["' + data.data[k].ASSET_SUB_LOCATION + '","' +
+                                data.data[k].ASSET_SUB_LOCATION + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].ASSET_AREA + '","' +
                                 replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","' +
