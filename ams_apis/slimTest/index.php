@@ -1415,6 +1415,10 @@ $app->map(['GET','POST'],'/building_view', function(Request $request, Response $
     $asset_class = strtoupper($data->asset_class);
     $response = array();
 
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
     $sql = "SELECT 
                 L_NEW.ASSET_BUILDING
             FROM 
@@ -1461,6 +1465,10 @@ $app->map(['GET','POST'],'/asset_level_new_view', function(Request $request, Res
     $asset_class = strtoupper($data->asset_class);
     $response = array();
 
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
     $sql = "SELECT 
                 L_NEW.ASSET_LEVEL 
             FROM 
@@ -1506,6 +1514,10 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
     $asset_class = strtoupper($data->asset_class);
     $response = array();
 
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
     $sql = "SELECT 
                 L_NEW.ASSET_AREA
             FROM 
@@ -1541,50 +1553,50 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
     }
 });
 
-$app->map(['GET','POST'],'/asset_area_name_view', function(Request $request, Response $response){
-    global $func;
-    $data = json_decode(file_get_contents('php://input'));
-    $building = strtoupper($data->building);
-    $level = strtoupper($data->level);
-    $area = strtoupper($data->area);
-    $room_no = strtoupper($data->room_no);
-    $asset_class = strtoupper($data->asset_class);
-    $response = array();
+// $app->map(['GET','POST'],'/asset_area_name_view', function(Request $request, Response $response){
+//     global $func;
+//     $data = json_decode(file_get_contents('php://input'));
+//     $building = strtoupper($data->building);
+//     $level = strtoupper($data->level);
+//     $area = strtoupper($data->area);
+//     $room_no = strtoupper($data->room_no);
+//     $asset_class = strtoupper($data->asset_class);
+//     $response = array();
 
-    $sql = "SELECT L_NEW.ASSET_AREA
-            FROM 
-                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
-            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
-            AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
-            AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
-            AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY L_NEW.ASSET_AREA
-            ORDER BY L_NEW.ASSET_AREA";
+//     $sql = "SELECT L_NEW.ASSET_AREA
+//             FROM 
+//                 AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+//             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+//             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
+//             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
+//             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
+//             AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+//             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
+//             GROUP BY L_NEW.ASSET_AREA
+//             ORDER BY L_NEW.ASSET_AREA";
 
-    $assets_no =$func->executeQuery($sql);
+//     $assets_no =$func->executeQuery($sql);
 
-    if($assets_no){
+//     if($assets_no){
         
-        $res = json_decode($assets_no);
-        $length = $res->rows;
-        foreach($res->data as $value){
+//         $res = json_decode($assets_no);
+//         $length = $res->rows;
+//         foreach($res->data as $value){
 
-            $response []= $value->ASSET_AREA_NAME;
-            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
-            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+//             $response []= $value->ASSET_AREA_NAME;
+//             // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+//             // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
-        }
+//         }
 
-        // echo $items;
-         echo json_encode(array("rows"=>$length,"data" =>$response));
-    }
-    else{
-        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
-    }
+//         // echo $items;
+//          echo json_encode(array("rows"=>$length,"data" =>$response));
+//     }
+//     else{
+//         echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+//     }
  
-});
+// });
 
 $app->map(['GET','POST'],'/asset_room_no_view', function(Request $request, Response $response){
     global $func;
@@ -1595,6 +1607,10 @@ $app->map(['GET','POST'],'/asset_room_no_view', function(Request $request, Respo
     $room_no = strtoupper($data->room_no);
     $asset_class = strtoupper($data->asset_class);
     $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
 
     $sql = "SELECT L_NEW.ASSET_ROOM_NO
             FROM 
