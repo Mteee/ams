@@ -649,10 +649,12 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
 
     global $func;
     $data = json_decode(file_get_contents('php://input') );
-    $ASSET_NO = strtoupper($data->v_assetNo);
-    $ASSET_ROOM = strtoupper($data->v_room);
-    $ASSET_LOCATION = strtoupper($data->v_location);
-    $ASSET_DESCRIPTION = strtoupper($data->v_description);
+    $level = strtoupper($data->level);
+    $room_no = strtoupper($data->room_no);
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
 
@@ -663,13 +665,15 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
         }
         $sql = "SELECT ASSET_ID AS ASSET_PRIMARY_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_TRANSACTION_STATUS,ASSET_IS_SUB 
         FROM AMSD.ASSETS_VW 
-        WHERE ASSET_PRIMARY_ID LIKE '%$ASSET_NO%' 
-        AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM%' 
-        AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
-        AND ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%' 
+        WHERE ASSET_BUILDING LIKE '%$building%' 
+        AND ASSET_LEVEL LIKE '%$level%' 
+        AND ASSET_ROOM_NO LIKE '%$room_no%' 
+        AND ASSET_AREA LIKE '%$area%' 
+        AND ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
         AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
-        AND ASSET_ID=ASSET_PRIMARY_ID 
+        AND ASSET_ID=ASSET_PRIMARY_ID
         ORDER BY ASSET_ID ASC";
+
         // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
 
         $assets =$func->executeQuery($sql);
@@ -690,10 +694,12 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
 
     global $func;
     $data = json_decode(file_get_contents('php://input') );
-    $ASSET_NO = strtoupper($data->v_assetNo);
-    $ASSET_ROOM = strtoupper($data->v_room);
-    $ASSET_LOCATION = strtoupper($data->v_location);
-    $ASSET_DESCRIPTION = strtoupper($data->v_description);
+    $level = strtoupper($data->level);
+    $room_no = strtoupper($data->room_no);
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
 
@@ -702,50 +708,25 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
-
-        $sql = "SELECT  a.asset_primary_id AS ASSET_PRIMARY_ID,
-                        a.asset_room_no_new AS ASSET_ROOM_NO,
-                        a.asset_location_area_new AS ASSET_LOCATION_AREA,
-                        a.asset_description AS ASSET_DESCRIPTION,
-                        a.asset_is_sub AS ASSET_IS_SUB
-                        FROM
-                            (SELECT avw.asset_primary_id,
-                                            lvw.asset_room_no_new,
-                                            lvw.asset_location_area_new,
-                                            avw.asset_description,
-                                            asset_is_sub,
-                                            'IN' as movement_type
-                                    FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
-                                    WHERE        asset_transaction_status = 'Pending'
-                                            AND asset_location_area_new LIKE '%$ASSET_LOCATION%'
-                                            AND (lvw.asset_room_no_new LIKE '%$ASSET_ROOM%'
-                                            OR     lvw.asset_room_no_new IS NULL)
-                                            AND avw.asset_primary_id LIKE '%$ASSET_NO%'
-                                            AND avw.asset_description LIKE '%$ASSET_DESCRIPTION%'
-                                            AND avw.asset_class LIKE '%$ASSET_CLASS%'
-                                            AND avw.asset_primary_id = lvw.asset_primary_id
-                                            AND avw.asset_id = lvw.asset_id
-                                            AND avw.asset_primary_id = lvw.asset_id
-                                    union all            
-                                    SELECT avw.asset_primary_id,
-                                            lvw.asset_room_no_old,
-                                            lvw.asset_location_area_old,
-                                            avw.asset_description,
-                                            asset_is_sub,
-                                            'OUT' as movement_type
-                                    FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
-                                    WHERE        asset_transaction_status = 'Pending'
-                                            AND asset_location_area_old LIKE '%$ASSET_LOCATION%'
-                                            AND lvw.asset_room_no_old LIKE '%$ASSET_ROOM%'
-                                            AND avw.asset_primary_id LIKE '%$ASSET_NO%'
-                                            AND avw.asset_room_no LIKE '%$ASSET_ROOM%'
-                                            AND avw.asset_location_area LIKE '%$ASSET_LOCATION%'
-                                            AND avw.asset_description LIKE '%$ASSET_DESCRIPTION%'
-                                            AND avw.asset_class LIKE '%$ASSET_CLASS%'
-                                            AND avw.asset_primary_id = lvw.asset_primary_id
-                                            AND avw.asset_id = lvw.asset_id
-                                            AND avw.asset_primary_id = lvw.asset_id) a
-                                where a.movement_type = 'OUT'";
+        
+        $sql = "SELECT  avw.asset_primary_id,
+                        lvw.asset_room_no_new,
+                        lvw.asset_location_area_new,
+                        avw.asset_description,
+                        asset_is_sub
+                FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
+                WHERE        asset_transaction_status = 'Pending'
+                        AND avw.ASSET_BUILDING LIKE '%$building%' 
+                        AND avw.ASSET_AREA_NEW LIKE '%$area%' 
+                        AND (lvw.asset_room_no_new LIKE '%$room_no%'
+                        OR     lvw.asset_room_no_new IS NULL)
+                        AND avw.asset_primary_id LIKE '%$room_no%'
+                        AND avw.ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
+                        AND avw.asset_class LIKE '%$ASSET_CLASS%'
+                        AND avw.asset_primary_id = lvw.asset_primary_id
+                        AND avw.asset_id = lvw.asset_id
+                        AND avw.asset_primary_id = lvw.asset_id";
+                                   
                                 
         // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
 
@@ -766,61 +747,38 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
 
     global $func;
     $data = json_decode(file_get_contents('php://input') );
-    $ASSET_NO = strtoupper($data->v_assetNo);
-    $ASSET_ROOM = strtoupper($data->v_room);
-    $ASSET_LOCATION = strtoupper($data->v_location);
-    $ASSET_DESCRIPTION = strtoupper($data->v_description);
+    $level = strtoupper($data->level);
+    $room_no = strtoupper($data->room_no);
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
+    $response = array();
 
-    if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
+    if(!empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
 
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
 
-        $sql = "SELECT  a.asset_primary_id AS ASSET_PRIMARY_ID,
-                        a.asset_room_no_new AS ASSET_ROOM_NO,
-                        a.asset_location_area_new AS ASSET_LOCATION_AREA,
-                        a.asset_description AS ASSET_DESCRIPTION,
-                        a.asset_is_sub AS ASSET_IS_SUB
-                        FROM
-                            (SELECT avw.asset_primary_id,
-                                            lvw.asset_room_no_new,
-                                            lvw.asset_location_area_new,
-                                            avw.asset_description,
-                                            asset_is_sub,
-                                            'IN' as movement_type
-                                    FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
-                                    WHERE        asset_transaction_status = 'Pending'
-                                            AND asset_location_area_new LIKE '%$ASSET_LOCATION%'
-                                            AND (lvw.asset_room_no_new LIKE '%$ASSET_ROOM%'
-                                            OR     lvw.asset_room_no_new IS NULL)
-                                            AND avw.asset_primary_id LIKE '%$ASSET_NO%'
-                                            AND avw.asset_description LIKE '%$ASSET_DESCRIPTION%'
-                                            AND avw.asset_class LIKE '%$ASSET_CLASS%'
-                                            AND avw.asset_primary_id = lvw.asset_primary_id
-                                            AND avw.asset_id = lvw.asset_id
-                                            AND avw.asset_primary_id = lvw.asset_id
-                                    union all            
-                                    SELECT avw.asset_primary_id,
-                                            lvw.asset_room_no_old,
-                                            lvw.asset_location_area_old,
-                                            avw.asset_description,
-                                            asset_is_sub,
-                                            'OUT' as movement_type
-                                    FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
-                                    WHERE        asset_transaction_status = 'Pending'
-                                            AND asset_location_area_old LIKE '%$ASSET_LOCATION%'
-                                            AND lvw.asset_room_no_old LIKE '%$ASSET_ROOM%'
-                                            AND avw.asset_primary_id LIKE '%$ASSET_NO%'
-                                            AND avw.asset_room_no LIKE '%$ASSET_ROOM%'
-                                            AND avw.asset_location_area LIKE '%$ASSET_LOCATION%'
-                                            AND avw.asset_description LIKE '%$ASSET_DESCRIPTION%'
-                                            AND avw.asset_class LIKE '%$ASSET_CLASS%'
-                                            AND avw.asset_primary_id = lvw.asset_primary_id
-                                            AND avw.asset_id = lvw.asset_id
-                                            AND avw.asset_primary_id = lvw.asset_id) a
-                                where a.movement_type = 'IN'
+        $sql = " SELECT avw.asset_primary_id,
+                        lvw.asset_room_no_old,
+                        lvw.asset_location_area_old,
+                        avw.asset_description,
+                        asset_is_sub,
+                        'OUT' as movement_type
+                FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
+                WHERE        asset_transaction_status = 'Pending'
+                        AND ASSET_AREA_OLD LIKE '%$area%'
+                        AND lvw.asset_room_no_old LIKE '%$room_no%'
+                        AND avw.asset_room_no LIKE '%$room_no%'
+                        AND avw.ASSET_AREA LIKE '%$area%' 
+                        AND avw.ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
+                        AND avw.asset_class LIKE '%$ASSET_CLASS%'
+                        AND avw.asset_primary_id = lvw.asset_primary_id
+                        AND avw.asset_id = lvw.asset_id
+                        AND avw.asset_primary_id = lvw.asset_id
                 ";
 
 
