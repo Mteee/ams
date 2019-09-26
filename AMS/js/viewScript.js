@@ -115,27 +115,26 @@ function search() {
                         console.log(data.data[k].ASSET_IS_SUB);
                         if ((data.rows - 1) == k) {
 
-                            if(data.data[k].ASSET_CLASS != "IT EQUIPMENT"){
-                                str += '["' + data.data[k].ASSET_ID + '","';
-                                str +=    data.data[k].ASSET_ID + '","';
-                            }else{
+                            if(data.data[k].ASSET_CLASS == "IT EQUIPMENT"){
                                 str += '["' + data.data[k].ASSET_SUB_LOCATION + '","';
                                 str +=    data.data[k].ASSET_SUB_LOCATION + '","';
+                            }else{
+                                str += '["' + data.data[k].ASSET_ID + '","';
+                                str +=    data.data[k].ASSET_ID + '","';
                             }
                             
-                          
                             str +=    data.data[k].ASSET_ROOM_NO + '","';
                             str +=    data.data[k].ASSET_AREA + '","';
                             str +=    replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
                             str +=    updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
 
-                            if(data.data[k].ASSET_CLASS != "IT EQUIPMENT"){
-                                str += '["' + data.data[k].ASSET_ID + '","';
-                                str +=    data.data[k].ASSET_ID + '","';
-                            }else{
+                            if(data.data[k].ASSET_CLASS == "IT EQUIPMENT"){
                                 str += '["' + data.data[k].ASSET_SUB_LOCATION + '","';
                                 str +=    data.data[k].ASSET_SUB_LOCATION + '","';
+                            }else{
+                                str += '["' + data.data[k].ASSET_ID + '","';
+                                str +=    data.data[k].ASSET_ID + '","';
                             }
                             
                             str +=    data.data[k].ASSET_ROOM_NO + '","';
@@ -144,6 +143,7 @@ function search() {
                             str +=    updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
                         }
                     }
+
                     str += ']}'
 
                     console.log("Replace all");
