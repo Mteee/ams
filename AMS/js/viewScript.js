@@ -114,20 +114,34 @@ function search() {
                     for (var k = 0; k < data.rows; k++) {
                         console.log(data.data[k].ASSET_IS_SUB);
                         if ((data.rows - 1) == k) {
+
+                            if(data.data[k].ASSET_SUB_LOCATION != "IT EQUIPMENT"){
+                                str += '["' + data.data[k].ASSET_ID + '","';
+                                str +=    data.data[k].ASSET_ID + '","';
+                            }else{
+                                str += '["' + data.data[k].ASSET_SUB_LOCATION + '","';
+                                str +=    data.data[k].ASSET_SUB_LOCATION + '","';
+                            }
                             
-                            str += '["' + data.data[k].ASSET_SUB_LOCATION + '","' +
-                                data.data[k].ASSET_SUB_LOCATION + '","' +
-                                data.data[k].ASSET_ROOM_NO + '","' +
-                                data.data[k].ASSET_AREA + '","' +
-                                replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","' +
-                                updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
+                          
+                            str +=    data.data[k].ASSET_ROOM_NO + '","';
+                            str +=    data.data[k].ASSET_AREA + '","';
+                            str +=    replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
+                            str +=    updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
-                            str += '["' + data.data[k].ASSET_SUB_LOCATION + '","' +
-                                data.data[k].ASSET_SUB_LOCATION + '","' +
-                                data.data[k].ASSET_ROOM_NO + '","' +
-                                data.data[k].ASSET_AREA + '","' +
-                                replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","' +
-                                updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
+
+                            if(data.data[k].ASSET_SUB_LOCATION != "IT EQUIPMENT"){
+                                str += '["' + data.data[k].ASSET_ID + '","';
+                                str +=    data.data[k].ASSET_ID + '","';
+                            }else{
+                                str += '["' + data.data[k].ASSET_SUB_LOCATION + '","';
+                                str +=    data.data[k].ASSET_SUB_LOCATION + '","';
+                            }
+                            
+                            str +=    data.data[k].ASSET_ROOM_NO + '","';
+                            str +=    data.data[k].ASSET_AREA + '","';
+                            str +=    replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
+                            str +=    updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
                         }
                     }
                     str += ']}'
