@@ -243,20 +243,20 @@
                                 <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
                                     id="dropdown_transfer_location" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
-                                    LOCATION...
+                                    LOCATION AREA
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdown_transfer_location"
                                     id="scroll_tarnsfer_Location">
                                     <form class="px-4 py-2">
                                         <div class="input-group">
                                             <input type="search" id="search_transfer_location" class="form-control"
-                                                placeholder="Location..."
+                                                placeholder="LOCATION AREA"
                                                 onkeyup="onSearch('search_transfer_location','#emptyLocation')"
                                                 autofocus="autofocus" required>
                                             <div class="input-group-append">
                                                 <span class="input-group-text btn btn-danger text-light"
                                                     id="clear_transfer_Location"
-                                                    onclick="clearData('#search_transfer_location','#dropdown_transfer_location','LOCATION...')"><i
+                                                    onclick="clearData('#search_transfer_location','#dropdown_transfer_location','LOCATION AREA')"><i
                                                         class="fa fa-close"></i></span>
                                             </div>
                                         </div>
@@ -275,20 +275,20 @@
                                 <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
                                     id="dropdown_transfer_room" data-toggle="dropdown" aria-haspopup="true"
                                     aria-expanded="false">
-                                    ROOM...
+                                    ROOM
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdown_transfer_room"
                                     id="scroll_transfer_room">
                                     <form class="px-4 py-2">
                                         <div class="input-group">
                                             <input type="search" id="search_transfer_roomno" class="form-control"
-                                                placeholder="room..."
+                                                placeholder="room"
                                                 onkeyup="onSearch('search_transfer_roomno','#empty_transfer_Room')"
                                                 autofocus="autofocus">
                                             <div class="input-group-append">
                                                 <span class="input-group-text btn btn-danger text-light"
                                                     id="clear_transfer_Room"
-                                                    onclick="clearData('#search_transfer_roomno','#dropdown_transfer_room','ROOM...')"><i
+                                                    onclick="clearData('#search_transfer_roomno','#dropdown_transfer_room','ROOM')"><i
                                                         class="fa fa-close"></i></span>
                                             </div>
                                         </div>
@@ -902,16 +902,16 @@
 
     <script>
 
-        $(".dropdown, .btn-group").hover(function () {
-            var dropdownMenu = $(this).children(".dropdown-menu");
-            if (dropdownMenu.is(":visible")) {
-                console.log('not visible');
-                // dropdownMenu.parent().toggleClass("open");
-            } else {
-                console.log('visible');
-                $(this).toggleClass("open");
-            }
-        });
+        // $(".dropdown, .btn-group").hover(function () {
+        //     var dropdownMenu = $(this).children(".dropdown-menu");
+        //     if (dropdownMenu.is(":visible")) {
+        //         console.log('not visible');
+        //         // dropdownMenu.parent().toggleClass("open");
+        //     } else {
+        //         console.log('visible');
+        //         $(this).toggleClass("open");
+        //     }
+        // });
 
         function showNav() {
             $('#menu-list').slideToggle('fast');
