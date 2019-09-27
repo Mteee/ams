@@ -508,10 +508,11 @@ $app->map(['GET','POST'],'/asset_no',function(Request $request, Response $respon
 $app->map(['GET','POST'],'/room_no',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
-    $ASSET_CLASS = $func->checkValue(strtoupper($data->asset_class));
-    $ASSET_LOCATION = $func->checkValue(strtoupper($data->asset_location));
-    $ASSET_ROOM_NO = $func->checkValue(strtoupper($data->asset_room));
-    $ASSET_ID = $func->checkValue(strtoupper($data->asset_id));
+    $ASSET_BUILDING = strtoupper($data->building);
+    $ASSET_LEVEL = strtoupper($data->level);
+    $ASSET_AREA = strtoupper($data->area);
+    $ASSET_ROOM_NO = strtoupper($data->room_no);
+    $ASSET_CLASS = strtoupper($data->asset_class);
 
 
     if($ASSET_CLASS == 'ALL EQUIPMENT' ){
@@ -520,7 +521,11 @@ $app->map(['GET','POST'],'/room_no',function(Request $request, Response $respons
 
     $sql = "SELECT ASSET_ROOM_NO
     FROM AMSD.ASSETS_VW
-    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID LIKE '%$ASSET_ID%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' 
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' 
+    AND ASSET_BUILDING LIKE '%$ASSET_BUILDING%' 
+    AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' 
+    AND ASSET_AREA LIKE '%$ASSET_AREA%' 
+    AND ASSET_LEVEL LIKE '%$ASSET_LEVEL%' 
     GROUP BY ASSET_ROOM_NO
     ORDER BY ASSET_ROOM_NO ASC";
     // $sql = "SELECT ASSET_ROOM_NO FROM AMSD.ASSETS_LOCATION WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' GROUP BY ASSET_ROOM_NO";
@@ -552,23 +557,29 @@ $app->map(['GET','POST'],'/room_no',function(Request $request, Response $respons
 
 });
 
-$app->map(['GET','POST'],'/location',function(Request $request, Response $response){
+$app->map(['GET','POST'],'/location_area',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
-    $ASSET_CLASS = $func->checkValue(strtoupper($data->asset_class));
-    $ASSET_LOCATION = $func->checkValue(strtoupper($data->asset_location));
-    $ASSET_ROOM_NO = $func->checkValue(strtoupper($data->asset_room));
-    $ASSET_ID = $func->checkValue(strtoupper($data->asset_id));
+    $ASSET_BUILDING = strtoupper($data->building);
+    $ASSET_LEVEL = strtoupper($data->level);
+    $ASSET_AREA = strtoupper($data->area);
+    $ASSET_ROOM_NO = strtoupper($data->room_no);
+    $ASSET_CLASS = strtoupper($data->asset_class);
 
-   if($ASSET_CLASS == 'ALL EQUIPMENT'){
+
+    if($ASSET_CLASS == 'ALL EQUIPMENT' ){
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT ASSET_LOCATION_AREA
+    $sql = "SELECT ASSET_AREA
     FROM AMSD.ASSETS_VW
-    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID LIKE '%$ASSET_ID%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%'
-    GROUP BY ASSET_LOCATION_AREA
-    ORDER BY ASSET_LOCATION_AREA ASC";
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' 
+    AND ASSET_BUILDING LIKE '%$ASSET_BUILDING%' 
+    AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' 
+    AND ASSET_AREA LIKE '%$ASSET_AREA%' 
+    AND ASSET_LEVEL LIKE '%$ASSET_LEVEL%' 
+    GROUP BY ASSET_AREA
+    ORDER BY ASSET_AREA ASC";
 
     // $sql = "SELECT ASSET_LOCATION_AREA FROM AMSD.ASSETS_LOCATION WHERE  GROUP BY ASSET_LOCATION_AREA";
     // $sql = "SELECT * FROM AMSD.ASSETS_VW";
@@ -583,7 +594,7 @@ $app->map(['GET','POST'],'/location',function(Request $request, Response $respon
         $length = $res->rows;
         foreach($res->data as $value){
 
-            $response []= $value->ASSET_LOCATION_AREA;
+            $response []= $value->ASSET_AREA;
             // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
             // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
@@ -834,7 +845,7 @@ $app->map(['GET','POST'],'/confirmTransfer',function(Request $request, Response 
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN AMSD.ASSET_TRANSFER_MOVEMENT(:USERNAME,:ASSET_NO,:LOCATION,:ROOM,:RESULT); END;";
+        $sql = "BEGIN AMSD.ASSET_TRANSFER_MOVEMENT_NEW(:USERNAME,:ASSET_NO,:LOCATION,:ROOM,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
         oci_bind_by_name($statement, ':ASSET_NO', $ASSET_NO, 4000);

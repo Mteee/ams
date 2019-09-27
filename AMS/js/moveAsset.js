@@ -158,7 +158,7 @@ function search() {
                         } else {
                             ASSET_ROOM_NO = data.data[k].ASSET_ROOM_NO;
                         }
-                        if (data.data[k].ASSET_TRANSACTION_STATUS == "Pending") {
+                        if (data.data[k].ASSET_TRANSACTION_STATUS == "PENDING") {
                             // console.log(data.data[k].ASSET_PRIMARY_ID);
                             rowIds.push(data.data[k].ASSET_PRIMARY_ID);
 
@@ -495,7 +495,7 @@ function populate_tran_dropdown() {
     // get room_no
     getItems('../../ams_apis/slimTest/index.php/room_no', 'search_transfer_roomno', 'scroll_transfer_room', 'menu_transfer_Room', 'empty_transfer_Room');
     // get location
-    getItems('../../ams_apis/slimTest/index.php/location', 'search_transfer_location', 'scroll_tarnsfer_Location', 'menu_transfer_Location', 'empty_transfer_Location');
+    getItems('../../ams_apis/slimTest/index.php/location_area', 'search_transfer_location', 'scroll_tarnsfer_Location', 'menu_transfer_Location', 'empty_transfer_Location');
 }
 
 populate_dropdown();
@@ -518,14 +518,14 @@ var allArr = {
 // console.log("allArr");
 
 function getItems(url, id, scrollArea, menuid) {
-    console.log('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.area + '","asset_room":"' + localStorage.level + '","asset_id":"' + localStorage.building + '"}');
+    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '"}');
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
         data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
-            // console.log(data);
+            console.log(data.data);
             var rows = [];
             var searchValue = document.getElementById(id);
             // console.log("=============searchValue================");
@@ -609,7 +609,7 @@ function checkFilter(key) {
             res = { "btnId": "dropdown_room", "btnContent": "ROOM NO..." };
             break;
         case "searchlocation":
-            res = { "btnId": "dropdown_location", "btnContent": "LOCATION..." };
+            res = { "btnId": "dropdown_location", "btnContent": "LOCATION AREA" };
             break;
         default:
             res = { "btnId": "not found", "btnContent": "not found" };
@@ -645,7 +645,7 @@ function getSelectedItems(id) {
     else if (id == "inAssetsTable") {
 
         $('#search_approve_roomno').val("");
-        $('#dropdown_approve_room').text("ROOM...");
+        $('#dropdown_approve_room').text("ROOM");
 
 
         document.getElementById('approveItemCount').innerHTML = rowsSelected.length;
@@ -669,7 +669,7 @@ function getSelectedItems(id) {
 
             var input_Room = $("#dropdown_approve_room").text();
 
-            if (input_Room.indexOf("ROOM...") > -1) {
+            if (input_Room.indexOf("ROOM") > -1) {
                 // alert("Please select room");
                 document.getElementById('overlay-alert-message').style.display = "block";
                 document.getElementById('alert_header').innerHTML = "Assets Approve";
@@ -685,16 +685,17 @@ function getSelectedItems(id) {
     else {
 
         //location
-        $('#dropdown_transfer_location').text("LOCATION...");
+        $('#dropdown_transfer_location').text("LOCATION AREA");
         $('#search_transfer_location').val("");
         //room
-        $('#dropdown_transfer_room').text("ROOM...");
+        $('#dropdown_transfer_room').text("ROOM");
         $('#search_transfer_roomno').val("");
 
         console.log(rowsSelected);
         getSelectedAssets(rowsSelected);
         localStorage.level = '';
         localStorage.building = '';
+        localStorage.room_no = '';
         localStorage.area = '';
 
         populate_tran_dropdown();
@@ -707,7 +708,7 @@ function getSelectedItems(id) {
             var input_Room = $("#dropdown_transfer_room").text();
 
 
-            if (input_location.indexOf("LOCATION...") > -1) {
+            if (input_location.indexOf("LOCATION AREA") > -1) {
                 // alert("Location is required");
                 document.getElementById('overlay-alert-message').style.display = "none";
                 document.getElementById('overlay-alert-message').style.display = "block";
@@ -716,7 +717,7 @@ function getSelectedItems(id) {
                 document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
             }
             else {
-                if (input_Room.indexOf("ROOM...") > -1) {
+                if (input_Room.indexOf("ROOM") > -1) {
                     input_Room = '';
                     // console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
                     document.getElementById('overlay-alert-message').style.display = "none";
@@ -871,7 +872,7 @@ function confirmAssets(assetIds, location, room) {
             // alert();
 
             document.getElementById('overlay-transfer').style.display = "none";
-            localStorage.level = room;
+            localStorage.roo = room;
             search();
             $('#btnTransfer').fadeOut(500);
         },
@@ -1114,23 +1115,27 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('menu_transfer_Location').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_transfer_Room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             localStorage.area = '';
-            localStorage.level = '';
+            localStorage.room_no = '';
+
+            $('#search_transfer_roomno').val("");
+            $('#dropdown_transfer_room').text("ROOM");
 
             populate_tran_dropdown();
             $(input).val("");
             $(btnDafualtId).text(text);
 
+
         } else if (input == "#search_transfer_roomno") {
 
             document.getElementById('menu_transfer_Room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            localStorage.level = '';
+            localStorage.room_no = '';
             populate_tran_dropdown();
             $(input).val("");
             $(btnDafualtId).text(text);
 
         } else if (input == "#search_approve_roomno") {
             document.getElementById('menu_approve_Room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            localStorage.level = '';
+            localStorage.room_no = '';
             populate_room();
             $(input).val("");
             $(btnDafualtId).text(text);
@@ -1181,7 +1186,7 @@ $('#menu_move_room').on('click', '.dropdown-item', function () {
 
 $('#menu_transfer_Room').on('click', '.dropdown-item', function () {
     $('#dropdown_transfer_room').text($(this)[0].value);
-    localStorage.level = $(this)[0].value;
+    localStorage.room_no = $(this)[0].value;
     populate_tran_dropdown();
     $("#dropdown_transfer_room").dropdown('toggle');
     $('#search_transfer_roomno').val($(this)[0].value);
@@ -1258,9 +1263,9 @@ function clearFunction() {
     populate_dropdown();
 
     $('#searchlocation').val("");
-    $('#dropdown_location').text("LOCATION...");
+    $('#dropdown_location').text("LOCATION AREA");
     $('#searchroomno').val("");
-    $('#dropdown_room').text("ROOM...");
+    $('#dropdown_room').text("ROOM");
     $('#searchasset').val("");
     $('#dropdown_assets').text("ASSET NO...");
     $('#clearAllFilters').prop('disabled', true);
