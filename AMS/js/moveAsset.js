@@ -182,8 +182,8 @@ function search() {
                                 str += '["' + data.data[k].ASSET_SUB_LOCATION + '","';
                                 str +=    data.data[k].ASSET_SUB_LOCATION + '","';
                             }else{
-                                str += '["' + data.data[k].ASSET_PRIMARY_ID + '","';
-                                str +=    data.data[k].ASSET_PRIMARY_ID + '","';
+                                str += '["' + data.data[k].ASSET_ID + '","';
+                                str +=    data.data[k].ASSET_ID + '","';
                             }
                             
                             str +=    ASSET_ROOM_NO + '","';

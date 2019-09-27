@@ -719,9 +719,11 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
             $ASSET_CLASS = '';
         }
         
-        $sql = "SELECT  avw.asset_primary_id,
-                        lvw.asset_room_no_new,
-                        lvw.asset_location_area_new,
+        $sql = "SELECT  avw.asset_primary_id  as ASSET_ID,
+                        lvw.asset_room_no_new as ASSET_ROOM_NO,
+                        lvw.asset_location_area_new as ASSET_AREA,
+                        avw.asset_class,
+                        avw.asset_sub_location,
                         avw.asset_description,
                         asset_is_sub
                 FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
@@ -771,9 +773,11 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
             $ASSET_CLASS = '';
         }
 
-        $sql = " SELECT avw.asset_primary_id,
-                        lvw.asset_room_no_old,
-                        lvw.asset_location_area_old,
+        $sql = " SELECT avw.asset_primary_id as ASSET_ID,
+                        lvw.asset_room_no_old as ASSET_ROOM_NO,
+                        lvw.asset_location_area_old as ASSET_AREA,
+                        avw.asset_sub_location,
+                        avw.asset_class,
                         avw.asset_description,
                         asset_is_sub,
                         'OUT' as movement_type
