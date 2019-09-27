@@ -202,12 +202,7 @@ function search() {
 
                 $('#currentAssetsTable tbody').on('click', 'button', function () {
 
-                    var data = table.row($(this).parents('tr')).data();
-                    if (data == null || data == undefined) {
-                        data = (localStorage.tableDataSet).split(',');
-                    } else {
-                        localStorage.tableDataSet = data;
-                    }
+                    var data = tableArr["currentAssetsTable"].row($(this).parents('tr')).data();
                     viewAsset(data[0]);
                 });
                 // $('#printAssetsView').fadeIn(500);

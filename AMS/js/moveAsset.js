@@ -256,12 +256,13 @@ function search() {
 
                 $(table_dom + ' tbody').on('click', 'button', function () {
 
-                    var data = table.row($(this).parents('tr')).data();
-                    if (data == null || data == undefined) {
-                        data = (localStorage.tableDataSet).split(',');
-                    } else {
-                        localStorage.tableDataSet = data;
-                    }
+                    var data = tableArr[replaceAll("#","",table_dom)].row($(this).parents('tr')).data();
+                    // var data = table.row($(this).parents('tr')).data();
+                    // if (data == null || data == undefined) {
+                    //     data = (localStorage.tableDataSet).split(',');
+                    // } else {
+                    //     localStorage.tableDataSet = data;
+                    // }
                     viewAsset(data[0]);
                 });
                 $('#loader').hide();
