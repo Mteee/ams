@@ -160,7 +160,7 @@ function search() {
                         }
                         if (data.data[k].ASSET_TRANSACTION_STATUS == "PENDING") {
                             // console.log(data.data[k].ASSET_PRIMARY_ID);
-                            rowIds.push(data.data[k].ASSET_PRIMARY_ID);
+                            rowIds.push(data.data[k].ASSET_ID);
 
                         };
                         if ((data.rows - 1) == k) {
