@@ -725,7 +725,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         avw.asset_description,
                         asset_is_sub
                 FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
-                WHERE        asset_transaction_status = 'Pending'
+                WHERE        asset_transaction_status = 'PENDING'
                         AND avw.ASSET_BUILDING LIKE '%$building%' 
                         AND lvw.ASSET_LOCATION_AREA_NEW LIKE '%$area%' 
                         AND (lvw.asset_room_no_new LIKE '%$room_no%'
@@ -778,7 +778,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
                         asset_is_sub,
                         'OUT' as movement_type
                 FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
-                WHERE        asset_transaction_status = 'Pending'
+                WHERE        asset_transaction_status = 'PENDING'
                         AND ASSET_LOCATION_AREA_OLD LIKE '%$area%'
                         AND lvw.asset_room_no_old LIKE '%$room_no%'
                         AND avw.asset_room_no LIKE '%$room_no%'
