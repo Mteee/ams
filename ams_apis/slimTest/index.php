@@ -668,7 +668,7 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
 
-    if(!empty($level) || !empty($room_no) || !empty($building) || !empty($area) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
+    if(!empty($level) || !empty($building) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS) || !empty($room_no) || !empty($area)){
 
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
@@ -713,7 +713,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
 
-    if(!empty($ASSET_NO) || !empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
+    if(!empty($level) || !empty($building) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS) || !empty($room_no) || !empty($area)){
 
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
@@ -765,7 +765,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
 
-    if(!empty($ASSET_ROOM) || !empty($ASSET_LOCATION) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
+    if(!empty($level) || !empty($building) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS) || !empty($room_no) || !empty($area)){
 
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
