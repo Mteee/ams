@@ -238,7 +238,72 @@
                         </div>
                         <div class="col-md-6" style="padding: 13px;">
                             <p class="py-1"><strong>To</strong></p>
+                                <div class="dropdown">
 
+                                    <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
+                                        id="building_transfer_filter" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        BUILDING
+                                    </button>
+
+
+                                    <div class="dropdown-menu" aria-labelledby="building_transfer_filter"
+                                        id="scroll_transfer_building">
+                                        <form class="px-4 py-2">
+                                            <div class="input-group">
+                                                <input type="search" id="search_transfer_building" class="form-control"
+                                                    placeholder="Building"
+                                                    onkeyup="onSearch('search_transfer_building','#empty_transfer_building')"
+                                                    autofocus="autofocus">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text btn btn-danger text-light"
+                                                        id="clear_transfer_building"
+                                                        onclick="clearData('#search_transfer_building','#building_transfer_filter','BUILDING')"><i
+                                                            class="fa fa-close"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div id="menu_transfer_building">
+                                            <div id="building_loader" class="dropdown-loader">
+                                                <img src="../img/loading-transparent.gif" alt="">
+                                            </div>
+                                        </div>
+                                        <div id="empty_transfer_building" class="dropdown-header">No building found
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown py-3">
+                                    <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
+                                        id="level_transfer_filter" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
+                                        LEVEL
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="level_transfer_filter"
+                                        id="scroll_transfer_level">
+                                        <form class="px-4 py-2">
+
+                                            <div class="input-group">
+                                                <input type="search" id="search_transfer_level" class="form-control"
+                                                    placeholder="Level"
+                                                    onkeyup="onSearch('search_transfer_level','#empty_transfer_level')"
+                                                    autofocus="autofocus">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text btn btn-danger text-light"
+                                                        id="clear_transfer_level"
+                                                        onclick="clearData('#search_transfer_level','#level_transfer_filter','LEVEL')"><i
+                                                            class="fa fa-close"></i></span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div id="menu_transfer_level">
+                                            <div id="Roomload" class="dropdown-loader">
+                                                <img src="../img/loading-transparent.gif" alt="">
+                                            </div>
+                                        </div>
+                                        <div id="empty_transfer_level" class="dropdown-header">No level found</div>
+                                    </div>
+                                </div>
                             <div class="dropdown">
                                 <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
                                     id="dropdown_transfer_location" data-toggle="dropdown" aria-haspopup="true"
@@ -648,8 +713,8 @@
                                     </div>
                                 </th>
                                 <th>
-                                    <input type="text" id="move_description" onkeyup="onSearch_new('move_description')" class="form-control"
-                                        placeholder="Description...">
+                                    <input type="text" id="move_description" onkeyup="onSearch_new('move_description')"
+                                        class="form-control" placeholder="Description...">
                                 </th>
                                 <th>
                                     <button onclick="search()" type="text" class="btn btn-success form-control">
