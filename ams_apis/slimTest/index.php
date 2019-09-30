@@ -1346,7 +1346,7 @@ $app->map(['GET','POST'],'/unlink_all_subs',function(Request $request, Response 
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN amsd.asset_it_fix_unlink_all_subs(:ASSET_ID,:RESULT); END;";
+        $sql = "BEGIN amsd.asset_it_fix_unlink_all_subs_view(:ASSET_ID,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
         oci_bind_by_name($statement, ':ASSET_ID', $ASSETS_ID, 30);

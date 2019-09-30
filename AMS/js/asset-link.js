@@ -319,6 +319,47 @@ function viewAsset(assetId) {
     });
 }
 
+function unlinkAll(assetId) {
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/unlink_all_subs",
+        method: "POST",
+        dataType: "JSON",
+        data: '{"asset_primary_id" :"' + assetId + '","username":"' + localStorage.username + '"}',
+        success: function (data) {
+            console.log(data);
+            if (data.data == "UNLINKING ALL SUBS WAS SUCCESSFUL") {
+                closeAsset('overlay-asset');
+                // searchasset();
+                search();
+
+                swal.fire({
+                    title: "unlinked Successfully",
+                    text: data.data,
+                    type: "success",
+                    showCloseButton: true,
+                    allowOutsideClick: true,
+
+                }).then(function (result) {
+                    if (result.value) {
+
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+
+            }
+        },
+        error: function (err) {
+            console.log(err);
+            console.log("error");
+
+        }
+    });
+}
+
+
 function resetToAssets() {
     //building
     $('#dropdown_sub_location').text("BUILDING");
