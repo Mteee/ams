@@ -220,7 +220,18 @@ input[type="checkbox"]:disabled:after {
 
 
 /* starts */
-
+#overlay-newAssetView{
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.5);
+}
 #overlay-asset,
 #overlay-printView,
 #overlay-alert-message {
@@ -264,14 +275,13 @@ input[type="checkbox"]:disabled:after {
 
 .asset-details {
     position: relative;
-    margin: 12% auto;
+    margin: 6% auto;
     width: 500px;
-    height: 442px;
+    height: 500px;
     border-radius: 5px;
     background: white;
     z-index: 2;
     position: relative;
-
 }
 
 .asset-transfer-details {
@@ -530,25 +540,25 @@ caption {
     padding: 5px;
 }
 
-.test-scroll {
+.test-scroll, .transfer-scroll {
     height: 151px;
     overflow-y: auto;
 }
 
-.transfer-scroll {
+ /* {
     height: 151px;
     overflow-y: auto;
-}
+} */
 
-.test-scroll thead th {
+.test-scroll thead th, .transfer-scroll thead  {
     position: sticky;
     top: 0;
 }
 
-.transfer-scroll thead {
+ /* {
     position: sticky;
     top: 0;
-}
+} */
 
 #viewAssetTable2 {
     width: 100%;
@@ -629,7 +639,7 @@ div#inAssetsTable_length {
     transition: 500ms;
 }
 
-.active {
+#menu-list .active {
     background: #343b40;
     color: white;
 }
