@@ -122,6 +122,50 @@
             overflow-y: auto;
             padding-left: 21px;
         }
+
+
+        .system_info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            text-align: center;
+            height: 50px;
+            border: 6px solid #343a40;
+            background: #2fb02f;
+            border-radius: 50%;
+            padding: 7px 11px;
+            color: white;
+            left: 20px;
+        }
+
+        .system_info:hover {
+            cursor: pointer;
+            box-shadow: 5px 4px 19px #000000d4;
+            transition: 500ms;
+        }
+
+        .system_info:hover .tooltiptext {
+            visibility: visible;
+        }
+
+        .system_info .tooltiptext {
+            visibility: hidden;
+            width: 160px;
+            background-color:rgb(0, 0, 0, .7);
+            color: #f9f9f9;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px 0;
+            padding-top: 8px;
+            padding-right: 0px;
+            padding-bottom: 8px;
+            padding-left: 0px;
+            position: absolute;
+            z-index: 1;
+            margin-left: 27px;
+            margin-top: -16px;
+        }
     </style>
 
 </head>
@@ -681,6 +725,10 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div class="system_info" onclick="">
+        <span class="fa fa-plus-circle fa-lg"></span><span class="tooltiptext"><strong></strong>Create new asset</strong></span>
     </div>
 
     <script src="../js/jquery.js"></script>
