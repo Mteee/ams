@@ -127,7 +127,6 @@
 </head>
 
 <body>
-
     <div id="overlay-newAssetView">
 
         <div class="row">
@@ -261,7 +260,8 @@
                                                 <div class="col-sm-10 offset-1">
                                                     <div class="assets_info_plus">
                                                         <div>
-                                                            <div class="row table-bordered" style="margin: 0 !important;border-radius: 5px;">
+                                                            <div class="row table-bordered"
+                                                                style="margin: 0 !important;border-radius: 5px;">
                                                                 <div class="col-sm-5 offset-1">
 
                                                                     <div class="form-group label-floating">
@@ -287,7 +287,8 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div  class="row table-bordered my-4" style="margin-left: 0 !important; margin-right: 0 !important;border-radius: 5px;">
+                                                            <div class="row table-bordered my-4"
+                                                                style="margin-left: 0 !important; margin-right: 0 !important;border-radius: 5px;">
                                                                 <div class="col-sm-5 offset-1">
 
                                                                     <div class="form-group label-floating">
@@ -380,7 +381,6 @@
         </div> <!-- row -->
 
     </div>
-
     <div class="container-fluid" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -457,42 +457,45 @@
                         <div class="row">
 
                             <div class="col-md-12">
-                                <table class="table" id="searchWith">
+                                <table class="table" id="searchAdditionaddition">
                                     <tr>
                                         <th>
                                             Search
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_location" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    LOCATION ...
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_location"
-                                                    id="scrollLocation">
-                                                    <form class="px-4 py-2">
 
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="building_addition_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    BUILDING
+                                                </button>
+
+
+                                                <div class="dropdown-menu" aria-labelledby="building_addition_filter"
+                                                    id="scroll_addition_building">
+                                                    <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="searchlocation"
-                                                                class="form-control" placeholder="Location..."
-                                                                onkeyup="onSearch('searchlocation','#emptyLocation')"
+                                                            <input type="search" id="search_addition_building"
+                                                                class="form-control" placeholder="Building"
+                                                                onkeyup="onSearch('search_addition_building','#empty_addition_building')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clearLocation"
-                                                                    onclick="clearData('#searchlocation','#dropdown_location','LOCATION...')"><i
-                                                                        class="fa fa-close"></i></span>
-
+                                                                    id="clear_addition_building"
+                                                                    onclick="clearData('#search_addition_building','#building_addition_filter','BUILDING')"><i
+                                                                        class="fa fa-close"></i>
+                                                                </span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menuLocation">
-                                                        <div id="locationLoader" class="dropdown-loader">
+                                                    <div id="menu_addition_building">
+                                                        <div id="building_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="emptyLocation" class="dropdown-header">No location found
+                                                    <div id="empty_addition_building" class="dropdown-header">No
+                                                        building found
                                                     </div>
                                                 </div>
                                             </div>
@@ -500,90 +503,125 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_room" data-toggle="dropdown"
+                                                    type="button" id="level_addition_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    ROOM...
+                                                    LEVEL
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdown_room"
-                                                    id="scrollRoom">
+                                                <div class="dropdown-menu" aria-labelledby="level_addition_filter"
+                                                    id="scroll_addition_level">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="searchroomno" class="form-control"
-                                                                placeholder="room..."
-                                                                onkeyup="onSearch('searchroomno','#emptyRoom')"
+                                                            <input type="search" id="search_addition_level"
+                                                                class="form-control" placeholder="Level"
+                                                                onkeyup="onSearch('search_addition_level','#empty_addition_level')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clearRoom"
-                                                                    onclick="clearData('#searchroomno','#dropdown_room','ROOM...')"><i
+                                                                    id="clear_addition_level"
+                                                                    onclick="clearData('#search_addition_level','#level_addition_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
-
                                                     </form>
-                                                    <div id="menuRoom">
+                                                    <div id="menu_addition_level">
                                                         <div id="Roomload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="emptyRoom" class="dropdown-header">No room found</div>
+                                                    <div id="empty_addition_level" class="dropdown-header">No level
+                                                        found</div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
+                                                    type="button" id="area_addition_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    ASSET NO...
+                                                    AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
-                                                    aria-labelledby="dropdown_assets">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_area"
+                                                    aria-labelledby="area_addition_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="searchasset" class="form-control"
-                                                                placeholder="asset no..."
-                                                                onkeyup="onSearch('searchasset','#emptyAsset')"
+                                                            <input type="search" id="search_addition_area"
+                                                                class="form-control" placeholder="Area"
+                                                                onkeyup="onSearch('search_addition_area','#empty_addition_area')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clearAssets"
-                                                                    onclick="clearData('#searchasset','#dropdown_assets','ASSET NO...')"><i
+                                                                    id="clear_addition_area"
+                                                                    onclick="clearData('#search_addition_area','#area_addition_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menuAssets" class="text-center" onchange="testMethod()">
+                                                    <div id="meun_addition_area" class="text-center"
+                                                        onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="emptyAsset" class="dropdown-header">No assets found</div>
+                                                    <div id="empty_addition_area" class="dropdown-header">No area found
+                                                    </div>
                                                 </div>
                                             </div>
                                         </th>
-
                                         <th>
-                                            <input type="text" id="description" class="form-control"
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="room_addition_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ROOM
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_room"
+                                                    aria-labelledby="room_addition_filter">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_addition_room"
+                                                                class="form-control" placeholder="Room"
+                                                                onkeyup="onSearch('search_addition_room','#empty_addition_room')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_addition_room"
+                                                                    onclick="clearData('#search_addition_room','#room_addition_filter','ROOM')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_addition_room" class="text-center"
+                                                        onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_addition_room" class="dropdown-header">No room found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <input type="text" id="addition_description"
+                                                onkeyup="onSearch_new('addition_description')" class="form-control"
                                                 placeholder="Description...">
                                         </th>
-
                                         <th>
-                                            <button onclick="search()" type="text" class="btn btn-success">
+                                            <button onclick="search()" type="text" class="btn btn-success form-control">
                                                 <span class="fa fa-search"></span>
                                                 Search
                                             </button>
-
-                                            <button type="text" onclick="addAssets()" class="btn btn-primary">
-                                                <span class="fa fa-plus"></span>
-                                                New
+                                        </th>
+                                        <th>
+                                            <button onclick="cleaAllFilters()" type="text"
+                                                class="btn btn-danger form-control">
+                                                <span class="fa fa-close"></span>
+                                                Clear
                                             </button>
                                         </th>
-
-
                                     </tr>
-
                                 </table>
                                 <form id="frm-example" method="POST">
                                     <table class="table" id="currentAssetsTable" style="font-size:13pt">
