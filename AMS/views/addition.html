@@ -12,15 +12,18 @@
     <link rel="stylesheet" href="../css/main_add_new.css">
     <link rel="stylesheet" href="../css/font-awesome.css">
     <!-- Add IntroJs styles -->
-    <link href="../css/introjs.css" rel="stylesheet">
+    <!-- <link href="../css/introjs.css" rel="stylesheet"> -->
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" type="text/css"
-    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="../css/style.css">
+
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
+    <link href="../css/material-bootstrap-wizard.css" rel="stylesheet" />
+
     <style>
-       #wizard .nav {
+        #wizard .nav {
             padding-left: 0;
             margin-bottom: 0;
             list-style: none;
@@ -120,6 +123,7 @@
             padding-left: 21px;
         }
     </style>
+
 </head>
 
 <body>
@@ -257,8 +261,7 @@
                                                 <div class="col-sm-10 offset-1">
                                                     <div class="assets_info_plus">
                                                         <div>
-                                                            <div class="row table-bordered"
-                                                                style="margin: 0 !important;border-radius: 5px;">
+                                                            <div class="row table-bordered" style="margin: 0 !important;border-radius: 5px;">
                                                                 <div class="col-sm-5 offset-1">
 
                                                                     <div class="form-group label-floating">
@@ -284,8 +287,7 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row table-bordered my-4"
-                                                                style="margin-left: 0 !important; margin-right: 0 !important;border-radius: 5px;">
+                                                            <div  class="row table-bordered my-4" style="margin-left: 0 !important; margin-right: 0 !important;border-radius: 5px;">
                                                                 <div class="col-sm-5 offset-1">
 
                                                                     <div class="form-group label-floating">
@@ -376,9 +378,8 @@
                 </div> <!-- wizard container -->
             </div>
         </div> <!-- row -->
+
     </div>
-
-
 
     <div class="container-fluid" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
@@ -456,45 +457,42 @@
                         <div class="row">
 
                             <div class="col-md-12">
-                                <table class="table" id="searchWithComm">
+                                <table class="table" id="searchWith">
                                     <tr>
                                         <th>
                                             Search
                                         </th>
                                         <th>
                                             <div class="dropdown">
-
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="building_comm_filter" data-toggle="dropdown"
+                                                    type="button" id="dropdown_location" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    BUILDING
+                                                    LOCATION ...
                                                 </button>
-
-
-                                                <div class="dropdown-menu" aria-labelledby="building_comm_filter"
-                                                    id="scroll_comm_building">
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_location"
+                                                    id="scrollLocation">
                                                     <form class="px-4 py-2">
+
                                                         <div class="input-group">
-                                                            <input type="search" id="search_comm_building"
-                                                                class="form-control" placeholder="Building"
-                                                                onkeyup="onSearch('search_comm_building','#empty_comm_building')"
+                                                            <input type="search" id="searchlocation"
+                                                                class="form-control" placeholder="Location..."
+                                                                onkeyup="onSearch('searchlocation','#emptyLocation')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_comm_building"
-                                                                    onclick="clearData('#search_comm_building','#building_comm_filter','BUILDING')"><i
-                                                                        class="fa fa-close"></i>
-                                                                </span>
+                                                                    id="clearLocation"
+                                                                    onclick="clearData('#searchlocation','#dropdown_location','LOCATION...')"><i
+                                                                        class="fa fa-close"></i></span>
+
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_comm_building">
-                                                        <div id="building_loader" class="dropdown-loader">
+                                                    <div id="menuLocation">
+                                                        <div id="locationLoader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_comm_building" class="dropdown-header">No building
-                                                        found
+                                                    <div id="emptyLocation" class="dropdown-header">No location found
                                                     </div>
                                                 </div>
                                             </div>
@@ -502,160 +500,126 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="level_comm_filter" data-toggle="dropdown"
+                                                    type="button" id="dropdown_room" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    LEVEL
+                                                    ROOM...
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="level_comm_filter"
-                                                    id="scroll_comm_level">
+                                                <div class="dropdown-menu" aria-labelledby="dropdown_room"
+                                                    id="scrollRoom">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_comm_level"
-                                                                class="form-control" placeholder="Level"
-                                                                onkeyup="onSearch('search_comm_level','#empty_comm_level')"
+                                                            <input type="search" id="searchroomno" class="form-control"
+                                                                placeholder="room..."
+                                                                onkeyup="onSearch('searchroomno','#emptyRoom')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_comm_level"
-                                                                    onclick="clearData('#search_comm_level','#level_comm_filter','LEVEL')"><i
+                                                                    id="clearRoom"
+                                                                    onclick="clearData('#searchroomno','#dropdown_room','ROOM...')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
+
                                                     </form>
-                                                    <div id="menu_comm_level">
+                                                    <div id="menuRoom">
                                                         <div id="Roomload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_comm_level" class="dropdown-header">No level found
-                                                    </div>
+                                                    <div id="emptyRoom" class="dropdown-header">No room found</div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="area_comm_filter" data-toggle="dropdown"
+                                                    type="button" id="dropdown_assets" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    AREA
+                                                    ASSET NO...
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_comm_area"
-                                                    aria-labelledby="area_comm_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scrollAssets"
+                                                    aria-labelledby="dropdown_assets">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_comm_area"
-                                                                class="form-control" placeholder="Area"
-                                                                onkeyup="onSearch('search_comm_area','#empty_comm_area')"
+                                                            <input type="search" id="searchasset" class="form-control"
+                                                                placeholder="asset no..."
+                                                                onkeyup="onSearch('searchasset','#emptyAsset')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_comm_area"
-                                                                    onclick="clearData('#search_comm_area','#area_comm_filter','AREA')"><i
+                                                                    id="clearAssets"
+                                                                    onclick="clearData('#searchasset','#dropdown_assets','ASSET NO...')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_comm_area" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menuAssets" class="text-center" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_move_area" class="dropdown-header">No area found
-                                                    </div>
+                                                    <div id="emptyAsset" class="dropdown-header">No assets found</div>
                                                 </div>
                                             </div>
                                         </th>
-                                        <th>
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="room_move_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
-                                                    ROOM
-                                                </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_move_room"
-                                                    aria-labelledby="room_move_filter">
-                                                    <form class="px-4 py-2">
 
-                                                        <div class="input-group">
-                                                            <input type="search" id="search_move_room"
-                                                                class="form-control" placeholder="Room"
-                                                                onkeyup="onSearch('search_move_room','#empty_move_room')"
-                                                                autofocus="autofocus">
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_move_room"
-                                                                    onclick="clearData('#search_move_room','#room_move_filter','ROOM')"><i
-                                                                        class="fa fa-close"></i></span>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                    <div id="menu_move_room" class="text-center"
-                                                        onchange="testMethod()">
-                                                        <div id="Assetload" class="dropdown-loader">
-                                                            <img src="../img/loading-transparent.gif" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div id="empty_move_room" class="dropdown-header">No room found
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </th>
                                         <th>
-                                            <input type="text" id="move_description"
-                                                onkeyup="onSearch_new('move_description')" class="form-control"
+                                            <input type="text" id="description" class="form-control"
                                                 placeholder="Description...">
                                         </th>
+
                                         <th>
-                                            <button onclick="search()" type="text" class="btn btn-success form-control">
+                                            <button onclick="search()" type="text" class="btn btn-success">
                                                 <span class="fa fa-search"></span>
                                                 Search
                                             </button>
-                                        </th>
-                                        <th>
-                                            <button onclick="cleaAllFilters()" type="text"
-                                                class="btn btn-danger form-control">
-                                                <span class="fa fa-close"></span>
-                                                Clear
+
+                                            <button type="text" onclick="addAssets()" class="btn btn-primary">
+                                                <span class="fa fa-plus"></span>
+                                                New
                                             </button>
                                         </th>
+
+
                                     </tr>
+
                                 </table>
                                 <form id="frm-example" method="POST">
                                     <table class="table" id="currentAssetsTable" style="font-size:13pt">
                                         <thead style="background:#000000;color:#ffffff;">
                                             <tr>
                                                 <th scope="col">
-                                                    #
+                                                    Asset Class
                                                 </th>
                                                 <th scope="col">
-                                                    Asset No
-
+                                                    Asset ID
                                                 </th>
                                                 <th scope="col">
-                                                    Room
-
+                                                    Asset Description
                                                 </th>
                                                 <th scope="col">
-                                                    Location
-
+                                                    Model
                                                 </th>
                                                 <th scope="col">
-                                                    Description
-
+                                                    Classification Name
                                                 </th>
                                                 <th scope="col">
-                                                    Has Sub Assets
-
+                                                    Room Number
                                                 </th>
                                                 <th scope="col">
-                                                    View
+                                                    Vendor Name
+                                                </th>
+                                                <th scope="col">
+                                                    Useful Life
+                                                </th>
+                                                <th scope="col">
+                                                    Status
                                                 </th>
                                             </tr>
                                         </thead>
                                         <tbody id="current">
-                                            <div id="loader" class="loader">
+                                            <!-- <div id="loader" class="loader">
                                                 <img src="../img/loading-transparent.gif" alt="">
                                             </div>
                                             <div id="searchView" class="search_start">
@@ -663,7 +627,7 @@
                                                     above
                                                 </p>
                                                 <img width="200" src="../img/loupe.png" alt="Search">
-                                            </div>
+                                            </div> -->
 
                                             <tr>
 
@@ -683,147 +647,152 @@
         </div>
     </div>
 
-    <div class="system_info" onclick="insertNew()">
-        <span class="fa fa-plus" class="bg-dark"
-            style="text-align: center;width: 100%; height: 100%;margin-top: 11px;"></span><span
-            class="tooltiptext"><strong></strong>Create New Asset</strong></span>
+    <script src="../js/jquery.js"></script>
+    <!--<script src="../js/clusterize.min.js"></script>
+    <script src="../js/moveAsset.js"></script>
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/jquery.steps.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
+    <script src="../js/tablefilter.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="../js/intro.js"></script> -->
+    <!--  Plugin for the Wizard -->
 
-        <script src="../js/jquery.js"></script>
-        <script src="../js/clusterize.min.js"></script>
-        <script src="../js/moveAsset.js"></script>
-        <script src="../js/bootstrap.bundle.js"></script>
-        <script src="../js/jquery.steps.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.js"></script>
-        <script src="../js/tablefilter.js"></script>
-        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src="../js/intro.js"></script>
-
-        <script src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
-
-        <script>
-
-            $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
-
-            function addAssets() {
-                $('#overlay-printView').fadeIn(500);
-            }
-
-            function insertNew() {
-
-            }
-
-            $("#form-total").steps({
-                headerTag: "h2",
-                bodyTag: "section",
-                transitionEffect: "fade",
-                enableAllSteps: false,
-                cssClass: "wizard",
-                enablePagination: true,
-                stepsOrientation: "vertical",
-                autoFocus: true,
-                enableCancelButton: false,
-                forceMoveForward: false,
-                stepsContainerTag: "div",
-                transitionEffectSpeed: 400,
-                titleTemplate: '<div class="title">#title#</div>',
-                labels: {
-                    previous: '<i class="py-2 fa fa-arrow-circle-left"></i> Previous',
-                    next: 'Next <i class="py-2 fa fa-arrow-circle-right"></i>',
-                    cancel: "Cancel",
-                    current: "current step:",
-                    pagination: "Pagination",
-                    finish: 'Finish <i class="fa fa-thumbs-up"></i>',
-                    loading: "Loading ..."
-                },
-                destroy: true,
-                onFinished: function () {
-                    $('#form-total').steps("reset");
-                    $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
-                    closeAsset('overlay-printView');
-                },
-                onStepChanged: function (event, current, next) {
-                    if (current > 0) {
-                        $('.actions ul li:first-child').attr('style', 'opacity:1 !important;transition:500ms;');
-                        console.log('back000');
-                    } else if (current == 0) {
-                        console.log('back');
-                        $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
-                    }
-
-                    if (current == 3) {
-                        $('.actions ul li:nth-child(2)').attr('style', 'opacity:0 !important;transition:500ms;');
-
-                    } else {
-                        $('.actions ul li:nth-child(2)').attr('style', 'opacity:1 !important;transition:500ms;');
-
-                    }
-                },
-                onStepChanging: function (event, currentIndex, newIndex) {
-                    var form = $(this);
-                    var check = true;
-                    if (currentIndex == 0) {
-
-                        if (($("#newRoom").val()).length == 0) {
-                            $("#error-msg-room").text("This field is required");
-                            check = false;
-                        } else {
-                            $("#error-msg-room").text("");
-                        }
-                        if (($("#classifiction_name").val()).length == 0) {
-                            $("#error-msg-class-name").text("This field is required");
-                            check = false;
-                        } else {
-                            $("#error-msg-class-name").text("");
-                        }
-                        if ($("#asset_class")[0].selectedIndex == 0) {
-                            $("#error-msg-asset-class").text("This field is required");
-                            check = false;
-                        } else {
-                            $("#error-msg-asset-class").text("");
-                        }
+    <!-- <script src="../js/assets/jquery-2.2.4.min.js"></script> -->
+    <script src="../js/assets/bootstrap.min.js"></script>
+    <script src="../js/assets/material-bootstrap-wizard.js"></script>
+    <script src="../js/assets/jquery.bootstrap.js"></script>
 
 
-                    }
+    <!--  More information about jquery.validate here: http://jqueryvalidation.org/	 -->
+    <script src="../js/jquery.validate.min.js"></script>
 
-                    if (currentIndex == 1) {
+    <script src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
-                    }
+    <script>
 
-                    return true;
-                }
-            })
+        function addAsset() {
+            alert("hello");
+        }
 
-            $(".dropdown, .btn-group").hover(function () {
-                var dropdownMenu = $(this).children(".dropdown-menu");
-                if (dropdownMenu.is(":visible")) {
-                    console.log('not visible');
-                    // dropdownMenu.parent().toggleClass("open");
-                } else {
-                    console.log('visible');
-                    $(this).toggleClass("open");
-                }
-            });
+        // $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
 
-            function showNav() {
-                $('#menu-list').slideToggle('fast');
-            }
+        // function addAssets() {
+        //     $('#overlay-printView').fadeIn(500);
+        // }
 
-            document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
+        // $("#form-total").steps({
+        //     headerTag: "h2",
+        //     bodyTag: "section",
+        //     transitionEffect: "fade",
+        //     enableAllSteps: false,
+        //     cssClass: "wizard",
+        //     enablePagination: true,
+        //     stepsOrientation: "vertical",
+        //     autoFocus: true,
+        //     enableCancelButton: false,
+        //     forceMoveForward: false,
+        //     stepsContainerTag: "div",
+        //     transitionEffectSpeed: 400,
+        //     titleTemplate: '<div class="title">#title#</div>',
+        //     labels: {
+        //         previous: '<i class="py-2 fa fa-arrow-circle-left"></i> Previous',
+        //         next: 'Next <i class="py-2 fa fa-arrow-circle-right"></i>',
+        //         cancel: "Cancel",
+        //         current: "current step:",
+        //         pagination: "Pagination",
+        //         finish: 'Finish <i class="fa fa-thumbs-up"></i>',
+        //         loading: "Loading ..."
+        //     },
+        //     destroy: true,
+        //     onFinished: function () {
+        //         $('#form-total').steps("reset");
+        //         $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
+        //         closeAsset('overlay-printView');
+        //     },
+        //     onStepChanged: function (event, current, next) {
+        //         if (current > 0) {
+        //             $('.actions ul li:first-child').attr('style', 'opacity:1 !important;transition:500ms;');
+        //             console.log('back000');
+        //         } else if(current == 0) {
+        //             console.log('back');
+        //             $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
+        //         }
 
-            function replaceAll(find, replace, str) {
-                while (str.indexOf(find) > -1) {
-                    str = str.replace(find, replace);
-                }
-                return str;
-            }
+        //         if (current == 3) {
+        //             $('.actions ul li:nth-child(2)').attr('style', 'opacity:0 !important;transition:500ms;');
 
-            function onError(error) {
-                console.log(`Error: ${error}`);
-            }
+        //         } else {
+        //             $('.actions ul li:nth-child(2)').attr('style', 'opacity:1 !important;transition:500ms;');
 
-            var setting = browser.tabs.setZoom(2);
-            setting.then(null, onError);
-        </script>
+        //         }
+        //     },
+        //     onStepChanging: function (event, currentIndex, newIndex) {
+        //         var form = $(this);
+        //         var check = true;
+        //         if (currentIndex == 0) {
+
+        //             if (($("#newRoom").val()).length == 0) {
+        //                 $("#error-msg-room").text("This field is required");
+        //                 check = false;
+        //             } else {
+        //                 $("#error-msg-room").text("");
+        //             }
+        //             if (($("#classifiction_name").val()).length == 0) {
+        //                 $("#error-msg-class-name").text("This field is required");
+        //                 check = false;
+        //             } else {
+        //                 $("#error-msg-class-name").text("");
+        //             }
+        //             if ($("#asset_class")[0].selectedIndex == 0) {
+        //                 $("#error-msg-asset-class").text("This field is required");
+        //                 check = false;
+        //             } else {
+        //                 $("#error-msg-asset-class").text("");
+        //             }
+
+
+        //         }
+
+        //         if (currentIndex == 1) {
+
+        //         }
+
+        //         return true;
+        //     }
+        // })
+
+        // $(".dropdown, .btn-group").hover(function () {
+        //     var dropdownMenu = $(this).children(".dropdown-menu");
+        //     if (dropdownMenu.is(":visible")) {
+        //         console.log('not visible');
+        //         // dropdownMenu.parent().toggleClass("open");
+        //     } else {
+        //         console.log('visible');
+        //         $(this).toggleClass("open");
+        //     }
+        // });
+
+        // function showNav() {
+        //     $('#menu-list').slideToggle('fast');
+        // }
+
+        // document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
+
+        // function replaceAll(find, replace, str) {
+        //     while (str.indexOf(find) > -1) {
+        //         str = str.replace(find, replace);
+        //     }
+        //     return str;
+        // }
+
+        // function onError(error) {
+        //     console.log(`Error: ${error}`);
+        // }
+
+        // var setting = browser.tabs.setZoom(2);
+        // setting.then(null, onError);
+    </script>
 
 </body>
 
