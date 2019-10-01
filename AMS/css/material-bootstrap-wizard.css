@@ -277,11 +277,11 @@
 }
 
 .form-group.is-focused .form-control {
-  outline: none;
-  background-image: linear-gradient(#9c27b0, #9c27b0), linear-gradient(#D2D2D2, #D2D2D2);
+  /* outline: none;
+  background-image: linear-gradient(#9b27b000, #9b27b000), linear-gradient(#D2D2D2, #D2D2D2);
   background-size: 100% 2px, 100% 1px;
   box-shadow: none;
-  transition-duration: 0.3s;
+  transition-duration: 0.3s; */
 }
 
 .form-group.is-focused .form-control .material-input:after {
@@ -434,18 +434,18 @@ label.control-label {
   margin: 27px 0 0 0;
 }
 
-.form-group .form-control {
+#overlay-newAssetView .form-group .form-control {
   margin-bottom: 7px;
 }
 
-.form-group .form-control::-moz-placeholder {
+#overlay-newAssetView .form-group .form-control::-moz-placeholder {
   font-size: 14px;
   line-height: 1.42857;
   color: #AAAAAA;
   font-weight: 400;
 }
 
-.form-group .form-control:-ms-input-placeholder {
+#overlay-newAssetView .form-group .form-control:-ms-input-placeholder {
   font-size: 14px;
   line-height: 1.42857;
   color: #AAAAAA;
@@ -474,7 +474,7 @@ label.control-label {
   margin: 16px 0 0 0;
 }
 
-.form-group .help-block {
+#overlay-newAssetViewv .form-group .help-block {
   margin-top: 0;
   font-size: 11px;
 }
@@ -499,7 +499,7 @@ label.control-label {
   line-height: 1.07143;
 }
 
-.form-group.form-group-sm {
+#overlay-newAssetView .form-group.form-group-sm {
   padding-bottom: 3px;
   margin: 21px 0 0 0;
 }

@@ -19,6 +19,8 @@
     <link rel="stylesheet" href="../css/style.css">
 
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
+
 
     <link href="../css/material-bootstrap-wizard.css" rel="stylesheet" />
 
@@ -131,7 +133,7 @@
             width: 50px;
             text-align: center;
             height: 50px;
-            border: 6px solid #343a40;
+            border: 6px solid #343a4000;
             background: #2fb02f;
             border-radius: 50%;
             padding: 7px 11px;
@@ -152,7 +154,7 @@
         .system_info .tooltiptext {
             visibility: hidden;
             width: 160px;
-            background-color:rgb(0, 0, 0, .7);
+            background-color: rgb(0, 0, 0, .7);
             color: #f9f9f9;
             text-align: center;
             border-radius: 6px;
@@ -166,18 +168,37 @@
             margin-left: 27px;
             margin-top: -16px;
         }
+
+        .wizard-card[data-color="green"] .moving-tab {
+
+            background-color: #4caf50;
+            box-shadow: 0 16px 26px -10px rgba(76, 175, 80, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(76, 175, 80, 0.2);
+            width: 188px !important;
+        }
+
+        .form-group {
+            margin-bottom: 0 !important;
+        }
+
+        .form-control:disabled,
+        .form-control[readonly] {
+            background-color: #e9ecef !important;
+            opacity: 1;
+            border-bottom: 1px dotted rgba(210, 210, 210, 0) !important;
+        }
     </style>
 
 </head>
 
 <body>
     <div id="overlay-newAssetView">
-        <div class="row">
+        <div class="row animated bounceInUp">
             <div class="col-sm-6 offset-3">
                 <!--      Wizard container        -->
                 <div class="wizard-container">
                     <div class="card wizard-card" data-color="green" id="wizard">
                         <form action="" method="">
+                            <span class="exit-asset" onclick="closeAsset('overlay-newAssetView')">&times;</span>
                             <div class="wizard-header">
                                 <h3 class="wizard-title">
                                     New Asset Info
@@ -727,8 +748,9 @@
         </div>
     </div>
 
-    <div class="system_info" onclick="">
-        <span class="fa fa-plus-circle fa-lg"></span><span class="tooltiptext"><strong></strong>Create new asset</strong></span>
+    <div class="system_info" onclick="add_new_asset()">
+        <span class="fa fa-plus fa-lg"></span><span class="tooltiptext"><strong></strong>Create new
+            asset</strong></span>
     </div>
 
     <script src="../js/jquery.js"></script>
@@ -736,14 +758,12 @@
     <script src="../js/assets/material-bootstrap-wizard.js"></script>
     <script src="../js/assets/jquery.bootstrap.js"></script>
     <script src="../js/jquery.validate.min.js"></script>
-
+    <script src="../js/addition.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
     <script src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
     <script>
-
-        function addAsset() {
-            alert("hello");
-        }
 
         // $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
 
