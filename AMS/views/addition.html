@@ -14,8 +14,7 @@
     <!-- Add IntroJs styles -->
     <!-- <link href="../css/introjs.css" rel="stylesheet"> -->
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-    <link rel="stylesheet" type="text/css"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="../css/style.css">
 
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
@@ -30,46 +29,46 @@
             margin-bottom: 0;
             list-style: none;
         }
-
+        
         #wizard {
             font-family: "Roboto", "Helvetica", "Arial", sans-serif;
             font-weight: 300;
             line-height: 1.5em;
         }
-
+        
         #wizard .nav-pills {
             background-color: rgba(200, 200, 200, 0.2);
         }
-
+        
         #wizard .nav-pills>li {
             float: left;
         }
-
+        
         #wizard .nav>li {
             position: relative;
             display: block;
         }
-
+        
         #wizard .nav>li>a {
             position: relative;
             display: block;
             padding: 10px 15px;
         }
-
+        
         .wizard-container {
             padding-top: 100px;
             z-index: 3;
         }
-
+        
         .wizard-container .wizard-navigation {
             position: relative;
         }
-
+        
         .wizard-card {
             min-height: 410px;
             box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
         }
-
+        
         .card {
             background-color: #FFFFFF;
             padding: 10px 0;
@@ -78,7 +77,7 @@
             color: rgba(0, 0, 0, 0.87);
             background: #fff;
         }
-
+        
         .card {
             position: relative;
             display: -ms-flexbox;
@@ -92,18 +91,16 @@
             border: 1px solid rgba(0, 0, 0, 0.125);
             border-radius: 0.25rem;
         }
-
-
+        
         .wizard-card .wizard-header {
             text-align: center;
             padding: 25px 0 35px;
         }
-
+        
         .wizard-card .wizard-title {
             margin: 0;
         }
-
-
+        
         .card-title,
         .card-title a,
         .wizard-title,
@@ -111,21 +108,19 @@
             color: #3C4858;
             text-decoration: none;
         }
-
+        
         .title,
         .card-title,
         .wizard-title {
             font-weight: 700;
         }
-
-
+        
         .assets_info_plus {
             height: 184px;
             overflow-y: auto;
             padding-left: 21px;
         }
-
-
+        
         .system_info {
             position: fixed;
             bottom: 20px;
@@ -140,17 +135,17 @@
             color: white;
             left: 20px;
         }
-
+        
         .system_info:hover {
             cursor: pointer;
             box-shadow: 5px 4px 19px #000000d4;
             transition: 500ms;
         }
-
+        
         .system_info:hover .tooltiptext {
             visibility: visible;
         }
-
+        
         .system_info .tooltiptext {
             visibility: hidden;
             width: 160px;
@@ -168,18 +163,17 @@
             margin-left: 27px;
             margin-top: -16px;
         }
-
+        
         .wizard-card[data-color="green"] .moving-tab {
-
             background-color: #4caf50;
             box-shadow: 0 16px 26px -10px rgba(76, 175, 80, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(76, 175, 80, 0.2);
             width: 188px !important;
         }
-
+        
         .form-group {
             margin-bottom: 0 !important;
         }
-
+        
         .form-control:disabled,
         .form-control[readonly] {
             background-color: #e9ecef !important;
@@ -334,17 +328,33 @@
                                             <div class="row">
                                                 <div class="col-sm-10 offset-1">
                                                     <div class="assets_info_plus">
-                                                        <div id="asset_group">
-                                                            <div class="row table-bordered"
-                                                                style="margin: 0 !important;border-radius: 5px;">
-
-                                                                <div class="col-sm-10 offset-1">
+                                                        <div>
+                                                            <div class="row table-bordered" style="margin: 0 !important;border-radius: 5px;">
+                                                                <div class="col-sm-5 offset-1">
 
                                                                     <div class="form-group label-floating">
                                                                         <label class="control-label">Asset Number
                                                                             *</label>
-                                                                        <input type="text" class="form-control"
-                                                                            name="asset_number">
+                                                                        <input type="text" class="form-control" name="asset_number">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-sm-5">
+
+                                                                <div class="col-sm-10 offset-1">
+                                                                    <div class="form-group label-floating">
+                                                                        <label class="control-label">Asset description
+                                                                            *</label>
+                                                                        <input type="text" name="asset_description" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row table-bordered my-4" style="margin-left: 0 !important; margin-right: 0 !important;border-radius: 5px;">
+                                                                <div class="col-sm-5 offset-1">
+
+                                                                    <div class="form-group label-floating">
+                                                                        <label class="control-label">Asset Number
+                                                                            *</label>
+                                                                        <input type="text" class="form-control" name="asset_number">
                                                                     </div>
                                                                 </div>
 
@@ -352,8 +362,7 @@
                                                                     <div class="form-group label-floating">
                                                                         <label class="control-label">Asset description
                                                                             *</label>
-                                                                        <input type="text" name="asset_description"
-                                                                            class="form-control">
+                                                                        <input type="text" name="asset_description" class="form-control">
                                                                     </div>
                                                                 </div>
 
@@ -362,8 +371,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-1">
-                                                    <button class="btn btn-info" id="asset_increment"
-                                                        style="border-radius: 50%; font-size:10pt"><i
+                                                    <button class="btn btn-info" style="border-radius: 50%; font-size:10pt"><i
                                                             class="fa fa-plus"></i></button>
                                                 </div>
                                             </div>
@@ -387,8 +395,7 @@
                                         <div class="col-sm-12">
                                             <div class="row">
                                                 <div class="col-sm-3 offset-3">
-                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip"
-                                                        title="Select this option if you have a house.">
+                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Select this option if you have a house.">
                                                         <input type="radio" name="type" value="House">
                                                         <div class="icon">
                                                             <i class="material-icons">check</i>
@@ -397,8 +404,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip"
-                                                        title="Select this option if you have an appartment">
+                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Select this option if you have an appartment">
                                                         <input type="radio" name="type" value="Appartment">
                                                         <div class="icon">
                                                             <i class="material-icons">clear</i>
@@ -413,15 +419,11 @@
                             </div>
                             <div class="wizard-footer py-2" data-color="green">
                                 <div class="pull-right">
-                                    <input type='button' style="background-color: #4caf50;color: #fff;"
-                                        class='btn btn-next btn-fill btn-lg' name='next' value='Next step' />
-                                    <input type='button' class='btn btn-finish btn-fill btn-lg'
-                                        style="background-color: #4caf50;color: #fff;" name='finish' value='Finish'
-                                        onclick='addAsset()' />
+                                    <input type='button' style="background-color: #4caf50;color: #fff;" class='btn btn-next btn-fill btn-lg' name='next' value='Next step' />
+                                    <input type='button' class='btn btn-finish btn-fill btn-lg' style="background-color: #4caf50;color: #fff;" name='finish' value='Finish' onclick='addAsset()' />
                                 </div>
                                 <div class="pull-left">
-                                    <input type='button' class='btn btn-previous btn-fill btn-dark btn-lg'
-                                        name='previous' value='Previous' />
+                                    <input type='button' class='btn btn-previous btn-fill btn-dark btn-lg' name='previous' value='Previous' />
                                 </div>
                                 <div class="clearfix"></div>
                             </div>
@@ -430,17 +432,17 @@
                             <p>Required Fields (*)</p>
                         </div>
                     </div>
-                </div> <!-- wizard container -->
+                </div>
+                <!-- wizard container -->
             </div>
-        </div> <!-- row -->
+        </div>
+        <!-- row -->
 
     </div>
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-            style="background: rgb(59, 56, 56);height:80px">
-            <div class="col-md-3" id="menu-bar"
-                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
                 <span>
                     <div class="row" style="margin-top:-25px;" data-step="1"
                         data-intro="This is a navigation menu, with your class or department">
@@ -449,7 +451,7 @@
                             <div class="menu-text">MENU</div>
                         </div>
 
-                        <div class="col-md-7 offset-3">
+                        <div class="col-md-7 offset-2">
                             <select class="form-control text-muted user-class" id="class-options">
 
                             </select>
@@ -478,8 +480,9 @@
                 </div>
             </div>
             <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
-                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
-                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span></div>
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span>
+                    <span class="sub-title">(Addition)</span>
+                </div>
             </div>
             <div class=" col-md-3">
                 <div class="row">
@@ -487,8 +490,7 @@
                         <div id="username">Username</div>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;"
-                            onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
+                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;" onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
                             <span style="color:white" class="fa fa-power-off"></span>
                         </button>
                     </div>
@@ -519,25 +521,17 @@
                                         <th>
                                             <div class="dropdown">
 
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="building_addition_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     BUILDING
                                                 </button>
 
 
-                                                <div class="dropdown-menu" aria-labelledby="building_addition_filter"
-                                                    id="scroll_addition_building">
+                                                <div class="dropdown-menu" aria-labelledby="building_addition_filter" id="scroll_addition_building">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_building"
-                                                                class="form-control" placeholder="Building"
-                                                                onkeyup="onSearch('search_addition_building','#empty_addition_building')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_addition_building','#empty_addition_building')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_addition_building"
-                                                                    onclick="clearData('#search_addition_building','#building_addition_filter','BUILDING')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_building" onclick="clearData('#search_addition_building','#building_addition_filter','BUILDING')"><i
                                                                         class="fa fa-close"></i>
                                                                 </span>
                                                             </div>
@@ -548,32 +542,23 @@
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_addition_building" class="dropdown-header">No
-                                                        building found
+                                                    <div id="empty_addition_building" class="dropdown-header">No building found
                                                     </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="level_addition_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     LEVEL
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="level_addition_filter"
-                                                    id="scroll_addition_level">
+                                                <div class="dropdown-menu" aria-labelledby="level_addition_filter" id="scroll_addition_level">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_level"
-                                                                class="form-control" placeholder="Level"
-                                                                onkeyup="onSearch('search_addition_level','#empty_addition_level')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_addition_level','#empty_addition_level')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_addition_level"
-                                                                    onclick="clearData('#search_addition_level','#level_addition_filter','LEVEL')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_level" onclick="clearData('#search_addition_level','#level_addition_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -583,36 +568,27 @@
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_addition_level" class="dropdown-header">No level
-                                                        found</div>
+                                                    <div id="empty_addition_level" class="dropdown-header">No level found
+                                                    </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="area_addition_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_area"
-                                                    aria-labelledby="area_addition_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_area" aria-labelledby="area_addition_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_area"
-                                                                class="form-control" placeholder="Area"
-                                                                onkeyup="onSearch('search_addition_area','#empty_addition_area')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_area" class="form-control" placeholder="Area" onkeyup="onSearch('search_addition_area','#empty_addition_area')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_addition_area"
-                                                                    onclick="clearData('#search_addition_area','#area_addition_filter','AREA')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_area" onclick="clearData('#search_addition_area','#area_addition_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_addition_area" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="meun_addition_area" class="text-center" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -624,30 +600,21 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="room_addition_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_room"
-                                                    aria-labelledby="room_addition_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_room" aria-labelledby="room_addition_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_room"
-                                                                class="form-control" placeholder="Room"
-                                                                onkeyup="onSearch('search_addition_room','#empty_addition_room')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_room" class="form-control" placeholder="Room" onkeyup="onSearch('search_addition_room','#empty_addition_room')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_addition_room"
-                                                                    onclick="clearData('#search_addition_room','#room_addition_filter','ROOM')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_room" onclick="clearData('#search_addition_room','#room_addition_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_addition_room" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_addition_room" class="text-center" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -742,8 +709,7 @@
                                             </button>
                                         </th>
                                         <th>
-                                            <button onclick="cleaAllFilters()" type="text"
-                                                class="btn btn-danger form-control">
+                                            <button onclick="cleaAllFilters()" type="text" class="btn btn-danger form-control">
                                                 <span class="fa fa-close"></span>
                                                 Clear
                                             </button>
@@ -832,7 +798,6 @@
     <script src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
     <script>
-
         // $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
 
         // function addAssets() {

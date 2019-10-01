@@ -271,7 +271,6 @@ input[type="checkbox"]:disabled:after {
     background: white;
     z-index: 2;
     position: relative;
-
 }
 
 .asset-transfer-details {
@@ -387,9 +386,10 @@ caption {
 
 /*-----------------------------------------------------------------------------------------------------------*/
 
-
-
-.loader,#outLoader, #inLoader,#loader,
+.loader,
+#outLoader,
+#inLoader,
+#loader,
 #AssetsLoader {
     display: none;
     position: absolute;
@@ -399,11 +399,11 @@ caption {
     height: 100%;
     text-align: center;
 }
+
 #loader,
 #AssetsLoader {
     margin: 149px auto;
 }
-
 
 .dropdown-loader {
     /* position: absolute;
@@ -486,11 +486,13 @@ caption {
     display: none;
 }
 
-#loader img, #AssetsLoader img {
+#loader img,
+#AssetsLoader img {
     margin: auto;
     width: 100px;
     position: fixed;
 }
+
 
 /*-----------------------------------------------------------------------------------------------------------*/
 
@@ -563,10 +565,9 @@ div.dataTables_length {
 }
 
 #subAssetsTable .sorting_disabled input,
-#subLocationTable .sorting_disabled input{
+#subLocationTable .sorting_disabled input {
     display: none;
 }
-
 
 div#outAssetsTable_length {
     display: none !important;
@@ -593,7 +594,6 @@ div#inAssetsTable_length {
     background: white;
     border-radius: 5px;
     width: 200px;
-    height: 205px;
     border: 1px solid #ccc;
     margin-top: 10px;
 }
@@ -651,4 +651,11 @@ div#inAssetsTable_length {
 .clusterize-no-data,
 .dropdown-header {
     display: none;
+}
+
+.sub-title {
+    color: white;
+    position: absolute;
+    margin-left: -144px;
+    margin-top: 29px;
 }

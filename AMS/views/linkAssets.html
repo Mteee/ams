@@ -14,8 +14,7 @@
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
-    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css"
-        rel="stylesheet" />
+    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
 
@@ -24,11 +23,11 @@
             max-height: 300px;
             overflow-y: auto;
         }
-
+        
         #searchWith th {
             /* width: 350px; */
         }
-
+        
         .toggle-btn {
             border-radius: 50%;
             border: 2px solid white;
@@ -37,31 +36,30 @@
             font-weight: bolder;
             font-size: 18px;
         }
-
+        
         .toggle-btn:hover {
             cursor: pointer;
         }
-
+        
         .print_scroll {
             height: 620px;
             overflow: auto;
         }
-
+        
         .print_scroll thead {
             position: sticky;
             top: 0;
         }
-
         /* *{
                 font-size:12pt;
             } */
-
+        
         #overlay-printView table th,
         #overlay-printView table td {
             border: 2px solid #000;
             padding: 0.5em;
         }
-
+        
         * {
             font-size: 10pt;
         }
@@ -186,10 +184,8 @@
     </div>
     <div class="container-fluid" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-            style="background: rgb(59, 56, 56);height:80px">
-            <div class="col-md-3" id="menu-bar"
-                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
                 <div class="row" style="margin-top:-25px;">
                     <span onclick="showNav()">
                         <div class="col-md-2">
@@ -198,7 +194,7 @@
                         </div>
                     </span>
 
-                    <div class="col-md-7 offset-3">
+                    <div class="col-md-7 offset-2">
                         <select class="form-control text-muted user-class" id="class-options">
 
                         </select>
@@ -213,15 +209,19 @@
                         <a href="./moveAssets.html" target="_self">
                             <li class="menu-item">movement</li>
                         </a>
-                        <a href="#" target="_self">
+                        <!-- <a href="#" target="_self">
                             <li class="menu-item">certificates</li>
-                        </a>
+                        </a> -->
                         <div class="dropright dropdown" id="drodown-menu">
                             <li class="menu-item" data-toggle="dropdown">commissioning</li>
                             <ul class="dropdown-menu">
-                                <li class="menu-item active">addition</li>
+                                <a href="./addition.html" target="_self">
+                                    <li class="menu-item active">addition</li>
+                                </a>
                                 <li class="divider"></li>
-                                <li class="menu-item">removal</li>
+                                <a href="./removal.html" target="_self">
+                                    <li class="menu-item">removal</li>
+                                </a>
                             </ul>
                         </div>
 
@@ -231,8 +231,7 @@
                 </div>
             </div>
             <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
-                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
-                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span></div>
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span> <span class="sub-title">(Asset Link)</span></div>
             </div>
             <div class=" col-md-3">
                 <div class="row">
@@ -273,28 +272,16 @@
                                             <tr>
                                                 <th>
                                                     <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-outline-info form-control dropdown-toggle"
-                                                            type="button" id="dropdown_link_location"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
+                                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_link_location" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             BUILDING
                                                         </button>
-                                                        <div class="dropdown-menu"
-                                                            aria-labelledby="dropdown_link_location"
-                                                            id="scroll_link_Location">
+                                                        <div class="dropdown-menu" aria-labelledby="dropdown_link_location" id="scroll_link_Location">
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_link_location"
-                                                                        class="form-control" placeholder="BUILDING"
-                                                                        onkeyup="onSearch('searchWith','search_link_location','#empty_link_location')"
-                                                                        autofocus>
+                                                                    <input type="search" id="search_link_location" class="form-control" placeholder="BUILDING" onkeyup="onSearch('searchWith','search_link_location','#empty_link_location')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span
-                                                                            class="input-group-text btn btn-danger text-light"
-                                                                            id="clear_link_Location"
-                                                                            onclick="clearData('#search_link_location','#dropdown_link_location','BUILDING','#empty_link_location')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_link_Location" onclick="clearData('#search_link_location','#dropdown_link_location','BUILDING','#empty_link_location')"><i
                                                                                 class="fa fa-close"></i></span>
 
                                                                     </div>
@@ -305,35 +292,23 @@
                                                                     <img src="../img/loading-transparent.gif" alt="">
                                                                 </div>
                                                             </div>
-                                                            <div id="empty_link_location" class="dropdown-header">No
-                                                                building found
+                                                            <div id="empty_link_location" class="dropdown-header">No building found
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </th>
                                                 <th>
                                                     <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-outline-info form-control dropdown-toggle"
-                                                            type="button" id="dropdown_prim_level"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
+                                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_prim_level" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             LEVEL
                                                         </button>
-                                                        <div class="dropdown-menu" aria-labelledby="dropdown_prim_level"
-                                                            id="scrol_prim_level">
+                                                        <div class="dropdown-menu" aria-labelledby="dropdown_prim_level" id="scrol_prim_level">
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_prim_level"
-                                                                        class="form-control" placeholder="Level"
-                                                                        onkeyup="onSearch('searchWith','search_prim_level','#empty_prim_level')"
-                                                                        autofocus>
+                                                                    <input type="search" id="search_prim_level" class="form-control" placeholder="Level" onkeyup="onSearch('searchWith','search_prim_level','#empty_prim_level')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span
-                                                                            class="input-group-text btn btn-danger text-light"
-                                                                            id="clear_prim_level"
-                                                                            onclick="clearData('#search_prim_level','#dropdown_prim_level','LEVEL','#empty_prim_level')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_prim_level" onclick="clearData('#search_prim_level','#dropdown_prim_level','LEVEL','#empty_prim_level')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -343,34 +318,23 @@
                                                                     <img src="../img/loading-transparent.gif" alt="">
                                                                 </div>
                                                             </div>
-                                                            <div id="empty_prim_level" class="dropdown-header">No level
-                                                                found
+                                                            <div id="empty_prim_level" class="dropdown-header">No level found
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </th>
                                                 <th>
                                                     <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-outline-info form-control dropdown-toggle"
-                                                            type="button" id="dropdown_prim_area" data-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false">
+                                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_prim_area" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             AREA
                                                         </button>
-                                                        <div class="dropdown-menu" aria-labelledby="dropdown_prim_area"
-                                                            id="scrol_prim_area">
+                                                        <div class="dropdown-menu" aria-labelledby="dropdown_prim_area" id="scrol_prim_area">
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_prim_area"
-                                                                        class="form-control" placeholder="area"
-                                                                        onkeyup="onSearch('searchWith','search_prim_area','#empty_prim_area')"
-                                                                        autofocus>
+                                                                    <input type="search" id="search_prim_area" class="form-control" placeholder="area" onkeyup="onSearch('searchWith','search_prim_area','#empty_prim_area')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span
-                                                                            class="input-group-text btn btn-danger text-light"
-                                                                            id="clear_prim_area"
-                                                                            onclick="clearData('#search_prim_area','#dropdown_prim_area','AREA','#empty_prim_area')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_prim_area" onclick="clearData('#search_prim_area','#dropdown_prim_area','AREA','#empty_prim_area')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -380,65 +344,48 @@
                                                                     <img src="../img/loading-transparent.gif" alt="">
                                                                 </div>
                                                             </div>
-                                                            <div id="empty_prim_area" class="dropdown-header">No area
-                                                                found
+                                                            <div id="empty_prim_area" class="dropdown-header">No area found
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </th>
                                                 <th>
                                                     <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-outline-info form-control dropdown-toggle"
-                                                            type="button" id="dropdown_prim_room" data-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false">
+                                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_prim_room" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             ROOM
                                                         </button>
-                                                        <div class="dropdown-menu" aria-labelledby="dropdown_prim_room"
-                                                            id="scrol_prim_room">
+                                                        <div class="dropdown-menu" aria-labelledby="dropdown_prim_room" id="scrol_prim_room">
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_prim_room"
-                                                                        class="form-control" placeholder="room"
-                                                                        onkeyup="onSearch('searchWith','search_prim_room','#empty_prim_room')"
-                                                                        autofocus>
+                                                                    <input type="search" id="search_prim_room" class="form-control" placeholder="room" onkeyup="onSearch('searchWith','search_prim_room','#empty_prim_room')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span
-                                                                            class="input-group-text btn btn-danger text-light"
-                                                                            id="clear_prim_room"
-                                                                            onclick="clearData('#search_prim_room','#dropdown_prim_room','ROOM','#empty_prim_room')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_prim_room" onclick="clearData('#search_prim_room','#dropdown_prim_room','ROOM','#empty_prim_room')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
                                                             </form>
                                                             <div id="menu_prim_room">
                                                                 <div id="prim_Room_load" class="dropdown-loader">
-                                                                    <img src="../img/loading-transparent.gif" alt=""
-                                                                        width="160">
+                                                                    <img src="../img/loading-transparent.gif" alt="" width="160">
                                                                 </div>
                                                             </div>
-                                                            <div id="empty_prim_room" class="dropdown-header">No room
-                                                                found
+                                                            <div id="empty_prim_room" class="dropdown-header">No room found
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </th>
 
                                                 <th>
-                                                    <input type="text" id="prim_description" class="form-control"
-                                                        onkeyup="onSearch_new('searchWith','prim_description')"
-                                                        placeholder="Description...">
+                                                    <input type="text" id="prim_description" class="form-control" onkeyup="onSearch_new('searchWith','prim_description')" placeholder="Description...">
                                                 </th>
 
 
                                                 <th>
-                                                    <button onclick="search()" type="text"
-                                                        class="btn btn-success text-light">
+                                                    <button onclick="search()" type="text" class="btn btn-success text-light">
                                                         <span class="fa fa-search"></span>
                                                     </button>
-                                                    <button onclick="clearSublocation()" type="text"
-                                                        class="btn btn-danger text-light">
+                                                    <button onclick="clearSublocation()" type="text" class="btn btn-danger text-light">
                                                         <span class="fa fa-close"></span>
                                                     </button>
                                                 </th>
@@ -480,8 +427,7 @@
                                         <!-- sub location header -->
                                         <table class="table">
                                             <tr>
-                                                <th colspan="6" style="padding: 5px;text-align: left;font-size: 12pt;"
-                                                    class="text-danger">
+                                                <th colspan="6" style="padding: 5px;text-align: left;font-size: 12pt;" class="text-danger">
                                                     <span style="padding: 5px; width:100px;">Sub Locations</span>
                                                 </th>
                                             </tr>
@@ -529,8 +475,7 @@
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
                                                 <div id="primSearchView" class="search_start">
-                                                    <p style="margin-top:200px">Please search your asset using the
-                                                        search above
+                                                    <p style="margin-top:200px">Please search your asset using the search above
                                                     </p>
                                                     <img width="100" src="../img/loupe.png" alt="Search">
                                                 </div>
@@ -546,28 +491,16 @@
                                             <tr>
                                                 <th>
                                                     <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-outline-info form-control dropdown-toggle"
-                                                            type="button" id="dropdown_sub_location"
-                                                            data-toggle="dropdown" aria-haspopup="true"
-                                                            aria-expanded="false">
+                                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_sub_location" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             BUILDING
                                                         </button>
-                                                        <div class="dropdown-menu"
-                                                            aria-labelledby="dropdown_sub_location"
-                                                            id="scroll_sub_location">
+                                                        <div class="dropdown-menu" aria-labelledby="dropdown_sub_location" id="scroll_sub_location">
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_sub_location"
-                                                                        class="form-control" placeholder="Building..."
-                                                                        onkeyup="onSearch('subSearch','search_sub_location','#empty_sub_location')"
-                                                                        autofocus>
+                                                                    <input type="search" id="search_sub_location" class="form-control" placeholder="Building..." onkeyup="onSearch('subSearch','search_sub_location','#empty_sub_location')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span
-                                                                            class="input-group-text btn btn-danger text-light"
-                                                                            id="clear_sub_location"
-                                                                            onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING','#empty_sub_location')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_sub_location" onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING','#empty_sub_location')"><i
                                                                                 class="fa fa-close"></i></span>
 
                                                                     </div>
@@ -578,34 +511,23 @@
                                                                     <img src="../img/loading-transparent.gif" alt="">
                                                                 </div>
                                                             </div>
-                                                            <div id="empty_sub_location" class="dropdown-header">No
-                                                                building found
+                                                            <div id="empty_sub_location" class="dropdown-header">No building found
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </th>
                                                 <th>
                                                     <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-outline-info form-control dropdown-toggle"
-                                                            type="button" id="sub_level_dropdown" data-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false">
+                                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="sub_level_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             LEVEL
                                                         </button>
-                                                        <div class="dropdown-menu" aria-labelledby="sub_level_dropdown"
-                                                            id="scroll_sub_level">
+                                                        <div class="dropdown-menu" aria-labelledby="sub_level_dropdown" id="scroll_sub_level">
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_level"
-                                                                        class="form-control" placeholder="level"
-                                                                        onkeyup="onSearch('subSearch','search_level','#empty_level')"
-                                                                        autofocus>
+                                                                    <input type="search" id="search_level" class="form-control" placeholder="level" onkeyup="onSearch('subSearch','search_level','#empty_level')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span
-                                                                            class="input-group-text btn btn-danger text-light"
-                                                                            id="clear_level"
-                                                                            onclick="clearData('#search_level','#sub_level_dropdown','LEVEL','#empty_level')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_level" onclick="clearData('#search_level','#sub_level_dropdown','LEVEL','#empty_level')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -622,26 +544,16 @@
                                                 </th>
                                                 <th>
                                                     <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-outline-info form-control dropdown-toggle"
-                                                            type="button" id="area_dropdown" data-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false">
+                                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             AREA
                                                         </button>
-                                                        <div class="dropdown-menu" aria-labelledby="area_dropdown"
-                                                            id="scroll_area">
+                                                        <div class="dropdown-menu" aria-labelledby="area_dropdown" id="scroll_area">
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_area"
-                                                                        class="form-control" placeholder="area..."
-                                                                        onkeyup="onSearch('subSearch','search_area','#empty_area')"
-                                                                        autofocus>
+                                                                    <input type="search" id="search_area" class="form-control" placeholder="area..." onkeyup="onSearch('subSearch','search_area','#empty_area')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span
-                                                                            class="input-group-text btn btn-danger text-light"
-                                                                            id="clear_area"
-                                                                            onclick="clearData('#search_area','#area_dropdown','AREA...','#empty_area')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_area" onclick="clearData('#search_area','#area_dropdown','AREA...','#empty_area')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -658,26 +570,16 @@
                                                 </th>
                                                 <th>
                                                     <div class="dropdown">
-                                                        <button
-                                                            class="btn btn-outline-info form-control dropdown-toggle"
-                                                            type="button" id="dropdown_room_sub" data-toggle="dropdown"
-                                                            aria-haspopup="true" aria-expanded="false">
+                                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_room_sub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                             ROOM
                                                         </button>
-                                                        <div class="dropdown-menu" aria-labelledby="dropdown_room_sub"
-                                                            id="scrol_room_sub">
+                                                        <div class="dropdown-menu" aria-labelledby="dropdown_room_sub" id="scrol_room_sub">
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="search" id="search_room_sub"
-                                                                        class="form-control" placeholder="room"
-                                                                        onkeyup="onSearch('subSearch','search_room_sub','#empty_room_sub')"
-                                                                        autofocus>
+                                                                    <input type="search" id="search_room_sub" class="form-control" placeholder="room" onkeyup="onSearch('subSearch','search_room_sub','#empty_room_sub')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span
-                                                                            class="input-group-text btn btn-danger text-light"
-                                                                            id="clear_room_sub"
-                                                                            onclick="clearData('#search_room_sub','#dropdown_room_sub','ROOM','#empty_room_sub')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_room_sub" onclick="clearData('#search_room_sub','#dropdown_room_sub','ROOM','#empty_room_sub')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -687,16 +589,13 @@
                                                                     <img src="../img/loading-transparent.gif" alt="">
                                                                 </div>
                                                             </div>
-                                                            <div id="empty_room_sub" class="dropdown-header">No room
-                                                                found
+                                                            <div id="empty_room_sub" class="dropdown-header">No room found
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </th>
                                                 <th>
-                                                    <input type="text" id="sub_description"
-                                                        onkeyup="onSearch_new('subSearch','sub_description')"
-                                                        class="form-control" placeholder="Description...">
+                                                    <input type="text" id="sub_description" onkeyup="onSearch_new('subSearch','sub_description')" class="form-control" placeholder="Description...">
                                                 </th>
 
                                                 <th>
@@ -704,8 +603,7 @@
                                                         <span class="fa fa-search"></span>
 
                                                     </button>
-                                                    <button onclick="clearSubfilters()" type="text"
-                                                        class="btn btn-danger">
+                                                    <button onclick="clearSubfilters()" type="text" class="btn btn-danger">
                                                         <span class="fa fa-close"></span>
                                                     </button>
                                                 </th>
@@ -715,8 +613,7 @@
                                         <!-- Assets Header  -->
                                         <table class="table" id="subAssets">
                                             <tr>
-                                                <th colspan="6" style="padding: 5px;text-align: left;font-size: 12pt;"
-                                                    class="text-info">
+                                                <th colspan="6" style="padding: 5px;text-align: left;font-size: 12pt;" class="text-info">
                                                     <span style="padding: 5px; width:100px;">Assets</span>
                                                 </th>
                                             </tr>
@@ -752,8 +649,7 @@
                                                     <img src="../img/loading-transparent.gif" alt="" width="160">
                                                 </div>
                                                 <div id="subAssetsSearch" class="search_start">
-                                                    <p style="margin-top:200px">Please search your asset using the
-                                                        search above
+                                                    <p style="margin-top:200px">Please search your asset using the search above
                                                     </p>
                                                     <img width="100" src="../img/loupe.png" alt="Search">
                                                 </div>
@@ -767,8 +663,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12 text-right">
-                                <button class="btn btn-info btn-md" style="display: none;" id="linkBtn"
-                                    onclick="linkAssets('subLocationTable')"><span class="fa fa-link"></span>
+                                <button class="btn btn-info btn-md" style="display: none;" id="linkBtn" onclick="linkAssets('subLocationTable')"><span class="fa fa-link"></span>
                                     Asset Link</button>
                             </div>
                         </div>
@@ -787,8 +682,7 @@
     <script src="../js/tablefilter.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
-    <script type="text/javascript"
-        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
     <script src="../js/asset-link.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
 
