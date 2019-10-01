@@ -384,9 +384,6 @@
   display: none;
 }
 
-.form-control {
-  margin-bottom: 7px;
-}
 
 .form-control::-moz-placeholder {
   font-size: 14px;

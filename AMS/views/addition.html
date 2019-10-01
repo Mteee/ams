@@ -186,6 +186,17 @@
             opacity: 1;
             border-bottom: 1px dotted rgba(210, 210, 210, 0) !important;
         }
+
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .input-group {
+
+            flex-wrap: inherit !important;
+
+        }
     </style>
 
 </head>
@@ -323,10 +334,11 @@
                                             <div class="row">
                                                 <div class="col-sm-10 offset-1">
                                                     <div class="assets_info_plus">
-                                                        <div>
+                                                        <div id="asset_group">
                                                             <div class="row table-bordered"
                                                                 style="margin: 0 !important;border-radius: 5px;">
-                                                                <div class="col-sm-5 offset-1">
+
+                                                                <div class="col-sm-10 offset-1">
 
                                                                     <div class="form-group label-floating">
                                                                         <label class="control-label">Asset Number
@@ -335,13 +347,7 @@
                                                                             name="asset_number">
                                                                     </div>
                                                                 </div>
-                                                                <div class="col-sm-5">
 
-                                                                    <div class="form-group label-floating">
-                                                                        <label class="control-label">Model *</label>
-                                                                        <input type="text" class="form-control">
-                                                                    </div>
-                                                                </div>
                                                                 <div class="col-sm-10 offset-1">
                                                                     <div class="form-group label-floating">
                                                                         <label class="control-label">Asset description
@@ -350,43 +356,27 @@
                                                                             class="form-control">
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="row table-bordered my-4"
-                                                                style="margin-left: 0 !important; margin-right: 0 !important;border-radius: 5px;">
-                                                                <div class="col-sm-5 offset-1">
 
-                                                                    <div class="form-group label-floating">
-                                                                        <label class="control-label">Asset Number
-                                                                            *</label>
-                                                                        <input type="text" class="form-control"
-                                                                            name="asset_number">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-5">
-
-                                                                    <div class="form-group label-floating">
-                                                                        <label class="control-label">Model *</label>
-                                                                        <input type="text" class="form-control">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-10 offset-1">
-                                                                    <div class="form-group label-floating">
-                                                                        <label class="control-label">Asset description
-                                                                            *</label>
-                                                                        <input type="text" name="asset_description"
-                                                                            class="form-control">
-                                                                    </div>
-                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-1">
-                                                    <button class="btn btn-info"
+                                                    <button class="btn btn-info" id="asset_increment"
                                                         style="border-radius: 50%; font-size:10pt"><i
                                                             class="fa fa-plus"></i></button>
                                                 </div>
                                             </div>
+
+                                            <div class="row offset-1">
+                                                <div class="col-sm-11">
+                                                    <div class="form-group label-floating">
+                                                        <label class="control-label">Model *</label>
+                                                        <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -507,7 +497,7 @@
         </nav>
         <!-- end navigation  -->
 
-        <div class="row" style="margin-top: 2.897%;">
+        <div class="row" style="margin-top: 46px;">
             <div class="col-md-12" style="height:80vh;padding-right:40px;">
                 <div class="row">
                     <div class="col-md-12">
@@ -668,6 +658,79 @@
                                             </div>
                                         </th>
                                         <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="sublocaction_addition_filter"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    SUB LOCATION
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll"
+                                                    id="scroll_addition_sublocaction"
+                                                    aria-labelledby="sublocaction_addition_filter">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_addition_sublocaction"
+                                                                class="form-control" placeholder="Sub Location"
+                                                                onkeyup="onSearch('search_addition_sublocaction','#empty_addition_sublocaction')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_addition_sublocaction"
+                                                                    onclick="clearData('#search_addition_sublocaction','#sublocaction_addition_filter','SUB LOCATION')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_addition_sublocaction" class="text-center"
+                                                        onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_addition_sublocaction" class="dropdown-header">No
+                                                        sublocation found</div>
+                                                </div>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="assetNo_addition_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ASSET NO
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll"
+                                                    id="scroll_addition_assetNo"
+                                                    aria-labelledby="assetNo_addition_filter">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_addition_assetNo"
+                                                                class="form-control" placeholder="ASSET NO"
+                                                                onkeyup="onSearch('search_addition_assetNo','#empty_addition_assetNo')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_addition_assetNo"
+                                                                    onclick="clearData('#search_addition_assetNo','#assetNo_addition_filter','ASSET NO')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_addition_assetNo" class="text-center"
+                                                        onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_addition_assetNo" class="dropdown-header">No asset
+                                                        found</div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
                                             <input type="text" id="addition_description"
                                                 onkeyup="onSearch_new('addition_description')" class="form-control"
                                                 placeholder="Description...">
@@ -754,13 +817,18 @@
     </div>
 
     <script src="../js/jquery.js"></script>
-    <script src="../js/assets/bootstrap.min.js"></script>
+    <script src="../js/clusterize.min.js"></script>
+    <!-- <script src="../js/assets/bootstrap.min.js"></script> -->
     <script src="../js/assets/material-bootstrap-wizard.js"></script>
     <script src="../js/assets/jquery.bootstrap.js"></script>
     <script src="../js/jquery.validate.min.js"></script>
+    <script src="../js/bootstrap.bundle.js"></script>
+
     <script src="../js/addition.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
-    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    <script type="text/javascript"
+        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
     <script src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
     <script>
@@ -863,9 +931,9 @@
         //     }
         // });
 
-        // function showNav() {
-        //     $('#menu-list').slideToggle('fast');
-        // }
+        function showNav() {
+            $('#menu-list').slideToggle('fast');
+        }
 
         // document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 

@@ -25,6 +25,7 @@ window.onload = function(){
     }
 }
 
+
 $('#searchView').fadeIn(500);
 
 var user_class = localStorage.getItem("filter");
@@ -468,8 +469,6 @@ function checkboxSelectedLength() {
 
 //updating y to icons
 function updateLetterToIcon(letter) {
-
-
     var results = "";
 
     switch (letter) {
@@ -477,6 +476,12 @@ function updateLetterToIcon(letter) {
             results = "<p class='text-success'><strong>YES</strong></p>";
             break;
         case "N":
+            results = "<p class='text-danger'><strong>NO</strong></p>";
+            break;
+        case "y":
+            results = "<p class='text-success'><strong>YES</strong></p>";
+            break;
+        case "n":
             results = "<p class='text-danger'><strong>NO</strong></p>";
             break;
     }
@@ -535,6 +540,15 @@ function populate_dropdown() {
 
 populate_dropdown();
 
+var allArr = {
+    search_view_room: [],
+    search_view_area: [],
+    search_view_level: [],
+    search_view_building: []
+};
+
+
+
 // onchanged menu
 
 function onItemSelect(menuId) {
@@ -558,11 +572,7 @@ function setSearchValues(a, b, c) {
     $('#searchlocation').val(c);
 }
 
-var allArr = {
-    searchasset: [],
-    searchroomno: [],
-    searchlocation: []
-};
+
 
 // console.log("allArr");
 // console.log(allArr);
@@ -623,10 +633,13 @@ function getItems(url, id, scrollArea, menuid) {
 }
 
 var clusterize = {
-    searchasset: [],
-    searchroomno: [],
-    searchlocation: []
+    search_view_room: [],
+    search_view_area: [],
+    search_view_level: [],
+    search_view_building: []
 };
+
+
 
 var count = 0;
 
