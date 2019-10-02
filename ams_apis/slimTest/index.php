@@ -1399,8 +1399,55 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
  
 });
 
+$app->map(['GET','POST'],'/asset_link_al_no', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $response = array();
 
-$app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Response $response){
+    $sql = "SELECT 
+                HD_ASSET_ROOM_LOCATION
+            FROM 
+                AMSD.ASSETS_LOCATION_NEW 
+            WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
+            AND ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            GROUP BY HD_ASSET_ROOM_LOCATION
+            ORDER BY HD_ASSET_ROOM_LOCATION";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->HD_ASSET_ROOM_LOCATION;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+
+
+$app->map(['GET','POST'],'/asset_primary_id_view', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
     $building = strtoupper($data->building);
