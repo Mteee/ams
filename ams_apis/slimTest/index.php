@@ -1189,7 +1189,7 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
             WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
-            AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
+            AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
             AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
             GROUP BY ASSET_BUILDING
@@ -1235,7 +1235,7 @@ $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response
             WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
-            AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
+            AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
             AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
             GROUP BY ASSET_LEVEL
@@ -1370,7 +1370,7 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
                 WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
-            AND ASSET_AREA LIKE '%$area%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
             AND ASSET_ROOM_NO LIKE '%$room_no%'
             AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
             GROUP BY ASSET_ROOM_NO
