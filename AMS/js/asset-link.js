@@ -23,6 +23,17 @@ function clearLocalStorrageSubAssets() {
     localStorage.room_no_assets = '';
 }
 
+const $menu = $('#menu-list');
+
+$(document).mouseup(e => {
+    if (!$menu.is(e.target) // if the target of the click isn't the container...
+        && $menu.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+        // $menu.removeClass('is-active');
+        $('#menu-list').fadeOut(500);
+    }
+});
+
 function showNav() {
     $('#menu-list').slideToggle('fast');
 }
@@ -97,7 +108,7 @@ function search() {
             },
             allowOutsideClick: true,
         })
-        
+
         // document.getElementById('overlay-alert-message').style.display = "none";
         // document.getElementById('overlay-alert-message').style.display = "block";
         // document.getElementById('alert_header').innerHTML = "Assets Linking";
@@ -170,8 +181,8 @@ function search() {
                     table_dom = "#subLocationTable";
 
                     table = createTable("#subLocationTable", str.data);
-                    $(" #subLocationTable .sorting_disabled input" ).prop( "disabled", true ); //Disable
-                    $(" #subLocationTable .sorting_disabled input" ).css({"cursor":"none"}); 
+                    $(" #subLocationTable .sorting_disabled input").prop("disabled", true); //Disable
+                    $(" #subLocationTable .sorting_disabled input").css({ "cursor": "none" });
 
 
                     var _table_id = table_dom.replace("#", "");
@@ -231,8 +242,8 @@ function search() {
                     // console.log(data.data);
 
                     table = createTable("#subLocationTable", data.data);
-                    $(" #subLocationTable .sorting_disabled input" ).prop( "disabled", true ); //Disable
-                    $(" #subLocationTable .sorting_disabled input" ).css({"cursor":"none"}); 
+                    $(" #subLocationTable .sorting_disabled input").prop("disabled", true); //Disable
+                    $(" #subLocationTable .sorting_disabled input").css({ "cursor": "none" });
 
                 }
             },
@@ -450,8 +461,8 @@ function searchasset() {
                     table_dom = "#subAssetsTable";
 
                     table = createTable("#subAssetsTable", str.data);
-                    $("#subAssetsTable .sorting_disabled input" ).prop( "disabled", true ); //Disable
-                    $("#subLocationTable .sorting_disabled input" ).css({"cursor":"none"}); 
+                    $("#subAssetsTable .sorting_disabled input").prop("disabled", true); //Disable
+                    $("#subLocationTable .sorting_disabled input").css({ "cursor": "none" });
 
                     var _table_id = table_dom.replace("#", "");
                     tableArr[_table_id] = table;
@@ -493,8 +504,8 @@ function searchasset() {
                     // console.log(data.data);
 
                     table = createTable("#subAssetsTable", data.data);
-                    $("#subAssetsTable .sorting_disabled input" ).prop( "disabled", true ); //Disable
-                    $("#subAssetsTable .sorting_disabled input:hover" ).css({"cursor":"auto"});
+                    $("#subAssetsTable .sorting_disabled input").prop("disabled", true); //Disable
+                    $("#subAssetsTable .sorting_disabled input:hover").css({ "cursor": "auto" });
 
                 }
             },
@@ -1274,13 +1285,13 @@ function confirmLink() {
 function unlinkSub(assetId) {
 
     var building = document.getElementById('search_sub_location').value,
-    level = document.getElementById('search_level').value,
-    area = document.getElementById('search_area').value,
-    room_no = document.getElementById('search_room_sub').value;
+        level = document.getElementById('search_level').value,
+        area = document.getElementById('search_area').value,
+        room_no = document.getElementById('search_room_sub').value;
     description = document.getElementById('sub_description').value;
 
 
-var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
+    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
 
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/unlink_assets",

@@ -75,6 +75,15 @@
             left: 20px;
         }
 
+        .menu-group{
+            display: none;
+        }
+
+        .is-active .menu-group{
+            display: block;
+        }
+
+
         .system_info:hover {
             cursor: pointer;
             box-shadow: 5px 4px 19px #000000d4;
@@ -237,10 +246,10 @@
                                         class="text-dark">5</span></strong></p>
                         </div>
                     </div>
-                    <div class="col-md-3 text-right">
+                    <!-- <div class="col-md-3 text-right">
                         <button class="btn btn-default btn-success" onclick="closeAsset('overlay-asset')">Unlink
                             All</button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -267,22 +276,28 @@
                     </div>
                 </div>
 
-                <div id="menu-list">
+                <div id="menu-list" class="is-active">
                     <ul class="menu-group">
-                        <li class="menu-item active">view</li>
+                        <a href="#">
+                            <li class="menu-item active">view</li>
+                        </a>
                         <a href="./moveAssets.html" target="_self">
                             <li class="menu-item">movement</li>
                         </a>
-                        <li class="menu-item"><a href="#">certificates</a></li>
+                        <li class="menu-item">certificates</a></li>
                         <div class="dropright dropdown" id="drodown-menu">
                             <li class="menu-item" id="com_item" data-toggle="dropdown">commissioning</li>
                             <ul class="dropdown-menu" id="com_list">
-                                <li class="menu-item ">addition</li>
+                                <a href="./addition.html" target="_self">
+                                    <li class="menu-item ">addition</li>
+                                </a>
                                 <li class="divider"></li>
                                 <li class="menu-item">removal</li>
                             </ul>
                         </div>
-                        <li class="menu-item"><a href="./linkAssets.html" target="_self">asset link</a></li>
+                        <a href="./linkAssets.html" target="_self">
+                            <li class="menu-item">asset link</li>
+                        </a>
                     </ul>
                 </div>
             </div>
@@ -479,8 +494,8 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="sublocaction_view_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                    type="button" id="cccc" data-toggle="dropdown" aria-haspopup="true"
+                                                    aria-expanded="false">
                                                     SUB LOCATION
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll"
@@ -576,6 +591,10 @@
 
                                                 </th>
                                                 <th scope="col">
+                                                    SUB LOCATION
+
+                                                </th>
+                                                <th scope="col">
                                                     Room
 
                                                 </th>
@@ -647,6 +666,18 @@
             src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
         <script>
+
+            const $menu = $('#menu-list');
+
+            $(document).mouseup(e => {
+                if (!$menu.is(e.target) // if the target of the click isn't the container...
+                    && $menu.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    // $menu.removeClass('is-active');
+                    $('#menu-list').fadeOut(500);
+                }
+            });
+
             function showNav() {
                 $('#menu-list').slideToggle('fast');
             }

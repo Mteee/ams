@@ -173,7 +173,7 @@ function search() {
                             str += '["' + data.data[k].ASSET_ID + '","';
                             str += data.data[k].ASSET_ID + '","';
                             str += data.data[k].ASSET_SUB_LOCATION + '","';
-                            str += ASSET_ROOM_NO + '","';
+                            str += data.data[k].ASSET_ROOM_NO + '","';
                             str += data.data[k].ASSET_AREA + '","';
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
@@ -182,7 +182,7 @@ function search() {
                             str += '["' + data.data[k].ASSET_ID + '","';
                             str += data.data[k].ASSET_ID + '","';
                             str += data.data[k].ASSET_SUB_LOCATION + '","';
-                            str += ASSET_ROOM_NO + '","';
+                            str += data.data[k].ASSET_ROOM_NO + '","';
                             str += data.data[k].ASSET_AREA + '","';
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';

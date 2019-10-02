@@ -805,10 +805,9 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>[]));
-
         }
 
-    }
+    }   
 
 });
 

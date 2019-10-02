@@ -510,7 +510,9 @@
                         <a href="./viewAssets.html" target="_self">
                             <li class="menu-item">view</li>
                         </a>
-                        <li class="menu-item active">movement</li>
+                        <a href="./moveAssets.html">
+                            <li class="menu-item active">movement</li>
+                        </a>
 
                         <li class="menu-item">certificates</li>
                         <div class="dropright dropdown" id="drodown-menu">
@@ -525,7 +527,9 @@
                                     <li class="menu-item">Removal</li>
                                 </a>
                             </ul>
-                            <li class="menu-item">asset link</li>
+                            <a href="./linkAssets.html">
+                                <li class="menu-item">asset link</li>
+                            </a>
 
                         </div>
 
@@ -734,8 +738,7 @@
                                                     </div>
                                                 </div>
                                             </form>
-                                            <div id="menu_move_sublocaction"
-                                                onchange="testMethod()">
+                                            <div id="menu_move_sublocaction" onchange="testMethod()">
                                                 <div id="Assetload" class="dropdown-loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
@@ -1046,16 +1049,16 @@
 
     <script>
 
-        // $(".dropdown, .btn-group").hover(function () {
-        //     var dropdownMenu = $(this).children(".dropdown-menu");
-        //     if (dropdownMenu.is(":visible")) {
-        //         console.log('not visible');
-        //         // dropdownMenu.parent().toggleClass("open");
-        //     } else {
-        //         console.log('visible');
-        //         $(this).toggleClass("open");
-        //     }
-        // });
+        const $menu = $('#menu-list');
+
+        $(document).mouseup(e => {
+            if (!$menu.is(e.target) // if the target of the click isn't the container...
+                && $menu.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                // $menu.removeClass('is-active');
+                $('#menu-list').fadeOut(500);
+            }
+        });
 
         function showNav() {
             $('#menu-list').slideToggle('fast');
