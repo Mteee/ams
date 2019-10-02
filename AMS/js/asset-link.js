@@ -85,7 +85,7 @@ function search() {
         area = document.getElementById('search_prim_area').value,
         room_no = document.getElementById('search_prim_room').value;
     description = document.getElementById('prim_description').value;
-    sub_location = document.getElementById('prim_description').value;
+    sub_location = document.getElementById('search_prim_sublocation').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location);
 
@@ -96,7 +96,7 @@ function search() {
     localStorage.sub_location = sub_location;
 
 
-
+    console.log(results);
     if (" -  -  -  -  - " == results) {
         resetToSubLocation();
         swal.fire({
@@ -419,7 +419,7 @@ function searchasset() {
     localStorage.room_no_assets = room_no;
     localStorage.asset_no = asset_no;
 
-    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + description);
+    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + asset_no);
 
     if (" -  -  -  -  - " == results) {
         resetToAssets();
@@ -568,18 +568,18 @@ var allArr = {
 
 function sub_location_filters() {
     /*Sub Location Filters*/
-    getItems('../../ams_apis/slimTest/index.php/building', 'search_link_location', 'scroll_link_Location', 'menu_link_location', 'empty_link_location');
-    getItems('../../ams_apis/slimTest/index.php/asset_level_new', 'search_prim_level', 'scrol_prim_level', 'menu_prim_level', 'empty_prim_level');
-    getItems('../../ams_apis/slimTest/index.php/asset_area', 'search_prim_area', 'scrol_prim_area', 'menu_prim_area', 'empty_prim_area');
-    getItems('../../ams_apis/slimTest/index.php/asset_room_no', 'search_prim_room', 'scrol_prim_room', 'menu_prim_room', 'empty_prim_room');
+    getItems('../../ams_apis/slimTest/index.php/building_sub', 'search_link_location', 'scroll_link_Location', 'menu_link_location', 'empty_link_location');
+    getItems('../../ams_apis/slimTest/index.php/asset_level_new_sub', 'search_prim_level', 'scrol_prim_level', 'menu_prim_level', 'empty_prim_level');
+    getItems('../../ams_apis/slimTest/index.php/asset_area_sub', 'search_prim_area', 'scrol_prim_area', 'menu_prim_area', 'empty_prim_area');
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no_sub', 'search_prim_room', 'scrol_prim_room', 'menu_prim_room', 'empty_prim_room');
     getItems('../../ams_apis/slimTest/index.php/asset_link_al_no', 'search_prim_sublocation', 'scrol_prim_sublocation', 'menu_prim_sublocation', 'empty_prim_sublocation');
 }
 function assets_filters() {
     /**Assets*/
-    getAssetsFilter('../../ams_apis/slimTest/index.php/building', 'search_sub_location', 'scroll_sub_location', 'meun_sub_location', 'empty_sub_location');
-    getAssetsFilter('../../ams_apis/slimTest/index.php/asset_level_new', 'search_level', 'scroll_sub_level', 'menu_level', 'empty_level');
-    getAssetsFilter('../../ams_apis/slimTest/index.php/asset_area', 'search_area', 'scroll_area', 'menu_area', 'empty_area');
-    getAssetsFilter('../../ams_apis/slimTest/index.php/asset_room_no', 'search_room_sub', 'scrol_room_sub', 'menu_room_sub', 'empty_room_sub');
+    getAssetsFilter('../../ams_apis/slimTest/index.php/building_assets', 'search_sub_location', 'scroll_sub_location', 'meun_sub_location', 'empty_sub_location');
+    getAssetsFilter('../../ams_apis/slimTest/index.php/asset_level_new_assets', 'search_level', 'scroll_sub_level', 'menu_level', 'empty_level');
+    getAssetsFilter('../../ams_apis/slimTest/index.php/asset_area_assets', 'search_area', 'scroll_area', 'menu_area', 'empty_area');
+    getAssetsFilter('../../ams_apis/slimTest/index.php/asset_room_no_assets', 'search_room_sub', 'scrol_room_sub', 'menu_room_sub', 'empty_room_sub');
     getAssetsFilter('../../ams_apis/slimTest/index.php/asset_primary_id_view', 'search_asset_no_sub', 'scrol_asset_no_sub', 'menu_asset_no_sub', 'empty_asset_no_sub');
 }
 
@@ -736,13 +736,13 @@ function getItems(url, id, scrollArea, menuid) {
 
 function getAssetsFilter(url, id, scrollArea, menuid) {
 
-    console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '"}');
+    console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","asset_primary_id":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}');
 
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","asset_primary_id":"' + localStorage.asset_no + '"}',
+        data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","asset_primary_id":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
             console.log(data);
             var rows = [];
