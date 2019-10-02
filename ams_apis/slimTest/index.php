@@ -1112,7 +1112,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     --AND substr(a.asset,1,2) = 'AL'
     AND ASSET_BUILDING LIKE '%$building%'
     AND ASSET_LEVEL LIKE '%$level%'
-    AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
+    AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
     AND ASSET_ROOM_NO LIKE '%$room_no%'
     AND HD_ASSET_DESC LIKE '%$description%'
     order by asset_room_no";
@@ -1152,7 +1152,7 @@ AND a_new.ASSET_CLASS LIKE '%IT EQUIPMENT%'
 AND a_new.ASSET_CLASSIFICATION LIKE '%$description%'
 AND l_new.ASSET_BUILDING LIKE '%$building%'
 AND l_new.ASSET_LEVEL LIKE '%$level%'
-AND l_new.ASSET_AREA LIKE '%$area%'
+AND l_new.ASSET_AREA_NAME LIKE '%$area%'
 AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
 AND a_new.ASSET_ID = a_new.ASSET_PRIMARY_ID
 GROUP BY a_new.ASSET_ID,l_new.ASSET_ROOM_NO,l_new.ASSET_AREA_NAME,a_new.ASSET_CLASSIFICATION || ' - ' || ASSET_DESCRIPTION";
@@ -1265,16 +1265,16 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
     $response = array();
 
     $sql = "SELECT 
-                ASSET_AREA
+                ASSET_AREA_NAME
             FROM 
                 AMSD.ASSETS_LOCATION_NEW
                 WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
-            AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
+            AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY ASSET_AREA
-            ORDER BY ASSET_AREA";
+            GROUP BY ASSET_AREA_NAME
+            ORDER BY ASSET_AREA_NAME";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -1284,7 +1284,7 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
         $length = $res->rows;
         foreach($res->data as $value){
 
-            $response []= $value->ASSET_AREA;
+            $response []= $value->ASSET_AREA_NAME;
             // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
             // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
@@ -1625,7 +1625,7 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
     }
 
     $sql = "SELECT 
-                L_NEW.ASSET_AREA
+                L_NEW.ASSET_AREA_NAME
             FROM 
                 AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
@@ -1633,12 +1633,12 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
             AND A_OLD.ASSET_STATUS = '1'
-            GROUP BY L_NEW.ASSET_AREA
-            ORDER BY L_NEW.ASSET_AREA";
+            GROUP BY L_NEW.ASSET_AREA_NAME
+            ORDER BY L_NEW.ASSASSET_AREA_NAMEET_AREA";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -1648,7 +1648,7 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
         $length = $res->rows;
         foreach($res->data as $value){
 
-            $response []= $value->ASSET_AREA;
+            $response []= $value->ASSET_AREA_NAME;
             // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
             // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
