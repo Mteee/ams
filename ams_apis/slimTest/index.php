@@ -1097,6 +1097,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $description = strtoupper($data->description);
+    $sub_location = strtoupper($data->sub_location);
 
     $sql = "SELECT 
     HD_ASSET_ROOM_LOCATION AS \"AL_NO\",
@@ -1114,7 +1115,9 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     AND ASSET_LEVEL LIKE '%$level%'
     AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
     AND ASSET_ROOM_NO LIKE '%$room_no%'
+    AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
     AND HD_ASSET_DESC LIKE '%$description%'
+
     order by asset_room_no";
 
     $assets_no =$func->executeQuery($sql);
@@ -1135,6 +1138,7 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $description = strtoupper($data->description);
+    $asset_primary_id = strtoupper($data->asset_primary_id);
 
     $sql = "SELECT 
     a_new.ASSET_ID,
@@ -1154,6 +1158,7 @@ AND l_new.ASSET_BUILDING LIKE '%$building%'
 AND l_new.ASSET_LEVEL LIKE '%$level%'
 AND l_new.ASSET_AREA_NAME LIKE '%$area%'
 AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
+AND a_new.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
 AND a_new.ASSET_ID = a_new.ASSET_PRIMARY_ID
 GROUP BY a_new.ASSET_ID,l_new.ASSET_ROOM_NO,l_new.ASSET_AREA_NAME,a_new.ASSET_CLASSIFICATION || ' - ' || ASSET_DESCRIPTION";
 
@@ -1174,7 +1179,7 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
-    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
     $response = array();
 
     $sql = "SELECT 
@@ -1186,6 +1191,7 @@ $app->map(['GET','POST'],'/building', function(Request $request, Response $respo
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
             GROUP BY ASSET_BUILDING
             ORDER BY ASSET_BUILDING";
 
@@ -1219,6 +1225,7 @@ $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
     $response = array();
 
     $sql = "SELECT 
@@ -1230,6 +1237,7 @@ $app->map(['GET','POST'],'/asset_level_new', function(Request $request, Response
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
             GROUP BY ASSET_LEVEL
             ORDER BY ASSET_LEVEL";
 
@@ -1262,6 +1270,7 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
     $response = array();
 
     $sql = "SELECT 
@@ -1273,6 +1282,7 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
             GROUP BY ASSET_AREA_NAME
             ORDER BY ASSET_AREA_NAME";
 
@@ -1298,25 +1308,28 @@ $app->map(['GET','POST'],'/asset_area', function(Request $request, Response $res
     }
 });
 
-$app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response $response){
+
+$app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
     $building = strtoupper($data->building);
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
     $response = array();
 
-    $sql = "SELECT ASSET_AREA
+    $sql = "SELECT ASSET_ROOM_NO
             FROM 
                 AMSD.ASSETS_LOCATION_NEW 
                 WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
-            AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
+            AND ASSET_AREA LIKE '%$area%'
             AND ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY ASSET_AREA
-            ORDER BY ASSET_AREA";
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            GROUP BY ASSET_ROOM_NO
+            ORDER BY ASSET_ROOM_NO";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -1326,13 +1339,13 @@ $app->map(['GET','POST'],'/asset_area_name', function(Request $request, Response
         $length = $res->rows;
         foreach($res->data as $value){
 
-            $response []= $value->ASSET_AREA_NAME;
+            $response [] = $value->ASSET_ROOM_NO;
             // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
             // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
         }
 
-        // echo $items;
+        // echo $assets_no;
          echo json_encode(array("rows"=>$length,"data" =>$response));
     }
     else{
@@ -1348,6 +1361,7 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
     $response = array();
 
     $sql = "SELECT ASSET_ROOM_NO
@@ -1358,6 +1372,7 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
             AND ASSET_LEVEL LIKE '%$level%'
             AND ASSET_AREA LIKE '%$area%'
             AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
             GROUP BY ASSET_ROOM_NO
             ORDER BY ASSET_ROOM_NO";
 
@@ -1370,6 +1385,60 @@ $app->map(['GET','POST'],'/asset_room_no', function(Request $request, Response $
         foreach($res->data as $value){
 
             $response [] = $value->ASSET_ROOM_NO;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $assets_no;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+
+$app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $asset_primary_id = strtoupper($data->asset_primary_id);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT A_OLD.ASSET_PRIMARY_ID
+            FROM 
+                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
+            AND L_NEW.ASSET_BUILDING LIKE '%$building%'
+            AND L_NEW.ASSET_LEVEL LIKE '%$level%'
+            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
+            AND A_OLD.ASSET_STATUS = '1'
+            AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
+            AND A_OLD.ASSET_STATUS = '1'
+            GROUP BY A_OLD.ASSET_PRIMARY_ID
+            ORDER BY A_OLD.ASSET_PRIMARY_ID";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response [] = $value->ASSET_PRIMARY_ID;
             // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
             // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
