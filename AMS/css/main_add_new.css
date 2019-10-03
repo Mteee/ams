@@ -221,11 +221,12 @@ input[type="checkbox"]:disabled:after {
 
 /* starts */
 
+#overlay-newAssetView,
 #overlay-asset,
 #overlay-printView,
 #overlay-newAssetView,
 #overlay-alert-message {
-    display: none;
+    display: block;
     position: fixed;
     width: 100%;
     height: 100%;
