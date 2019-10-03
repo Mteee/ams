@@ -14,11 +14,12 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
 
     global $func;
     $data = json_decode(file_get_contents('php://input') );
-    $level = strtoupper($data->level);
-    $room_no = strtoupper($data->room_no);
     $building = strtoupper($data->building);
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $asset_primar_id = strtoupper($data->asset_primary_id);
     $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
@@ -37,6 +38,8 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         AND ASSET_AREA LIKE '%$area%' 
         AND ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
         AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
+        AND HD_ASSET_LOCATION LIKE '%$sub_location%' 
+        AND ASSET_PRIMARY_ID LIKE '%$asset_primar_id%' 
         AND ASSET_ID=ASSET_PRIMARY_ID";
 
         // $sql = "SELECT * FROM AMSD.ASSETS_VW";
@@ -1798,7 +1801,7 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
             AND A_OLD.ASSET_STATUS = '1'
             GROUP BY L_NEW.ASSET_AREA_NAME
-            ORDER BY L_NEW.ASSASSET_AREA_NAMEET_AREA";
+            ORDER BY L_NEW.ASSET_AREA_NAME";
 
     $assets_no =$func->executeQuery($sql);
 
