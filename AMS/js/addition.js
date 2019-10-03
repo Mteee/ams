@@ -391,7 +391,7 @@ function createTable(tableID, tableData) {
                     break;
                 } else {
                     out.push(tableData[i]);
-                
+
                 }
 
             }
@@ -419,7 +419,7 @@ function createTable(tableID, tableData) {
                 'targets': 0,
                 'checkboxes': {
                     'selectRow': true,
-                    'value' : tableData[0]
+                    'value': tableData[0]
                 }
             },
             {
@@ -439,7 +439,7 @@ function createTable(tableID, tableData) {
         ], 'select': {
             'style': 'multi'
         },
-        fnCreatedRow: function (nTd,nRow, aData, iDataIndex) {
+        fnCreatedRow: function (nTd, nRow, aData, iDataIndex) {
 
             $(nRow).attr('id', aData[0]);
             // console.log($(nTd).children()[0].children);
@@ -462,7 +462,7 @@ function createTable(tableID, tableData) {
                     .attr('name', 'id[]')
                     .val(rowId)
             );
-        }); 
+        });
 
         var rowsSelected = rows_selected.join(",").split(",");
 
@@ -490,15 +490,15 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('menu_addition_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('meun_addition_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_addition_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            
-        
+
+
             localStorage.building = '';
             localStorage.level = '';
             localStorage.area = '';
             localStorage.room_no = '';
 
             populate_dropdown();
-  
+
             $(input).val("");
             $(btnDafualtId).text(text);
 
@@ -510,7 +510,7 @@ function clearData(input, btnDafualtId, text) {
             $('#area_addition_filter').text("AREA");
             $('#search_addition_room').val("");
             $('#room_addition_filter').text("ROOM");
-            
+
 
         } else if (input == "#search_addition_level") {
 
@@ -542,7 +542,7 @@ function clearData(input, btnDafualtId, text) {
             localStorage.room_no = '';
 
             populate_dropdown();
-  
+
             $('#search_addition_area').val("");
             $('#area_addition_filter').text("AREA");
             $('#search_addition_room').val("");
@@ -559,7 +559,7 @@ function clearData(input, btnDafualtId, text) {
             $('#search_addition_room').val("");
             $('#room_addition_filter').text("ROOM");
 
-        } 
+        }
 
 
         // if (btnDafualtId == "#dropdown_approve_room") {
@@ -627,7 +627,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         resetBtn('#level_view_filter', "LEVEL");
         resetBtn('#area_view_filter', "AREA");
         resetBtn('#room_view_filter', "ROOM");
-    
+
     });
 
 } else {
@@ -644,7 +644,7 @@ function resetInput(resetId, resetTxt) {
     $(resetId).val(resetTxt);
 }
 
-function clearLocalStorageFilters(){
+function clearLocalStorageFilters() {
     localStorage.building = '';
     localStorage.level = '';
     localStorage.area = '';
@@ -657,7 +657,7 @@ function clearLocalStorageFilters(){
 
 }
 
-function cleaAllFilters(){
+function cleaAllFilters() {
 
     clearLocalStorageFilters();
 
@@ -667,9 +667,9 @@ function cleaAllFilters(){
     $('#level_view_filter').text("LEVEL");
     $('#area_view_filter').text("AREA");
     $('#room_view_filter').text("ROOM");
-     
-     //description
-     $('#view_description').val("");
+
+    //description
+    $('#view_description').val("");
 
 
 }
@@ -746,31 +746,76 @@ var onSearch_new = function (searchValue) {
     }
 }
 
+var target = $("div#asset_group");
+var n = function () {
+    return $("div#asset_group")[0].children.length;
+};
+
+
 $('#asset_increment').on('click', function (e) {
     e.preventDefault();
     // $('asset_group');
-    var target = $("div#asset_group");
-    var n = function() {
-        return $("div#asset_group").length;
-      };
+    var outerElement = newAssetGroup();
+    console.log(newAssetGroup());
+    // console.log($("div#asset_group")[0].children.length);
+    $(outerElement[0]).appendTo(target);
+
+    console.log($('.wizard-card form').validate);
+
+    console.log($('#'+outerElement[1]));
+    console.log("=========================================");
+    // console.log($('#'+outerElement[1]).offset().top);
+    // alert($("div#scroll_group_view").scrollTop());
+    // $("div#scroll_group_view").animate({
+    //     scrollTop: 0
+    // });
+    // $("div#scroll_group_view").animate({
+    //     scrollTop: ($('#'+outerElement[1]).offset().top)
+    // });
+    document.getElementById(outerElement[1]).scrollIntoView();
     
-      var newAssetGroup = function(){
-        var outerDiv = $("<div/>", {
-            "class": "row table-bordered"
-          });
-        var asset_number_group = $("<div/>", {
-            "class": "form-group label-floating"
-          });
 
-        var asset_number_label = $("<label/>", {
-            "class": "control-label",
-            text: "Asset Number"
-          });
-
-        var asset_number_inputj = $("<form-control/>", {
-            "class": "control-label",
-            name: "asset_number"
-          });
-      }
- 
 })
+
+var newAssetGroup = function () {
+    var focus_div = "focus-input-" + n()
+    var outerDiv = $("<div/>", {
+        "class": "row table-bordered asset_group_style mt_group",
+        id: focus_div
+    });
+
+    var col_sm_5 = $("<div/>", {
+        class: "col-sm-5 offset-1"
+    });
+
+    var asset_number_group = $("<div/>", {
+        "class": "form-group label-floating"
+    });
+
+    var asset_number_label = $("<label/>", {
+        "class": "control-label",
+        text: "Asset Number"
+    });
+
+    var asset_number_input = $("<input/>", {
+        "class": "form-control",
+        name: "asset_number",
+        type: "text",
+        id: n()
+    });
+
+    $(asset_number_label).appendTo(asset_number_group);
+    $(asset_number_input).appendTo(asset_number_group);
+    $(asset_number_group).appendTo(col_sm_5);
+    $(col_sm_5).appendTo(outerDiv);
+
+    // console.log("focus_div");
+    // console.log(focus_div);
+
+    // $('#'+focus_div).focus();
+
+    return {
+            "0":outerDiv,
+            "1":focus_div
+            };
+}
