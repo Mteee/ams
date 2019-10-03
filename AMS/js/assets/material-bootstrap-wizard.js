@@ -26,17 +26,26 @@ $(document).ready(function(){
     /*  Activate the tooltips      */
     $('[rel="tooltip"]').tooltip();
 
+    // $('.my_required').each(function () {
+    //     $(this).rules("add",{
+    //         required: true 
+
+    //     })
+    // });
+
+
+
     // Code for the Validator
     var $validator = $('.wizard-card form').validate({
 		  rules: {
-		    // firstname: {
-		    //   required: true,
-		    //   minlength: 3
-		    // },
-		    // lastname: {
-		    //   required: true,
-		    //   minlength: 3
-		    // },
+            "category[]": "required",
+
+		    asset_number: {
+		      required: true,
+		    },
+		    asset_description: {
+		      required: true,
+            },
 		    // email: {
 		    //   required: true,
 		    //   minlength: 3,
@@ -85,11 +94,24 @@ $(document).ready(function(){
         'previousSelector': '.btn-previous',
 
         onNext: function(tab, navigation, index) {
-        	var $valid = $('.wizard-card form').valid();
-        	if(!$valid) {
-        		$validator.focusInvalid();
-        		return false;
-        	}
+           
+            var $valid = $('.wizard-card form').valid();
+            var input_arr = $('#asset_group input');
+            if(index == 4){
+                var res = validateInputChildren(input_arr);
+                console.log("res");
+                console.log(res);
+                if(res.bool){
+                    input_arr[res.index].focus();
+                    return false;
+                }
+
+            }else{
+                if(!$valid) {
+                    $validator.focusInvalid();
+                    return false;
+                }
+            }
         },
 
         onInit : function(tab, navigation, index){
@@ -154,8 +176,29 @@ $(document).ready(function(){
 
             refreshAnimation($wizard, index);
         }
-  	});
+      });
+      
+    function validateInputChildren(a){
+        console.log(a[0].value);
+        var foundEmpty = false;
 
+        for(i=0;i<a.length;i++){
+             if(isEmpty(a[i].value)){
+                foundEmpty = true;
+                break;
+             }
+        }
+
+        return {"bool":foundEmpty,"index":i};
+    }
+
+        function isEmpty(a){
+            if(a == undefined || a == ' ' || a == " " || a == "" || a == '' || a == null){
+                return true;
+            }
+
+            return false;
+        }
 
     // Prepare the preview for profile picture
     $("#wizard-picture").change(function(){

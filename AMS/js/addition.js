@@ -27,7 +27,117 @@ window.onload = function () {
 populate_dropdown();
 
 function addAsset() {
+    var json_data = {
+                asset_class: "",
+                room : "",
+                classification : "",
+                purchase_date : "",
+                waranty_date : "",
+                service_date : "",
+                service_due_date : "",
+                serviced_by : "",
+                assets : "",
+                model : "",
+                cert : ""
+            };
+            
+    var key = [
+                "asset_class",
+                "room",
+                "classification",
+                "purchase_date",
+                "waranty_date",
+                "service_date",
+                "service_due_date",
+                "serviced_by",
+                "assets",
+                "model",
+                "cert"
+              ]
+
+    var values = (getValues());
+
+    //certificate if yes
+      //....Code
+
+
+    for(i=0;i<key.length;i++){
+        json_data[key[i]] = values[i];
+    }
+
+    console.log(json_data);
+
     alert("hello");
+
+}
+
+function getValues(){
+    var inputValues = [];
+   
+    // var inputs = $(".wizard-card form input[type='text'],.wizard-card form input[type='date']");
+
+    //basic (2 inputs && 1 select)
+    var selects = $("#basic select").find("option:selected").text();
+    var input_basic = $("#basic input");
+    var basic = ["room","classification"];
+
+    //date (2 dates)
+    var input_date = $("#date input");
+    var dates = ["purchase_date","waranty_date"];
+
+    //service (2 dates & 1 input)
+    var input_service = $("#service input");
+    var service = ["service_date","service_due_date","serviced_by"];
+
+    //serial (2+ inputs)
+    var input_serial = $("#asset_group input");
+    var serial = ["asset_id","asset_desc"];
+
+    //model (1 inputs)
+    var input_model = $("#model input");
+    var serial = ["model"];
+
+    //commissioning
+    var input_radio_checked = $("#commissioning input[type='radio']:checked");
+   
+    
+    inputValues.push(selects);
+    extractValues_inElements(input_basic,inputValues,"");
+    extractValues_inElements(input_date,inputValues,"");
+    extractValues_inElements(input_service,inputValues,"");
+    extractValues_inElements(input_serial,inputValues,"serial");
+    inputValues.push(input_model[0].value);
+    
+    if(input_radio_checked[0].value == "YES"){
+        //get certNumber using apis
+        inputValues.push("12345");
+    }else{
+        inputValues.push("");
+    }
+    return inputValues;
+}
+
+function extractValues_inElements(a,arr,key){
+    console.log(a);
+    if(key == "serial"){
+        var stringValue = "";
+        for(i=0;i<a.length;i++){
+            console.log(a.length+ " "+i);
+            if(i == a.length-2){
+                
+                stringValue += a[i].value+"^"+a[++i].value
+            }else{
+                stringValue += a[i].value+"^"+a[++i].value+"|"
+            }
+           
+        }
+        arr.push(stringValue);
+    }else{
+        for(i=0;i<a.length;i++){
+            arr.push(a[i].value);
+        }
+    }
+    
 }
 
 function populate_dropdown() {
@@ -746,6 +856,8 @@ var onSearch_new = function (searchValue) {
     }
 }
 
+var count = 1;
+
 var target = $("div#asset_group");
 var n = function () {
     return $("div#asset_group")[0].children.length;
@@ -756,7 +868,7 @@ $('#asset_increment').on('click', function (e) {
     e.preventDefault();
     // $('asset_group');
     var outerElement = newAssetGroup();
-    console.log(newAssetGroup());
+    // console.log(newAssetGroup());
     // console.log($("div#asset_group")[0].children.length);
     $(outerElement[0]).appendTo(target);
 
@@ -785,7 +897,7 @@ var newAssetGroup = function () {
     });
 
     var col_sm_5 = $("<div/>", {
-        class: "col-sm-5 offset-1"
+        class: "col-sm-5"
     });
 
     var asset_number_group = $("<div/>", {
@@ -794,20 +906,87 @@ var newAssetGroup = function () {
 
     var asset_number_label = $("<label/>", {
         "class": "control-label",
-        text: "Asset Number"
+        text: "Asset Number *"
     });
 
     var asset_number_input = $("<input/>", {
-        "class": "form-control",
-        name: "asset_number",
-        type: "text",
-        id: n()
+        "class": "form-control my_required",
+        required:"required",
+        name:"asset_number"+n(),
+        id: "input_"+n()
     });
 
+    var asset_number_group = $("<div/>", {
+        "class": "form-group label-floating"
+    });
+
+    var col_sm_5_desc = $("<div/>",{
+        class:"col-sm-5"
+    });
+
+    var desc_col_sm_10 = $("<div/>",{
+        class:"col-sm-10 offset-1"
+    });
+
+    var floating_desc_label_group = $("<div/>",{
+        class:"form-group label-floating"
+    });
+
+    var desc_floating_label = $("<label/>",{
+        class:"control-label",
+        text: "Asset description *"
+    });
+
+    var desc_input = $("<input/>",{
+        class:"form-control my_required",
+        name:"asset_description"+n(),
+        required:"required"
+    });
+
+    var close_close_btn = $("<button/>",{
+        class:"btn btn-danger pull-right",
+        id:n(),
+    })
+
+    var glyph = $("<span/>", {
+        "class": "fa fa-close"
+      });
+
+      var col_count = $("<div/>",{
+        "class":"col-sm-1 my-auto"
+      });
+
+      count++;
+
+      var p_count = $("<p/>",{
+        "class":"text-center number-style",
+        text:count
+      });
+
+
+      //count
+      $(p_count).appendTo(col_count);
+
+    // <button type="button" id="close" class="close" onclick="">&times;</button>
+
+    //description
+    $(desc_floating_label).appendTo(floating_desc_label_group);
+    $(desc_input).appendTo(floating_desc_label_group);
+    $(floating_desc_label_group).appendTo(desc_col_sm_10);
+    $(desc_col_sm_10).appendTo(col_sm_5_desc);
+
+    //assetNumber
     $(asset_number_label).appendTo(asset_number_group);
     $(asset_number_input).appendTo(asset_number_group);
     $(asset_number_group).appendTo(col_sm_5);
+
+    //button tag
+    (glyph).appendTo(close_close_btn);
+    //cout tag
+    (col_count).prependTo(outerDiv);
+    (close_close_btn).prependTo(outerDiv);
     $(col_sm_5).appendTo(outerDiv);
+    $(col_sm_5_desc).appendTo(outerDiv);
 
     // console.log("focus_div");
     // console.log(focus_div);
@@ -819,3 +998,16 @@ var newAssetGroup = function () {
             "1":focus_div
             };
 }
+
+$('#asset_group').on('click', 'button', function(e) {
+    e.preventDefault();
+    console.log($("#asset_group").find("#focus-input-" + this.id));
+    var target = $("#asset_group").find("#focus-input-" + this.id);
+
+    // if($("div#asset_group")[0].children.length+1 == count){
+    //     count = 1;
+    // }
+
+    
+    $(target).remove();
+  });
