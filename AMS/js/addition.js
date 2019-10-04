@@ -610,7 +610,7 @@ function createTable(tableID, tableData) {
 
         var rowsSelected = rows_selected.join(",").split(",");
 
-        viewPrintAssets(rowsSelected);
+        viewCommAssets(rowsSelected);
         // Remove added elements
         $('input[name="id\[\]"]', form).remove();
 
@@ -620,6 +620,74 @@ function createTable(tableID, tableData) {
 
 
     return table;
+}
+
+
+function viewCommAssets(assets) {
+    var currentItem = "";
+    document.getElementById('overlay-transfer').style.display = "block";
+    // console.log($('#assetBody'));
+
+    console.log(assets);
+
+    var assets_arr = assets;
+    var send_assets = "";
+    for (var i = 0; i < assets_arr.length; i++) {
+        if (i == assets_arr.length - 1) {
+            send_assets += "\'" + assets_arr[i] + "\'";
+        } else {
+            send_assets += "\'" + assets_arr[i] + "\',";
+        }
+
+    }
+
+    console.log(send_assets);
+
+    // $.ajax({
+    //     // url: "assets.json",
+    //     url: "../../ams_apis/slimTest/index.php/printView",
+    //     method: "post",
+    //     data: '{"asset_class":"","primary_asset_id" : "' + send_assets + '"}',
+    //     dataType: "json",
+    //     success: function (data) {
+    //         console.log(data);
+    //         var html_view = "";
+    //         var p_count = 0;
+    //         var count = 0;
+    //         if (data.rows > 0) {
+    //             for (var i = 0; i < data.rows; i++) {
+    //                 // var primary_info = "";
+    //                 // var primary_id = data.data[i].asset.primary[0];
+    //                 // var len_primary = "";
+    //                 var sub_info = "";
+    //                 var th_primary = "<tr style='background:#222;color:#ffffff;'>";
+    //                 if (data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID) {
+    //                     p_count++;
+    //                     count = 0;
+
+    //                     if (data.data[i].ASSET_IS_SUB == "y") {
+    //                         th_primary += "<td class='text-center'><span class='toggle-btn' onclick=\"toggle_subs('.sub" + p_count + "')\"> + </span></td>";
+    //                     } else {
+    //                         th_primary += "<td class='text-center'> - </td>";
+    //                     }
+
+    //                     th_primary += "<td>" + data.data[i].ASSET_AREA + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+    //                     html_view += th_primary;
+    //                 } else {
+    //                     sub_info += "<tr class='sub" + p_count + "'><td>" + (count) + "</td>";
+
+    //                     sub_info += "<td colspan='2'><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
+    //                     html_view += sub_info;
+    //                 }
+    //                 count++;
+    //             }
+    //             document.getElementById('tbodyPrint').innerHTML = html_view;
+    //         }
+    //     },
+    //     error: function (err) {
+    //         console.log(err);
+    //     }
+    // });
 }
 
 
