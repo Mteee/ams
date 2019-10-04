@@ -2521,4 +2521,54 @@ $app->map(['GET','POST'],'/update_cert',function(Request $request, Response $res
 
 });
 
+$app->map(['GET','POST'],'/add_assets',function(Request $request, Response $response){
+    try{
+        global $connect;
+        $data = json_decode(file_get_contents('php://input'));
+        $ASSETS_ID = strtoupper($data->assetid);
+        $USERNAME = strtoupper($data->username);
+        $add_assets = '';
+
+        // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
+
+        $sql = "BEGIN amsd.asset_create (v_asset_class            IN     VARCHAR2,
+                    v_assets                 IN     VARCHAR2,
+                    v_asset_model            IN     VARCHAR2,
+                    v_asset_classification   IN     VARCHAR2,
+                    v_asset_room_no          IN     VARCHAR2,
+                    v_asset_purchase_dt      IN     DATE,
+                    v_asset_warranty_dt      IN     DATE,
+                    v_asset_vendor_id        IN     VARCHAR2,
+                    v_asset_vendor_name      IN     VARCHAR2,
+                    v_asset_useful_life      IN     VARCHAR2,
+                    v_asset_service_dt       IN     DATE,
+                    v_asset_service_by       IN     DATE,
+                    v_asset_cert_ind         IN     VARCHAR2,
+                    v_asset_cert_no          IN     VARCHAR2,
+                    v_asset_added_by         IN     VARCHAR2,
+                    v_out                       OUT VARCHAR2)
+                    END;";
+        $statement = oci_parse($connect,$sql);
+        // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
+        oci_bind_by_name($statement, ':ASSET_ID', $ASSETS_ID, 30);
+        oci_bind_by_name($statement, ':RESULT', $add_assets, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($add_assets == "y"){
+            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS ADDED WAS SUCCESSFUL"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS ADDED WAS NOT SUCCESSFUL"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+    
+
+});
+
 $app->run();
