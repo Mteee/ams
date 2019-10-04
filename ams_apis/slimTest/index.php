@@ -2083,7 +2083,7 @@ $app->map(['GET','POST'],'/building_addition', function(Request $request, Respon
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND A_OLD.ASSET_ID LIKE '%$asset_no%'
             AND A_OLD.ASSET_STATUS = '1'
-            AND A_OLD.ASSET_CERT_NO = ' '
+            AND A_OLD.ASSET_CERT_NO IS NULL
             GROUP BY L_NEW.ASSET_BUILDING
             ORDER BY L_NEW.ASSET_BUILDING";
 
@@ -2139,7 +2139,7 @@ $app->map(['GET','POST'],'/asset_level_new_addition', function(Request $request,
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND A_OLD.ASSET_ID LIKE '%$asset_no%'
             AND A_OLD.ASSET_STATUS = '1'
-            AND A_OLD.ASSET_CERT_NO = ' '
+            AND A_OLD.ASSET_CERT_NO IS NULL
             GROUP BY L_NEW.ASSET_LEVEL
             ORDER BY L_NEW.ASSET_LEVEL";
 
@@ -2194,7 +2194,7 @@ $app->map(['GET','POST'],'/asset_area_addition', function(Request $request, Resp
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND A_OLD.ASSET_ID LIKE '%$asset_no%'
             AND A_OLD.ASSET_STATUS = '1'
-            AND A_OLD.ASSET_CERT_NO = ' '
+            AND A_OLD.ASSET_CERT_NO IS NULL
             GROUP BY L_NEW.ASSET_AREA_NAME
             ORDER BY L_NEW.ASSET_AREA_NAME";
 
@@ -2249,7 +2249,7 @@ $app->map(['GET','POST'],'/asset_room_no_addition', function(Request $request, R
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND A_OLD.ASSET_ID LIKE '%$asset_no%'
             AND A_OLD.ASSET_STATUS = '1'
-            AND A_OLD.ASSET_CERT_NO = ' '
+            AND A_OLD.ASSET_CERT_NO IS NULL
             GROUP BY L_NEW.ASSET_ROOM_NO
             ORDER BY L_NEW.ASSET_ROOM_NO";
 
@@ -2304,7 +2304,7 @@ $app->map(['GET','POST'],'/asset_sub_location_addition', function(Request $reque
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND A_OLD.ASSET_ID LIKE '%$asset_no%'
             AND A_OLD.ASSET_STATUS = '1'
-            AND A_OLD.ASSET_CERT_NO = ' '
+            AND A_OLD.ASSET_CERT_NO IS NULL
             GROUP BY A_OLD.ASSET_SUB_LOCATION
             ORDER BY A_OLD.ASSET_SUB_LOCATION";
 
@@ -2359,7 +2359,7 @@ $app->map(['GET','POST'],'/asset_id_addition', function(Request $request, Respon
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND A_OLD.ASSET_ID LIKE '%$asset_no%'
             AND A_OLD.ASSET_STATUS = '1'
-            AND A_OLD.ASSET_CERT_NO = ' '
+            AND A_OLD.ASSET_CERT_NO IS NULL
             GROUP BY A_OLD.ASSET_ID
             ORDER BY A_OLD.ASSET_ID";
 
@@ -2432,7 +2432,8 @@ $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $reque
 $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
-    $cert_no = strtoupper($data->cert);
+    // $cert_no = strtoupper($data->cert);
+    $ASSET_NO = strtoupper($data->assert_primary_id);
 
     $sql = "SELECT ASSET_CERT_NO
     FROM AMSD.ASSETS
@@ -2464,12 +2465,52 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
 
             $cert_int = $zeros.$cert_int;
         }
+
+        // $ass ={ };
         // echo $cert_int." after";
-        echo json_encode(array("rows" => 0 ,"data" =>$cert_int));
+        if(!empty($cert_int)){
+
+            $asset_sql = "SELECT ASSET_ID,ASSET_DESCRIPTION
+            FROM AMSD.ASSETS_VW
+            WHERE ASSET_ID IN ($ASSET_NO)";
+
+            $count = 0;
+            $sub = "";
+
+            $asset_info =$func->executeQuery($asset_sql);
+
+            if($asset_info){
+                // $ass = $asset_info;
+                $decode_response = json_decode($asset_info);
+
+                // array_push($decode_response->data,array("cert"=> $cert_int));
+                // echo json_encode($decode_response);
+
+                foreach($decode_response->data as $res){
+
+                    //  echo $res->ASSET_PRIMARY_ID;
+              
+                    $sub .= '<tr>
+                                    <td>'.$res->ASSET_ID.'</td>
+                                    <td>'.$res->ASSET_DESCRIPTION.'</td>
+                                    <td>'.$cert_int.'</td>
+                                </tr>
+                            ';
+    
+                                $count++;
+                    
+                }
+
+
+                echo json_encode(array("rows" => $count ,"data"=>$sub,"certificate_number"=>$cert_int));
+            }
+            else{
+                echo json_encode(array("rows" => 0 ,"data" =>[]));
+            }
+        }
+
     }
-    else{
-        echo json_encode(array("rows" => 0 ,"data" =>[]));
-    }
+  
 
 });
 
