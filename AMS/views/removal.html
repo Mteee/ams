@@ -292,7 +292,7 @@
                                     <li class="menu-item ">addition</li>
                                 </a>
                                 <li class="divider"></li>
-                                <a href="./removal.html" target="_self">
+                                <a href="#" target="_self">
                                     <li class="menu-item">removal</li>
                                 </a>
                             </ul>
@@ -305,7 +305,8 @@
             </div>
             <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
                 <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
-                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span>/ <em><span class="text-muted">ASSET VIEW</span></em></div>
+                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span class="text-muted">DECOMMISSIONING</span></em></span>
+                </div>
             </div>
             <div class=" col-md-3">
                 <div class="row">
@@ -318,19 +319,6 @@
                         </button>
                     </div>
                 </div>
-
-
-                <!-- <div class="nav-item dropdown">
-                    <a class="btn btn-secondary form-control btn-light dropdown-toggle text-left rounded-top rounded-bottom" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        All
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#"></a>
-                        <a class="dropdown-item" href="#">IT Equipment</a>
-                        <a class="dropdown-item" href="#">Medical Equipment</a>
-                      </div>
-                  </div>
-                 -->
 
             </div>
         </nav>
@@ -360,33 +348,33 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="building_view_filter" data-toggle="dropdown"
+                                                    type="button" id="building_removal_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     BUILDING
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="building_view_filter"
-                                                    id="scroll_view_building">
+                                                <div class="dropdown-menu" aria-labelledby="building_removal_filter"
+                                                    id="scroll_removal_building">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_building"
+                                                            <input type="search" id="search_removal_building"
                                                                 class="form-control" placeholder="Building"
-                                                                onkeyup="onSearch('search_view_building','#empty_view_building')"
+                                                                onkeyup="onSearch('search_removal_building','#empty_removal_building')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_building"
-                                                                    onclick="clearData('#search_view_building','#building_view_filter','BUILDING')"><i
+                                                                    id="clear_removal_building"
+                                                                    onclick="clearData('#search_removal_building','#building_removal_filter','BUILDING')"><i
                                                                         class="fa fa-close"></i>
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_building">
+                                                    <div id="menu_removal_building">
                                                         <div id="building_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_building" class="dropdown-header">No building
+                                                    <div id="empty_removal_building" class="dropdown-header">No building
                                                         found
                                                     </div>
                                                 </div>
@@ -395,33 +383,33 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="level_view_filter" data-toggle="dropdown"
+                                                    type="button" id="level_removal_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     LEVEL
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="level_view_filter"
-                                                    id="scroll_view_level">
+                                                <div class="dropdown-menu" aria-labelledby="level_removal_filter"
+                                                    id="scroll_removal_level">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_level"
+                                                            <input type="search" id="search_removal_level"
                                                                 class="form-control" placeholder="Level"
-                                                                onkeyup="onSearch('search_view_level','#empty_view_level')"
+                                                                onkeyup="onSearch('search_removal_level','#empty_removal_level')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_level"
-                                                                    onclick="clearData('#search_view_level','#level_view_filter','LEVEL')"><i
+                                                                    id="clear_removal_level"
+                                                                    onclick="clearData('#search_removal_level','#level_removal_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_level">
+                                                    <div id="menu_removal_level">
                                                         <div id="Roomload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_level" class="dropdown-header">No level found
+                                                    <div id="empty_removal_level" class="dropdown-header">No level found
                                                     </div>
                                                 </div>
                                             </div>
@@ -429,32 +417,32 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="area_view_filter" data-toggle="dropdown"
+                                                    type="button" id="area_removal_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_area"
-                                                    aria-labelledby="area_view_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_removal_area"
+                                                    aria-labelledby="area_removal_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_area"
+                                                            <input type="search" id="search_removal_area"
                                                                 class="form-control" placeholder="Area"
-                                                                onkeyup="onSearch('search_view_area','#empty_view_area')"
+                                                                onkeyup="onSearch('search_removal_area','#empty_removal_area')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_area"
-                                                                    onclick="clearData('#search_view_area','#area_view_filter','AREA')"><i
+                                                                    id="clear_removal_area"
+                                                                    onclick="clearData('#search_removal_area','#area_removal_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_view_area" onchange="testMethod()">
+                                                    <div id="meun_removal_area" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_area" class="dropdown-header">No area found
+                                                    <div id="empty_removal_area" class="dropdown-header">No area found
                                                     </div>
                                                 </div>
                                             </div>
@@ -462,33 +450,33 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="room_view_filter" data-toggle="dropdown"
+                                                    type="button" id="room_removal_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_room"
-                                                    aria-labelledby="room_view_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_removal_room"
+                                                    aria-labelledby="room_removal_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_room"
+                                                            <input type="search" id="search_removal_room"
                                                                 class="form-control" placeholder="Room"
-                                                                onkeyup="onSearch('search_view_room','#empty_view_room')"
+                                                                onkeyup="onSearch('search_removal_room','#empty_removal_room')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_room"
-                                                                    onclick="clearData('#search_view_room','#room_view_filter','ROOM')"><i
+                                                                    id="clear_removal_room"
+                                                                    onclick="clearData('#search_removal_room','#room_removal_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_room" onchange="testMethod()">
+                                                    <div id="menu_removal_room" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_room" class="dropdown-header">No room found
+                                                    <div id="empty_removal_room" class="dropdown-header">No room found
                                                     </div>
                                                 </div>
                                             </div>
@@ -501,30 +489,30 @@
                                                     SUB LOCATION
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_view_sublocaction"
-                                                    aria-labelledby="sublocaction_view_filter">
+                                                    id="scroll_removal_sublocaction"
+                                                    aria-labelledby="sublocaction_removal_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_sublocaction"
+                                                            <input type="search" id="search_removal_sublocaction"
                                                                 class="form-control" placeholder="Sub Location"
-                                                                onkeyup="onSearch('search_view_sublocaction','#empty_view_sublocaction')"
+                                                                onkeyup="onSearch('search_removal_sublocaction','#empty_removal_sublocaction')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_sublocaction"
-                                                                    onclick="clearData('#search_view_sublocaction','#sublocaction_view_filter','SUB LOCATION')"><i
+                                                                    id="clear_removal_sublocaction"
+                                                                    onclick="clearData('#search_removal_sublocaction','#sublocaction_removal_filter','SUB LOCATION')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_sublocaction" class="text-center"
+                                                    <div id="menu_removal_sublocaction" class="text-center"
                                                         onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_sublocaction" class="dropdown-header">No
+                                                    <div id="empty_removal_sublocaction" class="dropdown-header">No
                                                         sublocation found</div>
                                                 </div>
                                             </div>
@@ -533,34 +521,34 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="assetNo_view_filter" data-toggle="dropdown"
+                                                    type="button" id="assetNo_removal_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ASSET NO
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_assetNo"
-                                                    aria-labelledby="assetNo_view_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_removal_assetNo"
+                                                    aria-labelledby="assetNo_removal_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_assetNo"
+                                                            <input type="search" id="search_removal_assetNo"
                                                                 class="form-control" placeholder="ASSET NO"
-                                                                onkeyup="onSearch('search_view_assetNo','#empty_view_assetNo')"
+                                                                onkeyup="onSearch('search_removal_assetNo','#empty_removal_assetNo')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_assetNo"
-                                                                    onclick="clearData('#search_view_assetNo','#assetNo_view_filter','ASSET NO')"><i
+                                                                    id="clear_removal_assetNo"
+                                                                    onclick="clearData('#search_removal_assetNo','#assetNo_removal_filter','ASSET NO')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_assetNo" class="text-center"
+                                                    <div id="menu_removal_assetNo" class="text-center"
                                                         onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_assetNo" class="dropdown-header">No asset found
+                                                    <div id="empty_removal_assetNo" class="dropdown-header">No asset found
                                                     </div>
                                                 </div>
                                             </div>
@@ -662,7 +650,7 @@
         <script src="../js/export/Blob.js"></script>
         <script src="../js/export/FileSaver.js"></script>
         <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
-        <script src="../js/viewScript.js"></script>
+        <script src="../js/removal.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
         <script type="text/javascript"
             src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>

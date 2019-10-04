@@ -2013,7 +2013,7 @@ $app->map(['GET','POST'],'/building_addition', function(Request $request, Respon
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             GROUP BY L_NEW.ASSET_BUILDING
             ORDER BY L_NEW.ASSET_BUILDING";
@@ -2063,7 +2063,7 @@ $app->map(['GET','POST'],'/asset_level_new_addition', function(Request $request,
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             GROUP BY L_NEW.ASSET_LEVEL
             ORDER BY L_NEW.ASSET_LEVEL";
@@ -2104,7 +2104,7 @@ $app->map(['GET','POST'],'/asset_area_addition', function(Request $request, Resp
     }
 
     $sql = "SELECT 
-                L_NEW.ASSET_AREA
+                L_NEW.ASSET_AREA_NAME
             FROM 
                 AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
@@ -2112,10 +2112,10 @@ $app->map(['GET','POST'],'/asset_area_addition', function(Request $request, Resp
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY L_NEW.ASSET_AREA
-            ORDER BY L_NEW.ASSET_AREA";
+            GROUP BY L_NEW.ASSET_AREA_NAME
+            ORDER BY L_NEW.ASSET_AREA_NAME";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -2125,7 +2125,7 @@ $app->map(['GET','POST'],'/asset_area_addition', function(Request $request, Resp
         $length = $res->rows;
         foreach($res->data as $value){
 
-            $response []= $value->ASSET_AREA;
+            $response []= $value->ASSET_AREA_NAME;
             // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
             // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
@@ -2160,7 +2160,7 @@ $app->map(['GET','POST'],'/asset_room_no_addition', function(Request $request, R
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             GROUP BY L_NEW.ASSET_ROOM_NO
             ORDER BY L_NEW.ASSET_ROOM_NO";
@@ -2187,4 +2187,53 @@ $app->map(['GET','POST'],'/asset_room_no_addition', function(Request $request, R
     }
  
 });
+
+
+//ASSET_IDS_WITH_CERTIFICATES
+$app->map(['GET','POST'],'/getAll_Assets_with_Cert_no',function(Request $request, Response $response){
+    global $func;
+
+    $sql = "SELECT
+    ASSET_ID, ASSET_DESCRIPTION, ASSET_CLASSIFICATION, a.ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_IS_SUB, HD_ASSET_LOCATION
+    FROM AMSD.ASSETS a,AMSD.ASSETS_LOCATION b
+    WHERE a.ASSET_ROOM_NO = b.ASSET_ROOM_NO
+    AND a.ASSET_CERT_NO <> ' '
+    AND a.ASSET_STATUS = '1'";
+
+    $assets_with_crt =$func->executeQuery($sql);
+
+    if($assets_with_crt){
+
+       echo $assets_with_crt;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+
+});
+
+
+//ASSET_IDS_WITH_NO_CERTIFICATES
+$app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $request, Response $response){
+    global $func;
+
+    $sql = "SELECT
+    ASSET_ID
+    FROM AMSD.ASSETS a,AMSD.ASSETS_LOCATION b
+    WHERE a.ASSET_ROOM_NO = b.ASSET_ROOM_NO
+    AND a.ASSET_CERT_NO = ' '
+    AND a.ASSET_STATUS = '1'";
+
+    $assets_withno_crt =$func->executeQuery($sql);
+
+    if($assets_withno_crt){
+
+       echo $assets_withno_crt;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+
+});
+
 $app->run();

@@ -214,12 +214,15 @@
             flex-wrap: inherit !important;
 
         }
+
+        .ripple-container{
+            display: none;
+        }
     </style>
 
 </head>
 
 <body>
-
     <div id="overlay-newAssetView">
         <div class="row animated bounceInUp">
             <div class="col-sm-6 offset-3">
@@ -285,20 +288,26 @@
                                         <div class="col-sm-5 offset-1">
                                             <div class="form-group">
                                                 <label class="control-label">Purchase date *</label>
-                                                <div class="input-group">
+                                                <div class="input-group table-bordered">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
                                                     <input type="date" class="form-control" name="purchase_date">
-                                                    <span class="input-group-addon"><i
-                                                            class="fa fa-calendar"></i></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label class="control-label">Warranty Date *</label>
-                                                <div class="input-group">
+                                                <div class="input-group table-bordered">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
                                                     <input type="date" class="form-control" name="warranty_date">
-                                                    <span class="input-group-addon"><i
-                                                            class="fa fa-calendar"></i></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -321,20 +330,26 @@
                                         <div class="col-sm-5 offset-1">
                                             <div class="form-group">
                                                 <label class="control-label">Service Date *</label>
-                                                <div class="input-group">
+                                                <div class="input-group table-bordered">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
                                                     <input type="date" class="form-control" name="service_date">
-                                                    <span class="input-group-addon"><i
-                                                            class="fa fa-calendar"></i></span>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label class="control-label">Service Due Date *</label>
-                                                <div class="input-group">
+                                                <div class="input-group table-bordered">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </span>
+                                                    </div>
                                                     <input type="date" class="form-control" name="service_due_date">
-                                                    <span class="input-group-addon"><i
-                                                            class="fa fa-calendar"></i></span>
                                                 </div>
                                             </div>
                                         </div>
@@ -357,7 +372,8 @@
                                                 <div class="col-sm-10 offset-1">
                                                     <div class="assets_info_plus" id="scroll_group_view">
                                                         <div id="asset_group">
-                                                            <div class="row table-bordered asset_group_style" name="category[]">
+                                                            <div class="row table-bordered asset_group_style"
+                                                                name="category[]">
                                                                 <button class="btn btn-success pull-right" id="0"><span
                                                                         class="fa fa-check"></span></button>
                                                                 <div class="col-sm-1 my-auto">
@@ -468,7 +484,6 @@
         </div>
         <!-- row -->
     </div>
-
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -507,7 +522,9 @@
                                     <li class="menu-item active">addition</li>
                                 </a>
                                 <li class="divider"></li>
-                                <li class="menu-item">removal</li>
+                                <a href="./removal.html" target="_self">
+                                    <li class="menu-item">removal</li>
+                                </a>
                             </ul>
                         </div>
 
@@ -516,8 +533,7 @@
             </div>
             <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
                 <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
-                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span><br>
-                    <span class="sub-title">(Addition)</span>
+                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span class="text-muted">COMMISSIONING</span></em></span>
                 </div>
             </div>
             <div class=" col-md-3">
@@ -651,7 +667,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_addition_area" class="text-center"
+                                                    <div id="meun_addition_area"
                                                         onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
@@ -739,7 +755,7 @@
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
                                                     type="button" id="assetNo_addition_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
-                                                    ASSET NO
+                                                    ASSET NUMBER
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll"
                                                     id="scroll_addition_assetNo"
@@ -748,13 +764,13 @@
 
                                                         <div class="input-group">
                                                             <input type="search" id="search_addition_assetNo"
-                                                                class="form-control" placeholder="ASSET NO"
+                                                                class="form-control" placeholder="ASSET NUMBER"
                                                                 onkeyup="onSearch('search_addition_assetNo','#empty_addition_assetNo')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
                                                                     id="clear_addition_assetNo"
-                                                                    onclick="clearData('#search_addition_assetNo','#assetNo_addition_filter','ASSET NO')"><i
+                                                                    onclick="clearData('#search_addition_assetNo','#assetNo_addition_filter','ASSET NUMBER')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -803,6 +819,10 @@
                                                 </th>
                                                 <th scope="col">
                                                     Room
+
+                                                </th>
+                                                <th scope="col">
+                                                    Sub Location
 
                                                 </th>
                                                 <th scope="col">
@@ -862,7 +882,7 @@
     <script src="../js/assets/material-bootstrap-wizard.js"></script>
     <script src="../js/assets/jquery.bootstrap.js"></script>
     <script src="../js/jquery.validate.min.js"></script>
-    <!-- <script src="../js/bootstrap.bundle.js"></script> -->
+    <script src="../js/bootstrap.bundle.js"></script>
 
     <script src="../js/addition.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
