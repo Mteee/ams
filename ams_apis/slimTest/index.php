@@ -2399,8 +2399,8 @@ $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $reque
 
     $sql = "SELECT
         ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB
-    FROM MSD.ASSETS_VW 
-    AND ASSET_CLASS LIKE '%$asset_class%'
+    FROM AMSD.ASSETS_VW 
+    WHERE ASSET_CLASS LIKE '%$asset_class%'
     AND ASSET_BUILDING LIKE '%$building%'
     AND ASSET_LEVEL LIKE '%$level%'
     AND ASSET_AREA_NAME LIKE '%$area%'
@@ -2408,7 +2408,7 @@ $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $reque
     AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
     AND ASSET_ID LIKE '%$asset_no%'
     AND ASSET_CERT_NO = ' '
-    AND ASSET_STATUS = '1'";
+    AND ASSET_STATUS = 'ACTIVE'";
 
     $assets_withno_crt =$func->executeQuery($sql);
 
