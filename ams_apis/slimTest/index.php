@@ -2502,4 +2502,23 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
 
 });
 
+$app->map(['GET','POST'],'/update_cert',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $assets = strtoupper($data->assets);
+    $cert = strtoupper($data->cert);
+
+    $sql = "UPDATE AMSD.ASSETS SET ASSET_CERT_NO = '$cert' WHERE ASSET_ID IN ($assets)";
+
+    $update_cert =$func->executeNonQuery($sql);
+
+    if($update_cert){
+       echo json_encode(array("rows" => 0 ,"data" =>"error"))
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"error"));
+    }
+
+});
+
 $app->run();
