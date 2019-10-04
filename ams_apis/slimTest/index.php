@@ -2421,7 +2421,7 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
     global $func;
     $data = json_decode(file_get_contents('php://input'));
     // $cert_no = strtoupper($data->cert);
-    $ASSET_NO = strtoupper($data->assert_primary_id);
+    $ASSET_NO = strtoupper($data->primary_asset_id);
 
     $sql = "SELECT ASSET_CERT_NO
     FROM AMSD.ASSETS
@@ -2453,6 +2453,8 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
 
             $cert_int = $zeros.$cert_int;
         }
+
+        $cert_int = date("Y").'/'.$cert_int;
 
         // $ass ={ };
         // echo $cert_int." after";
