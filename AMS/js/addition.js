@@ -188,7 +188,7 @@ function extractValues_inElements(a, arr, key) {
     else if (key == "date") {
         for (i = 0; i < a.length; i++) {
             arr.push(getDatee(a[i].value));
-            
+
         }
 
     } else {
@@ -214,7 +214,7 @@ function populate_dropdown() {
     getItems('../../ams_apis/slimTest/index.php/building_addition', 'search_addition_building', 'scroll_addition_building', 'menu_addition_building', 'empty_addition_building');
 
 }
-function getRoom(){
+function getRoom() {
     getItems('../../ams_apis/slimTest/index.php/asset_room_no_addition', 'search_new_room', 'scroll_new_room', 'menu_new_room', 'empty_new_room');
 }
 
@@ -632,6 +632,8 @@ function viewCommAssets(assets) {
     var currentItem = "";
     document.getElementById('overlay-transfer').style.display = "block";
     // console.log($('#assetBody'));
+    document.getElementById('movItemCount').innerHTML = assets.length;
+
 
     console.log(assets);
 
@@ -647,6 +649,7 @@ function viewCommAssets(assets) {
     }
 
     console.log(send_assets);
+    var cert_no = { data: "" };
 
     $.ajax({
         // url: "assets.json",
@@ -656,14 +659,45 @@ function viewCommAssets(assets) {
         dataType: "json",
         success: function (data) {
             console.log(data);
+            $('#loaderComm').hide();
             if (data.rows > 0) {
-                $("#assetTbody").innerHTML(data.data);
+                document.getElementById("assetTbody").innerHTML = data.data;
+                cert_no.data = data.certificate_number;
+                $("movItemCount").text(data.rows);
             }
         },
         error: function (err) {
             console.log(err);
         }
     });
+
+    $("#confirmComm").off().on("click", function () {
+        confirmComm(send_assets, cert_no.data);
+    });
+}
+
+function confirmComm(assets_ids, certificate_no) {
+
+    $.ajax({
+        // url: "assets.json",
+        url: "../../ams_apis/slimTest/index.php/generate_Cert_no",
+        method: "post",
+        data: '{"primary_asset_id" : "' + send_assets + '"}',
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            $('#loaderComm').hide();
+            if (data.rows > 0) {
+                document.getElementById("assetTbody").innerHTML = data.data;
+                cert_no.data = data.certificate_number;
+                $("movItemCount").text(data.rows);
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+    
 }
 
 
