@@ -203,9 +203,9 @@ function search() {
                     setTimeout(function () {
                         console.log(checkboxSelectedLength());
                         if (checkboxSelectedLength() > 0) {
-                            $('#printAssets').fadeIn(500);
+                            $('#printAssets').fadeIn(400);
                         } else {
-                            $('#printAssets').fadeOut(500);
+                            $('#printAssets').fadeOut(400);
                         }
                     }, 500);
 
@@ -347,6 +347,7 @@ function createTable(tableID, tableData) {
     });
 
     $('#frm-example').on('submit', function (e) {
+        console.log("click");
         // Prevent actual form submission
         e.preventDefault();
         var rows_selected = table.column(0).checkboxes.selected();

@@ -2393,12 +2393,18 @@ $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $reque
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
-    $sub_location = strtoupper($data->sub_location);
+    $asset_description = strtoupper($data->description);
+    $sub_location = strtoupper($data->asset_sub_location);
     $asset_no = strtoupper($data->asset_no);
     $asset_class = strtoupper($data->asset_class);
 
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
     $sql = "SELECT
-        ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB
+        ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_CLASSIFICATION || ' - ' ||ASSET_DESCRIPTION as ASSET_DESCRIPTION,ASSET_IS_SUB
     FROM AMSD.ASSETS_VW 
     WHERE ASSET_CLASS LIKE '%$asset_class%'
     AND ASSET_BUILDING LIKE '%$building%'
@@ -2407,13 +2413,14 @@ $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $reque
     AND ASSET_ROOM_NO LIKE '%$room_no%'
     AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
     AND ASSET_ID LIKE '%$asset_no%'
+    AND (ASSET_CLASSIFICATION LIKE '%$asset_description%'
+    OR ASSET_DESCRIPTION LIKE '%$asset_description%')
     AND ASSET_CERT_NO = ' '
     AND ASSET_STATUS = 'ACTIVE'";
 
     $assets_withno_crt =$func->executeQuery($sql);
 
     if($assets_withno_crt){
-
        echo $assets_withno_crt;
     }
     else{
