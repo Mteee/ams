@@ -144,9 +144,9 @@ function extractValues_inElements(a, arr, key) {
 
 function populate_dropdown() {
     // get asset_no
-    getItems('../../ams_apis/slimTest/index.php/asset_id_no_cert', 'search_addition_assetNo', 'scroll_addition_assetNo', 'menu_addition_assetNo', 'empty_addition_assetNo');
+    getItems('../../ams_apis/slimTest/index.php/asset_id_addition', 'search_addition_assetNo', 'scroll_addition_assetNo', 'menu_addition_assetNo', 'empty_addition_assetNo');
     // get sub_location
-    getItems('../../ams_apis/slimTest/index.php/asset_sub_location', 'search_addition_sublocaction', 'scroll_addition_sublocaction', 'menu_addition_sublocaction', 'empty_addition_sublocaction');
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_addition', 'search_addition_sublocaction', 'scroll_addition_sublocaction', 'menu_addition_sublocaction', 'empty_addition_sublocaction');
     // get room
     getItems('../../ams_apis/slimTest/index.php/asset_room_no_addition', 'search_addition_room', 'scroll_addition_room', 'menu_addition_room', 'empty_addition_room');
     // get area
