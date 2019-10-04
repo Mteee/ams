@@ -2429,4 +2429,48 @@ $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $reque
 
 });
 
+$app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $cert_no = strtoupper($data->cert);
+
+    $sql = "SELECT ASSET_CERT_NO
+    FROM AMSD.ASSETS
+    WHERE ASSET_CERT_NO <> ' '
+    AND ASSET_STATUS = '1'
+    GROUP BY ASSET_CERT_NO
+    ORDER BY ASSET_CERT_NO DESC";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+
+        $assets_no;
+        $new_cert = json_decode($assets_no);
+
+        $new_cert = $new_cert->data[0]->ASSET_CERT_NO;
+        $str_arr = explode("/", $new_cert);  
+
+        $cert_int = (int)$str_arr[1];
+        // echo $str_arr[1]." b4 -----------";
+        $cert_int++;
+        $len = strlen((string)$cert_int);
+        $zeros = "";
+        if($len < 5){
+
+            for($i = $len;$i<5;$i++){
+                $zeros .="0";
+            }
+
+            $cert_int = $zeros.$cert_int;
+        }
+        // echo $cert_int." after";
+        echo json_encode(array("rows" => 0 ,"data" =>$cert_int));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+
+});
+
 $app->run();
