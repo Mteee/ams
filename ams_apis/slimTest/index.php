@@ -450,6 +450,105 @@ $app->map(['GET','POST'],'/printView',function(Request $request, Response $respo
 
 });
 
+$app->map(['GET','POST'],'/assetCert_print',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $ASSET_CLASS = strtoupper($data->asset_class);
+    $cert_no = strtoupper($data->cert);
+    $ASSET_NO = strtoupper($data->type);
+
+    if($ASSET_CLASS == 'ALL EQUIPMENT'){
+        $ASSET_CLASS = '';
+    }
+
+    $sql = "SELECT *
+    FROM AMSD.ASSETS_vw
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
+    AND ASSET_CERT_NO = '$cert_no'";
+
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+
+         echo $assets_no;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+
+    }
+
+});
+
+$app->map(['GET','POST'],'/assetNoCer',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $ASSET_CLASS = strtoupper($data->asset_class);
+
+    if($ASSET_CLASS == 'ALL EQUIPMENT'){
+        $ASSET_CLASS = '';
+    }
+
+    $sql = "SELECT ASSET_ID
+    FROM AMSD.ASSETS
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
+    AND ASSET_CERT_NO is null";
+
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+
+         echo $assets_no;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+
+    }
+
+});
+
+$app->map(['GET','POST'],'/getAll_Cert_no',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $cert_no = strtoupper($data->cert);
+
+    $sql = "SELECT ASSET_CERT_NO
+    FROM AMSD.ASSETS
+    GROUP BY ASSET_CERT_NO
+    ORDER BY ASSET_CERT_NO DESC";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+
+        $assets_no;
+        $new_cert = json_decode($assets_no);
+
+        $new_cert = $new_cert->data[0]->ASSET_CERT_NO;
+        $str_arr = explode("/", $new_cert);  
+
+        $cert_int = (int)$str_arr[1];
+        echo $str_arr[1]." b4 -----------";
+        $cert_int++;
+        $len = strlen((string)$cert_int);
+        $zeros = "";
+        if($len < 5){
+
+            for($i = $len;$i<5;$i++){
+                $zeros .="0";
+            }
+
+            $cert_int = $zeros.$cert_int;
+        }
+        echo $cert_int." after";
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+
+});
+
 $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Response $response){
 
     global $func;
@@ -964,10 +1063,6 @@ $app->map(['GET','POST'],'/room_al_no', function(Request $request, Response $res
                                     WHERE ASSET_SUB_LOCATION LIKE 'AL%'
                                     AND ASSET_ROOM_NO = '$room_no'
                                     GROUP BY ASSET_SUB_LOCATION)";
-
-
-
-
 
         $assets_no =$func->executeQuery($sql);
 
