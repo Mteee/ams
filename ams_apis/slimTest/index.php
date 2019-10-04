@@ -404,6 +404,53 @@ $app->map(['GET','POST'],'/location',function(Request $request, Response $respon
 
 });
 
+$app->map(['GET','POST'],'/assets_withno_cert_filter',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $ASSET_CLASS = $func->checkValue(strtoupper($data->asset_class));
+    $ASSET_LOCATION = $func->checkValue(strtoupper($data->asset_location));
+    $ASSET_ROOM_NO = $func->checkValue(strtoupper($data->asset_room));
+    $ASSET_ID = $func->checkValue(strtoupper($data->asset_id));
+
+   if($ASSET_CLASS == 'ALL EQUIPMENT'){
+        $ASSET_CLASS = '';
+    }
+
+    $sql = "SELECT ASSET_ID
+    FROM AMSD.ASSETS_VW
+    WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID LIKE '%$ASSET_ID%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%'
+    GROUP BY ASSET_ID
+    ORDER BY ASSET_ID ASC";
+
+    // $sql = "SELECT ASSET_LOCATION_AREA FROM AMSD.ASSETS_LOCATION WHERE  GROUP BY ASSET_LOCATION_AREA";
+    // $sql = "SELECT * FROM AMSD.ASSETS_VW";
+
+    $assets_no =$func->executeQuery($sql);
+    $response = array();
+    $items = '';
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_ID;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>""));
+
+    }
+
+});
+
 $app->map(['GET','POST'],'/filter_with_var',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -461,7 +508,7 @@ $app->map(['GET','POST'],'/assetCert_print',function(Request $request, Response 
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT *
+    $sql = "SELECT ASSET_ID,ASSET_ROOM_NO,ASSET_LOCATION_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB 
     FROM AMSD.ASSETS_vw
     WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
     AND ASSET_CERT_NO = '$cert_no'";
@@ -515,6 +562,8 @@ $app->map(['GET','POST'],'/getAll_Cert_no',function(Request $request, Response $
 
     $sql = "SELECT ASSET_CERT_NO
     FROM AMSD.ASSETS
+    WHERE ASSET_CERT_NO <> ' '
+    AND ASSET_STATUS = '1'
     GROUP BY ASSET_CERT_NO
     ORDER BY ASSET_CERT_NO DESC";
 
@@ -542,6 +591,50 @@ $app->map(['GET','POST'],'/getAll_Cert_no',function(Request $request, Response $
             $cert_int = $zeros.$cert_int;
         }
         echo $cert_int." after";
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+
+});
+
+$app->map(['GET','POST'],'/getAll_Assets_with_Cert_no',function(Request $request, Response $response){
+    global $func;
+
+    $sql = "SELECT
+    ASSET_ID, ASSET_DESCRIPTION, ASSET_CLASSIFICATION, a.ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_IS_SUB, HD_ASSET_LOCATION
+    FROM AMSD.ASSETS a,AMSD.ASSETS_LOCATION b
+    WHERE a.ASSET_ROOM_NO = b.ASSET_ROOM_NO
+    AND a.ASSET_CERT_NO <> ' '
+    AND a.ASSET_STATUS = '1'";
+
+    $assets_with_crt =$func->executeQuery($sql);
+
+    if($assets_with_crt){
+
+       echo $assets_with_crt;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+
+});
+
+$app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $request, Response $response){
+    global $func;
+
+    $sql = "SELECT
+    ASSET_ID, ASSET_DESCRIPTION, ASSET_CLASSIFICATION, a.ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_IS_SUB, HD_ASSET_LOCATION
+    FROM AMSD.ASSETS a,AMSD.ASSETS_LOCATION b
+    WHERE a.ASSET_ROOM_NO = b.ASSET_ROOM_NO
+    AND a.ASSET_CERT_NO = ' '
+    AND a.ASSET_STATUS = '1'";
+
+    $assets_withno_crt =$func->executeQuery($sql);
+
+    if($assets_withno_crt){
+
+       echo $assets_withno_crt;
     }
     else{
         echo json_encode(array("rows" => 0 ,"data" =>[]));
