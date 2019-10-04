@@ -2398,18 +2398,17 @@ $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $reque
     $asset_class = strtoupper($data->asset_class);
 
     $sql = "SELECT
-    ASSET_ID
-    FROM AMSD.ASSETS A_OLD,AMSD.ASSETS_LOCATION L_NEW
-    WHERE L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO 
-    AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
-    AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-    AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-    AND L_NEW.ASSET_AREA_NAME LIKE '%$area%'
-    AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
-    AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
-    AND A_OLD.ASSET_ID LIKE '%$asset_no%'
-    AND A_OLD.ASSET_CERT_NO = ' '
-    AND A_OLD.ASSET_STATUS = '1'";
+        ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_IS_SUB
+    FROM MSD.ASSETS_VW 
+    AND ASSET_CLASS LIKE '%$asset_class%'
+    AND ASSET_BUILDING LIKE '%$building%'
+    AND ASSET_LEVEL LIKE '%$level%'
+    AND ASSET_AREA_NAME LIKE '%$area%'
+    AND ASSET_ROOM_NO LIKE '%$room_no%'
+    AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
+    AND ASSET_ID LIKE '%$asset_no%'
+    AND ASSET_CERT_NO = ' '
+    AND ASSET_STATUS = '1'";
 
     $assets_withno_crt =$func->executeQuery($sql);
 
