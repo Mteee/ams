@@ -736,10 +736,10 @@ function getSelectedItems(id) {
                     document.getElementById('overlay-alert-message').style.display = "block";
                     document.getElementById('alert_header').innerHTML = "Assets Transfer";
                     document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
-                    document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_location + '\',\'' + input_Room + '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
+                    document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_building + '\',\'' + input_level + '\',\'' + input_location + '\',\'' + input_Room + '\',\'' + input_sub+ '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
 
                 } else {
-                    confirmAssets(assetValues, input_location, input_Room);
+                    confirmAssets(assetValues,input_building,input_level, input_location, input_Room,input_sub);
                 }
             }
         });
@@ -752,8 +752,8 @@ function continueCancel(assetValues) {
     search();
 }
 
-function continuee(assetValues, input_location, input_Room) {
-    confirmAssets(assetValues, input_location, input_Room);
+function continuee(assetValues,input_building,input_level, input_location, input_Room,input_sub) {
+    confirmAssets(assetValues,input_building,input_level, input_location, input_Room,input_sub);
 }
 
 function checkNullRoom(assetvalues, asset_values_cap_del) {
@@ -864,12 +864,12 @@ function createAssetDelimeter(assets_arr) {
     return send_assets;
 }
 
-function confirmAssets(assetIds, location, room) {
+function confirmAssets(assetIds,building,level,location, room, sub) {
     console.log("confirm transfer assets");
-    console.log('{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + location + '","room":"' + room + '"}');
+    console.log('{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + building + '","location":"' + level + '","location":"' + location + '","room":"' + room + '","sub_lcoation":"' + sub + '"}');
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/confirmTransfer",
-        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + location + '","room":"' + room + '"}',
+        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + building + '","location":"' + level + '","location":"' + location + '","room":"' + room + '","sub_lcoation":"' + sub + '"}',
         method: "POST",
         dataType: "JSON",
         success: function (data) {
