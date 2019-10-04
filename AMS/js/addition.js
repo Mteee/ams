@@ -799,7 +799,7 @@ function clearData(input, btnDafualtId, text) {
         }
         else if (input == "#search_addition_assetNo") {
 
-            document.getElementById('menu_addition_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_new_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
             localStorage.asset_no = '';
 
@@ -811,14 +811,12 @@ function clearData(input, btnDafualtId, text) {
         }
         else if (input == "#search_new_room") {
 
-            document.getElementById('menu_addition_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_new_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-            localStorage.asset_no = '';
+            getRoom();
 
-            populate_dropdown();
-
-            $('#search_addition_assetNo').val("");
-            $('#assetNo_addition_filter').text("ASSET NUMBER");
+            $('#search_new_room').val("");
+            $('#room_new_filter').text("ROOM");
 
         }
 
