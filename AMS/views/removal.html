@@ -116,145 +116,62 @@
 </head>
 
 <body>
-    <div id="overlay-printView">
-        <div class="asset-details animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
-            <span class="exit-asset" onclick="closeAsset('overlay-printView')">&times;</span>
+    <div id="overlay-decomAsset">
+        <div class="asset-transfer-details animated bounceInUp" id="assetDescom">
+            <span class="exit-asset" onclick="closeAsset('overlay-transfer')">&times;</span>
 
-            <div class="asset-body" style="font-size: 12pt;">
-                <div class="print_scroll">
-                    <table class="table" id="tablePrint">
-                        <thead class="bg-light text-dark">
-                            <th scope="col">
-                                #
-                            </th>
-                            <th scope="col">
-                                Location
-                            </th>
-                            <th scope="col">
-                                Room
-                            </th>
-                            <th scope="col">
-                                Asset No
-                            </th>
-                            <th scope="col">
-                                Description
-                            </th>
-                        </thead>
-                        <tbody id="tbodyPrint"></tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="print-asset-footer text-center">
+            <div class="asset-transfer-body">
+                <div id="transferAssets">
 
-                <div class="col-md-12" style="text-align: right">
-                    <button class="btn btn-danger" onclick="closeAsset('overlay-printView')">Cancel</button>
-                    <button type="submit" class="btn btn-success  export" value="Export"
-                        onclick="doit('xlsx','tablePrint');">
-                        <i class="fa fa-file-excel-o" aria-hidden="true"></i> <span
-                            style="padding-left:10px;">Export</span>
-                    </button>
-                    <button type="submit" class="btn btn-primary  export" onclick="printData()">
-                        <i class="fa fa-file" aria-hidden="true"></i> <span style="padding-left:10px;">Print</span>
-                    </button>
-                </div>
-
-            </div>
-        </div>
-
-
-        <!-- <div class="sub-item-number text-center py-2">
-                        <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
-                                    class="text-dark">5</span></strong></p>
-                    </div> -->
-    </div>
-
-    <div id="overlay-asset">
-        <div class="asset-details animated bounceInUp" id="assetView">
-            <span class="exit-asset" onclick="closeAsset('overlay-asset')">&times;</span>
-
-            <div class="asset-body">
-                <div id="viewAssets">
-                    <table id="viewAssetTable" style="width:100%;border:1px solid #ccc;border-radius: 5px;">
-                        <thead>
-                            <tr>
-                                <div class="asset-header text-center">
-                                    Asset#
-                                </div>
-                            </tr>
-                        </thead>
-
-                        <tbody id="asset-info">
-                            <tr id="assetLocation">
-                                <th class="theading">Location</th>
-                                <td></td>
-                            </tr>
-                            <tr id="assetRoom">
-                                <th class="theading">Room </th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <th class="theading">Primary </th>
-                                <td><span id="assetBody">Test</span></td>
-                            </tr>
-                            <!-- loop -->
-                            <tr>
-                                <th class="theading">Sub Item</th>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-
-
-                    <!-- <div class="row text-center">
-                        <div class="col-md-6">
-                            <p class="text-muted">
-                                <strong>Room</strong>:<span id="roomValue"> xxxxx</span>
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <p class="text-muted">
-                                <strong>Location</strong>:<span id="locValue"> xxxxx</span>
-                            </p>
-                        </div>
+                    <div class="asset-header text-center">
+                        <strong>ASSET DECOMMISSIONING</strong>
                     </div>
-                    <br>
+
+
                     <div class="row">
-                        <div class="col-md-6 offset-3">
-                            <ul id="primaryAssets">
-                                <li class="primaryList">
-                                    <span id="assetBody">Test</span> - <span id="primDescription">xxxxxxx</span>
-                                    <ul id="subAsset">
-                                        <li class="subList">Sub Assets 1</li>
-                                        <li class="subList">Sub Assets 2</li>
-                                    </ul>
-                                </li>
-                            </ul>
+                        <div class="col-md-12">
+                            <div class="transfer-scroll" style="height: 288px !important;">
+                                <table class="table my-1 table-striped table-bordered">
+                                    <thead style="background:#1d1a1a; color: #ffffff; padding: 13px;">
+                                        <tr>
+                                            <th>ASSET NO</th>
+                                            <th>DESCRIPTION</th>
+                                            <th>ASSET STATUS</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="tbody" id="assetTbody">
+
+                                    </tbody>
+                                </table>
+                                <div id="loaderDeComm" class="loader_trans">
+                                    <img src="../img/loading-transparent.gif" alt="">
+                                </div>
+                            </div>
                         </div>
-                    </div> -->
+
+                    </div>
+
                 </div>
 
             </div>
-            <div class="asset-footer text-center">
+            <div class="asset-transfer-footer text-right">
                 <div class="row">
-                    <div class="col-md-3 text-left">
-                        <button class="btn btn-default" onclick="closeAsset('overlay-asset')">back</button>
-                    </div>
                     <div class="col-md-6">
                         <div class="sub-item-number text-center">
-                            <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
+                            <p class="text-muted">Number of selected assets: <strong><span id="movItemCount"
                                         class="text-dark">5</span></strong></p>
                         </div>
                     </div>
-                    <!-- <div class="col-md-3 text-right">
-                        <button class="btn btn-default btn-success" onclick="closeAsset('overlay-asset')">Unlink
-                            All</button>
-                    </div> -->
+                    <div class="col-md-6">
+                        <button class="btn btn-success" id="confirmComm" onclick="">Dispose</button>
+                        <button class="btn btn-danger" onclick="closeAsset('overlay-decomAsset')">Cancel</button>
+                    </div>
                 </div>
             </div>
+
         </div>
     </div>
-
 
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -623,9 +540,9 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button id="printAssets" style="display: none" class="btn btn-sm btn-info"><span
-                                        class="fa fa-print"></span>
-                                    Print View</button>
+                                <button id="DecomAssets" style="display: none" class="btn btn-md btn-info"><span
+                                        class="fa fa-paste"></span>
+                                    Decommission</button>
                             </div>
                         </div>
                         </form>
