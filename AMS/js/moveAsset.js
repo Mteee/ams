@@ -1394,6 +1394,16 @@ function clearData(input, btnDafualtId, text) {
         else if (input == "#search_approve_roomno") {
             document.getElementById('menu_approve_Room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             localStorage.room_no = '';
+            localStorage.sub_location = '';
+            populate_room();
+            $(input).val("");
+            $(btnDafualtId).text(text);
+            $('#dropdown_approve_sub').val("");
+            $('#dropdown_approve_sub').text("SUB LOCATION");
+        }
+        else if (input == "#search_approve_sub") {
+            document.getElementById('menu_approve_sub').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            localStorage.sub_location = '';
             populate_room();
             $(input).val("");
             $(btnDafualtId).text(text);
@@ -1500,14 +1510,15 @@ $('#menu_transfer_sub').on('click', '.dropdown-item', function () {
 
 $('#menu_approve_Room').on('click', '.dropdown-item', function () {
     $('#dropdown_approve_room').text($(this)[0].value);
-    localStorage.level = $(this)[0].value;
+    localStorage.room = $(this)[0].value;
     populate_room();
     $("#dropdown_approve_room").dropdown('toggle');
     $('#search_approve_roomno').val($(this)[0].value);
 })
+
 $('#menu_approve_sub').on('click', '.dropdown-item', function () {
     $('#dropdown_approve_sub').text($(this)[0].value);
-    localStorage.level = $(this)[0].value;
+    localStorage.sub_location = $(this)[0].value;
     populate_room();
     $("#dropdown_approve_sub").dropdown('toggle');
     $('#search_approve_sub').val($(this)[0].value);
