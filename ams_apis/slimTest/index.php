@@ -35,7 +35,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         WHERE ASSET_BUILDING LIKE '%$building%' 
         AND ASSET_LEVEL LIKE '%$level%' 
         AND ASSET_ROOM_NO LIKE '%$room_no%' 
-        AND ASSET_AREA LIKE '%$area%' 
+        AND ASSET_AREA_NAME LIKE '%$area%' 
         AND ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
         AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
         AND HD_ASSET_LOCATION LIKE '%$sub_location%' 
@@ -683,7 +683,7 @@ $app->map(['GET','POST'],'/printView',function(Request $request, Response $respo
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT ASSET_AREA,ASSET_ROOM_NO,ASSET_PRIMARY_ID,ASSET_ID,ASSET_DESCRIPTION,ASSET_IS_SUB
+    $sql = "SELECT ASSET_AREA_NAME AS ASSET_AREA,ASSET_ROOM_NO,ASSET_PRIMARY_ID,ASSET_ID,ASSET_DESCRIPTION,ASSET_IS_SUB
     FROM AMSD.ASSETS_VW
     WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
     AND ASSET_PRIMARY_ID IN ($ASSET_NO)";
