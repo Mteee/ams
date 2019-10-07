@@ -232,23 +232,11 @@ input[type="checkbox"]:disabled:after {
     left: 0;
     margin: 0;
     padding: 0;
-    z-index: 1;
+    z-index: 9999999 !important;
     background: rgba(0, 0, 0, 0.5);
 }
 
-#overlay-transfer {
-    display: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    z-index: 1;
-    background: rgba(0, 0, 0, 0.5);
-}
-
+#overlay-transfer,
 #overlay-approve {
     display: none;
     position: fixed;
@@ -258,7 +246,7 @@ input[type="checkbox"]:disabled:after {
     left: 0;
     margin: 0;
     padding: 0;
-    z-index: 1;
+    z-index: 9999;
     background: rgba(0, 0, 0, 0.5);
 }
 
@@ -538,7 +526,7 @@ caption {
 }
 
 .transfer-scroll {
-    height: 151px;
+    height: 227px;
     overflow-y: auto;
 }
 
