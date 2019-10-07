@@ -75,7 +75,7 @@ function search() {
         room_no = document.getElementById('search_view_room').value;
         description = document.getElementById('view_description').value;
         sub_location = document.getElementById('search_view_sublocaction').value;
-        asset_primary_id = replaceAll(" ", "",document.getElementById('search_view_assetNo').value);
+        asset_primary_id = document.getElementById('search_view_assetNo').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - "+ sub_location +" - "+asset_primary_id);
     var current = "";
