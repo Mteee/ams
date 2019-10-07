@@ -105,14 +105,6 @@
         }
         
         * {
-            font-size: 10pt !important;
-        }
-        
-        #menu-list li {
-            font-size: 13pt !important;
-        }
-        
-        * {
             font-size: 9pt !important;
         }
     </style>
@@ -1006,21 +998,21 @@
     <script src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
     <script>
-        const $menu = $('#menu-list');
+        // const $menu = $('#menu-list');
 
-        $(document).mouseup(e => {
-            if (!$menu.is(e.target) // if the target of the click isn't the container...
-                &&
-                $menu.has(e.target).length === 0) // ... nor a descendant of the container
-            {
-                // $menu.removeClass('is-active');
-                $('#menu-list').fadeOut(500);
-            }
-        });
+        // $(document).mouseup(e => {
+        //     if (!$menu.is(e.target) // if the target of the click isn't the container...
+        //         &&
+        //         $menu.has(e.target).length === 0) // ... nor a descendant of the container
+        //     {
+        //         // $menu.removeClass('is-active');
+        //         $('#menu-list').fadeOut(500);
+        //     }
+        // });
 
-        function showNav() {
-            $('#menu-list').slideToggle('fast');
-        }
+        // function showNav() {
+        //     $('#menu-list').slideToggle('fast');
+        // }
 
         document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
