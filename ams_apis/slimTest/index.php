@@ -2375,7 +2375,7 @@ $app->map(['GET','POST'],'/asset_id_addition', function(Request $request, Respon
     }
  
 });
-
+//without cert no
 $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -2394,7 +2394,7 @@ $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $reque
     }
 
     $sql = "SELECT
-        ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_CLASSIFICATION || ' - ' ||ASSET_DESCRIPTION as ASSET_DESCRIPTION,ASSET_IS_SUB
+        ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA_NAME,ASSET_CLASSIFICATION || ' - ' ||ASSET_DESCRIPTION as ASSET_DESCRIPTION,ASSET_IS_SUB
     FROM AMSD.ASSETS_VW 
     WHERE ASSET_CLASS LIKE '%$asset_class%'
     AND ASSET_BUILDING LIKE '%$building%'
@@ -2406,6 +2406,49 @@ $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $reque
     AND (ASSET_CLASSIFICATION LIKE '%$asset_description%'
         OR ASSET_DESCRIPTION LIKE '%$asset_description%')
     AND (ASSET_CERT_NO IS NULL OR ASSET_CERT_NO = ' ')
+    AND ASSET_STATUS = 'ACTIVE'";
+
+    $assets_withno_crt =$func->executeQuery($sql);
+
+    if($assets_withno_crt){
+       echo $assets_withno_crt;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+
+});
+// with cert no
+$app->map(['GET','POST'],'/getAll_Assets_with_Cert_no',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $asset_description = strtoupper($data->description);
+    $sub_location = strtoupper($data->asset_sub_location);
+    $asset_no = strtoupper($data->asset_no);
+    $asset_class = strtoupper($data->asset_class);
+
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT
+        ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA_NAME AS ASSET_AREA,ASSET_CLASSIFICATION || ' - ' ||ASSET_DESCRIPTION as ASSET_DESCRIPTION,ASSET_IS_SUB
+    FROM AMSD.ASSETS_VW 
+    WHERE ASSET_CLASS LIKE '%$asset_class%'
+    AND ASSET_BUILDING LIKE '%$building%'
+    AND ASSET_LEVEL LIKE '%$level%'
+    AND ASSET_AREA_NAME LIKE '%$area%'
+    AND ASSET_ROOM_NO LIKE '%$room_no%'
+    AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
+    AND ASSET_ID LIKE '%$asset_no%'
+    AND (ASSET_CLASSIFICATION LIKE '%$asset_description%'
+        OR ASSET_DESCRIPTION LIKE '%$asset_description%')
+    AND ASSET_CERT_NO IS NOT NULL 
     AND ASSET_STATUS = 'ACTIVE'";
 
     $assets_withno_crt =$func->executeQuery($sql);
@@ -2504,6 +2547,57 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
   
 
 });
+
+//asset with active status
+$app->map(['GET','POST'],'/get_Asset_status_decom',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    // $cert_no = strtoupper($data->cert);
+    $ASSET_NO = strtoupper($data->assert_primary_id);
+
+    $sql_exec = "SELECT ASSET_ID,ASSET_DESCRIPTION,ASSET_STATUS
+    FROM AMSD.ASSETS_VW
+    WHERE ASSET_ID IN ($ASSET_NO)
+    AND ASSET_STATUS = 'ACTIVE'
+    GROUP BY ASSET_ID,ASSET_DESCRIPTION,ASSET_STATUS
+    ORDER BY ASSET_ID ASC";
+
+    $count = 0;
+    $sub = "";
+
+    $asset_info =$func->executeQuery($sql_exec);
+
+    if($asset_info){
+        // $ass = $asset_info;
+        $decode_response = json_decode($asset_info);
+
+        // array_push($decode_response->data,array("cert"=> $cert_int));
+        // echo json_encode($decode_response);
+
+        foreach($decode_response->data as $res){
+
+            //  echo $res->ASSET_PRIMARY_ID;
+      
+            $sub .= '<tr>
+                            <td>'.$res->ASSET_ID.'</td>
+                            <td>'.$res->ASSET_DESCRIPTION.'</td>
+                            <td>'.$res->ASSET_STATUS.'</td>
+                        </tr>
+                    ';
+
+                        $count++;
+            
+        }
+
+
+        echo json_encode(array("rows" => $count ,"data"=>$sub));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+
+});
+
 
 $app->map(['GET','POST'],'/update_cert',function(Request $request, Response $response){
     global $func;

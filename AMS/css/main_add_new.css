@@ -226,6 +226,7 @@ input[type="checkbox"]:disabled:after {
 #overlay-printView,
 #overlay-newAssetView,
 #overlay-comm,
+#overlay-decomAsset,
 #overlay-alert-message {
     display: none;
     position: fixed;

@@ -687,7 +687,7 @@ function viewCommAssets(assets) {
             if (data.rows > 0) {
                 document.getElementById("assetTbody").innerHTML = data.data;
                 cert_no.data = data.certificate_number;
-                $("movItemCount").text(data.rows);
+                $("#movItemCount").text(data.rows);
             }
         },
         error: function (err) {
