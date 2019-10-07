@@ -71,6 +71,25 @@ function addAsset() {
 
     alert("hello");
 
+   var dataSend = 
+
+
+    $.ajax({
+        url: "../../ams_apis//slimTest/index.php/add_assets",
+        method: "POST",
+        dataType: "JSON",
+        data: '{"v_asset_class": "'+json_data.asset_class+'", "v_assets":"'+json_data.assets+'", "v_asset_model":"'+json_data.model+'", "v_asset_classification" :"'+json_data.classification+'", "v_asset_room_no":"'+json_data.room+'", "v_asset_purchase_dt" :"'+json_data.purchase_date+'", "v_asset_warranty_dt" :"'+json_data.waranty_date+'", "v_asset_vendor_id" :"'+ ""+'", "v_asset_vendor_name" :"'+ ""+'", "v_asset_useful_life":"'+ ""+'", "v_asset_service_dt":"'+json_data.service_due_date+'", "v_asset_service_by":"'+json_data.serviced_by+'", "v_asset_cert_ind":"'+ ""+'", "v_asset_cert_no":"'+ json_data.cert+'", "v_asset_added_by":"'+ localStorage.username+'"}',
+        success: function (data) {
+            console.log("success");
+           console.log(data);
+        },
+        error: function (err) {
+            console.log(err);
+            // console.log("error");
+
+        }
+    });
+
 }
 
 
@@ -110,7 +129,8 @@ function getValues() {
 
     //basic (2 inputs && 1 select)
     var selects = $("#basic select").find("option:selected").text();
-    var input_basic = $("#basic input");
+    var input_classification = $("#classification_wizard").val();
+    var input_room = $("#room_new_filter").text();
     var basic = ["room", "classification"];
 
     //date (2 dates)
@@ -134,9 +154,11 @@ function getValues() {
 
 
     inputValues.push(selects);
-    extractValues_inElements(input_basic, inputValues, "");
+    inputValues.push(input_room);
+    inputValues.push(input_classification);
+    // extractValues_inElements(input_basic, inputValues, "");
     extractValues_inElements(input_date, inputValues, "date");
-    extractValues_inElements(input_service, inputValues, "");
+    extractValues_inElements(input_service, inputValues, "date");
     extractValues_inElements(input_serial, inputValues, "serial");
     inputValues.push(input_model[0].value);
 
@@ -678,26 +700,38 @@ function viewCommAssets(assets) {
 
 function confirmComm(assets_ids, certificate_no) {
 
+    console.log('{"assets" : "' + assets_ids + '","cert" : "' + certificate_no + '"}');
+
     $.ajax({
         // url: "assets.json",
-        url: "../../ams_apis/slimTest/index.php/generate_Cert_no",
+        url: "../../ams_apis/slimTest/index.php/update_cert",
         method: "post",
-        data: '{"primary_asset_id" : "' + send_assets + '"}',
+        data: '{"assets" : "' + assets_ids + '","cert" : "' + certificate_no + '"}',
         dataType: "json",
         success: function (data) {
+            closeAsset('overlay-transfer');
             console.log(data);
-            $('#loaderComm').hide();
-            if (data.rows > 0) {
-                document.getElementById("assetTbody").innerHTML = data.data;
-                cert_no.data = data.certificate_number;
-                $("movItemCount").text(data.rows);
-            }
+            search();
+            swal.fire({
+                title: "Success",
+                text: 'Certificate number created successfully',
+                type: 'success',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                allowOutsideClick: true,
+            })
+            // $('#loaderComm').hide();
+            // if (data.rows > 0) {
+            //     document.getElementById("assetTbody").innerHTML = data.data;
+            //     cert_no.data = data.certificate_number;
+            //     $("movItemCount").text(data.rows);
+            // }
         },
         error: function (err) {
             console.log(err);
         }
     });
-    
+
 }
 
 
