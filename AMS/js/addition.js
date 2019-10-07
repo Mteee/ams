@@ -130,11 +130,12 @@ function getValues() {
     //basic (2 inputs && 1 select)
     var selects = $("#basic select").find("option:selected").text();
     var input_classification = $("#classification_wizard").val();
+    var input_serviced_by = $("#serviced_by").val();
     var input_room = $("#room_new_filter").text();
     var basic = ["room", "classification"];
 
     //date (2 dates)
-    var input_date = $("#date input");
+    var input_date = $("#date input[type='date']");
     var dates = ["purchase_date", "waranty_date"];
 
     //service (2 dates & 1 input)
@@ -156,6 +157,7 @@ function getValues() {
     inputValues.push(selects);
     inputValues.push(input_room);
     inputValues.push(input_classification);
+    inputValues.push(input_serviced_by);
     // extractValues_inElements(input_basic, inputValues, "");
     extractValues_inElements(input_date, inputValues, "date");
     extractValues_inElements(input_service, inputValues, "date");
@@ -652,7 +654,7 @@ function createTable(tableID, tableData) {
 
 function viewCommAssets(assets) {
     var currentItem = "";
-    document.getElementById('overlay-transfer').style.display = "block";
+    document.getElementById('overlay-comm').style.display = "block";
     // console.log($('#assetBody'));
     document.getElementById('movItemCount').innerHTML = assets.length;
 
@@ -709,8 +711,9 @@ function confirmComm(assets_ids, certificate_no) {
         data: '{"assets" : "' + assets_ids + '","cert" : "' + certificate_no + '"}',
         dataType: "json",
         success: function (data) {
-            closeAsset('overlay-transfer');
+            closeAsset('overlay-comm');
             console.log(data);
+            $('#commAssets').fadeOut(500);
             search();
             swal.fire({
                 title: "Success",
@@ -956,6 +959,7 @@ $('#menu_addition_assetNo').on('click', '.dropdown-item', function () {
 $('#menu_new_room').on('click', '.dropdown-item', function () {
     $('#room_new_filter').text($(this)[0].value);
     localStorage.asset_no = $(this)[0].value;
+    $( "#room_new_filter" ).removeClass( "btn-outline-danger" ).addClass( "btn-outline-info" );
     populate_dropdown();
     $("#room_new_filter").dropdown('toggle');
     $('#search_new_room').val($(this)[0].value);

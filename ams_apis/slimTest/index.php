@@ -775,7 +775,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         avw.asset_sub_location,
                         avw.asset_description,
                         asset_is_sub
-                FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
+                FROM amsd.assets_log_pending_vw lvw, amsd.assets_vw avw
                 WHERE        asset_transaction_status = 'PENDING'
                         AND (lvw.asset_building_new LIKE '%$building%'
                         OR     lvw.asset_building_new IS NULL)
@@ -837,7 +837,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
                         avw.asset_description,
                         asset_is_sub,
                         'OUT' as movement_type
-                FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
+                FROM amsd.assets_log_pending_vw lvw, amsd.assets_vw avw
                 WHERE        asset_transaction_status = 'PENDING'
                         AND ASSET_LOCATION_AREA_OLD LIKE '%$area%'
                         AND lvw.asset_room_no_old LIKE '%$room_no%'
@@ -974,7 +974,7 @@ $app->map(['GET','POST'],'/checkRoom', function(Request $request, Response $resp
     $ASSET_NO = strtoupper($data->asset_id);
 
     $sql = "SELECT ASSET_PRIMARY_ID,ASSET_ROOM_NO_OLD
-    FROM AMSD.ASSET_LOG_PENDING_VW
+    FROM AMSD.ASSETS_LOG_PENDING_VW
     WHERE ASSET_PRIMARY_ID IN ($ASSET_NO)
     AND ASSET_ROOM_NO_NEW IS NULL";
 

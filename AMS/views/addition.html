@@ -222,7 +222,10 @@
         #search_new_room,#menu_new_room .dropdown-item{
             background-image: none !important;
         }
-
+        #room_new_filter:hover
+        {
+            color: slategray;
+        }
         
     </style>
 
@@ -274,7 +277,7 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
-                                            <div class="dropdown" style="margin-top:28px">
+                                            <div class="dropdown" style="margin-top:28px" class="room_no_dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
                                                     type="button" id="room_new_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
@@ -285,11 +288,10 @@
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <div class="form-group is-empty form-control"><input type="search"
-                                                                    id="search_new_room" class="form-control"
-                                                                    placeholder="Room"
-                                                                    onkeyup="onSearch('search_new_room','#empty_new_room')"
-                                                                    autofocus="autofocus"><span
+                                                            <div class="form-group is-empty form-control">
+                                                                <input type="search" id="search_new_room" class="form-control"
+                                                                    placeholder="Room" name="room_no_new" onkeyup="onSearch('search_new_room','#empty_new_room')"
+                                                                    autofocus="autofocus" required><span
                                                                     class="material-input"></span></div>
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
@@ -328,7 +330,7 @@
                                         <div class="col-sm-5 offset-1">
                                             <div class="form-group">
                                                 <label class="control-label">Purchase date *</label>
-                                                <div class="input-group table-bordered">
+                                                <div class="input-group border border-secondary rounded" id="date_group_1">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">
                                                             <i class="fa fa-calendar"></i>
@@ -341,7 +343,7 @@
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label class="control-label">Warranty Date *</label>
-                                                <div class="input-group table-bordered">
+                                                <div class="input-group border border-secondary rounded" id="date_group_2">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">
                                                             <i class="fa fa-calendar"></i>
@@ -397,7 +399,7 @@
 
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Serviced By *</label>
-                                                <input type="text" class="form-control" name="serviced_by">
+                                                <input type="text" class="form-control" name="serviced_by" id="serviced_by">
                                             </div>
                                         </div>
 
@@ -515,7 +517,7 @@
                             </div>
                         </form>
                         <div class="card-footer text-center text-muted">
-                            <p>Required Fields (*)</p>
+                            <p id="text-error">Required Fields (*)</p>
                         </div>
                     </div>
                 </div>
@@ -525,7 +527,7 @@
         <!-- row -->
     </div>
 
-    <div id="overlay-transfer">
+    <div id="overlay-comm">
         <div class="asset-transfer-details animated bounceInUp" id="assetTransfer">
             <span class="exit-asset" onclick="closeAsset('overlay-transfer')">&times;</span>
 
@@ -574,7 +576,7 @@
                     </div>
                     <div class="col-md-6">
                         <button class="btn btn-success" id="confirmComm" onclick="">Confirm</button>
-                        <button class="btn btn-danger" onclick="closeAsset('overlay-transfer')">Cancel</button>
+                        <button class="btn btn-danger" onclick="closeAsset('overlay-comm')">Cancel</button>
                     </div>
                 </div>
             </div>
