@@ -163,7 +163,7 @@ function search() {
                         } else {
                             ASSET_ROOM_NO = data.data[k].ASSET_ROOM_NO;
                         }
-                        if (data.data[k].ASSET_TRANSACTION_STATUS == "PENDING") {
+                        if (data.data[k].ASSET_TRANSACTION_STATUS == "PENDING" || data.data[k].ASSET_TRANSACTION_STATUS == "PENDING-TEMP") {
                             // console.log(data.data[k].ASSET_PRIMARY_ID);
                             rowIds.push(data.data[k].ASSET_ID);
 
@@ -500,6 +500,8 @@ function populate_tran_dropdown() {
     getItems('../../ams_apis/slimTest/index.php/room_no', 'search_transfer_roomno', 'scroll_transfer_room', 'menu_transfer_Room', 'empty_transfer_Room');
     // get location
     getItems('../../ams_apis/slimTest/index.php/location_area', 'search_transfer_location', 'scroll_tarnsfer_Location', 'menu_transfer_Location', 'empty_transfer_Location');
+    // get sub
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_view', 'search_transfer_sub', 'scroll_transfer_sub', 'menu_transfer_sub', 'empty_transfer_sub');
 }
 
 populate_dropdown();
@@ -619,7 +621,7 @@ function checkFilter(key) {
             res = { "btnId": "dropdown_room", "btnContent": "ROOM NO..." };
             break;
         case "searchlocation":
-            res = { "btnId": "dropdown_location", "btnContent": "LOCATION AREA" };
+            res = { "btnId": "dropdown_location", "btnContent": "AREA" };
             break;
         default:
             res = { "btnId": "not found", "btnContent": "not found" };
@@ -695,11 +697,17 @@ function getSelectedItems(id) {
     else {
 
         //location
-        $('#dropdown_transfer_location').text("LOCATION AREA");
+        $('#building_transfer_filter').text("BUILDING");
+        $('#search_transfer_building').val("");
+        $('#dropdown_transfer_location').text("LEVEL");
+        $('#search_transfer_level').val("");
+        $('#dropdown_transfer_location').text("AREA");
         $('#search_transfer_location').val("");
         //room
         $('#dropdown_transfer_room').text("ROOM");
         $('#search_transfer_roomno').val("");
+        $('#dropdown_transfer_sub').text("SUB LOCATION");
+        $('#search_transfer_sub').val("");
 
         console.log(rowsSelected);
         getSelectedAssets(rowsSelected);
@@ -716,30 +724,87 @@ function getSelectedItems(id) {
 
         $("#confirmTransfer").off().on('click', function (e) {
             e.preventDefault();
-            var input_location = $("#dropdown_transfer_location").text();
+            var input_building = $("#building_transfer_filter").text();
+            var input_level = $("#level_transfer_filter").text();
+            var input_area = $("#dropdown_transfer_location").text();
             var input_Room = $("#dropdown_transfer_room").text();
+            var input_sub = $("#dropdown_transfer_sub").text();
+            var input_radio_checked = $("#transfer_type input[type='radio']:checked")[0].value;
 
-
-            if (input_location.indexOf("LOCATION AREA") > -1) {
+            if (input_building.indexOf("BUILDING") > -1) {
                 // alert("Location is required");
                 document.getElementById('overlay-alert-message').style.display = "none";
                 document.getElementById('overlay-alert-message').style.display = "block";
                 document.getElementById('alert_header').innerHTML = "Assets Transfer";
-                document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Location is required</span>';
+                document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Building is required</span>';
+                document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+            }else
+            if (input_level.indexOf("LEVEL") > -1) {
+                // alert("Location is required");
+                document.getElementById('overlay-alert-message').style.display = "none";
+                document.getElementById('overlay-alert-message').style.display = "block";
+                document.getElementById('alert_header').innerHTML = "Assets Transfer";
+                document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Level is required</span>';
+                document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+            }
+            else if (input_area.indexOf("AREA") > -1) {
+                // alert("Location is required");
+                document.getElementById('overlay-alert-message').style.display = "none";
+                document.getElementById('overlay-alert-message').style.display = "block";
+                document.getElementById('alert_header').innerHTML = "Assets Transfer";
+                document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Area is required</span>';
                 document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
             }
             else {
-                if (input_Room.indexOf("ROOM") > -1) {
-                    input_Room = '';
-                    // console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
-                    document.getElementById('overlay-alert-message').style.display = "none";
-                    document.getElementById('overlay-alert-message').style.display = "block";
-                    document.getElementById('alert_header').innerHTML = "Assets Transfer";
-                    document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
-                    document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_building + '\',\'' + input_level + '\',\'' + input_location + '\',\'' + input_Room + '\',\'' + input_sub+ '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
 
-                } else {
-                    confirmAssets(assetValues,input_building,input_level, input_location, input_Room,input_sub);
+                if(localStorage.filter == "IT EQUIPMENT"){
+                    if (input_Room.indexOf("ROOM") > -1) {
+                        input_Room = '';
+                        input_sub = '';
+                        // alert("room empty it");
+                        console.log(assetValues+","+input_building+","+input_level+","+ input_area+","+ input_Room+","+"Test IT"+","+input_radio_checked);
+                        // console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
+                        document.getElementById('overlay-alert-message').style.display = "none";
+                        document.getElementById('overlay-alert-message').style.display = "block";
+                        document.getElementById('alert_header').innerHTML = "Assets Transfer";
+                        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
+                        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_building + '\',\'' + input_level + '\',\'' + input_area + '\',\'' + input_Room + '\',\'' + input_sub+ '\',\'' + input_radio_checked+ '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
+        
+                     } else if(input_sub.indexOf("SUB LOCATION") > -1){
+                            input_sub = '';
+                            alert("room empty it");
+                            console.log(assetValues+","+input_building+","+input_level+","+ input_area+","+ input_Room+","+"Test IT"+","+input_radio_checked);
+                            // console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
+                            document.getElementById('overlay-alert-message').style.display = "none";
+                            document.getElementById('overlay-alert-message').style.display = "block";
+                            document.getElementById('alert_header').innerHTML = "Assets Transfer";
+                            document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
+                            document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_building + '\',\'' + input_level + '\',\'' + input_area + '\',\'' + input_Room + '\',\'' + input_sub+ '\',\'' + input_radio_checked+ '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
+        
+                        }
+                    else {
+                       // confirmAssets(assetValues,input_building,input_level, input_area, input_Room,input_sub,input_radio_checked);
+                       confirmAssets(assetValues,input_building,input_level, input_area, input_Room,input_sub,input_radio_checked);
+
+                       console.log(assetValues+","+input_building+","+input_level+","+ input_area+","+ input_Room+","+"Test IT"+","+input_radio_checked);
+                    }
+                }else{
+
+                    if (input_Room.indexOf("ROOM") > -1) {
+                        input_Room = '';
+                        alert("room empty not it");
+                        // console.log(assetValues+","+input_building+","+input_level+","+ input_area+","+ input_Room+","+"Test IT"+","+input_radio_checked);
+                        // console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
+                        document.getElementById('overlay-alert-message').style.display = "none";
+                        document.getElementById('overlay-alert-message').style.display = "block";
+                        document.getElementById('alert_header').innerHTML = "Assets Transfer";
+                        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
+                        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_building + '\',\'' + input_level + '\',\'' + input_area + '\',\'' + input_Room + '\',\'' + input_Room+ '\',\'' + input_radio_checked+ '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
+    
+                    } else {
+                        confirmAssets(assetValues,input_building,input_level, input_area, input_Room,input_Room,input_radio_checked);
+                        console.log(assetValues+","+input_building+","+input_level+","+ input_area+","+ input_Room+","+input_Room+","+input_radio_checked);
+                    }
                 }
             }
         });
@@ -752,8 +817,8 @@ function continueCancel(assetValues) {
     search();
 }
 
-function continuee(assetValues,input_building,input_level, input_location, input_Room,input_sub) {
-    confirmAssets(assetValues,input_building,input_level, input_location, input_Room,input_sub);
+function continuee(assetValues,input_building,input_level, input_location, input_Room,input_sub,type) {
+    confirmAssets(assetValues,input_building,input_level, input_location, input_Room,input_sub,type);
 }
 
 function checkNullRoom(assetvalues, asset_values_cap_del) {
@@ -864,12 +929,13 @@ function createAssetDelimeter(assets_arr) {
     return send_assets;
 }
 
-function confirmAssets(assetIds,building,level,location, room, sub) {
+function confirmAssets(assetIds,building,level,area, room, sub,type) {
+
     console.log("confirm transfer assets");
-    console.log('{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + building + '","location":"' + level + '","location":"' + location + '","room":"' + room + '","sub_lcoation":"' + sub + '"}');
+    console.log('{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","building":"' + building + '","level":"' + level + '","area":"' + area + '","room":"' + room + '","sub_location":"' + sub + '","type":"'+type+'"}');
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/confirmTransfer",
-        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","location":"' + building + '","location":"' + level + '","location":"' + location + '","room":"' + room + '","sub_lcoation":"' + sub + '"}',
+        data: '{"username":"' + localStorage.username + '","assetIds":"' + assetIds + '","building":"' + building + '","level":"' + level + '","area":"' + area + '","room":"' + room + '","sub_location":"' + sub + '","type":"'+type+'"}',
         method: "POST",
         dataType: "JSON",
         success: function (data) {
@@ -1203,7 +1269,7 @@ function clearData(input, btnDafualtId, text) {
             //btn
             $('#building_transfer_filter').text("BUILDING");
             $('#level_transfer_filter').text("LEVEL");
-            $('#dropdown_transfer_location').text("LOCATION AREA");
+            $('#dropdown_transfer_location').text("AREA");
             $('#dropdown_transfer_room').text("ROOM");
         }
 
@@ -1227,7 +1293,7 @@ function clearData(input, btnDafualtId, text) {
 
             //btn
             $('#level_transfer_filter').text("LEVEL");
-            $('#dropdown_transfer_location').text("LOCATION AREA");
+            $('#dropdown_transfer_location').text("AREA");
             $('#dropdown_transfer_room').text("ROOM");
 
         }
@@ -1247,7 +1313,7 @@ function clearData(input, btnDafualtId, text) {
             $('#search_transfer_roomno').val("");
 
             //btn
-            $('#dropdown_transfer_location').text("LOCATION AREA");
+            $('#dropdown_transfer_location').text("AREA");
             $('#dropdown_transfer_room').text("ROOM");
 
         }
@@ -1266,6 +1332,22 @@ function clearData(input, btnDafualtId, text) {
 
             //btn
             $('#dropdown_transfer_room').text("ROOM");
+
+        }
+        else if (input == "#search_transfer_sub") {
+            document.getElementById('menu_transfer_sub').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
+            //local storage
+            localStorage.sub_location = '';
+
+            //repopulate
+            populate_tran_dropdown();
+
+            //input
+            $('#search_transfer_sub').val("");
+
+            //btn
+            $('#dropdown_transfer_sub').text("SUB  LOCATION");
 
         }
         else if (input == "#search_approve_roomno") {
@@ -1363,6 +1445,14 @@ $('#menu_transfer_Room').on('click', '.dropdown-item', function () {
     $('#search_transfer_roomno').val($(this)[0].value);
 })
 
+$('#menu_transfer_sub').on('click', '.dropdown-item', function () {
+    $('#dropdown_transfer_sub').text($(this)[0].value);
+    localStorage.sub_location = $(this)[0].value;
+    populate_tran_dropdown();
+    $("#dropdown_transfer_sub").dropdown('toggle');
+    $('#search_transfer_sub').val($(this)[0].value);
+})
+
 
 
 //Approve
@@ -1379,7 +1469,8 @@ $('#menu_approve_Room').on('click', '.dropdown-item', function () {
 
 if (localStorage.filter == "ALL EQUIPMENT") {
 
-    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+
+    // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
     $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
@@ -1387,6 +1478,15 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 
     $('#class-options').on('change', function () {
         var filter = $("#class-options option:selected").text();
+        if(filter == "IT EQUIPMENT"){
+            console.log("show");
+            $('.filter_sub').show();
+            $('#transfer_type').show();
+        }else{
+            console.log("hide");
+            $('.filter_sub').hide();
+            $('#transfer_type').hide();
+        }
         localStorage.filter = filter;
         //clear btn text
         resetBtn();
@@ -1394,6 +1494,12 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         clearLocalStorageFilters();
         //populate filters
         populate_dropdown();
+
+        //
+        // tableArr["currentAssetsTable"].clear().draw();
+        // tableArr["inAssetsTable"].clear().draw();
+        // tableArr["outAssetsTable"].clear().draw();
+
     });
 
 } else {
@@ -1401,7 +1507,6 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
 }
-
 
 function resetInput(resetId, resetTxt) {
     $(resetId).val(resetTxt);
@@ -1428,7 +1533,7 @@ function clearFunction() {
     populate_dropdown();
 
     $('#searchlocation').val("");
-    $('#dropdown_location').text("LOCATION AREA");
+    $('#dropdown_location').text("AREA");
     $('#searchroomno').val("");
     $('#dropdown_room').text("ROOM");
     $('#searchasset').val("");

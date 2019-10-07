@@ -423,7 +423,7 @@ $app->map(['GET','POST'],'/asset_no',function(Request $request, Response $respon
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT ASSET_ID FROM AMSD.ASSETS_VW WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID LIKE '%$ASSET_ID%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' AND ASSET_LOCATION_AREA LIKE '%$ASSET_LOCATION%' AND ASSET_ID=ASSET_PRIMARY_ID ORDER BY ASSET_ID ASC";
+    $sql = "SELECT ASSET_ID FROM AMSD.ASSETS_VW WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' AND ASSET_ID LIKE '%$ASSET_ID%' AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' AND ASSET_AREA_NAME LIKE '%$ASSET_LOCATION%' AND ASSET_ID=ASSET_PRIMARY_ID ORDER BY ASSET_ID ASC";
     // $sql = "SELECT * FROM AMSD.ASSETS_VW";
 
     $assets_no =$func->executeQuery($sql);
@@ -469,7 +469,7 @@ $app->map(['GET','POST'],'/room_no',function(Request $request, Response $respons
     WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' 
     AND ASSET_BUILDING LIKE '%$ASSET_BUILDING%' 
     AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' 
-    AND ASSET_AREA LIKE '%$ASSET_AREA%' 
+    AND ASSET_AREA_NAME LIKE '%$ASSET_AREA%' 
     AND ASSET_LEVEL LIKE '%$ASSET_LEVEL%' 
     GROUP BY ASSET_ROOM_NO
     ORDER BY ASSET_ROOM_NO ASC";
@@ -515,15 +515,15 @@ $app->map(['GET','POST'],'/location_area',function(Request $request, Response $r
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT ASSET_AREA
+    $sql = "SELECT ASSET_AREA_NAME
     FROM AMSD.ASSETS_VW
     WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' 
     AND ASSET_BUILDING LIKE '%$ASSET_BUILDING%' 
     AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' 
-    AND ASSET_AREA LIKE '%$ASSET_AREA%' 
+    AND ASSET_AREA_NAME LIKE '%$ASSET_AREA%' 
     AND ASSET_LEVEL LIKE '%$ASSET_LEVEL%' 
-    GROUP BY ASSET_AREA
-    ORDER BY ASSET_AREA ASC";
+    GROUP BY ASSET_AREA_NAME
+    ORDER BY ASSET_AREA_NAME ASC";
 
     // $sql = "SELECT ASSET_LOCATION_AREA FROM AMSD.ASSETS_LOCATION WHERE  GROUP BY ASSET_LOCATION_AREA";
     // $sql = "SELECT * FROM AMSD.ASSETS_VW";
@@ -538,7 +538,7 @@ $app->map(['GET','POST'],'/location_area',function(Request $request, Response $r
         $length = $res->rows;
         foreach($res->data as $value){
 
-            $response []= $value->ASSET_AREA;
+            $response []= $value->ASSET_AREA_NAME;
             // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
             // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
@@ -572,7 +572,7 @@ $app->map(['GET','POST'],'/asset_leve',function(Request $request, Response $resp
     WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' 
     AND ASSET_BUILDING LIKE '%$ASSET_BUILDING%' 
     AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' 
-    AND ASSET_AREA LIKE '%$ASSET_AREA%' 
+    AND ASSET_AREA_NAME LIKE '%$ASSET_AREA%' 
     AND ASSET_LEVEL LIKE '%$ASSET_LEVEL%' 
     GROUP BY ASSET_LEVEL
     ORDER BY ASSET_LEVEL ASC";
@@ -624,7 +624,7 @@ $app->map(['GET','POST'],'/asset_building',function(Request $request, Response $
     WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%' 
     AND ASSET_BUILDING LIKE '%$ASSET_BUILDING%' 
     AND ASSET_ROOM_NO LIKE '%$ASSET_ROOM_NO%' 
-    AND ASSET_AREA LIKE '%$ASSET_AREA%' 
+    AND ASSET_AREA_NAME LIKE '%$ASSET_AREA%' 
     AND ASSET_LEVEL LIKE '%$ASSET_LEVEL%' 
     GROUP BY ASSET_BUILDING
     ORDER BY ASSET_BUILDING ASC";
@@ -775,8 +775,8 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         avw.asset_sub_location,
                         avw.asset_description,
                         asset_is_sub
-                FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
-                WHERE        asset_transaction_status = 'PENDING'
+                FROM amsd.assets_log_pending_vw lvw, amsd.assets_vw avw
+                WHERE        (asset_transaction_status = 'PENDING' OR asset_transaction_status = 'PENDING-TEMP')
                         AND (lvw.asset_building_new LIKE '%$building%'
                         OR     lvw.asset_building_new IS NULL)
                         AND (lvw.asset_level_new LIKE '%$level%'
@@ -837,16 +837,15 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
                         avw.asset_description,
                         asset_is_sub,
                         'OUT' as movement_type
-                FROM amsd.asset_log_pending_vw lvw, amsd.assets_vw avw
-                WHERE        asset_transaction_status = 'PENDING'
+                FROM amsd.assets_log_pending_vw lvw, amsd.assets_vw avw
+                WHERE         (asset_transaction_status = 'PENDING' OR asset_transaction_status = 'PENDING-TEMP')
                         AND ASSET_LOCATION_AREA_OLD LIKE '%$area%'
                         AND lvw.asset_room_no_old LIKE '%$room_no%'
-                        AND avw.asset_room_no LIKE '%$room_no%'
                         AND avw.asset_sub_location LIKE '%$sub_location%'
                         AND avw.asset_primary_id LIKE '%$asset_primary_id%'
                         AND avw.ASSET_AREA LIKE '%$area%' 
-                        -- AND avw.ASSET_BUILDING LIKE '%$building%' 
-                      --  AND avw.ASSET_LEVEL LIKE '%$level%' 
+                        AND avw.ASSET_BUILDING LIKE '%$building%' 
+                        AND avw.ASSET_LEVEL LIKE '%$level%' 
                         AND avw.ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
                         AND avw.asset_class LIKE '%$ASSET_CLASS%'
                         AND avw.asset_primary_id = lvw.asset_primary_id
@@ -902,12 +901,13 @@ $app->map(['GET','POST'],'/confirmTransfer',function(Request $request, Response 
         $area = strtoupper($data->area);
         $room = strtoupper($data->room);
         $sub_location = strtoupper($data->sub_location);
+        $type = strtoupper($data->type);
         $username = strtoupper($data->username);
         $result = '';
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN AMSD.ASSET_TRANSFER_MOVEMENT_NEW(:USERNAME,:ASSET_NO,:BUILDING,:LEVEL,:AREA,:ROOM,:SUB,:RESULT); END;";
+        $sql = "BEGIN AMSD.ASSET_TRANSFER_MOVEMENT(:USERNAME,:ASSET_NO,:BUILDING,:LEVEL,:AREA,:ROOM,:SUB,:TYPE,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':USERNAME', $username, 30);
         oci_bind_by_name($statement, ':ASSET_NO', $assetIds, 4000);
@@ -916,6 +916,7 @@ $app->map(['GET','POST'],'/confirmTransfer',function(Request $request, Response 
         oci_bind_by_name($statement, ':AREA', $area, 30);
         oci_bind_by_name($statement, ':ROOM', $room, 30);
         oci_bind_by_name($statement, ':SUB', $sub_location, 30);
+        oci_bind_by_name($statement, ':TYPE', $type, 30);
         oci_bind_by_name($statement, ':RESULT', $result, 2);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
@@ -974,7 +975,7 @@ $app->map(['GET','POST'],'/checkRoom', function(Request $request, Response $resp
     $ASSET_NO = strtoupper($data->asset_id);
 
     $sql = "SELECT ASSET_PRIMARY_ID,ASSET_ROOM_NO_OLD
-    FROM AMSD.ASSET_LOG_PENDING_VW
+    FROM AMSD.ASSETS_LOG_PENDING_VW
     WHERE ASSET_PRIMARY_ID IN ($ASSET_NO)
     AND ASSET_ROOM_NO_NEW IS NULL";
 
@@ -2421,7 +2422,7 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
     global $func;
     $data = json_decode(file_get_contents('php://input'));
     // $cert_no = strtoupper($data->cert);
-    $ASSET_NO = strtoupper($data->primary_asset_id);
+    $ASSET_NO = strtoupper($data->assert_primary_id);
 
     $sql = "SELECT ASSET_CERT_NO
     FROM AMSD.ASSETS
@@ -2455,7 +2456,6 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
         }
 
         $cert_int = date("Y").'/'.$cert_int;
-
         // $ass ={ };
         // echo $cert_int." after";
         if(!empty($cert_int)){
@@ -2515,7 +2515,7 @@ $app->map(['GET','POST'],'/update_cert',function(Request $request, Response $res
     $update_cert =$func->executeNonQuery($sql);
 
     if($update_cert){
-       echo json_encode(array("rows" => 0 ,"data" =>"error"))
+       echo json_encode(array("rows" => 0 ,"data" =>"UPDATED"));
     }
     else{
         echo json_encode(array("rows" => 0 ,"data" =>"error"));
@@ -2527,33 +2527,48 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
     try{
         global $connect;
         $data = json_decode(file_get_contents('php://input'));
-        $ASSETS_ID = strtoupper($data->assetid);
-        $USERNAME = strtoupper($data->username);
-        $add_assets = '';
+        $v_asset_class = strtoupper($data->v_asset_class);
+        $v_assets = strtoupper($data->v_assets);
+        $v_asset_model = strtoupper($data->v_asset_model);
+        $v_asset_classification = strtoupper($data->v_asset_classification);
+        $v_asset_room_no = strtoupper($data->v_asset_room_no);
+        $v_asset_purchase_dt = strtoupper($data->v_asset_purchase_dt);
+        $v_asset_warranty_dt = strtoupper($data->v_asset_warranty_dt);
+        $v_asset_vendor_id = strtoupper($data->v_asset_vendor_id);
+        $v_asset_vendor_name = strtoupper($data->v_asset_vendor_name);
+        $v_asset_useful_life = strtoupper($data->v_asset_useful_life);
+        $v_asset_service_dt = strtoupper($data->v_asset_service_dt);
+        $v_asset_service_by = strtoupper($data->v_asset_service_by);
+        $v_asset_cert_ind = strtoupper($data->v_asset_cert_ind);
+        $v_asset_cert_no = strtoupper($data->v_asset_cert_no);
+        $v_asset_added_by = strtoupper($data->v_asset_added_by);
+        $v_asset_useful_life = strtoupper($data->v_asset_useful_life);
+            
+       
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN amsd.asset_create (v_asset_class            IN     VARCHAR2,
-                    v_assets                 IN     VARCHAR2,
-                    v_asset_model            IN     VARCHAR2,
-                    v_asset_classification   IN     VARCHAR2,
-                    v_asset_room_no          IN     VARCHAR2,
-                    v_asset_purchase_dt      IN     DATE,
-                    v_asset_warranty_dt      IN     DATE,
-                    v_asset_vendor_id        IN     VARCHAR2,
-                    v_asset_vendor_name      IN     VARCHAR2,
-                    v_asset_useful_life      IN     VARCHAR2,
-                    v_asset_service_dt       IN     DATE,
-                    v_asset_service_by       IN     DATE,
-                    v_asset_cert_ind         IN     VARCHAR2,
-                    v_asset_cert_no          IN     VARCHAR2,
-                    v_asset_added_by         IN     VARCHAR2,
-                    v_out                       OUT VARCHAR2)
-                    END;";
+        $sql = "BEGIN amsd.asset_create(:v_asset_class,:v_assets,:v_asset_model,:v_asset_classification,:v_asset_room_no,:v_asset_purchase_dt,:v_asset_warranty_dt,:v_asset_vendor_id,:v_asset_vendor_name,:v_asset_useful_life,:v_asset_service_dt,:v_asset_service_by,:v_asset_cert_ind,:v_asset_cert_no,:v_asset_added_by,:v_out); END;";               
+
+
         $statement = oci_parse($connect,$sql);
         // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
-        oci_bind_by_name($statement, ':ASSET_ID', $ASSETS_ID, 30);
-        oci_bind_by_name($statement, ':RESULT', $add_assets, 2);
+        oci_bind_by_name($statement, ':v_asset_class', $v_asset_class, 50);
+        oci_bind_by_name($statement, ':v_assets', $v_assets, 4000);
+        oci_bind_by_name($statement, ':v_asset_model', $v_asset_model, 50);
+        oci_bind_by_name($statement, ':v_asset_classification', $v_asset_classification, 50);
+        oci_bind_by_name($statement, ':v_asset_room_no', $v_asset_room_no, 50);
+        oci_bind_by_name($statement, ':v_asset_purchase_dt', $v_asset_purchase_dt, 50);
+        oci_bind_by_name($statement, ':v_asset_warranty_dt', $v_asset_warranty_dt, 50);
+        oci_bind_by_name($statement, ':v_asset_vendor_id', $v_asset_vendor_id, 50);
+        oci_bind_by_name($statement, ':v_asset_vendor_name', $v_asset_vendor_name, 50);
+        oci_bind_by_name($statement, ':v_asset_useful_life', $v_asset_useful_life, 50);
+        oci_bind_by_name($statement, ':v_asset_service_dt', $v_asset_service_dt, 50);
+        oci_bind_by_name($statement, ':v_asset_service_by', $v_asset_service_by, 50);
+        oci_bind_by_name($statement, ':v_asset_cert_ind', $v_asset_cert_ind, 50);
+        oci_bind_by_name($statement, ':v_asset_cert_no', $v_asset_cert_no, 50);
+        oci_bind_by_name($statement, ':v_asset_added_by', $v_asset_added_by, 50);
+        oci_bind_by_name($statement, ':v_out', $add_assets, 2);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
 
@@ -2563,7 +2578,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
             echo json_encode(array("rows" => 0 ,"data" =>"ASSETS ADDED WAS SUCCESSFUL"));
         }
         else{
-            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS ADDED WAS NOT SUCCESSFUL"));
+            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS WAS NOT SUCCESSFUL"));
         }
 
     }catch (Exception $pdoex) {
