@@ -111,6 +111,10 @@
         #menu-list li {
             font-size: 13pt !important;
         }
+        
+        * {
+            font-size: 9pt !important;
+        }
     </style>
 </head>
 
@@ -421,13 +425,24 @@
                         <div class="col-md-6" style="padding: 13px;">
                             <p class="py-1"><strong>Select Room</strong></p>
 
-                            <button class="btn btn-outline-secondary form-control" type="button" id="dropdown_approve_location" aria-expanded="false" disabled>
-                                LOCATION...
+
+                            <button class="btn btn-outline-secondary form-control" type="button" id="dropdown_approve_building" aria-expanded="false" disabled>
+                               BUILDING
+                            </button>
+                            <div class="dropdown py-3">
+                                <button class="btn btn-outline-secondary form-control " type="button" id="dropdown_approve_level" aria-expanded="false" disabled>
+                                    LEVEL
+                                </button>
+                            </div>
+
+
+                            <button class="btn btn-outline-secondary form-control" type="button" id="dropdown_approve_area" aria-expanded="false" disabled>
+                                AREA
                             </button>
 
                             <div class="dropdown py-3">
                                 <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="dropdown_approve_room" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    ROOM...
+                                    ROOM
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdown_transfer_room" id="scroll_approve_room">
                                     <form class="px-4 py-2">
@@ -445,6 +460,29 @@
                                         </div>
                                     </div>
                                     <div id="empty_approve_Room" class="dropdown-header">No room found</div>
+                                </div>
+                            </div>
+
+                            <div class="dropdown " id="approve_sub_location" style="display: none">
+                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="dropdown_approve_sub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    SUB LOCATION
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_sub" id="scroll_approve_sub">
+                                    <form class="px-4 py-2">
+                                        <div class="input-group">
+                                            <input type="search" id="search_approve_subno" class="form-control" placeholder="sub..." onkeyup="onSearch('search_approve_subno','#empty_approve_sub')" autofocus="autofocus">
+                                            <div class="input-group-append">
+                                                <span class="input-group-text btn btn-danger text-light" id="clear_approve_sub" onclick="clearData('#search_approve_subno','#dropdown_approve_sub','sub...')"><i
+                                                        class="fa fa-close"></i></span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <div id="menu_approve_sub">
+                                        <div id="sub_approve_load" class="dropdown-loader">
+                                            <img src="../img/loading-transparent.gif" alt="">
+                                        </div>
+                                    </div>
+                                    <div id="empty_approve_sub" class="dropdown-header">No sub found</div>
                                 </div>
                             </div>
                         </div>
