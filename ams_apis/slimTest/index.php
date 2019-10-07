@@ -727,7 +727,7 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
         AND ASSET_ROOM_NO LIKE '%$room_no%' 
         AND ASSET_SUB_LOCATION LIKE '%$sub_location%' 
         AND ASSET_PRIMARY_ID LIKE '%$asset_primary_id%' 
-        AND ASSET_AREA LIKE '%$area%' 
+        AND ASSET_AREA_NAME LIKE '%$area%' 
         AND (ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
         OR ASSET_DESCRIPTION LIKE '%$ASSET_DESCRIPTION%') 
         AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
@@ -771,8 +771,8 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
         $sql = "SELECT  avw.asset_primary_id  as ASSET_ID,
                         lvw.asset_room_no_new as ASSET_ROOM_NO,
                         lvw.asset_location_area_new as ASSET_AREA,
-                        avw.asset_class,
-                        avw.asset_sub_location,
+                        avw.asset_class, 
+                        lvw.asset_sub_location_new as ASSET_SUB_LOCATION,
                         avw.asset_description,
                         asset_is_sub
                 FROM amsd.assets_log_pending_vw lvw, amsd.assets_vw avw
@@ -785,8 +785,8 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         OR     lvw.asset_location_area_new IS NULL)
                         AND (lvw.asset_room_no_new LIKE '%$room_no%'
                         OR     lvw.asset_room_no_new IS NULL)
-                        AND (avw.asset_sub_location LIKE '%$sub_location%'
-                        OR     avw.asset_sub_location IS NULL)
+                        AND (lvw.asset_sub_location_new LIKE '%$sub_location%'
+                        OR     lvw.asset_sub_location_new IS NULL)
                         AND avw.asset_primary_id LIKE '%$asset_primary_id%'
                         AND avw.ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
                         AND avw.asset_class LIKE '%$ASSET_CLASS%'
@@ -843,7 +843,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
                         AND lvw.asset_room_no_old LIKE '%$room_no%'
                         AND avw.asset_sub_location LIKE '%$sub_location%'
                         AND avw.asset_primary_id LIKE '%$asset_primary_id%'
-                        AND avw.ASSET_AREA LIKE '%$area%' 
+                        AND avw.ASSET_AREA_NAME LIKE '%$area%' 
                         AND avw.ASSET_BUILDING LIKE '%$building%' 
                         AND avw.ASSET_LEVEL LIKE '%$level%' 
                         AND avw.ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
@@ -974,7 +974,7 @@ $app->map(['GET','POST'],'/checkRoom', function(Request $request, Response $resp
     $data = json_decode(file_get_contents('php://input'));
     $ASSET_NO = strtoupper($data->asset_id);
 
-    $sql = "SELECT ASSET_PRIMARY_ID,ASSET_ROOM_NO_OLD
+    $sql = "SELECT ASSET_PRIMARY_ID,ASSET_ROOM_NO_OLD,ASSET_BUILDING_NEW,ASSET_LEVEL_NEW,ASSET_LOCATION_AREA_NEW
     FROM AMSD.ASSETS_LOG_PENDING_VW
     WHERE ASSET_PRIMARY_ID IN ($ASSET_NO)
     AND ASSET_ROOM_NO_NEW IS NULL";
@@ -993,18 +993,19 @@ $app->map(['GET','POST'],'/approveAsset',function(Request $request, Response $re
         global $connect;
         $data = json_decode(file_get_contents('php://input'));
         $ASSET_NO = strtoupper($data->assetIds);
-        $LOCATION = strtoupper($data->location);
         $ROOM = strtoupper($data->room);
+        $sub_location = strtoupper($data->sub_location);
         $USERNAME = strtoupper($data->username);
         $RESULT = '';
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
         
-        $sql = "BEGIN AMSD.asset_approve_movement(:USERNAME,:ASSET_NO,:ROOM,:RESULT); END;";
+        $sql = "BEGIN AMSD.asset_approve_movement(:USERNAME,:ASSET_NO,:ROOM,:SUB,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
         oci_bind_by_name($statement, ':ASSET_NO', $ASSET_NO, 4000);
         oci_bind_by_name($statement, ':ROOM', $ROOM, 30);
+        oci_bind_by_name($statement, ':SUB', $sub_location, 30);
         oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
         
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
@@ -1696,7 +1697,7 @@ $app->map(['GET','POST'],'/building_view', function(Request $request, Response $
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
             AND A_OLD.ASSET_STATUS = '1'
@@ -1750,7 +1751,7 @@ $app->map(['GET','POST'],'/asset_level_new_view', function(Request $request, Res
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
             AND A_OLD.ASSET_STATUS = '1'
@@ -1855,7 +1856,7 @@ $app->map(['GET','POST'],'/asset_room_no_view', function(Request $request, Respo
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_STATUS = '1'
@@ -1908,7 +1909,7 @@ $app->map(['GET','POST'],'/asset_sub_location_view', function(Request $request, 
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
             AND A_OLD.ASSET_STATUS = '1'
@@ -1961,7 +1962,7 @@ $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Respo
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_STATUS = '1'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
