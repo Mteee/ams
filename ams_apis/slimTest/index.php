@@ -720,7 +720,7 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
-        $sql = "SELECT ASSET_ID,ASSET_CLASS,ASSET_ROOM_NO,ASSET_AREA_NAME AS ASSET_AREA,ASSET_SUB_LOCATION,ASSET_DESCRIPTION ||' - ' || ASSET_CLASSIFICATION AS ASSET_DESCRIPTION,ASSET_TRANSACTION_STATUS,ASSET_IS_SUB 
+        $sql = "SELECT ASSET_ID,ASSET_CLASS,ASSET_ROOM_NO,ASSET_AREA_NAME AS ASSET_AREA,ASSET_SUB_LOCATION,ASSET_DESCRIPTION ||' - ' || ASSET_CLASSIFICATION AS ASSET_DESCRIPTION,ASSET_TRANSACTION_STATUS,ASSET_IS_SUB,ASSET_TRANSACTION_STATUS AS ASSET_STATUS 
         FROM AMSD.ASSETS_VW 
         WHERE ASSET_BUILDING LIKE '%$building%' 
         AND ASSET_LEVEL LIKE '%$level%' 
@@ -775,7 +775,8 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         avw.asset_class, 
                         lvw.asset_sub_location_new as ASSET_SUB_LOCATION,
                         avw.asset_description,
-                        asset_is_sub
+                        asset_is_sub,
+                        avw.ASSET_TRANSACTION_STATUS AS ASSET_STATUS
                 FROM amsd.assets_log_pending_vw lvw, amsd.assets_vw avw
                 WHERE        (asset_transaction_status = 'PENDING' OR asset_transaction_status = 'PENDING-TEMP')
                         AND (lvw.asset_building_new LIKE '%$building%'
@@ -837,6 +838,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
                         avw.asset_class,
                         avw.asset_description,
                         asset_is_sub,
+                        avw.ASSET_TRANSACTION_STATUS AS ASSET_STATUS,
                         'OUT' as movement_type
                 FROM amsd.assets_log_pending_vw lvw, amsd.assets_vw avw
                 WHERE         (asset_transaction_status = 'PENDING' OR asset_transaction_status = 'PENDING-TEMP')

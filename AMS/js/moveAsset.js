@@ -155,6 +155,7 @@ function search() {
                 var ASSET_SUB_LOCATION = "";
                 if (data.rows > 0) {
                     localStorage.table_len = data.rows;
+                    console.log("========================================data=========================");
                     console.log(data);
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
@@ -172,15 +173,17 @@ function search() {
                             str += isSpecified(data.data[k].ASSET_ROOM_NO) + '","';
                             str += data.data[k].ASSET_AREA + '","';
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
+                            str += data.data[k].ASSET_STATUS + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
                         } else {
-
+                            
                             str += '["' + data.data[k].ASSET_ID + '","';
                             str += data.data[k].ASSET_ID + '","';
                             str += isSpecified(data.data[k].ASSET_SUB_LOCATION) + '","';
                             str += isSpecified(data.data[k].ASSET_ROOM_NO) + '","';
                             str += data.data[k].ASSET_AREA + '","';
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
+                            str += data.data[k].ASSET_STATUS + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
                         }
                     }
@@ -982,11 +985,24 @@ function confirmAssets(assetIds,building,level,area, room, sub,type) {
         success: function (data) {
             // console.log(data);
 
-            document.getElementById('overlay-alert-message').style.display = "none";
-            document.getElementById('overlay-alert-message').style.display = "block";
-            document.getElementById('alert_header').innerHTML = "Assets Transfer";
-            document.getElementById('alert-message-body').innerHTML = ' <img src="../img/success.gif" alt="success" style="width: 51px;margin: 8px 11px;"><br /><span style="color:green;font-weight: bold;">' + data.data + '</span>';
-            document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+            swal.fire({
+                title: "Assets Transfer",
+                text: data.data,
+                type: 'success',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                allowOutsideClick: false,
+            }).then((result) => {
+                if (result.value) {
+                    closeAsset('overlay-alert-message');
+                }
+              })
+
+            // document.getElementById('overlay-alert-message').style.display = "none";
+            // document.getElementById('overlay-alert-message').style.display = "block";
+            // document.getElementById('alert_header').innerHTML = "Assets Transfer";
+            // document.getElementById('alert-message-body').innerHTML = ' <img src="../img/success.gif" alt="success" style="width: 51px;margin: 8px 11px;"><br /><span style="color:green;font-weight: bold;">' + data.data + '</span>';
+            // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
             // alert();
 
