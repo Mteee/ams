@@ -2634,6 +2634,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
         $v_asset_vendor_name = strtoupper($data->v_asset_vendor_name);
         $v_asset_useful_life = strtoupper($data->v_asset_useful_life);
         $v_asset_service_dt = strtoupper($data->v_asset_service_dt);
+        $v_asset_service_due_dt = strtoupper($data->v_asset_service_due_dt);
         $v_asset_service_by = strtoupper($data->v_asset_service_by);
         $v_asset_cert_ind = strtoupper($data->v_asset_cert_ind);
         $v_asset_cert_no = strtoupper($data->v_asset_cert_no);
@@ -2643,7 +2644,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN amsd.asset_create(:v_asset_class,:v_assets,:v_asset_model,:v_asset_classification,:v_asset_room_no,:v_asset_purchase_dt,:v_asset_warranty_dt,:v_asset_vendor_id,:v_asset_vendor_name,:v_asset_useful_life,:v_asset_service_dt,:v_asset_service_by,:v_asset_cert_ind,:v_asset_cert_no,:v_asset_added_by,:v_out); END;";               
+        $sql = "BEGIN amsd.asset_create(:v_asset_class,:v_assets,:v_asset_model,:v_asset_classification,:v_asset_room_no,:v_asset_purchase_dt,:v_asset_warranty_dt,:v_asset_vendor_id,:v_asset_vendor_name,:v_asset_useful_life,:v_asset_service_dt,:v_asset_service_due_dt,:v_asset_service_by,:v_asset_cert_ind,:v_asset_cert_no,:v_asset_added_by,:v_out); END;";               
 
 
         $statement = oci_parse($connect,$sql);
@@ -2659,21 +2660,22 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
         oci_bind_by_name($statement, ':v_asset_vendor_name', $v_asset_vendor_name, 50);
         oci_bind_by_name($statement, ':v_asset_useful_life', $v_asset_useful_life, 50);
         oci_bind_by_name($statement, ':v_asset_service_dt', $v_asset_service_dt, 50);
+        oci_bind_by_name($statement, ':v_asset_service_due_dt', $v_asset_service_due_dt, 50);
         oci_bind_by_name($statement, ':v_asset_service_by', $v_asset_service_by, 50);
         oci_bind_by_name($statement, ':v_asset_cert_ind', $v_asset_cert_ind, 50);
         oci_bind_by_name($statement, ':v_asset_cert_no', $v_asset_cert_no, 50);
         oci_bind_by_name($statement, ':v_asset_added_by', $v_asset_added_by, 50);
-        oci_bind_by_name($statement, ':v_out', $add_assets, 2);
+        oci_bind_by_name($statement, ':v_out', $add_assets, 4000);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
 
         oci_commit($connect);
 
-        if($add_assets == "y"){
-            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS ADDED WAS SUCCESSFUL"));
+        if($add_assets){
+            echo json_encode(array("rows" => 0 ,"data" => $add_assets));
         }
         else{
-            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS WAS NOT SUCCESSFUL"));
+            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS FAILED TO ADD"));
         }
 
     }catch (Exception $pdoex) {

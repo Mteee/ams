@@ -71,14 +71,14 @@ function addAsset() {
 
     alert("hello");
 
-   var dataSend = 
+   var dataSend = "";
 
-
+    console.log('{"v_asset_class": "'+json_data.asset_class+'", "v_assets":"'+json_data.assets+'", "v_asset_model":"'+json_data.model+'", "v_asset_classification" :"'+json_data.classification+'", "v_asset_room_no":"'+json_data.room+'", "v_asset_purchase_dt" :"'+json_data.purchase_date+'", "v_asset_warranty_dt" :"'+json_data.waranty_date+'", "v_asset_vendor_id" :"'+ ""+'", "v_asset_vendor_name" :"'+ ""+'", "v_asset_useful_life":"'+ ""+'", "v_asset_service_dt":"'+json_data.service_date+'", "v_asset_service_due_dt":"'+json_data.service_due_date+'", "v_asset_service_by":"'+json_data.serviced_by+'", "v_asset_cert_ind":"'+ ""+'", "v_asset_cert_no":"'+ json_data.cert+'", "v_asset_added_by":"'+ localStorage.username+'"}');
     $.ajax({
         url: "../../ams_apis//slimTest/index.php/add_assets",
         method: "POST",
         dataType: "JSON",
-        data: '{"v_asset_class": "'+json_data.asset_class+'", "v_assets":"'+json_data.assets+'", "v_asset_model":"'+json_data.model+'", "v_asset_classification" :"'+json_data.classification+'", "v_asset_room_no":"'+json_data.room+'", "v_asset_purchase_dt" :"'+json_data.purchase_date+'", "v_asset_warranty_dt" :"'+json_data.waranty_date+'", "v_asset_vendor_id" :"'+ ""+'", "v_asset_vendor_name" :"'+ ""+'", "v_asset_useful_life":"'+ ""+'", "v_asset_service_dt":"'+json_data.service_due_date+'", "v_asset_service_by":"'+json_data.serviced_by+'", "v_asset_cert_ind":"'+ ""+'", "v_asset_cert_no":"'+ json_data.cert+'", "v_asset_added_by":"'+ localStorage.username+'"}',
+        data: '{"v_asset_class": "'+json_data.asset_class+'", "v_assets":"'+json_data.assets+'", "v_asset_model":"'+json_data.model+'", "v_asset_classification" :"'+json_data.classification+'", "v_asset_room_no":"'+json_data.room+'", "v_asset_purchase_dt" :"'+json_data.purchase_date+'", "v_asset_warranty_dt" :"'+json_data.waranty_date+'", "v_asset_vendor_id" :"'+ ""+'", "v_asset_vendor_name" :"'+ ""+'", "v_asset_useful_life":"'+ ""+'", "v_asset_service_dt":"'+json_data.service_date+'", "v_asset_service_due_dt":"'+json_data.service_due_date+'", "v_asset_service_by":"'+json_data.serviced_by+'", "v_asset_cert_ind":"'+ ""+'", "v_asset_cert_no":"'+ json_data.cert+'", "v_asset_added_by":"'+ localStorage.username+'"}',
         success: function (data) {
             console.log("success");
            console.log(data);
@@ -120,8 +120,6 @@ function viewAsset(assetId) {
     });
 }
 
-
-
 function getValues() {
     var inputValues = [];
 
@@ -130,16 +128,15 @@ function getValues() {
     //basic (2 inputs && 1 select)
     var selects = $("#basic select").find("option:selected").text();
     var input_classification = $("#classification_wizard").val();
-    var input_serviced_by = $("#serviced_by").val();
     var input_room = $("#room_new_filter").text();
-    var basic = ["room", "classification"];
 
     //date (2 dates)
     var input_date = $("#date input[type='date']");
     var dates = ["purchase_date", "waranty_date"];
 
     //service (2 dates & 1 input)
-    var input_service = $("#service input");
+    var input_service = $("#service input[type='date']");
+    var input_service_by = $("#service input[type='text']");
     var service = ["service_date", "service_due_date", "serviced_by"];
 
     //serial (2+ inputs)
@@ -157,10 +154,10 @@ function getValues() {
     inputValues.push(selects);
     inputValues.push(input_room);
     inputValues.push(input_classification);
-    inputValues.push(input_serviced_by);
     // extractValues_inElements(input_basic, inputValues, "");
     extractValues_inElements(input_date, inputValues, "date");
     extractValues_inElements(input_service, inputValues, "date");
+    inputValues.push(input_service_by[0].value);
     extractValues_inElements(input_serial, inputValues, "serial");
     inputValues.push(input_model[0].value);
 
@@ -201,9 +198,9 @@ function extractValues_inElements(a, arr, key) {
             console.log(a.length + " " + i);
             if (i == a.length - 2) {
 
-                stringValue += a[i].value + "^" + a[++i].value
+                stringValue += a[i].value + "|" + a[++i].value
             } else {
-                stringValue += a[i].value + "^" + a[++i].value + "|"
+                stringValue += a[i].value + "|" + a[++i].value + "^"
             }
 
         }
