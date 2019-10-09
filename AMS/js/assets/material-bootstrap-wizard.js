@@ -61,24 +61,24 @@ $(document).ready(function () {
                 required: true,
                 minlength: 2,
             },
-            // purchase_date:{
-            //     required: true,
-            // },
-            // warranty_date:{
-            //     required: true,
-            // },
-            // disposal_date:{
-            //     required: true,
-            // },
-            // service_date:{
-            //     required: true,
-            // },
-            // service_due_date:{
-            //     required: true,
-            // },
-            // serviced_by:{
-            //     required: true,
-            // },
+            purchase_date:{
+                required: true,
+            },
+            warranty_date:{
+                required: true,
+            },
+            disposal_date:{
+                required: true,
+            },
+            service_date:{
+                required: true,
+            },
+            service_due_date:{
+                required: true,
+            },
+            serviced_by:{
+                required: true,
+            },
 
         },
 
@@ -94,17 +94,20 @@ $(document).ready(function () {
         'previousSelector': '.btn-previous',
 
         onNext: function (tab, navigation, index) {
-
+            console.log("tab");
+            console.log(tab);
+            console.log("navigation");
+            console.log(navigation);
+            console.log("index");
+            console.log(index);
+            
             var $valid = $('.wizard-card form').valid();
             var input_arr = $('#asset_group input');
-            var input_room_no = $('#basic input');
             var input_date_fields = $('#date input');
+            var input_date_service = $('#service input');
 
-            if (index == 4) {
+            if (index == 4){
                 var res = validateInputChildren(input_arr);
-                setTimeout(function(){
-
-                },5000);
                 console.log("res");
                 console.log(res);
                 if (res.bool) {
@@ -112,7 +115,27 @@ $(document).ready(function () {
                     $('#text-error').addClass( "btn-outline-danger" );
                     return false;
                 }
+            }else
+            if (index == 2){
+                var res = validateInputChildren(input_date_fields);
+                console.log("res");
+                console.log(res);
+                if (res.bool) {
+                    input_arr[res.index].focus();
+                    $('#text-error').addClass( "btn-outline-danger" );
+                    return false;
+                }
+            }
 
+            if (index == 3){
+                var res = validateInputChildren(input_date_service);
+                console.log("res");
+                console.log(res);
+                if (res.bool) {
+                    input_arr[res.index].focus();
+                    $('#text-error').addClass( "btn-outline-danger" );
+                    return false;
+                }
             }
             else if (index == 1) {
                 // var res = validateInputChildren(input_room_no);
@@ -217,19 +240,18 @@ $(document).ready(function () {
         }
     });
 
+
     function validateInputChildren(a) {
         var response = {
              "bool": false,
-             "index": 0,
-             "existing_assets":[]
+             "index": 0
         };
 
-        var foundEmpty = false;
 
 
         for (i = 0; i < a.length; i++) {
             if (isEmpty(a[i].value)) {
-                foundEmpty = true;
+                response.bool = true;
                 response.index = i;
                 break;
             }
@@ -238,39 +260,12 @@ $(document).ready(function () {
               
         }
 
-        var asset_check = "";
-        for (var i = 0; i < a.length; i++) {
-            if (i == a.length - 1) {
-                asset_check += "\'" + a[i].value + "\'";
-            } else {
-                asset_check += "\'" + a[i].value+ "\',";
-            }
-
-        }
-
-        console.log(asset_check);
-
-        $.ajax({
-            url: "../../ams_apis//slimTest/index.php/check_assets",
-            method: "POST",
-            dataType: "JSON",
-            data: '{"assets": "'+asset_check+'"}',
-            success: function (data) {
-                console.log(data);
-                response.existing_assets = data.data
-            },
-            error: function (err) {
-                console.log(err);
-                // console.log("error");
-            }
-        });
-
         console.log("response");
         console.log(response);
 
-        setTimeout(function(){
-            return response;
-        },4000);
+      
+        return response;
+      
        
     }
 

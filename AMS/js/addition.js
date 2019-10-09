@@ -58,6 +58,9 @@ function addAsset() {
     ]
 
     var values = (getValues());
+    setTimeout(function(){
+        
+    },3000);
 
     //certificate if yes
     //....Code
@@ -82,7 +85,8 @@ function addAsset() {
             data: '{"v_asset_class": "'+json_data.asset_class+'", "v_assets":"'+json_data.assets+'", "v_asset_model":"'+json_data.model+'", "v_asset_classification" :"'+json_data.classification+'", "v_asset_room_no":"'+json_data.room+'", "v_asset_purchase_dt" :"'+json_data.purchase_date+'", "v_asset_warranty_dt" :"'+json_data.waranty_date+'", "v_asset_vendor_id" :"'+ ""+'", "v_asset_vendor_name" :"'+ ""+'", "v_asset_useful_life":"'+ ""+'", "v_asset_service_dt":"'+json_data.service_date+'", "v_asset_service_due_dt":"'+json_data.service_due_date+'", "v_asset_service_by":"'+json_data.serviced_by+'", "v_asset_cert_ind":"'+ ""+'", "v_asset_cert_no":"'+ json_data.cert+'", "v_asset_added_by":"'+ localStorage.username+'"}',
             success: function (data) {
                 console.log("success");
-                
+                console.log(data);
+                document.getElementById("add_asset_form").reset()
 
             },
             error: function (err) {
@@ -91,9 +95,9 @@ function addAsset() {
     
             }
         });
-    },5000);
+    },4000);
     
-  
+    
 
 }
 
@@ -237,7 +241,6 @@ function extractValues_inElements(a, arr, key) {
             arr.push(a[i].value);
         }
     }
-
 }
 
 function populate_dropdown() {
@@ -255,10 +258,10 @@ function populate_dropdown() {
     getItems('../../ams_apis/slimTest/index.php/building_addition', 'search_addition_building', 'scroll_addition_building', 'menu_addition_building', 'empty_addition_building');
 
 }
+
 function getRoom() {
     getItems('../../ams_apis/slimTest/index.php/asset_room_no_addition', 'search_new_room', 'scroll_new_room', 'menu_new_room', 'empty_new_room');
 }
-
 
 var allArr = {
     search_addition_asset_no: [],
@@ -268,7 +271,6 @@ var allArr = {
     search_addition_level: [],
     search_addition_building: []
 };
-
 
 function getItems(url, id, scrollArea, menuid) {
 
@@ -330,6 +332,7 @@ var clusterize = {
     search_view_level: [],
     search_view_building: []
 };
+
 var count = 0;
 
 var filterRows = function (rows) {
@@ -347,7 +350,6 @@ function filterItems(rows, value, scrollArea, menuid) {
         scrollId: scrollArea,
         contentId: menuid
     }));
-
 }
 
 function add_new_asset() {
