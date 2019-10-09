@@ -1011,6 +1011,12 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
 
+        if (filter == "IT EQUIPMENT") {
+            $('.filter_sub').show();
+        } else {
+            $('.filter_sub').hide();
+        }
+
         clearLocalStorageFilters();
         populate_dropdown();
 

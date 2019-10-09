@@ -119,7 +119,7 @@
 <body>
     <div id="overlay-decomAsset">
         <div class="asset-transfer-details animated bounceInUp" id="assetDescom">
-            <span class="exit-asset" onclick="closeAsset('overlay-transfer')">&times;</span>
+            <span class="exit-asset" onclick="closeAsset('overlay-decomAsset')">&times;</span>
 
             <div class="asset-transfer-body">
                 <div id="transferAssets">
@@ -194,14 +194,14 @@
 
                 <div id="menu-list" class="is-active">
                     <ul class="menu-group">
-                        <a href="#">
-                            <li class="menu-item active">view</li>
+                        <a href="./viewAssets.html">
+                            <li class="menu-item">view</li>
                         </a>
                         <a href="./moveAssets.html" target="_self">
                             <li class="menu-item">movement</li>
                         </a>
-                        <li class="menu-item">certificates</a>
-                        </li>
+                        <a href="./certificates.html"><li class="menu-item">certificates</li>
+                        </a>
                         <div class="dropright dropdown" id="drodown-menu">
                             <li class="menu-item" id="com_item" data-toggle="dropdown">commissioning</li>
                             <ul class="dropdown-menu" id="com_list">
@@ -210,7 +210,7 @@
                                 </a>
                                 <li class="divider"></li>
                                 <a href="#" target="_self">
-                                    <li class="menu-item">removal</li>
+                                    <li class="menu-item active">removal</li>
                                 </a>
                             </ul>
                         </div>
@@ -365,7 +365,7 @@
                                                 </div>
                                             </div>
                                         </th>
-                                        <th>
+                                        <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="cccc" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION

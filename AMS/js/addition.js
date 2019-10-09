@@ -679,7 +679,7 @@ function viewCommAssets(assets) {
         // url: "assets.json",
         url: "../../ams_apis/slimTest/index.php/generate_Cert_no",
         method: "post",
-        data: '{"primary_asset_id" : "' + send_assets + '"}',
+        data: '{"assert_primary_id" : "' + send_assets + '"}',
         dataType: "json",
         success: function (data) {
             console.log(data);
@@ -695,8 +695,18 @@ function viewCommAssets(assets) {
         }
     });
 
+var conc_assets = "";
+ for (var i = 0; i < assets_arr.length; i++) {
+        if (i != assets_arr.length - 1) {
+            conc_assets += assets_arr[i] + "^";
+        } else {
+            conc_assets += assets_arr[i];
+        }
+
+    }
+
     $("#confirmComm").off().on("click", function () {
-        confirmComm(send_assets, cert_no.data);
+        confirmComm(conc_assets, cert_no.data);
     });
 }
 
@@ -706,29 +716,30 @@ function confirmComm(assets_ids, certificate_no) {
 
     $.ajax({
         // url: "assets.json",
-        url: "../../ams_apis/slimTest/index.php/update_cert",
+        url: "../../ams_apis/slimTest/index.php/comm_asset",
         method: "post",
-        data: '{"assets" : "' + assets_ids + '","cert" : "' + certificate_no + '"}',
+        data: '{"username":"'+localStorage.username+'","asset_class":"'+localStorage.filter+'","assets":"'+assets_ids+'","cert":"'+certificate_no+'"}',
         dataType: "json",
         success: function (data) {
             closeAsset('overlay-comm');
             console.log(data);
-            $('#commAssets').fadeOut(500);
+            // $('#commAssets').fadeOut(500);
             search();
+            $('#commAssets').fadeOut(500);
             swal.fire({
                 title: "Success",
-                text: 'Certificate number created successfully',
+                text: data.data,
                 type: 'success',
                 showCloseButton: true,
                 closeButtonColor: '#3DB3D7',
                 allowOutsideClick: true,
             })
-            // $('#loaderComm').hide();
-            // if (data.rows > 0) {
-            //     document.getElementById("assetTbody").innerHTML = data.data;
-            //     cert_no.data = data.certificate_number;
-            //     $("movItemCount").text(data.rows);
-            // }
+            $('#loaderComm').hide();
+            if (data.rows > 0) {
+                document.getElementById("assetTbody").innerHTML = data.data;
+                cert_no.data = data.certificate_number;
+                $("movItemCount").text(data.rows);
+            }
         },
         error: function (err) {
             console.log(err);
@@ -977,6 +988,11 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
 
+        if (filter == "IT EQUIPMENT") {
+            $('.filter_sub').show();
+        } else {
+            $('.filter_sub').hide();
+        }
         clearLocalStorageFilters();
         populate_dropdown();
 
@@ -1037,8 +1053,6 @@ function cleaAllFilters() {
 
     //description
     $('#view_description').val("");
-
-
 }
 
 
@@ -1080,12 +1094,6 @@ var onSearch = function (searchValue, emptyId) {
 
     if (searchValue.value.length == 0) {
         var resObj = checkFilter(getId);
-        // $('#building_view_filter').text($(this)[0].value);
-        // // localStorage.menuId
-        // localStorage.building = '';
-        // localStorage.area = '';
-        // localStorage.level = '';
-        // localStorage.room_no = '';
         populate_dropdown();
         $('#' + resObj.btnId).text(resObj.btnContent);
     }

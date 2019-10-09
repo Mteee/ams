@@ -517,7 +517,7 @@
 
     <div id="overlay-comm">
         <div class="asset-transfer-details animated bounceInUp" id="assetTransfer">
-            <span class="exit-asset" onclick="closeAsset('overlay-transfer')">&times;</span>
+            <span class="exit-asset" onclick="closeAsset('overlay-comm')">&times;</span>
 
             <div class="asset-transfer-body">
                 <div id="transferAssets">
@@ -652,7 +652,9 @@
                         <a href="./moveAssets.html" target="_self">
                             <li class="menu-item">movement</li>
                         </a>
-                        <li class="menu-item">certificates</li>
+                        <a href="./certificates">
+                            <li class="menu-item">certificates</li>
+                        </a>
                         <div class="dropright dropdown" id="drodown-menu">
                             <li class="menu-item active" data-toggle="dropdown">commissioning</li>
                             <ul class="dropdown-menu">
@@ -665,6 +667,9 @@
                                 </a>
                             </ul>
                         </div>
+                        <a href="./linkAssets.html">
+                            <li class="menu-item">asset link</li>
+                        </a>
 
                     </ul>
                 </div>
@@ -815,7 +820,7 @@
                                                 </div>
                                             </div>
                                         </th>
-                                        <th>
+                                        <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="sublocaction_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION
@@ -939,7 +944,7 @@
                                     </table>
                                     <div class="row my-5">
                                         <div class="col-md-12">
-                                            <button id="commAssets" style="display: none" class="btn btn-medium btn-info"><span class="fa fa-paste"></span>
+                                            <button id="commAssets" style="display: none" class="btn btn-md btn-info"><span class="fa fa-paste"></span>
                                                 Commission</button>
                                         </div>
                                     </div>

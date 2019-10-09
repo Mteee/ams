@@ -2397,7 +2397,7 @@ $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $reque
     }
 
     $sql = "SELECT
-        ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA_NAME,ASSET_CLASSIFICATION || ' - ' ||ASSET_DESCRIPTION as ASSET_DESCRIPTION,ASSET_IS_SUB
+        ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA_NAME AS ASSET_AREA,ASSET_CLASSIFICATION || ' - ' ||ASSET_DESCRIPTION as ASSET_DESCRIPTION,ASSET_IS_SUB
     FROM AMSD.ASSETS_VW 
     WHERE ASSET_CLASS LIKE '%$asset_class%'
     AND ASSET_BUILDING LIKE '%$building%'
@@ -2473,7 +2473,7 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
 
     $sql = "SELECT ASSET_CERT_NO
     FROM AMSD.ASSETS
-    WHERE ASSET_CERT_NO <> ' '
+    WHERE ASSET_CERT_NO IS NOT NULL
     AND ASSET_STATUS = '1'
     GROUP BY ASSET_CERT_NO
     ORDER BY ASSET_CERT_NO DESC";
@@ -2602,24 +2602,67 @@ $app->map(['GET','POST'],'/get_Asset_status_decom',function(Request $request, Re
 });
 
 
-$app->map(['GET','POST'],'/update_cert',function(Request $request, Response $response){
-    global $func;
-    $data = json_decode(file_get_contents('php://input'));
-    $assets = strtoupper($data->assets);
-    $cert = strtoupper($data->cert);
+$app->map(['GET','POST'],'/comm_asset',function(Request $request, Response $response){
 
-    $sql = "UPDATE AMSD.ASSETS SET ASSET_CERT_NO = '$cert' WHERE ASSET_ID IN ($assets)";
+    try{
 
-    $update_cert =$func->executeNonQuery($sql);
+        global $connect;
 
-    if($update_cert){
-       echo json_encode(array("rows" => 0 ,"data" =>"success"));
+        $data = json_decode(file_get_contents('php://input'));
+        $assets = strtoupper($data->assets);
+        $cert = strtoupper($data->cert);
+        $asset_class = strtoupper($data->asset_class);
+        $username = strtoupper($data->username);
+        $v_out = "";
+        // $v_print_date = "";
+        // $v_cert_status  = "1";
+        // $v_cert_type = "COMM";
+        // $sql = "UPDATE AMSD.ASSETS SET ASSET_CERT_NO = '$cert' WHERE ASSET_ID IN ($assets)";
+
+        $sql  = "BEGIN asset_certificate_comm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'COMM','','1',:v_out); END;";
+        $statement = oci_parse($connect,$sql);
+        oci_bind_by_name($statement, ':v_username', $username, 50);
+        oci_bind_by_name($statement, ':v_asset_class', $asset_class, 4000);
+        oci_bind_by_name($statement, ':v_asset_ids', $assets, 50);
+        oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
+        // oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
+        oci_bind_by_name($statement, ':v_out',  $v_out, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($v_out == "y"){
+            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS COMMISSIONED SUCCESSFULLY"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS WAS NOT COMMISSIONED"));
+        }
     }
-    else{
-        echo json_encode(array("rows" => 0 ,"data" =>"error"));
+    catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
     }
 
 });
+
+// $app->map(['GET','POST'],'/update_cert',function(Request $request, Response $response){
+//     global $func;
+//     $data = json_decode(file_get_contents('php://input'));
+//     $assets = strtoupper($data->assets);
+//     $cert = strtoupper($data->cert);
+
+//     $sql = "UPDATE AMSD.ASSETS SET ASSET_CERT_NO = '$cert' WHERE ASSET_ID IN ($assets)";
+
+//     $update_cert =$func->executeNonQuery($sql);
+
+//     if($update_cert){
+//        echo json_encode(array("rows" => 0 ,"data" =>"success"));
+//     }
+//     else{
+//         echo json_encode(array("rows" => 0 ,"data" =>"error"));
+//     }
+
+// });
 
 $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $response){
     try{
