@@ -2464,6 +2464,47 @@ $app->map(['GET','POST'],'/getAll_Assets_with_Cert_no',function(Request $request
     }
 
 });
+$app->map(['GET','POST'],'/generate_certificate_number',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    // $cert_no = strtoupper($data->cert);
+
+    $sql = "SELECT ASSET_CERT_NO
+    FROM AMSD.ASSETS
+    WHERE ASSET_CERT_NO <> ' '
+    AND ASSET_STATUS = '1'
+    GROUP BY ASSET_CERT_NO
+    ORDER BY ASSET_CERT_NO DESC";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+
+        $assets_no;
+        $new_cert = json_decode($assets_no);
+
+        $new_cert = $new_cert->data[0]->ASSET_CERT_NO;
+        $str_arr = explode("/", $new_cert);  
+
+        $cert_int = (int)$str_arr[1];
+        // echo $str_arr[1]." b4 -----------";
+        $cert_int++;
+        $len = strlen((string)$cert_int);
+        $zeros = "";
+        if($len < 5){
+
+            for($i = $len;$i<5;$i++){
+                $zeros .="0";
+            }
+
+            $cert_int = $zeros.$cert_int;
+        }
+
+        $cert_int = date("Y").'/'.$cert_int;
+    
+        echo json_encode(array("rows" => 0 ,"certificate_number" =>$cert_int));
+    }
+});
 
 $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response $response){
     global $func;
@@ -2673,8 +2714,8 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
 
         oci_commit($connect);
 
-        if($add_assets){
-            echo json_encode(array("rows" => 0 ,"data" => $add_assets));
+        if($add_assets == 'y'){
+            echo json_encode(array("rows" => 0 ,"data" => "ASSETS ADDED SUCCESSFULLY"));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"ASSETS FAILED TO ADD"));
