@@ -2613,6 +2613,48 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
 
 });
 
+$app->map(['GET','POST'],'/getAsset_for_CertNO',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    // $cert_no = strtoupper($data->cert);
+    $cert_no = strtoupper($data->cert_no);
+
+    $sql = "SELECT ASSET_ID,ASSET_DESCRIPTION,ASSET_CERT_NO
+    FROM AMSD.ASSETS
+    WHERE ASSET_CERT_NO = '$cert_no'
+    GROUP BY ASSET_ID,ASSET_DESCRIPTION,ASSET_CERT_NO
+    ORDER BY ASSET_CERT_NO DESC";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+
+        $assets_no;
+        $new_cert = json_decode($assets_no);
+
+        $count = 0;
+        $sub = "";
+
+        foreach($new_cert->data as $res){
+            $sub .= '<tr>
+                        <td>'.$res->ASSET_ID.'</td>
+                        <td>'.$res->ASSET_DESCRIPTION.'</td>
+                        <td>'.$res->ASSET_CERT_NO.'</td>
+                    </tr>
+                ';
+            $count++;
+        }
+
+        echo json_encode(array("rows" => $count ,"data"=>$sub));
+
+    }
+  
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+
+});
+
 //asset with active status
 $app->map(['GET','POST'],'/get_Asset_status_decom',function(Request $request, Response $response){
     global $func;
@@ -2813,6 +2855,10 @@ $app->map(['GET','POST'],'/building_cert', function(Request $request, Response $
     $asset_class = strtoupper($data->asset_class);
     $response = array();
 
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
     $sql = "SELECT 
                 a.ASSET_BUILDING
             FROM 
@@ -2826,8 +2872,8 @@ $app->map(['GET','POST'],'/building_cert', function(Request $request, Response $
             AND a.ASSET_ROOM_NO LIKE '%$room_no%'
             AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND a.ASSET_CERT_NO LIKE '%$cert_no%'
-            ORDER BY a.ASSET_BUILDING
-            GROUP BY a.ASSET_BUILDING";
+            GROUP BY a.ASSET_BUILDING
+            ORDER BY a.ASSET_BUILDING";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -2863,6 +2909,10 @@ $app->map(['GET','POST'],'/level_cert', function(Request $request, Response $res
     $cert_no = strtoupper($data->cert_no);
     $asset_class = strtoupper($data->asset_class);
     $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
 
     $sql = "SELECT 
                 a.ASSET_LEVEL
@@ -2915,6 +2965,10 @@ $app->map(['GET','POST'],'/area_cert', function(Request $request, Response $resp
     $asset_class = strtoupper($data->asset_class);
     $response = array();
 
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
     $sql = "SELECT 
                 a.ASSET_AREA_NAME
             FROM 
@@ -2965,6 +3019,10 @@ $app->map(['GET','POST'],'/room_no_cert', function(Request $request, Response $r
     $cert_no = strtoupper($data->cert_no);
     $asset_class = strtoupper($data->asset_class);
     $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
 
     $sql = "SELECT 
                 a.ASSET_ROOM_NO
@@ -3017,6 +3075,10 @@ $app->map(['GET','POST'],'/sub_location_cert', function(Request $request, Respon
     $asset_class = strtoupper($data->asset_class);
     $response = array();
 
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
     $sql = "SELECT 
                 a.ASSET_SUB_LOCATION
             FROM 
@@ -3068,6 +3130,10 @@ $app->map(['GET','POST'],'/cert_no_cert', function(Request $request, Response $r
     $asset_class = strtoupper($data->asset_class);
     $response = array();
 
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
     $sql = "SELECT 
                 a.ASSET_CERT_NO
             FROM 
@@ -3082,7 +3148,7 @@ $app->map(['GET','POST'],'/cert_no_cert', function(Request $request, Response $r
             AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND a.ASSET_CERT_NO LIKE '%$cert_no%'
             GROUP BY a.ASSET_CERT_NO
-            ORDER BY a.ASSET_CERT_NO";
+            ORDER BY a.ASSET_CERT_NO DESC";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -3118,6 +3184,11 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
     $asset_class = strtoupper($data->asset_class);
     $response = array();
 
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+
     $sql = "SELECT 
                 a.ASSET_CERT_NO,a.ASSET_CLASS,b.ASSET_CERTIFICATE_TYPE,b.ASSET_CERTIFICATE_CREATION_DATE,b.ASSET_CERTIFICATE_PRINT_DATE,b.ASSET_CERTIFICATE_STATUS
             FROM 
@@ -3130,7 +3201,8 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
             AND a.ASSET_AREA_NAME LIKE '%$area%'
             AND a.ASSET_ROOM_NO LIKE '%$room_no%'
             AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
-            AND a.ASSET_CERT_NO LIKE '%$cert_no%'";
+            AND a.ASSET_CERT_NO LIKE '%$cert_no%'
+            GROUP BY a.ASSET_CERT_NO,a.ASSET_CLASS,b.ASSET_CERTIFICATE_TYPE,b.ASSET_CERTIFICATE_CREATION_DATE,b.ASSET_CERTIFICATE_PRINT_DATE,b.ASSET_CERTIFICATE_STATUS";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -3139,7 +3211,7 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
         echo $assets_no;
     }
     else{
-        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
     }
  
 });

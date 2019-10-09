@@ -68,7 +68,103 @@
     </style>
 
 <body>
+    <div id="overlay-printView">
+        <div class="asset-details animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
+            <span class="exit-asset" onclick="closeAsset('overlay-printView')">&times;</span>
 
+            <div class="asset-body" style="font-size: 12pt;">
+                <div class="print_scroll">
+                    <table class="table" id="tablePrint">
+                        <thead class="bg-light text-dark">
+                            <th scope="col">
+                                Print Preview
+                            </th>
+                        </thead>
+                        <tbody id="tbodyPrint">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="print-asset-footer text-center">
+
+                <div class="col-md-12" style="text-align: right">
+                    <button class="btn btn-danger" onclick="closeAsset('overlay-printView')">Cancel</button>
+                    <button type="submit" class="btn btn-success  export" value="Export"
+                        onclick="doit('xlsx','tablePrint');">
+                        <i class="fa fa-file-excel-o" aria-hidden="true"></i> <span
+                            style="padding-left:10px;">Export</span>
+                    </button>
+                    <button type="submit" class="btn btn-primary  export" onclick="printData()">
+                        <i class="fa fa-file" aria-hidden="true"></i> <span style="padding-left:10px;">Print</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- <div class="sub-item-number text-center py-2">
+                                <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
+                                            class="text-dark">5</span></strong></p>
+                            </div> -->
+    </div>
+    <div id="overlay-comm">
+        <div class="asset-transfer-details animated bounceInUp" id="assetTransfer">
+            <span class="exit-asset" onclick="closeAsset('overlay-comm')">&times;</span>
+
+            <div class="asset-transfer-body">
+                <div id="transferAssets">
+
+                    <div class="asset-header text-center">
+                        <strong>ASSET VIEW</strong>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="transfer-scroll" style="height: 288px !important;">
+                                <table class="table my-1 table-striped table-bordered">
+                                    <thead style="background:#1d1a1a; color: #ffffff; padding: 13px;">
+                                        <tr>
+                                            <th>Asset No</th>
+                                            <th>Description</th>
+                                            <th>Cerificate Number</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="tbody" id="assetTbody">
+
+                                    </tbody>
+                                </table>
+                                <div id="loaderComm" class="loader_trans">
+                                    <img src="../img/loading-transparent.gif" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="asset-transfer-footer text-right">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="sub-item-number text-center">
+                            <p class="text-muted">Number of selected assets: <strong><span id="movItemCount"
+                                        class="text-dark">5</span></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-danger" onclick="closeAsset('overlay-comm')"><i
+                                class="fa fa-close"></i>Close</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -103,9 +199,9 @@
                             <li class="menu-item active">certificates</li>
                         </a>
                         <div class="dropright dropdown" id="drodown-menu">
-                            <li class="menu-item active" data-toggle="dropdown">commissioning</li>
+                            <li class="menu-item" data-toggle="dropdown">commissioning</li>
                             <ul class="dropdown-menu">
-                                <a href="#">
+                                <a href="./addition.html">
                                     <li class="menu-item">addition</li>
                                 </a>
                                 <li class="divider"></li>
@@ -349,8 +445,8 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="certNo_certificates_filter"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    type="button" id="certNo_certificates_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
                                                     CERTIFICATE NUMBER
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll"
@@ -428,7 +524,7 @@
                                                     Printed Date
                                                 </th>
                                                 <th scope="col">
-                                                   Status
+                                                    Status
                                                 </th>
                                                 <th scope="col">
                                                     View
@@ -453,11 +549,11 @@
 
 
                                     </table>
-                                    <div class="row my-5">
+                                    <div class="row">
                                         <div class="col-md-12">
-                                            <button id="commAssets" style="display: none"
-                                                class="btn btn-md btn-info"><span class="fa fa-paste"></span>
-                                                Commission</button>
+                                            <button id="printCert" style="display: none"
+                                                class="btn btn-sm btn-info"><span class="fa fa-print"></span>
+                                                Print Certificate</button>
                                         </div>
                                     </div>
                                 </form>
@@ -470,7 +566,6 @@
             </div>
         </div>
     </div>
-
 
     <script src="../js/jquery.js"></script>
     <script src="../js/clusterize.min.js"></script>

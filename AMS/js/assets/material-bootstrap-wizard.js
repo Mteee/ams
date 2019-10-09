@@ -123,7 +123,13 @@ $(document).ready(function () {
                 if (res.bool) {
                     input_arr[res.index].focus();
                     $('#text-error').addClass( "btn-outline-danger" );
+                    $( "#date_group_1" ).removeClass( "border-secondary" ).addClass( "border-danger" );
+                    $( "#date_group_2" ).removeClass( "border-secondary" ).addClass( "border-danger" );
                     return false;
+                }
+                else{
+                    $( "#date_group_1" ).removeClass( "border-danger" ).addClass( "border-secondary" );
+                    $( "#date_group_2" ).removeClass( "border-danger" ).addClass( "border-secondary" );
                 }
             }
 
@@ -134,7 +140,14 @@ $(document).ready(function () {
                 if (res.bool) {
                     input_arr[res.index].focus();
                     $('#text-error').addClass( "btn-outline-danger" );
+                    $( "#date_group_3" ).removeClass( "border-secondary" ).addClass( "border-danger" );
+                    $( "#date_group_4" ).removeClass( "border-secondary" ).addClass( "border-danger" );
                     return false;
+                }
+                
+                else{
+                    $( "#date_group_3" ).removeClass( "border-danger" ).addClass( "border-secondary" );
+                    $( "#date_group_4" ).removeClass( "border-danger" ).addClass( "border-secondary" );
                 }
             }
             else if (index == 1) {
