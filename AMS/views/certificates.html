@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AMS | Certificates</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/main_add_new.css">
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <!-- Add IntroJs styles -->
+    <!-- <link href="../css/introjs.css" rel="stylesheet"> -->
+    <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css"
+        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
+
+
+    <link href="../css/material-bootstrap-wizard.css" rel="stylesheet" />
+
+    <style>
+        .form-group {
+            margin-bottom: 0 !important;
+        }
+
+        .form-control:disabled,
+        .form-control[readonly] {
+            background-color: #e9ecef !important;
+            opacity: 1;
+            border-bottom: 1px dotted rgba(210, 210, 210, 0) !important;
+        }
+
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .input-group {
+            flex-wrap: inherit !important;
+        }
+
+        .ripple-container {
+            display: none;
+        }
+
+        #search_new_room,
+        #menu_new_room .dropdown-item {
+            background-image: none !important;
+        }
+
+        #room_new_filter:hover {
+            color: slategray;
+        }
+
+        * {
+            font-size: 9pt !important;
+        }
+
+        #menu-list {
+            height: auto !important;
+        }
+    </style>
+
+<body>
+
+    <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
+        <!-- navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+            style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar"
+                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+                <span>
+                    <div class="row" style="margin-top:-25px;" data-step="1"
+                        data-intro="This is a navigation menu, with your class or department">
+                        <div class="col-md-2" onclick="showNav()">
+                            <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40" /></div>
+                            <div class="menu-text">MENU</div>
+                        </div>
+
+                        <div class="col-md-7 offset-2">
+                            <select class="form-control text-muted user-class" id="class-options">
+
+                            </select>
+                        </div>
+                    </div>
+
+                </span>
+                <div id="menu-list">
+                    <ul class="menu-group" style="font-size: 15pt !important;">
+                        <a href="./viewAssets.html" target="_self">
+                            <li class="menu-item">view</li>
+                        </a>
+                        <a href="./moveAssets.html" target="_self">
+                            <li class="menu-item">movement</li>
+                        </a>
+                        <a href="./certificates">
+                            <li class="menu-item active">certificates</li>
+                        </a>
+                        <div class="dropright dropdown" id="drodown-menu">
+                            <li class="menu-item active" data-toggle="dropdown">commissioning</li>
+                            <ul class="dropdown-menu">
+                                <a href="#">
+                                    <li class="menu-item">addition</li>
+                                </a>
+                                <li class="divider"></li>
+                                <a href="./removal.html" target="_self">
+                                    <li class="menu-item">removal</li>
+                                </a>
+                            </ul>
+                        </div>
+                        <a href="./linkAssets.html">
+                            <li class="menu-item">asset link</li>
+                        </a>
+
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
+                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span
+                                class="text-muted">CERTIFICATES</span></em>
+                    </span>
+                </div>
+            </div>
+            <div class=" col-md-3">
+                <div class="row">
+                    <div class="col-md-4 offset-6">
+                        <div id="username">Username</div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;"
+                            onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
+                            <span style="color:white" class="fa fa-power-off"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- end navigation  -->
+
+        <div class="row" style="margin-top: 57px;">
+            <div class="col-md-12" style="height:80vh;padding-right:40px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-3 text-center" style="font-size:15pt;font-weight: bolder">
+                                <br />
+                            </div>
+                            <div class="col-md-9">
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <table class="table" id="searchCertficate">
+                                    <tr>
+                                        <th>
+                                            Search
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="building_certificates_filter"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    BUILDING
+                                                </button>
+
+
+                                                <div class="dropdown-menu"
+                                                    aria-labelledby="building_certificates_filter"
+                                                    id="scroll_certificates_building">
+                                                    <form class="px-4 py-2">
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_certificates_building"
+                                                                class="form-control" placeholder="Building"
+                                                                onkeyup="onSearch('search_certificates_building','#empty_certificates_building')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_certificates_building"
+                                                                    onclick="clearData('#search_certificates_building','#building_certificates_filter','BUILDING')"><i
+                                                                        class="fa fa-close"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_certificates_building">
+                                                        <div id="building_loader" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_certificates_building" class="dropdown-header">No
+                                                        building found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="level_certificates_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    LEVEL
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="level_certificates_filter"
+                                                    id="scroll_certificates_level">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_certificates_level"
+                                                                class="form-control" placeholder="Level"
+                                                                onkeyup="onSearch('search_certificates_level','#empty_certificates_level')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_certificates_level"
+                                                                    onclick="clearData('#search_certificates_level','#level_certificates_filter','LEVEL')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_certificates_level">
+                                                        <div id="Roomload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_certificates_level" class="dropdown-header">No level
+                                                        found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="area_certificates_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    AREA
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll"
+                                                    id="scroll_certificates_area"
+                                                    aria-labelledby="area_certificates_filter">
+                                                    <form class="px-4 py-2">
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_certificates_area"
+                                                                class="form-control" placeholder="Area"
+                                                                onkeyup="onSearch('search_certificates_area','#empty_certificates_area')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_certificates_area"
+                                                                    onclick="clearData('#search_certificates_area','#area_certificates_filter','AREA')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="meun_certificates_area" onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_certificates_area" class="dropdown-header">No area
+                                                        found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="room_certificates_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ROOM
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll"
+                                                    id="scroll_certificates_room"
+                                                    aria-labelledby="room_certificates_filter">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_certificates_room"
+                                                                class="form-control" placeholder="Room"
+                                                                onkeyup="onSearch('search_certificates_room','#empty_certificates_room')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_certificates_room"
+                                                                    onclick="clearData('#search_certificates_room','#room_certificates_filter','ROOM')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_certificates_room" class="text-center"
+                                                        onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_certificates_room" class="dropdown-header">No room
+                                                        found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th class="filter_sub" style="display: none">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="sublocaction_certificates_filter"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    SUB LOCATION
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll"
+                                                    id="scroll_certificates_sublocaction"
+                                                    aria-labelledby="sublocaction_certificates_filter">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_certificates_sublocaction"
+                                                                class="form-control" placeholder="Sub Location"
+                                                                onkeyup="onSearch('search_certificates_sublocaction','#empty_certificates_sublocaction')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_certificates_sublocaction"
+                                                                    onclick="clearData('#search_certificates_sublocaction','#sublocaction_certificates_filter','SUB LOCATION')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_certificates_sublocaction" class="text-center"
+                                                        onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_certificates_sublocaction" class="dropdown-header">No
+                                                        sublocation found</div>
+                                                </div>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="certNo_certificates_filter"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    CERTIFICATE NUMBER
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll"
+                                                    id="scroll_certificates_certNo"
+                                                    aria-labelledby="certNo_certificates_filter">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_certificates_certNo"
+                                                                class="form-control" placeholder="CERTIFICATE NUMBER"
+                                                                onkeyup="onSearch('search_certificates_certNo','#empty_certificates_certNo')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_certificates_certNo"
+                                                                    onclick="clearData('#search_certificates_certNo','#certNo_certificates_filter','CERTIFICATE NUMBER')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_certificates_certNo" class="text-center"
+                                                        onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_certificates_certNo" class="dropdown-header">No
+                                                        certficate
+                                                        found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <input type="text" id="certificates_description"
+                                                onkeyup="onSearch_new('certificates_description')" class="form-control"
+                                                placeholder="Description...">
+                                        </th>
+                                        <th>
+                                            <button onclick="search()" type="text" class="btn btn-success form-control">
+                                                <span class="fa fa-search"></span>
+                                                Search
+                                            </button>
+                                        </th>
+                                        <th>
+                                            <button onclick="cleaAllFilters()" type="text"
+                                                class="btn btn-danger form-control">
+                                                <span class="fa fa-close"></span>
+                                                Clear
+                                            </button>
+                                        </th>
+                                    </tr>
+                                </table>
+                                <form id="frm-example" method="POST">
+                                    <table class="table" id="currentAssetsTable" style="font-size:13pt">
+                                        <thead style="background:#000000;color:#ffffff;">
+                                            <tr>
+                                                <th scope="col">
+                                                    #
+                                                </th>
+                                                <th scope="col">
+                                                    Certificate Number
+
+                                                </th>
+                                                <th scope="col">
+                                                    Equipment Category
+                                                </th>
+                                                <th scope="col">
+                                                    Transaction Type
+                                                </th>
+                                                <th scope="col">
+                                                    Created At
+                                                </th>
+                                                <th scope="col">
+                                                    Printed Date
+                                                </th>
+                                                <th scope="col">
+                                                   Status
+                                                </th>
+                                                <th scope="col">
+                                                    View
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="current">
+                                            <div id="loader" class="loader">
+                                                <img src="../img/loading-transparent.gif" alt="">
+                                            </div>
+                                            <div id="searchView" class="search_start">
+                                                <p style="margin-top:200px">Please search your asset using the search
+                                                    above
+                                                </p>
+                                                <img width="200" src="../img/loupe.png" alt="Search">
+                                            </div>
+
+                                            <tr>
+
+                                            </tr>
+                                        </tbody>
+
+
+                                    </table>
+                                    <div class="row my-5">
+                                        <div class="col-md-12">
+                                            <button id="commAssets" style="display: none"
+                                                class="btn btn-md btn-info"><span class="fa fa-paste"></span>
+                                                Commission</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/clusterize.min.js"></script>
+    <!-- <script src="../js/bootstrap.js"></script> -->
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/tablefilter.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="../js/export/shim.min.js"></script>
+    <script src="../js/export/xlsx.full.min.js"></script>
+    <script src="../js/export/Blob.js"></script>
+    <script src="../js/export/FileSaver.js"></script>
+    <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
+    <script src="../js/certificates.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
+    <script type="text/javascript"
+        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+
+    <script>
+        const $menu = $('#menu-list');
+
+        $(document).mouseup(e => {
+            if (!$menu.is(e.target) // if the target of the click isn't the container...
+                &&
+                $menu.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                // $menu.removeClass('is-active');
+                $('#menu-list').fadeOut(500);
+            }
+        });
+
+        function showNav() {
+            $('#menu-list').slideToggle('fast');
+        }
+
+        // toggleZoomScreen(window.innerWidth / window.outerWidth);
+
+        // function toggleZoomScreen(value) {
+        //     document.body.style.zoom = value;
+        // }
+
+        $("#com_item,#com_list").mouseover(function () {
+            $("#com_list").fadeIn();
+        });
+
+        $("#com_item,#com_list").mouseleave(function () {
+            $("#com_list").fadeOut();
+        });
+
+        // $("ul#com_item.dropdown-time>li.menu-item").click(function() {
+        //     $("#com_list").slideToggle(2000);
+        // });
+
+
+        // tables
+
+
+        /*------   Zoom handler -----*/
+    </script>
+</body>
+
+</html>

@@ -626,6 +626,7 @@ div#inAssetsTable_length {
 .active {
     background: #343b40;
     color: white;
+    margin-bottom: 10px;
 }
 
 #username {
@@ -652,4 +653,8 @@ div#inAssetsTable_length {
     position: absolute;
     margin-left: -144px;
     margin-top: 29px;
+}
+
+.swal2-container{
+    z-index: 99999 !important;
 }
