@@ -102,6 +102,9 @@ $(document).ready(function () {
 
             if (index == 4) {
                 var res = validateInputChildren(input_arr);
+                setTimeout(function(){
+
+                },5000);
                 console.log("res");
                 console.log(res);
                 if (res.bool) {
@@ -215,17 +218,60 @@ $(document).ready(function () {
     });
 
     function validateInputChildren(a) {
-        console.log(a[0].value);
+        var response = {
+             "bool": false,
+             "index": 0,
+             "existing_assets":[]
+        };
+
         var foundEmpty = false;
+
 
         for (i = 0; i < a.length; i++) {
             if (isEmpty(a[i].value)) {
                 foundEmpty = true;
+                response.index = i;
                 break;
             }
+
+
+              
         }
 
-        return { "bool": foundEmpty, "index": i };
+        var asset_check = "";
+        for (var i = 0; i < a.length; i++) {
+            if (i == a.length - 1) {
+                asset_check += "\'" + a[i].value + "\'";
+            } else {
+                asset_check += "\'" + a[i].value+ "\',";
+            }
+
+        }
+
+        console.log(asset_check);
+
+        $.ajax({
+            url: "../../ams_apis//slimTest/index.php/check_assets",
+            method: "POST",
+            dataType: "JSON",
+            data: '{"assets": "'+asset_check+'"}',
+            success: function (data) {
+                console.log(data);
+                response.existing_assets = data.data
+            },
+            error: function (err) {
+                console.log(err);
+                // console.log("error");
+            }
+        });
+
+        console.log("response");
+        console.log(response);
+
+        setTimeout(function(){
+            return response;
+        },4000);
+       
     }
 
     function isEmpty(a) {

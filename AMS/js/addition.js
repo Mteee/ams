@@ -69,7 +69,6 @@ function addAsset() {
 
     console.log(json_data);
 
-    alert("hello");
 
    var dataSend = "";
 
@@ -83,7 +82,8 @@ function addAsset() {
             data: '{"v_asset_class": "'+json_data.asset_class+'", "v_assets":"'+json_data.assets+'", "v_asset_model":"'+json_data.model+'", "v_asset_classification" :"'+json_data.classification+'", "v_asset_room_no":"'+json_data.room+'", "v_asset_purchase_dt" :"'+json_data.purchase_date+'", "v_asset_warranty_dt" :"'+json_data.waranty_date+'", "v_asset_vendor_id" :"'+ ""+'", "v_asset_vendor_name" :"'+ ""+'", "v_asset_useful_life":"'+ ""+'", "v_asset_service_dt":"'+json_data.service_date+'", "v_asset_service_due_dt":"'+json_data.service_due_date+'", "v_asset_service_by":"'+json_data.serviced_by+'", "v_asset_cert_ind":"'+ ""+'", "v_asset_cert_no":"'+ json_data.cert+'", "v_asset_added_by":"'+ localStorage.username+'"}',
             success: function (data) {
                 console.log("success");
-               console.log(data);
+                
+
             },
             error: function (err) {
                 console.log(err);
@@ -381,9 +381,9 @@ function search() {
         level = document.getElementById('search_addition_level').value,
         area = document.getElementById('search_addition_area').value,
         room_no = document.getElementById('search_addition_room').value;
-    description = document.getElementById('addition_description').value;
-    sub_location = document.getElementById('search_addition_sublocaction').value;
-    asset_no = document.getElementById('search_addition_assetNo').value;
+        description = document.getElementById('addition_description').value;
+        sub_location = document.getElementById('search_addition_sublocaction').value;
+        asset_no = document.getElementById('search_addition_assetNo').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location + " - " + asset_no);
     var current = "";
