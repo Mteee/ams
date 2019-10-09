@@ -2464,6 +2464,68 @@ $app->map(['GET','POST'],'/getAll_Assets_with_Cert_no',function(Request $request
     }
 
 });
+$app->map(['GET','POST'],'/generate_certificate_number',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    // $cert_no = strtoupper($data->cert);
+
+    $sql = "SELECT ASSET_CERT_NO
+    FROM AMSD.ASSETS
+    WHERE ASSET_CERT_NO <> ' '
+    AND ASSET_STATUS = '1'
+    GROUP BY ASSET_CERT_NO
+    ORDER BY ASSET_CERT_NO DESC";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+
+        $assets_no;
+        $new_cert = json_decode($assets_no);
+
+        $new_cert = $new_cert->data[0]->ASSET_CERT_NO;
+        $str_arr = explode("/", $new_cert);  
+
+        $cert_int = (int)$str_arr[1];
+        // echo $str_arr[1]." b4 -----------";
+        $cert_int++;
+        $len = strlen((string)$cert_int);
+        $zeros = "";
+        if($len < 5){
+
+            for($i = $len;$i<5;$i++){
+                $zeros .="0";
+            }
+
+            $cert_int = $zeros.$cert_int;
+        }
+
+        $cert_int = date("Y").'/'.$cert_int;
+    
+        echo json_encode(array("rows" => 0 ,"certificate_number" =>$cert_int));
+    }
+});
+
+$app->map(['GET','POST'],'/check_assets',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $assets = strtoupper($data->assets);
+
+    $sql = "SELECT ASSET_ID
+    FROM AMSD.ASSETS
+    WHERE ASSET_ID IN ($assets)";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+
+        echo $assets_no;
+    }else{
+        echo json_encode(array("rows" => 0 ,"data" =>"none"));
+    }
+});
+
+
 
 $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response $response){
     global $func;
@@ -2679,6 +2741,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
         $v_asset_vendor_name = strtoupper($data->v_asset_vendor_name);
         $v_asset_useful_life = strtoupper($data->v_asset_useful_life);
         $v_asset_service_dt = strtoupper($data->v_asset_service_dt);
+        $v_asset_service_due_dt = strtoupper($data->v_asset_service_due_dt);
         $v_asset_service_by = strtoupper($data->v_asset_service_by);
         $v_asset_cert_ind = strtoupper($data->v_asset_cert_ind);
         $v_asset_cert_no = strtoupper($data->v_asset_cert_no);
@@ -2688,7 +2751,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN amsd.asset_create(:v_asset_class,:v_assets,:v_asset_model,:v_asset_classification,:v_asset_room_no,:v_asset_purchase_dt,:v_asset_warranty_dt,:v_asset_vendor_id,:v_asset_vendor_name,:v_asset_useful_life,:v_asset_service_dt,:v_asset_service_by,:v_asset_cert_ind,:v_asset_cert_no,:v_asset_added_by,:v_out); END;";               
+        $sql = "BEGIN amsd.asset_create(:v_asset_class,:v_assets,:v_asset_model,:v_asset_classification,:v_asset_room_no,:v_asset_purchase_dt,:v_asset_warranty_dt,:v_asset_vendor_id,:v_asset_vendor_name,:v_asset_useful_life,:v_asset_service_dt,:v_asset_service_due_dt,:v_asset_service_by,:v_asset_cert_ind,:v_asset_cert_no,:v_asset_added_by,:v_out); END;";               
 
 
         $statement = oci_parse($connect,$sql);
@@ -2704,21 +2767,22 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
         oci_bind_by_name($statement, ':v_asset_vendor_name', $v_asset_vendor_name, 50);
         oci_bind_by_name($statement, ':v_asset_useful_life', $v_asset_useful_life, 50);
         oci_bind_by_name($statement, ':v_asset_service_dt', $v_asset_service_dt, 50);
+        oci_bind_by_name($statement, ':v_asset_service_due_dt', $v_asset_service_due_dt, 50);
         oci_bind_by_name($statement, ':v_asset_service_by', $v_asset_service_by, 50);
         oci_bind_by_name($statement, ':v_asset_cert_ind', $v_asset_cert_ind, 50);
         oci_bind_by_name($statement, ':v_asset_cert_no', $v_asset_cert_no, 50);
         oci_bind_by_name($statement, ':v_asset_added_by', $v_asset_added_by, 50);
-        oci_bind_by_name($statement, ':v_out', $add_assets, 2);
+        oci_bind_by_name($statement, ':v_out', $add_assets, 4000);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
 
         oci_commit($connect);
 
-        if($add_assets == "y"){
-            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS ADDED WAS SUCCESSFUL"));
+        if($add_assets == 'y'){
+            echo json_encode(array("rows" => 0 ,"data" => "ASSETS ADDED SUCCESSFULLY"));
         }
         else{
-            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS WAS NOT SUCCESSFUL"));
+            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS FAILED TO ADD"));
         }
 
     }catch (Exception $pdoex) {
@@ -2726,6 +2790,358 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
     }
     
 
+});
+
+
+/**
+ * 
+ * 
+ * 
+ * 
+ */
+
+ 
+$app->map(['GET','POST'],'/building_cert', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $cert_no = strtoupper($data->cert_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    $sql = "SELECT 
+                a.ASSET_BUILDING
+            FROM 
+                AMSD.ASSETS_VW a, AMSD.ASSETS_CERTIFICATE b
+            WHERE a.ASSET_ID = b.ASSET_ID
+            AND b.ASSET_CERTIFICATE_NO = a.ASSET_CERT_NO
+            AND a.ASSET_CLASS LIKE '%$asset_class%'
+            AND a.ASSET_BUILDING LIKE '%$building%'
+            AND a.ASSET_LEVEL LIKE '%$level%'
+            AND a.ASSET_AREA_NAME LIKE '%$area%'
+            AND a.ASSET_ROOM_NO LIKE '%$room_no%'
+            AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND a.ASSET_CERT_NO LIKE '%$cert_no%'
+            ORDER BY a.ASSET_BUILDING
+            GROUP BY a.ASSET_BUILDING";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_BUILDING;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+$app->map(['GET','POST'],'/level_cert', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $cert_no = strtoupper($data->cert_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    $sql = "SELECT 
+                a.ASSET_LEVEL
+            FROM 
+                AMSD.ASSETS_VW a, AMSD.ASSETS_CERTIFICATE b
+            WHERE a.ASSET_ID = b.ASSET_ID
+            AND b.ASSET_CERTIFICATE_NO = a.ASSET_CERT_NO
+            AND a.ASSET_CLASS LIKE '%$asset_class%'
+            AND a.ASSET_BUILDING LIKE '%$building%'
+            AND a.ASSET_LEVEL LIKE '%$level%'
+            AND a.ASSET_AREA_NAME LIKE '%$area%'
+            AND a.ASSET_ROOM_NO LIKE '%$room_no%'
+            AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND a.ASSET_CERT_NO LIKE '%$cert_no%'
+            GROUP BY a.ASSET_LEVEL
+            ORDER BY a.ASSET_LEVEL";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_LEVEL;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+$app->map(['GET','POST'],'/area_cert', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $cert_no = strtoupper($data->cert_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    $sql = "SELECT 
+                a.ASSET_AREA_NAME
+            FROM 
+                AMSD.ASSETS_VW a, AMSD.ASSETS_CERTIFICATE b
+            WHERE a.ASSET_ID = b.ASSET_ID
+            AND b.ASSET_CERTIFICATE_NO = a.ASSET_CERT_NO
+            AND a.ASSET_CLASS LIKE '%$asset_class%'
+            AND a.ASSET_BUILDING LIKE '%$building%'
+            AND a.ASSET_LEVEL LIKE '%$level%'
+            AND a.ASSET_AREA_NAME LIKE '%$area%'
+            AND a.ASSET_ROOM_NO LIKE '%$room_no%'
+            AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND a.ASSET_CERT_NO LIKE '%$cert_no%'
+            GROUP BY a.ASSET_AREA_NAME
+            ORDER BY a.ASSET_AREA_NAME";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_AREA_NAME;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+$app->map(['GET','POST'],'/room_no_cert', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $cert_no = strtoupper($data->cert_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    $sql = "SELECT 
+                a.ASSET_ROOM_NO
+            FROM 
+                AMSD.ASSETS_VW a, AMSD.ASSETS_CERTIFICATE b
+            WHERE a.ASSET_ID = b.ASSET_ID
+            AND b.ASSET_CERTIFICATE_NO = a.ASSET_CERT_NO
+            AND a.ASSET_CLASS LIKE '%$asset_class%'
+            AND a.ASSET_BUILDING LIKE '%$building%'
+            AND a.ASSET_LEVEL LIKE '%$level%'
+            AND a.ASSET_AREA_NAME LIKE '%$area%'
+            AND a.ASSET_ROOM_NO LIKE '%$room_no%'
+            AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND a.ASSET_CERT_NO LIKE '%$cert_no%'
+            GROUP BY a.ASSET_ROOM_NO
+            ORDER BY a.ASSET_ROOM_NO";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_ROOM_NO;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+$app->map(['GET','POST'],'/sub_location_cert', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $cert_no = strtoupper($data->cert_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    $sql = "SELECT 
+                a.ASSET_SUB_LOCATION
+            FROM 
+                AMSD.ASSETS_VW a, AMSD.ASSETS_CERTIFICATE b
+            WHERE a.ASSET_ID = b.ASSET_ID
+            AND b.ASSET_CERTIFICATE_NO = a.ASSET_CERT_NO
+            AND a.ASSET_CLASS LIKE '%$asset_class%'
+            AND a.ASSET_BUILDING LIKE '%$building%'
+            AND a.ASSET_LEVEL LIKE '%$level%'
+            AND a.ASSET_AREA_NAME LIKE '%$area%'
+            AND a.ASSET_ROOM_NO LIKE '%$room_no%'
+            AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND a.ASSET_CERT_NO LIKE '%$cert_no%'
+            GROUP BY a.ASSET_SUB_LOCATION
+            ORDER BY a.ASSET_SUB_LOCATION";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_SUB_LOCATION;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+$app->map(['GET','POST'],'/cert_no_cert', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $cert_no = strtoupper($data->cert_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    $sql = "SELECT 
+                a.ASSET_CERT_NO
+            FROM 
+                AMSD.ASSETS_VW a, AMSD.ASSETS_CERTIFICATE b
+            WHERE a.ASSET_ID = b.ASSET_ID
+            AND b.ASSET_CERTIFICATE_NO = a.ASSET_CERT_NO
+            AND a.ASSET_CLASS LIKE '%$asset_class%'
+            AND a.ASSET_BUILDING LIKE '%$building%'
+            AND a.ASSET_LEVEL LIKE '%$level%'
+            AND a.ASSET_AREA_NAME LIKE '%$area%'
+            AND a.ASSET_ROOM_NO LIKE '%$room_no%'
+            AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND a.ASSET_CERT_NO LIKE '%$cert_no%'
+            GROUP BY a.ASSET_CERT_NO
+            ORDER BY a.ASSET_CERT_NO";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_CERT_NO;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+$app->map(['GET','POST'],'/getCerts', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $cert_no = strtoupper($data->cert_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    $sql = "SELECT 
+                a.ASSET_CERT_NO,a.ASSET_CLASS,b.ASSET_CERTIFICATE_TYPE,b.ASSET_CERTIFICATE_CREATION_DATE,b.ASSET_CERTIFICATE_PRINT_DATE,b.ASSET_CERTIFICATE_STATUS
+            FROM 
+                AMSD.ASSETS_VW a, AMSD.ASSETS_CERTIFICATE b
+            WHERE a.ASSET_ID = b.ASSET_ID
+            AND b.ASSET_CERTIFICATE_NO = a.ASSET_CERT_NO
+            AND a.ASSET_CLASS LIKE '%$asset_class%'
+            AND a.ASSET_BUILDING LIKE '%$building%'
+            AND a.ASSET_LEVEL LIKE '%$level%'
+            AND a.ASSET_AREA_NAME LIKE '%$area%'
+            AND a.ASSET_ROOM_NO LIKE '%$room_no%'
+            AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND a.ASSET_CERT_NO LIKE '%$cert_no%'";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        echo $assets_no;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
 });
 
 $app->run();

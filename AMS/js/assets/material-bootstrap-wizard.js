@@ -102,6 +102,9 @@ $(document).ready(function () {
 
             if (index == 4) {
                 var res = validateInputChildren(input_arr);
+                setTimeout(function(){
+
+                },5000);
                 console.log("res");
                 console.log(res);
                 if (res.bool) {
@@ -112,30 +115,36 @@ $(document).ready(function () {
 
             }
             else if (index == 1) {
-                var res = validateInputChildren(input_room_no);
-                console.log("res");
-                console.log(res);
-                if (res.bool) {
+                // var res = validateInputChildren(input_room_no);
+                // console.log("res");
+                console.log(index);
+                if (($('#room_new_filter').text()).indexOf("ROOM") > -1 ){
                     // input_arr[res.index].focus();
                     // $("#text-error").text("Please choose room");
-                    $('#text-error').addClass( "text-danger" );
+                    // $('#text-error').addClass( "text-danger" );
+                    $( "#room_new_filter" ).removeClass( "btn-outline-info" ).addClass( "btn-outline-danger" );
+                    return false;
+                }
+                var selectedValue = parseInt($('#asset_class').children("option:selected").val());
+                if(selectedValue < 2){
                     $( "#room_new_filter" ).removeClass( "btn-outline-info" ).addClass( "btn-outline-danger" );
                     return false;
                 }
             }
-            else if (index == 2) {
-                var res = validateInputChildren(input_date_fields);
-                console.log("res");
-                console.log(res);
-                if (res.bool) {
-                    // input_arr[res.index].focus();
-                    // $("#text-error").text("Please choose room");
-                    $('#text-error').addClass( "text-danger" );
-                    $( "#date_group_1" ).removeClass( "border-secondary" ).addClass( "border-danger" );
-                    $( "#date_group_2" ).removeClass( "border-secondary" ).addClass( "border-danger" );
-                    return false;
-                }
-            }
+           
+            // else if (index == 2) {
+            //     var res = validateInputChildren(input_date_fields);
+            //     console.log("res");
+            //     console.log(res);
+            //     if (res.bool) {
+            //         // input_arr[res.index].focus();
+            //         // $("#text-error").text("Please choose room");
+            //         $('#text-error').addClass( "text-danger" );
+            //         $( "#date_group_1" ).removeClass( "border-secondary" ).addClass( "border-danger" );
+            //         $( "#date_group_2" ).removeClass( "border-secondary" ).addClass( "border-danger" );
+            //         return false;
+            //     }
+            // }
             else {
                 if (!$valid) {
                     $validator.focusInvalid();
@@ -209,17 +218,60 @@ $(document).ready(function () {
     });
 
     function validateInputChildren(a) {
-        console.log(a[0].value);
+        var response = {
+             "bool": false,
+             "index": 0,
+             "existing_assets":[]
+        };
+
         var foundEmpty = false;
+
 
         for (i = 0; i < a.length; i++) {
             if (isEmpty(a[i].value)) {
                 foundEmpty = true;
+                response.index = i;
                 break;
             }
+
+
+              
         }
 
-        return { "bool": foundEmpty, "index": i };
+        var asset_check = "";
+        for (var i = 0; i < a.length; i++) {
+            if (i == a.length - 1) {
+                asset_check += "\'" + a[i].value + "\'";
+            } else {
+                asset_check += "\'" + a[i].value+ "\',";
+            }
+
+        }
+
+        console.log(asset_check);
+
+        $.ajax({
+            url: "../../ams_apis//slimTest/index.php/check_assets",
+            method: "POST",
+            dataType: "JSON",
+            data: '{"assets": "'+asset_check+'"}',
+            success: function (data) {
+                console.log(data);
+                response.existing_assets = data.data
+            },
+            error: function (err) {
+                console.log(err);
+                // console.log("error");
+            }
+        });
+
+        console.log("response");
+        console.log(response);
+
+        setTimeout(function(){
+            return response;
+        },4000);
+       
     }
 
     function isEmpty(a) {

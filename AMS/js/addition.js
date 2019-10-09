@@ -62,33 +62,38 @@ function addAsset() {
     //certificate if yes
     //....Code
 
-
+    setTimeout(function(){
     for (i = 0; i < key.length; i++) {
         json_data[key[i]] = values[i];
     }
 
     console.log(json_data);
 
-    alert("hello");
 
-   var dataSend = 
+   var dataSend = "";
 
+    console.log('{"v_asset_class": "'+json_data.asset_class+'", "v_assets":"'+json_data.assets+'", "v_asset_model":"'+json_data.model+'", "v_asset_classification" :"'+json_data.classification+'", "v_asset_room_no":"'+json_data.room+'", "v_asset_purchase_dt" :"'+json_data.purchase_date+'", "v_asset_warranty_dt" :"'+json_data.waranty_date+'", "v_asset_vendor_id" :"'+ ""+'", "v_asset_vendor_name" :"'+ ""+'", "v_asset_useful_life":"'+ ""+'", "v_asset_service_dt":"'+json_data.service_date+'", "v_asset_service_due_dt":"'+json_data.service_due_date+'", "v_asset_service_by":"'+json_data.serviced_by+'", "v_asset_cert_ind":"'+ ""+'", "v_asset_cert_no":"'+ json_data.cert+'", "v_asset_added_by":"'+ localStorage.username+'"}');
+    
+    
+        $.ajax({
+            url: "../../ams_apis//slimTest/index.php/add_assets",
+            method: "POST",
+            dataType: "JSON",
+            data: '{"v_asset_class": "'+json_data.asset_class+'", "v_assets":"'+json_data.assets+'", "v_asset_model":"'+json_data.model+'", "v_asset_classification" :"'+json_data.classification+'", "v_asset_room_no":"'+json_data.room+'", "v_asset_purchase_dt" :"'+json_data.purchase_date+'", "v_asset_warranty_dt" :"'+json_data.waranty_date+'", "v_asset_vendor_id" :"'+ ""+'", "v_asset_vendor_name" :"'+ ""+'", "v_asset_useful_life":"'+ ""+'", "v_asset_service_dt":"'+json_data.service_date+'", "v_asset_service_due_dt":"'+json_data.service_due_date+'", "v_asset_service_by":"'+json_data.serviced_by+'", "v_asset_cert_ind":"'+ ""+'", "v_asset_cert_no":"'+ json_data.cert+'", "v_asset_added_by":"'+ localStorage.username+'"}',
+            success: function (data) {
+                console.log("success");
+                
 
-    $.ajax({
-        url: "../../ams_apis//slimTest/index.php/add_assets",
-        method: "POST",
-        dataType: "JSON",
-        data: '{"v_asset_class": "'+json_data.asset_class+'", "v_assets":"'+json_data.assets+'", "v_asset_model":"'+json_data.model+'", "v_asset_classification" :"'+json_data.classification+'", "v_asset_room_no":"'+json_data.room+'", "v_asset_purchase_dt" :"'+json_data.purchase_date+'", "v_asset_warranty_dt" :"'+json_data.waranty_date+'", "v_asset_vendor_id" :"'+ ""+'", "v_asset_vendor_name" :"'+ ""+'", "v_asset_useful_life":"'+ ""+'", "v_asset_service_dt":"'+json_data.service_due_date+'", "v_asset_service_by":"'+json_data.serviced_by+'", "v_asset_cert_ind":"'+ ""+'", "v_asset_cert_no":"'+ json_data.cert+'", "v_asset_added_by":"'+ localStorage.username+'"}',
-        success: function (data) {
-            console.log("success");
-           console.log(data);
-        },
-        error: function (err) {
-            console.log(err);
-            // console.log("error");
-
-        }
-    });
+            },
+            error: function (err) {
+                console.log(err);
+                // console.log("error");
+    
+            }
+        });
+    },5000);
+    
+  
 
 }
 
@@ -120,8 +125,6 @@ function viewAsset(assetId) {
     });
 }
 
-
-
 function getValues() {
     var inputValues = [];
 
@@ -130,16 +133,15 @@ function getValues() {
     //basic (2 inputs && 1 select)
     var selects = $("#basic select").find("option:selected").text();
     var input_classification = $("#classification_wizard").val();
-    var input_serviced_by = $("#serviced_by").val();
     var input_room = $("#room_new_filter").text();
-    var basic = ["room", "classification"];
 
     //date (2 dates)
     var input_date = $("#date input[type='date']");
     var dates = ["purchase_date", "waranty_date"];
 
     //service (2 dates & 1 input)
-    var input_service = $("#service input");
+    var input_service = $("#service input[type='date']");
+    var input_service_by = $("#service input[type='text']");
     var service = ["service_date", "service_due_date", "serviced_by"];
 
     //serial (2+ inputs)
@@ -157,16 +159,31 @@ function getValues() {
     inputValues.push(selects);
     inputValues.push(input_room);
     inputValues.push(input_classification);
-    inputValues.push(input_serviced_by);
     // extractValues_inElements(input_basic, inputValues, "");
     extractValues_inElements(input_date, inputValues, "date");
     extractValues_inElements(input_service, inputValues, "date");
+    inputValues.push(input_service_by[0].value);
     extractValues_inElements(input_serial, inputValues, "serial");
     inputValues.push(input_model[0].value);
 
     if (input_radio_checked[0].value == "YES") {
         //get certNumber using apis
-        inputValues.push("12345");
+        // inputValues.push("12345");
+
+        $.ajax({
+            url: "../../ams_apis/slimTest/index.php/generate_certificate_number",
+            method: "post",
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                inputValues.push(data.certificate_number);
+            },
+            error: function (err) {
+                console.log(err);
+                inputValues.push("");
+
+            }
+        });
     } else {
         inputValues.push("");
     }
@@ -201,9 +218,9 @@ function extractValues_inElements(a, arr, key) {
             console.log(a.length + " " + i);
             if (i == a.length - 2) {
 
-                stringValue += a[i].value + "^" + a[++i].value
+                stringValue += a[i].value + "|" + a[++i].value
             } else {
-                stringValue += a[i].value + "^" + a[++i].value + "|"
+                stringValue += a[i].value + "|" + a[++i].value + "^"
             }
 
         }
@@ -364,9 +381,9 @@ function search() {
         level = document.getElementById('search_addition_level').value,
         area = document.getElementById('search_addition_area').value,
         room_no = document.getElementById('search_addition_room').value;
-    description = document.getElementById('addition_description').value;
-    sub_location = document.getElementById('search_addition_sublocaction').value;
-    asset_no = document.getElementById('search_addition_assetNo').value;
+        description = document.getElementById('addition_description').value;
+        sub_location = document.getElementById('search_addition_sublocaction').value;
+        asset_no = document.getElementById('search_addition_assetNo').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location + " - " + asset_no);
     var current = "";
