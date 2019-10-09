@@ -58,9 +58,7 @@ function addAsset() {
     ]
 
     var values = (getValues());
-    setTimeout(function(){
-        
-    },3000);
+
 
     //certificate if yes
     //....Code
@@ -86,7 +84,9 @@ function addAsset() {
             success: function (data) {
                 console.log("success");
                 console.log(data);
-                document.getElementById("add_asset_form").reset()
+                document.getElementById("add_asset_form").reset();
+                document.getElementById('overlay-newAssetView').style.display = "none";
+
 
             },
             error: function (err) {
@@ -988,7 +988,7 @@ $('#menu_addition_assetNo').on('click', '.dropdown-item', function () {
 // newly added room
 $('#menu_new_room').on('click', '.dropdown-item', function () {
     $('#room_new_filter').text($(this)[0].value);
-    localStorage.asset_no = $(this)[0].value;
+    localStorage.room_no = $(this)[0].value;
     $( "#room_new_filter" ).removeClass( "btn-outline-danger" ).addClass( "btn-outline-info" );
     populate_dropdown();
     $("#room_new_filter").dropdown('toggle');
@@ -997,7 +997,7 @@ $('#menu_new_room').on('click', '.dropdown-item', function () {
 
 if (localStorage.filter == "ALL EQUIPMENT") {
 
-    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+    // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
     $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
