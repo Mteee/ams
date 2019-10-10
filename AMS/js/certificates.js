@@ -262,7 +262,7 @@ function search() {
                             str += '["' + data.data[k].ASSET_CERT_NO + '","';
                             str += data.data[k].ASSET_CERT_NO + '","';
                             str += data.data[k].ASSET_CLASS + '","';
-                            str += data.data[k].ASSET_CERTIFICATE_TYPE + '","';
+                            str += checkType(data.data[k].ASSET_CERTIFICATE_TYPE) + '","';
                             str += data.data[k].ASSET_CERTIFICATE_CREATION_DATE + '","';
                             str += isSpecified(data.data[k].ASSET_CERTIFICATE_PRINT_DATE) + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_CERTIFICATE_STATUS) + '"]';
@@ -272,7 +272,7 @@ function search() {
                             str += data.data[k].ASSET_CERT_NO + '","';
 
                             str += data.data[k].ASSET_CLASS + '","';
-                            str += data.data[k].ASSET_CERTIFICATE_TYPE + '","';
+                            str += checkType(data.data[k].ASSET_CERTIFICATE_TYPE) + '","';
                             str += data.data[k].ASSET_CERTIFICATE_CREATION_DATE + '","';
                             str += isSpecified(data.data[k].ASSET_CERTIFICATE_PRINT_DATE) + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_CERTIFICATE_STATUS) + '"],';
@@ -328,7 +328,7 @@ function search() {
 
                         // asset_link.al_no = dataInfo[0];
                     } else {
-                         $('#printCert').fadeOut(500);
+                        $('#printCert').fadeOut(500);
 
 
                         // $('#printCert').slideToggle('fast');
@@ -376,6 +376,25 @@ function resetBtn(resetId, resetTxt) {
     $(resetId).text(resetTxt);
 }
 
+function checkType(val) {
+    var return_type = "";
+    switch (val) {
+        case "COMM":
+            return_type = "<p class='text-success'><strong>ADDITION</strong></p>"
+            break;
+        case " - 1":
+            return_type = "<p class='text-info'><strong>UNASSIGNED</strong></p>"
+            break;
+        case "DISPOSED - 0":
+            return_type = "<p class='text-danger'><strong>REMOVAL/SCRAP</strong></p>"
+            break;
+        case "":
+            break;
+    }
+
+    return return_type;
+}
+
 function clearAllFilters() {
 
     clearLocalStorageFilters();
@@ -394,6 +413,45 @@ function clearAllFilters() {
     $('#certificates_description').val("");
 
 }
+
+function closeApp(){
+    swal.fire({
+        title: "Exit Application",
+        text: "Are you sure you want to exit?",
+        type: "question",
+        showCloseButton: true,
+        confirmButtonColor: "#C12E2A",
+        allowOutsideClick: true,
+        animation: false,
+        customClass: {
+            popup: 'animated tada'
+        }
+
+    }).then(function (result) {
+        if (result.value) {
+            closeMe();
+        } else if (
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+
+        }
+    })
+}
+
+function closeMe() {
+    // reset 
+    localStorage.building = '';
+    localStorage.area = '';
+    localStorage.level = '';
+    localStorage.room_no = '';
+    localStorage.sub_location = '';
+
+    open("../index.html", '_self')
+    window.location.replace("../index.html");
+    window.close();
+}
+
+
 
 function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);

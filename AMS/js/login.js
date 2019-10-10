@@ -1,18 +1,39 @@
-    var timeout = 1000;
-    var count = 0;
-    $('#loginLoader').fadeOut(500);
+var timeout = 1000;
+var count = 0;
+$('#loginLoader').fadeOut(500);
 
-    localStorage.clear();
+var url_string = window.location;
+var arr = (url_string).toString().split("=");
+var c = arr[arr.length - 1];
+localStorage.username = c;
+console.log(c);
 
-    var url_string = window.location;
-    var arr = (url_string).toString().split("=");
-    var c = arr[arr.length - 1];
-    localStorage.username = c;
-    console.log(c);
+function startApp() {
+  
+  if (c.indexOf("http") > -1) {
+    swal.fire({
+      title: "Unauthorized Access",
+      text: "Please Restart Desktop Application to Access System",
+      showCloseButton: true,
+      confirmButtonColor:"#C12E2A",
+      type: "error",
+      allowOutsideClick: true,
+      animation:false,
+      customClass:{
+        popup:"animated tada"
+      }
+    }).then(function (result) {
+      if (result.value) {
 
-    function startApp() {
+      } else if (
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
 
-      $('#loginLoader').slideToggle(500);
+      }
+    })
+  }
+  else {
+    $('#loginLoader').slideToggle(500);
 
     $.ajax({
       url: "../../ams/ams_apis/slimTest/index.php/login",
@@ -42,3 +63,4 @@
 
   }
 
+}
