@@ -501,6 +501,37 @@ $app->map(['GET','POST'],'/room_no',function(Request $request, Response $respons
     }
 
 });
+
+$app->map(['GET','POST'],'/assetCert_print',function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    // $ASSET_CLASS = strtoupper($data->asset_class);
+    $cert_no = strtoupper($data->cert);
+    // $ASSET_NO = strtoupper($data->type);
+
+    // if($ASSET_CLASS == 'ALL EQUIPMENT'){
+    //     $ASSET_CLASS = '';
+    // }
+
+
+    $sql = "SELECT ASSET_MODEL,ASSET_PRIMARY_ID,HD_ASSET_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA_NAME,ASSET_CLASSIFICATION,ASSET_DESCRIPTION,ASSET_PURCHASE_DT,ASSET_IS_SUB,ASSET_DISPOSAL_DT 
+    FROM AMSD.ASSETS_vw
+    WHERE ASSET_CERT_NO = '$cert_no'";
+
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+
+         echo $assets_no;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+
+    }
+
+});
+
 $app->map(['GET','POST'],'/location_area',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));

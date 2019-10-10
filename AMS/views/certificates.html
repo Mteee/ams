@@ -77,17 +77,15 @@
         @media screen {
             body {
                 font-size: 10pt !important;
-                size: landscape !important;
                 margin: 20px 5px 20px 5px !important;
                 font-size: 10pt !important;
             }
         }
         
-        @media screen,
-        print {
+        @media print {
             body {
                 font-size: 10pt !important;
-                size: landscape !important;
+                size: A4 landscape !important;
                 margin: 20px 10px 20px 10px !important;
                 font-size: 10pt !important;
             }
@@ -102,18 +100,19 @@
     </style>
 
     <body>
-        <div id="overlay-printView" style="display: block;">
+        <div id="overlay-printView">
             <div class="asset-details animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
                 <span class="exit-asset" onclick="closeAsset('overlay-printView')">&times;</span>
 
                 <div class="asset-body" style="font-size: 12pt;">
                     <div class="print_scroll" style="overflow-y: scroll;
                     height: 611px;">
-                        <!-- <iframe src="printCertificate.html" width="100%" height="600px" id="iframe" class="iframe_cert"></iframe> -->
-                        <div class="container-fluid comm_cert" style="border:1px solid black;padding:0 20px;" id="nodeToRenderAsPDF">
+                        <div class="comm_cert">
+                            <!-- <iframe src="printCertificate.html" width="100%" height="600px" id="iframe" class="iframe_cert"></iframe> -->
+                            <div class="container-fluid " style="border:1px solid black;padding:0 20px;" id="nodeToRenderAsPDF">
 
-                            <!-- Header Logo  -->
-                            <!-- <div class="row" style="margin-top: 20px;">
+                                <!-- Header Logo  -->
+                                <!-- <div class="row" style="margin-top: 20px;">
                             <div class="col-md-2 text-center">
                                 <img src="../img/certificate/impilo.png" width="100" style="padding:10px" />
                             </div>
@@ -125,167 +124,169 @@
                             </div>
                         </div> -->
 
-                            <table class="table" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <td style="width:33.33%;padding-top: 15px;"> <img src="http://localhost/AMEProjects/ams/AMS/img/certificate/impilo.png" width="100" /></td>
-                                        <td style="width:33.33%" class="text-center">
-                                            <h4 style="font-size: 12pt !important;
+                                <table class="table" style="width:100%">
+                                    <thead>
+                                        <tr>
+                                            <td style="width:33.33%;padding-top: 15px;"> <img src="../img/certificate/impilo.png" width="100" /></td>
+                                            <td style="width:33.33%" class="text-center">
+                                                <h4 style="font-size: 12pt !important;
                                             margin-top: 32px;
                                             margin-left: -23px;">Inkosi Albert Luthuli Central Hospital<br />Impilo Commissioning Certificate
-                                            </h4>
-                                        </td>
-                                        <td style="text-align: end;width:33.33%"> <img src="http://localhost/AMEProjects/ams/AMS/img/certificate/Dept. health.png" width="220" height="100" /></td>
-                                    </tr>
-                                </thead>
-                            </table>
-
-                            <!-- End Header Logo -->
-
-
-                            <!-- Certificate Number Details -->
-                            <div class="row" style="background: black;color: white;padding:10px;">
-                                <div class="col-md-12 text-center">
-                                    <!-- end Transaction Type -->
-                                    <table style="width:100%;text-align: center;">
-                                        <thead>
-                                            <tr style="border:none !important">
-                                                <td>
-                                                    <!-- cert -->
-                                                    <span style="font-weight:bolder;margin-left: 25px;color: white">Certificate Number
-                                                :</span>
-                                                    <span id="cert_no" style="color: white;">2019/000240</span>
-                                                    <!-- end cert -->
-
-                                                    <!-- date -->
-                                                    <span style="font-weight:bolder;margin-left: 20px;color: white">Date :</span>
-                                                    <span id="current_date" style="color: white">2019/08/14 08:30</span>
-                                                    <!-- end date  -->
-
-                                                    <!-- Equipment Category -->
-                                                    <span style="font-weight:bolder;margin-left: 20px;color: white">Equipment Category
-                                                :</span>
-                                                    <span id="equip_cart" style="color: white">Information Technology</span>
-                                                    <!-- end Equipment Category -->
-
-                                                    <!-- Tansaction Type -->
-                                                    <span style="font-weight:bolder;margin-left: 20px;color: white">Transaction Type :</span>
-                                                    <span id="trans_type" style="color: white">Removal</span>
-                                                </td>
-                                            </tr>
-                                        </thead>
-                                    </table>
-                                </div>
-                            </div>
-                            <!-- END Certificate Number Details -->
-
-                            <div class="row text-center">
-
-
-                                <table style="width:100%;text-align: center;">
-                                    <thead>
-                                        <tr class="text-center" style="border:1px solid #ccc;background: rgb(241, 241, 241);">
-                                            <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Project Agreement BoQ Reference
-                                            </th>
-                                            <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Service Provider Invoice Number
-                                            </th>
-                                            <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Reference</th>
-                                        </tr>
-                                        <tr>
-                                            <td style="width:33.33%;padding:5px;border:1px solid #ccc;">IT9002</td>
-                                            <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
-                                            <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
+                                                </h4>
+                                            </td>
+                                            <td style="text-align: end;width:33.33%"> <img src="../img/certificate/Dept. health.png" width="220" height="100" /></td>
                                         </tr>
                                     </thead>
                                 </table>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12" style="padding:0">
-                                    <table class="table table-bordered" style="font-size:10pt;width:100%;">
+
+                                <!-- End Header Logo -->
+
+
+                                <!-- Certificate Number Details -->
+                                <div class="row" class="bg-dark text-light" style="background: #000;color: #fff;padding:10px;">
+                                    <div class="col-md-12 text-center">
+                                        <!-- end Transaction Type -->
+                                        <table style="width:100%;text-align: center;">
+                                            <thead>
+                                                <tr style="border:none !important">
+                                                    <td>
+                                                        <!-- cert -->
+                                                        <span style="font-weight:bolder;margin-left: 25px;color: white">Certificate Number
+                                                :</span>
+                                                        <span id="cert_no" style="color: white;">2019/000240</span>
+                                                        <!-- end cert -->
+
+                                                        <!-- date -->
+                                                        <span style="font-weight:bolder;margin-left: 20px;color: white">Date :</span>
+                                                        <span id="current_date" style="color: white">2019/08/14 08:30</span>
+                                                        <!-- end date  -->
+
+                                                        <!-- Equipment Category -->
+                                                        <span style="font-weight:bolder;margin-left: 20px;color: white">Equipment Category
+                                                :</span>
+                                                        <span id="equip_cart" style="color: white">Information Technology</span>
+                                                        <!-- end Equipment Category -->
+
+                                                        <!-- Tansaction Type -->
+                                                        <span style="font-weight:bolder;margin-left: 20px;color: white">Transaction Type :</span>
+                                                        <span id="trans_type" style="color: white">Removal</span>
+                                                    </td>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                </div>
+                                <!-- END Certificate Number Details -->
+
+                                <div class="row text-center">
+
+
+                                    <table style="width:100%;text-align: center;">
                                         <thead>
-                                            <tr style="background: rgb(241, 241, 241)">
-                                                <th>Model</th>
-                                                <th>Description</th>
-                                                <th>Asset Number</th>
-                                                <th>Primary Asset</th>
-                                                <th>Manufacturer</th>
-                                                <th>Room Number</th>
-                                                <th>Location / Dept</th>
-                                                <th>Purchase Date</th>
-                                                <th>Disposed Date</th>
+                                            <tr class="text-center" style="border:1px solid #ccc;background: rgb(241, 241, 241);">
+                                                <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Project Agreement BoQ Reference
+                                                </th>
+                                                <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Service Provider Invoice Number
+                                                </th>
+                                                <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Reference</th>
+                                            </tr>
+                                            <tr>
+                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;">IT9002</td>
+                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
+                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
                                             </tr>
                                         </thead>
-                                        <tbody id="cert_assets_selected"></tbody>
                                     </table>
                                 </div>
-                            </div>
-
-                            <!-- signatures  -->
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <!-- Service Provier Signature -->
-                                    <div class="row">
-                                        <table style="width:100%;margin:0;padding:0;">
-                                            <tr>
-                                                <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
-                                                    On Behalf of Service Provider :</th>
-                                            </tr>
-                                            <tr class="text-center" style="font-weight:bolder;">
-                                                <td style="width:33.33%;padding:5px;"> Name : _________________________________________
-                                                </td>
-                                                <td style="width:33.33%;padding:5px;"> Title : _________________________________________
-                                                </td>
-                                                <td style="width:33.33%;padding:5px;">Date : _________________________________________
-                                                </td>
-                                            </tr>
+                                <div class="row">
+                                    <div class="col-md-12" style="padding:0">
+                                        <table class="table table-bordered" style="font-size:10pt;width:100%;">
+                                            <thead>
+                                                <tr style="background: rgb(241, 241, 241)">
+                                                    <th>Model</th>
+                                                    <th>Description</th>
+                                                    <th>Asset Number</th>
+                                                    <th>Primary Asset</th>
+                                                    <th>Manufacturer</th>
+                                                    <th>Room Number</th>
+                                                    <th>Location / Dept</th>
+                                                    <th>Purchase Date</th>
+                                                    <th>Disposed Date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="cert_assets_selected"></tbody>
                                         </table>
                                     </div>
-
-                                    <!-- end Service Provier Signature -->
-
-                                    <!-- Inkosi Albert Luthuli Central Hospital -->
-
-                                    <div class="row">
-                                        <table style="width:100%;margin:0;padding:0;">
-                                            <tr>
-                                                <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
-                                                    On Behalf of Inkosi Albert Luthuli Central Hospital:</th>
-                                            </tr>
-                                            <tr class="text-center" style="font-weight:bolder;">
-                                                <td style="width:33.33%;padding:5px;"> Name : _________________________________________
-                                                </td>
-                                                <td style="width:33.33%;padding:5px;"> Title : _________________________________________
-                                                </td>
-                                                <td style="width:33.33%;padding:5px;">Date : _________________________________________
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <!-- end Inkosi Albert Luthuli Central Hospital -->
-
-                                    <!-- Impilo Consortium -->
-                                    <div class="row">
-                                        <table style="width:100%;margin:0;padding:0;">
-                                            <tr>
-                                                <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
-                                                    On Behalf of Impilo Consortium:</th>
-                                            </tr>
-                                            <tr class="text-center" style="font-weight:bolder;">
-                                                <td style="width:33.33%;padding:5px;"> Name : _________________________________________
-                                                </td>
-                                                <td style="width:33.33%;padding:5px;"> Title : _________________________________________
-                                                </td>
-                                                <td style="width:33.33%;padding:5px;">Date : _________________________________________
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <!-- end Impilo Consortium -->
                                 </div>
-                            </div>
 
-                            <!-- End signatures  -->
+                                <!-- signatures  -->
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <!-- Service Provier Signature -->
+                                        <div class="row">
+                                            <table style="width:100%;margin:0;padding:0;">
+                                                <tr>
+                                                    <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                                        On Behalf of Service Provider :</th>
+                                                </tr>
+                                                <tr class="text-center" style="font-weight:bolder;">
+                                                    <td style="width:33.33%;padding:5px;"> Name : _________________________________________
+                                                    </td>
+                                                    <td style="width:33.33%;padding:5px;"> Title : _________________________________________
+                                                    </td>
+                                                    <td style="width:33.33%;padding:5px;">Date : _________________________________________
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                        <!-- end Service Provier Signature -->
+
+                                        <!-- Inkosi Albert Luthuli Central Hospital -->
+
+                                        <div class="row">
+                                            <table style="width:100%;margin:0;padding:0;">
+                                                <tr>
+                                                    <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                                        On Behalf of Inkosi Albert Luthuli Central Hospital:</th>
+                                                </tr>
+                                                <tr class="text-center" style="font-weight:bolder;">
+                                                    <td style="width:33.33%;padding:5px;"> Name : _________________________________________
+                                                    </td>
+                                                    <td style="width:33.33%;padding:5px;"> Title : _________________________________________
+                                                    </td>
+                                                    <td style="width:33.33%;padding:5px;">Date : _________________________________________
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <!-- end Inkosi Albert Luthuli Central Hospital -->
+
+                                        <!-- Impilo Consortium -->
+                                        <div class="row">
+                                            <table style="width:100%;margin:0;padding:0;">
+                                                <tr>
+                                                    <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                                        On Behalf of Impilo Consortium:</th>
+                                                </tr>
+                                                <tr class="text-center" style="font-weight:bolder;">
+                                                    <td style="width:33.33%;padding:5px;"> Name : _________________________________________
+                                                    </td>
+                                                    <td style="width:33.33%;padding:5px;"> Title : _________________________________________
+                                                    </td>
+                                                    <td style="width:33.33%;padding:5px;">Date : _________________________________________
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <!-- end Impilo Consortium -->
+                                    </div>
+                                </div>
+
+                                <!-- End signatures  -->
+
+                            </div>
 
                         </div>
                     </div>
@@ -293,10 +294,10 @@
 
                         <div class="col-md-12" style="text-align: right">
                             <button class="btn btn-danger" onclick="closeAsset('overlay-printView')">Cancel</button>
-                            <button type="submit" class="btn btn-success  export" value="Export" onclick="doit('xlsx','tablePrint');">
+                            <!-- <button type="submit" class="btn btn-success  export" value="Export" onclick="doit('xlsx','tablePrint');">
                         <i class="fa fa-file-excel-o" aria-hidden="true"></i> <span
                             style="padding-left:10px;">Export</span>
-                    </button>
+                    </button> -->
                             <button type="submit" class="btn btn-primary  export" onclick="PDF1()">
                         <i class="fa fa-file" aria-hidden="true"></i> <span style="padding-left:10px;">Print</span>
                     </button>
@@ -684,7 +685,7 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <button id="printCert" style="display: none" class="btn btn-sm btn-info"><span class="fa fa-print"></span>
-                                                Print Certificate</button>
+                                                Print Priview</button>
                                             </div>
                                         </div>
                                     </form>
@@ -723,82 +724,12 @@
         <script>
             function PDF1() {
 
-
-
-                // var pdf = new jsPDF('p', 'pt', 'a4');
-                // var source = window.document.getElementById("nodeToRenderAsPDF");
-                // pdf.addHTML(source, function() {
-                //     pdf.save('web.pdf');
-                // });
-
-                // const filename = 'ThisIsYourPDFFilename.pdf';
-
-                // html2canvas(document.querySelector('#nodeToRenderAsPDF')).then(canvas => {
-                //     let pdf = new jsPDF('p', 'mm', 'a4');
-                //     pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
-                //     pdf.save(filename);
-                // });
-
-
-                // const filename = 'ThisIsYourPDFFilename.pdf';
-
-                // html2canvas(document.querySelector('#nodeToRenderAsPDF')).then(canvas => {
-                //     let pdf = new jsPDF('l', 'mm', 'a4');
-                //     pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
-                //     pdf.save(filename);
-                // });
-                // var margin = {
-                //     top: 0,
-                //     left: 0,
-                //     right: 0,
-                //     bottom: 0
-                // };
-                // var doc = new jsPDF();
-                // var elementHandler = {
-                //     '#ignorePDF': function(element, renderer) {
-                //         return true;
-                //     }
-                // };
-
-
-
-                // $.ajax({
-                //     url: "header.txt",
-                //     method: "POST",
-                //     success: function(data) {
-                //         var source = window.document.getElementById("nodeToRenderAsPDF").innerHTML;
-                //         var htmlContent = data;
-                //         htmlContent += '<div class="container-fluid comm_cert" style="border:1px solid black;" id="nodeToRenderAsPDF">';
-                //         htmlContent += source;
-                //         htmlContent += "</div></div></body></html>";
-
-                //         doc.fromHTML(
-                //             htmlContent,
-                //             0,
-                //             0, {
-                //                 'width': 1900,
-                //                 'elementHandlers': elementHandler
-                //             },
-                //             function(bla) {
-                //                 doc.output("dataurlnewwindow");
-                //             },
-                //             margin);
-
-                //         console.log(htmlContent);
-                //     },
-                //     error: function(error) {
-                //         console.log(error);
-                //     }
-                // });
-
-
-
                 $('.comm_cert').printThis({
                     debug: false, // show the iframe for debugging
                     importCSS: true, // import parent page css
                     importStyle: true, // import style tags
                     printContainer: false, // print outer container/$.selector
-                    loadCSS: "http://localhost/AMEProjects/ams/AMS/css/bootstrap.css", // path to additional css file - use an array [] for multiple
+                    loadCSS: "", // path to additional css file - use an array [] for multiple
                     pageTitle: "Inkosi Albert Luthuli Central Hospital \nImpilo Commissioning Certificate", // add title to print page
                     removeInline: false, // remove inline styles from print elements
                     removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
@@ -817,23 +748,6 @@
                 });
 
             }
-
-            var assets = "";
-            for (var i = 0; i < 20; i++) {
-                assets += "<tr>" +
-                    "<td>H471B</td>" +
-                    "<td>EPSON</td>" +
-                    "<td>RKEF5X</td>" +
-                    "<td>RKEF5X</td>" +
-                    "<td>UNKNOWN</td>" +
-                    "<td>L5-553</td>" +
-                    "<td>Board Room</td>" +
-                    "<td>09.05.2016</td>" +
-                    "<td>14.08.2019</td>" +
-                    "</tr>"
-            }
-
-            document.getElementById("cert_assets_selected").innerHTML = assets;
         </script>
 
         <script>

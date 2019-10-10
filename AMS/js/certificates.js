@@ -371,7 +371,6 @@ function search() {
     }
 }
 
-
 function resetBtn(resetId, resetTxt) {
     $(resetId).text(resetTxt);
 }
@@ -940,7 +939,7 @@ function createTable(tableID, tableData) {
         }
     });
 
-    $('#frm-example').on('submit', function (e) {
+    $('#frm-example').off().on('submit', function (e) {
 
         console.log("click");
         // Prevent actual form submission
@@ -960,8 +959,39 @@ function createTable(tableID, tableData) {
             );
         });
 
-        var rowsSelected = rows_selected.join(",").split(",");
+        // var rowsSelected = rows_selected.join(",").split(",");
 
+        
+
+    $.ajax({
+        url: '../../ams_apis/slimTest/index.php/assetCert_print',
+        method: 'post',
+        data: '{"cert":"'+rows_selected[rows_selected.length-1]+'"}',
+        dataType: "JSON",
+        success: function(data) {
+            var assets = "";
+            console.log(data);
+            for (var i = 0; i < data.rows; i++) {
+                assets += "<tr>" +
+                    "<td>" + data.data[i].ASSET_MODEL + "</td>" +
+                    "<td>" + data.data[i].ASSET_DESCRIPTION + "</td>" +
+                    "<td>" + data.data[i].ASSET_ID + "</td>" +
+                    "<td>" + data.data[i].ASSET_PRIMARY_ID + "</td>" +
+                    "<td>" + data.data[i].ASSET_CLASSIFICATION + "</td>" +
+                    "<td>" + data.data[i].ASSET_ROOM_NO + "</td>" +
+                    "<td>" + data.data[i].HD_ASSET_LOCATION + "</td>" +
+                    "<td>" + data.data[i].ASSET_PURCHASE_DT + "</td>" +
+                    "<td>" + data.data[i].ASSET_DISPOSAL_DT + "</td>" +
+                    "</tr>"
+            }
+
+            document.getElementById('cert_assets_selected').innerHTML = assets;
+            document.getElementById('overlay-printView').style.display = "block";
+        },
+        error: function(error) {
+            console.log(error);
+        }
+    });
         // viewCommAssets(rowsSelected);
         // Remove added elements
         $('input[name="id\[\]"]', form).remove();
