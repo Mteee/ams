@@ -159,7 +159,7 @@
                 baseURL = opt.base;
             } else {
                 // Use the page URL as the base
-                baseURL = document.location.protocol + '//' + document.location.host;
+                baseURL = "";
             }
 
             $head.append('<base href="' + baseURL + '">');
