@@ -14,8 +14,7 @@
     <!-- Add IntroJs styles -->
     <!-- <link href="../css/introjs.css" rel="stylesheet"> -->
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-    <link rel="stylesheet" type="text/css"
-        href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="../css/style.css">
 
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
@@ -28,82 +27,93 @@
         .form-group {
             margin-bottom: 0 !important;
         }
-
+        
         .form-control:disabled,
         .form-control[readonly] {
             background-color: #e9ecef !important;
             opacity: 1;
             border-bottom: 1px dotted rgba(210, 210, 210, 0) !important;
         }
-
+        
         .dropdown-menu {
             max-height: 300px;
             overflow-y: auto;
         }
-
+        
         .input-group {
             flex-wrap: inherit !important;
         }
-
+        
         .ripple-container {
             display: none;
         }
-
+        
         #search_new_room,
         #menu_new_room .dropdown-item {
             background-image: none !important;
         }
-
+        
         #room_new_filter:hover {
             color: slategray;
         }
-
+        
         * {
             font-size: 9pt !important;
         }
-
+        
         #menu-list {
             height: auto !important;
         }
-
+        
         @page {
+            font-size: 10pt;
             size: landscape;
-            margin: 10%;
+            margin: 20px 5px 20px 5px;
             font-size: 10pt;
         }
-
+        
         @media print {
             body {
-                font-size: 10pt
+                font-size: 10pt;
+                size: landscape;
+                margin: 20px 5px 20px 5px;
+                font-size: 10pt;
             }
         }
-
+        
         @media screen {
             body {
-                font-size: 13px
+                font-size: 10pt;
+                size: landscape;
+                margin: 20px 5px 20px 5px;
+                font-size: 10pt;
             }
         }
-
+        
         @media screen,
         print {
             body {
-                line-height: 1.2
+                font-size: 10pt;
+                size: landscape;
+                margin: 20px 5px 20px 5px;
+                font-size: 10pt;
             }
         }
     </style>
 
-<body>
-    <div id="overlay-printView">
-        <div class="asset-details animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
-            <span class="exit-asset" onclick="closeAsset('overlay-printView')">&times;</span>
+    <body>
+        <div id="overlay-printView" style="display: block;">
+            <div class="asset-details animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
+                <span class="exit-asset" onclick="closeAsset('overlay-printView')">&times;</span>
 
-            <div class="asset-body" style="font-size: 12pt;">
-                <div class="print_scroll">
-                    <!-- <iframe src="printCertificate.html" width="100%" height="600px" id="iframe" class="iframe_cert"></iframe> -->
-                    <div class="container-fluid comm_cert" style="border:1px solid black;" id="comm_cert">
+                <div class="asset-body" style="font-size: 12pt;">
+                    <div class="print_scroll" style="overflow-y: scroll;
+                    height: 611px;">
+                        <!-- <iframe src="printCertificate.html" width="100%" height="600px" id="iframe" class="iframe_cert"></iframe> -->
+                        <div class="container-fluid comm_cert" style="border:1px solid black;" id="nodeToRenderAsPDF">
 
-                        <!-- Header Logo  -->
-                        <!-- <div class="row" style="margin-top: 20px;">
+                            <!-- Header Logo  -->
+                            <!-- <div class="row" style="margin-top: 20px;">
                             <div class="col-md-2 text-center">
                                 <img src="../img/certificate/impilo.png" width="100" style="padding:10px" />
                             </div>
@@ -115,261 +125,254 @@
                             </div>
                         </div> -->
 
-                        <table class="table">
-                            <tr>
-                                <td> <img src="../img/certificate/impilo.png" width="100" style="" /></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-center">
-                                    <h4>Inkosi Albert Luthuli Central Hospital<br />Impilo Commissioning Certificate
-                                    </h4>
-                                </td>
-                                <td></td>
-                                <td> <img src="../img/certificate/Dept. health.png" width="220" /></td>
-                            </tr>
-                        </table>
-
-                        <!-- End Header Logo -->
-
-
-                        <!-- Certificate Number Details -->
-                        <div class="row"
-                            style="margin-top: 20px;background: black;color: white;padding:10px;margin-top:-20px;">
-                            <div class="col-md-12 text-center">
-                                <!-- end Transaction Type -->
-                                <table style="width:100%">
+                            <table class="table" style="width:100%">
+                                <thead>
                                     <tr>
-                                        <td>
-                                            <!-- cert -->
-                                            <span style="font-weight:bolder;margin-left: 25px">Certificate Number
-                                                :</span>
-                                            <span id="cert_no">2019/000240</span>
-                                            <!-- end cert -->
-
-                                            <!-- date -->
-                                            <span style="font-weight:bolder;margin-left: 20px">Date :</span>
-                                            <span id="current_date">2019/08/14 08:30</span>
-                                            <!-- end date  -->
-
-                                            <!-- Equipment Category -->
-                                            <span style="font-weight:bolder;margin-left: 20px">Equipment Category
-                                                :</span>
-                                            <span id="equip_cart">Information Technology</span>
-                                            <!-- end Equipment Category -->
-
-                                            <!-- Tansaction Type -->
-                                            <span style="font-weight:bolder;margin-left: 20px">Transaction Type :</span>
-                                            <span id="trans_type">Removal</span>
+                                        <td style="width:33.33%;padding-top: 15px;"> <img src="../img/certificate/impilo.png" width="100" /></td>
+                                        <td style="width:33.33%" class="text-center">
+                                            <h4 style="font-size: 12pt !important;
+                                            margin-top: 22px;
+                                            margin-left: -23px;">Inkosi Albert Luthuli Central Hospital<br />Impilo Commissioning Certificate
+                                            </h4>
                                         </td>
+                                        <td style="text-align: end;width:33.33%"> <img src="../img/certificate/Dept. health.png" width="220" /></td>
                                     </tr>
-                                </table>
-                            </div>
-                        </div>
-                        <!-- END Certificate Number Details -->
-
-                        <div class="row text-center">
-
-
-                            <table style="width:100%;">
-                                <tr class="text-center" style="border:1px solid #ccc;background: rgb(241, 241, 241)">
-                                    <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Project Agreement BoQ
-                                        Reference</th>
-                                    <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Service Provider Invoice
-                                        Number</th>
-                                    <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Reference</th>
-                                </tr>
-                                <tr>
-                                    <td style="width:33.33%;padding:5px;border:1px solid #ccc;">IT9002</td>
-                                    <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
-                                    <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
-                                </tr>
+                                </thead>
                             </table>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-12" style="padding:0">
-                                <table class="table table-bordered" style="font-size:10pt;width:100%;">
+
+                            <!-- End Header Logo -->
+
+
+                            <!-- Certificate Number Details -->
+                            <div class="row" style="background: black;color: white;padding:10px;">
+                                <div class="col-md-12 text-center">
+                                    <!-- end Transaction Type -->
+                                    <table style="width:100%">
+                                        <thead>
+                                            <tr style="border:none !important">
+                                                <td>
+                                                    <!-- cert -->
+                                                    <span style="font-weight:bolder;margin-left: 25px">Certificate Number
+                                                :</span>
+                                                    <span id="cert_no">2019/000240</span>
+                                                    <!-- end cert -->
+
+                                                    <!-- date -->
+                                                    <span style="font-weight:bolder;margin-left: 20px">Date :</span>
+                                                    <span id="current_date">2019/08/14 08:30</span>
+                                                    <!-- end date  -->
+
+                                                    <!-- Equipment Category -->
+                                                    <span style="font-weight:bolder;margin-left: 20px">Equipment Category
+                                                :</span>
+                                                    <span id="equip_cart">Information Technology</span>
+                                                    <!-- end Equipment Category -->
+
+                                                    <!-- Tansaction Type -->
+                                                    <span style="font-weight:bolder;margin-left: 20px">Transaction Type :</span>
+                                                    <span id="trans_type">Removal</span>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- END Certificate Number Details -->
+
+                            <div class="row text-center">
+
+
+                                <table style="width:100%;">
                                     <thead>
-                                        <tr style="background: rgb(241, 241, 241)">
-                                            <th>Model</th>
-                                            <th>Description</th>
-                                            <th>Asset Number</th>
-                                            <th>Primary Asset</th>
-                                            <th>Manufacturer</th>
-                                            <th>Room Number</th>
-                                            <th>Location / Dept</th>
-                                            <th>Purchase Date</th>
-                                            <th>Disposed Date</th>
+                                        <tr class="text-center" style="border:1px solid #ccc;background: rgb(241, 241, 241)">
+                                            <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Project Agreement BoQ Reference
+                                            </th>
+                                            <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Service Provider Invoice Number
+                                            </th>
+                                            <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Reference</th>
+                                        </tr>
+                                        <tr>
+                                            <td style="width:33.33%;padding:5px;border:1px solid #ccc;">IT9002</td>
+                                            <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
+                                            <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
                                         </tr>
                                     </thead>
-                                    <tbody id="cert_assets_selected"></tbody>
                                 </table>
                             </div>
-                        </div>
-
-                        <!-- signatures  -->
-
-                        <div class="row">
-                            <div class="col-md-12">
-                                <!-- Service Provier Signature -->
-                                <div class="row">
-                                    <table style="width:100%;margin:0;padding:0;">
-                                        <tr>
-                                            <th colspan="3"
-                                                style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
-                                                On Behalf of Service Provider :</th>
-                                        </tr>
-                                        <tr class="text-center" style="font-weight:bolder;">
-                                            <td style="width:33.33%;padding:5px;"> Name :
-                                                _________________________________________</td>
-                                            <td style="width:33.33%;padding:5px;"> Title :
-                                                _________________________________________
-                                            </td>
-                                            <td style="width:33.33%;padding:5px;">Date :
-                                                _________________________________________</td>
-                                        </tr>
+                            <div class="row">
+                                <div class="col-md-12" style="padding:0">
+                                    <table class="table table-bordered" style="font-size:10pt;width:100%;">
+                                        <thead>
+                                            <tr style="background: rgb(241, 241, 241)">
+                                                <th>Model</th>
+                                                <th>Description</th>
+                                                <th>Asset Number</th>
+                                                <th>Primary Asset</th>
+                                                <th>Manufacturer</th>
+                                                <th>Room Number</th>
+                                                <th>Location / Dept</th>
+                                                <th>Purchase Date</th>
+                                                <th>Disposed Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="cert_assets_selected"></tbody>
                                     </table>
                                 </div>
-
-                                <!-- end Service Provier Signature -->
-
-                                <!-- Inkosi Albert Luthuli Central Hospital -->
-
-                                <div class="row">
-                                    <table style="width:100%;margin:0;padding:0;">
-                                        <tr>
-                                            <th colspan="3"
-                                                style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
-                                                On Behalf of Inkosi Albert Luthuli Central Hospital:</th>
-                                        </tr>
-                                        <tr class="text-center" style="font-weight:bolder;">
-                                            <td style="width:33.33%;padding:5px;"> Name :
-                                                _________________________________________</td>
-                                            <td style="width:33.33%;padding:5px;"> Title :
-                                                _________________________________________
-                                            </td>
-                                            <td style="width:33.33%;padding:5px;">Date :
-                                                _________________________________________</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <!-- end Inkosi Albert Luthuli Central Hospital -->
-
-                                <!-- Impilo Consortium -->
-                                <div class="row">
-                                    <table style="width:100%;margin:0;padding:0;">
-                                        <tr>
-                                            <th colspan="3"
-                                                style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
-                                                On Behalf of Impilo Consortium:</th>
-                                        </tr>
-                                        <tr class="text-center" style="font-weight:bolder;">
-                                            <td style="width:33.33%;padding:5px;"> Name :
-                                                _________________________________________</td>
-                                            <td style="width:33.33%;padding:5px;"> Title :
-                                                _________________________________________
-                                            </td>
-                                            <td style="width:33.33%;padding:5px;">Date :
-                                                _________________________________________</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <!-- end Impilo Consortium -->
                             </div>
+
+                            <!-- signatures  -->
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <!-- Service Provier Signature -->
+                                    <div class="row">
+                                        <table style="width:100%;margin:0;padding:0;">
+                                            <tr>
+                                                <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                                    On Behalf of Service Provider :</th>
+                                            </tr>
+                                            <tr class="text-center" style="font-weight:bolder;">
+                                                <td style="width:33.33%;padding:5px;"> Name : _________________________________________
+                                                </td>
+                                                <td style="width:33.33%;padding:5px;"> Title : _________________________________________
+                                                </td>
+                                                <td style="width:33.33%;padding:5px;">Date : _________________________________________
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+
+                                    <!-- end Service Provier Signature -->
+
+                                    <!-- Inkosi Albert Luthuli Central Hospital -->
+
+                                    <div class="row">
+                                        <table style="width:100%;margin:0;padding:0;">
+                                            <tr>
+                                                <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                                    On Behalf of Inkosi Albert Luthuli Central Hospital:</th>
+                                            </tr>
+                                            <tr class="text-center" style="font-weight:bolder;">
+                                                <td style="width:33.33%;padding:5px;"> Name : _________________________________________
+                                                </td>
+                                                <td style="width:33.33%;padding:5px;"> Title : _________________________________________
+                                                </td>
+                                                <td style="width:33.33%;padding:5px;">Date : _________________________________________
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- end Inkosi Albert Luthuli Central Hospital -->
+
+                                    <!-- Impilo Consortium -->
+                                    <div class="row">
+                                        <table style="width:100%;margin:0;padding:0;">
+                                            <tr>
+                                                <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                                    On Behalf of Impilo Consortium:</th>
+                                            </tr>
+                                            <tr class="text-center" style="font-weight:bolder;">
+                                                <td style="width:33.33%;padding:5px;"> Name : _________________________________________
+                                                </td>
+                                                <td style="width:33.33%;padding:5px;"> Title : _________________________________________
+                                                </td>
+                                                <td style="width:33.33%;padding:5px;">Date : _________________________________________
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- end Impilo Consortium -->
+                                </div>
+                            </div>
+
+                            <!-- End signatures  -->
+
                         </div>
-
-                        <!-- End signatures  -->
-
                     </div>
-                </div>
-            </div>
-            <div class="print-asset-footer text-center">
+                    <div class="print-asset-footer text-center">
 
-                <div class="col-md-12" style="text-align: right">
-                    <button class="btn btn-danger" onclick="closeAsset('overlay-printView')">Cancel</button>
-                    <button type="submit" class="btn btn-success  export" value="Export"
-                        onclick="doit('xlsx','tablePrint');">
+                        <div class="col-md-12" style="text-align: right">
+                            <button class="btn btn-danger" onclick="closeAsset('overlay-printView')">Cancel</button>
+                            <button type="submit" class="btn btn-success  export" value="Export" onclick="doit('xlsx','tablePrint');">
                         <i class="fa fa-file-excel-o" aria-hidden="true"></i> <span
                             style="padding-left:10px;">Export</span>
                     </button>
-                    <button type="submit" class="btn btn-primary  export" onclick="PDF1()">
+                            <button type="submit" class="btn btn-primary  export" onclick="PDF1()">
                         <i class="fa fa-file" aria-hidden="true"></i> <span style="padding-left:10px;">Print</span>
                     </button>
+                        </div>
+
+                    </div>
                 </div>
 
-            </div>
-        </div>
 
-
-        <!-- <div class="sub-item-number text-center py-2">
+                <!-- <div class="sub-item-number text-center py-2">
                                 <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
                                             class="text-dark">5</span></strong></p>
                             </div> -->
-    </div>
-    <div id="overlay-comm">
-        <div class="asset-transfer-details animated bounceInUp" id="assetTransfer">
-            <span class="exit-asset" onclick="closeAsset('overlay-comm')">&times;</span>
+            </div>
+        </div>
+        <div id="overlay-comm">
+            <div class="asset-transfer-details animated bounceInUp" id="assetTransfer">
+                <span class="exit-asset" onclick="closeAsset('overlay-comm')">&times;</span>
 
-            <div class="asset-transfer-body">
-                <div id="transferAssets">
+                <div class="asset-transfer-body">
+                    <div id="transferAssets">
 
-                    <div class="asset-header text-center">
-                        <strong>ASSET VIEW</strong>
-                    </div>
+                        <div class="asset-header text-center">
+                            <strong>ASSET VIEW</strong>
+                        </div>
 
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="transfer-scroll" style="height: 288px !important;">
-                                <table class="table my-1 table-striped table-bordered">
-                                    <thead style="background:#1d1a1a; color: #ffffff; padding: 13px;">
-                                        <tr>
-                                            <th>Asset No</th>
-                                            <th>Description</th>
-                                            <th>Cerificate Number</th>
-                                        </tr>
-                                    </thead>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="transfer-scroll" style="height: 288px !important;">
+                                    <table class="table my-1 table-striped table-bordered">
+                                        <thead style="background:#1d1a1a; color: #ffffff; padding: 13px;">
+                                            <tr>
+                                                <th>Asset No</th>
+                                                <th>Description</th>
+                                                <th>Cerificate Number</th>
+                                            </tr>
+                                        </thead>
 
-                                    <tbody class="tbody" id="assetTbody">
+                                        <tbody class="tbody" id="assetTbody">
 
-                                    </tbody>
-                                </table>
-                                <div id="loaderComm" class="loader_trans">
-                                    <img src="../img/loading-transparent.gif" alt="">
+                                        </tbody>
+                                    </table>
+                                    <div id="loaderComm" class="loader_trans">
+                                        <img src="../img/loading-transparent.gif" alt="">
+                                    </div>
                                 </div>
                             </div>
+
                         </div>
 
                     </div>
 
                 </div>
-
-            </div>
-            <div class="asset-transfer-footer text-right">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="sub-item-number text-center">
-                            <p class="text-muted">Number of selected assets: <strong><span id="movItemCount"
+                <div class="asset-transfer-footer text-right">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="sub-item-number text-center">
+                                <p class="text-muted">Number of selected assets: <strong><span id="movItemCount"
                                         class="text-dark">5</span></strong></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-danger" onclick="closeAsset('overlay-comm')"><i
+                                class="fa fa-close"></i>Close</button>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-danger" onclick="closeAsset('overlay-comm')"><i
-                                class="fa fa-close"></i>Close</button>
-                    </div>
                 </div>
-            </div>
 
+            </div>
         </div>
-    </div>
-    <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
-        <!-- navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-            style="background: rgb(59, 56, 56);height:80px">
-            <div class="col-md-3" id="menu-bar"
-                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
-                <span>
+        <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
+            <!-- navigation -->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgb(59, 56, 56);height:80px">
+                <div class="col-md-3" id="menu-bar" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+                    <span>
                     <div class="row" style="margin-top:-25px;" data-step="1"
                         data-intro="This is a navigation menu, with your class or department">
                         <div class="col-md-2" onclick="showNav()">
@@ -385,487 +388,495 @@
                     </div>
 
                 </span>
-                <div id="menu-list">
-                    <ul class="menu-group" style="font-size: 15pt !important;">
-                        <a href="./viewAssets.html" target="_self">
-                            <li class="menu-item">view</li>
-                        </a>
-                        <a href="./moveAssets.html" target="_self">
-                            <li class="menu-item">movement</li>
-                        </a>
-                        <a href="./certificates">
-                            <li class="menu-item active">certificates</li>
-                        </a>
-                        <div class="dropright dropdown" id="drodown-menu">
-                            <li class="menu-item" data-toggle="dropdown">commissioning</li>
-                            <ul class="dropdown-menu">
-                                <a href="./addition.html">
-                                    <li class="menu-item">addition</li>
-                                </a>
-                                <li class="divider"></li>
-                                <a href="./removal.html" target="_self">
-                                    <li class="menu-item">removal</li>
-                                </a>
-                            </ul>
-                        </div>
-                        <a href="./linkAssets.html">
-                            <li class="menu-item">asset link</li>
-                        </a>
+                    <div id="menu-list">
+                        <ul class="menu-group" style="font-size: 15pt !important;">
+                            <a href="./viewAssets.html" target="_self">
+                                <li class="menu-item">view</li>
+                            </a>
+                            <a href="./moveAssets.html" target="_self">
+                                <li class="menu-item">movement</li>
+                            </a>
+                            <a href="./certificates.html">
+                                <li class="menu-item active">certificates</li>
+                            </a>
+                            <div class="dropright dropdown" id="drodown-menu">
+                                <li class="menu-item" data-toggle="dropdown">commissioning</li>
+                                <ul class="dropdown-menu">
+                                    <a href="./addition.html">
+                                        <li class="menu-item">addition</li>
+                                    </a>
+                                    <li class="divider"></li>
+                                    <a href="./removal.html" target="_self">
+                                        <li class="menu-item">removal</li>
+                                    </a>
+                                </ul>
+                            </div>
+                            <a href="./linkAssets.html">
+                                <li class="menu-item">asset link</li>
+                            </a>
 
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
-                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
-                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span
-                                class="text-muted">CERTIFICATES</span></em>
-                    </span>
-                </div>
-            </div>
-            <div class=" col-md-3">
-                <div class="row">
-                    <div class="col-md-4 offset-6">
-                        <div id="username">Username</div>
+                        </ul>
                     </div>
-                    <div class="col-md-2">
-                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;"
-                            onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
+                </div>
+                <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
+                    <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span
+                                class="text-muted">CERTIFICATES</span></em>
+                        </span>
+                    </div>
+                </div>
+                <div class=" col-md-3">
+                    <div class="row">
+                        <div class="col-md-4 offset-6">
+                            <div id="username">Username</div>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;" onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
                             <span style="color:white" class="fa fa-power-off"></span>
                         </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </nav>
-        <!-- end navigation  -->
+            </nav>
+            <!-- end navigation  -->
 
-        <div class="row" style="margin-top: 57px;">
-            <div class="col-md-12" style="height:80vh;padding-right:40px;">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-3 text-center" style="font-size:15pt;font-weight: bolder">
-                                <br />
+            <div class="row" style="margin-top: 57px;">
+                <div class="col-md-12" style="height:80vh;padding-right:40px;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-3 text-center" style="font-size:15pt;font-weight: bolder">
+                                    <br />
+                                </div>
+                                <div class="col-md-9">
+                                </div>
                             </div>
-                            <div class="col-md-9">
-                            </div>
-                        </div>
-                        <div class="row">
+                            <div class="row">
 
-                            <div class="col-md-12">
-                                <table class="table" id="searchCertficate">
-                                    <tr>
-                                        <th>
-                                            Search
-                                        </th>
-                                        <th>
-                                            <div class="dropdown">
+                                <div class="col-md-12">
+                                    <table class="table" id="searchCertficate">
+                                        <tr>
+                                            <th>
+                                                Search
+                                            </th>
+                                            <th>
+                                                <div class="dropdown">
 
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="building_certificates_filter"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     BUILDING
                                                 </button>
 
 
-                                                <div class="dropdown-menu"
-                                                    aria-labelledby="building_certificates_filter"
-                                                    id="scroll_certificates_building">
-                                                    <form class="px-4 py-2">
-                                                        <div class="input-group">
-                                                            <input type="search" id="search_certificates_building"
-                                                                class="form-control" placeholder="Building"
-                                                                onkeyup="onSearch('search_certificates_building','#empty_certificates_building')"
-                                                                autofocus="autofocus">
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_certificates_building"
-                                                                    onclick="clearData('#search_certificates_building','#building_certificates_filter','BUILDING')"><i
+                                                    <div class="dropdown-menu" aria-labelledby="building_certificates_filter" id="scroll_certificates_building">
+                                                        <form class="px-4 py-2">
+                                                            <div class="input-group">
+                                                                <input type="search" id="search_certificates_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_certificates_building','#empty_certificates_building')" autofocus="autofocus">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text btn btn-danger text-light" id="clear_certificates_building" onclick="clearData('#search_certificates_building','#building_certificates_filter','BUILDING')"><i
                                                                         class="fa fa-close"></i>
                                                                 </span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div id="menu_certificates_building">
+                                                            <div id="building_loader" class="dropdown-loader">
+                                                                <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                    <div id="menu_certificates_building">
-                                                        <div id="building_loader" class="dropdown-loader">
-                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        <div id="empty_certificates_building" class="dropdown-header">No building found
                                                         </div>
                                                     </div>
-                                                    <div id="empty_certificates_building" class="dropdown-header">No
-                                                        building found
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="level_certificates_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                            </th>
+                                            <th>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     LEVEL
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="level_certificates_filter"
-                                                    id="scroll_certificates_level">
-                                                    <form class="px-4 py-2">
+                                                    <div class="dropdown-menu" aria-labelledby="level_certificates_filter" id="scroll_certificates_level">
+                                                        <form class="px-4 py-2">
 
-                                                        <div class="input-group">
-                                                            <input type="search" id="search_certificates_level"
-                                                                class="form-control" placeholder="Level"
-                                                                onkeyup="onSearch('search_certificates_level','#empty_certificates_level')"
-                                                                autofocus="autofocus">
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_certificates_level"
-                                                                    onclick="clearData('#search_certificates_level','#level_certificates_filter','LEVEL')"><i
+                                                            <div class="input-group">
+                                                                <input type="search" id="search_certificates_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_certificates_level','#empty_certificates_level')" autofocus="autofocus">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text btn btn-danger text-light" id="clear_certificates_level" onclick="clearData('#search_certificates_level','#level_certificates_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div id="menu_certificates_level">
+                                                            <div id="Roomload" class="dropdown-loader">
+                                                                <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                    <div id="menu_certificates_level">
-                                                        <div id="Roomload" class="dropdown-loader">
-                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        <div id="empty_certificates_level" class="dropdown-header">No level found
                                                         </div>
                                                     </div>
-                                                    <div id="empty_certificates_level" class="dropdown-header">No level
-                                                        found
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="area_certificates_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                            </th>
+                                            <th>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_certificates_area"
-                                                    aria-labelledby="area_certificates_filter">
-                                                    <form class="px-4 py-2">
-                                                        <div class="input-group">
-                                                            <input type="search" id="search_certificates_area"
-                                                                class="form-control" placeholder="Area"
-                                                                onkeyup="onSearch('search_certificates_area','#empty_certificates_area')"
-                                                                autofocus="autofocus">
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_certificates_area"
-                                                                    onclick="clearData('#search_certificates_area','#area_certificates_filter','AREA')"><i
+                                                    <div class="dropdown-menu clusterize-scroll" id="scroll_certificates_area" aria-labelledby="area_certificates_filter">
+                                                        <form class="px-4 py-2">
+                                                            <div class="input-group">
+                                                                <input type="search" id="search_certificates_area" class="form-control" placeholder="Area" onkeyup="onSearch('search_certificates_area','#empty_certificates_area')" autofocus="autofocus">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text btn btn-danger text-light" id="clear_certificates_area" onclick="clearData('#search_certificates_area','#area_certificates_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div id="meun_certificates_area" onchange="testMethod()">
+                                                            <div id="Assetload" class="dropdown-loader">
+                                                                <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                    <div id="meun_certificates_area" onchange="testMethod()">
-                                                        <div id="Assetload" class="dropdown-loader">
-                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        <div id="empty_certificates_area" class="dropdown-header">No area found
                                                         </div>
                                                     </div>
-                                                    <div id="empty_certificates_area" class="dropdown-header">No area
-                                                        found
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="room_certificates_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                            </th>
+                                            <th>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_certificates_room"
-                                                    aria-labelledby="room_certificates_filter">
-                                                    <form class="px-4 py-2">
+                                                    <div class="dropdown-menu clusterize-scroll" id="scroll_certificates_room" aria-labelledby="room_certificates_filter">
+                                                        <form class="px-4 py-2">
 
-                                                        <div class="input-group">
-                                                            <input type="search" id="search_certificates_room"
-                                                                class="form-control" placeholder="Room"
-                                                                onkeyup="onSearch('search_certificates_room','#empty_certificates_room')"
-                                                                autofocus="autofocus">
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_certificates_room"
-                                                                    onclick="clearData('#search_certificates_room','#room_certificates_filter','ROOM')"><i
+                                                            <div class="input-group">
+                                                                <input type="search" id="search_certificates_room" class="form-control" placeholder="Room" onkeyup="onSearch('search_certificates_room','#empty_certificates_room')" autofocus="autofocus">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text btn btn-danger text-light" id="clear_certificates_room" onclick="clearData('#search_certificates_room','#room_certificates_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div id="menu_certificates_room" class="text-center" onchange="testMethod()">
+                                                            <div id="Assetload" class="dropdown-loader">
+                                                                <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                    <div id="menu_certificates_room" class="text-center"
-                                                        onchange="testMethod()">
-                                                        <div id="Assetload" class="dropdown-loader">
-                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        <div id="empty_certificates_room" class="dropdown-header">No room found
                                                         </div>
                                                     </div>
-                                                    <div id="empty_certificates_room" class="dropdown-header">No room
-                                                        found
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        </th>
-                                        <th class="filter_sub" style="display: none">
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="sublocaction_certificates_filter"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            </th>
+                                            <th class="filter_sub" style="display: none">
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="sublocaction_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_certificates_sublocaction"
-                                                    aria-labelledby="sublocaction_certificates_filter">
-                                                    <form class="px-4 py-2">
+                                                    <div class="dropdown-menu clusterize-scroll" id="scroll_certificates_sublocaction" aria-labelledby="sublocaction_certificates_filter">
+                                                        <form class="px-4 py-2">
 
-                                                        <div class="input-group">
-                                                            <input type="search" id="search_certificates_sublocaction"
-                                                                class="form-control" placeholder="Sub Location"
-                                                                onkeyup="onSearch('search_certificates_sublocaction','#empty_certificates_sublocaction')"
-                                                                autofocus="autofocus">
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_certificates_sublocaction"
-                                                                    onclick="clearData('#search_certificates_sublocaction','#sublocaction_certificates_filter','SUB LOCATION')"><i
+                                                            <div class="input-group">
+                                                                <input type="search" id="search_certificates_sublocaction" class="form-control" placeholder="Sub Location" onkeyup="onSearch('search_certificates_sublocaction','#empty_certificates_sublocaction')" autofocus="autofocus">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text btn btn-danger text-light" id="clear_certificates_sublocaction" onclick="clearData('#search_certificates_sublocaction','#sublocaction_certificates_filter','SUB LOCATION')"><i
                                                                         class="fa fa-close"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div id="menu_certificates_sublocaction" class="text-center" onchange="testMethod()">
+                                                            <div id="Assetload" class="dropdown-loader">
+                                                                <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                    <div id="menu_certificates_sublocaction" class="text-center"
-                                                        onchange="testMethod()">
-                                                        <div id="Assetload" class="dropdown-loader">
-                                                            <img src="../img/loading-transparent.gif" alt="">
-                                                        </div>
+                                                        <div id="empty_certificates_sublocaction" class="dropdown-header">No sublocation found</div>
                                                     </div>
-                                                    <div id="empty_certificates_sublocaction" class="dropdown-header">No
-                                                        sublocation found</div>
                                                 </div>
-                                            </div>
-                                        </th>
+                                            </th>
 
-                                        <th>
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="certNo_certificates_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                            <th>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="certNo_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     CERTIFICATE NUMBER
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_certificates_certNo"
-                                                    aria-labelledby="certNo_certificates_filter">
-                                                    <form class="px-4 py-2">
+                                                    <div class="dropdown-menu clusterize-scroll" id="scroll_certificates_certNo" aria-labelledby="certNo_certificates_filter">
+                                                        <form class="px-4 py-2">
 
-                                                        <div class="input-group">
-                                                            <input type="search" id="search_certificates_certNo"
-                                                                class="form-control" placeholder="CERTIFICATE NUMBER"
-                                                                onkeyup="onSearch('search_certificates_certNo','#empty_certificates_certNo')"
-                                                                autofocus="autofocus">
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_certificates_certNo"
-                                                                    onclick="clearData('#search_certificates_certNo','#certNo_certificates_filter','CERTIFICATE NUMBER')"><i
+                                                            <div class="input-group">
+                                                                <input type="search" id="search_certificates_certNo" class="form-control" placeholder="CERTIFICATE NUMBER" onkeyup="onSearch('search_certificates_certNo','#empty_certificates_certNo')" autofocus="autofocus">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text btn btn-danger text-light" id="clear_certificates_certNo" onclick="clearData('#search_certificates_certNo','#certNo_certificates_filter','CERTIFICATE NUMBER')"><i
                                                                         class="fa fa-close"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div id="menu_certificates_certNo" class="text-center" onchange="testMethod()">
+                                                            <div id="Assetload" class="dropdown-loader">
+                                                                <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                    <div id="menu_certificates_certNo" class="text-center"
-                                                        onchange="testMethod()">
-                                                        <div id="Assetload" class="dropdown-loader">
-                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        <div id="empty_certificates_certNo" class="dropdown-header">No certficate found
                                                         </div>
                                                     </div>
-                                                    <div id="empty_certificates_certNo" class="dropdown-header">No
-                                                        certficate
-                                                        found
-                                                    </div>
                                                 </div>
-                                            </div>
-                                        </th>
-                                        <th>
-                                            <input type="text" id="certificates_description"
-                                                onkeyup="onSearch_new('certificates_description')" class="form-control"
-                                                placeholder="Description...">
-                                        </th>
-                                        <th>
-                                            <button onclick="search()" type="text" class="btn btn-success form-control">
+                                            </th>
+                                            <th>
+                                                <input type="text" id="certificates_description" onkeyup="onSearch_new('certificates_description')" class="form-control" placeholder="Description...">
+                                            </th>
+                                            <th>
+                                                <button onclick="search()" type="text" class="btn btn-success form-control">
                                                 <span class="fa fa-search"></span>
                                                 Search
                                             </button>
-                                        </th>
-                                        <th>
-                                            <button onclick="clearAllFilters()" type="text"
-                                                class="btn btn-danger form-control">
+                                            </th>
+                                            <th>
+                                                <button onclick="clearAllFilters()" type="text" class="btn btn-danger form-control">
                                                 <span class="fa fa-close"></span>
                                                 Clear
                                             </button>
-                                        </th>
-                                    </tr>
-                                </table>
-                                <form id="frm-example" method="POST">
-                                    <table class="table" id="currentAssetsTable" style="font-size:13pt">
-                                        <thead style="background:#000000;color:#ffffff;">
-                                            <tr>
-                                                <th scope="col">
-                                                    #
-                                                </th>
-                                                <th scope="col">
-                                                    Certificate Number
-
-                                                </th>
-                                                <th scope="col">
-                                                    Equipment Category
-                                                </th>
-                                                <th scope="col">
-                                                    Transaction Type
-                                                </th>
-                                                <th scope="col">
-                                                    Created At
-                                                </th>
-                                                <th scope="col">
-                                                    Printed Date
-                                                </th>
-                                                <th scope="col">
-                                                    Status
-                                                </th>
-                                                <th scope="col">
-                                                    View
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="current">
-                                            <div id="loader" class="loader">
-                                                <img src="../img/loading-transparent.gif" alt="">
-                                            </div>
-                                            <div id="searchView" class="search_start">
-                                                <p style="margin-top:200px">Please search your asset using the search
-                                                    above
-                                                </p>
-                                                <img width="200" src="../img/loupe.png" alt="Search">
-                                            </div>
-
-                                            <tr>
-
-                                            </tr>
-                                        </tbody>
-
-
+                                            </th>
+                                        </tr>
                                     </table>
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <button id="printCert" style="display: none"
-                                                class="btn btn-sm btn-info"><span class="fa fa-print"></span>
-                                                Print Certificate</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                                    <form id="frm-example" method="POST">
+                                        <table class="table" id="currentAssetsTable" style="font-size:13pt">
+                                            <thead style="background:#000000;color:#ffffff;">
+                                                <tr>
+                                                    <th scope="col">
+                                                        #
+                                                    </th>
+                                                    <th scope="col">
+                                                        Certificate Number
 
-                        </form>
+                                                    </th>
+                                                    <th scope="col">
+                                                        Equipment Category
+                                                    </th>
+                                                    <th scope="col">
+                                                        Transaction Type
+                                                    </th>
+                                                    <th scope="col">
+                                                        Created At
+                                                    </th>
+                                                    <th scope="col">
+                                                        Printed Date
+                                                    </th>
+                                                    <th scope="col">
+                                                        Status
+                                                    </th>
+                                                    <th scope="col">
+                                                        View
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="current">
+                                                <div id="loader" class="loader">
+                                                    <img src="../img/loading-transparent.gif" alt="">
+                                                </div>
+                                                <div id="searchView" class="search_start">
+                                                    <p style="margin-top:200px">Please search your asset using the search above
+                                                    </p>
+                                                    <img width="200" src="../img/loupe.png" alt="Search">
+                                                </div>
+
+                                                <tr>
+
+                                                </tr>
+                                            </tbody>
+
+
+                                        </table>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <button id="printCert" style="display: none" class="btn btn-sm btn-info"><span class="fa fa-print"></span>
+                                                Print Certificate</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        </div>
+        <div id="ignorePDF"></div>
+        <script src="../js/jquery.js"></script>
+        <script src="../js/clusterize.min.js"></script>
+        <!-- <script src="../js/bootstrap.js"></script> -->
+        <script src="../js/bootstrap.bundle.js"></script>
+        <script src="../js/tablefilter.js"></script>
+        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+        <script src="../js/export/shim.min.js"></script>
+        <script src="../js/export/xlsx.full.min.js"></script>
+        <script src="../js/export/Blob.js"></script>
+        <script src="../js/export/FileSaver.js"></script>
+        <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
+        <script src="../js/certificates.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
+        <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
-    <script src="../js/jquery.js"></script>
-    <script src="../js/clusterize.min.js"></script>
-    <!-- <script src="../js/bootstrap.js"></script> -->
-    <script src="../js/bootstrap.bundle.js"></script>
-    <script src="../js/tablefilter.js"></script>
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="../js/export/shim.min.js"></script>
-    <script src="../js/export/xlsx.full.min.js"></script>
-    <script src="../js/export/Blob.js"></script>
-    <script src="../js/export/FileSaver.js"></script>
-    <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
-    <script src="../js/certificates.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
-    <script type="text/javascript"
-        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+        <!-- <script src="../js/htmltocanvas.js "></script> -->
+        <!-- <script src="../js/jspdf.debug.js "></script> -->
+        <!-- <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script> -->
+        <!-- <script src="../js/test.js "></script> -->
 
-    <script src="../js/jspdf.debug.js "></script>
-    <script>
-        function PDF1() {
-            var doc = new jsPDF('l', 'pt', 'a4', true);
-            // doc.setFont("courier");
-            var elementHandler = {
-                '#ignorePDF': function (element, renderer) {
-                    return true;
-                }
-            };
+        <script src="../js/printThis.js "></script>
+        <script>
+            function PDF1() {
 
-            // iu, iu, i, i
 
-            var source = document.getElementsByClassName("comm_cert")[0];
-            console.log(source);
-            doc.fromHTML(source, 0, 0, {
-                'width': 100, // max width of content on PDF
-                'elementHandlers': elementHandler
-            },
-                function () {
-                    doc.save('Inkosi Albert Luthuli Central Hospital/ Impilo Commissioning Certificate.pdf');
-                },
-                20);
 
-        }
+                // var pdf = new jsPDF('p', 'pt', 'a4');
+                // var source = window.document.getElementById("nodeToRenderAsPDF");
+                // pdf.addHTML(source, function() {
+                //     pdf.save('web.pdf');
+                // });
 
-        var assets = "";
-        for (var i = 0; i < 100; i++) {
-            assets += "<tr>" +
-                "<td>H471B</td>" +
-                "<td>EPSON</td>" +
-                "<td>RKEF5X</td>" +
-                "<td>RKEF5X</td>" +
-                "<td>UNKNOWN</td>" +
-                "<td>L5-553</td>" +
-                "<td>Board Room</td>" +
-                "<td>09.05.2016</td>" +
-                "<td>14.08.2019</td>" +
-                "</tr>"
-        }
+                // const filename = 'ThisIsYourPDFFilename.pdf';
 
-        document.getElementById("cert_assets_selected").innerHTML = assets;
-    </script>
+                // html2canvas(document.querySelector('#nodeToRenderAsPDF')).then(canvas => {
+                //     let pdf = new jsPDF('p', 'mm', 'a4');
+                //     pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
+                //     pdf.save(filename);
+                // });
 
-    <script>
-        const $menu = $('#menu-list');
 
-        $(document).mouseup(e => {
-            if (!$menu.is(e.target) // if the target of the click isn't the container...
-                &&
-                $menu.has(e.target).length === 0) // ... nor a descendant of the container
-            {
-                // $menu.removeClass('is-active');
-                $('#menu-list').fadeOut(500);
+                // const filename = 'ThisIsYourPDFFilename.pdf';
+
+                // html2canvas(document.querySelector('#nodeToRenderAsPDF')).then(canvas => {
+                //     let pdf = new jsPDF('l', 'mm', 'a4');
+                //     pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
+                //     pdf.save(filename);
+                // });
+                // var margin = {
+                //     top: 0,
+                //     left: 0,
+                //     right: 0,
+                //     bottom: 0
+                // };
+                // var doc = new jsPDF();
+                // var elementHandler = {
+                //     '#ignorePDF': function(element, renderer) {
+                //         return true;
+                //     }
+                // };
+
+
+
+                // $.ajax({
+                //     url: "header.txt",
+                //     method: "POST",
+                //     success: function(data) {
+                //         var source = window.document.getElementById("nodeToRenderAsPDF").innerHTML;
+                //         var htmlContent = data;
+                //         htmlContent += '<div class="container-fluid comm_cert" style="border:1px solid black;" id="nodeToRenderAsPDF">';
+                //         htmlContent += source;
+                //         htmlContent += "</div></div></body></html>";
+
+                //         doc.fromHTML(
+                //             htmlContent,
+                //             0,
+                //             0, {
+                //                 'width': 1900,
+                //                 'elementHandlers': elementHandler
+                //             },
+                //             function(bla) {
+                //                 doc.output("dataurlnewwindow");
+                //             },
+                //             margin);
+
+                //         console.log(htmlContent);
+                //     },
+                //     error: function(error) {
+                //         console.log(error);
+                //     }
+                // });
+
+
+
+                $('.comm_cert').printThis({
+                    // debug: false, // show the iframe for debugging
+                    importCSS: true, // import parent page css
+                    importStyle: true, // import style tags
+                    // printContainer: true // print outer container/$.selector
+                    loadCSS: ["http://localhost/AMEProjects/ams/AMS/css/bootstrap.css"], // path to additional css file - use an array [] for multiple
+                    pageTitle: "Inkosi Albert Luthuli Central Hospital \nImpilo Commissioning Certificate", // add title to print page
+                    removeInline: false, // remove inline styles from print elements
+                    removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
+                    // printDelay: 333, // variable print delay
+                    header: null, // prefix to html
+                    footer: null, // postfix to html
+                    // base: false, // preserve the BASE tag or accept a string for the URL
+                    // formValues: true, // preserve input/form values
+                    canvas: true, // copy canvas content
+                    doctypeString: '', // enter a different doctype for older markup
+                    removeScripts: false, // remove script tags from print content
+                    copyTagClasses: true // copy classes from the html & body tag
+                        // beforePrintEvent: null, // function for printEvent in iframe
+                        // beforePrint: null, // function called before iframe is filled
+                        // afterPrint: null // function called before iframe is removed
+                });
+
             }
-        });
 
-        function showNav() {
-            $('#menu-list').slideToggle('fast');
-        }
+            var assets = "";
+            for (var i = 0; i < 20; i++) {
+                assets += "<tr>" +
+                    "<td>H471B</td>" +
+                    "<td>EPSON</td>" +
+                    "<td>RKEF5X</td>" +
+                    "<td>RKEF5X</td>" +
+                    "<td>UNKNOWN</td>" +
+                    "<td>L5-553</td>" +
+                    "<td>Board Room</td>" +
+                    "<td>09.05.2016</td>" +
+                    "<td>14.08.2019</td>" +
+                    "</tr>"
+            }
 
-        // toggleZoomScreen(window.innerWidth / window.outerWidth);
+            document.getElementById("cert_assets_selected").innerHTML = assets;
+        </script>
 
-        // function toggleZoomScreen(value) {
-        //     document.body.style.zoom = value;
-        // }
+        <script>
+            const $menu = $('#menu-list');
 
-        $("#com_item,#com_list").mouseover(function () {
-            $("#com_list").fadeIn();
-        });
+            $(document).mouseup(e => {
+                if (!$menu.is(e.target) // if the target of the click isn't the container...
+                    &&
+                    $menu.has(e.target).length === 0) // ... nor a descendant of the container
+                {
+                    // $menu.removeClass('is-active');
+                    $('#menu-list').fadeOut(500);
+                }
+            });
 
-        $("#com_item,#com_list").mouseleave(function () {
-            $("#com_list").fadeOut();
-        });
+            function showNav() {
+                $('#menu-list').slideToggle('fast');
+            }
 
-        // $("ul#com_item.dropdown-time>li.menu-item").click(function() {
-        //     $("#com_list").slideToggle(2000);
-        // });
+            // toggleZoomScreen(window.innerWidth / window.outerWidth);
+
+            // function toggleZoomScreen(value) {
+            //     document.body.style.zoom = value;
+            // }
+
+            $("#com_item,#com_list").mouseover(function() {
+                $("#com_list").fadeIn();
+            });
+
+            $("#com_item,#com_list").mouseleave(function() {
+                $("#com_list").fadeOut();
+            });
+
+            // $("ul#com_item.dropdown-time>li.menu-item").click(function() {
+            //     $("#com_list").slideToggle(2000);
+            // });
 
 
-        // tables
+            // tables
 
 
-        /*------   Zoom handler -----*/
-    </script>
-</body>
+            /*------   Zoom handler -----*/
+        </script>
+    </body>
 
 </html>
