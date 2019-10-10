@@ -13,19 +13,19 @@
             margin: 10%;
             font-size: 10pt;
         }
-
+        
         @media print {
             body {
                 font-size: 10pt
             }
         }
-
+        
         @media screen {
             body {
                 font-size: 13px
             }
         }
-
+        
         @media screen,
         print {
             body {
@@ -151,8 +151,7 @@
                 <div class="row">
                     <table style="width:100%;margin:0;padding:0;">
                         <tr>
-                            <th colspan="3"
-                                style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                            <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
                                 On Behalf of Service Provider :</th>
                         </tr>
                         <tr class="text-center" style="font-weight:bolder;">
@@ -171,8 +170,7 @@
                 <div class="row">
                     <table style="width:100%;margin:0;padding:0;">
                         <tr>
-                            <th colspan="3"
-                                style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                            <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
                                 On Behalf of Inkosi Albert Luthuli Central Hospital:</th>
                         </tr>
                         <tr class="text-center" style="font-weight:bolder;">
@@ -189,8 +187,7 @@
                 <div class="row">
                     <table style="width:100%;margin:0;padding:0;">
                         <tr>
-                            <th colspan="3"
-                                style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                            <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
                                 On Behalf of Impilo Consortium:</th>
                         </tr>
                         <tr class="text-center" style="font-weight:bolder;">
@@ -248,7 +245,7 @@
             var doc = new jsPDF('l', 'pt', 'a4', true);
             // doc.setFont("courier");
             var elementHandler = {
-                '#ignorePDF': function (element, renderer) {
+                '#ignorePDF': function(element, renderer) {
                     return true;
                 }
             };
@@ -258,10 +255,10 @@
             var source = window.document.getElementsByClassName("container")[0];
             console.log(source);
             doc.fromHTML(source, 0, 0, {
-                'width': 100, // max width of content on PDF
-                'elementHandlers': elementHandler
-            },
-                function () {
+                    'width': 100, // max width of content on PDF
+                    'elementHandlers': elementHandler
+                },
+                function() {
                     doc.save('Inkosi Albert Luthuli Central Hospital/ Impilo Commissioning Certificate.pdf');
                 },
                 20);
@@ -269,7 +266,7 @@
         }
 
         var assets = "";
-        for (var i = 0; i < 100; i++) {
+        for (var i = 0; i < 20; i++) {
             assets += "<tr>" +
                 "<td>H471B</td>" +
                 "<td>EPSON</td>" +

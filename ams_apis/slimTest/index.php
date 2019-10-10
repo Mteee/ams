@@ -2817,7 +2817,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
         // oci_bind_by_name($statement, ':v_out', $add_assets, 4000);
         oci_bind_by_name($statement, ':v_out', $add_assets, -1, OCI_B_CURSOR);
 
-        // oci_execute($statement);
+        oci_execute($statement);
 
         oci_commit($connect);
         oci_execute($statement);

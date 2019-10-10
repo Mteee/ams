@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AMS | Certificates</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/main_add_new.css">
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <!-- Add IntroJs styles -->
+    <!-- <link href="../css/introjs.css" rel="stylesheet"> -->
+    <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
+
+
+    <link href="../css/material-bootstrap-wizard.css" rel="stylesheet" />
+
+    <style>
+        .form-group {
+            margin-bottom: 0 !important;
+        }
+        
+        .form-control:disabled,
+        .form-control[readonly] {
+            background-color: #e9ecef !important;
+            opacity: 1;
+            border-bottom: 1px dotted rgba(210, 210, 210, 0) !important;
+        }
+        
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .input-group {
+            flex-wrap: inherit !important;
+        }
+        
+        .ripple-container {
+            display: none;
+        }
+        
+        #search_new_room,
+        #menu_new_room .dropdown-item {
+            background-image: none !important;
+        }
+        
+        #room_new_filter:hover {
+            color: slategray;
+        }
+        
+        * {
+            font-size: 9pt !important;
+        }
+        
+        #menu-list {
+            height: auto !important;
+        }
+        
+        @page {
+            size: landscape;
+            margin: 10%;
+            font-size: 10pt;
+        }
+        
+        @media print {
+            body {
+                font-size: 10pt
+            }
+        }
+        
+        @media screen {
+            body {
+                font-size: 13px
+            }
+        }
+        
+        @media screen,
+        print {
+            body {
+                line-height: 1.2
+            }
+        }
+    </style>
+
+    <body>
