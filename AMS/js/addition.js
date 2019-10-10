@@ -353,6 +353,7 @@ function filterItems(rows, value, scrollArea, menuid) {
 }
 
 function add_new_asset() {
+    localStorage.filter = $("#asset_class option:selected").text();
     getRoom();
     document.getElementById('overlay-newAssetView').style.display = "block";
 }
@@ -1030,6 +1031,11 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
 }
+
+$('#asset_class').on('change', function(){
+    localStorage.filter = $("#asset_class option:selected").text();
+    getRoom();
+});
 
 function resetBtn(resetId, resetTxt) {
     $(resetId).text(resetTxt);
