@@ -65,39 +65,39 @@
             height: auto !important;
         }
         
-        @page {
-            font-size: 10pt;
-            size: landscape;
-            margin: 20px 5px 20px 5px;
-            font-size: 10pt;
-        }
-        
         @media print {
             body {
-                font-size: 10pt;
-                size: landscape;
-                margin: 20px 5px 20px 5px;
-                font-size: 10pt;
+                font-size: 10pt !important;
+                size: landscape !important;
+                margin: 20px 5px 20px 5px !important;
+                font-size: 10pt !important;
             }
         }
         
         @media screen {
             body {
-                font-size: 10pt;
-                size: landscape;
-                margin: 20px 5px 20px 5px;
-                font-size: 10pt;
+                font-size: 10pt !important;
+                size: landscape !important;
+                margin: 20px 5px 20px 5px !important;
+                font-size: 10pt !important;
             }
         }
         
         @media screen,
         print {
             body {
-                font-size: 10pt;
-                size: landscape;
-                margin: 20px 5px 20px 5px;
-                font-size: 10pt;
+                font-size: 10pt !important;
+                size: landscape !important;
+                margin: 20px 10px 20px 10px !important;
+                font-size: 10pt !important;
             }
+        }
+        
+        @page {
+            font-size: 10pt !important;
+            size: landscape !important;
+            margin: 20px 5px 20px 5px !important;
+            font-size: 10pt !important;
         }
     </style>
 
@@ -110,7 +110,7 @@
                     <div class="print_scroll" style="overflow-y: scroll;
                     height: 611px;">
                         <!-- <iframe src="printCertificate.html" width="100%" height="600px" id="iframe" class="iframe_cert"></iframe> -->
-                        <div class="container-fluid comm_cert" style="border:1px solid black;" id="nodeToRenderAsPDF">
+                        <div class="container-fluid comm_cert" style="border:1px solid black;padding:0 20px;" id="nodeToRenderAsPDF">
 
                             <!-- Header Logo  -->
                             <!-- <div class="row" style="margin-top: 20px;">
@@ -128,14 +128,14 @@
                             <table class="table" style="width:100%">
                                 <thead>
                                     <tr>
-                                        <td style="width:33.33%;padding-top: 15px;"> <img src="../img/certificate/impilo.png" width="100" /></td>
+                                        <td style="width:33.33%;padding-top: 15px;"> <img src="http://localhost/AMEProjects/ams/AMS/img/certificate/impilo.png" width="100" /></td>
                                         <td style="width:33.33%" class="text-center">
                                             <h4 style="font-size: 12pt !important;
-                                            margin-top: 22px;
+                                            margin-top: 32px;
                                             margin-left: -23px;">Inkosi Albert Luthuli Central Hospital<br />Impilo Commissioning Certificate
                                             </h4>
                                         </td>
-                                        <td style="text-align: end;width:33.33%"> <img src="../img/certificate/Dept. health.png" width="220" /></td>
+                                        <td style="text-align: end;width:33.33%"> <img src="http://localhost/AMEProjects/ams/AMS/img/certificate/Dept. health.png" width="220" height="100" /></td>
                                     </tr>
                                 </thead>
                             </table>
@@ -147,30 +147,30 @@
                             <div class="row" style="background: black;color: white;padding:10px;">
                                 <div class="col-md-12 text-center">
                                     <!-- end Transaction Type -->
-                                    <table style="width:100%">
+                                    <table style="width:100%;text-align: center;">
                                         <thead>
                                             <tr style="border:none !important">
                                                 <td>
                                                     <!-- cert -->
-                                                    <span style="font-weight:bolder;margin-left: 25px">Certificate Number
+                                                    <span style="font-weight:bolder;margin-left: 25px;color: white">Certificate Number
                                                 :</span>
-                                                    <span id="cert_no">2019/000240</span>
+                                                    <span id="cert_no" style="color: white;">2019/000240</span>
                                                     <!-- end cert -->
 
                                                     <!-- date -->
-                                                    <span style="font-weight:bolder;margin-left: 20px">Date :</span>
-                                                    <span id="current_date">2019/08/14 08:30</span>
+                                                    <span style="font-weight:bolder;margin-left: 20px;color: white">Date :</span>
+                                                    <span id="current_date" style="color: white">2019/08/14 08:30</span>
                                                     <!-- end date  -->
 
                                                     <!-- Equipment Category -->
-                                                    <span style="font-weight:bolder;margin-left: 20px">Equipment Category
+                                                    <span style="font-weight:bolder;margin-left: 20px;color: white">Equipment Category
                                                 :</span>
-                                                    <span id="equip_cart">Information Technology</span>
+                                                    <span id="equip_cart" style="color: white">Information Technology</span>
                                                     <!-- end Equipment Category -->
 
                                                     <!-- Tansaction Type -->
-                                                    <span style="font-weight:bolder;margin-left: 20px">Transaction Type :</span>
-                                                    <span id="trans_type">Removal</span>
+                                                    <span style="font-weight:bolder;margin-left: 20px;color: white">Transaction Type :</span>
+                                                    <span id="trans_type" style="color: white">Removal</span>
                                                 </td>
                                             </tr>
                                         </thead>
@@ -182,9 +182,9 @@
                             <div class="row text-center">
 
 
-                                <table style="width:100%;">
+                                <table style="width:100%;text-align: center;">
                                     <thead>
-                                        <tr class="text-center" style="border:1px solid #ccc;background: rgb(241, 241, 241)">
+                                        <tr class="text-center" style="border:1px solid #ccc;background: rgb(241, 241, 241);">
                                             <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Project Agreement BoQ Reference
                                             </th>
                                             <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Service Provider Invoice Number
@@ -794,26 +794,26 @@
 
 
                 $('.comm_cert').printThis({
-                    // debug: false, // show the iframe for debugging
+                    debug: false, // show the iframe for debugging
                     importCSS: true, // import parent page css
                     importStyle: true, // import style tags
-                    // printContainer: true // print outer container/$.selector
-                    loadCSS: ["http://localhost/AMEProjects/ams/AMS/css/bootstrap.css"], // path to additional css file - use an array [] for multiple
+                    printContainer: false, // print outer container/$.selector
+                    loadCSS: "http://localhost/AMEProjects/ams/AMS/css/bootstrap.css", // path to additional css file - use an array [] for multiple
                     pageTitle: "Inkosi Albert Luthuli Central Hospital \nImpilo Commissioning Certificate", // add title to print page
                     removeInline: false, // remove inline styles from print elements
                     removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
-                    // printDelay: 333, // variable print delay
+                    printDelay: 333, // variable print delay
                     header: null, // prefix to html
                     footer: null, // postfix to html
-                    // base: false, // preserve the BASE tag or accept a string for the URL
-                    // formValues: true, // preserve input/form values
+                    base: true, // preserve the BASE tag or accept a string for the URL
+                    formValues: true, // preserve input/form values
                     canvas: true, // copy canvas content
                     doctypeString: '', // enter a different doctype for older markup
                     removeScripts: false, // remove script tags from print content
-                    copyTagClasses: true // copy classes from the html & body tag
-                        // beforePrintEvent: null, // function for printEvent in iframe
-                        // beforePrint: null, // function called before iframe is filled
-                        // afterPrint: null // function called before iframe is removed
+                    copyTagClasses: true, // copy classes from the html & body tag
+                    beforePrintEvent: null, // function for printEvent in iframe
+                    beforePrint: null, // function called before iframe is filled
+                    afterPrint: null // function called before iframe is removed
                 });
 
             }
