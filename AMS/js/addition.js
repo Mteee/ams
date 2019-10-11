@@ -499,6 +499,10 @@ function search() {
                         }
                     }, 500);
 
+                    var check_id = table.row($(this).parents('tr')).data();
+                    console.log(check_id[0]);
+
+
                     // if(data == null || data == undefined){
                     //     data = (localStorage.b).split(',');
                     // console.log("---------------localStorage---------------");
@@ -518,6 +522,7 @@ function search() {
 
                     var data = table.row($(this).parents('tr')).data();
                     viewAsset(data[0]);
+                
                 });
                 // $('#printAssetsView').fadeIn(500);
 

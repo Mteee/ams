@@ -965,7 +965,6 @@ function resetInput(resetId, resetTxt) {
 
 if (localStorage.filter == "ALL EQUIPMENT") {
 
-    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
     $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
