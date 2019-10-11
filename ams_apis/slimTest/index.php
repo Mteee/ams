@@ -2802,6 +2802,7 @@ $app->map(['GET','POST'],'/comm_asset',function(Request $request, Response $resp
 $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $response){
     try{
         global $connect;
+        global $func;
         $data = json_decode(file_get_contents('php://input'));
         $v_asset_class = strtoupper($data->v_asset_class);
         $v_assets = strtoupper($data->v_assets);
@@ -2848,35 +2849,51 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
         // oci_bind_by_name($statement, ':v_out', $add_assets, 4000);
         oci_bind_by_name($statement, ':v_out', $add_assets, -1, OCI_B_CURSOR);
 
-        oci_execute($statement);
+        // oci_execute($statement);
 
-        oci_commit($connect);
-        oci_execute($statement);
-        oci_execute($add_assets);
+        // oci_commit($connect);
+        oci_execute($statement, OCI_NO_AUTO_COMMIT);
+        oci_execute($add_assets, OCI_DEFAULT);
 
-        //  $count = 0;
-        //  $arr = [];
+        $response = array();
+        $count = 0;
+        $check_assets_id = false;
 
-        // while (($row = oci_fetch_array(($add_assets)) != false) {
-        //     // $arr [] = $row;
-        //     // $count++;
-        // }
-
-        echo "Test";
-
+        $tdata = '<table id="assetsAdded_table" class="table table-bordered table-striped">
+                    <thead>
+                        <tr style="background:black" class="text-light">
+                            <th class="theading-sub bg-dark">ASSET(S)</th>
+                            <th class="theading-sub bg-dark">DESCRIPTION</th>
+                            <th class="theading-sub bg-dark">STATUS</th>
+                        </tr>
+                    </thead>
+                    <tbody id="assetsAdded">
+                        ';
         while (($row = oci_fetch_array($add_assets, OCI_ASSOC+OCI_RETURN_NULLS)) != false) {
-            print_r($row);
+
+            $response [] = $row;
+            $tdata .= '<tr>
+                            <td class="theading-sub">'.$row['G_ASSET_ID'].'</td>
+                            <td class="theading-sub">'.$row['G_ASSET_DESC'].'</td>
+                            <td class="theading-sub text-center">'.$func->updateLetterToIcon($row['G_STATUS']).'</td>
+                       </tr>';
+            $count++;
+
+            if($row['G_STATUS'] == 'n'){
+                $check_assets_id = true;
+            }
+        }
+        oci_commit($connect);
+        $tdata .= '</tbody></table>';
+
+        if($check_assets_id){
+            echo json_encode(array("rows" =>  $count ,"data" => $response,"tdata" => $tdata,"found" => $check_assets_id));
+        }else{
+            echo json_encode(array("rows" =>  $count ,"data" => $response,"tdata" => $tdata,"found" => $check_assets_id));
         }
 
-        // if($count > 0){
-        //     // echo json_encode(array("rows" => 0 ,"data" => "ASSETS ADDED SUCCESSFULLY"));
-            
-        //     // echo json_encode(array("rows" =>  $count ,"data" => $arr ));
-        // }
-        // else{
-        //     echo json_encode(array("rows" => 0 ,"data" =>"ASSETS FAILED TO ADD"));
-        // }
-
+         
+  
     }catch (Exception $pdoex) {
         echo "Database Error : " . $pdoex->getMessage();
     }
