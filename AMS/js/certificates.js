@@ -395,6 +395,25 @@ function checkType(val) {
     return return_type;
 }
 
+function checkTypeForCert(val) {
+    var return_type = "";
+    switch (val) {
+        case "COMM":
+            return_type = "ADDITION"
+            break;
+        case " - 1":
+            return_type = "ADDITION"
+            break;
+        case "DISPOSED - 0":
+            return_type = "REMOVAL/SCRAP"
+            break;
+        case "DECOMM":
+            return_type = "REMOVAL/SCRAP"
+            break;
+    }
+
+    return return_type;
+}
 function clearAllFilters() {
 
     clearLocalStorageFilters();
@@ -982,7 +1001,7 @@ function createTable(tableID, tableData) {
                     "<td>" + data.data[i].ASSET_ROOM_NO + "</td>" +
                     "<td>" + data.data[i].HD_ASSET_LOCATION + "</td>" +
                     "<td>" + data.data[i].ASSET_PURCHASE_DT.substr(0,10) + "</td>" +
-                    "<td>" + data.data[i].ASSET_DISPOSAL_DT.substr(0,10) + "</td>" +
+                    "<td>" + checkDesposal(data.data[i].ASSET_DISPOSAL_DT) + "</td>" +
                     "</tr>"
             }
 
@@ -990,7 +1009,7 @@ function createTable(tableID, tableData) {
             document.getElementById('cert_no_field').innerHTML = data.data[0].ASSET_CERTIFICATE_NO;
             document.getElementById('creation_date_field').innerHTML = data.data[0].ASSET_CERTIFICATE_CREATION_DATE;
             document.getElementById('equip_cart').innerHTML = data.data[0].ASSET_CLASS;
-            document.getElementById('trans_type').innerHTML = data.data[0].ASSET_CERTIFICATE_TYPE;
+            document.getElementById('trans_type').innerHTML = checkTypeForCert(data.data[0].ASSET_CERTIFICATE_TYPE);
 
 
             document.getElementById('cert_assets_selected').innerHTML = assets;
@@ -1010,6 +1029,16 @@ function createTable(tableID, tableData) {
 
 
     return table;
+}
+
+function checkDesposal(value){
+    if(value == null || value == undefined){
+        value = "N/A";
+    }else{
+        value = value.substr(0,10);
+    }
+
+    return value;
 }
 
 function replaceAll(find, replace, str) {

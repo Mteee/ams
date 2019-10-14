@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>AMS | Certificates</title>
-    <link rel="stylesheet" href="../css/bootstrap.css">
+    <!-- <link rel="stylesheet" href="../css/bootstrap.css"> -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="../css/bootstrap-theme.css">
     <link rel="stylesheet" href="../css/animate.css">
     <link rel="stylesheet" href="../css/main_add_new.css">
@@ -109,7 +110,7 @@
                     height: 611px;">
                         <div class="comm_cert">
                             <!-- <iframe src="printCertificate.html" width="100%" height="600px" id="iframe" class="iframe_cert"></iframe> -->
-                            <div class="container-fluid " style="border:1px solid black;padding:0 20px;" id="nodeToRenderAsPDF">
+                            <div class="wrapper" style="border:1px solid black;padding:0 20px;" id="nodeToRenderAsPDF">
 
                                 <!-- Header Logo  -->
                                 <!-- <div class="row" style="margin-top: 20px;">
@@ -127,14 +128,16 @@
                                 <table class="table" style="width:100%">
                                     <thead>
                                         <tr>
-                                            <td style="width:33.33%;padding-top: 15px;"> <img src="../img/certificate/impilo.png" width="100" /></td>
-                                            <td style="width:33.33%" class="text-center">
+                                            <td style="width:33.33%;padding-top: 15px;"> <img src="data:image/png;base64,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"
+                                                    width="100" /></td>
+                                            <td style="width:33.33%;text-align: center;" class="text-center">
                                                 <h4 style="font-size: 12pt !important;
                                             margin-top: 32px;
                                             margin-left: -23px;">Inkosi Albert Luthuli Central Hospital<br />Impilo Commissioning Certificate
                                                 </h4>
                                             </td>
-                                            <td style="text-align: end;width:33.33%"> <img src="../img/certificate/Dept. health.png" width="220" height="100" /></td>
+                                            <td style="text-align: end;width:33.33%"> <img src="http://www.ialch.co.za/wp-content/uploads/2017/07/al_logo_new.png" width="220" height="100" />
+                                            </td>
                                         </tr>
                                     </thead>
                                 </table>
@@ -143,33 +146,56 @@
 
 
                                 <!-- Certificate Number Details -->
-                                <div class="row" class="bg-dark text-light" style="background: #000;color: #fff;padding:10px;">
+                                <div class="row bg-dark text-white" style="padding:10px">
                                     <div class="col-md-12 text-center">
                                         <!-- end Transaction Type -->
                                         <table style="width:100%;text-align: center;">
                                             <thead>
                                                 <tr style="border:none !important">
                                                     <td>
-                                                        <!-- cert -->
-                                                        <span style="font-weight:bolder;margin-left: 25px;color: white">Certificate Number
-                                                :</span>
-                                                        <span id="cert_no_field" style="color: white;">2019/000240</span>
-                                                        <!-- end cert -->
-
-                                                        <!-- date -->
-                                                        <span style="font-weight:bolder;margin-left: 20px;color: white">Date :</span>
-                                                        <span id="creation_date_field" style="color: white">2019/08/14 08:30</span>
-                                                        <!-- end date  -->
-
-                                                        <!-- Equipment Category -->
-                                                        <span style="font-weight:bolder;margin-left: 20px;color: white">Equipment Category
-                                                :</span>
-                                                        <span id="equip_cart" style="color: white">Information Technology</span>
-                                                        <!-- end Equipment Category -->
-
-                                                        <!-- Tansaction Type -->
-                                                        <span style="font-weight:bolder;margin-left: 20px;color: white">Transaction Type :</span>
-                                                        <span id="trans_type" style="color: white">Removal</span>
+                                                        <table>
+                                                            <tr style="border:none !important;">
+                                                                <td><span style="font-weight:bolder;margin-left: 25px;color: white !important">Certificate Number
+                                                                    :</span></td>
+                                                                <td><span id="cert_no_field" style="color: white important;">2019/000240</span></td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td>
+                                                        <table>
+                                                            <tr style="border:none !important;">
+                                                                <td><span style="font-weight:bolder;margin-left: 20px;color: white important">Date
+                                                                                :</span>
+                                                                </td>
+                                                                <td><span id="creation_date_field" style="color: white important">2019/08/14
+                                                                                08:30</span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td>
+                                                        <table>
+                                                            <tr style="border:none !important;">
+                                                                <td><span style="font-weight:bolder;margin-left: 20px;color: white important">Equipment
+                                                                                Category
+                                                                                :</span>
+                                                                </td>
+                                                                <td><span id="equip_cart" style="color: white important">Information
+                                                                                Technology</span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                    <td>
+                                                        <table>
+                                                            <tr style="border:none !important;">
+                                                                <td><span style="font-weight:bolder;margin-left: 20px;color: white important">Transaction
+                                                                            Type :</span>
+                                                                </td>
+                                                                <td> <span id="trans_type" style="color: white important">Removal</span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
                                                     </td>
                                                 </tr>
                                             </thead>
@@ -191,9 +217,12 @@
                                                 <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Reference</th>
                                             </tr>
                                             <tr>
-                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;">IT9002</td>
+                                                <!-- <td style="width:33.33%;padding:5px;border:1px solid #ccc;">IT9002</td>
                                                 <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
-                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
+                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td> -->
+                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;text-align: center;"><input style="border:none;text-align: center;" type="text" name="" class="form-control" id=""></td>
+                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;text-align: center;"><input style="border:none;text-align: center;" type="text" name="" class="form-control" id=""></td>
+                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;text-align: center;"><input style="border:none;text-align: center;" type="text" name="" class="form-control" id=""></td>
                                             </tr>
                                         </thead>
                                     </table>
@@ -227,15 +256,17 @@
                                         <div class="row">
                                             <table style="width:100%;margin:0;padding:0;">
                                                 <tr>
-                                                    <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                                    <th colspan="4" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
                                                         On Behalf of Service Provider :</th>
                                                 </tr>
                                                 <tr class="text-center" style="font-weight:bolder;">
-                                                    <td style="width:33.33%;padding:5px;"> Name : _________________________________________
+                                                    <td style="width:25%;padding:5px;"> Name : _______________________________
                                                     </td>
-                                                    <td style="width:33.33%;padding:5px;"> Title : _________________________________________
+                                                    <td style="width:25%;padding:5px;"> Title : _______________________________
                                                     </td>
-                                                    <td style="width:33.33%;padding:5px;">Date : _________________________________________
+                                                    <td style="width:25%;padding:5px;">Date : _______________________________
+                                                    </td>
+                                                    <td style="width:25%;padding:5px;">Signature : _______________________________
                                                     </td>
                                                 </tr>
                                             </table>
@@ -248,15 +279,17 @@
                                         <div class="row">
                                             <table style="width:100%;margin:0;padding:0;">
                                                 <tr>
-                                                    <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                                    <th colspan="4" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
                                                         On Behalf of Inkosi Albert Luthuli Central Hospital:</th>
                                                 </tr>
                                                 <tr class="text-center" style="font-weight:bolder;">
-                                                    <td style="width:33.33%;padding:5px;"> Name : _________________________________________
+                                                    <td style="width:25%;padding:5px;"> Name : _______________________________
                                                     </td>
-                                                    <td style="width:33.33%;padding:5px;"> Title : _________________________________________
+                                                    <td style="width:25%;padding:5px;"> Title : _______________________________
                                                     </td>
-                                                    <td style="width:33.33%;padding:5px;">Date : _________________________________________
+                                                    <td style="width:25%;padding:5px;">Date : _______________________________
+                                                    </td>
+                                                    <td style="width:25%;padding:5px;">Signature : _______________________________
                                                     </td>
                                                 </tr>
                                             </table>
@@ -267,15 +300,17 @@
                                         <div class="row">
                                             <table style="width:100%;margin:0;padding:0;">
                                                 <tr>
-                                                    <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                                    <th colspan="4" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
                                                         On Behalf of Impilo Consortium:</th>
                                                 </tr>
                                                 <tr class="text-center" style="font-weight:bolder;">
-                                                    <td style="width:33.33%;padding:5px;"> Name : _________________________________________
+                                                    <td style="width:25%;padding:5px;"> Name : _______________________________
                                                     </td>
-                                                    <td style="width:33.33%;padding:5px;"> Title : _________________________________________
+                                                    <td style="width:25%;padding:5px;"> Title : _______________________________
                                                     </td>
-                                                    <td style="width:33.33%;padding:5px;">Date : _________________________________________
+                                                    <td style="width:25%;padding:5px;">Date : _______________________________
+                                                    </td>
+                                                    <td style="width:25%;padding:5px;">Signature : _______________________________
                                                     </td>
                                                 </tr>
                                             </table>
@@ -299,8 +334,8 @@
                             style="padding-left:10px;">Export</span>
                     </button> -->
                             <button type="submit" class="btn btn-primary  export" onclick="PDF1()">
-                        <i class="fa fa-file" aria-hidden="true"></i> <span style="padding-left:10px;">Print</span>
-                    </button>
+                            <i class="fa fa-file" aria-hidden="true"></i> <span style="padding-left:10px;">Print</span>
+                        </button>
                         </div>
 
                     </div>
@@ -729,17 +764,17 @@
                     importCSS: true, // import parent page css
                     importStyle: true, // import style tags
                     printContainer: false, // print outer container/$.selector
-                    loadCSS: "", // path to additional css file - use an array [] for multiple
+                    loadCSS: ["../css/main_add_new.css", "../css/bootstrap-theme.css"], // path to additional css file - use an array [] for multiple
                     pageTitle: "Inkosi Albert Luthuli Central Hospital \nImpilo Commissioning Certificate", // add title to print page
                     removeInline: false, // remove inline styles from print elements
                     removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
                     printDelay: 333, // variable print delay
                     header: null, // prefix to html
                     footer: null, // postfix to html
-                    base: true, // preserve the BASE tag or accept a string for the URL
+                    base: false, // preserve the BASE tag or accept a string for the URL
                     formValues: true, // preserve input/form values
                     canvas: true, // copy canvas content
-                    doctypeString: '', // enter a different doctype for older markup
+                    doctypeString: '<!DOCTYPE HTML>', // enter a different doctype for older markup
                     removeScripts: false, // remove script tags from print content
                     copyTagClasses: true, // copy classes from the html & body tag
                     beforePrintEvent: null, // function for printEvent in iframe
