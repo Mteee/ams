@@ -1012,6 +1012,7 @@ function createTable(tableID, tableData) {
             document.getElementById('trans_type').innerHTML = checkTypeForCert(data.data[0].ASSET_CERTIFICATE_TYPE);
 
 
+            document.getElementById('subItemCount').innerHTML = data.rows;
             document.getElementById('cert_assets_selected').innerHTML = assets;
             document.getElementById('overlay-printView').style.display = "block";
         },

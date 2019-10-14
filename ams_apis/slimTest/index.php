@@ -567,7 +567,7 @@ $app->map(['GET','POST'],'/assetCert_print',function(Request $request, Response 
     // }
 
 
-    $sql = " SELECT a_vw.ASSET_MODEL,
+    $sql = "SELECT a_vw.ASSET_MODEL,
                     a_vw.ASSET_PRIMARY_ID,
                     a_vw.HD_ASSET_LOCATION,
                     a_vw.ASSET_ID,
@@ -581,7 +581,7 @@ $app->map(['GET','POST'],'/assetCert_print',function(Request $request, Response 
                     a_cert.ASSET_CERTIFICATE_NO,
                     a_cert.ASSET_CERTIFICATE_TYPE,
                     a_cert.ASSET_CERTIFICATE_CREATION_DATE,
-                    a_cert.ASSET_CLASS
+                    a_vw.ASSET_CLASS
             FROM AMSD.ASSETS_vw a_vw, AMSD.ASSETS_CERTIFICATE a_cert
             WHERE  a_vw.ASSET_CERT_NO = a_cert.ASSET_CERTIFICATE_NO
             AND a_vw.ASSET_CERT_NO = '$cert_no'";
