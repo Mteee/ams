@@ -63,6 +63,9 @@ function addAsset() {
     //certificate if yes
     //....Code
 
+    $('#loader-overlay').show();
+
+    
     setTimeout(function(){
     for (i = 0; i < key.length; i++) {
         json_data[key[i]] = values[i];
@@ -75,7 +78,7 @@ function addAsset() {
 
     console.log('{"v_asset_class": "'+json_data.asset_class+'", "v_assets":"'+json_data.assets+'", "v_asset_model":"'+json_data.model+'", "v_asset_classification" :"'+json_data.classification+'", "v_asset_room_no":"'+json_data.room+'", "v_asset_purchase_dt" :"'+json_data.purchase_date+'", "v_asset_warranty_dt" :"'+json_data.waranty_date+'", "v_asset_vendor_id" :"'+ ""+'", "v_asset_vendor_name" :"'+ ""+'", "v_asset_useful_life":"'+ ""+'", "v_asset_service_dt":"'+json_data.service_date+'", "v_asset_service_due_dt":"'+json_data.service_due_date+'", "v_asset_service_by":"'+json_data.serviced_by+'", "v_asset_cert_ind":"'+ ""+'", "v_asset_cert_no":"'+ json_data.cert+'", "v_asset_added_by":"'+ localStorage.username+'"}');
     
-    
+        
         $.ajax({
             url: "../../ams_apis//slimTest/index.php/add_assets",
             method: "POST",
@@ -90,6 +93,8 @@ function addAsset() {
                 setTimeout(function(){
                     // document.getElementById('overlay-assets-added').style.display = "block !important";
                     $('#overlay-assets-added').show();
+                    $('#loader-overlay').hide();
+
                 }),2000;
                 
             },
