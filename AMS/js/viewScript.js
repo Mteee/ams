@@ -464,8 +464,8 @@ function viewPrintAssets(assets) {
                     if (data.data[i].ASSET_ID == data.data[i].ASSET_PRIMARY_ID) {
                         p_count++;
                         count = 0;
-
-                        if (data.data[i].ASSET_IS_SUB == "y") {
+                        console.log(data.data[i].PRI_HAS_SUB);
+                        if (data.data[i].PRI_HAS_SUB == "y") {
                             th_primary += "<td class='text-center'><span class='toggle-btn' onclick=\"toggle_subs('.sub" + p_count + "')\"> + </span></td>";
                         } else {
                             th_primary += "<td class='text-center'> - </td>";
