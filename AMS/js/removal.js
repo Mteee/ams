@@ -34,6 +34,7 @@ var user_class = localStorage.filter;
 
 $('.user-class option').text(user_class);
 
+var decom_asset = [];
 
 function closeAsset(id) {
     document.getElementById(id).style.display = "none"
@@ -200,7 +201,7 @@ function search() {
                 }
 
                 $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
-                    // var data = table.row($(this).parents('tr')).data();
+                    var data = table_data["currentAssetsTable"].row($(this).parents('tr')).data();
                     setTimeout(function () {
                         console.log(checkboxSelectedLength());
                         if (checkboxSelectedLength() > 0) {
@@ -210,6 +211,19 @@ function search() {
                         }
                     }, 500);
 
+
+                    console.log("=======================================data=======================================");
+                    console.log(data);
+                    console.log("=======================================data[0]=======================================");
+                    console.log(data[0]);
+                    console.log("=======================================data=======================================");
+
+                    checkId(data[0], this);
+
+                    // if (res != " ") {
+                    //     console.log("not empty");
+                    //     $("#currentAssetsTable tbody input[type='checkbox']").prop("checked", false);
+                    // }
                     // if(data == null || data == undefined){
                     //     data = (localStorage.b).split(',');
                     // console.log("---------------localStorage---------------");
@@ -271,6 +285,107 @@ function search() {
         //     }//close error function
         // });//close ajax function
     }
+}
+
+function checkId(asset_id, check_this) {
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/check_id",
+        method: "post",
+        data: '{"asset_id":"' + asset_id + '"}',
+        dataType: "json",
+        'async': false,
+        success: function (data) {
+            console.log(data.data[0]);
+            var errors = [];
+
+            console.log("data" + data.data.IS_PRIMARY + " / " + data.data.IS_SUB + " / " + data.data.IS_LINKED);
+
+            results = "found";
+            if (data.data[0].IS_PRIMARY != null) {
+                errors.push("Asset is a primary and has sub assets");
+            }
+            if (data.data[0].IS_SUB != null) {
+                errors.push("Asset is a sub and is linked to a primary");
+            }
+            if (data.data[0].IS_LINKED != null) {
+                errors.push("Assets is linked to a sub location");
+            }
+            // $('#commAssets').fadeOut(500);
+            // swal.fire({
+            //     title: "Success",
+            //     text: data.data,
+            //     type: 'success',
+            //     showCloseButton: true,
+            //     closeButtonColor: '#3DB3D7',
+            //     allowOutsideClick: true,
+            // })
+            // $('#loaderComm').hide();
+            // if (data.rows > 0) {
+            //     document.getElementById("assetTbody").innerHTML = data.data;
+            //     cert_no.data = data.certificate_number;
+            //     $("movItemCount").text(data.rows);
+            // }
+
+            if (errors.length > 0) {
+
+                $(check_this).prop("checked", false);
+
+                var listOfErros = "<div class='text-center' style='position: sticky;margin: 0 auto; width:260px;'><ol style='text-align:left !important; font-weight:bolder;'>";
+                for (var i = 0; i < errors.length; i++)
+                    listOfErros += "<li class='text-danger'>" + errors[i] + "</li>";
+                $('#DecomAssets').fadeOut(500);
+
+
+                listOfErros += "</ol></div>";
+                sweetAlertMessage(listOfErros);
+            }
+            else {
+                var found = false, index = 0;
+                for (var i = 0; i < decom_asset.length; i++) {
+                    if (decom_asset[i] === asset_id) {
+                        found = true;
+                        index = i;
+                        break;
+                    }
+                }
+                if (found) {
+                    decom_asset.splice(index, 1);
+                }
+                else {
+                    decom_asset.push(asset_id);
+                }
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+};
+
+function sweetAlertMessage(message) {
+    swal.fire({
+        title: "ASSET LINKED",
+        html: message,
+        type: 'error',
+        showCloseButton: true,
+        closeButtonColor: '#3DB3D7',
+        allowOutsideClick: true,
+    }).then((result) => {
+        if (result.value) {
+            // $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]').pro
+            // showDropdown(assets_selected);
+            // continuee( assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked)
+            // continuee(assetValues,input_building,input_level,input_area,input_Room,input_sub,input_radio_checked);
+
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            // confirmLink("SKIP");
+            // console.log("no ALC");
+            // console.log("here2");
+        }
+    });
 }
 
 function createTable(tableID, tableData) {
@@ -365,7 +480,7 @@ function createTable(tableID, tableData) {
             );
         });
 
-        var rowsSelected = rows_selected.join(",").split(",");
+        var rowsSelected = decom_asset;
 
         viewDecomAsset(rowsSelected);
         // Remove added elements
@@ -412,6 +527,7 @@ function viewDecomAsset(assets) {
             $('#loaderDeComm').hide();
             if (data.rows > 0) {
                 document.getElementById("assetTbody").innerHTML = data.data;
+                cert_no.data = data.certificate_number;
                 $("#movItemCount").text(data.rows);
             }
         },
@@ -419,11 +535,64 @@ function viewDecomAsset(assets) {
             console.log(err);
         }
     });
+    console.log(decom_asset);
+    var conc_assets = "";
+    for (var i = 0; i < decom_asset.length; i++) {
+        if (i != decom_asset.length - 1) {
+            conc_assets += decom_asset[i] + "^";
+        } else {
+            conc_assets += decom_asset[i];
+        }
+    }
 
-    $("#confirmComm").off().on("click", function () {
-        confirmComm(send_assets, cert_no.data);
+    console.log(conc_assets);
+
+    $("#confirmDecomm").off().on("click", function () {
+        confirmDecomm(conc_assets, cert_no.data);
     });
 }
+
+function confirmDecomm(assets_ids, certificate_no) {
+
+
+    var comments = $("#comments option:selected").text();
+    console.log('{"assets" : "' + assets_ids + '","cert" : "' + certificate_no + '","comments" : "' + comments + '","username":"' + localStorage.username + '","asset_class":"' + localStorage.filter + '"}');
+
+
+    $.ajax({
+        // url: "assets.json",
+        url: "../../ams_apis/slimTest/index.php/decomm_asset",
+        method: "post",
+        data: '{"username":"' + localStorage.username + '","asset_class":"' + localStorage.filter + '","assets":"' + assets_ids + '","cert":"' + certificate_no + '","comments":"' + comments + '"}',
+        dataType: "json",
+        success: function (data) {
+            closeAsset('overlay-decomAsset');
+            console.log(data);
+            // $('#commAssets').fadeOut(500);
+            search();
+            $('#commAssets').fadeOut(500);
+            swal.fire({
+                title: "Success",
+                text: data.data,
+                type: 'success',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                allowOutsideClick: true,
+            })
+            $('#loaderComm').hide();
+            if (data.rows > 0) {
+                document.getElementById("assetTbody").innerHTML = data.data;
+                cert_no.data = data.certificate_number;
+                $("movItemCount").text(data.rows);
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+
+}
+
 
 function printData() {
     var divToPrint = document.getElementById("tablePrint");
@@ -548,17 +717,17 @@ $('#menu_removal_assetNo').on('click', '.dropdown-item', function () {
 function populate_dropdown() {
 
     //asset No
-    getItems('../../ams_apis/slimTest/index.php/asset_id_addition', 'search_removal_assetNo', 'scroll_removal_assetNo', 'menu_removal_assetNo', 'empty_removal_assetNo');
+    getItems('../../ams_apis/slimTest/index.php/asset_id_removal', 'search_removal_assetNo', 'scroll_removal_assetNo', 'menu_removal_assetNo', 'empty_removal_assetNo');
     //sub location
-    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_addition', 'search_removal_sublocaction', 'scroll_removal_sublocaction', 'menu_removal_sublocaction', 'empty_removal_sublocaction');
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_removal', 'search_removal_sublocaction', 'scroll_removal_sublocaction', 'menu_removal_sublocaction', 'empty_removal_sublocaction');
     // get room
-    getItems('../../ams_apis/slimTest/index.php/asset_room_no_addition', 'search_removal_room', 'scroll_removal_room', 'menu_removal_room', 'empty_removal_room');
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no_removal', 'search_removal_room', 'scroll_removal_room', 'menu_removal_room', 'empty_removal_room');
     // get area
-    getItems('../../ams_apis/slimTest/index.php/asset_area_addition', 'search_removal_area', 'scroll_removal_area', 'meun_removal_area', 'empty_removal_area');
+    getItems('../../ams_apis/slimTest/index.php/asset_area_removal', 'search_removal_area', 'scroll_removal_area', 'meun_removal_area', 'empty_removal_area');
     // get level
-    getItems('../../ams_apis/slimTest/index.php/asset_level_new_addition', 'search_removal_level', 'scroll_removal_level', 'menu_removal_level', 'empty_removal_level');
+    getItems('../../ams_apis/slimTest/index.php/asset_level_removal', 'search_removal_level', 'scroll_removal_level', 'menu_removal_level', 'empty_removal_level');
     // get building
-    getItems('../../ams_apis/slimTest/index.php/building_addition', 'search_removal_building', 'scroll_removal_building', 'menu_removal_building', 'empty_removal_building');
+    getItems('../../ams_apis/slimTest/index.php/building_removal', 'search_removal_building', 'scroll_removal_building', 'menu_removal_building', 'empty_removal_building');
 
 }
 
@@ -811,6 +980,8 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('menu_removal_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('meun_removal_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_removal_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_removal_sublocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_removal_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
 
             localStorage.building = '';
@@ -844,6 +1015,8 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('menu_removal_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('meun_removal_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_removal_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_removal_sublocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_removal_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
             localStorage.level = '';
             localStorage.area = '';
@@ -870,6 +1043,8 @@ function clearData(input, btnDafualtId, text) {
 
             document.getElementById('meun_removal_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_removal_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_removal_sublocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_removal_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
 
             localStorage.area = '';
@@ -891,6 +1066,8 @@ function clearData(input, btnDafualtId, text) {
         } else if (input == "#search_removal_room") {
 
             document.getElementById('menu_removal_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_removal_sublocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_removal_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
 
             localStorage.room_no = '';
@@ -909,6 +1086,7 @@ function clearData(input, btnDafualtId, text) {
         } else if (input == "#search_removal_sublocation") {
 
             document.getElementById('menu_removal_sublocation').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_removal_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
 
             localStorage.sub_location = '';
@@ -974,6 +1152,13 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
 
+        document.getElementById('menu_removal_building').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+        document.getElementById('menu_removal_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+        document.getElementById('meun_removal_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+        document.getElementById('menu_removal_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+        document.getElementById('menu_removal_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+        document.getElementById('menu_removal_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
         if (filter == "IT EQUIPMENT") {
             console.log("show");
             $('.filter_sub').show();
@@ -990,6 +1175,8 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         resetBtn('#level_removal_filter', "LEVEL");
         resetBtn('#area_removal_filter', "AREA");
         resetBtn('#room_removal_filter', "ROOM");
+        resetBtn('#subloacation_removal_filter', "SUB LOCATION");
+        resetBtn('#assetNo_removal_filter', "ASSET NO");
 
     });
 
@@ -1039,8 +1226,6 @@ function cleaAllFilters() {
 
     //description
     $('#view_description').val("");
-
-
 }
 
 var onSearch_new = function (searchValue) {
@@ -1052,4 +1237,62 @@ var onSearch_new = function (searchValue) {
             search();
         }
     }
+}
+
+function viewCommAssets(assets) {
+    var currentItem = "";
+    document.getElementById('overlay-decomAsset').style.display = "block";
+    // console.log($('#assetBody'));
+    document.getElementById('movItemCount').innerHTML = assets.length;
+
+
+    console.log(assets);
+
+    var assets_arr = assets;
+    var send_assets = "";
+    for (var i = 0; i < decom_asset.length; i++) {
+        if (i == decom_asset.length - 1) {
+            send_assets += "\'" + decom_asset[i] + "\'";
+        } else {
+            send_assets += "\'" + decom_asset[i] + "\',";
+        }
+
+    }
+
+    console.log(send_assets);
+    var cert_no = { data: "" };
+
+    $.ajax({
+        // url: "assets.json",
+        url: "../../ams_apis/slimTest/index.php/generate_Cert_no",
+        method: "post",
+        data: '{"assert_primary_id" : "' + send_assets + '"}',
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            $('#loaderComm').hide();
+            if (data.rows > 0) {
+                document.getElementById("assetTbody").innerHTML = data.data;
+                cert_no.data = data.certificate_number;
+                $("#movItemCount").text(data.rows);
+            }
+        },
+        error: function (err) {
+            console.log(err);
+        }
+    });
+
+    var conc_assets = "";
+    for (var i = 0; i < assets_arr.length; i++) {
+        if (i != assets_arr.length - 1) {
+            conc_assets += assets_arr[i] + "^";
+        } else {
+            conc_assets += assets_arr[i];
+        }
+
+    }
+
+    // $("#confirmComm").off().on("click", function () {
+    //     confirmComm(conc_assets, cert_no.data);
+    // });
 }
