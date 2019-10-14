@@ -382,12 +382,13 @@ function checkType(val) {
             return_type = "<p class='text-success'><strong>ADDITION</strong></p>"
             break;
         case " - 1":
-            return_type = "<p class='text-info'><strong>UNASSIGNED</strong></p>"
+            return_type = "<p class='text-info'><strong>ADDITION</strong></p>"
             break;
         case "DISPOSED - 0":
             return_type = "<p class='text-danger'><strong>REMOVAL/SCRAP</strong></p>"
             break;
-        case "":
+        case "DECOMM":
+            return_type = "<p class='text-success'><strong>REMOVAL/SCRAP</strong></p>"
             break;
     }
 
@@ -980,8 +981,8 @@ function createTable(tableID, tableData) {
                     "<td>" + data.data[i].ASSET_CLASSIFICATION + "</td>" +
                     "<td>" + data.data[i].ASSET_ROOM_NO + "</td>" +
                     "<td>" + data.data[i].HD_ASSET_LOCATION + "</td>" +
-                    "<td>" + data.data[i].ASSET_PURCHASE_DT + "</td>" +
-                    "<td>" + data.data[i].ASSET_DISPOSAL_DT + "</td>" +
+                    "<td>" + data.data[i].ASSET_PURCHASE_DT.substr(0,10) + "</td>" +
+                    "<td>" + data.data[i].ASSET_DISPOSAL_DT.substr(0,10) + "</td>" +
                     "</tr>"
             }
 

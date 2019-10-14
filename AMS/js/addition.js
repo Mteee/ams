@@ -488,8 +488,8 @@ function search() {
 
                 }
 
-                $('#currentAssetsTable tbody,#currentAssetsTable thead').off().on('click', 'input[type="checkbox"]', function () {
-                    // var data = table.row($(this).parents('tr')).data();
+                $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
+                    var data = table.row($(this).parents('tr')).data();
                     setTimeout(function () {
                         console.log(checkboxSelectedLength());
                         if (checkboxSelectedLength() > 0) {
@@ -499,9 +499,9 @@ function search() {
                         }
                     }, 500);
 
-                    var check_id = table.row($(this).parents('tr')).data();
-                    console.log(check_id[0]);
-                    checkIsPrim(check_id[0]);
+                    // var check_id = table.row($(this).parents('tr')).data();
+                    // console.log(check_id[0]);
+                    // checkIsPrim(check_id[0]);
 
 
                     // if(data == null || data == undefined){

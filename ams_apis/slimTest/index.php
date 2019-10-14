@@ -3718,17 +3718,17 @@ $app->map(['GET','POST'],'/check_id', function(Request $request, Response $respo
 
 
         $sql = "SELECT (SELECT ASSET_PRIMARY_ID FROM AMSD.ASSETS 
-        WHERE ASSET_PRIMARY_ID = '9BVKGT2'
+        WHERE ASSET_PRIMARY_ID = '$asset_id'
         HAVING COUNT(ASSET_PRIMARY_ID)>1
         GROUP BY ASSET_PRIMARY_ID) AS IS_PRIMARY,
 
     (SELECT ASSET_ID FROM AMSD.ASSETS 
         WHERE ASSET_ID <> ASSET_PRIMARY_ID
-        AND ASSET_ID = '9BVKGT2') AS IS_SUB,
+        AND ASSET_ID = '$asset_id') AS IS_SUB,
 
         (SELECT ASSET_ID FROM AMSD.ASSETS 
         WHERE ASSET_ROOM_NO <> ASSET_SUB_LOCATION
-        AND ASSET_ID = '9BVKGT2') AS IS_LINKED from dual";
+        AND ASSET_ID = '$asset_id') AS IS_LINKED from dual";
 
     $assets_no =$func->executeQuery($sql);
 

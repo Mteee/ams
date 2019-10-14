@@ -34,6 +34,7 @@ var user_class = localStorage.filter;
 
 $('.user-class option').text(user_class);
 
+var decom_asset = [];
 
 function closeAsset(id) {
     document.getElementById(id).style.display = "none"
@@ -210,14 +211,19 @@ function search() {
                         }
                     }, 500);
 
+
+                    console.log("=======================================data=======================================");
+                    console.log(data);
+                    console.log("=======================================data[0]=======================================");
                     console.log(data[0]);
+                    console.log("=======================================data=======================================");
 
-                    var res = checkId(data[0]);
+                    checkId(data[0], this);
 
-                    if (res != " ") {
-                        console.log("not empty");
-                        $("#currentAssetsTable tbody input[type='checkbox']").prop("checked", false);
-                    }
+                    // if (res != " ") {
+                    //     console.log("not empty");
+                    //     $("#currentAssetsTable tbody input[type='checkbox']").prop("checked", false);
+                    // }
                     // if(data == null || data == undefined){
                     //     data = (localStorage.b).split(',');
                     // console.log("---------------localStorage---------------");
@@ -281,43 +287,28 @@ function search() {
     }
 }
 
-function checkId(asset_id) {
-    var results = "";
+function checkId(asset_id, check_this) {
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/check_id",
         method: "post",
         data: '{"asset_id":"' + asset_id + '"}',
         dataType: "json",
+        'async': false,
         success: function (data) {
             console.log(data.data[0]);
-            console.log(data.data[0].IS_PRIMARY);
-            if (data.data.IS_PRIMARY !== null) {
-                results = "found";
-                swal.fire({
-                    title: "ASSET LINKED",
-                    text: "This asset is a primary :- " + data.data[0].IS_PRIMARY + ", and has asset linked to it, please unlink sub to decommission this asset",
-                    type: 'error',
-                    showCloseButton: true,
-                    closeButtonColor: '#3DB3D7',
-                    allowOutsideClick: true,
-                }).then((result) => {
-                    if (result.value) {
-                        // $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]').pro
-                        // showDropdown(assets_selected);
-                        // continuee( assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked)
-                        // continuee(assetValues,input_building,input_level,input_area,input_Room,input_sub,input_radio_checked);
+            var errors = [];
 
-                    } else if (
-                        /* Read more about handling dismissals below */
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-                        // confirmLink("SKIP");
-                        // console.log("no ALC");
-                        // console.log("here2");
-                    }
-                });
+            console.log("data" + data.data.IS_PRIMARY + " / " + data.data.IS_SUB + " / " + data.data.IS_LINKED);
 
-
+            results = "found";
+            if (data.data[0].IS_PRIMARY != null) {
+                errors.push("Asset is a primary and has sub assets");
+            }
+            if (data.data[0].IS_SUB != null) {
+                errors.push("Asset is a sub and is linked to a primary");
+            }
+            if (data.data[0].IS_LINKED != null) {
+                errors.push("Assets is linked to a sub location");
             }
             // $('#commAssets').fadeOut(500);
             // swal.fire({
@@ -334,12 +325,67 @@ function checkId(asset_id) {
             //     cert_no.data = data.certificate_number;
             //     $("movItemCount").text(data.rows);
             // }
+
+            if (errors.length > 0) {
+
+                $(check_this).prop("checked", false);
+
+                var listOfErros = "<div class='text-center' style='position: sticky;margin: 0 auto; width:260px;'><ol style='text-align:left !important; font-weight:bolder;'>";
+                for (var i = 0; i < errors.length; i++)
+                    listOfErros += "<li class='text-danger'>" + errors[i] + "</li>";
+                $('#DecomAssets').fadeOut(500);
+
+
+                listOfErros += "</ol></div>";
+                sweetAlertMessage(listOfErros);
+            }
+            else {
+                var found = false, index = 0;
+                for (var i = 0; i < decom_asset.length; i++) {
+                    if (decom_asset[i] === asset_id) {
+                        found = true;
+                        index = i;
+                        break;
+                    }
+                }
+                if (found) {
+                    decom_asset.splice(index, 1);
+                }
+                else {
+                    decom_asset.push(asset_id);
+                }
+            }
         },
         error: function (err) {
             console.log(err);
         }
     });
-    return results;
+};
+
+function sweetAlertMessage(message) {
+    swal.fire({
+        title: "ASSET LINKED",
+        html: message,
+        type: 'error',
+        showCloseButton: true,
+        closeButtonColor: '#3DB3D7',
+        allowOutsideClick: true,
+    }).then((result) => {
+        if (result.value) {
+            // $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]').pro
+            // showDropdown(assets_selected);
+            // continuee( assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked)
+            // continuee(assetValues,input_building,input_level,input_area,input_Room,input_sub,input_radio_checked);
+
+        } else if (
+            /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+            // confirmLink("SKIP");
+            // console.log("no ALC");
+            // console.log("here2");
+        }
+    });
 }
 
 function createTable(tableID, tableData) {
@@ -434,7 +480,7 @@ function createTable(tableID, tableData) {
             );
         });
 
-        var rowsSelected = rows_selected.join(",").split(",");
+        var rowsSelected = decom_asset;
 
         viewDecomAsset(rowsSelected);
         // Remove added elements
@@ -489,21 +535,23 @@ function viewDecomAsset(assets) {
             console.log(err);
         }
     });
-
+    console.log(decom_asset);
     var conc_assets = "";
-    for (var i = 0; i < assets_arr.length; i++) {
-        if (i != assets_arr.length - 1) {
-            conc_assets += assets_arr[i] + "^";
+    for (var i = 0; i < decom_asset.length; i++) {
+        if (i != decom_asset.length - 1) {
+            conc_assets += decom_asset[i] + "^";
         } else {
-            conc_assets += assets_arr[i];
+            conc_assets += decom_asset[i];
         }
-
     }
+
+    console.log(conc_assets);
 
     $("#confirmDecomm").off().on("click", function () {
         confirmDecomm(conc_assets, cert_no.data);
     });
 }
+
 function confirmDecomm(assets_ids, certificate_no) {
 
 
@@ -1202,11 +1250,11 @@ function viewCommAssets(assets) {
 
     var assets_arr = assets;
     var send_assets = "";
-    for (var i = 0; i < assets_arr.length; i++) {
-        if (i == assets_arr.length - 1) {
-            send_assets += "\'" + assets_arr[i] + "\'";
+    for (var i = 0; i < decom_asset.length; i++) {
+        if (i == decom_asset.length - 1) {
+            send_assets += "\'" + decom_asset[i] + "\'";
         } else {
-            send_assets += "\'" + assets_arr[i] + "\',";
+            send_assets += "\'" + decom_asset[i] + "\',";
         }
 
     }
