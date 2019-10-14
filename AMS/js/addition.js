@@ -86,8 +86,12 @@ function addAsset() {
                 console.log(data);
                 document.getElementById("add_asset_form").reset();
                 document.getElementById('overlay-newAssetView').style.display = "none";
-
-
+                document.getElementById('assetsAdd').innerHTML = data.tdata;
+                setTimeout(function(){
+                    // document.getElementById('overlay-assets-added').style.display = "block !important";
+                    $('#overlay-assets-added').show();
+                }),2000;
+                
             },
             error: function (err) {
                 console.log(err);
