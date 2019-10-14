@@ -1,4 +1,44 @@
 // reset 
+function closeApp() {
+    swal.fire({
+        title: "Exit Application",
+        text: "Are you sure you want to exit?",
+        type: "question",
+        showCloseButton: true,
+        confirmButtonColor: "#C12E2A",
+        allowOutsideClick: true,
+        animation: false,
+        customClass: {
+            popup: 'animated tada'
+        }
+
+    }).then(function (result) {
+        if (result.value) {
+            closeMe();
+        } else if (
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+
+        }
+    })
+}
+
+function closeMe() {
+    // reset 
+    localStorage.building = '';
+    localStorage.area = '';
+    localStorage.level = '';
+    localStorage.room_no = '';
+    localStorage.sub_location = '';
+    localStorage.building_assets = '';
+    localStorage.area_assets = '';
+    localStorage.level_assets = '';
+    localStorage.room_no_assets = '';
+    localStorage.asset_no = '';
+    open("../index.html", '_self')
+    window.location.replace("../index.html");
+    window.close();
+}
 
 function clearBothLocalStorage() {
     clearLocalStorrageSubAssets();

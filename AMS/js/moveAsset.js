@@ -6,6 +6,44 @@
  * Released under the AME license
  * Date: 2019-07-29
  */
+
+function closeApp() {
+    swal.fire({
+        title: "Exit Application",
+        text: "Are you sure you want to exit?",
+        type: "question",
+        showCloseButton: true,
+        confirmButtonColor: "#C12E2A",
+        allowOutsideClick: true,
+        animation: false,
+        customClass: {
+            popup: 'animated tada'
+        }
+
+    }).then(function (result) {
+        if (result.value) {
+            closeMe();
+        } else if (
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+
+        }
+    })
+}
+
+function closeMe() {
+    // reset 
+    localStorage.building = '';
+    localStorage.level = '';
+    localStorage.area = '';
+    localStorage.room_no = '';
+    localStorage.sub_location = '';
+    localStorage.asset_primary_id = '';
+    open("../index.html", '_self')
+    window.location.replace("../index.html");
+    window.close();
+}
+
 clearLocalStorageFilters();
 
 if (localStorage.backupFilter == undefined) {
@@ -1772,15 +1810,15 @@ function clearFunction() {
 
 // close application
 
-function closeApp() {
+// function closeApp() {
 
-    document.getElementById('overlay-alert-message').style.display = "none";
-    document.getElementById('overlay-alert-message').style.display = "block";
-    document.getElementById('alert_header').innerHTML = "Close Application";
-    document.getElementById('alert-message-body').innerHTML = '<div class="text-center" style="margin-top:-12px;"><img src="../img/fail.png" width=100><br><p class="text-danger text-muted text-lg">Are you sure you want to close the Assets Management System?</p>';
-    document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeMe()" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
+//     document.getElementById('overlay-alert-message').style.display = "none";
+//     document.getElementById('overlay-alert-message').style.display = "block";
+//     document.getElementById('alert_header').innerHTML = "Close Application";
+//     document.getElementById('alert-message-body').innerHTML = '<div class="text-center" style="margin-top:-12px;"><img src="../img/fail.png" width=100><br><p class="text-danger text-muted text-lg">Are you sure you want to close the Assets Management System?</p>';
+//     document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeMe()" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
 
-}
+// }
 
 // function closeMe()
 // {

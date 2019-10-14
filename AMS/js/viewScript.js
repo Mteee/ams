@@ -8,6 +8,43 @@
 //Clear Local Storage
 clearLocalStorageFilters();
 
+function closeApp() {
+    swal.fire({
+        title: "Exit Application",
+        text: "Are you sure you want to exit?",
+        type: "question",
+        showCloseButton: true,
+        confirmButtonColor: "#C12E2A",
+        allowOutsideClick: true,
+        animation: false,
+        customClass: {
+            popup: 'animated tada'
+        }
+
+    }).then(function (result) {
+        if (result.value) {
+            closeMe();
+        } else if (
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+
+        }
+    })
+}
+
+function closeMe() {
+    // reset 
+    localStorage.building = '';
+    localStorage.level = '';
+    localStorage.area = '';
+    localStorage.room_no = '';
+    localStorage.sub_location = '';
+    localStorage.asset_primary_id = '';
+    open("../index.html", '_self')
+    window.location.replace("../index.html");
+    window.close();
+}
+
 //check for filter in local storage
 if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
     localStorage.backupFilter = localStorage.filter;
@@ -15,8 +52,8 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
     localStorage.filter = localStorage.backupFilter;
 }
 
-window.onload = function(){
-    if(localStorage.building !== '' || localStorage.level !== '' || localStorage.area !== '' || localStorage.room_no !== ''){
+window.onload = function () {
+    if (localStorage.building !== '' || localStorage.level !== '' || localStorage.area !== '' || localStorage.room_no !== '') {
         localStorage.building = '';
         localStorage.level = '';
         localStorage.area = '';
@@ -65,7 +102,7 @@ function viewAsset(assetId) {
     });
 }
 
-var table_data  = {currentAssetsTable:[]}
+var table_data = { currentAssetsTable: [] }
 
 function search() {
 
@@ -73,11 +110,11 @@ function search() {
         level = document.getElementById('search_view_level').value,
         area = document.getElementById('search_view_area').value,
         room_no = document.getElementById('search_view_room').value;
-        description = document.getElementById('view_description').value;
-        sub_location = document.getElementById('search_view_sublocaction').value;
-        asset_primary_id = document.getElementById('search_view_assetNo').value;
+    description = document.getElementById('view_description').value;
+    sub_location = document.getElementById('search_view_sublocaction').value;
+    asset_primary_id = document.getElementById('search_view_assetNo').value;
 
-    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - "+ sub_location +" - "+asset_primary_id);
+    var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location + " - " + asset_primary_id);
     var current = "";
     // console.log(results);
     if (" -  -  -  -  -  - " == results) {
@@ -131,7 +168,7 @@ function search() {
                         //         str += '["' + data.data[k].ASSET_ID + '","';
                         //         str +=    data.data[k].ASSET_ID + '","';
                         //     }
-                            
+
                         //     str +=    data.data[k].ASSET_ROOM_NO + '","';
                         //     str +=    data.data[k].ASSET_AREA + '","';
                         //     str +=    replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
@@ -145,7 +182,7 @@ function search() {
                         //         str += '["' + data.data[k].ASSET_ID + '","';
                         //         str +=    data.data[k].ASSET_ID + '","';
                         //     }
-                            
+
                         //     str +=    data.data[k].ASSET_ROOM_NO + '","';
                         //     str +=    data.data[k].ASSET_AREA + '","';
                         //     str +=    replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
@@ -176,10 +213,10 @@ function search() {
 
                     console.log("Replace all");
                     console.log(str);
-                    
+
                     str = replaceAll("\n", "", str);
                     // str = replaceAll("'", "^", str);
-                    
+
                     console.log(str);
 
                     str = (JSON.parse(str));
@@ -293,7 +330,7 @@ function createTable(tableID, tableData) {
                     break;
                 } else {
                     out.push(tableData[i]);
-                
+
                 }
 
             }
@@ -321,7 +358,7 @@ function createTable(tableID, tableData) {
                 'targets': 0,
                 'checkboxes': {
                     'selectRow': true,
-                    'value' : tableData[0]
+                    'value': tableData[0]
                 }
             },
             {
@@ -341,7 +378,7 @@ function createTable(tableID, tableData) {
         ], 'select': {
             'style': 'multi'
         },
-        fnCreatedRow: function (nTd,nRow, aData, iDataIndex) {
+        fnCreatedRow: function (nTd, nRow, aData, iDataIndex) {
 
             $(nRow).attr('id', aData[0]);
             // console.log($(nTd).children()[0].children);
@@ -352,7 +389,7 @@ function createTable(tableID, tableData) {
         // Prevent actual form submission
         e.preventDefault();
         var rows_selected = table.column(0).checkboxes.selected();
-      
+
         var form = $('#frm-example');
 
         // Iterate over all selected checkboxes
@@ -364,7 +401,7 @@ function createTable(tableID, tableData) {
                     .attr('name', 'id[]')
                     .val(rowId)
             );
-        }); 
+        });
 
         var rowsSelected = rows_selected.join(",").split(",");
 
@@ -842,7 +879,7 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('menu_view_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_view_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_view_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-        
+
             localStorage.building = '';
             localStorage.level = '';
             localStorage.area = '';
@@ -851,7 +888,7 @@ function clearData(input, btnDafualtId, text) {
             localStorage.asset_primary_id = '';
 
             populate_dropdown();
-  
+
             $(input).val("");
             $(btnDafualtId).text(text);
 
@@ -867,7 +904,7 @@ function clearData(input, btnDafualtId, text) {
             $('#room_view_sublocation').text("SUB LOCATION");
             $('#search_view_assetNo').val("");
             $('#room_view_assetNo').text("ASSET NO");
-            
+
 
         } else if (input == "#search_view_level") {
 
@@ -905,14 +942,14 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('meun_view_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_view_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-           
+
             localStorage.area = '';
             localStorage.room_no = '';
             localStorage.sub_location = '';
             localStorage.asset_primary_id = '';
 
             populate_dropdown();
-  
+
             $('#search_view_area').val("");
             $('#area_view_filter').text("AREA");
             $('#search_view_room').val("");
@@ -928,7 +965,7 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('menu_view_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_view_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-        
+
             localStorage.room_no = '';
             localStorage.sub_location = '';
             localStorage.asset_primary_id = '';
@@ -947,7 +984,7 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('menu_view_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_view_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-        
+
             localStorage.sub_location = '';
             localStorage.asset_primary_id = '';
 
@@ -958,11 +995,11 @@ function clearData(input, btnDafualtId, text) {
             $('#search_view_assetNo').val("");
             $('#room_view_assetNo').text("ASSET NO");
 
-        
+
         } else if (input == "#search_view_assetNo") {
 
             document.getElementById('menu_view_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-    
+
             localStorage.asset_primary_id = '';
 
             populate_dropdown();
@@ -970,7 +1007,7 @@ function clearData(input, btnDafualtId, text) {
             $('#search_view_assetNo').val("");
             $('#room_view_assetNo').text("ASSET NO");
 
-        } 
+        }
 
 
         // if (btnDafualtId == "#dropdown_approve_room") {
@@ -1025,7 +1062,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         resetBtn('#level_view_filter', "LEVEL");
         resetBtn('#area_view_filter', "AREA");
         resetBtn('#room_view_filter', "ROOM");
-    
+
     });
 
 } else {
@@ -1042,7 +1079,7 @@ function resetInput(resetId, resetTxt) {
     $(resetId).val(resetTxt);
 }
 
-function clearLocalStorageFilters(){
+function clearLocalStorageFilters() {
     localStorage.building = '';
     localStorage.level = '';
     localStorage.area = '';
@@ -1059,7 +1096,7 @@ function clearLocalStorageFilters(){
 
 }
 
-function cleaAllFilters(){
+function cleaAllFilters() {
 
     clearLocalStorageFilters();
 
@@ -1071,9 +1108,9 @@ function cleaAllFilters(){
     $('#room_view_filter').text("ROOM");
     $('#sublocation_view_filter').text("SUB LOCATION");
     $('#assetNo_view_filter').text("ASSET NO");
-     
-     //description
-     $('#view_description').val("");
+
+    //description
+    $('#view_description').val("");
 
 
 }

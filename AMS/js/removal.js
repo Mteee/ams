@@ -6,6 +6,44 @@
  * Date: 2019-07-29
  */
 //Clear Local Storage
+
+function closeApp() {
+    swal.fire({
+        title: "Exit Application",
+        text: "Are you sure you want to exit?",
+        type: "question",
+        showCloseButton: true,
+        confirmButtonColor: "#C12E2A",
+        allowOutsideClick: true,
+        animation: false,
+        customClass: {
+            popup: 'animated tada'
+        }
+
+    }).then(function (result) {
+        if (result.value) {
+            closeMe();
+        } else if (
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+
+        }
+    })
+}
+
+function closeMe() {
+    // reset 
+    localStorage.building = '';
+    localStorage.level = '';
+    localStorage.area = '';
+    localStorage.room_no = '';
+    localStorage.sub_location = '';
+    localStorage.asset_primary_id = '';
+    open("../index.html", '_self')
+    window.location.replace("../index.html");
+    window.close();
+}
+
 clearLocalStorageFilters();
 
 //check for filter in local storage

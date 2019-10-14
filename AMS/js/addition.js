@@ -14,6 +14,43 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
 }
 
 
+function closeApp() {
+    swal.fire({
+        title: "Exit Application",
+        text: "Are you sure you want to exit?",
+        type: "question",
+        showCloseButton: true,
+        confirmButtonColor: "#C12E2A",
+        allowOutsideClick: true,
+        animation: false,
+        customClass: {
+            popup: 'animated tada'
+        }
+
+    }).then(function (result) {
+        if (result.value) {
+            closeMe();
+        } else if (
+            result.dismiss === Swal.DismissReason.cancel
+        ) {
+
+        }
+    })
+}
+
+function closeMe() {
+    // reset 
+    localStorage.building = '';
+        localStorage.level = ''
+        localStorage.area = ''
+        localStorage.room_no = ''
+        localStorage.sub_location = ''
+        localStorage.asset_no = ''
+    open("../index.html", '_self')
+    window.location.replace("../index.html");
+    window.close();
+}
+
 window.onload = function () {
     if (localStorage.building !== '' || localStorage.level !== '' || localStorage.area !== '' || localStorage.room_no !== '') {
         localStorage.building = '';
@@ -65,7 +102,7 @@ function addAsset() {
 
     $('#loader-overlay').show();
 
-    
+
     setTimeout(function(){
     for (i = 0; i < key.length; i++) {
         json_data[key[i]] = values[i];
