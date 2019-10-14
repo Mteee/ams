@@ -772,6 +772,7 @@ $app->map(['GET','POST'],'/filter_with_var',function(Request $request, Response 
     }
 
 });
+
 $app->map(['GET','POST'],'/printView',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -782,11 +783,11 @@ $app->map(['GET','POST'],'/printView',function(Request $request, Response $respo
         $ASSET_CLASS = '';
     }
 
-    $sql = "SELECT ASSET_AREA_NAME AS ASSET_AREA,ASSET_ROOM_NO,ASSET_PRIMARY_ID,ASSET_ID,ASSET_DESCRIPTION,ASSET_IS_SUB
+    $sql = "SELECT ASSET_AREA_NAME AS ASSET_AREA,ASSET_ROOM_NO,ASSET_PRIMARY_ID,ASSET_ID,ASSET_DESCRIPTION,ASSET_IS_SUB,AMSD.fn_asset_has_subs_new(ASSET_ID) AS PRI_HAS_SUB
     FROM AMSD.ASSETS_VW
     WHERE ASSET_CLASS LIKE '%$ASSET_CLASS%'
-    AND ASSET_PRIMARY_ID IN ($ASSET_NO)";
-
+    AND ASSET_PRIMARY_ID IN ($ASSET_NO)
+    order by asset_primary_id, asset_is_sub, asset_id";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -800,6 +801,7 @@ $app->map(['GET','POST'],'/printView',function(Request $request, Response $respo
     }
 
 });
+
 $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Response $response){
 
     global $func;
