@@ -2089,7 +2089,9 @@ $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Respo
  * 
  */
 
-
+/**
+ * COMMISSIONING FILTERS
+ */
 $app->map(['GET','POST'],'/building_addition', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -2250,7 +2252,6 @@ $app->map(['GET','POST'],'/asset_area_addition', function(Request $request, Resp
     }
 });
 
-
 $app->map(['GET','POST'],'/asset_room_no_addition', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -2409,6 +2410,343 @@ $app->map(['GET','POST'],'/asset_id_addition', function(Request $request, Respon
     }
  
 });
+
+/**
+ * END COMMISSIONING FILTERS
+ */
+
+ /**
+ * DECOMMISSIONING FILTERS
+ */
+$app->map(['GET','POST'],'/building_removal', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $asset_no = strtoupper($data->asset_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT 
+                ASSET_BUILDING
+                FROM AMSD.ASSETS_VW 
+            WHERE ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND ASSET_ID LIKE '%$asset_no%'
+            AND ASSET_STATUS = 'ACTIVE'
+            AND ASSET_CERT_NO IS NOT NULL
+            --AND ASSET_PRINT_DATE IS NOT NULL 
+            GROUP BY ASSET_BUILDING
+            ORDER BY ASSET_BUILDING";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_BUILDING;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+$app->map(['GET','POST'],'/asset_level_removal', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $asset_no = strtoupper($data->asset_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT 
+                ASSET_LEVEL 
+                FROM AMSD.ASSETS_VW 
+            WHERE ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND ASSET_ID LIKE '%$asset_no%'
+            AND ASSET_STATUS = 'ACTIVE'
+            AND ASSET_CERT_NO IS NOT NULL
+            --AND ASSET_PRINT_DATE IS NOT NULL 
+            GROUP BY ASSET_LEVEL
+            ORDER BY ASSET_LEVEL";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_LEVEL;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+});
+
+$app->map(['GET','POST'],'/asset_area_removal', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $asset_no = strtoupper($data->asset_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT 
+                ASSET_AREA_NAME
+                FROM AMSD.ASSETS_VW 
+            WHERE ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%' 
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND ASSET_ID LIKE '%$asset_no%'
+            AND ASSET_STATUS = 'ACTIVE'
+            AND ASSET_CERT_NO IS NOT NULL
+            --AND ASSET_PRINT_DATE IS NOT NULL 
+            GROUP BY ASSET_AREA_NAME
+            ORDER BY ASSET_AREA_NAME";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_AREA_NAME;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+});
+
+$app->map(['GET','POST'],'/asset_room_no_removal', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $asset_no = strtoupper($data->asset_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT ASSET_ROOM_NO
+            FROM AMSD.ASSETS_VW 
+            WHERE ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND ASSET_ID LIKE '%$asset_no%'
+            AND ASSET_STATUS = 'ACTIVE'
+            AND ASSET_CERT_NO IS NOT NULL
+            --AND ASSET_PRINT_DATE IS NOT NULL 
+            GROUP BY ASSET_ROOM_NO
+            ORDER BY ASSET_ROOM_NO";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response [] = $value->ASSET_ROOM_NO;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $assets_no;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+$app->map(['GET','POST'],'/asset_sub_location_removal', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $asset_no = strtoupper($data->asset_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT ASSET_SUB_LOCATION
+            FROM AMSD.ASSETS_VW 
+            WHERE ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND ASSET_ID LIKE '%$asset_no%'
+            AND ASSET_STATUS = 'ACTIVE'
+            AND ASSET_CERT_NO IS NOT NULL
+            --AND ASSET_PRINT_DATE IS NOT NULL             
+            GROUP BY ASSET_SUB_LOCATION
+            ORDER BY ASSET_SUB_LOCATION";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response [] = $value->ASSET_SUB_LOCATION;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $assets_no;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+$app->map(['GET','POST'],'/asset_id_removal', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $asset_no = strtoupper($data->asset_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT ASSET_ID
+            FROM AMSD.ASSETS_VW 
+            WHERE ASSET_CLASS LIKE '%$asset_class%'
+            AND ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%' 
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND ASSET_ID LIKE '%$asset_no%'
+            AND ASSET_STATUS = 'ACTIVE'
+            AND ASSET_CERT_NO IS NOT NULL
+            --AND ASSET_PRINT_DATE IS NOT NULL 
+            GROUP BY ASSET_ID
+            ORDER BY ASSET_ID";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response [] = $value->ASSET_ID;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $assets_no;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+/**
+ * END DECOMMISSIONING FILTERS
+ */
+
 //without cert no
 $app->map(['GET','POST'],'/getAll_Assets_withNo_Cert_no',function(Request $request, Response $response){
     global $func;
@@ -2693,50 +3031,87 @@ $app->map(['GET','POST'],'/get_Asset_status_decom',function(Request $request, Re
     // $cert_no = strtoupper($data->cert);
     $ASSET_NO = strtoupper($data->assert_primary_id);
 
-    $sql_exec = "SELECT ASSET_ID,ASSET_DESCRIPTION,ASSET_STATUS
-    FROM AMSD.ASSETS_VW
-    WHERE ASSET_ID IN ($ASSET_NO)
-    AND ASSET_STATUS = 'ACTIVE'
-    GROUP BY ASSET_ID,ASSET_DESCRIPTION,ASSET_STATUS
-    ORDER BY ASSET_ID ASC";
+    $sql = "SELECT ASSET_CERT_NO
+    FROM AMSD.ASSETS
+    WHERE ASSET_CERT_NO IS NOT NULL
+    AND ASSET_STATUS = '1'
+    GROUP BY ASSET_CERT_NO
+    ORDER BY ASSET_CERT_NO DESC";
 
-    $count = 0;
-    $sub = "";
+    $assets_no =$func->executeQuery($sql);
 
-    $asset_info =$func->executeQuery($sql_exec);
+    if($assets_no){
 
-    if($asset_info){
-        // $ass = $asset_info;
-        $decode_response = json_decode($asset_info);
+        $assets_no;
+        $new_cert = json_decode($assets_no);
 
-        // array_push($decode_response->data,array("cert"=> $cert_int));
-        // echo json_encode($decode_response);
+        $new_cert = $new_cert->data[0]->ASSET_CERT_NO;
+        $str_arr = explode("/", $new_cert);  
 
-        foreach($decode_response->data as $res){
+        $cert_int = (int)$str_arr[1];
+        // echo $str_arr[1]." b4 -----------";
+        $cert_int++;
+        $len = strlen((string)$cert_int);
+        $zeros = "";
+        if($len < 5){
 
-            //  echo $res->ASSET_PRIMARY_ID;
-      
-            $sub .= '<tr>
-                            <td>'.$res->ASSET_ID.'</td>
-                            <td>'.$res->ASSET_DESCRIPTION.'</td>
-                            <td>'.$res->ASSET_STATUS.'</td>
-                        </tr>
-                    ';
+            for($i = $len;$i<5;$i++){
+                $zeros .="0";
+            }
 
-                        $count++;
-            
+            $cert_int = $zeros.$cert_int;
         }
 
+        $cert_int = date("Y").'/'.$cert_int;
+        // $ass ={ };
+        // echo $cert_int." after";
+        if(!empty($cert_int)){
 
-        echo json_encode(array("rows" => $count ,"data"=>$sub));
-    }
-    else{
-        echo json_encode(array("rows" => 0 ,"data" =>[]));
+            $asset_sql = "SELECT ASSET_ID,ASSET_DESCRIPTION
+            FROM AMSD.ASSETS_VW
+            WHERE ASSET_ID IN ($ASSET_NO)";
+
+            $count = 0;
+            $sub = "";
+
+            $asset_info =$func->executeQuery($asset_sql);
+
+            if($asset_info){
+                // $ass = $asset_info;
+                $decode_response = json_decode($asset_info);
+
+                // array_push($decode_response->data,array("cert"=> $cert_int));
+                // echo json_encode($decode_response);
+
+                foreach($decode_response->data as $res){
+
+                    //  echo $res->ASSET_PRIMARY_ID;
+              
+                    $sub .= '<tr>
+                                    <td>'.$res->ASSET_ID.'</td>
+                                    <td>'.$res->ASSET_DESCRIPTION.'</td>
+                                    <td>'.$cert_int.'</td>
+                                </tr>
+                            ';
+    
+                                $count++;
+                    
+                }
+
+
+                echo json_encode(array("rows" => $count ,"data"=>$sub,"certificate_number"=>$cert_int));
+            }
+            else{
+                echo json_encode(array("rows" => 0 ,"data" =>[]));
+            }
+        }
+
     }
 
 });
 
 
+//commissioning procedure
 $app->map(['GET','POST'],'/comm_asset',function(Request $request, Response $response){
 
     try{
@@ -2753,6 +3128,10 @@ $app->map(['GET','POST'],'/comm_asset',function(Request $request, Response $resp
         // $v_cert_status  = "1";
         // $v_cert_type = "COMM";
         // $sql = "UPDATE AMSD.ASSETS SET ASSET_CERT_NO = '$cert' WHERE ASSET_ID IN ($assets)";
+
+        if($asset_class == 'ALL EQUIPMENT'){
+            $asset_class = '';
+        }
 
         $sql  = "BEGIN asset_certificate_comm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'COMM','','1',:v_out); END;";
         $statement = oci_parse($connect,$sql);
@@ -2772,6 +3151,55 @@ $app->map(['GET','POST'],'/comm_asset',function(Request $request, Response $resp
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"ASSETS WAS NOT COMMISSIONED"));
+        }
+    }
+    catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+
+});
+
+//decommissioning procedure
+$app->map(['GET','POST'],'/decomm_asset',function(Request $request, Response $response){
+
+    try{
+
+        global $connect;
+
+        $data = json_decode(file_get_contents('php://input'));
+        $username = strtoupper($data->username);
+        $asset_class = strtoupper($data->asset_class);
+        $assets = strtoupper($data->assets);
+        $cert = strtoupper($data->cert);
+        $comments = strtoupper($data->comments);
+        $v_out = "";
+        // $v_print_date = "";
+        // $v_cert_status  = "1";
+        // $v_cert_type = "COMM";
+        // $sql = "UPDATE AMSD.ASSETS SET ASSET_CERT_NO = '$cert' WHERE ASSET_ID IN ($assets)";
+
+        if($asset_class == 'ALL EQUIPMENT'){
+            $asset_class = '';
+        }
+
+        $sql  = "BEGIN asset_certificate_decomm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'',:v_comments,:v_out); END;";
+        $statement = oci_parse($connect,$sql);
+        oci_bind_by_name($statement, ':v_username', $username, 50);
+        oci_bind_by_name($statement, ':v_asset_class', $asset_class, 4000);
+        oci_bind_by_name($statement, ':v_asset_ids', $assets, 50);
+        oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
+        oci_bind_by_name($statement, ':v_comments', $comments, 50);
+        oci_bind_by_name($statement, ':v_out',  $v_out, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($v_out == "y"){
+            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS DECOMMISSIONED SUCCESSFULLY"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS WAS NOT DECOMMISSIONED"));
         }
     }
     catch (Exception $pdoex) {
@@ -3251,6 +3679,39 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
             AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND a.ASSET_CERT_NO LIKE '%$cert_no%'
             GROUP BY a.ASSET_CERT_NO,a.ASSET_CLASS,b.ASSET_CERTIFICATE_TYPE,b.ASSET_CERTIFICATE_CREATION_DATE,b.ASSET_CERTIFICATE_PRINT_DATE,b.ASSET_CERTIFICATE_STATUS";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        echo $assets_no;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+ 
+});
+
+//check is asset decommissionable
+$app->map(['GET','POST'],'/check_id', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $asset_id = strtoupper($data->asset_id);
+    $response = array();
+
+
+        $sql = "SELECT (SELECT ASSET_PRIMARY_ID FROM AMSD.ASSETS 
+        WHERE ASSET_PRIMARY_ID = '9BVKGT2'
+        HAVING COUNT(ASSET_PRIMARY_ID)>1
+        GROUP BY ASSET_PRIMARY_ID) AS IS_PRIMARY,
+
+    (SELECT ASSET_ID FROM AMSD.ASSETS 
+        WHERE ASSET_ID <> ASSET_PRIMARY_ID
+        AND ASSET_ID = '9BVKGT2') AS IS_SUB,
+
+        (SELECT ASSET_ID FROM AMSD.ASSETS 
+        WHERE ASSET_ROOM_NO <> ASSET_SUB_LOCATION
+        AND ASSET_ID = '9BVKGT2') AS IS_LINKED from dual";
 
     $assets_no =$func->executeQuery($sql);
 

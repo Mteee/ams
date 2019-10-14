@@ -484,7 +484,7 @@ function search() {
 
                 }
 
-                $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
+                $('#currentAssetsTable tbody,#currentAssetsTable thead').off().on('click', 'input[type="checkbox"]', function () {
                     // var data = table.row($(this).parents('tr')).data();
                     setTimeout(function () {
                         console.log(checkboxSelectedLength());
@@ -497,6 +497,7 @@ function search() {
 
                     var check_id = table.row($(this).parents('tr')).data();
                     console.log(check_id[0]);
+                    checkIsPrim(check_id[0]);
 
 
                     // if(data == null || data == undefined){
@@ -738,6 +739,7 @@ var conc_assets = "";
 function confirmComm(assets_ids, certificate_no) {
 
     console.log('{"assets" : "' + assets_ids + '","cert" : "' + certificate_no + '"}');
+    
 
     $.ajax({
         // url: "assets.json",
