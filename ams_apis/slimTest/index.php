@@ -567,9 +567,24 @@ $app->map(['GET','POST'],'/assetCert_print',function(Request $request, Response 
     // }
 
 
-    $sql = "SELECT ASSET_MODEL,ASSET_PRIMARY_ID,HD_ASSET_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA_NAME,ASSET_CLASSIFICATION,ASSET_DESCRIPTION,ASSET_PURCHASE_DT,ASSET_IS_SUB,ASSET_DISPOSAL_DT 
-    FROM AMSD.ASSETS_vw
-    WHERE ASSET_CERT_NO = '$cert_no'";
+    $sql = " SELECT a_vw.ASSET_MODEL,
+                    a_vw.ASSET_PRIMARY_ID,
+                    a_vw.HD_ASSET_LOCATION,
+                    a_vw.ASSET_ID,
+                    a_vw.ASSET_ROOM_NO,
+                    a_vw.ASSET_AREA_NAME,
+                    a_vw.ASSET_CLASSIFICATION,
+                    a_vw.ASSET_DESCRIPTION,
+                    a_vw.ASSET_PURCHASE_DT,
+                    a_vw.ASSET_IS_SUB,
+                    a_vw.ASSET_DISPOSAL_DT,
+                    a_cert.ASSET_CERTIFICATE_NO,
+                    a_cert.ASSET_CERTIFICATE_TYPE,
+                    a_cert.ASSET_CERTIFICATE_CREATION_DATE,
+                    a_cert.ASSET_CLASS
+            FROM AMSD.ASSETS_vw a_vw, AMSD.ASSETS_CERTIFICATE a_cert
+            WHERE  a_vw.ASSET_CERT_NO = a_cert.ASSET_CERTIFICATE_NO
+            AND a_vw.ASSET_CERT_NO = '$cert_no'";
 
 
     $assets_no =$func->executeQuery($sql);

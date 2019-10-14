@@ -986,6 +986,13 @@ function createTable(tableID, tableData) {
                     "</tr>"
             }
 
+
+            document.getElementById('cert_no_field').innerHTML = data.data[0].ASSET_CERTIFICATE_NO;
+            document.getElementById('creation_date_field').innerHTML = data.data[0].ASSET_CERTIFICATE_CREATION_DATE;
+            document.getElementById('equip_cart').innerHTML = data.data[0].ASSET_CLASS;
+            document.getElementById('trans_type').innerHTML = data.data[0].ASSET_CERTIFICATE_TYPE;
+
+
             document.getElementById('cert_assets_selected').innerHTML = assets;
             document.getElementById('overlay-printView').style.display = "block";
         },
