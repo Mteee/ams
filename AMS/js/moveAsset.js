@@ -212,7 +212,7 @@ function search() {
                             str += data.data[k].ASSET_AREA + '","';
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
                             str += data.data[k].ASSET_STATUS + '","';
-                            str += updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
+                            str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"]';
                         } else {
 
                             str += '["' + data.data[k].ASSET_ID + '","';
@@ -222,7 +222,7 @@ function search() {
                             str += data.data[k].ASSET_AREA + '","';
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
                             str += data.data[k].ASSET_STATUS + '","';
-                            str += updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
+                            str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"],';
                         }
                     }
                     str += ']}'

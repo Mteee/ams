@@ -474,7 +474,7 @@ function viewPrintAssets(assets) {
                         th_primary += "<td>" + data.data[i].ASSET_AREA + "</td><td>" + data.data[i].ASSET_ROOM_NO + "</td><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
                         html_view += th_primary;
                     } else {
-                        sub_info += "<tr class='sub" + p_count + "'><td>" + (count) + "</td>";
+                        sub_info += "<tr class='sub" + p_count + "'><td class='text-center'>" + (count) + "</td>";
 
                         sub_info += "<td colspan='2'><td>" + data.data[i].ASSET_ID + "</td><td>" + data.data[i].ASSET_DESCRIPTION + "</td></tr>";
                         html_view += sub_info;
