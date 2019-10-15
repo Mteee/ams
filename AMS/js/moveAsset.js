@@ -540,10 +540,10 @@ function populate_tran_dropdown() {
     getItems('../../ams_apis/slimTest/index.php/building_view', 'search_transfer_building', 'scroll_transfer_building', 'menu_transfer_building', 'empty_transfer_building');
     // get level
     getItems('../../ams_apis/slimTest/index.php/asset_level_new_view', 'search_transfer_level', 'scroll_transfer_level', 'menu_transfer_level', 'empty_transfer_level');
-    // get room_no
-    getItems('../../ams_apis/slimTest/index.php/room_no', 'search_transfer_roomno', 'scroll_transfer_room', 'menu_transfer_Room', 'empty_transfer_Room');
     // get location
     getItems('../../ams_apis/slimTest/index.php/location_area', 'search_transfer_location', 'scroll_tarnsfer_Location', 'menu_transfer_Location', 'empty_transfer_Location');
+    // get room_no
+    getItems('../../ams_apis/slimTest/index.php/room_no', 'search_transfer_roomno', 'scroll_transfer_room', 'menu_transfer_Room', 'empty_transfer_Room');
     // get sub
     getItems('../../ams_apis/slimTest/index.php/asset_sub_location_view', 'search_transfer_sub', 'scroll_transfer_sub', 'menu_transfer_sub', 'empty_transfer_sub');
 }
@@ -572,6 +572,7 @@ var allArr = {
 // console.log("allArr");
 
 function getItems(url, id, scrollArea, menuid) {
+
     console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '","sub_location": "' + localStorage.sub_location + '","asset_primary_id": "' + localStorage.asset_primary_id + '"}');
     $.ajax({
         url: url,
@@ -579,6 +580,24 @@ function getItems(url, id, scrollArea, menuid) {
         dataType: 'JSON',
         data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '","sub_location": "' + localStorage.sub_location + '","asset_primary_id": "' + localStorage.asset_primary_id + '"}',
         success: function (data) {
+
+            if ($("#search_transfer_roomno").val() !== "") {
+
+                if (id == "search_transfer_building") {
+                    $("#building_transfer_filter").text(data.data[0])
+                    $("#search_transfer_building").val(data.data[0])
+                }
+                if (id == "search_transfer_level") {
+                    $("#level_transfer_filter").text(data.data[0])
+                    $("#search_transfer_level").val(data.data[0])
+                }
+                if (id == "search_transfer_location") {
+                    $("#dropdown_transfer_location").text(data.data[0])
+                    $("#search_transfer_location").val(data.data[0])
+                }
+
+            }
+
             console.log(data.data);
             var rows = [];
             var searchValue = document.getElementById(id);
@@ -717,7 +736,7 @@ function getSelectedItems(id) {
                 // showDropdown(assets_selected);
                 // continuee( assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked)
                 // continuee(assetValues,input_building,input_level,input_area,input_Room,input_sub,input_radio_checked);
-    
+
             } else if (
                 /* Read more about handling dismissals below */
                 result.dismiss === Swal.DismissReason.cancel
@@ -917,9 +936,9 @@ function getSelectedItems(id) {
                             }).then((result) => {
                                 if (result.value) {
                                     // showDropdown(assets_selected);
-                                    continuee( assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked)
+                                    continuee(assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked)
                                     // continuee(assetValues,input_building,input_level,input_area,input_Room,input_sub,input_radio_checked);
-                        
+
                                 } else if (
                                     /* Read more about handling dismissals below */
                                     result.dismiss === Swal.DismissReason.cancel
@@ -956,8 +975,8 @@ function getSelectedItems(id) {
                             }).then((result) => {
                                 if (result.value) {
                                     // showDropdown(assets_selected);
-                                    continuee(assetValues,input_building,input_level,input_area,input_Room,input_sub,input_radio_checked);
-                        
+                                    continuee(assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked);
+
                                 } else if (
                                     /* Read more about handling dismissals below */
                                     result.dismiss === Swal.DismissReason.cancel
@@ -1005,7 +1024,7 @@ function getSelectedItems(id) {
                                     // showDropdown(assets_selected);
                                     // continuee(assetValues,input_building,input_level,input_area,input_Room,input_Room,input_radio_checked);
                                     confirmAssets(assetValues, input_building, input_level, input_area, input_Room, input_Room, input_radio_checked);
-                        
+
                                 } else if (
                                     /* Read more about handling dismissals below */
                                     result.dismiss === Swal.DismissReason.cancel
