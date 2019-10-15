@@ -268,9 +268,9 @@ function extractValues_inElements(a, arr, key) {
             console.log(a.length + " " + i);
             if (i == a.length - 2) {
 
-                stringValue += a[i].value + "|" + a[++i].value
+                stringValue += a[i].value + "|" + a[++i].value+ "|" + a[++i].value
             } else {
-                stringValue += a[i].value + "|" + a[++i].value + "^"
+                stringValue += a[i].value + "|" + a[++i].value+ "|" + a[++i].value + "^"
             }
 
         }
