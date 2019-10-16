@@ -43,10 +43,11 @@ function startApp() {
       success: function (data) {
 
         console.log(data[0].filter);
-        filter = data[0].filter;
+        var filter = data[0].filter;
         
         if (filter !== null && filter !== '') {
           localStorage.filter = filter;
+          localStorage.dropdownFilter = "ALL";
           setTimeout(function () {
 
             window.location.href = "../AMS/views/viewAssets.html";

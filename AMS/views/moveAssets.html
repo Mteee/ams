@@ -26,33 +26,32 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
-
+        
         #btnTransfer {
             display: none;
         }
-
+        
         #btnApprove {
             display: none;
         }
-
+        
         #btnCancel {
             display: none;
         }
-
+        
         th.dt-checkboxes-select-all input {
             display: none !important;
         }
-
         /* #overlay-alert-message {
             display: block;
         } */
-
+        
         #alert-message {
             margin: 15% auto;
             width: 752px;
             height: 200px;
         }
-
+        
         .system_info {
             position: fixed;
             bottom: 20px;
@@ -66,17 +65,17 @@
             color: white;
             left: 20px;
         }
-
+        
         .system_info:hover {
             cursor: pointer;
             box-shadow: 5px 4px 19px #000000d4;
             transition: 500ms;
         }
-
+        
         .system_info:hover .tooltiptext {
             visibility: visible;
         }
-
+        
         .system_info .tooltiptext {
             visibility: hidden;
             width: 360px;
@@ -94,9 +93,8 @@
             margin-left: 27px;
             margin-top: -8px;
         }
-
         /* table width */
-
+        
         #currentAssetsTable_wrapper,
         #currentAssetsTable,
         #inAssetsTable_wrapper,
@@ -105,7 +103,7 @@
         #outAssetsTable {
             width: 100% !important;
         }
-
+        
         * {
             font-size: 9pt !important;
         }
@@ -235,33 +233,25 @@
                             <p class="py-1"><strong>To</strong></p>
                             <div class="input-group py-3" id="transfer_type" style="display:none">
                                 <div class="col-md-6">
-                                    <label><input type="radio" name="type" value="SKIP" checked> Permanent</label>
+                                    <label><input type="radio" name="transferType" value="SKIP" checked> Permanent</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <label> <input type="radio" name="type" value="TEMP"> Temporary</label>
+                                    <label> <input type="radio" name="transferType" value="TEMP"> Temporary</label>
                                 </div>
                             </div>
                             <div class="dropdown">
 
-                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
-                                    id="building_transfer_filter" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="building_transfer_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     BUILDING
                                 </button>
 
 
-                                <div class="dropdown-menu" aria-labelledby="building_transfer_filter"
-                                    id="scroll_transfer_building">
+                                <div class="dropdown-menu" aria-labelledby="building_transfer_filter" id="scroll_transfer_building">
                                     <form class="px-4 py-2">
                                         <div class="input-group">
-                                            <input type="search" id="search_transfer_building" class="form-control"
-                                                placeholder="Building"
-                                                onkeyup="onSearch('search_transfer_building','#empty_transfer_building')"
-                                                autofocus="autofocus">
+                                            <input type="search" id="search_transfer_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_transfer_building','#empty_transfer_building')" autofocus="autofocus">
                                             <div class="input-group-append">
-                                                <span class="input-group-text btn btn-danger text-light"
-                                                    id="clear_transfer_building"
-                                                    onclick="clearData('#search_transfer_building','#building_transfer_filter','BUILDING')"><i
+                                                <span class="input-group-text btn btn-danger text-light" id="clear_transfer_building" onclick="clearData('#search_transfer_building','#building_transfer_filter','BUILDING')"><i
                                                         class="fa fa-close"></i>
                                                 </span>
                                             </div>
@@ -277,24 +267,16 @@
                                 </div>
                             </div>
                             <div class="dropdown py-3">
-                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
-                                    id="level_transfer_filter" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="level_transfer_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     LEVEL
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="level_transfer_filter"
-                                    id="scroll_transfer_level">
+                                <div class="dropdown-menu" aria-labelledby="level_transfer_filter" id="scroll_transfer_level">
                                     <form class="px-4 py-2">
 
                                         <div class="input-group">
-                                            <input type="search" id="search_transfer_level" class="form-control"
-                                                placeholder="Level"
-                                                onkeyup="onSearch('search_transfer_level','#empty_transfer_level')"
-                                                autofocus="autofocus">
+                                            <input type="search" id="search_transfer_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_transfer_level','#empty_transfer_level')" autofocus="autofocus">
                                             <div class="input-group-append">
-                                                <span class="input-group-text btn btn-danger text-light"
-                                                    id="clear_transfer_level"
-                                                    onclick="clearData('#search_transfer_level','#level_transfer_filter','LEVEL')"><i
+                                                <span class="input-group-text btn btn-danger text-light" id="clear_transfer_level" onclick="clearData('#search_transfer_level','#level_transfer_filter','LEVEL')"><i
                                                         class="fa fa-close"></i></span>
                                             </div>
                                         </div>
@@ -308,23 +290,15 @@
                                 </div>
                             </div>
                             <div class="dropdown">
-                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
-                                    id="dropdown_transfer_location" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="dropdown_transfer_location" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     AREA
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_location"
-                                    id="scroll_tarnsfer_Location">
+                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_location" id="scroll_tarnsfer_Location">
                                     <form class="px-4 py-2">
                                         <div class="input-group">
-                                            <input type="search" id="search_transfer_location" class="form-control"
-                                                placeholder="LOCATION AREA"
-                                                onkeyup="onSearch('search_transfer_location','#emptyLocation')"
-                                                autofocus="autofocus" required>
+                                            <input type="search" id="search_transfer_location" class="form-control" placeholder="LOCATION AREA" onkeyup="onSearch('search_transfer_location','#emptyLocation')" autofocus="autofocus" required>
                                             <div class="input-group-append">
-                                                <span class="input-group-text btn btn-danger text-light"
-                                                    id="clear_transfer_Location"
-                                                    onclick="clearData('#search_transfer_location','#dropdown_transfer_location','LOCATION AREA')"><i
+                                                <span class="input-group-text btn btn-danger text-light" id="clear_transfer_Location" onclick="clearData('#search_transfer_location','#dropdown_transfer_location','LOCATION AREA')"><i
                                                         class="fa fa-close"></i></span>
                                             </div>
                                         </div>
@@ -339,23 +313,15 @@
                                 </div>
                             </div>
                             <div class="dropdown py-3">
-                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
-                                    id="dropdown_transfer_room" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="dropdown_transfer_room" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     ROOM
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_room"
-                                    id="scroll_transfer_room">
+                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_room" id="scroll_transfer_room">
                                     <form class="px-4 py-2">
                                         <div class="input-group">
-                                            <input type="search" id="search_transfer_roomno" class="form-control"
-                                                placeholder="room"
-                                                onkeyup="onSearch('search_transfer_roomno','#empty_transfer_Room')"
-                                                autofocus="autofocus">
+                                            <input type="search" id="search_transfer_roomno" class="form-control" placeholder="room" onkeyup="onSearch('search_transfer_roomno','#empty_transfer_Room')" autofocus="autofocus">
                                             <div class="input-group-append">
-                                                <span class="input-group-text btn btn-danger text-light"
-                                                    id="clear_transfer_Room"
-                                                    onclick="clearData('#search_transfer_roomno','#dropdown_transfer_room','ROOM')"><i
+                                                <span class="input-group-text btn btn-danger text-light" id="clear_transfer_Room" onclick="clearData('#search_transfer_roomno','#dropdown_transfer_room','ROOM')"><i
                                                         class="fa fa-close"></i></span>
                                             </div>
                                         </div>
@@ -368,24 +334,16 @@
                                     <div id="empty_transfer_Room" class="dropdown-header">No room found</div>
                                 </div>
                             </div>
-                            <div class="dropdown filter_sub" style="display: none">
-                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
-                                    id="dropdown_transfer_sub" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                            <div class="dropdown filter_sub_transfer">
+                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="dropdown_transfer_sub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     SUB LOCATION
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_sub"
-                                    id="scroll_transfer_sub">
+                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_sub" id="scroll_transfer_sub">
                                     <form class="px-4 py-2">
                                         <div class="input-group">
-                                            <input type="search" id="search_transfer_sub" class="form-control"
-                                                placeholder="SUB LOCATION"
-                                                onkeyup="onSearch('search_transfer_sub','#empty_transfer_sub')"
-                                                autofocus="autofocus">
+                                            <input type="search" id="search_transfer_sub" class="form-control" placeholder="SUB LOCATION" onkeyup="onSearch('search_transfer_sub','#empty_transfer_sub')" autofocus="autofocus">
                                             <div class="input-group-append">
-                                                <span class="input-group-text btn btn-danger text-light"
-                                                    id="clear_transfer_sub"
-                                                    onclick="clearData('#search_transfer_sub','#dropdown_transfer_sub','SUB LOCATION')"><i
+                                                <span class="input-group-text btn btn-danger text-light" id="clear_transfer_sub" onclick="clearData('#search_transfer_sub','#dropdown_transfer_sub','SUB LOCATION')"><i
                                                         class="fa fa-close"></i></span>
                                             </div>
                                         </div>
@@ -459,41 +417,30 @@
                             <p class="py-1"><strong>Select Room</strong></p>
 
 
-                            <button class="btn btn-outline-secondary form-control" type="button"
-                                id="dropdown_approve_building" aria-expanded="false" disabled>
+                            <button class="btn btn-outline-secondary form-control" type="button" id="dropdown_approve_building" aria-expanded="false" disabled>
                                 BUILDING
                             </button>
                             <div class="dropdown py-3">
-                                <button class="btn btn-outline-secondary form-control " type="button"
-                                    id="dropdown_approve_level" aria-expanded="false" disabled>
+                                <button class="btn btn-outline-secondary form-control " type="button" id="dropdown_approve_level" aria-expanded="false" disabled>
                                     LEVEL
                                 </button>
                             </div>
 
 
-                            <button class="btn btn-outline-secondary form-control" type="button"
-                                id="dropdown_approve_area" aria-expanded="false" disabled>
+                            <button class="btn btn-outline-secondary form-control" type="button" id="dropdown_approve_area" aria-expanded="false" disabled>
                                 AREA
                             </button>
 
                             <div class="dropdown py-3">
-                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
-                                    id="dropdown_approve_room" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="dropdown_approve_room" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     ROOM
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_room"
-                                    id="scroll_approve_room">
+                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_room" id="scroll_approve_room">
                                     <form class="px-4 py-2">
                                         <div class="input-group">
-                                            <input type="search" id="search_approve_roomno" class="form-control"
-                                                placeholder="room..."
-                                                onkeyup="onSearch('search_approve_roomno','#empty_approve_Room')"
-                                                autofocus="autofocus">
+                                            <input type="search" id="search_approve_roomno" class="form-control" placeholder="room..." onkeyup="onSearch('search_approve_roomno','#empty_approve_Room')" autofocus="autofocus">
                                             <div class="input-group-append">
-                                                <span class="input-group-text btn btn-danger text-light"
-                                                    id="clear_approve_Room"
-                                                    onclick="clearData('#search_approve_roomno','#dropdown_approve_room','ROOM...')"><i
+                                                <span class="input-group-text btn btn-danger text-light" id="clear_approve_Room" onclick="clearData('#search_approve_roomno','#dropdown_approve_room','ROOM...')"><i
                                                         class="fa fa-close"></i></span>
                                             </div>
                                         </div>
@@ -508,23 +455,15 @@
                             </div>
 
                             <div class="dropdown " id="approve_sub_location" style="display: none">
-                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button"
-                                    id="dropdown_approve_sub" data-toggle="dropdown" aria-haspopup="true"
-                                    aria-expanded="false">
+                                <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="dropdown_approve_sub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     SUB LOCATION
                                 </button>
-                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_sub"
-                                    id="scroll_approve_sub">
+                                <div class="dropdown-menu" aria-labelledby="dropdown_transfer_sub" id="scroll_approve_sub">
                                     <form class="px-4 py-2">
                                         <div class="input-group">
-                                            <input type="search" id="search_approve_subno" class="form-control"
-                                                placeholder="sub..."
-                                                onkeyup="onSearch('search_approve_subno','#empty_approve_sub')"
-                                                autofocus="autofocus">
+                                            <input type="search" id="search_approve_subno" class="form-control" placeholder="sub..." onkeyup="onSearch('search_approve_subno','#empty_approve_sub')" autofocus="autofocus">
                                             <div class="input-group-append">
-                                                <span class="input-group-text btn btn-danger text-light"
-                                                    id="clear_approve_sub"
-                                                    onclick="clearData('#search_approve_subno','#dropdown_approve_sub','sub...')"><i
+                                                <span class="input-group-text btn btn-danger text-light" id="clear_approve_sub" onclick="clearData('#search_approve_subno','#dropdown_approve_sub','sub...')"><i
                                                         class="fa fa-close"></i></span>
                                             </div>
                                         </div>
@@ -562,10 +501,8 @@
     </div>
 
     <div class="container-fluid" style="border-left:1px soild rgba(0,0,0,0.5)">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-            style="background: rgb(59, 56, 56);height:80px">
-            <div class="col-md-3" id="menu-bar"
-                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
                 <span>
                     <div class="row" style="margin-top:-25px;" data-step="1"
                         data-intro="This is a navigation menu, with your class or department">
@@ -594,8 +531,7 @@
                             <li class="menu-item">certificates</li>
                         </a>
                         <div class="dropright dropdown" id="drodown-menu">
-                            <li class="menu-item" data-toggle="dropdown" style="display: block !important;"
-                                class="menu-item dropdown-toggle">commissioning</li>
+                            <li class="menu-item" data-toggle="dropdown" style="display: block !important;" class="menu-item dropdown-toggle">commissioning</li>
                             <ul class="dropdown-menu">
                                 <a href="addition.html" target="_self">
                                     <li class="menu-item">addition</li>
@@ -618,9 +554,10 @@
                 </div>
             </div>
             <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
-                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
-                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span
-                                class="text-muted">ASSET MOVEMEMENT</span></em></span></div>
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span
+                                class="text-muted">ASSET MOVEMEMENT</span></em>
+                    </span>
+                </div>
             </div>
             <div class=" col-md-3">
                 <div class="row">
@@ -628,8 +565,7 @@
                         <div id="username">Username</div>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;"
-                            onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
+                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;" onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
                             <span style="color:white" class="fa fa-power-off"></span>
                         </button>
                     </div>
@@ -664,25 +600,17 @@
                                 <th>
                                     <div class="dropdown">
 
-                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button"
-                                            id="building_move_filter" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
+                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             BUILDING
                                         </button>
 
 
-                                        <div class="dropdown-menu" aria-labelledby="building_move_filter"
-                                            id="scroll_move_building">
+                                        <div class="dropdown-menu" aria-labelledby="building_move_filter" id="scroll_move_building">
                                             <form class="px-4 py-2">
                                                 <div class="input-group">
-                                                    <input type="search" id="search_move_building" class="form-control"
-                                                        placeholder="Building"
-                                                        onkeyup="onSearch('search_move_building','#empty_move_building')"
-                                                        autofocus="autofocus">
+                                                    <input type="search" id="search_move_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_move_building','#empty_move_building')" autofocus="autofocus">
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text btn btn-danger text-light"
-                                                            id="clear_move_building"
-                                                            onclick="clearData('#search_move_building','#building_move_filter','BUILDING')"><i
+                                                        <span class="input-group-text btn btn-danger text-light" id="clear_move_building" onclick="clearData('#search_move_building','#building_move_filter','BUILDING')"><i
                                                                 class="fa fa-close"></i>
                                                         </span>
                                                     </div>
@@ -700,24 +628,16 @@
                                 </th>
                                 <th>
                                     <div class="dropdown">
-                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button"
-                                            id="level_move_filter" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
+                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             LEVEL
                                         </button>
-                                        <div class="dropdown-menu" aria-labelledby="level_move_filter"
-                                            id="scroll_move_level">
+                                        <div class="dropdown-menu" aria-labelledby="level_move_filter" id="scroll_move_level">
                                             <form class="px-4 py-2">
 
                                                 <div class="input-group">
-                                                    <input type="search" id="search_move_level" class="form-control"
-                                                        placeholder="Level"
-                                                        onkeyup="onSearch('search_move_level','#empty_move_level')"
-                                                        autofocus="autofocus">
+                                                    <input type="search" id="search_move_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_move_level','#empty_move_level')" autofocus="autofocus">
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text btn btn-danger text-light"
-                                                            id="clear_move_level"
-                                                            onclick="clearData('#search_move_level','#level_move_filter','LEVEL')"><i
+                                                        <span class="input-group-text btn btn-danger text-light" id="clear_move_level" onclick="clearData('#search_move_level','#level_move_filter','LEVEL')"><i
                                                                 class="fa fa-close"></i></span>
                                                     </div>
                                                 </div>
@@ -733,23 +653,15 @@
                                 </th>
                                 <th>
                                     <div class="dropdown">
-                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button"
-                                            id="area_move_filter" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
+                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             AREA
                                         </button>
-                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_area"
-                                            aria-labelledby="area_move_filter">
+                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_area" aria-labelledby="area_move_filter">
                                             <form class="px-4 py-2">
                                                 <div class="input-group">
-                                                    <input type="search" id="search_move_area" class="form-control"
-                                                        placeholder="Area"
-                                                        onkeyup="onSearch('search_move_area','#empty_move_area')"
-                                                        autofocus="autofocus">
+                                                    <input type="search" id="search_move_area" class="form-control" placeholder="Area" onkeyup="onSearch('search_move_area','#empty_move_area')" autofocus="autofocus">
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text btn btn-danger text-light"
-                                                            id="clear_move_area"
-                                                            onclick="clearData('#search_move_area','#area_move_filter','AREA')"><i
+                                                        <span class="input-group-text btn btn-danger text-light" id="clear_move_area" onclick="clearData('#search_move_area','#area_move_filter','AREA')"><i
                                                                 class="fa fa-close"></i></span>
                                                     </div>
                                                 </div>
@@ -765,24 +677,16 @@
                                 </th>
                                 <th>
                                     <div class="dropdown">
-                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button"
-                                            id="room_move_filter" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
+                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             ROOM
                                         </button>
-                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_room"
-                                            aria-labelledby="room_move_filter">
+                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_room" aria-labelledby="room_move_filter">
                                             <form class="px-4 py-2">
 
                                                 <div class="input-group">
-                                                    <input type="search" id="search_move_room" class="form-control"
-                                                        placeholder="Room"
-                                                        onkeyup="onSearch('search_move_room','#empty_move_room')"
-                                                        autofocus="autofocus">
+                                                    <input type="search" id="search_move_room" class="form-control" placeholder="Room" onkeyup="onSearch('search_move_room','#empty_move_room')" autofocus="autofocus">
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text btn btn-danger text-light"
-                                                            id="clear_move_room"
-                                                            onclick="clearData('#search_move_room','#room_move_filter','ROOM')"><i
+                                                        <span class="input-group-text btn btn-danger text-light" id="clear_move_room" onclick="clearData('#search_move_room','#room_move_filter','ROOM')"><i
                                                                 class="fa fa-close"></i></span>
                                                     </div>
                                                 </div>
@@ -798,24 +702,16 @@
                                 </th>
                                 <th class="filter_sub" style="display: none">
                                     <div class="dropdown">
-                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button"
-                                            id="sublocaction_move_filter" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
+                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="sublocaction_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             SUB LOCATION
                                         </button>
-                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_sublocaction"
-                                            aria-labelledby="sublocaction_move_filter">
+                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_sublocaction" aria-labelledby="sublocaction_move_filter">
                                             <form class="px-4 py-2">
 
                                                 <div class="input-group">
-                                                    <input type="search" id="search_move_sublocaction"
-                                                        class="form-control" placeholder="Sub Location"
-                                                        onkeyup="onSearch('search_move_sublocaction','#empty_move_sublocaction')"
-                                                        autofocus="autofocus">
+                                                    <input type="search" id="search_move_sublocaction" class="form-control" placeholder="Sub Location" onkeyup="onSearch('search_move_sublocaction','#empty_move_sublocaction')" autofocus="autofocus">
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text btn btn-danger text-light"
-                                                            id="clear_move_sublocaction"
-                                                            onclick="clearData('#search_move_sublocaction','#sublocaction_move_filter','SUB LOCATION')"><i
+                                                        <span class="input-group-text btn btn-danger text-light" id="clear_move_sublocaction" onclick="clearData('#search_move_sublocaction','#sublocaction_move_filter','SUB LOCATION')"><i
                                                                 class="fa fa-close"></i></span>
                                                     </div>
                                                 </div>
@@ -825,8 +721,7 @@
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
                                             </div>
-                                            <div id="empty_move_sublocaction" class="dropdown-header">No sublocation
-                                                found
+                                            <div id="empty_move_sublocaction" class="dropdown-header">No sublocation found
                                             </div>
                                         </div>
                                     </div>
@@ -834,24 +729,16 @@
 
                                 <th>
                                     <div class="dropdown">
-                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button"
-                                            id="assetNo_move_filter" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
+                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="assetNo_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             ASSET NO
                                         </button>
-                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_assetNo"
-                                            aria-labelledby="assetNo_move_filter">
+                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_assetNo" aria-labelledby="assetNo_move_filter">
                                             <form class="px-4 py-2">
 
                                                 <div class="input-group">
-                                                    <input type="search" id="search_move_assetNo" class="form-control"
-                                                        placeholder="ASSET NO"
-                                                        onkeyup="onSearch('search_move_assetNo','#empty_move_assetNo')"
-                                                        autofocus="autofocus">
+                                                    <input type="search" id="search_move_assetNo" class="form-control" placeholder="ASSET NO" onkeyup="onSearch('search_move_assetNo','#empty_move_assetNo')" autofocus="autofocus">
                                                     <div class="input-group-append">
-                                                        <span class="input-group-text btn btn-danger text-light"
-                                                            id="clear_move_assetNo"
-                                                            onclick="clearData('#search_move_assetNo','#assetNo_move_filter','ASSET NO')"><i
+                                                        <span class="input-group-text btn btn-danger text-light" id="clear_move_assetNo" onclick="clearData('#search_move_assetNo','#assetNo_move_filter','ASSET NO')"><i
                                                                 class="fa fa-close"></i></span>
                                                     </div>
                                                 </div>
@@ -866,8 +753,7 @@
                                     </div>
                                 </th>
                                 <th>
-                                    <input type="text" id="move_description" onkeyup="onSearch_new('move_description')"
-                                        class="form-control" placeholder="Description...">
+                                    <input type="text" id="move_description" onkeyup="onSearch_new('move_description')" class="form-control" placeholder="Description...">
                                 </th>
                                 <th>
                                     <button onclick="search()" type="text" class="btn btn-success form-control">
@@ -894,15 +780,13 @@
                                 <div class="row">
                                     <table class="table">
                                         <tr>
-                                            <th colspan="6" style="padding: 11px;text-align: left;font-size: 16pt;"
-                                                class="text-primary">
+                                            <th colspan="6" style="padding: 11px;text-align: left;font-size: 16pt;" class="text-primary">
                                                 <span style="padding: 5px; width:100px;">CURRENT</span>
                                             </th>
 
                                         </tr>
                                     </table>
-                                    <table class="table table-hover table-striped" id="currentAssetsTable" data-step="9"
-                                        data-intro="Assets currently in the room or location">
+                                    <table class="table table-hover table-striped" id="currentAssetsTable" data-step="9" data-intro="Assets currently in the room or location">
                                         <thead style="background:#000000;color:#ffffff;">
                                             <tr>
                                                 <th scope="col">
@@ -946,8 +830,7 @@
                                                 <img src="../img/loading-transparent.gif" alt="">
                                             </div>
                                             <div id="searchView" class="search_start">
-                                                <p style="margin-top:200px">Please search your asset using the search
-                                                    above
+                                                <p style="margin-top:200px">Please search your asset using the search above
                                                 </p>
                                                 <img width="200" src="../img/loupe.png" alt="Search">
                                             </div>
@@ -956,9 +839,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 text-right my-2">
-                                        <button class="btn btn-info" id="btnTransfer"
-                                            onclick="getSelectedItems('currentAssetsTable')"
-                                            type="submit">TRANSFER</button>
+                                        <button class="btn btn-info" id="btnTransfer" onclick="getSelectedItems('currentAssetsTable')" type="submit">TRANSFER</button>
                                     </div>
                                 </div>
                             </div>
@@ -973,8 +854,7 @@
                                     <div class="col-md-12" style="height: 40vh;">
                                         <table class="table">
                                             <tr>
-                                                <th colspan="6" style="padding: 11px;text-align: right;font-size: 16pt;"
-                                                    class="text-danger">
+                                                <th colspan="6" style="padding: 11px;text-align: right;font-size: 16pt;" class="text-danger">
                                                     <span style="padding: 5px; width:100px;">OUT</span>
                                                 </th>
 
@@ -982,8 +862,7 @@
 
                                         </table>
 
-                                        <table class="table" id="outAssetsTable" data-step="10"
-                                            data-intro="Assets moving out">
+                                        <table class="table" id="outAssetsTable" data-step="10" data-intro="Assets moving out">
 
                                             <thead style="background:#000000;color:#ffffff;">
                                                 <tr>
@@ -1028,8 +907,7 @@
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
                                                 <div id="outSearch" class="search_start">
-                                                    <p style="margin-top:120px; font-size:18pt;" class="text-muted">No
-                                                        Data......
+                                                    <p style="margin-top:120px; font-size:18pt;" class="text-muted">No Data......
                                                     </p>
                                                 </div>
                                             </tbody>
@@ -1038,8 +916,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 text-right actionBtn">
-                                        <button class="btn btn-danger" id="btnCancel"
-                                            onclick="getSelectedItems('outAssetsTable')">CANCEL</button>
+                                        <button class="btn btn-danger" id="btnCancel" onclick="getSelectedItems('outAssetsTable')">CANCEL</button>
                                     </div>
                                 </div>
                             </div>
@@ -1050,8 +927,7 @@
                                     <div class="col-md-12" style="height: 40vh;">
                                         <table class="table">
                                             <tr>
-                                                <th colspan="6" style="padding: 11px;text-align: right;font-size: 16pt;"
-                                                    class="text-success">
+                                                <th colspan="6" style="padding: 11px;text-align: right;font-size: 16pt;" class="text-success">
                                                     <span style="padding: 5px; width:100px;">IN</span>
                                                 </th>
 
@@ -1059,8 +935,7 @@
 
                                         </table>
 
-                                        <table class="table" id="inAssetsTable" data-step="11"
-                                            data-intro="Assets moving in">
+                                        <table class="table" id="inAssetsTable" data-step="11" data-intro="Assets moving in">
                                             <thead style="background:#000000;color:#ffffff;">
                                                 <tr>
                                                     <th scope="col">
@@ -1104,8 +979,7 @@
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
                                                 <div id="inSearch" class="search_start">
-                                                    <p style="margin-top:120px;font-size: 18pt;" class="text-muted">No
-                                                        Data.....
+                                                    <p style="margin-top:120px;font-size: 18pt;" class="text-muted">No Data.....
                                                     </p>
                                                 </div>
                                             </tbody>
@@ -1114,8 +988,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 text-right">
-                                        <button class="btn btn-success" id="btnApprove"
-                                            onclick="getSelectedItems('inAssetsTable')">APPROVE</button>
+                                        <button class="btn btn-success" id="btnApprove" onclick="getSelectedItems('inAssetsTable')">APPROVE</button>
                                     </div>
                                 </div>
                             </div>
@@ -1173,6 +1046,14 @@
         function onError(error) {
             console.log(`Error: ${error}`);
         }
+
+        $('input[type=radio][name=transferType]').change(function() {
+            if (this.value == 'SKIP') {
+                $('.filter_sub_transfer').show();
+            } else {
+                $('.filter_sub_transfer').hide();
+            }
+        });
 
         var setting = browser.tabs.setZoom(2);
         setting.then(null, onError);

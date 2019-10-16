@@ -1051,7 +1051,7 @@ $('#menu_new_room').on('click', '.dropdown-item', function () {
     $('#search_new_room').val($(this)[0].value);
 });
 
-if (localStorage.filter == "ALL EQUIPMENT") {
+if (localStorage.dropdownFilter == "ALL") {
 
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
@@ -1480,10 +1480,10 @@ var newAssetGroup = function () {
         $(asset_number_group).appendTo(col_sm_5);
     
         //button tag
-        (glyph).appendTo(close_close_btn);
+        $(glyph).appendTo(close_close_btn);
         //cout tag
-        (col_count).prependTo(outerDiv);
-        (close_close_btn).prependTo(outerDiv);
+        $(col_count).prependTo(outerDiv);
+        $(close_close_btn).prependTo(outerDiv);
         $(col_sm_5).appendTo(outerDiv);
         $(col_sm_5_desc).appendTo(outerDiv);
         $(col_sm_3).appendTo(outerDiv);
