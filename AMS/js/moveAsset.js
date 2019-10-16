@@ -523,7 +523,7 @@ function populate_dropdown() {
     // get primary asset
     getItems('../../ams_apis/slimTest/index.php/asset_primary_view', 'search_move_assetNo', 'scroll_move_assetNo', 'menu_move_assetNo', 'empty_move_assetNo');
     // get sub location
-    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_view', 'search_move_sublocaction', 'scroll_move_sublocaction', 'menu_move_sublocaction', 'empty_move_sublocaction');
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_move', 'search_move_sublocaction', 'scroll_move_sublocaction', 'menu_move_sublocaction', 'empty_move_sublocaction');
     // get room
     getItems('../../ams_apis/slimTest/index.php/asset_room_no_view', 'search_move_room', 'scroll_move_room', 'menu_move_room', 'empty_move_room');
     // get area

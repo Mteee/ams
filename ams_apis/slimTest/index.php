@@ -2045,6 +2045,59 @@ $app->map(['GET','POST'],'/asset_sub_location_view', function(Request $request, 
     }
  
 });
+$app->map(['GET','POST'],'/asset_sub_location_move', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $sub_location = strtoupper($data->sub_location);
+    $room_no = strtoupper($data->room_no);
+    $asset_primary_id = strtoupper($data->asset_primary_id);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT A_OLD.ASSET_SUB_LOCATION
+            FROM 
+                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
+            AND L_NEW.ASSET_BUILDING LIKE '%$building%'
+            AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND L_NEW.ASSET_LEVEL LIKE '%$level%'
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
+            AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
+            AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
+            AND A_OLD.ASSET_STATUS = '1'
+            GROUP BY A_OLD.ASSET_SUB_LOCATION
+            ORDER BY A_OLD.ASSET_SUB_LOCATION";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response [] = $value->ASSET_SUB_LOCATION;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $assets_no;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
 $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
