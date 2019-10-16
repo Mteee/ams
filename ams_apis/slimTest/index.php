@@ -2014,7 +2014,7 @@ $app->map(['GET','POST'],'/asset_sub_location_view', function(Request $request, 
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND L_NEW.HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
-            AND NOT IN(SELECT ASSET_SUB_LOCATION FROM AMSD.ASSETS)
+            AND L_NEW.HD_ASSET_ROOM_LOCATION NOT IN(SELECT ASSET_SUB_LOCATION FROM AMSD.ASSETS)
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
