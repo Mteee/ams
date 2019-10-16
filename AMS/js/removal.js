@@ -1198,7 +1198,7 @@ function viewDecomAsset(assets) {
     //     }
     // });
 
-    if (localStorage.filter == "ALL EQUIPMENT") {
+    if (localStorage.dropdownFilter == "ALL") {
 
         $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
         $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));

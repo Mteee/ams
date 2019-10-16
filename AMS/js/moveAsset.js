@@ -835,6 +835,10 @@ function getSelectedItems(id) {
         $('#dropdown_transfer_sub').text("SUB LOCATION");
         $('#search_transfer_sub').val("");
 
+
+        $('input:radio[name="transferType"]').filter('[value="SKIP"]').attr('checked', true);
+        $('input:radio[name="transferType"]').filter('[value="TEMP"]').attr('checked', false);
+
         console.log(rowsSelected);
         getSelectedAssets(rowsSelected);
         localStorage.level = '';
@@ -1774,7 +1778,7 @@ $('#menu_approve_sub').on('click', '.dropdown-item', function () {
 
 // dropdown hangler
 
-if (localStorage.filter == "ALL EQUIPMENT") {
+if (localStorage.dropdownFilter == "ALL") {
 
 
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
