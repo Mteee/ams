@@ -15,10 +15,8 @@
     <!-- Add IntroJs styles -->
     <link href="../css/introjs.css" rel="stylesheet">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
-
 
     <style>
         .dropdown-menu {
@@ -111,7 +109,6 @@
 </head>
 
 <body>
-
     <div id="overlay-assets-added">
         <div class="asset-assets-added-details animated bounceInUp" id="assets-added">
             <span class="exit-asset" onclick="closeAsset('overlay-assets-added')">&times;</span>
@@ -122,10 +119,8 @@
 
                 <div class="row">
                     <div class="col-sm-10 offset-1">
-                        <i class="fa fa-times-circle" style="color:red;font-size:13pt !important;"></i> : Already exists
-                        |
-                        <i class="fa fa-check-circle" style="color:green;font-size:13pt !important;"></i> : :
-                        Successfully Added
+                        <i class="fa fa-times-circle" style="color:red;font-size:13pt !important;"></i> : Already exists |
+                        <i class="fa fa-check-circle" style="color:green;font-size:13pt !important;"></i> : : Successfully Added
                         <div id="assetsAdd" style="overflow-y: auto;height: 300px;">
 
                         </div>
@@ -196,28 +191,19 @@
                                         </div>
                                         <div class="col-sm-5">
                                             <div class="dropdown" style="margin-top:28px" class="room_no_dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="room_new_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_new_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_new_room"
-                                                    aria-labelledby="room_new_filter" style="width: 100%;">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_new_room" aria-labelledby="room_new_filter" style="width: 100%;">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
                                                             <div class="form-group is-empty form-control">
-                                                                <input type="search" id="search_new_room"
-                                                                    class="form-control" placeholder="Room"
-                                                                    name="room_no_new"
-                                                                    onkeyup="onSearch('search_new_room','#empty_new_room')"
-                                                                    autofocus="autofocus" required>
+                                                                <input type="search" id="search_new_room" class="form-control" placeholder="Room" name="room_no_new" onkeyup="onSearch('search_new_room','#empty_new_room')" autofocus="autofocus" required>
                                                                 <span class="material-input"></span>
                                                             </div>
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_new_room"
-                                                                    onclick="clearData('#search_new_room','#room_new_filter','ROOM')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_new_room" onclick="clearData('#search_new_room','#room_new_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -239,8 +225,7 @@
                                         <div class="col-sm-10 offset-1">
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Classification Name *</label>
-                                                <input id="classification_wizard" type="text" class="form-control"
-                                                    name="classification_name">
+                                                <input id="classification_wizard" type="text" class="form-control" name="classification_name">
                                             </div>
                                         </div>
                                     </div>
@@ -252,8 +237,7 @@
                                         <div class="col-sm-5 offset-1">
                                             <div class="form-group">
                                                 <label class="control-label">Purchase date *</label>
-                                                <div class="input-group border border-secondary rounded"
-                                                    id="date_group_1">
+                                                <div class="input-group border border-secondary rounded" id="date_group_1">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">
                                                             <i class="fa fa-calendar"></i>
@@ -266,8 +250,7 @@
                                         <div class="col-sm-5">
                                             <div class="form-group">
                                                 <label class="control-label">Warranty Date *</label>
-                                                <div class="input-group border border-secondary rounded"
-                                                    id="date_group_2">
+                                                <div class="input-group border border-secondary rounded" id="date_group_2">
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text">
                                                             <i class="fa fa-calendar"></i>
@@ -323,8 +306,7 @@
 
                                             <div class="form-group label-floating">
                                                 <label class="control-label">Serviced By *</label>
-                                                <input type="text" class="form-control" name="serviced_by"
-                                                    id="serviced_by">
+                                                <input type="text" class="form-control" name="serviced_by" id="serviced_by">
                                             </div>
                                         </div>
 
@@ -339,8 +321,7 @@
                                                 <div class="col-sm-10 offset-1">
                                                     <div class="assets_info_plus" id="scroll_group_view">
                                                         <div id="asset_group">
-                                                            <div class="row table-bordered asset_group_style"
-                                                                name="category[]">
+                                                            <div class="row table-bordered asset_group_style" name="category[]">
                                                                 <button class="btn btn-success pull-right" id="0"><span
                                                                         class="fa fa-check"></span></button>
                                                                 <div class="col-sm-1 my-auto">
@@ -353,8 +334,7 @@
                                                                     <div class="form-group label-floating">
                                                                         <label class="control-label">Asset Number
                                                                             *</label>
-                                                                        <input type="text" class="form-control"
-                                                                            name="asset_number">
+                                                                        <input type="text" class="form-control" name="asset_number">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-4">
@@ -364,16 +344,14 @@
                                                                             <label class="control-label">Asset
                                                                                 description
                                                                                 *</label>
-                                                                            <input type="text" name="asset_description"
-                                                                                class="form-control">
+                                                                            <input type="text" name="asset_description" class="form-control">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group label-floating">
                                                                         <label class="control-label">Serial No.*</label>
-                                                                        <input type="text" name="asset_description"
-                                                                            class="form-control">
+                                                                        <input type="text" name="asset_description" class="form-control">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -382,9 +360,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-1">
-                                                    <button class="btn btn-info"
-                                                        style="border-radius: 50%; font-size:10pt"
-                                                        id="asset_increment"><i class="fa fa-plus"></i></button>
+                                                    <button class="btn btn-info" style="border-radius: 50%; font-size:10pt" id="asset_increment"><i class="fa fa-plus"></i></button>
                                                 </div>
                                             </div>
                                             <div class="row offset-1">
@@ -406,8 +382,7 @@
                                         <div class="col-sm-12">
                                             <div class="row">
                                                 <div class="col-sm-3 offset-3">
-                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip"
-                                                        title="Create a commissioning certificate.">
+                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Create a commissioning certificate.">
                                                         <input type="radio" name="type" value="YES">
                                                         <div class="icon">
                                                             <i class="material-icons">check</i>
@@ -416,8 +391,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-sm-3">
-                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip"
-                                                        title="No commissioning certificate">
+                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="No commissioning certificate">
                                                         <input type="radio" name="type" value="NO">
                                                         <div class="icon">
                                                             <i class="material-icons">clear</i>
@@ -433,16 +407,12 @@
 
                                 <div class="wizard-footer py-2" data-color="green">
                                     <div class="pull-right">
-                                        <input type='button' style="background-color: #4caf50;color: #fff;"
-                                            class='btn btn-next btn-fill btn-lg' name='next' value='Next step' />
+                                        <input type='button' style="background-color: #4caf50;color: #fff;" class='btn btn-next btn-fill btn-lg' name='next' value='Next step' />
 
-                                        <input type='button' class='btn btn-finish btn-fill btn-lg'
-                                            style="background-color: #4caf50;color: #fff;" name='finish' value='Finish'
-                                            onclick='addAsset()' />
+                                        <input type='button' class='btn btn-finish btn-fill btn-lg' style="background-color: #4caf50;color: #fff;" name='finish' value='Finish' onclick='addAsset()' />
                                     </div>
                                     <div class="pull-left">
-                                        <input type='button' class='btn btn-previous btn-fill btn-dark btn-lg'
-                                            name='previous' value='Previous' />
+                                        <input type='button' class='btn btn-previous btn-fill btn-dark btn-lg' name='previous' value='Previous' />
                                     </div>
                                     <div class="clearfix"></div>
                                 </div>
@@ -572,16 +542,13 @@
 
     <div id="loader-overlay">
         <div id="Assetload" class="dropdown-loader">
-            <img src="../img/loading-transparent.gif" alt=""
-                style="width: 220px;text-align: center;margin: 15% auto;background: #fdfdfd;padding: 23px;">
+            <img src="../img/loading-transparent.gif" alt="" style="width: 220px;text-align: center;margin: 15% auto;background: #fdfdfd;padding: 23px;">
         </div>
     </div>
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-            style="background: rgb(59, 56, 56);height:80px">
-            <div class="col-md-3" id="menu-bar"
-                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
                 <span>
                     <div class="row" style="margin-top:-25px;" data-step="1"
                         data-intro="This is a navigation menu, with your class or department">
@@ -629,8 +596,7 @@
                 </div>
             </div>
             <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
-                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
-                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span
                                 class="text-muted">COMMISSIONING</span></em>
                     </span>
                 </div>
@@ -641,8 +607,7 @@
                         <div id="username">Username</div>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;"
-                            onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
+                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;" onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
                             <span style="color:white" class="fa fa-power-off"></span>
                         </button>
                     </div>
@@ -673,25 +638,17 @@
                                         <th>
                                             <div class="dropdown">
 
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="building_addition_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     BUILDING
                                                 </button>
 
 
-                                                <div class="dropdown-menu" aria-labelledby="building_addition_filter"
-                                                    id="scroll_addition_building">
+                                                <div class="dropdown-menu" aria-labelledby="building_addition_filter" id="scroll_addition_building">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_building"
-                                                                class="form-control" placeholder="Building"
-                                                                onkeyup="onSearch('search_addition_building','#empty_addition_building')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_addition_building','#empty_addition_building')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_addition_building"
-                                                                    onclick="clearData('#search_addition_building','#building_addition_filter','BUILDING')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_building" onclick="clearData('#search_addition_building','#building_addition_filter','BUILDING')"><i
                                                                         class="fa fa-close"></i>
                                                                 </span>
                                                             </div>
@@ -702,32 +659,23 @@
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_addition_building" class="dropdown-header">No
-                                                        building found
+                                                    <div id="empty_addition_building" class="dropdown-header">No building found
                                                     </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="level_addition_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     LEVEL
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="level_addition_filter"
-                                                    id="scroll_addition_level">
+                                                <div class="dropdown-menu" aria-labelledby="level_addition_filter" id="scroll_addition_level">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_level"
-                                                                class="form-control" placeholder="Level"
-                                                                onkeyup="onSearch('search_addition_level','#empty_addition_level')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_addition_level','#empty_addition_level')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_addition_level"
-                                                                    onclick="clearData('#search_addition_level','#level_addition_filter','LEVEL')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_level" onclick="clearData('#search_addition_level','#level_addition_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -737,31 +685,22 @@
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_addition_level" class="dropdown-header">No level
-                                                        found
+                                                    <div id="empty_addition_level" class="dropdown-header">No level found
                                                     </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="area_addition_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_area"
-                                                    aria-labelledby="area_addition_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_area" aria-labelledby="area_addition_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_area"
-                                                                class="form-control" placeholder="Area"
-                                                                onkeyup="onSearch('search_addition_area','#empty_addition_area')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_area" class="form-control" placeholder="Area" onkeyup="onSearch('search_addition_area','#empty_addition_area')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_addition_area"
-                                                                    onclick="clearData('#search_addition_area','#area_addition_filter','AREA')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_area" onclick="clearData('#search_addition_area','#area_addition_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -778,30 +717,21 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="room_addition_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_room"
-                                                    aria-labelledby="room_addition_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_room" aria-labelledby="room_addition_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_room"
-                                                                class="form-control" placeholder="Room"
-                                                                onkeyup="onSearch('search_addition_room','#empty_addition_room')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_room" class="form-control" placeholder="Room" onkeyup="onSearch('search_addition_room','#empty_addition_room')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_addition_room"
-                                                                    onclick="clearData('#search_addition_room','#room_addition_filter','ROOM')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_room" onclick="clearData('#search_addition_room','#room_addition_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_addition_room" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_addition_room" class="text-center" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -813,82 +743,58 @@
                                         </th>
                                         <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="sublocaction_addition_filter"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="sublocaction_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_addition_sublocaction"
-                                                    aria-labelledby="sublocaction_addition_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_sublocaction" aria-labelledby="sublocaction_addition_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_sublocaction"
-                                                                class="form-control" placeholder="Sub Location"
-                                                                onkeyup="onSearch('search_addition_sublocaction','#empty_addition_sublocaction')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_sublocaction" class="form-control" placeholder="Sub Location" onkeyup="onSearch('search_addition_sublocaction','#empty_addition_sublocaction')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_addition_sublocaction"
-                                                                    onclick="clearData('#search_addition_sublocaction','#sublocaction_addition_filter','SUB LOCATION')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_sublocaction" onclick="clearData('#search_addition_sublocaction','#sublocaction_addition_filter','SUB LOCATION')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_addition_sublocaction" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_addition_sublocaction" class="text-center" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_addition_sublocaction" class="dropdown-header">No
-                                                        sublocation found</div>
+                                                    <div id="empty_addition_sublocaction" class="dropdown-header">No sublocation found</div>
                                                 </div>
                                             </div>
                                         </th>
 
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="assetNo_addition_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="assetNo_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ASSET NUMBER
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_addition_assetNo"
-                                                    aria-labelledby="assetNo_addition_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_assetNo" aria-labelledby="assetNo_addition_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_assetNo"
-                                                                class="form-control" placeholder="ASSET NUMBER"
-                                                                onkeyup="onSearch('search_addition_assetNo','#empty_addition_assetNo')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_assetNo" class="form-control" placeholder="ASSET NUMBER" onkeyup="onSearch('search_addition_assetNo','#empty_addition_assetNo')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_addition_assetNo"
-                                                                    onclick="clearData('#search_addition_assetNo','#assetNo_addition_filter','ASSET NUMBER')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_assetNo" onclick="clearData('#search_addition_assetNo','#assetNo_addition_filter','ASSET NUMBER')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_addition_assetNo" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_addition_assetNo" class="text-center" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_addition_assetNo" class="dropdown-header">No asset
-                                                        found
+                                                    <div id="empty_addition_assetNo" class="dropdown-header">No asset found
                                                     </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
-                                            <input type="text" id="addition_description"
-                                                onkeyup="onSearch_new('addition_description')" class="form-control"
-                                                placeholder="Description...">
+                                            <input type="text" id="addition_description" onkeyup="onSearch_new('addition_description')" class="form-control" placeholder="Description...">
                                         </th>
                                         <th>
                                             <button onclick="search()" type="text" class="btn btn-success form-control">
@@ -897,8 +803,7 @@
                                             </button>
                                         </th>
                                         <th>
-                                            <button onclick="cleaAllFilters()" type="text"
-                                                class="btn btn-danger form-control">
+                                            <button onclick="cleaAllFilters()" type="text" class="btn btn-danger form-control">
                                                 <span class="fa fa-close"></span>
                                                 Clear
                                             </button>
@@ -946,8 +851,7 @@
                                                 <img src="../img/loading-transparent.gif" alt="">
                                             </div>
                                             <div id="searchView" class="search_start">
-                                                <p style="margin-top:200px">Please search your asset using the search
-                                                    above
+                                                <p style="margin-top:200px">Please search your asset using the search above
                                                 </p>
                                                 <img width="200" src="../img/loupe.png" alt="Search">
                                             </div>
@@ -961,8 +865,7 @@
                                     </table>
                                     <div class="row my-5">
                                         <div class="col-md-12">
-                                            <button id="commAssets" style="display: none"
-                                                class="btn btn-md btn-info"><span class="fa fa-paste"></span>
+                                            <button id="commAssets" style="display: none" class="btn btn-md btn-info"><span class="fa fa-paste"></span>
                                                 Commission</button>
                                         </div>
                                     </div>
@@ -993,8 +896,7 @@
     <script src="../js/addition.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
-    <script type="text/javascript"
-        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
     <script>
         // $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
