@@ -45,9 +45,9 @@ function startApp() {
         console.log(data[0].filter);
         var filter = data[0].filter;
         
-        if (filter !== null && filter !== '') {
+        if (filter != null && filter != '') {
           localStorage.filter = filter;
-          localStorage.dropdownFilter = "ALL";
+          localStorage.dropdownFilter = "ALL EQUIPMENT";
           setTimeout(function () {
 
             window.location.href = "../AMS/views/viewAssets.html";

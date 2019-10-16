@@ -1778,7 +1778,7 @@ $('#menu_approve_sub').on('click', '.dropdown-item', function () {
 
 // dropdown hangler
 
-if (localStorage.dropdownFilter == "ALL") {
+if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
 
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
