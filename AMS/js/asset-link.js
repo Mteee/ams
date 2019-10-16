@@ -1407,11 +1407,13 @@ function linkAssets(id) {
                 }
                 assets_selected += "</select>";
 
-                document.getElementById('overlay-alert-message').style.display = "none";
-                document.getElementById('overlay-alert-message').style.display = "block";
-                document.getElementById('alert_header').innerHTML = "Selected Primary Asset ID";
-                document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5" style="margin-top:15px;">' + assets_selected + '</span>';
-                document.getElementById('alert-footer').innerHTML = '<button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button> | <button class="btn btn-success" onclick="confirmLink()" style="width:100px">OK</button>';
+                showDropdown(assets_selected);
+
+                // document.getElementById('overlay-alert-message').style.display = "none";
+                // document.getElementById('overlay-alert-message').style.display = "block";
+                // document.getElementById('alert_header').innerHTML = "Selected Primary Asset ID";
+                // document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5" style="margin-top:15px;">' + assets_selected + '</span>';
+                // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button> | <button class="btn btn-success" onclick="confirmLink()" style="width:100px">OK</button>';
 
 
             },
@@ -1424,6 +1426,40 @@ function linkAssets(id) {
 
         });
     }
+
+    function showDropdown(assets_selected) {
+        console.log("here1");
+        swal.fire({
+            title: "assign a sub location?",
+            html: assets_selected,
+            allowOutsideClick: false,
+            confirmButtonColor: "#419641",
+            showCancelButton: true,
+            cancelButtonColor: "#C12E2A",
+            closeOnConfirm: false,
+            showCloseButton: true,
+            showLoaderOnConfirm: true,
+            cancelButtonText: "Cancel!"
+
+        }).then(function (result) {
+            if (result.value) {
+                var e = document.getElementById("primary_asset_id"),
+                    p_id = e.options[e.selectedIndex].value;
+                if (p_id == 0) {
+                    showToast(assets_selected)
+                } else {
+                    confirmLink(p_id);
+                }
+                console.log(p_id);
+                // test = "alc_no";
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+
+            }
+        })
+    }
+    
 
     // var form = $('#frm-example');
 

@@ -2007,20 +2007,21 @@ $app->map(['GET','POST'],'/asset_sub_location_view', function(Request $request, 
         $asset_class = '';
     }
 
-    $sql = "SELECT A_OLD.ASSET_SUB_LOCATION
+    $sql = "SELECT L_NEW.HD_ASSET_ROOM_LOCATION
             FROM 
                 AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
+            AND L_NEW.HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND NOT IN(SELECT ASSET_SUB_LOCATION FROM AMSD.ASSETS)
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
             AND A_OLD.ASSET_STATUS = '1'
-            GROUP BY A_OLD.ASSET_SUB_LOCATION
-            ORDER BY A_OLD.ASSET_SUB_LOCATION";
+            GROUP BY L_NEW.HD_ASSET_ROOM_LOCATION
+            ORDER BY L_NEW.HD_ASSET_ROOM_LOCATION";
 
     $assets_no =$func->executeQuery($sql);
 
