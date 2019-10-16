@@ -463,11 +463,24 @@ function searchasset() {
 
     if (" -  -  -  -  - " == results) {
         resetToAssets();
-        document.getElementById('overlay-alert-message').style.display = "none";
-        document.getElementById('overlay-alert-message').style.display = "block";
-        document.getElementById('alert_header').innerHTML = "Assets Linking";
-        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><br><span class="text-muted">please select at least one filter</span>';
-        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+        swal.fire({
+            title: "Error",
+            text: 'please select at least one filter',
+            type: 'error',
+            showCloseButton: true,
+            closeButtonColor: '#3DB3D7',
+            animation: false,
+            customClass: {
+                popup: 'animated tada'
+            },
+            allowOutsideClick: true,
+        })
+        
+        // document.getElementById('overlay-alert-message').style.display = "none";
+        // document.getElementById('overlay-alert-message').style.display = "block";
+        // document.getElementById('alert_header').innerHTML = "Assets Linking";
+        // document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><br><span class="text-muted">please select at least one filter</span>';
+        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
     }
     else {
@@ -819,6 +832,8 @@ function clearSubfilters() {
     localStorage.level_assets = '';
     localStorage.room_no_assets = '';
     localStorage.sub_location = '';
+    localStorage.asset_no = '';
+
 
     assets_filters();
 
@@ -837,6 +852,9 @@ function clearSubfilters() {
     //sub_location
     $('#search_prim_sublocation').val("");
     $('#dropdown_prim_sublocation').text("SUB LOCATION");
+    //asset_id
+    $('#search_asset_no_sub').val("");
+    $('#dropdown_asset_no_sub').text("ASSET NUMBER");
     //description
     $('#sub_description').val("");
 
@@ -1315,13 +1333,28 @@ function linkAssets(id) {
     // console.log(rows_selected[rows_selected.length - 1]);
 
     if (asset_link.al_no == null) {
-        document.getElementById('overlay-alert-message').style.display = "none";
-        document.getElementById('overlay-alert-message').style.display = "block";
-        document.getElementById('alert_header').innerHTML = "<span class='text-center'>Select Sub Location</span>";
-        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><p class="text-muted">Sub Location is required</p>';
-        document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
-    } else {
+        swal.fire({
+            title: "Error",
+            text: "Sub Location is required",
+            type: "error",
+            allowOutsideClick: true,
 
+        }).then(function (result) {
+            if (result.value) {
+
+            } else if (
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+
+            }
+        });
+
+        // document.getElementById('overlay-alert-message').style.display = "none";
+        // document.getElementById('overlay-alert-message').style.display = "block";
+        // document.getElementById('alert_header').innerHTML = "<span class='text-center'>Select Sub Location</span>";
+        // document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><p class="text-muted">Sub Location is required</p>';
+        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+    } else {
 
         var newArr = [];
         var rows_selected = tableArr["subAssetsTable"].column(0).checkboxes.selected();
