@@ -44,6 +44,7 @@ function startApp() {
 
         console.log(data[0].filter);
         filter = data[0].filter;
+        
         if (filter !== null && filter !== '') {
           localStorage.filter = filter;
           setTimeout(function () {

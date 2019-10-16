@@ -253,7 +253,7 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
 
     if(!empty($ASSET_NO)){
 
-        $sql = "SELECT * FROM AMSD.ASSETS_NEW WHERE ASSET_SUB_LOCATION='$ASSET_NO'";
+        $sql = "SELECT * FROM AMSD.ASSETS WHERE ASSET_SUB_LOCATION='$ASSET_NO'";
 
         $assets =$func->executeQuery($sql);
 
@@ -345,7 +345,7 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
 
             // echo $sub;
         }else{
-            $sql = "SELECT * FROM AMSD.ASSETS_LOCATION_NEW WHERE HD_ASSET_ROOM_LOCATION='$ASSET_NO'";
+            $sql = "SELECT * FROM AMSD.ASSETS_LOCATION WHERE HD_ASSET_ROOM_LOCATION='$ASSET_NO'";
     
             $assets =$func->executeQuery($sql);
 
@@ -418,7 +418,7 @@ $app->map(['GET','POST'],'/getAssets_al_no',function(Request $request, Response 
 
     if(!empty($ASSET_NO)){
 
-        $sql = "SELECT ASSET_ID || '|' || ASSET_CLASSIFICATION ||' - '||ASSET_DESCRIPTION  AS A_A FROM AMSD.ASSETS_NEW WHERE ASSET_SUB_LOCATION='$ASSET_NO'";
+        $sql = "SELECT ASSET_ID || '|' || ASSET_CLASSIFICATION ||' - '||ASSET_DESCRIPTION  AS A_A FROM AMSD.ASSETS WHERE ASSET_SUB_LOCATION='$ASSET_NO'";
 
         $assets =$func->executeQuery($sql);
 
@@ -450,7 +450,7 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
             return json_encode($response);
         }
         else{
-            $filter = "ALL EQUIPMENT";
+            $filter = "FACILITIES MANAGEMENT";
             array_push($response,array("filter"=>$filter));
             return json_encode($response);
         }
@@ -1028,7 +1028,7 @@ $app->map(['GET','POST'],'/confirmTransfer',function(Request $request, Response 
         oci_commit($connect);
 
         if($result == "y"){
-            echo json_encode(array("rows" => 0 ,"data" =>"TRANSFER WAS SUCCESSFUL"));
+            echo json_encode(array("rows" => 1 ,"data" =>"TRANSFER WAS SUCCESSFUL"));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"TRASNSFER WAS NOT SUCCESSFUL"));
@@ -1117,7 +1117,7 @@ $app->map(['GET','POST'],'/approveAsset',function(Request $request, Response $re
         oci_commit($connect);
 
         if($RESULT == "y"){
-            echo json_encode(array("rows" => 0 ,"data" =>"APPROVAL WAS SUCCESSFUL"));
+            echo json_encode(array("rows" => 1 ,"data" =>"APPROVAL WAS SUCCESSFUL"));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"APPROVAL WAS NOT SUCCESSFUL"));
@@ -1144,10 +1144,10 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     HD_ASSET_LOCATION,
     HD_ASSET_DESC,
     ASSET_ROOM_NO,
-    amsd.fn_sub_assigned_new (HD_ASSET_ROOM_LOCATION)  AS HAS_SUB,
-    amsd.fn_pri_assigned_new (HD_ASSET_ROOM_LOCATION)  AS HAS_PRI
+    amsd.fn_sub_assigned (HD_ASSET_ROOM_LOCATION)  AS HAS_SUB,
+    amsd.fn_pri_assigned (HD_ASSET_ROOM_LOCATION)  AS HAS_PRI
     FROM 
-        AMSD.ASSETS_LOCATION_NEW 
+        AMSD.ASSETS_LOCATION 
     WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')   
     --WHERE  substr(HD_ASSET_ROOM_LOCATION,1,1) <> 'M'
     --AND substr(a.asset,1,2) = 'AL'
@@ -1157,7 +1157,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     AND ASSET_ROOM_NO LIKE '%$room_no%'
     AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
     AND HD_ASSET_DESC LIKE '%$description%'
-    order by amsd.fn_pri_assigned_new (HD_ASSET_ROOM_LOCATION) ASC";
+    order by amsd.fn_pri_assigned (HD_ASSET_ROOM_LOCATION) ASC";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -1186,8 +1186,8 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
     --l_new.ASSET_LEVEL_NEW,
     --l_new.ASSET_AREA,
     FROM 
-        amsd.assets_new a_new,
-        AMSD.ASSETS_LOCATION_NEW l_new
+        amsd.assets a_new,
+        AMSD.ASSETS_LOCATION l_new
     WHERE a_new.ASSET_ROOM_NO = l_new.ASSET_ROOM_NO
     AND a_new.ASSET_ROOM_NO = a_new.ASSET_SUB_LOCATION
     AND a_new.ASSET_CLASS LIKE '%IT EQUIPMENT%'
@@ -1223,7 +1223,7 @@ $app->map(['GET','POST'],'/building_sub', function(Request $request, Response $r
     $sql = "SELECT 
                 ASSET_BUILDING
             FROM 
-                AMSD.ASSETS_LOCATION_NEW 
+                AMSD.ASSETS_LOCATION 
             WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
@@ -1268,7 +1268,7 @@ $app->map(['GET','POST'],'/asset_level_new_sub', function(Request $request, Resp
     $sql = "SELECT 
                 ASSET_LEVEL 
             FROM 
-            AMSD.ASSETS_LOCATION_NEW 
+            AMSD.ASSETS_LOCATION 
             WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
@@ -1312,7 +1312,7 @@ $app->map(['GET','POST'],'/asset_area_sub', function(Request $request, Response 
     $sql = "SELECT 
                 ASSET_AREA_NAME
             FROM 
-                AMSD.ASSETS_LOCATION_NEW
+                AMSD.ASSETS_LOCATION
                 WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
@@ -1355,7 +1355,7 @@ $app->map(['GET','POST'],'/asset_room_no_sub', function(Request $request, Respon
 
     $sql = "SELECT ASSET_ROOM_NO
             FROM 
-                AMSD.ASSETS_LOCATION_NEW 
+                AMSD.ASSETS_LOCATION 
                 WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
@@ -1401,7 +1401,7 @@ $app->map(['GET','POST'],'/asset_link_al_no', function(Request $request, Respons
     $sql = "SELECT 
                 HD_ASSET_ROOM_LOCATION
             FROM 
-                AMSD.ASSETS_LOCATION_NEW 
+                AMSD.ASSETS_LOCATION 
             WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND ASSET_BUILDING LIKE '%$building%'
             AND ASSET_LEVEL LIKE '%$level%'
@@ -1447,7 +1447,7 @@ $app->map(['GET','POST'],'/building_assets', function(Request $request, Response
     $sql = "SELECT 
                 L_NEW.ASSET_BUILDING
             FROM 
-            AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS_NEW A_NEW 
+            AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS A_NEW 
                 WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND L_NEW.ASSET_ROOM_NO = A_NEW.ASSET_ROOM_NO
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
@@ -1493,7 +1493,7 @@ $app->map(['GET','POST'],'/asset_level_new_assets', function(Request $request, R
     $sql = "SELECT 
                 L_NEW.ASSET_LEVEL 
             FROM 
-            AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS_NEW A_NEW 
+            AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS A_NEW 
                 WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND L_NEW.ASSET_ROOM_NO = A_NEW.ASSET_ROOM_NO
             AND ASSET_BUILDING LIKE '%$building%'
@@ -1538,7 +1538,7 @@ $app->map(['GET','POST'],'/asset_area_assets', function(Request $request, Respon
     $sql = "SELECT 
                 ASSET_AREA_NAME
             FROM 
-               AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS_NEW A_NEW 
+               AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS A_NEW 
                 WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND L_NEW.ASSET_ROOM_NO = A_NEW.ASSET_ROOM_NO
             AND ASSET_LEVEL LIKE '%$level%'
@@ -1581,7 +1581,7 @@ $app->map(['GET','POST'],'/asset_room_no_assets', function(Request $request, Res
 
     $sql = "SELECT L_NEW.ASSET_ROOM_NO
             FROM 
-                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS_NEW A_NEW 
+                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS A_NEW 
                 WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
             AND L_NEW.ASSET_ROOM_NO = A_NEW.ASSET_ROOM_NO
             AND ASSET_BUILDING LIKE '%$building%'
@@ -1632,7 +1632,7 @@ $app->map(['GET','POST'],'/asset_primary_id_view', function(Request $request, Re
 
     $sql = "SELECT A_OLD.ASSET_PRIMARY_ID
             FROM 
-                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
             AND A_OLD.ASSET_PRIMARY_ID = A_OLD.ASSET_ID
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
@@ -1795,7 +1795,7 @@ $app->map(['GET','POST'],'/building_view', function(Request $request, Response $
     $sql = "SELECT 
                 L_NEW.ASSET_BUILDING
             FROM 
-                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
@@ -1849,7 +1849,7 @@ $app->map(['GET','POST'],'/asset_level_new_view', function(Request $request, Res
     $sql = "SELECT 
                 L_NEW.ASSET_LEVEL 
             FROM 
-                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
@@ -1883,6 +1883,7 @@ $app->map(['GET','POST'],'/asset_level_new_view', function(Request $request, Res
         echo json_encode(array("rows" => 0 ,"data" =>"Error"));
     }
 });
+
 $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -1902,7 +1903,7 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
     $sql = "SELECT 
                 L_NEW.ASSET_AREA_NAME
             FROM 
-                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
@@ -1936,6 +1937,7 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
         echo json_encode(array("rows" => 0 ,"data" =>"Error"));
     }
 });
+
 $app->map(['GET','POST'],'/asset_room_no_view', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -1954,7 +1956,7 @@ $app->map(['GET','POST'],'/asset_room_no_view', function(Request $request, Respo
 
     $sql = "SELECT L_NEW.ASSET_ROOM_NO
             FROM 
-                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
@@ -2007,7 +2009,7 @@ $app->map(['GET','POST'],'/asset_sub_location_view', function(Request $request, 
 
     $sql = "SELECT A_OLD.ASSET_SUB_LOCATION
             FROM 
-                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
@@ -2060,7 +2062,7 @@ $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Respo
 
     $sql = "SELECT A_OLD.ASSET_PRIMARY_ID
             FROM 
-                AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
@@ -2117,7 +2119,7 @@ $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Respo
 //     $sql = "SELECT 
 //                 L_NEW.ASSET_AREA_NAME
 //             FROM 
-//                 AMSD.ASSETS_LOCATION_NEW L_NEW, AMSD.ASSETS  A_OLD
+//                 AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
 //             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
 //             AND A_OLD.ASSET_CERT_NO IS NOT NULL
 //             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
