@@ -14,6 +14,8 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
 }
 
 
+
+
 function closeApp() {
     swal.fire({
         title: "Exit Application",
@@ -1051,7 +1053,7 @@ $('#menu_new_room').on('click', '.dropdown-item', function () {
     $('#search_new_room').val($(this)[0].value);
 });
 
-if (localStorage.dropdownFilter == "ALL") {
+if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));

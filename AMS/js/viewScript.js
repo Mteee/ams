@@ -47,9 +47,9 @@ function closeMe() {
 
 //check for filter in local storage
 if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
-    localStorage.backupFilter = localStorage.dropdownFilter;
+    localStorage.backupFilter = localStorage.filter;
 } else {
-    localStorage.dropdownFilter = localStorage.backupFilter;
+    localStorage.filter = localStorage.backupFilter;
 }
 
 window.onload = function () {
@@ -1036,7 +1036,7 @@ function resetInput(resetId, resetTxt) {
 //     }
 // });
 
-if (localStorage.dropdownFilter == "ALL") {
+if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));

@@ -1043,7 +1043,7 @@ $('#menu_asset_no_sub').on('click', '.dropdown-item', function () {
 // end assets menu  onclick 
 
 //Department Dropdown Check
-if (localStorage.dropdownFilter == "ALL") {
+if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
