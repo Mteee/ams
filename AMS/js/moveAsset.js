@@ -571,7 +571,7 @@ var allArr = {
 // console.log(allArr);
 // console.log("allArr");
 
-function getItems(url, id, scrollArea, menuid) {
+function getItems(url, id, scrollArea, menuid,empty_view) {
 
     console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '","sub_location": "' + localStorage.sub_location + '","asset_primary_id": "' + localStorage.asset_primary_id + '"}');
     $.ajax({
@@ -598,27 +598,37 @@ function getItems(url, id, scrollArea, menuid) {
 
             }
 
-            console.log(data.data);
+            console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
             // console.log("=============searchValue================");
             // console.log(searchValue);
             // console.log("=============searchValue=================");
-            for (var i = 0; i < data.rows; i++) {
-                rows.push({
-                    values: [data.data[i]],
-                    markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
-                    active: true
-                });
-            }
 
-            allArr[id] = rows;
+            if(data.rows > 0){
+
+                for (var i = 0; i < data.rows; i++) {
+                    rows.push({
+                        values: [data.data[i]],
+                        markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
+                        active: true
+                    });
+                }
+    
+                allArr[id] = rows;
+
+                filterItems(rows, id, scrollArea, menuid);
+            }else{
+                filterItems(rows, id, scrollArea, menuid);
+                $('#'+empty_view).show();
+            }
+           
 
             // localStorage.setItem(id, JSON.stringify(rows));
             // Storage.prototype._setItem(id,rows);
 
 
-            filterItems(rows, id, scrollArea, menuid);
+            
             // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
             // // let contents = []
@@ -638,7 +648,6 @@ function getItems(url, id, scrollArea, menuid) {
         error: function (data_err) {
             console.log("Error");
             console.log(data_err);
-            console.error(data_err);
             console.log(localStorage.filter);
         }
     })
