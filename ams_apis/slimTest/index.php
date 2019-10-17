@@ -4430,19 +4430,19 @@ $app->map(['GET','POST'],'/asset_sub_location_location', function(Request $reque
          echo json_encode(array("rows"=>$length,"data" =>$response));
     }
     else{
-        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
     }
  
 });
 
-$app->map(['GET','POST'],'/get_lcoations', function(Request $request, Response $response){
+$app->map(['GET','POST'],'/get_all_locations', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
     $building = strtoupper($data->building);
     $level = strtoupper($data->level);
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
-    $sub_location = strtoupper($data->sub_location);
+    $sub_location = strtoupper($data->asset_sub_location);
     $description = strtoupper($data->description);
     $asset_class = strtoupper($data->asset_class);
     $response = array();

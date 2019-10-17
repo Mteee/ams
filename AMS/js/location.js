@@ -95,7 +95,7 @@ function viewAsset(assetId) {
 
 
 function populate_add_dropdown() {
-  getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_add_location_area', 'scroll_add_location_area', 'meun_add_location_area', 'empty_add_location_area');
+    getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_add_location_area', 'scroll_add_location_area', 'meun_add_location_area', 'empty_add_location_area');
     // get level
     getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_add_location_level', 'scroll_add_location_level', 'menu_add_location_level', 'empty_add_location_level');
     // get building
@@ -112,7 +112,9 @@ function populate_dropdown() {
     getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_location_level', 'scroll_location_level', 'menu_location_level', 'empty_location_level');
     // get building
     getItems('../../ams_apis/slimTest/index.php/building_location', 'search_location_building', 'scroll_location_building', 'menu_location_building', 'empty_location_building');
-
+    // get sub_location
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_location', 'search_location_sublocaction', 'scroll_location_sublocaction', 'menu_location_sublocaction', 'empty_locaton_sublocaction');
+        
 }
 
 populate_dropdown();
@@ -203,7 +205,6 @@ function getItems(url, id, scrollArea, menuid) {
                     $("#dropdown_location_location").text(data.data[0])
                     $("#search_location_location").val(data.data[0])
                 }
-
             }
 
 
@@ -309,8 +310,8 @@ function search() {
         level = document.getElementById('search_location_level').value,
         area = document.getElementById('search_location_area').value,
         room_no = document.getElementById('search_location_room').value;
-    description = document.getElementById('location_description').value;
-    sub_location = document.getElementById('search_location_sublocaction').value;
+        description = document.getElementById('location_description').value;
+        sub_location = document.getElementById('search_location_sublocaction').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location);
     var current = "";
@@ -337,7 +338,7 @@ function search() {
         console.log('{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_sub_location":"' + localStorage.sub_location + '","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}');
 
         $.ajax({
-            url: "../../ams_apis/slimTest/index.php/get_lcoations",
+            url: "../../ams_apis/slimTest/index.php/get_all_locations",
             type: "POST",
             dataType: 'json',
             data: '{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_sub_location":"' + localStorage.sub_location + '","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}',
@@ -351,7 +352,6 @@ function search() {
                 // console.log(data);
                 // console.log(data.data.ASSET_IS_SUB);
 
-                ASSET_BUILDING, ASSET_LEVEL, ASSET_AREA, ASSET_AREA_NAME, ASSET_AREA_DETAIL, ASSET_ROOM_NO, HD_ASSET_ROOM_LOCATION, HD_ASSET_DESC
                 if (data.rows > 0) {
 
                     var str = '{"data" : [';
@@ -359,7 +359,6 @@ function search() {
                         console.log(data.data[k].get_lcoations);
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_BUILDING + '","';
-                            str += data.data[k].ASSET_BUILDING + '","';
                             str += data.data[k].ASSET_LEVEL + '","';
                             str += data.data[k].ASSET_AREA + '","';
                             str += data.data[k].ASSET_AREA_NAME + '","';
@@ -370,7 +369,6 @@ function search() {
                         } else {
 
                             str += '["' + data.data[k].ASSET_BUILDING + '","';
-                            str += data.data[k].ASSET_BUILDING + '","';
                             str += data.data[k].ASSET_LEVEL + '","';
                             str += data.data[k].ASSET_AREA + '","';
                             str += data.data[k].ASSET_AREA_NAME + '","';
@@ -549,10 +547,6 @@ function createTable(tableID, tableData) {
                 "data": null,
                 "orderable": false,
                 "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
-            },
-            {
-                "className": "dt-center",
-                "targets": [-2, 0]
             },
             {
                 "targets": -2,
