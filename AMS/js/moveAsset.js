@@ -537,15 +537,15 @@ function populate_dropdown() {
 
 function populate_tran_dropdown() {
     // get building
-    getItems('../../ams_apis/slimTest/index.php/building_view', 'search_transfer_building', 'scroll_transfer_building', 'menu_transfer_building', 'empty_transfer_building');
+    getItems('../../ams_apis/slimTest/index.php/building_view_transfer', 'search_transfer_building', 'scroll_transfer_building', 'menu_transfer_building', 'empty_transfer_building');
     // get level
-    getItems('../../ams_apis/slimTest/index.php/asset_level_new_view', 'search_transfer_level', 'scroll_transfer_level', 'menu_transfer_level', 'empty_transfer_level');
+    getItems('../../ams_apis/slimTest/index.php/asset_level_new_transfer', 'search_transfer_level', 'scroll_transfer_level', 'menu_transfer_level', 'empty_transfer_level');
     // get location
-    getItems('../../ams_apis/slimTest/index.php/location_area', 'search_transfer_location', 'scroll_tarnsfer_Location', 'menu_transfer_Location', 'empty_transfer_Location');
+    getItems('../../ams_apis/slimTest/index.php/location_area_transfer', 'search_transfer_location', 'scroll_tarnsfer_Location', 'menu_transfer_Location', 'empty_transfer_Location');
     // get room_no
-    getItems('../../ams_apis/slimTest/index.php/room_no', 'search_transfer_roomno', 'scroll_transfer_room', 'menu_transfer_Room', 'empty_transfer_Room');
+    getItems('../../ams_apis/slimTest/index.php/room_no_transfer', 'search_transfer_roomno', 'scroll_transfer_room', 'menu_transfer_Room', 'empty_transfer_Room');
     // get sub
-    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_view', 'search_transfer_sub', 'scroll_transfer_sub', 'menu_transfer_sub', 'empty_transfer_sub');
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_transfer', 'search_transfer_sub', 'scroll_transfer_sub', 'menu_transfer_sub', 'empty_transfer_sub');
 }
 
 populate_dropdown();
@@ -554,7 +554,7 @@ populate_dropdown();
 // populate room no
 function populate_room() {
     getItems('../../ams_apis/slimTest/index.php/room_no', 'search_approve_roomno', 'scroll_approve_room', 'menu_approve_Room', 'empty_approve_Room');
-    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_view', 'search_approve_sub', 'scroll_approve_sub', 'menu_approve_sub', 'empty_approve_sub');
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_move', 'search_approve_sub', 'scroll_approve_sub', 'menu_approve_sub', 'empty_approve_sub');
 }
 
 
