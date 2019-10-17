@@ -553,8 +553,8 @@ populate_dropdown();
 
 // populate room no
 function populate_room() {
-    getItems('../../ams_apis/slimTest/index.php/room_no', 'search_approve_roomno', 'scroll_approve_room', 'menu_approve_Room', 'empty_approve_Room');
-    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_move', 'search_approve_sub', 'scroll_approve_sub', 'menu_approve_sub', 'empty_approve_sub');
+    getItems('../../ams_apis/slimTest/index.php/search_transfer_roomno', 'search_approve_roomno', 'scroll_approve_room', 'menu_approve_Room', 'empty_approve_Room');
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_transfer', 'search_approve_sub', 'scroll_approve_sub', 'menu_approve_sub', 'empty_approve_sub');
 }
 
 
