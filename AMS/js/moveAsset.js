@@ -157,7 +157,6 @@ function search() {
         })
 
     }
-
     else {
         $('#searchView').hide();
         $('#outSearch').hide();
@@ -176,7 +175,6 @@ function search() {
 
     function makeCall(url, actionBtn, table_dom, length) {
 
-        console.log("makecall->3 tables");
         console.log('{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","sub_location" : "' + sub_location + '","asset_primary_id" : "' + asset_primary_id + '","description" : "' + description + '","asset_class":"' + localStorage.filter + '"}');
 
         $.ajax({
@@ -213,6 +211,7 @@ function search() {
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
                             str += data.data[k].ASSET_STATUS + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"]';
+                            
                         } else {
 
                             str += '["' + data.data[k].ASSET_ID + '","';
@@ -223,6 +222,7 @@ function search() {
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
                             str += data.data[k].ASSET_STATUS + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"],';
+
                         }
                     }
                     str += ']}'
@@ -254,49 +254,22 @@ function search() {
                         }, 500);
                     });
 
-
-                    // table.clear().draw();
-
-
                 }
                 else {
-                    // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
-                    // $('#searchView').fadeIn(500);
+
                     console.log(data.data);
 
                     table = createTable(table_dom, data.data);
 
                 }
 
-                // $(table_dom + ' tbody').on('click', 'input[type="checkbox"]', function () {
-
-                //     // var data = table.row($(this).parents('tr')).data();
-
-                //     // if(data == null || data == undefined){
-                //     //     data = (localStorage.b).split(',');
-                //     // console.log("---------------localStorage---------------");
-                //     // console.log(data);
-                //     // console.log("---------------data---------------");
-                //     // }else{
-                //     //     localStorage.b = data;
-                //     //     console.log("---------------Default---------------");
-                //     //     console.log(data);
-                //     //     console.log("---------------data---------------");
-                //     // }
-
-                //     // alert(data[0] + "'s salary is: " + data[4]);
-                // });
 
                 $(table_dom + ' tbody').on('click', 'button', function () {
 
                     var data = tableArr[replaceAll("#", "", table_dom)].row($(this).parents('tr')).data();
-                    // var data = table.row($(this).parents('tr')).data();
-                    // if (data == null || data == undefined) {
-                    //     data = (localStorage.tableDataSet).split(',');
-                    // } else {
-                    //     localStorage.tableDataSet = data;
-                    // }
+
                     viewAsset(data[0]);
+                    
                 });
                 $('#loader').hide();
 

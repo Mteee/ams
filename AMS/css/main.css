@@ -224,7 +224,8 @@ input[type="checkbox"]:disabled:after {
 #overlay-asset,
 #overlay-printView,
 #overlay-decomAsset,
-#overlay-alert-message {
+#overlay-alert-message,
+#loader-overlay-location {
     display: none;
     position: fixed;
     width: 100%;
