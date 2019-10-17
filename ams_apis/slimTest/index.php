@@ -81,6 +81,7 @@ $app->map(['GET','POST'],'/singleAssetInfo_asset_no',function(Request $request, 
     }
 
 });
+
 $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $response){
 
     $data = json_decode(file_get_contents('php://input') );
@@ -239,6 +240,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
     }
 
 });
+
 $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Response $response){
 
     $data = json_decode(file_get_contents('php://input') );
@@ -409,6 +411,7 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
     }
 
 });
+
 $app->map(['GET','POST'],'/getAssets_al_no',function(Request $request, Response $response){
 
     $data = json_decode(file_get_contents('php://input') );
@@ -430,6 +433,7 @@ $app->map(['GET','POST'],'/getAssets_al_no',function(Request $request, Response 
     }
 
 });
+
 $app->map(['GET','POST'],'/login',function(Request $request, Response $response){
     
     global $func;
@@ -464,6 +468,7 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
 
 
 });
+
 $app->map(['GET','POST'],'/asset_no',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -555,7 +560,6 @@ $app->map(['GET','POST'],'/room_no',function(Request $request, Response $respons
     }
 
 });
-
 
 $app->map(['GET','POST'],'/assetCert_print',function(Request $request, Response $response){
     global $func;
@@ -655,8 +659,6 @@ $app->map(['GET','POST'],'/location_area',function(Request $request, Response $r
 
 });
 
-
-
 $app->map(['GET','POST'],'/asset_leve',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -709,6 +711,7 @@ $app->map(['GET','POST'],'/asset_leve',function(Request $request, Response $resp
     }
 
 });
+
 $app->map(['GET','POST'],'/asset_building',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -761,6 +764,7 @@ $app->map(['GET','POST'],'/asset_building',function(Request $request, Response $
     }
 
 });
+
 $app->map(['GET','POST'],'/filter_with_var',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -855,6 +859,7 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
     }   
 
 });
+
 $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $response){
 
     global $func;
@@ -917,6 +922,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
     }
 
 });
+
 $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $response){
 
     global $func;
@@ -977,6 +983,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
     }
 
 });
+
 $app->map(['GET','POST'],'/pendingTransfer',function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -1000,6 +1007,7 @@ $app->map(['GET','POST'],'/pendingTransfer',function(Request $request, Response 
     }
 
 });
+
 $app->map(['GET','POST'],'/confirmTransfer',function(Request $request, Response $response){
     try{
         global $connect;
@@ -1045,6 +1053,7 @@ $app->map(['GET','POST'],'/confirmTransfer',function(Request $request, Response 
     
 
 });
+
 $app->map(['GET','POST'],'/cancelTransfer',function(Request $request, Response $response){
     try{
         global $connect;
@@ -1078,6 +1087,7 @@ $app->map(['GET','POST'],'/cancelTransfer',function(Request $request, Response $
     
 
 });
+
 $app->map(['GET','POST'],'/checkRoom', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -1097,6 +1107,7 @@ $app->map(['GET','POST'],'/checkRoom', function(Request $request, Response $resp
     }
  
 });
+
 $app->map(['GET','POST'],'/approveAsset',function(Request $request, Response $response){
     try{
         global $connect;
@@ -1134,6 +1145,7 @@ $app->map(['GET','POST'],'/approveAsset',function(Request $request, Response $re
     
 
 });
+
 $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -1801,7 +1813,8 @@ $app->map(['GET','POST'],'/building_view', function(Request $request, Response $
                 L_NEW.ASSET_BUILDING
             FROM 
                 AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
-            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+            AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
@@ -1809,7 +1822,7 @@ $app->map(['GET','POST'],'/building_view', function(Request $request, Response $
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
-            AND A_OLD.ASSET_STATUS = '1'
+            --AND A_OLD.ASSET_STATUS = '1'
             GROUP BY L_NEW.ASSET_BUILDING
             ORDER BY L_NEW.ASSET_BUILDING";
 
@@ -2054,7 +2067,7 @@ $app->map(['GET','POST'],'/asset_sub_location_transfer', function(Request $reque
                 AMSD.ASSETS_LOCATION             
             WHERE ASSET_BUILDING LIKE '%$building%'
             AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
-            AND HD_ASSET_ROOM_LOCATION NOT IN(SELECT ASSET_SUB_LOCATION FROM AMSD.ASSETS)
+            AND HD_ASSET_ROOM_LOCATION||ASSET_ROOM_NO NOT IN(SELECT ASSET_SUB_LOCATION||ASSET_ROOM_NO FROM AMSD.ASSETS)
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
@@ -2109,7 +2122,8 @@ $app->map(['GET','POST'],'/asset_level_new_view', function(Request $request, Res
                 L_NEW.ASSET_LEVEL 
             FROM 
                 AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
-            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+            AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
@@ -2117,7 +2131,7 @@ $app->map(['GET','POST'],'/asset_level_new_view', function(Request $request, Res
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
-            AND A_OLD.ASSET_STATUS = '1'
+            --AND A_OLD.ASSET_STATUS = '1'
             GROUP BY L_NEW.ASSET_LEVEL
             ORDER BY L_NEW.ASSET_LEVEL";
 
@@ -2164,7 +2178,8 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
                 L_NEW.ASSET_AREA_NAME
             FROM 
                 AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
-            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+            AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
@@ -2172,7 +2187,7 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
-            AND A_OLD.ASSET_STATUS = '1'
+            ---AND A_OLD.ASSET_STATUS = '1'
             GROUP BY L_NEW.ASSET_AREA_NAME
             ORDER BY L_NEW.ASSET_AREA_NAME";
 
@@ -2217,7 +2232,8 @@ $app->map(['GET','POST'],'/asset_room_no_view', function(Request $request, Respo
     $sql = "SELECT L_NEW.ASSET_ROOM_NO
             FROM 
                 AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
-            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+            AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
@@ -2225,7 +2241,7 @@ $app->map(['GET','POST'],'/asset_room_no_view', function(Request $request, Respo
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
-            AND A_OLD.ASSET_STATUS = '1'
+            --AND A_OLD.ASSET_STATUS = '1'
             GROUP BY L_NEW.ASSET_ROOM_NO
             ORDER BY L_NEW.ASSET_ROOM_NO";
 
@@ -2271,7 +2287,8 @@ $app->map(['GET','POST'],'/asset_sub_location_move', function(Request $request, 
     $sql = "SELECT A_OLD.ASSET_SUB_LOCATION
             FROM 
                 AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
-            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+            AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
@@ -2279,7 +2296,7 @@ $app->map(['GET','POST'],'/asset_sub_location_move', function(Request $request, 
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
-            AND A_OLD.ASSET_STATUS = '1'
+            --AND A_OLD.ASSET_STATUS = '1'
             GROUP BY A_OLD.ASSET_SUB_LOCATION
             ORDER BY A_OLD.ASSET_SUB_LOCATION";
 
@@ -2325,16 +2342,16 @@ $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Respo
     $sql = "SELECT A_OLD.ASSET_PRIMARY_ID
             FROM 
                 AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
-            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+            AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND A_OLD.ASSET_CLASS LIKE '%$asset_class%'
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
-            AND A_OLD.ASSET_STATUS = '1'
+           -- AND A_OLD.ASSET_STATUS = '1'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
-            AND A_OLD.ASSET_STATUS = '1'
             GROUP BY A_OLD.ASSET_PRIMARY_ID
             ORDER BY A_OLD.ASSET_PRIMARY_ID";
 
@@ -4118,6 +4135,221 @@ $app->map(['GET','POST'],'/get_oldRoom', function(Request $request, Response $re
                             WHERE ASSET_ID IN ($asset_ids))
          AND ASSET_ID IN ($asset_ids)";
 
+
+$assets_no =$func->executeQuery($sql);
+
+        if($assets_no){
+            
+            $res = json_decode($assets_no);
+            $length = $res->rows;
+            $sub = '';
+            
+            foreach($res->data as $value){
+
+                $sub = '<tr>
+                        <td>'.$value->ASSET_ID.'</td>
+                        <td>'.$value->ASSET_ROOM_NO_NEW.'</td>
+                        <td>'.$value->ASSET_ROOM_NO_OLD.'</td>
+                        </tr>';
+            }
+
+            echo json_encode(array("rows"=>$length,"data"=>$sub));
+        }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+});
+
+/**
+ * 
+ * 
+ * Location Filters
+ * 
+ */
+
+$app->map(['GET','POST'],'/building_location', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $description = strtoupper($data->description);
+    $sub_location = strtoupper($data->sub_location);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT 
+                ASSET_BUILDING
+                FROM AMSD.ASSETS_LOCATION
+            WHERE ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND HD_ASSET_DESC LIKE '%$description%'
+            GROUP BY ASSET_BUILDING
+            ORDER BY ASSET_BUILDING";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_BUILDING;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+
+
+$app->map(['GET','POST'],'/asset_level_new_location', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $description = strtoupper($data->description);
+    $asset_no = strtoupper($data->asset_no);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT 
+                ASSET_LEVEL 
+                FROM AMSD.ASSETS_LOCATION 
+                WHERE ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND HD_ASSET_DESC LIKE '%$description%'
+            GROUP BY ASSET_LEVEL
+            ORDER BY ASSET_LEVEL";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_LEVEL;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+});
+
+$app->map(['GET','POST'],'/asset_area_location', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $asset_no = strtoupper($data->asset_no);
+    $description = strtoupper($data->description);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT 
+                ASSET_AREA_NAME
+            FROM AMSD.ASSETS_LOCATION 
+            WHERE ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND HD_ASSET_DESC LIKE '%$description%'
+            GROUP BY ASSET_AREA_NAME
+            ORDER BY ASSET_AREA_NAME";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_AREA_NAME;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+});
+
+$app->map(['GET','POST'],'/asset_room_no_location', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $description = strtoupper($data->description);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT ASSET_ROOM_NO
+            FROM AMSD.ASSETS_LOCATION 
+            WHERE ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND HD_ASSET_DESC LIKE '%$description%'
+            GROUP BY ASSET_ROOM_NO
+            ORDER BY ASSET_ROOM_NO";
+
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
@@ -4136,6 +4368,16 @@ $app->map(['GET','POST'],'/get_oldRoom', function(Request $request, Response $re
         }
 
          echo json_encode(array("rows"=>$length,"data"=>$sub));
+        foreach($res->data as $value){
+
+            $response [] = $value->ASSET_ROOM_NO;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $assets_no;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
     }
     else{
         echo json_encode(array("rows" => 0 ,"data" =>"Error"));
@@ -4143,5 +4385,92 @@ $app->map(['GET','POST'],'/get_oldRoom', function(Request $request, Response $re
  
 });
 
+$app->map(['GET','POST'],'/asset_sub_location_location', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $description = strtoupper($data->description);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT HD_ASSET_ROOM_LOCATION
+            FROM AMSD.ASSETS_LOCATION 
+            WHERE ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND HD_ASSET_DESC LIKE '%$description%'
+            GROUP BY HD_ASSET_ROOM_LOCATION
+            ORDER BY HD_ASSET_ROOM_LOCATION";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response [] = $value->HD_ASSET_ROOM_LOCATION;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $assets_no;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+$app->map(['GET','POST'],'/get_lcoations', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $description = strtoupper($data->description);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT ASSET_BUILDING, ASSET_LEVEL, ASSET_AREA, ASSET_AREA_NAME, ASSET_AREA_DETAIL, ASSET_ROOM_NO, HD_ASSET_ROOM_LOCATION, HD_ASSET_DESC
+            FROM AMSD.ASSETS_LOCATION 
+            WHERE ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND HD_ASSET_DESC LIKE '%$description%'";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        echo $assets_no;
+
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+ 
+});
 
 $app->run();

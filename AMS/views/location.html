@@ -105,15 +105,166 @@
         * {
             font-size: 9pt !important;
         }
+        
+        #assetLocation {
+            margin-top: 200px;
+            height: 484px;
+        }
     </style>
 </head>
 
 <body>
+
+
+
     <div id="loader-overlay" style="display: none;">
         <div id="Assetload" class="dropdown-loader">
             <img src="../img/loading-transparent.gif" alt="" style="width: 220px;text-align: center;margin: 15% auto;background: #fdfdfd;padding: 23px;">
         </div>
     </div>
+
+
+    <div id="loader-overlay-location">
+        <div class="asset-details animated bounceInUp" id="assetLocation">
+            <span class="exit-asset" onclick="closeAsset('loader-overlay-location')">&times;</span>
+
+            <div class="asset-header text-center">
+                <strong>ADD LOCATION</strong>
+            </div>
+            <div class="asset-body">
+                <div class="dropdown">
+                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                BUILDING
+                            </button>
+                    <div class="dropdown-menu" aria-labelledby="building_location_filter" id="scroll_add_location_building">
+                        <form class="px-4 py-2">
+                            <div class="input-group">
+                                <input type="search" id="search_add_location_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_add_location_building','#empty_add_location_building')" autofocus="autofocus">
+                                <div class="input-group-append">
+                                    <span class="input-group-text btn btn-danger text-light" id="clear_location_building" onclick="clearData('#search_add_location_building','#building_add_location_filter','BUILDING')"><i
+                                                    class="fa fa-close"></i>
+                                            </span>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="menu_add_location_building">
+                            <div id="building_loader" class="dropdown-loader">
+                                <img src="../img/loading-transparent.gif" alt="">
+                            </div>
+                        </div>
+                        <div id="empty_add_location_building" class="dropdown-header">No building found
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dropdown py-2">
+                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    LEVEL
+                                </button>
+                    <div class="dropdown-menu" aria-labelledby="level_add_location_filter" id="scroll_add_location_level">
+                        <form class="px-4 py-2">
+
+                            <div class="input-group">
+                                <input type="search" id="search_add_location_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_add_location_level','#empty_add_location_level')" autofocus="autofocus">
+                                <div class="input-group-append">
+                                    <span class="input-group-text btn btn-danger text-light" id="clear_location_level" onclick="clearData('#search_add_location_level','#level_add_location_filter','LEVEL')"><i
+                                                        class="fa fa-close"></i></span>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="menu_add_location_level">
+                            <div id="Roomload" class="dropdown-loader">
+                                <img src="../img/loading-transparent.gif" alt="">
+                            </div>
+                        </div>
+                        <div id="empty_add_location_level" class="dropdown-header">No level found
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dropdown">
+                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        AREA
+                                    </button>
+                    <div class="dropdown-menu clusterize-scroll" id="scroll_location_area" aria-labelledby="area_location_filter">
+                        <form class="px-4 py-2">
+                            <div class="input-group">
+                                <input type="search" id="search_add_location_area" class="form-control" placeholder="Area" onkeyup="onSearch('search_add_location_area','#empty_add_location_area')" autofocus="autofocus">
+                                <div class="input-group-append">
+                                    <span class="input-group-text btn btn-danger text-light" id="clear_location_area" onclick="clearData('#search_add_location_area','#area_add_location_filter','AREA')"><i
+                                                            class="fa fa-close"></i></span>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="meun_add_location_area" onchange="testMethod()">
+                            <div id="Assetload" class="dropdown-loader">
+                                <img src="../img/loading-transparent.gif" alt="">
+                            </div>
+                        </div>
+                        <div id="empty_add_location_area" class="dropdown-header">No area found
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="dropdown py-2">
+                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            ROOM
+                                        </button>
+                    <div class="dropdown-menu clusterize-scroll" id="scroll_location_room" aria-labelledby="room_location_filter">
+                        <form class="px-4 py-2">
+
+                            <div class="input-group">
+                                <input type="search" id="search_location_room" class="form-control" placeholder="Room" onkeyup="onSearch('search_location_room','#empty_location_room')" autofocus="autofocus">
+                                <div class="input-group-append">
+                                    <span class="input-group-text btn btn-danger text-light" id="clear_location_room" onclick="clearData('#search_location_room','#room_location_filter','ROOM')"><i
+                                                                class="fa fa-close"></i></span>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="menu_location_room" class="text-center" onchange="testMethod()">
+                            <div id="Assetload" class="dropdown-loader">
+                                <img src="../img/loading-transparent.gif" alt="">
+                            </div>
+                        </div>
+                        <div id="empty_location_room" class="dropdown-header">No room found
+                        </div>
+                    </div>
+                </div> -->
+
+                <input type="text" id="location_new_room" onkeyup="onSearch_new('location_new_room')" class="form-control" placeholder="new Room...">
+                <div class="input-group">
+                    <input type="checkbox" style="border-radius: 50%;width: 20px;height: 20px;" id="sameLocation" onkeyup="onSearch_new('location_new_room')" class="form-control" value="same">
+                    <label style="margin: 0 6px;" for="sameLocation">SUB LOCATION SAME AS ROOM</label>
+                </div>
+
+                <input type="text" id="newSubLocation" onkeyup="onSearch_new('newSubLocation')" class="form-control" placeholder="sublocation...">
+
+            </div>
+            <div class="asset-footer text-center">
+                <div class="row">
+                    <div class="col-8">
+                        <p class="text-muted">Number of Locatoins: <strong><span id="subItemCount"
+                                class="text-dark">5</span></strong></p>
+                    </div>
+                    <div class="col-4">
+                        <div class="row">
+                            <div class="col-12">
+                                <button class="btn btn-danger" onclick="closeAsset('loader-overlay-location')">CANCEL</button> |
+                                <button class="btn btn-success" onclick="createLocation()">CREATE</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="sub-item-number text-center py-2" style="margin-top: -39px;">
+
+            </div> -->
+        </div>
+    </div>
+
+
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgb(59, 56, 56);height:80px">
@@ -146,10 +297,10 @@
                             <li class="menu-item">certificates</li>
                         </a>
                         <div class="dropright dropdown" id="drodown-menu">
-                            <li class="menu-item active" data-toggle="dropdown">commissioning</li>
+                            <li class="menu-item" data-toggle="dropdown">commissioning</li>
                             <ul class="dropdown-menu">
                                 <a href="#">
-                                    <li class="menu-item active">location</li>
+                                    <li class="menu-item active">addition</li>
                                 </a>
                                 <li class="divider"></li>
                                 <a href="./removal.html" target="_self">
@@ -161,7 +312,7 @@
                             <li class="menu-item">asset link</li>
                         </a>
                         <a href="#">
-                            <li class="menu-item">new location</li>
+                            <li class="menu-item active">new location</li>
                         </a>
 
                     </ul>
@@ -209,15 +360,15 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_search_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     BUILDING
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="building_location_filter" id="scroll_location_building">
+                                                <div class="dropdown-menu" aria-labelledby="building_search_location_filter" id="scroll_location_building">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_location_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_location_building','#empty_location_building')" autofocus="autofocus">
+                                                            <input type="search" id="add_location_building" class="form-control" placeholder="Building" onkeyup="onSearch('add_location_building','#empty_location_building')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_building" onclick="clearData('#search_location_building','#building_location_filter','BUILDING')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_building" onclick="clearData('#add_location_building','#building_search_location_filter','BUILDING')"><i
                                                                         class="fa fa-close"></i>
                                                                 </span>
                                                             </div>
@@ -235,16 +386,16 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_search_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     LEVEL
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="level_location_filter" id="scroll_location_level">
+                                                <div class="dropdown-menu" aria-labelledby="level_search_location_filter" id="scroll_location_level">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
                                                             <input type="search" id="search_location_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_location_level','#empty_location_level')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_level" onclick="clearData('#search_location_level','#level_location_filter','LEVEL')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_level" onclick="clearData('#search_location_level','#level_search_location_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -261,15 +412,15 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_search_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_location_area" aria-labelledby="area_location_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_location_filter" aria-labelledby="area_location_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
                                                             <input type="search" id="search_location_area" class="form-control" placeholder="Area" onkeyup="onSearch('search_location_area','#empty_location_area')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_area" onclick="clearData('#search_location_area','#area_location_filter','AREA')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_area" onclick="clearData('#search_location_area','#area_search_location_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -286,16 +437,16 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_search_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_location_room" aria-labelledby="room_location_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_location_room" aria-labelledby="room_search_location_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
                                                             <input type="search" id="search_location_room" class="form-control" placeholder="Room" onkeyup="onSearch('search_location_room','#empty_location_room')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_room" onclick="clearData('#search_location_room','#room_location_filter','ROOM')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_room" onclick="clearData('#search_location_room','#room_search_location_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -385,32 +536,37 @@
                                     <table class="table" id="currentAssetsTable" style="font-size:13pt">
                                         <thead style="background:#000000;color:#ffffff;">
                                             <tr>
+
+
                                                 <th scope="col">
-                                                    #
+                                                    ASSET_BUILDING
                                                 </th>
                                                 <th scope="col">
-                                                    Asset No
+                                                    ASSET_LEVEL
 
                                                 </th>
                                                 <th scope="col">
-                                                    Room
+                                                    ASSET_AREA
 
                                                 </th>
                                                 <th scope="col">
-                                                    Sub Location
+                                                    ASSET_AREA_NAME
 
                                                 </th>
                                                 <th scope="col">
-                                                    Location
+                                                    ASSET_AREA_DETAIL
 
                                                 </th>
                                                 <th scope="col">
-                                                    Description
+                                                    ASSET_ROOM_NO
 
                                                 </th>
                                                 <th scope="col">
-                                                    Has Sub Assets
+                                                    HD_ASSET_ROOM_LOCATION
 
+                                                </th>
+                                                <th scope="col">
+                                                    HD_ASSET_DESC
                                                 </th>
                                                 <th scope="col">
                                                     View
@@ -451,9 +607,8 @@
         </div>
     </div>
 
-    <div class="system_info" onclick="add_new_asset()">
-        <span class="fa fa-plus fa-lg"></span><span class="tooltiptext"><strong></strong>Create new
-            asset</strong></span>
+    <div class="system_info" onclick="add_new_location()">
+        <span class="fa fa-plus fa-lg"></span><span class="tooltiptext"><strong></strong>Create Location</strong></span>
     </div>
 
     <script src="../js/jquery.js"></script>

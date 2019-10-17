@@ -157,7 +157,6 @@ function search() {
         })
 
     }
-
     else {
         $('#searchView').hide();
         $('#outSearch').hide();
@@ -176,7 +175,6 @@ function search() {
 
     function makeCall(url, actionBtn, table_dom, length) {
 
-        console.log("makecall->3 tables");
         console.log('{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","sub_location" : "' + sub_location + '","asset_primary_id" : "' + asset_primary_id + '","description" : "' + description + '","asset_class":"' + localStorage.filter + '"}');
 
         $.ajax({
@@ -213,6 +211,7 @@ function search() {
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
                             str += data.data[k].ASSET_STATUS + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"]';
+                            
                         } else {
 
                             str += '["' + data.data[k].ASSET_ID + '","';
@@ -223,6 +222,7 @@ function search() {
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
                             str += data.data[k].ASSET_STATUS + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"],';
+
                         }
                     }
                     str += ']}'
@@ -254,49 +254,22 @@ function search() {
                         }, 500);
                     });
 
-
-                    // table.clear().draw();
-
-
                 }
                 else {
-                    // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
-                    // $('#searchView').fadeIn(500);
+
                     console.log(data.data);
 
                     table = createTable(table_dom, data.data);
 
                 }
 
-                // $(table_dom + ' tbody').on('click', 'input[type="checkbox"]', function () {
-
-                //     // var data = table.row($(this).parents('tr')).data();
-
-                //     // if(data == null || data == undefined){
-                //     //     data = (localStorage.b).split(',');
-                //     // console.log("---------------localStorage---------------");
-                //     // console.log(data);
-                //     // console.log("---------------data---------------");
-                //     // }else{
-                //     //     localStorage.b = data;
-                //     //     console.log("---------------Default---------------");
-                //     //     console.log(data);
-                //     //     console.log("---------------data---------------");
-                //     // }
-
-                //     // alert(data[0] + "'s salary is: " + data[4]);
-                // });
 
                 $(table_dom + ' tbody').on('click', 'button', function () {
 
                     var data = tableArr[replaceAll("#", "", table_dom)].row($(this).parents('tr')).data();
-                    // var data = table.row($(this).parents('tr')).data();
-                    // if (data == null || data == undefined) {
-                    //     data = (localStorage.tableDataSet).split(',');
-                    // } else {
-                    //     localStorage.tableDataSet = data;
-                    // }
+
                     viewAsset(data[0]);
+                    
                 });
                 $('#loader').hide();
 
@@ -571,7 +544,7 @@ var allArr = {
 // console.log(allArr);
 // console.log("allArr");
 
-function getItems(url, id, scrollArea, menuid, empty_field) {
+function getItems(url, id, scrollArea, menuid, empty_view) {
 
     console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '","sub_location": "' + localStorage.sub_location + '","asset_primary_id": "' + localStorage.asset_primary_id + '"}');
     $.ajax({
@@ -605,21 +578,31 @@ function getItems(url, id, scrollArea, menuid, empty_field) {
             // console.log("=============searchValue================");
             // console.log(searchValue);
             // console.log("=============searchValue=================");
-            for (var i = 0; i < data.rows; i++) {
-                rows.push({
-                    values: [data.data[i]],
-                    markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
-                    active: true
-                });
-            }
 
-            allArr[id] = rows;
+            if(data.rows > 0){
+
+                for (var i = 0; i < data.rows; i++) {
+                    rows.push({
+                        values: [data.data[i]],
+                        markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
+                        active: true
+                    });
+                }
+    
+                allArr[id] = rows;
+
+                filterItems(rows, id, scrollArea, menuid);
+            }else{
+                filterItems(rows, id, scrollArea, menuid);
+                $('#'+empty_view).show();
+            }
+           
 
             // localStorage.setItem(id, JSON.stringify(rows));
             // Storage.prototype._setItem(id,rows);
 
 
-            filterItems(rows, id, scrollArea, menuid);
+            
             // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
             // // let contents = []
@@ -639,7 +622,6 @@ function getItems(url, id, scrollArea, menuid, empty_field) {
         error: function (data_err) {
             console.log("Error");
             console.log(data_err);
-            console.error(data_err);
             console.log(localStorage.filter);
         }
     })
