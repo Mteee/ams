@@ -380,6 +380,63 @@
         </div>
     </div>
 
+    <div id="overlay-temp-transfer">
+        <div class="asset-transfer-details animated bounceInUp" id="asset-Temp-Transfer">
+            <span class="exit-asset" onclick="closeAsset('overlay-temp-transfer')">&times;</span>
+
+            <div class="asset-transfer-body">
+                <div id="transfer-temp-Assets">
+
+                    <div class="asset-header text-center">
+                        <i class="fa fa-undo my-1" aria-hidden="true"></i> <strong>ASSET REVERTING 
+                        </strong>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="transfer-scroll">
+                                <table class="table my-2 table-striped table-bordered">
+                                    <thead style="background:#1d1a1a; color: #ffffff; padding: 13px;">
+                                        <tr>
+                                            <th>Asset No</th>
+                                            <th>Old Room</th>
+                                            <th>New Room</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="tbody" id="assetTbodyTempTransfer">
+
+                                    </tbody>
+                                </table>
+                                <div id="loaderTempTrans" class="loader_trans">
+                                    <img src="../img/loading-transparent.gif" alt="">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="asset-transfer-footer text-right">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="sub-item-number text-center">
+                            <p class="text-muted">Number of selected assets: <strong><span id="mov-temp-ItemCount"
+                                        class="text-dark">5</span></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success" id="confirmTempTransfer">Confirm</button>
+                        <button class="btn btn-danger" onclick="closeAsset('overlay-temp-transfer')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
     <div id="overlay-approve">
         <div class="asset-transfer-details animated bounceInUp" id="assetApprove">
             <span class="exit-asset" onclick="closeAsset('overlay-approve')">&times;</span>

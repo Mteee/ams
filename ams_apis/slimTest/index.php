@@ -4076,4 +4076,72 @@ $app->map(['GET','POST'],'/check_id', function(Request $request, Response $respo
  
 });
 
+$app->map(['GET','POST'],'/check_status', function(Request $request, Response $responce){
+    global $connect;
+    $data = json_decode(file_get_contents('php://input'));
+    $asset_ids = strtoupper($data->check_ids);
+    $v_out = "";
+
+    $sql = "SELECT count(*) AS RES FROM 
+    (SELECT ASSET_TRANSACTION_STATUS FROM ASSETS
+    WHERE ASSET_ID IN($asset_ids)
+    GROUP BY ASSET_TRANSACTION_STATUS)";
+
+    $sql = "BEGIN AMSD.ASSETS_CHECK_IF_STATUS_IS_SAME(:ASSET_IDS,:RESULT); END;";
+    $statement = oci_parse($connect,$sql);
+    oci_bind_by_name($statement, ':ASSET_IDS', $asset_ids, 400);
+    oci_bind_by_name($statement, ':RESULT', $v_out, 5);
+
+    oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+    oci_commit($connect);
+
+
+    echo json_encode(array("rows" => 1 ,"data" =>$v_out));
+ 
+
+});
+
+
+$app->map(['GET','POST'],'/get_oldRoom', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $asset_ids = strtoupper($data->temp_ids);
+    $response = array();
+
+ 
+
+    $sql = "SELECT ASSET_ID,ASSET_ROOM_NO_OLD,ASSET_ROOM_NO_NEW
+        FROM  ASSETS_LOG
+        WHERE ASSET_DATE = (SELECT MAX (ASSET_DATE)
+                             FROM ASSETS_LOG
+                            WHERE ASSET_ID IN ($asset_ids))
+         AND ASSET_ID IN ($asset_ids)";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        $sub = '';
+        
+        foreach($res->data as $value){
+
+            $sub = '<tr>
+                    <td>'.$value->ASSET_ID.'</td>
+                    <td>'.$value->ASSET_ROOM_NO_NEW.'</td>
+                    <td>'.$value->ASSET_ROOM_NO_OLD.'</td>
+                    </tr>';
+        }
+
+         echo json_encode(array("rows"=>$length,"data"=>$sub));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+ 
+});
+
+
 $app->run();

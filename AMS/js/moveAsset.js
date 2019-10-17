@@ -553,7 +553,7 @@ populate_dropdown();
 
 // populate room no
 function populate_room() {
-    getItems('../../ams_apis/slimTest/index.php/search_transfer_roomno', 'search_approve_roomno', 'scroll_approve_room', 'menu_approve_Room', 'empty_approve_Room');
+    getItems('../../ams_apis/slimTest/index.php/room_no_transfer', 'search_approve_roomno', 'scroll_approve_room', 'menu_approve_Room', 'empty_approve_Room');
     getItems('../../ams_apis/slimTest/index.php/asset_sub_location_transfer', 'search_approve_sub', 'scroll_approve_sub', 'menu_approve_sub', 'empty_approve_sub');
 }
 
@@ -571,7 +571,7 @@ var allArr = {
 // console.log(allArr);
 // console.log("allArr");
 
-function getItems(url, id, scrollArea, menuid) {
+function getItems(url, id, scrollArea, menuid, empty_field) {
 
     console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '","sub_location": "' + localStorage.sub_location + '","asset_primary_id": "' + localStorage.asset_primary_id + '"}');
     $.ajax({
@@ -598,6 +598,7 @@ function getItems(url, id, scrollArea, menuid) {
 
             }
 
+            console.log("======================data.data===========================");
             console.log(data.data);
             var rows = [];
             var searchValue = document.getElementById(id);
@@ -708,6 +709,7 @@ function getSelectedItems(id) {
     document.getElementById('movItemCount').innerHTML = rowsSelected.length;
 
     var assetValues = createAssetDelimeter(rowsSelected);
+    var assetQuoteDel = createQuoteDelimeter(rowsSelected);
 
     if (id == "outAssetsTable") {
 
@@ -822,111 +824,186 @@ function getSelectedItems(id) {
     }
     else {
 
-        //location
-        $('#building_transfer_filter').text("BUILDING");
-        $('#search_transfer_building').val("");
-        $('#level_transfer_filter').text("LEVEL");
-        $('#search_transfer_level').val("");
-        $('#dropdown_transfer_location').text("AREA");
-        $('#search_transfer_location').val("");
-        //room
-        $('#dropdown_transfer_room').text("ROOM");
-        $('#search_transfer_roomno').val("");
-        $('#dropdown_transfer_sub').text("SUB LOCATION");
-        $('#search_transfer_sub').val("");
+        console.log(assetValues)
+        //check for temp status
+        $.ajax({
+            url: "../../ams_apis/slimTest/index.php/check_status",
+            method: "POST",
+            data: '{"check_ids":"' + assetValues + '"}',
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                if (data.data == "C") {
+                    showDialogTransferDialog(assetValues, rowsSelected);
+                }
+                if (data.data == "DIFF") {
+                    swal.fire({
+                        title: "Asset with different status.",
+                        text: " You've selected assets that cannot be moved as one unit!\nNot allowed to select more than i",
+                        type: "error",
+                        confirmButtonColor: "#419641",
+                        closeOnCancel: true,
+                        allowOutsideClick: true,
+                    })
+                }
+                if (data.data == "CT") {
+                    showRevertDialog(assetQuoteDel,assetValues);
+                }
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+
+    }
+
+}
+
+function showDialogTransferDialog(rowsSelected, raw_assets) {
+
+    //location
+    $('#building_transfer_filter').text("BUILDING");
+    $('#search_transfer_building').val("");
+    $('#level_transfer_filter').text("LEVEL");
+    $('#search_transfer_level').val("");
+    $('#dropdown_transfer_location').text("AREA");
+    $('#search_transfer_location').val("");
+    //room
+    $('#dropdown_transfer_room').text("ROOM");
+    $('#search_transfer_roomno').val("");
+    $('#dropdown_transfer_sub').text("SUB LOCATION");
+    $('#search_transfer_sub').val("");
 
 
-        $('input:radio[name="transferType"]').filter('[value="SKIP"]').attr('checked', true);
-        $('input:radio[name="transferType"]').filter('[value="TEMP"]').attr('checked', false);
+    $('input:radio[name="transferType"]').filter('[value="SKIP"]').attr('checked', true);
+    $('input:radio[name="transferType"]').filter('[value="TEMP"]').attr('checked', false);
 
-        console.log(rowsSelected);
-        getSelectedAssets(rowsSelected);
-        localStorage.level = '';
-        localStorage.building = '';
-        localStorage.room_no = '';
-        localStorage.area = '';
-        localStorage.sub_location = '';
-        localStorage.asset_primary_id = '';
+    console.log(rowsSelected);
+    getSelectedAssets(raw_assets);
+    localStorage.level = '';
+    localStorage.building = '';
+    localStorage.room_no = '';
+    localStorage.area = '';
+    localStorage.sub_location = '';
+    localStorage.asset_primary_id = '';
 
-        populate_tran_dropdown();
+    populate_tran_dropdown();
 
-        document.getElementById('overlay-transfer').style.display = "block";
+    document.getElementById('overlay-transfer').style.display = "block";
 
-        $("#confirmTransfer").off().on('click', function (e) {
-            e.preventDefault();
-            var input_building = $("#building_transfer_filter").text();
-            var input_level = $("#level_transfer_filter").text();
-            var input_area = $("#dropdown_transfer_location").text();
-            var input_Room = $("#dropdown_transfer_room").text();
-            var input_sub = $("#dropdown_transfer_sub").text();
-            var input_radio_checked = $("#transfer_type input[type='radio']:checked")[0].value;
+    $("#confirmTransfer").off().on('click', function (e) {
+        e.preventDefault();
+        var input_building = $("#building_transfer_filter").text();
+        var input_level = $("#level_transfer_filter").text();
+        var input_area = $("#dropdown_transfer_location").text();
+        var input_Room = $("#dropdown_transfer_room").text();
+        var input_sub = $("#dropdown_transfer_sub").text();
+        var input_radio_checked = $("#transfer_type input[type='radio']:checked")[0].value;
 
-            if (input_building.indexOf("BUILDING") > -1) {
+        if (input_building.indexOf("BUILDING") > -1) {
+            // alert("Location is required");
+            // document.getElementById('overlay-alert-message').style.display = "none";
+            // document.getElementById('overlay-alert-message').style.display = "block";
+            // document.getElementById('alert_header').innerHTML = "Assets Transfer";
+            // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Building is required</span>';
+            // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+
+            swal.fire({
+                title: "Building is required",
+                type: "error",
+                confirmButtonColor: "#419641",
+                closeOnCancel: true,
+                allowOutsideClick: true,
+            })
+
+        } else
+            if (input_level.indexOf("LEVEL") > -1) {
                 // alert("Location is required");
                 // document.getElementById('overlay-alert-message').style.display = "none";
                 // document.getElementById('overlay-alert-message').style.display = "block";
                 // document.getElementById('alert_header').innerHTML = "Assets Transfer";
-                // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Building is required</span>';
+                // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Level is required</span>';
                 // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
                 swal.fire({
-                    title: "Building is required",
+                    title: "Level is required",
                     type: "error",
                     confirmButtonColor: "#419641",
                     closeOnCancel: true,
                     allowOutsideClick: true,
                 })
+            }
+            else if (input_area.indexOf("AREA") > -1) {
+                // alert("Location is required");
+                // document.getElementById('overlay-alert-message').style.display = "none";
+                // document.getElementById('overlay-alert-message').style.display = "block";
+                // document.getElementById('alert_header').innerHTML = "Assets Transfer";
+                // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Area is required</span>';
+                // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
-            } else
-                if (input_level.indexOf("LEVEL") > -1) {
-                    // alert("Location is required");
-                    // document.getElementById('overlay-alert-message').style.display = "none";
-                    // document.getElementById('overlay-alert-message').style.display = "block";
-                    // document.getElementById('alert_header').innerHTML = "Assets Transfer";
-                    // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Level is required</span>';
-                    // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+                swal.fire({
+                    title: "Area is required",
+                    type: "error",
+                    confirmButtonColor: "#419641",
+                    closeOnCancel: true,
+                    allowOutsideClick: true,
+                })
+            }
+            else {
 
-                    swal.fire({
-                        title: "Level is required",
-                        type: "error",
-                        confirmButtonColor: "#419641",
-                        closeOnCancel: true,
-                        allowOutsideClick: true,
-                    })
-                }
-                else if (input_area.indexOf("AREA") > -1) {
-                    // alert("Location is required");
-                    // document.getElementById('overlay-alert-message').style.display = "none";
-                    // document.getElementById('overlay-alert-message').style.display = "block";
-                    // document.getElementById('alert_header').innerHTML = "Assets Transfer";
-                    // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Area is required</span>';
-                    // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+                if (localStorage.filter == "IT EQUIPMENT") {
+                    if (input_Room.indexOf("ROOM") > -1) {
+                        input_Room = '';
+                        input_sub = '';
+                        // alert("room empty it");
+                        console.log(rowsSelected + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + "Test IT" + "," + input_radio_checked);
+                        // console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
+                        // document.getElementById('overlay-alert-message').style.display = "none";
+                        // document.getElementById('overlay-alert-message').style.display = "block";
+                        // document.getElementById('alert_header').innerHTML = "Assets Transfer";
+                        // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
+                        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_building + '\',\'' + input_level + '\',\'' + input_area + '\',\'' + input_Room + '\',\'' + input_sub + '\',\'' + input_radio_checked + '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
 
-                    swal.fire({
-                        title: "Area is required",
-                        type: "error",
-                        confirmButtonColor: "#419641",
-                        closeOnCancel: true,
-                        allowOutsideClick: true,
-                    })
-                }
-                else {
+                        swal.fire({
+                            title: "Are you sure you want to continue without selecting the room?",
+                            type: "question",
+                            showCancelButton: true,
+                            confirmButtonColor: "#419641",
+                            confirmButtonText: "Yes",
+                            cancelButtonText: "No",
+                            cancelButtonColor: "#C12E2A",
+                            closeOnConfirm: false,
+                            closeOnCancel: false,
+                            showCloseButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            if (result.value) {
+                                // showDropdown(assets_selected);
+                                continuee(rowsSelected, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked)
+                                // continuee(assetValues,input_building,input_level,input_area,input_Room,input_sub,input_radio_checked);
 
-                    if (localStorage.filter == "IT EQUIPMENT") {
-                        if (input_Room.indexOf("ROOM") > -1) {
-                            input_Room = '';
+                            } else if (
+                                /* Read more about handling dismissals below */
+                                result.dismiss === Swal.DismissReason.cancel
+                            ) {
+                                // confirmLink("SKIP");
+                                // console.log("no ALC");
+                                // console.log("here2");
+                            }
+                        });
+
+                    } else if (input_radio_checked == "TEMP") {
+                        input_sub = '';
+                        continuee(rowsSelected, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked);
+                    } else {
+                        if (input_sub.indexOf("SUB LOCATION") > -1) {
                             input_sub = '';
                             // alert("room empty it");
-                            console.log(assetValues + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + "Test IT" + "," + input_radio_checked);
-                            // console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
-                            // document.getElementById('overlay-alert-message').style.display = "none";
-                            // document.getElementById('overlay-alert-message').style.display = "block";
-                            // document.getElementById('alert_header').innerHTML = "Assets Transfer";
-                            // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
-                            // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_building + '\',\'' + input_level + '\',\'' + input_area + '\',\'' + input_Room + '\',\'' + input_sub + '\',\'' + input_radio_checked + '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
+                            console.log(rowsSelected + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + "Test IT" + "," + input_radio_checked);
+
 
                             swal.fire({
-                                title: "Are you sure you want to continue without selecting the room?",
+                                title: "Are you sure you want to continue without selecting the sub location?",
                                 type: "question",
                                 showCancelButton: true,
                                 confirmButtonColor: "#419641",
@@ -940,8 +1017,7 @@ function getSelectedItems(id) {
                             }).then((result) => {
                                 if (result.value) {
                                     // showDropdown(assets_selected);
-                                    continuee(assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked)
-                                    // continuee(assetValues,input_building,input_level,input_area,input_Room,input_sub,input_radio_checked);
+                                    continuee(rowsSelected, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked);
 
                                 } else if (
                                     /* Read more about handling dismissals below */
@@ -952,103 +1028,101 @@ function getSelectedItems(id) {
                                     // console.log("here2");
                                 }
                             });
-
-                        } else if (input_radio_checked == "TEMP") {
-                            input_sub = '';
-                            continuee(assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked);
-                        } else {
-                            if (input_sub.indexOf("SUB LOCATION") > -1) {
-                                input_sub = '';
-                                // alert("room empty it");
-                                console.log(assetValues + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + "Test IT" + "," + input_radio_checked);
-                                
-
-                                swal.fire({
-                                    title: "Are you sure you want to continue without selecting the sub location?",
-                                    type: "question",
-                                    showCancelButton: true,
-                                    confirmButtonColor: "#419641",
-                                    confirmButtonText: "Yes",
-                                    cancelButtonText: "No",
-                                    cancelButtonColor: "#C12E2A",
-                                    closeOnConfirm: false,
-                                    closeOnCancel: false,
-                                    showCloseButton: true,
-                                    allowOutsideClick: false,
-                                }).then((result) => {
-                                    if (result.value) {
-                                        // showDropdown(assets_selected);
-                                        continuee(assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked);
-
-                                    } else if (
-                                        /* Read more about handling dismissals below */
-                                        result.dismiss === Swal.DismissReason.cancel
-                                    ) {
-                                        // confirmLink("SKIP");
-                                        // console.log("no ALC");
-                                        // console.log("here2");
-                                    }
-                                });
-                            }
-                            else {
-                                // confirmAssets(assetValues,input_building,input_level, input_area, input_Room,input_sub,input_radio_checked);
-                                confirmAssets(assetValues, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked);
-
-                                console.log(assetValues + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + "Test IT" + "," + input_radio_checked);
-                            }
-
-
                         }
+                        else {
+                            // confirmAssets(assetValues,input_building,input_level, input_area, input_Room,input_sub,input_radio_checked);
+                            confirmAssets(rowsSelected, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked);
+
+                            console.log(rowsSelected + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + "Test IT" + "," + input_radio_checked);
+                        }
+
+
+                    }
+
+                } else {
+
+                    if (input_Room.indexOf("ROOM") > -1) {
+                        input_Room = '';
+                        // alert("room empty not it");
+                        // console.log(assetValues+","+input_building+","+input_level+","+ input_area+","+ input_Room+","+"Test IT"+","+input_radio_checked);
+                        // console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
+                        // document.getElementById('overlay-alert-message').style.display = "none";
+                        // document.getElementById('overlay-alert-message').style.display = "block";
+                        // document.getElementById('alert_header').innerHTML = "Assets Transfer";
+                        // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
+                        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_building + '\',\'' + input_level + '\',\'' + input_area + '\',\'' + input_Room + '\',\'' + input_Room + '\',\'' + input_radio_checked + '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
+
+                        swal.fire({
+                            title: "Are you sure you want to continue without selecting the room?",
+                            type: "question",
+                            showCancelButton: true,
+                            confirmButtonColor: "#419641",
+                            confirmButtonText: "Yes",
+                            cancelButtonText: "No",
+                            cancelButtonColor: "#C12E2A",
+                            closeOnConfirm: false,
+                            closeOnCancel: false,
+                            showCloseButton: true,
+                            allowOutsideClick: false,
+                        }).then((result) => {
+                            if (result.value) {
+                                // showDropdown(assets_selected);
+                                // continuee(assetValues,input_building,input_level,input_area,input_Room,input_Room,input_radio_checked);
+                                confirmAssets(rowsSelected, input_building, input_level, input_area, input_Room, input_Room, input_radio_checked);
+
+                            } else if (
+                                /* Read more about handling dismissals below */
+                                result.dismiss === Swal.DismissReason.cancel
+                            ) {
+                                // confirmLink("SKIP");
+                                // console.log("no ALC");
+                                // console.log("here2");
+                            }
+                        });
 
                     } else {
-
-                        if (input_Room.indexOf("ROOM") > -1) {
-                            input_Room = '';
-                            // alert("room empty not it");
-                            // console.log(assetValues+","+input_building+","+input_level+","+ input_area+","+ input_Room+","+"Test IT"+","+input_radio_checked);
-                            // console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
-                            // document.getElementById('overlay-alert-message').style.display = "none";
-                            // document.getElementById('overlay-alert-message').style.display = "block";
-                            // document.getElementById('alert_header').innerHTML = "Assets Transfer";
-                            // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
-                            // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_building + '\',\'' + input_level + '\',\'' + input_area + '\',\'' + input_Room + '\',\'' + input_Room + '\',\'' + input_radio_checked + '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
-
-                            swal.fire({
-                                title: "Are you sure you want to continue without selecting the room?",
-                                type: "question",
-                                showCancelButton: true,
-                                confirmButtonColor: "#419641",
-                                confirmButtonText: "Yes",
-                                cancelButtonText: "No",
-                                cancelButtonColor: "#C12E2A",
-                                closeOnConfirm: false,
-                                closeOnCancel: false,
-                                showCloseButton: true,
-                                allowOutsideClick: false,
-                            }).then((result) => {
-                                if (result.value) {
-                                    // showDropdown(assets_selected);
-                                    // continuee(assetValues,input_building,input_level,input_area,input_Room,input_Room,input_radio_checked);
-                                    confirmAssets(assetValues, input_building, input_level, input_area, input_Room, input_Room, input_radio_checked);
-
-                                } else if (
-                                    /* Read more about handling dismissals below */
-                                    result.dismiss === Swal.DismissReason.cancel
-                                ) {
-                                    // confirmLink("SKIP");
-                                    // console.log("no ALC");
-                                    // console.log("here2");
-                                }
-                            });
-
-                        } else {
-                            confirmAssets(assetValues, input_building, input_level, input_area, input_Room, input_Room, input_radio_checked);
-                            console.log(assetValues + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + input_Room + "," + input_radio_checked);
-                        }
+                        confirmAssets(rowsSelected, input_building, input_level, input_area, input_Room, input_Room, input_radio_checked);
+                        console.log(rowsSelected + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + input_Room + "," + input_radio_checked);
                     }
                 }
-        });
-    }
+            }
+    });
+
+}
+
+function showRevertDialog(assetQuoteDel,assetCapDel) {
+
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/get_oldRoom",
+        method: "POST",
+        data: '{"temp_ids":"' + assetQuoteDel + '"}',
+        dataType: "json",
+        success: function (data) {
+            console.log(data);
+            if (data.rows > 0) {
+                document.getElementById('mov-temp-ItemCount').innerHTML = data.rows;
+                $('#loaderTempTrans').fadeOut(500);
+                document.getElementById("assetTbodyTempTransfer").innerHTML = data.data;
+                $('#overlay-temp-transfer').show();
+            }
+
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+
+    $("#confirmTempTransfer").off().on('click', function (e) {
+        e.preventDefault();
+         var    input_building = "";
+                input_level = "";
+                input_level = "";
+                input_area = "";
+                input_Room = "";
+                input_Room = "";
+                input_radio_checked = "CTEMP";
+        confirmAssets(assetCapDel, input_building, input_level, input_area, input_Room, input_Room, input_radio_checked);
+    });
 
 }
 
@@ -1096,7 +1170,7 @@ function checkNullRoom(assetvalues, asset_values_cap_del) {
 
             }
             else {
-                approveAssets(asset_values_cap_del, "","");
+                approveAssets(asset_values_cap_del, "", "");
             }
 
         },
@@ -1187,7 +1261,19 @@ function createAssetDelimeter(assets_arr) {
             send_assets += assets_arr[i] + "^";
         }
     }
+    return send_assets;
+}
 
+function createQuoteDelimeter(qoute_del_arr) {
+    var send_assets = "";
+    for (var i = 0; i < qoute_del_arr.length; i++) {
+        if (i == qoute_del_arr.length - 1) {
+            send_assets += "\'" + qoute_del_arr[i] + "\'";
+        } else {
+            send_assets += "\'" + qoute_del_arr[i] + "\',";
+        }
+
+    }
     return send_assets;
 }
 
@@ -1214,13 +1300,14 @@ function confirmAssets(assetIds, building, level, area, room, sub, type) {
                 }).then((result) => {
                     if (result.value) {
                         closeAsset('overlay-alert-message');
+                        closeAsset('overlay-temp-transfer');
                     }
                 });
                 localStorage.room_no = room;
                 search();
 
             }
-            else if(data.rows == 0){
+            else if (data.rows == 0) {
                 swal.fire({
                     title: "Assets Transfer",
                     text: data.data,
@@ -1231,6 +1318,8 @@ function confirmAssets(assetIds, building, level, area, room, sub, type) {
                 }).then((result) => {
                     if (result.value) {
                         closeAsset('overlay-alert-message');
+                        closeAsset('overlay-temp-transfer');
+
                     }
                 })
             }
