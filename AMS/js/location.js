@@ -112,7 +112,9 @@ function populate_dropdown() {
     getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_location_level', 'scroll_location_level', 'menu_location_level', 'empty_location_level');
     // get building
     getItems('../../ams_apis/slimTest/index.php/building_location', 'search_location_building', 'scroll_location_building', 'menu_location_building', 'empty_location_building');
-
+    // get sub_location
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_location', 'search_location_sublocaction', 'scroll_location_sublocaction', 'menu_location_sublocaction', 'empty_locaton_sublocaction');
+        
 }
 
 populate_dropdown();

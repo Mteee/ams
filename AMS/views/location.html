@@ -366,9 +366,9 @@
                                                 <div class="dropdown-menu" aria-labelledby="building_search_location_filter" id="scroll_location_building">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="add_location_building" class="form-control" placeholder="Building" onkeyup="onSearch('add_location_building','#empty_location_building')" autofocus="autofocus">
+                                                            <input type="search" id="search_location_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_location_building','#empty_location_building')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_building" onclick="clearData('#add_location_building','#building_search_location_filter','BUILDING')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_building" onclick="clearData('#search_location_building','#building_search_location_filter','BUILDING')"><i
                                                                         class="fa fa-close"></i>
                                                                 </span>
                                                             </div>
@@ -462,7 +462,7 @@
                                             </div>
                                         </th>
 
-                                        <!-- <th class="filter_sub" style="display: none">
+                                        <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="sublocaction_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION
@@ -487,33 +487,6 @@
                                                 </div>
                                             </div>
                                         </th>
-
-                                        <th>
-                                            <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="assetNo_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    ASSET NUMBER
-                                                </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_location_assetNo" aria-labelledby="assetNo_location_filter">
-                                                    <form class="px-4 py-2">
-
-                                                        <div class="input-group">
-                                                            <input type="search" id="search_location_assetNo" class="form-control" placeholder="ASSET NUMBER" onkeyup="onSearch('search_location_assetNo','#empty_location_assetNo')" autofocus="autofocus">
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_assetNo" onclick="clearData('#search_location_assetNo','#assetNo_location_filter','ASSET NUMBER')"><i
-                                                                        class="fa fa-close"></i></span>
-                                                            </div>
-                                                        </div>
-                                                    </form>
-                                                    <div id="menu_location_assetNo" class="text-center" onchange="testMethod()">
-                                                        <div id="Assetload" class="dropdown-loader">
-                                                            <img src="../img/loading-transparent.gif" alt="">
-                                                        </div>
-                                                    </div>
-                                                    <div id="empty_location_assetNo" class="dropdown-header">No asset found
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </th> -->
 
                                         <th>
                                             <input type="text" id="location_description" onkeyup="onSearch_new('location_description')" class="form-control" placeholder="Description...">
