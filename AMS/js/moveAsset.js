@@ -211,7 +211,7 @@ function search() {
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
                             str += data.data[k].ASSET_STATUS + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"]';
-                            
+
                         } else {
 
                             str += '["' + data.data[k].ASSET_ID + '","';
@@ -269,7 +269,7 @@ function search() {
                     var data = tableArr[replaceAll("#", "", table_dom)].row($(this).parents('tr')).data();
 
                     viewAsset(data[0]);
-                    
+
                 });
                 $('#loader').hide();
 
@@ -579,7 +579,7 @@ function getItems(url, id, scrollArea, menuid, empty_view) {
             // console.log(searchValue);
             // console.log("=============searchValue=================");
 
-            if(data.rows > 0){
+            if (data.rows > 0) {
 
                 for (var i = 0; i < data.rows; i++) {
                     rows.push({
@@ -588,21 +588,21 @@ function getItems(url, id, scrollArea, menuid, empty_view) {
                         active: true
                     });
                 }
-    
+
                 allArr[id] = rows;
 
                 filterItems(rows, id, scrollArea, menuid);
-            }else{
+            } else {
                 filterItems(rows, id, scrollArea, menuid);
-                $('#'+empty_view).show();
+                $('#' + empty_view).show();
             }
-           
+
 
             // localStorage.setItem(id, JSON.stringify(rows));
             // Storage.prototype._setItem(id,rows);
 
 
-            
+
             // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
             // // let contents = []
@@ -829,7 +829,7 @@ function getSelectedItems(id) {
                     })
                 }
                 if (data.data == "CT") {
-                    showRevertDialog(assetQuoteDel,assetValues);
+                    showRevertDialog(assetQuoteDel, assetValues);
                 }
             },
             error: function (error) {
@@ -1072,7 +1072,7 @@ function showDialogTransferDialog(rowsSelected, raw_assets) {
 
 }
 
-function showRevertDialog(assetQuoteDel,assetCapDel) {
+function showRevertDialog(assetQuoteDel, assetCapDel) {
 
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/get_oldRoom",
@@ -1096,13 +1096,13 @@ function showRevertDialog(assetQuoteDel,assetCapDel) {
 
     $("#confirmTempTransfer").off().on('click', function (e) {
         e.preventDefault();
-         var    input_building = "";
-                input_level = "";
-                input_level = "";
-                input_area = "";
-                input_Room = "";
-                input_Room = "";
-                input_radio_checked = "CTEMP";
+        var input_building = "";
+        input_level = "";
+        input_level = "";
+        input_area = "";
+        input_Room = "";
+        input_Room = "";
+        input_radio_checked = "CTEMP";
         confirmAssets(assetCapDel, input_building, input_level, input_area, input_Room, input_Room, input_radio_checked);
     });
 
@@ -1182,15 +1182,29 @@ function cancelAssets(selectedItems) {
             // document.getElementById('alert_header').innerHTML = "Assets Cancel";
             // document.getElementById('alert-message-body').innerHTML = ' <img src="../img/success.gif" alt="success" style="width: 51px;margin: 8px 11px;"><br /><span style="color:green;font-weight: bold;">' + data.data + '</span>';
             // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
+            if (data.rows == 1) {
+                swal.fire({
+                    title: "Assets Cancelled",
+                    type: "success",
+                    text:data.data,
+                    closeOnCancel: true,
+                    allowOutsideClick: true,
+                })
 
-            swal.fire({
-                title: "Assets Cancelled",
-                type: "success",
-                closeOnCancel: true,
-                allowOutsideClick: true,
-            })
+                $('#btnCancel').fadeOut(500);
+            }
+            else if((data.rows == 0)){
+                swal.fire({
+                    title: "Assets Cancelled",
+                    text:data.data,
+                    type: "error",
+                    closeOnCancel: true,
+                    allowOutsideClick: true,
+                })
 
-            $('#btnCancel').fadeOut(500);
+                $('#btnCancel').fadeOut(500);
+            }
+
 
         },
         error: function (dataErr) {

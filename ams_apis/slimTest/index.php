@@ -1075,7 +1075,7 @@ $app->map(['GET','POST'],'/cancelTransfer',function(Request $request, Response $
         oci_commit($connect);
 
         if($RESULT == "y"){
-            echo json_encode(array("rows" => 0 ,"data" =>"CANCEL WAS SUCCESSFUL"));
+            echo json_encode(array("rows" => 1 ,"data" =>"CANCEL WAS SUCCESSFUL"));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"CANCEL WAS NOT SUCCESSFUL"));
