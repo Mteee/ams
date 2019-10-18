@@ -815,22 +815,33 @@ function getSelectedItems(id) {
             dataType: "json",
             success: function (data) {
                 console.log(data);
-                if (data.data == "C") {
+                if (data.data[1].status_res == "C") {
                     showDialogTransferDialog(assetValues, rowsSelected);
                 }
-                if (data.data == "DIFF") {
+                else if (data.data[1].status_res == "DIFF") {
                     swal.fire({
                         title: "Asset with different status.",
-                        text: " You've selected assets that cannot be moved as one unit!\nNot allowed to select more than i",
+                        text: " You've selected assets that cannot be moved as one unit!\nNot allowed to select more than 1",
                         type: "error",
                         confirmButtonColor: "#419641",
                         closeOnCancel: true,
                         allowOutsideClick: true,
                     })
                 }
-                if (data.data == "CT") {
+                else if (data.data[1].status_res == "CT") {
                     showRevertDialog(assetQuoteDel, assetValues);
                 }
+                else if (data.data[0].room_res == "n"){
+                    swal.fire({
+                        title: "Asset with different sub locations",
+                        text: " You've selected selected multiple assets and the room and sub location do not match",
+                        type: "error",
+                        confirmButtonColor: "#419641",
+                        closeOnCancel: true,
+                        allowOutsideClick: true,
+                    })
+                }
+
             },
             error: function (error) {
                 console.log(error);
@@ -985,7 +996,7 @@ function showDialogTransferDialog(rowsSelected, raw_assets) {
 
 
                             swal.fire({
-                                title: "Are you sure you want to continue without selecting the sub location?",
+                                title: "Sub Location is required",
                                 type: "question",
                                 showCancelButton: true,
                                 confirmButtonColor: "#419641",
@@ -1432,6 +1443,7 @@ var onSearch = function (searchValue, emptyId) {
             e.preventDefault();
             search();
         }
+        else if(e.keyCode == 8){}
     }
 
 
@@ -1460,6 +1472,7 @@ var onSearch = function (searchValue, emptyId) {
         ;
         $('#' + resObj.btnId).text(resObj.btnContent);
         populate_room();
+        populate_dropdown();
     }
 
     if (found) {

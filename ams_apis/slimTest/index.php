@@ -4097,26 +4097,30 @@ $app->map(['GET','POST'],'/check_status', function(Request $request, Response $r
     global $connect;
     $data = json_decode(file_get_contents('php://input'));
     $asset_ids = strtoupper($data->check_ids);
-    $v_out = "";
+    $v_out_status = "";
+    $v_out_room = "";
+    $responce = array();
+    
 
     $sql = "SELECT count(*) AS RES FROM 
     (SELECT ASSET_TRANSACTION_STATUS FROM ASSETS
     WHERE ASSET_ID IN($asset_ids)
     GROUP BY ASSET_TRANSACTION_STATUS)";
 
-    $sql = "BEGIN AMSD.ASSETS_CHECK_IF_STATUS_IS_SAME(:ASSET_IDS,:RESULT); END;";
+    $sql = "BEGIN AMSD.ASSETS_CHECK_IF_STATUS_IS_SAME(:ASSET_IDS,:RESULT_STATUS,:RESULT_ROOM); END;";
     $statement = oci_parse($connect,$sql);
     oci_bind_by_name($statement, ':ASSET_IDS', $asset_ids, 400);
-    oci_bind_by_name($statement, ':RESULT', $v_out, 5);
+    oci_bind_by_name($statement, ':RESULT_STATUS', $v_out_status, 5);
+    oci_bind_by_name($statement, ':RESULT_ROOM', $v_out_room, 5);
 
     oci_execute($statement , OCI_NO_AUTO_COMMIT);
 
     oci_commit($connect);
 
+   array_push($responce,array("room_res"=>$v_out_room,"status_res"=>$v_out_status));
 
-    echo json_encode(array("rows" => 1 ,"data" =>$v_out));
+    echo json_encode(array("rows" => 1 ,"data" =>$responce));
  
-
 });
 
 
