@@ -4107,7 +4107,7 @@ $app->map(['GET','POST'],'/check_status', function(Request $request, Response $r
     WHERE ASSET_ID IN($asset_ids)
     GROUP BY ASSET_TRANSACTION_STATUS)";
 
-    $sql = "BEGIN AMSD.ASSETS_CHECK_IF_STATUS_IS_SAME(:ASSET_IDS,:RESULT_STATUS,:RESULT_ROOM); END;";
+    $sql = "BEGIN AMSD.ASSETS_CHECK_IF_STATUS_IS_SAME_TEST(:ASSET_IDS,:RESULT_STATUS,:RESULT_ROOM); END;";
     $statement = oci_parse($connect,$sql);
     oci_bind_by_name($statement, ':ASSET_IDS', $asset_ids, 400);
     oci_bind_by_name($statement, ':RESULT_STATUS', $v_out_status, 5);

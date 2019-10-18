@@ -189,10 +189,16 @@ function search() {
                 var rowIds = [];
                 var ASSET_ROOM_NO = "";
                 var ASSET_SUB_LOCATION = "";
+                console.log("dfbgbdgbfgbfdb");
+                console.log(table_dom);
+                console.log("dfbfgbdfbdfbdfb");
+                console.log(data);
+                console.log("dfbfgbdfbdfbdfb");
+
                 if (data.rows > 0) {
                     localStorage.table_len = data.rows;
-                    console.log("========================================data=========================");
-                    console.log(data);
+                 
+                    
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
 
@@ -201,6 +207,11 @@ function search() {
                             rowIds.push(data.data[k].ASSET_ID);
 
                         };
+
+                        data.data[k].ASSET_DESCRIPTION = replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION);
+                        data.data[k].ASSET_DESCRIPTION = replaceAll("\'", "`", data.data[k].ASSET_DESCRIPTION);
+                        data.data[k].ASSET_DESCRIPTION = replaceAll("\\", "`", data.data[k].ASSET_DESCRIPTION);
+
                         if ((data.rows - 1) == k) {
 
                             str += '["' + data.data[k].ASSET_ID + '","';
@@ -208,7 +219,7 @@ function search() {
                             str += isSpecified(data.data[k].ASSET_SUB_LOCATION) + '","';
                             str += isSpecified(data.data[k].ASSET_ROOM_NO) + '","';
                             str += data.data[k].ASSET_AREA + '","';
-                            str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
+                            str += data.data[k].ASSET_DESCRIPTION + '","';
                             str += data.data[k].ASSET_STATUS + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"]';
 
@@ -219,7 +230,7 @@ function search() {
                             str += isSpecified(data.data[k].ASSET_SUB_LOCATION) + '","';
                             str += isSpecified(data.data[k].ASSET_ROOM_NO) + '","';
                             str += data.data[k].ASSET_AREA + '","';
-                            str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
+                            str += data.data[k].ASSET_DESCRIPTION + '","';
                             str += data.data[k].ASSET_STATUS + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"],';
 
@@ -227,8 +238,8 @@ function search() {
                     }
                     str += ']}'
                     str = replaceAll("\n", "", str);
+                    str = replaceAll("\r", "", str);
                     str = (JSON.parse(str));
-                    console.log(str.data);
 
 
                     // console.log(table_dom);
@@ -806,6 +817,12 @@ function getSelectedItems(id) {
     }
     else {
 
+        if(localStorage.filter == "IT EQUIPMENT"){
+            $('.filter_sub_transfer').show();
+        }else{
+            $('.filter_sub_transfer').hide();
+        }
+
         console.log(assetValues)
         //check for temp status
         $.ajax({
@@ -814,32 +831,52 @@ function getSelectedItems(id) {
             data: '{"check_ids":"' + assetValues + '"}',
             dataType: "json",
             success: function (data) {
+                
+                var foundErrror = [
+                                        false,   // 0 ROOM
+                                        false,   // 1 STATUS - C
+                                        false    // 2 STATUS - CT
+                                  ];
+
                 console.log(data);
-                if (data.data[1].status_res == "C") {
-                    showDialogTransferDialog(assetValues, rowsSelected);
+
+                var arrErr = [
+                    "<li>You've selected assets that cannot be moved as one unit!\nNot allowed to select more than 1</li>",      // DIFF
+                    "<li>You've selected selected multiple assets and the room and sub location do not match</li>"              // n
+                    ]
+
+                if (data.data[0].status_res == "C") {
+                    foundErrror[1] = true;
                 }
-                else if (data.data[1].status_res == "DIFF") {
-                    swal.fire({
-                        title: "Asset with different status.",
-                        text: " You've selected assets that cannot be moved as one unit!\nNot allowed to select more than 1",
-                        type: "error",
-                        confirmButtonColor: "#419641",
-                        closeOnCancel: true,
-                        allowOutsideClick: true,
-                    })
+                if (data.data[0].status_res == "CT") {
+                    foundErrror[2] = true;
                 }
-                else if (data.data[1].status_res == "CT") {
-                    showRevertDialog(assetQuoteDel, assetValues);
+                if (data.data[0].status_res == "DIFF") {
+                    foundErrror[1] = false;
+                    foundErrror[2] = false;
                 }
-                else if (data.data[0].room_res == "n"){
-                    swal.fire({
-                        title: "Asset with different sub locations",
-                        text: " You've selected selected multiple assets and the room and sub location do not match",
-                        type: "error",
-                        confirmButtonColor: "#419641",
-                        closeOnCancel: true,
-                        allowOutsideClick: true,
-                    })
+                if (data.data[0].room_res == "n"){
+                    
+                    foundErrror[0] = false;
+                }
+                if(data.data[0].room_res == "y"){
+                    foundErrror[0] = true;
+                }
+
+                if(foundErrror[0] && foundErrror[1]){
+                    showDialogTransferDialog(assetValues, rowsSelected);            // y | C    
+                }else if(foundErrror[0] && foundErrror[2]){                         
+                    showRevertDialog(assetQuoteDel, assetValues);                   // y | CT
+                }else if(foundErrror[0] && (!foundErrror[1] && !foundErrror[2])){   
+                    showErrorAlrert(arrErr[0]);                                     // y / diff
+                }else if(!foundErrror[0] && (!foundErrror[1] && !foundErrror[2])){
+                    showErrorAlrert(arrErr[0]+arrErr[1]);                           // N / diff
+                }else if(!foundErrror[0] && foundErrror[1]){
+                    showErrorAlrert(arrErr[0]);                                     // N / C
+                }else if(!foundErrror[0] && foundErrror[2]){
+                    showErrorAlrert(arrErr[0]);                                     // N / CT
+                }else{
+                    showDialogTransferDialog(assetValues, rowsSelected);            
                 }
 
             },
@@ -849,7 +886,17 @@ function getSelectedItems(id) {
         });
 
     }
+}
 
+function showErrorAlrert(error){
+    swal.fire({
+        title: "Error Message",
+        html: "<ol>"+error+"</ol>",
+        type: "error",
+        confirmButtonColor: "#419641",
+        closeOnCancel: true,
+        allowOutsideClick: true,
+    });
 }
 
 function showDialogTransferDialog(rowsSelected, raw_assets) {
@@ -945,44 +992,13 @@ function showDialogTransferDialog(rowsSelected, raw_assets) {
             else {
 
                 if (localStorage.filter == "IT EQUIPMENT") {
+
                     if (input_Room.indexOf("ROOM") > -1) {
-                        input_Room = '';
-                        input_sub = '';
-                        // alert("room empty it");
-                        console.log(rowsSelected + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + "Test IT" + "," + input_radio_checked);
-                        // console.log('<button class="btn btn-success" onclick="continuee(' + assetValues + ',' + input_location + ',' + input_Room + ')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>');
-                        // document.getElementById('overlay-alert-message').style.display = "none";
-                        // document.getElementById('overlay-alert-message').style.display = "block";
-                        // document.getElementById('alert_header').innerHTML = "Assets Transfer";
-                        // document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Are you sure you want to continue without selecting the room?</span>';
-                        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="continuee(\'' + assetValues + '\',\'' + input_building + '\',\'' + input_level + '\',\'' + input_area + '\',\'' + input_Room + '\',\'' + input_sub + '\',\'' + input_radio_checked + '\')" style="width:100px">YES</button> <button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Cancel</button>';
-
                         swal.fire({
-                            title: "Are you sure you want to continue without selecting the room?",
-                            type: "question",
-                            showCancelButton: true,
+                            title: "Please select room to continue with the tranfer",
+                            type: "error",
                             confirmButtonColor: "#419641",
-                            confirmButtonText: "Yes",
-                            cancelButtonText: "No",
-                            cancelButtonColor: "#C12E2A",
-                            closeOnConfirm: false,
-                            closeOnCancel: false,
-                            showCloseButton: true,
-                            allowOutsideClick: false,
-                        }).then((result) => {
-                            if (result.value) {
-                                // showDropdown(assets_selected);
-                                continuee(rowsSelected, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked)
-                                // continuee(assetValues,input_building,input_level,input_area,input_Room,input_sub,input_radio_checked);
-
-                            } else if (
-                                /* Read more about handling dismissals below */
-                                result.dismiss === Swal.DismissReason.cancel
-                            ) {
-                                // confirmLink("SKIP");
-                                // console.log("no ALC");
-                                // console.log("here2");
-                            }
+                            allowOutsideClick: true,
                         });
 
                     } else if (input_radio_checked == "TEMP") {
