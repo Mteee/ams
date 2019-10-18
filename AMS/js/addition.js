@@ -14,8 +14,6 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
 }
 
 
-
-
 function closeApp() {
     swal.fire({
         title: "Exit Application",
