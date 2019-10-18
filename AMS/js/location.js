@@ -63,8 +63,6 @@ window.onload = function () {
     }
 }
 
-
-
 function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
@@ -253,10 +251,10 @@ function getItems(url, id, scrollArea, menuid) {
 }
 
 var clusterize = {
-    search_view_room: [],
-    search_view_area: [],
-    search_view_level: [],
-    search_view_building: []
+    search_location_room: [],
+    search_location_area: [],
+    search_location_level: [],
+    search_location_building: []
 };
 
 var count = 0;
@@ -938,6 +936,7 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
         } else {
             $('.filter_sub').hide();
         }
+
         clearLocalStorageFilters();
         populate_dropdown();
 
@@ -947,7 +946,7 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
         resetBtn('#area_location_filter', "AREA");
         resetBtn('#room_location_filter', "ROOM");
         resetBtn('#sublocaction_location_filter', "SUB LOCATION");
-        resetBtn('#assetNo_location_filter', "ASSET NUMBER");
+        // resetBtn('#assetNo_location_filter', "ASSET NUMBER");
 
     });
 
@@ -983,7 +982,7 @@ function clearLocalStorageFilters() {
     $('#search_location_area').val("");
     $('#search_location_room').val("");
     $('#search_location_sublocaction').val("");
-    $('#search_location_assetNo').val("");
+    // $('#search_location_assetNo').val("");
 
 }
 
@@ -1004,7 +1003,6 @@ function cleaAllFilters() {
     //description
     $('#view_description').val("");
 }
-
 
 var onSearch = function (searchValue, emptyId) {
 
@@ -1217,167 +1215,3 @@ function checkFilter(key) {
     return res;
 }
 
-
-
-
-var newAssetGroup = function () {
-    var focus_div = "focus-input-" + n()
-    var outerDiv = $("<div/>", {
-        "class": "row table-bordered asset_group_style mt_group",
-        id: focus_div
-    });
-
-    var col_sm_5 = $("<div/>", {
-        class: "col-sm-3"
-    });
-
-    var asset_number_group = $("<div/>", {
-        "class": "form-group label-floating"
-    });
-
-    var asset_number_label = $("<label/>", {
-        "class": "control-label",
-        text: "Asset Number *"
-    });
-
-    var asset_number_input = $("<input/>", {
-        "class": "form-control my_required",
-        required: "required",
-        name: "asset_number" + n(),
-        id: "input_" + n()
-    });
-
-    var asset_number_group = $("<div/>", {
-        "class": "form-group label-floating"
-    });
-
-    var col_sm_5_desc = $("<div/>", {
-        class: "col-sm-4"
-    });
-
-    var desc_col_sm_10 = $("<div/>", {
-        class: "col-sm-10 offset-1"
-    });
-
-    var floating_desc_label_group = $("<div/>", {
-        class: "form-group label-floating"
-    });
-
-    var desc_floating_label = $("<label/>", {
-        class: "control-label",
-        text: "Asset description *"
-    });
-
-    var desc_input = $("<input/>", {
-        class: "form-control my_required",
-        name: "asset_description" + n(),
-        required: "required"
-    });
-
-    var close_close_btn = $("<button/>", {
-        class: "btn btn-danger pull-right",
-        id: n(),
-    })
-
-    var glyph = $("<span/>", {
-        "class": "fa fa-close"
-    });
-
-    var col_count = $("<div/>", {
-        "class": "col-sm-1 my-auto"
-    });
-
-    count++;
-
-    var p_count = $("<p/>", {
-        "class": "text-center number-style",
-        text: count
-    });
-
-    //serial no
-    // <div class="col-sm-3">
-    //     <div class="form-group label-floating">
-    //         <label class="control-label">Serial No.*</label>
-    //         <input type="text" name="asset_description"
-    //             class="form-control">
-    //                                                                 </div>
-    //     </div>
-
-    var col_sm_3 = $("<div/>",{
-        "class":"col-sm-3"
-    });
-
-    var form_group = $("<div/>",{
-        "class":"form-group label-floating"
-    });
-
-    var serial_floating_label = $("<label/>", {
-        class: "control-label",
-        text: "Serial No. *"
-    });
-
-    var serial_no_input = $("<input/>", {
-        class: "form-control pull-right",
-        id: "serial_no_"+n(),
-        name: "serial_no_" + n()
-    })
-
-
-
-
-        
-
-
-        //count
-        $(p_count).appendTo(col_count);
-    
-    // <button type="button" id="close" class="close" onclick="">&times;</button>
-
-        //serail number
-        $(serial_floating_label).appendTo(form_group);
-        $(serial_no_input).appendTo(form_group);
-        $(form_group).appendTo(col_sm_3);
-
-        //description
-        $(desc_floating_label).appendTo(floating_desc_label_group);
-        $(desc_input).appendTo(floating_desc_label_group);
-        $(floating_desc_label_group).appendTo(desc_col_sm_10);
-        $(desc_col_sm_10).appendTo(col_sm_5_desc);
-    
-        //assetNumber
-        $(asset_number_label).appendTo(asset_number_group);
-        $(asset_number_input).appendTo(asset_number_group);
-        $(asset_number_group).appendTo(col_sm_5);
-    
-        //button tag
-        $(glyph).appendTo(close_close_btn);
-        //cout tag
-        $(col_count).prependTo(outerDiv);
-        $(close_close_btn).prependTo(outerDiv);
-        $(col_sm_5).appendTo(outerDiv);
-        $(col_sm_5_desc).appendTo(outerDiv);
-        $(col_sm_3).appendTo(outerDiv);
-    
-        // console.log("focus_div");
-        // console.log(focus_div);
-    
-        // $('#'+focus_div).focus();
-    
-    return {
-            "0": outerDiv,
-        "1": focus_div
-    };
-}
-
-$('#asset_group').on('click', 'button', function (e) {
-            e.preventDefault();
-        console.log($("#asset_group").find("#focus-input-" + this.id));
-        var target = $("#asset_group").find("#focus-input-" + this.id);
-    
-    // if($("div#asset_group")[0].children.length+1 == count){
-            //     count = 1;
-            // }
-
-
-            $(target).remove();
-});
