@@ -252,6 +252,7 @@
             font-size: 28px !important;
             line-height: 55px !important;
         }
+        
         .ripple-container {
             display: none;
         }
@@ -277,7 +278,7 @@
                 <strong>ADD LOCATION</strong>
             </div>
             <div class="asset-body">
-                <div class="dropdown py-3">
+                <!-- <div class="dropdown py-3">
                     <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         BUILDING
                     </button>
@@ -300,9 +301,9 @@
                         <div id="empty_add_location_building" class="dropdown-header">No building found
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="dropdown">
+                <!-- <div class="dropdown">
                     <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         LEVEL
                     </button>
@@ -325,9 +326,9 @@
                         <div id="empty_add_location_level" class="dropdown-header">No level found
                         </div>
                     </div>
-                </div>
+                </div> -->
 
-                <div class="dropdown py-3">
+                <!-- <div class="dropdown py-3">
                     <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         AREA
                     </button>
@@ -349,7 +350,7 @@
                         <div id="empty_add_location_area" class="dropdown-header">No area found
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <input type="text" id="location_new_room" onkeyup="onSearch_new('location_new_room')" class="form-control py-3" placeholder="new room...">
 
@@ -451,13 +452,30 @@
                                         <div class="col-sm-5 offset-1">
                                             <div class="form-group label-floating">
 
-                                                <label class="control-label">Asset Class *</label>
-                                                <select name="asset_class" class="form-control" id="asset_class">
-                                                    <!-- <option disabled="" selected=""></option> -->
-                                                    <option value="2" selected="">FACILITIES MANAGEMENT</option>
-                                                    <option value="3">IT EQUIPMENT</option>
-                                                    <option value="4">MEDICAL EQUIPMENT</option>
-                                                </select>
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        BUILDING
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="building_add_location_filter" id="scroll_add_location_building">
+                                                        <form class="px-4 py-2">
+                                                            <div class="input-group">
+                                                                <input type="search" id="search_add_location_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_add_location_building','#empty_add_location_building')" autofocus="autofocus">
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text btn btn-danger text-light" id="clear_location_building" onclick="clearData('#search_add_location_building','#building_add_location_filter','BUILDING')"><i
+                                                                            class="fa fa-close"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div id="menu_add_location_building">
+                                                            <div id="building_loader" class="dropdown-loader">
+                                                                <img src="../img/loading-transparent.gif" alt="">
+                                                            </div>
+                                                        </div>
+                                                        <div id="empty_add_location_building" class="dropdown-header">No building found
+                                                        </div>
+                                                    </div>
+                                                </div>
 
                                             </div>
                                         </div>
@@ -490,11 +508,62 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-10 offset-1">
-                                            <div class="form-group label-floating">
-                                                <label class="control-label">Classification Name *</label>
-                                                <input id="classification_wizard" type="text" class="form-control" name="classification_name">
+                                        <div class="col-sm-5 offset-1">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    LEVEL
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="level_add_location_filter" id="scroll_add_location_level">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_add_location_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_add_location_level','#empty_add_location_level')" autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_level" onclick="clearData('#search_add_location_level','#level_add_location_filter','LEVEL')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_add_location_level">
+                                                        <div id="Roomload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_add_location_level" class="dropdown-header">No level found
+                                                    </div>
+                                                </div>
                                             </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input class="form-control" type="text" name="">
+                                        </div>
+                                        <div class="col-sm-5 offset-1">
+                                            <div class="dropdown py-3">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    AREA
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_add_location_area" aria-labelledby="area_location_filter">
+                                                    <form class="px-4 py-2">
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_add_location_area" class="form-control" placeholder="Area" onkeyup="onSearch('search_add_location_area','#empty_add_location_area')" autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_location_area" onclick="clearData('#search_add_location_area','#area_add_location_filter','AREA')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="meun_add_location_area" onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_add_location_area" class="dropdown-header">No area found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <input class="form-control" type="text" name="new-room">
                                         </div>
                                     </div>
                                 </div>
