@@ -27,15 +27,44 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
-
         
-
+        #btnTransfer {
+            display: none;
+        }
+        
+        #btnApprove {
+            display: none;
+        }
+        
+        #btnCancel {
+            display: none;
+        }
         
         th.dt-checkboxes-select-all input {
             display: none !important;
         }
         
-
+        .number-style {
+            width: 30px;
+            height: 30px;
+            padding: 4px;
+            font-size: 8pt;
+            border-radius: 50%;
+            margin: 5px;
+            border: 1px solid #0000003d;
+            background: white;
+            color: black;
+            font-weight: bolder;
+        }
+        
+        .asset_group_style {
+            margin: 0 !important;
+            border-radius: 5px;
+        }
+        
+        .mt_group {
+            margin-top: 10px !important;
+        }
         
         #wizard .nav {
             padding-left: 0;
@@ -83,11 +112,12 @@
         }
         
         .card {
+            background-color: #FFFFFF;
             padding: 10px 0;
             width: 100%;
             border-radius: 6px;
             color: rgba(0, 0, 0, 0.87);
-            background: #FFFFFF;
+            background: #fff;
         }
         
         .card {
@@ -129,10 +159,16 @@
         
         .wizard-card[data-color="green"] .moving-tab {
             background-color: #4caf50;
-            box-shadow: 0 16px 26px -10px rgba(76, 175, 80, 0.56), 0 4px 25px 0 rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(76, 175, 80, 0.2);
+            box-shadow: 0 16px 26px -10px rgba(76, 175, 80, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(76, 175, 80, 0.2);
             width: 188px !important;
         }
-
+        
+        #alert-message {
+            margin: 15% auto;
+            width: 752px;
+            height: 200px;
+        }
+        
         .system_info {
             position: fixed;
             bottom: 20px;
@@ -164,7 +200,11 @@
             color: #f9f9f9;
             text-align: center;
             border-radius: 6px;
-            padding: 8px 0px;
+            padding: 8px 0;
+            padding-top: 8px;
+            padding-right: 0px;
+            padding-bottom: 8px;
+            padding-left: 0px;
             position: absolute;
             z-index: 1;
             margin-left: 27px;
@@ -172,8 +212,12 @@
         }
         /* table width */
         
-
-        #currentAssetsTable {
+        #currentAssetsTable_wrapper,
+        #currentAssetsTable,
+        #inAssetsTable_wrapper,
+        #inAssetsTable,
+        #outAssetsTable_wrapper,
+        #outAssetsTable {
             width: 100% !important;
         }
         
@@ -345,132 +389,134 @@
             <div class="col-sm-6 offset-3">
                 <!--      Wizard container        -->
                 <div class="wizard-container">
-                    <form action="" method="" id="add_asset_form">
-                        <span class="exit-asset" onclick="closeAsset('overlay-newAssetView')">&times;</span>
-                        <div class="wizard-header">
-                            <h3 class="wizard-title">
-                                New Location Info
-                            </h3>
-                        </div>
-                        <div class="wizard-navigation">
-                            <ul>
-                                <li><a href="#basic" data-toggle="tab">What are we creating?</a></li>
-                                <li><a href="#asset_date" data-toggle="tab">Location details</a></li>
-                            </ul>
-                        </div>
+                    <div class="card wizard-card" data-color="green" id="wizard">
+                        <form action="" method="" id="add_asset_form">
+                            <span class="exit-asset" onclick="closeAsset('overlay-newAssetView')">&times;</span>
+                            <div class="wizard-header">
+                                <h3 class="wizard-title">
+                                    New Location Info
+                                </h3>
+                            </div>
+                            <div class="wizard-navigation">
+                                <ul>
+                                    <li><a href="#basic" data-toggle="tab">What are we creating?</a></li>
+                                    <li><a href="#asset_date" data-toggle="tab">Location details</a></li>
+                                </ul>
+                            </div>
 
-                        <div class="tab-content">
-                            <div class="tab-pane" id="basic">
-                                <h4 class="info-text">New info</h4>
+                            <div class="tab-content">
+                                <div class="tab-pane" id="basic">
+                                    <h4 class="info-text">New info</h4>
 
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="row">
-                                            <div class="col-sm-4">
-                                                <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Create a new room.">
-                                                    <input type="radio" name="type" value="YES">
-                                                    <div class="icon">
-                                                        <i class="material-icons">check</i>
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="row">
+                                                <div class="col-sm-4">
+                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Create a new room.">
+                                                        <input type="radio" name="type" value="YES">
+                                                        <div class="icon">
+                                                            <i class="material-icons">check</i>
+                                                        </div>
+                                                        <h6>Create a new room</h6>
                                                     </div>
-                                                    <h6>Create a new room</h6>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Create a new sub location.">
-                                                    <input type="radio" name="type" value="YES">
-                                                    <div class="icon">
-                                                        <i class="material-icons">check</i>
+                                                <div class="col-sm-4">
+                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Create a new sub location.">
+                                                        <input type="radio" name="type" value="YES">
+                                                        <div class="icon">
+                                                            <i class="material-icons">check</i>
+                                                        </div>
+                                                        <h6>New Sub Location</h6>
                                                     </div>
-                                                    <h6>New Sub Location</h6>
                                                 </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Create Both room and new sub location">
-                                                    <input type="radio" name="type" value="NO">
-                                                    <div class="icon">
-                                                        <i class="material-icons">check</i>
+                                                <div class="col-sm-4">
+                                                    <div class="choice" data-toggle="wizard-radio" rel="tooltip" title="Create Both sub location and new sub location">
+                                                        <input type="radio" name="type" value="NO">
+                                                        <div class="icon">
+                                                            <i class="material-icons">check</i>
+                                                        </div>
+                                                        <h6>Both</h6>
                                                     </div>
-                                                    <h6>Both</h6>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="tab-pane" id="asset_date">
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <h4 class="info-text"> Let's start with the basic details</h4>
-                                    </div>
-                                    <div class="col-sm-5 offset-1">
-                                        <div class="form-group label-floating">
-
-                                            <label class="control-label">Asset Class *</label>
-                                            <select name="asset_class" class="form-control" id="asset_class">
-                                                <!-- <option disabled="" selected=""></option> -->
-                                                <option value="2" selected="">FACILITIES MANAGEMENT</option>
-                                                <option value="3">IT EQUIPMENT</option>
-                                                <option value="4">MEDICAL EQUIPMENT</option>
-                                            </select>
-
+                                <div class="tab-pane" id="asset_date">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <h4 class="info-text"> Let's start with the basic details</h4>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-5">
-                                        <div class="dropdown" style="margin-top:28px" class="room_no_dropdown">
-                                            <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_new_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                ROOM
-                                            </button>
-                                            <div class="dropdown-menu clusterize-scroll" id="scroll_new_room" aria-labelledby="room_new_filter" style="width: 100%;">
-                                                <form class="px-4 py-2">
+                                        <div class="col-sm-5 offset-1">
+                                            <div class="form-group label-floating">
 
-                                                    <div class="input-group">
-                                                        <div class="form-group is-empty form-control">
-                                                            <input type="search" id="search_new_room" class="form-control" placeholder="Room" name="room_no_new" onkeyup="onSearch('search_new_room','#empty_new_room')" autofocus="autofocus" required>
-                                                            <span class="material-input"></span>
-                                                        </div>
-                                                        <div class="input-group-append">
+                                                <label class="control-label">Asset Class *</label>
+                                                <select name="asset_class" class="form-control" id="asset_class">
+                                                    <!-- <option disabled="" selected=""></option> -->
+                                                    <option value="2" selected="">FACILITIES MANAGEMENT</option>
+                                                    <option value="3">IT EQUIPMENT</option>
+                                                    <option value="4">MEDICAL EQUIPMENT</option>
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-5">
+                                            <div class="dropdown" style="margin-top:28px" class="room_no_dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_new_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    ROOM
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_new_room" aria-labelledby="room_new_filter" style="width: 100%;">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <div class="form-group is-empty form-control">
+                                                                <input type="search" id="search_new_room" class="form-control" placeholder="Room" name="room_no_new" onkeyup="onSearch('search_new_room','#empty_new_room')" autofocus="autofocus" required>
+                                                                <span class="material-input"></span>
+                                                            </div>
+                                                            <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light" id="clear_new_room" onclick="clearData('#search_new_room','#room_new_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_new_room" class="text-center" onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                </form>
-                                                <div id="menu_new_room" class="text-center" onchange="testMethod()">
-                                                    <div id="Assetload" class="dropdown-loader">
-                                                        <img src="../img/loading-transparent.gif" alt="">
+                                                    <div id="empty_new_room" class="dropdown-header">No room found
                                                     </div>
-                                                </div>
-                                                <div id="empty_new_room" class="dropdown-header">No room found
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-sm-10 offset-1">
-                                        <div class="form-group label-floating">
-                                            <label class="control-label">Classification Name *</label>
-                                            <input id="classification_wizard" type="text" class="form-control" name="classification_name">
+                                        <div class="col-sm-10 offset-1">
+                                            <div class="form-group label-floating">
+                                                <label class="control-label">Classification Name *</label>
+                                                <input id="classification_wizard" type="text" class="form-control" name="classification_name">
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
 
 
 
 
-                        <div class="wizard-footer py-2" data-color="green">
-                            <div class="pull-right">
-                                <input type='button' style="background-color: #4caf50;color: #fff;" class='btn btn-next btn-fill btn-lg' name='next' value='Next step' />
+                            <div class="wizard-footer py-2" data-color="green">
+                                <div class="pull-right">
+                                    <input type='button' style="background-color: #4caf50;color: #fff;" class='btn btn-next btn-fill btn-lg' name='next' value='Next step' />
 
-                                <input type='button' class='btn btn-finish btn-fill btn-lg' style="background-color: #4caf50;color: #fff;" name='finish' value='Finish' onclick='addAsset()' />
+                                    <input type='button' class='btn btn-finish btn-fill btn-lg' style="background-color: #4caf50;color: #fff;" name='finish' value='Finish' onclick='addAsset()' />
+                                </div>
+                                <div class="pull-left">
+                                    <input type='button' class='btn btn-previous btn-fill btn-dark btn-lg' name='previous' value='Previous' />
+                                </div>
+                                <div class="clearfix"></div>
                             </div>
-                            <div class="pull-left">
-                                <input type='button' class='btn btn-previous btn-fill btn-dark btn-lg' name='previous' value='Previous' />
-                            </div>
-                            <div class="clearfix"></div>
-                        </div>
 
+                    </div>
 
                     </form>
                     <div class="card-footer text-center text-muted">
@@ -480,6 +526,8 @@
             </div>
             <!-- wizard container -->
         </div>
+    </div>
+    <!-- row -->
     </div>
 
 
@@ -759,9 +807,9 @@
                                                 <th scope="col">
                                                     DESCRIPTION
                                                 </th>
-<!--                                                <th scope="col">-->
-<!--                                                    View-->
-<!--                                                </th>-->
+                                                <th scope="col">
+                                                    View
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody id="current">
