@@ -1347,10 +1347,13 @@ function checkFilter(key) {
     return res;
 }
 
-
-
-
 var newAssetGroup = function () {
+    var desc_checked = "";
+    if($('#desc_check').prop("checked") === true){
+        desc_checked =  $('#add_desc').val();
+    }
+
+
     var focus_div = "focus-input-" + n()
     var outerDiv = $("<div/>", {
         "class": "row table-bordered asset_group_style mt_group",
@@ -1398,10 +1401,13 @@ var newAssetGroup = function () {
         text: "Asset description *"
     });
 
+    
+
     var desc_input = $("<input/>", {
         class: "form-control my_required",
         name: "asset_description" + n(),
-        required: "required"
+        required: "required",
+        value : ""+desc_checked
     });
 
     var close_close_btn = $("<button/>", {
@@ -1495,9 +1501,10 @@ var newAssetGroup = function () {
     
     return {
             "0": outerDiv,
-        "1": focus_div
-    };
+            "1": focus_div
+            };
 }
+
 
 $('#asset_group').on('click', 'button', function (e) {
             e.preventDefault();
