@@ -161,6 +161,15 @@ $(document).ready(function () {
         onTabClick: function (tab, navigation, index) {
             var $valid = $('.wizard-card form').valid();
 
+            var loc_type = $("#basic input[type=radio]:checked");
+
+            console.log(loc_type);
+
+            if(loc_type.length == 0){
+                alert("Seelct what you need to do");
+                return false;
+            }
+
             if (!$valid) {
                 return false;
             } else {
