@@ -177,10 +177,10 @@
             right: 20px;
             width: 50px;
             height: 50px;
-            border: 6px solid #343a40;
+            /* border: 6px solid #343a40; */
             background: #2fb02f;
             border-radius: 50%;
-            padding: 7px 17px;
+            padding: 16px 16px;
             color: white;
             left: 20px;
         }
@@ -945,7 +945,7 @@
     </div>
 
     <div class="system_info" onclick="add_new_location()">
-        <span class="fa fa-plus fa-lg"></span><span class="tooltiptext"><strong></strong>Create Location</strong></span>
+        <span style="font-size: 18pt !important;font-weight: 100;" class="fa fa-plus fa-lg"></span><span class="tooltiptext"><strong></strong>Create Location</strong></span>
     </div>
 
     <script src="../js/jquery.js"></script>
@@ -963,104 +963,6 @@
         src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
     <script>
-        // $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
-
-        // function addAssets() {
-        //     $('#overlay-printView').fadeIn(500);
-        // }
-
-        // $("#form-total").steps({
-        //     headerTag: "h2",
-        //     bodyTag: "section",
-        //     transitionEffect: "fade",
-        //     enableAllSteps: false,
-        //     cssClass: "wizard",
-        //     enablePagination: true,
-        //     stepsOrientation: "vertical",
-        //     autoFocus: true,
-        //     enableCancelButton: false,
-        //     forceMoveForward: false,
-        //     stepsContainerTag: "div",
-        //     transitionEffectSpeed: 400,
-        //     titleTemplate: '<div class="title">#title#</div>',
-        //     labels: {
-        //         previous: '<i class="py-2 fa fa-arrow-circle-left"></i> Previous',
-        //         next: 'Next <i class="py-2 fa fa-arrow-circle-right"></i>',
-        //         cancel: "Cancel",
-        //         current: "current step:",
-        //         pagination: "Pagination",
-        //         finish: 'Finish <i class="fa fa-thumbs-up"></i>',
-        //         loading: "Loading ..."
-        //     },
-        //     destroy: true,
-        //     onFinished: function () {
-        //         $('#form-total').steps("reset");
-        //         $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
-        //         closeAsset('overlay-printView');
-        //     },
-        //     onStepChanged: function (event, current, next) {
-        //         if (current > 0) {
-        //             $('.actions ul li:first-child').attr('style', 'opacity:1 !important;transition:500ms;');
-        //             console.log('back000');
-        //         } else if(current == 0) {
-        //             console.log('back');
-        //             $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
-        //         }
-
-        //         if (current == 3) {
-        //             $('.actions ul li:nth-child(2)').attr('style', 'opacity:0 !important;transition:500ms;');
-
-        //         } else {
-        //             $('.actions ul li:nth-child(2)').attr('style', 'opacity:1 !important;transition:500ms;');
-
-        //         }
-        //     },
-        //     onStepChanging: function (event, currentIndex, newIndex) {
-        //         var form = $(this);
-        //         var check = true;
-        //         if (currentIndex == 0) {
-
-        //             if (($("#newRoom").val()).length == 0) {
-        //                 $("#error-msg-room").text("This field is required");
-        //                 check = false;
-        //             } else {
-        //                 $("#error-msg-room").text("");
-        //             }
-        //             if (($("#classifiction_name").val()).length == 0) {
-        //                 $("#error-msg-class-name").text("This field is required");
-        //                 check = false;
-        //             } else {
-        //                 $("#error-msg-class-name").text("");
-        //             }
-        //             if ($("#asset_class")[0].selectedIndex == 0) {
-        //                 $("#error-msg-asset-class").text("This field is required");
-        //                 check = false;
-        //             } else {
-        //                 $("#error-msg-asset-class").text("");
-        //             }
-
-
-        //         }
-
-        //         if (currentIndex == 1) {
-
-        //         }
-
-        //         return true;
-        //     }
-        // })
-
-        // $(".dropdown, .btn-group").hover(function () {
-        //     var dropdownMenu = $(this).children(".dropdown-menu");
-        //     if (dropdownMenu.is(":visible")) {
-        //         console.log('not visible');
-        //         // dropdownMenu.parent().toggleClass("open");
-        //     } else {
-        //         console.log('visible');
-        //         $(this).toggleClass("open");
-        //     }
-        // });
-
         const $menu = $('#menu-list');
 
         $(document).mouseup(e => {
@@ -1076,22 +978,6 @@
         function showNav() {
             $('#menu-list').slideToggle('fast');
         }
-
-        // document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
-
-        // function replaceAll(find, replace, str) {
-        //     while (str.indexOf(find) > -1) {
-        //         str = str.replace(find, replace);
-        //     }
-        //     return str;
-        // }
-
-        // function onError(error) {
-        //     console.log(`Error: ${error}`);
-        // }
-
-        // var setting = browser.tabs.setZoom(2);
-        // setting.then(null, onError);
     </script>
 
 </body>

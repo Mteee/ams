@@ -273,6 +273,16 @@
             display: none;
             background: rgba(255, 255, 255, 0.9) !important;
         }
+        
+        .desc_check_style {
+            position: absolute;
+            left: 0;
+            margin-left: -11px;
+            margin-top: -15px;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+        }
     </style>
 
 </head>
@@ -510,11 +520,12 @@
                                                                 <div class="col-sm-4">
 
                                                                     <div class="col-sm-10 offset-1">
+                                                                        <input type="checkbox" id="desc_check" name="desc_check" class="desc_check_style" />
                                                                         <div class="form-group label-floating">
                                                                             <label class="control-label">Asset
                                                                                 description
                                                                                 *</label>
-                                                                            <input type="text" name="asset_description" class="form-control">
+                                                                            <input type="text" name="asset_description" id="add_desc" class="form-control">
                                                                         </div>
                                                                     </div>
                                                                 </div>
