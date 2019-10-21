@@ -66,6 +66,9 @@ window.onload = function () {
 populate_dropdown();
 
 function addAsset() {
+
+    
+
     var json_data = {
         asset_class: "",
         room: "",
@@ -96,10 +99,6 @@ function addAsset() {
 
     var values = (getValues());
 
-
-    //certificate if yes
-    //....Code
-
     $('#loader-overlay').show();
 
 
@@ -109,12 +108,9 @@ function addAsset() {
         }
 
         console.log(json_data);
-
-
         var dataSend = "";
 
         console.log('{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '"}');
-
 
         $.ajax({
             url: "../../ams_apis//slimTest/index.php/add_assets",
@@ -126,7 +122,7 @@ function addAsset() {
                 console.log(data);
                 document.getElementById("add_asset_form").reset();
                 console.log($('.wizard-card').bootstrapWizard());
-                $('.wizard-card').bootstrapWizard.onInit();
+                // $('.wizard-card').bootstrapWizard.onInit();
                 document.getElementById('overlay-newAssetView').style.display = "none";
                 document.getElementById('assetsAdd').innerHTML = data.tdata;
                 setTimeout(function () {
@@ -144,11 +140,30 @@ function addAsset() {
             }
         });
     }, 4000);
-
-
-
 }
 
+function getAssetsType(){
+
+    $.ajax({
+        url: "../../ams_apis//slimTest/index.php/getAssetsType",
+        method: "POST",
+        dataType: "JSON",
+        success: function (data) {
+            console.log(data);
+
+
+            var types = '<option value="">Select Asset Type</option>';
+            for(var i=0;i<10;i++){
+                types += '<option value="'+data.data[i].ASSET_TYPEID+'">'+data.data[i].ASSET_TYPE_DESC+'</option>';
+            }
+            document.getElementById('asset_type').innerHTML = types;
+        },
+        error: function (err) {
+            console.log(err);
+            console.log("error");
+        }
+    });
+}
 
 function viewAsset(assetId) {
     var currentItem = "";
@@ -197,7 +212,7 @@ function getValues() {
     var service = ["service_date", "service_due_date", "serviced_by"];
 
     //serial (2+ inputs)
-    var input_serial = $("#asset_group input");
+    var input_serial = $("#asset_group input[type='text']");
     var serial = ["asset_id", "asset_desc"];
 
     //model (1 inputs)
@@ -401,6 +416,7 @@ function filterItems(rows, value, scrollArea, menuid) {
 }
 
 function add_new_asset() {
+    getAssetsType();
     localStorage.filter = $("#asset_class option:selected").text();
     getRoom();
     document.getElementById('overlay-newAssetView').style.display = "block";

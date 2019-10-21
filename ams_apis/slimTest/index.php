@@ -4515,5 +4515,21 @@ $app->map(['GET','POST'],'/get_all_locations', function(Request $request, Respon
     }
  
 });
+$app->map(['GET','POST'],'/getAssetsType', function(Request $request, Response $response){
+    global $func;
+
+    $sql = "SELECT ASSET_TYPEID,ASSET_TYPE_DESC FROM AMSD.ASSETS_TYPE ORDER BY ASSET_TYPEID";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        echo $assets_no;
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+ 
+});
 
 $app->run();
