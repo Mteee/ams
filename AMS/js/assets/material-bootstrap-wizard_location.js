@@ -109,19 +109,33 @@ $(document).ready(function () {
             var radio_selected = loc_type[0].value;
             console.log(radio_selected);
 
-            if(radio_selected == 0){
+            if(radio_selected == "0"){
                 //room and sub are the same
                 //hide sub & room(dropdown)
                 //show room input
+                
+                
+                andRemoveClass('#room_drop',"show_input","hide_input");
+                andRemoveClass('#input_room_new',"hide_input","show_input");
+                andRemoveClass('#input_sub_new',"show_input","hide_input");
+                console.log("231");
             }
-            if(radio_selected == 1){
-                //hide room input
-                //show room dropdown
-                //show sub location input
+            if(radio_selected == "1"){
+                //hide_input room input
+                //show_input room dropdown
+                //show_input sub location input
+                andRemoveClass('#room_drop',"hide_input","show_input");
+                andRemoveClass('#input_room_new',"show_input","hide_input");
+                andRemoveClass('#input_sub_new',"hide_input","show_input");
+                console.log("123");
             }
-            if(radio_selected == 2){
-                //hide room drop down
-                //show room & sub location input
+            if(radio_selected == "2"){
+                //hide_input room drop down
+                //show_input room & sub location input
+                andRemoveClass('#room_drop',"show_input","hide_input");
+                andRemoveClass('#input_room_new',"hide_input","show_input");
+                andRemoveClass('#input_sub_new',"hide_input","show_input");
+                console.log("321");
             }
         
             if (!$valid) {
@@ -194,6 +208,10 @@ $(document).ready(function () {
         }
     });
 
+    function andRemoveClass(a,b,c){
+        $(a).removeClass(b);
+        $(a).addClass(c);
+    }
 
     function validateInputChildren(a) {
         var response = {
