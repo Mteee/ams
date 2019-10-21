@@ -96,11 +96,72 @@ $(document).ready(function () {
         onNext: function (tab, navigation, index) {
 
             var $valid = $('.wizard-card form').valid();
+            var input_arr = $('#asset_group input');
+            var input_date_fields = $('#date input');
+            var input_date_service = $('#service input');
 
-            if (!$valid) {
-                return false;
-            } else {
-                return true;
+            if (index == 4){
+                var res = validateInputChildren(input_arr);
+                console.log("res");
+                console.log(res);
+                if (res.bool) {
+                    input_arr[res.index].focus();
+                    $('#text-error').addClass( "btn-outline-danger" );
+                    return false;
+                }
+            }else
+            if (index == 2){
+                var res = validateInputChildren(input_date_fields);
+                console.log("res");
+                console.log(res);
+                if (res.bool) {
+                    input_arr[res.index].focus();
+                    $('#text-error').addClass( "btn-outline-danger" );
+                    $( "#date_group_1" ).removeClass( "border-secondary" ).addClass( "border-danger" );
+                    $( "#date_group_2" ).removeClass( "border-secondary" ).addClass( "border-danger" );
+                    return false;
+                }
+                else{
+                    $( "#date_group_1" ).removeClass( "border-danger" ).addClass( "border-secondary" );
+                    $( "#date_group_2" ).removeClass( "border-danger" ).addClass( "border-secondary" );
+                }
+            }
+
+            if (index == 3){
+                var res = validateInputChildren(input_date_service);
+                console.log("res");
+                console.log(res);
+                if (res.bool) {
+                    input_arr[res.index].focus();
+                    $('#text-error').addClass( "btn-outline-danger" );
+                    $( "#date_group_3" ).removeClass( "border-secondary" ).addClass( "border-danger" );
+                    $( "#date_group_4" ).removeClass( "border-secondary" ).addClass( "border-danger" );
+                    return false;
+                }
+                
+                else{
+                    $( "#date_group_3" ).removeClass( "border-danger" ).addClass( "border-secondary" );
+                    $( "#date_group_4" ).removeClass( "border-danger" ).addClass( "border-secondary" );
+                }
+            }
+            else if (index == 1) {
+                console.log(index);
+                if (($('#room_new_filter').text()).indexOf("ROOM") > -1 ){
+                    $( "#room_new_filter" ).removeClass( "btn-outline-info" ).addClass( "btn-outline-danger" );
+                    return false;
+                }
+                var selectedValue = parseInt($('#asset_class').children("option:selected").val());
+                if(selectedValue < 2){
+                    $( "#room_new_filter" ).removeClass( "btn-outline-info" ).addClass( "btn-outline-danger" );
+                    return false;
+                }
+            }
+
+            else {
+                if (!$valid) {
+                    $validator.focusInvalid();
+                    return false;
+                }
             }
         },
 

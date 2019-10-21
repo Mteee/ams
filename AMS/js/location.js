@@ -118,7 +118,7 @@ populate_dropdown();
 // populate_add_dropdown();
 
 function add_new_location(){
-    $('#overlay-newAssetView').show();
+    $('#loader-overlay-location').show();
     populate_add_dropdown();
 }
 
