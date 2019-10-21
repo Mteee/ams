@@ -799,9 +799,51 @@ function clearData(input, btnDafualtId, text) {
             $('#sublocaction_location_filter').text("SUB LOCATION");
 
         }
-        else if (input == "#search_new_room") {
+        else if (input == "#search_add_location_building") {
 
-            document.getElementById('menu_new_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_add_location_building').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_add_location_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('meun_add_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_add_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
+            getRoom();
+
+            $('#search_new_room').val("");
+            $('#room_new_filter').text("ROOM");
+
+        }
+        else if (input == "#search_add_location_level") {
+
+            document.getElementById('menu_add_location_building').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_add_location_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('meun_add_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_add_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
+            getRoom();
+
+            $('#search_new_room').val("");
+            $('#room_new_filter').text("ROOM");
+
+        }
+        else if (input == "#search_add_location_area") {
+
+            document.getElementById('menu_add_location_building').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_add_location_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('meun_add_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_add_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
+            getRoom();
+
+            $('#search_new_room').val("");
+            $('#room_new_filter').text("ROOM");
+
+        }
+        else if (input == "#search_add_location_room") {
+
+            document.getElementById('menu_add_location_building').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_add_location_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('meun_add_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_add_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
             getRoom();
 
@@ -861,7 +903,7 @@ $('#menu_location_sublocaction').on('click', '.dropdown-item', function () {
 //  newly Building
 $('#menu_add_location_building').on('click', '.dropdown-item', function () {
     $('#building_add_location_filter').text($(this)[0].value);
-    localStorage.building = $(this)[0].value;
+    localStorage.building_add = $(this)[0].value;
     populate_add_dropdown();
     $("#building_add_location_filter").dropdown('toggle');
     $('#search_add_location_building').val($(this)[0].value);
@@ -870,7 +912,7 @@ $('#menu_add_location_building').on('click', '.dropdown-item', function () {
 // newly level
 $('#menu_add_location_level').on('click', '.dropdown-item', function () {
     $('#level_add_location_filter').text($(this)[0].value);
-    localStorage.level = $(this)[0].value;
+    localStorage.level_add = $(this)[0].value;
     populate_add_dropdown();
     $("#level_add_location_filter").dropdown('toggle');
     $('#search-add_location_level').val($(this)[0].value);
@@ -879,7 +921,7 @@ $('#menu_add_location_level').on('click', '.dropdown-item', function () {
 // newly area
 $('#meun_add_location_area').on('click', '.dropdown-item', function () {
     $('#area_add_location_filter').text($(this)[0].value);
-    localStorage.area = $(this)[0].value;
+    localStorage.area_add = $(this)[0].value;
     populate_add_dropdown();
     $("#area_add_location_filter").dropdown('toggle');
     $('#search_add_location_area').val($(this)[0].value);
@@ -888,7 +930,7 @@ $('#meun_add_location_area').on('click', '.dropdown-item', function () {
 // newly room
 $('#menu_add_location_room').on('click', '.dropdown-item', function () {
     $('#room_add_location_filter').text($(this)[0].value);
-    localStorage.room_no = $(this)[0].value;
+    localStorage.room_no_add = $(this)[0].value;
     populate_add_dropdown();
     $("#room_add_location_filter").dropdown('toggle');
     $('#search_add_location_room').val($(this)[0].value);
@@ -950,6 +992,11 @@ function clearLocalStorageFilters() {
     localStorage.area = '';
     localStorage.room_no = '';
     localStorage.sub_location = '';
+
+    localStorage.building_add = '';
+    localStorage.level_add = '';
+    localStorage.area_add = '';
+    localStorage.room_no_add = '';
 
     $('#search_location_building').val("");
     $('#search_location_level').val("");
@@ -1158,6 +1205,66 @@ function checkFilter(key) {
             $('#search_location_sublocaction').val("");
 
             localStorage.sub_location = '';
+            break;
+
+            //add new filters
+        case "search_add_location_building":
+            res = { "btnId": "building_location_filter", "btnContent": "BUILDING" };
+
+            resetBtn('#building_location_filter', "BUILDING");
+            resetBtn('#level_add_location_filter', "LEVEL");
+            resetBtn('#area_add_location_filter', "AREA");
+            resetBtn('#room_add_location_filter', "ROOM");
+
+            $('#search_add_location_building').val("");
+            $('#search_add_location_level').val("");
+            $('#search_add_location_area').val("");
+            $('#search_add_location_room').val("");
+
+            localStorage.building_add = '';
+            localStorage.level_add = '';
+            localStorage.area_add = '';
+            localStorage.room_no_add = '';
+
+            break;
+        case "search_add_location_level":
+            res = { "btnId": "level_add_location_filter", "btnContent": "LEVEL" };
+
+            resetBtn('#level_add_location_filter', "LEVEL");
+            resetBtn('#area_add_location_filter', "AREA");
+            resetBtn('#room_add_location_filter', "ROOM");
+
+            $('#search_add_location_level').val("");
+            $('#search_add_location_area').val("");
+            $('#search_add_location_room').val("");
+
+            localStorage.level_add = '';
+            localStorage.area_add = '';
+            localStorage.room_no_add = '';
+
+            break;
+        case "search_add_location_area":
+            res = { "btnId": "area_add_location_filter", "btnContent": "AREA" };
+
+            resetBtn('#area_add_location_filter', "AREA");
+            resetBtn('#room_add_location_filter', "ROOM");
+
+            $('#search_add_location_area').val("");
+            $('#search_add_location_room').val("");
+
+            localStorage.area_add = '';
+            localStorage.room_no_add = '';
+
+            break;
+        case "search_add_location_room":
+            res = { "btnId": "room_add_location_filter", "btnContent": "ROOM" };
+
+            resetBtn('#room_add_location_filter', "ROOM");
+
+            $('#search_add_location_room').val("");
+
+            localStorage.room_no_add = '';
+
             break;
         default:
             res = { "btnId": "not found", "btnContent": "not found" };
