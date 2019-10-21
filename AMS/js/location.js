@@ -855,14 +855,40 @@ $('#menu_location_sublocaction').on('click', '.dropdown-item', function () {
 });
 
 
-// newly added room
-$('#menu_new_room').on('click', '.dropdown-item', function () {
-    $('#room_new_filter').text($(this)[0].value);
+//  newly Building
+$('#menu_add_location_building').on('click', '.dropdown-item', function () {
+    $('#building_add_location_filter').text($(this)[0].value);
+    localStorage.building = $(this)[0].value;
+    populate_add_dropdown();
+    $("#building_add_location_filter").dropdown('toggle');
+    $('#search_add_location_building').val($(this)[0].value);
+});
+
+// newly level
+$('#menu_add_location_level').on('click', '.dropdown-item', function () {
+    $('#level_add_location_filter').text($(this)[0].value);
+    localStorage.level = $(this)[0].value;
+    populate_add_dropdown();
+    $("#level_add_location_filter").dropdown('toggle');
+    $('#search-add_location_level').val($(this)[0].value);
+});
+
+// newly area
+$('#meun_add_location_area').on('click', '.dropdown-item', function () {
+    $('#area_add_location_filter').text($(this)[0].value);
+    localStorage.area = $(this)[0].value;
+    populate_add_dropdown();
+    $("#area_add_location_filter").dropdown('toggle');
+    $('#search_add_location_area').val($(this)[0].value);
+});
+
+// newly room
+$('#menu_add_location_room').on('click', '.dropdown-item', function () {
+    $('#room_add_location_filter').text($(this)[0].value);
     localStorage.room_no = $(this)[0].value;
-    $("#room_new_filter").removeClass("btn-outline-danger").addClass("btn-outline-info");
-    populate_dropdown();
-    $("#room_new_filter").dropdown('toggle');
-    $('#search_new_room').val($(this)[0].value);
+    populate_add_dropdown();
+    $("#room_add_location_filter").dropdown('toggle');
+    $('#search_add_location_room').val($(this)[0].value);
 });
 
 if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
