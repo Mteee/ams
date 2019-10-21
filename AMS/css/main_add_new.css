@@ -594,7 +594,7 @@ div#inAssetsTable_length {
     background: white;
     border-radius: 5px;
     width: 200px;
-    height: 205px;
+    /* height: 205px; */
     border: 1px solid #ccc;
     margin-top: 10px;
 }

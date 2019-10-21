@@ -628,7 +628,7 @@ div#inAssetsTable_length {
 .active {
     background: #343b40;
     color: white;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }
 
 #username {
