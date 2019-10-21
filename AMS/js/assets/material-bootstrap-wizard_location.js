@@ -57,26 +57,26 @@ $(document).ready(function () {
                 required: true,
                 minlength: 2,
             },
-            classification_name:{
+            classification_name: {
                 required: true,
                 minlength: 2,
             },
-            purchase_date:{
+            purchase_date: {
                 required: true,
             },
-            warranty_date:{
+            warranty_date: {
                 required: true,
             },
-            disposal_date:{
+            disposal_date: {
                 required: true,
             },
-            service_date:{
+            service_date: {
                 required: true,
             },
-            service_due_date:{
+            service_due_date: {
                 required: true,
             },
-            serviced_by:{
+            serviced_by: {
                 required: true,
             },
 
@@ -101,43 +101,50 @@ $(document).ready(function () {
 
             console.log(loc_type);
 
-            if(loc_type.length == 0){
-                alert("Seelct what you need to do");
+            if (loc_type.length == 0) {
+                swal.fire({
+                    title: "Error",
+                    text: "Please select what you want to create",
+                    type: 'error',
+                    showCloseButton: true,
+                    closeButtonColor: '#3DB3D7',
+                    allowOutsideClick: true,
+                });
                 return false;
             }
 
             var radio_selected = loc_type[0].value;
             console.log(radio_selected);
 
-            if(radio_selected == "0"){
+            if (radio_selected == "0") {
                 //room and sub are the same
                 //hide sub & room(dropdown)
                 //show room input
-                
-                
-                andRemoveClass('#room_drop',"show_input","hide_input");
-                andRemoveClass('#input_room_new',"hide_input","show_input");
-                andRemoveClass('#input_sub_new',"show_input","hide_input");
+
+
+                andRemoveClass('#room_drop', "show_input", "hide_input");
+                andRemoveClass('#input_room_new', "hide_input", "show_input");
+                andRemoveClass('#input_sub_new', "show_input", "hide_input");
                 console.log("231");
             }
-            if(radio_selected == "1"){
+            if (radio_selected == "1") {
                 //hide_input room input
                 //show_input room dropdown
                 //show_input sub location input
-                andRemoveClass('#room_drop',"hide_input","show_input");
-                andRemoveClass('#input_room_new',"show_input","hide_input");
-                andRemoveClass('#input_sub_new',"hide_input","show_input");
+                andRemoveClass('#room_drop', "hide_input", "show_input");
+                andRemoveClass('#input_room_new', "show_input", "hide_input");
+                andRemoveClass('#input_sub_new', "hide_input", "show_input");
                 console.log("123");
             }
-            if(radio_selected == "2"){
+            if (radio_selected == "2") {
                 //hide_input room drop down
                 //show_input room & sub location input
-                andRemoveClass('#room_drop',"show_input","hide_input");
-                andRemoveClass('#input_room_new',"hide_input","show_input");
-                andRemoveClass('#input_sub_new',"hide_input","show_input");
+                andRemoveClass('#room_drop', "show_input", "hide_input");
+                andRemoveClass('#input_room_new', "hide_input", "show_input");
+                andRemoveClass('#input_sub_new', "hide_input", "show_input");
                 console.log("321");
             }
-        
+
             if (!$valid) {
                 $validator.focusInvalid();
                 return false;
@@ -165,8 +172,15 @@ $(document).ready(function () {
 
             console.log(loc_type);
 
-            if(loc_type.length == 0){
-                alert("Seelct what you need to do");
+            if (loc_type.length == 0) {
+                swal.fire({
+                    title: "Error",
+                    text: "Please select what you want to create",
+                    type: 'error',
+                    showCloseButton: true,
+                    closeButtonColor: '#3DB3D7',
+                    allowOutsideClick: true,
+                });
                 return false;
             }
 
@@ -217,15 +231,15 @@ $(document).ready(function () {
         }
     });
 
-    function andRemoveClass(a,b,c){
+    function andRemoveClass(a, b, c) {
         $(a).removeClass(b);
         $(a).addClass(c);
     }
 
     function validateInputChildren(a) {
         var response = {
-             "bool": false,
-             "index": 0
+            "bool": false,
+            "index": 0
         };
 
 
@@ -238,16 +252,16 @@ $(document).ready(function () {
             }
 
 
-              
+
         }
 
         console.log("response");
         console.log(response);
 
-      
+
         return response;
-      
-       
+
+
     }
 
     function isEmpty(a) {

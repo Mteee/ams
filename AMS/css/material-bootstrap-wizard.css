@@ -227,6 +227,7 @@
   box-shadow: none;
   border-radius: 0;
   font-weight: 400;
+  color: #333333 !important;
 }
 
 #wizard .form-control::-moz-placeholder, #wizard .form-group .form-control::-moz-placeholder {

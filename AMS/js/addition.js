@@ -987,11 +987,10 @@ function clearData(input, btnDafualtId, text) {
 
         }
         else if (input == "#search_new_room") {
-
-            document.getElementById('menu_new_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-
+            console.log("serahc_new_room");
+            document.getElementById('menu_new_room').innerHTML = '<div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            localStorage.room_no = "";
             getRoom();
-
             $('#search_new_room').val("");
             $('#room_new_filter').text("ROOM");
 
@@ -1109,6 +1108,9 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
 $('#asset_class').on('change', function () {
     localStorage.filter = $("#asset_class option:selected").text();
+    resetBtn('#room_new_filter', 'ROOM');
+    $('#search_new_room').val("");
+    localStorage.room_no ="";
     getRoom();
 });
 
