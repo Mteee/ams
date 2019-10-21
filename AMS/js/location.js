@@ -90,6 +90,9 @@ function viewAsset(assetId) {
 
 function populate_add_dropdown() {
     
+    // get room
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_add_location_room', 'scroll_add_location_room', 'menu_add_location_room', 'empty_add_location_room');
+    // get area
     getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_add_location_area', 'scroll_add_location_area', 'meun_add_location_area', 'empty_add_location_area');
     // get level
     getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_add_location_level', 'scroll_add_location_level', 'menu_add_location_level', 'empty_add_location_level');
@@ -211,7 +214,7 @@ function getItems(url, id, scrollArea, menuid, empty) {
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
-                    markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
+                    markup: '<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
                     active: true
                 });
             }

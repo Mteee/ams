@@ -543,7 +543,7 @@
                                                             <button class="btn btn-outline-info form-control " style="margin-top: -14px;" type="button" id="area_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                         
                                                                     </button>
-                                                            <div class="dropdown-menu clusterize-scroll" id="scroll_add_location_area" aria-labelledby="area_location_filter" style="width: 100%;">
+                                                            <div class="dropdown-menu clusterize-scroll" id="scroll_add_location_area" aria-labelledby="area_add_location_filter" style="width: 100%;">
                                                                 <form class="px-4 py-2">
                                                                     <div class="input-group">
                                                                         <input type="search" style="margin: -1px;" id="search_add_location_area" class="form-control" placeholder="Area" onkeyup="onSearch('search_add_location_area','#empty_add_location_area')" autofocus="autofocus">
@@ -576,21 +576,45 @@
                                                 <div class="form-group label-floating is-empty">
                                                     <div class="col-sm-12">
                                                         <label class="control-label">ROOM *</label>
+                                                        <!-- <div class="dropdown" class="room_no_dropdown">
+                                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    ROOM
+                                                                </button>
+                                                                <div class="dropdown-menu clusterize-scroll" id="scroll_add_location_room" aria-labelledby="room_add_location_filter">
+                                                                    <form class="px-4 py-2">
+                
+                                                                        <div class="input-group">
+                                                                            <input type="search" id="search_add_location_room" class="form-control" placeholder="Room" onkeyup="onSearch('search_add_location_room','#empty_add_location_room')" autofocus="autofocus">
+                                                                            <div class="input-group-append">
+                                                                                <span class="input-group-text btn btn-danger text-light" id="clear_add_location_room" onclick="clearData('#search_add_location_room','#room_add_location_filter','ROOM')"><i
+                                                                                        class="fa fa-close"></i></span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                    <div id="menu_add_location_room" class="text-center" onchange="testMethod()">
+                                                                        <div id="Assetload" class="dropdown-loader">
+                                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div id="empty_add_location_room" class="dropdown-header">No room found
+                                                                    </div>
+                                                                </div>
+                                                            </div> -->
                                                         <div class="dropdown" class="room_no_dropdown">
 
-                                                            <button class="btn btn-outline-info form-control" type="button" id="room_new_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <button class="btn btn-outline-info form-control" type="button" id="room_add_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                                         
                                                                     </button>
-                                                            <div class="dropdown-menu clusterize-scroll" id="scroll_new_room" aria-labelledby="room_new_filter" style="width: 100%;">
+                                                            <div class="dropdown-menu clusterize-scroll" id="scroll_add_location_room" aria-labelledby="room_add_location_filter" style="width: 100%;">
                                                                 <form class="px-4 py-2">
 
                                                                     <div class="input-group">
                                                                         <div class="form-group is-empty form-control" style="margin-top: 0;">
-                                                                            <input type="search" id="search_new_room" style="margin: -5px;" class="form-control" placeholder="Room" name="room_no_new" onkeyup="onSearch('search_new_room','#empty_new_room')" autofocus="autofocus" required>
+                                                                            <input type="search" id="search_add_location_room" style="margin: -5px;" class="form-control" placeholder="Room" name="room_add_location_filter" onkeyup="onSearch('search_add_location_room','#empty_add_location_room')" autofocus="autofocus" required>
                                                                             <span class="material-input"></span>
                                                                         </div>
                                                                         <div class="input-group-append">
-                                                                            <span class="input-group-text btn btn-danger text-light" id="clear_new_room" onclick="clearData('#search_new_room','#room_new_filter','ROOM')"><i
+                                                                            <span class="input-group-text btn btn-danger text-light" id="clear_new_room" onclick="clearData('#search_add_location_room','#room_new_filter','ROOM')"><i
                                                                                             class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
