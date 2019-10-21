@@ -4107,7 +4107,6 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-        
         echo $assets_no;
     }
     else{
