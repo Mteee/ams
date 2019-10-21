@@ -487,6 +487,51 @@ function replaceAll(find, replace, str) {
     return str;
 }
 
+function addLocation(){
+    var building = "";
+    var level = "";
+    var area = "";
+    var room = "";
+    var new_room = "";
+    var new_sub_location = "";
+
+    var res = building + " - " + level + " - " + area + " - " + room + " - " + new_room + " - " + " - " + new_sub_location;
+    var loc_type = $("#basic input[type=radio]:checked");
+    var selected = locationBuild(loc_type);
+    
+    if(loc_type == 0){
+
+    }else if(loc_type == 1){
+
+    }else if(loc_type == 2){
+
+    }
+    
+}
+
+function locationBuild(value){
+    var obj = {key:"",desc : ""};
+    switch(value){
+        case "0":
+            obj.key = "NR";
+            obj.desc = "NEW ROOM";
+        break;
+        case "1":
+            obj.key = "NSL";
+            obj.desc = "NEW SUB LOCATOIN";
+        break;
+        case "2":
+            obj.key = "B";
+            obj.desc = "NEW ROOM & SUB LOCATION";
+        break;
+        default:
+            obj.key = "ERR";
+            obj.desc = "NON SELECTED";
+
+    }
+
+    return obj;
+}
 
 function createTable(tableID, tableData) {
     var table = $(tableID).DataTable({

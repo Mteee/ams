@@ -279,6 +279,15 @@
             width: 20px;
             height: 20px;
         }
+        
+        .description_added_assets {
+            text-align: center;
+            font-weight: bolder;
+        }
+        
+        .description_added_assets i {
+            padding: 8px 4px;
+        }
     </style>
 
 </head>
@@ -295,8 +304,11 @@
 
                 <div class="row">
                     <div class="col-sm-10 offset-1">
-                        <i class="fa fa-times-circle" style="color:red;font-size:13pt !important;"></i> : Already exists |
-                        <i class="fa fa-check-circle" style="color:green;font-size:13pt !important;"></i> : : Successfully Added
+                        <div class="description_added_assets">
+                            <i class="fa fa-times-circle" style="color:red;font-size:13pt !important;"></i> : Already exists |
+                            <i class="fa fa-check-circle" style="color:green;font-size:13pt !important;"></i> : : Successfully Added
+                        </div>
+
                         <div id="assetsAdd" style="overflow-y: auto;height: 300px;">
 
                         </div>
@@ -545,6 +557,16 @@
                                                     <div class="form-group label-floating">
                                                         <label class="control-label">Model *</label>
                                                         <input type="text" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-11" id="model">
+                                                    <div class="form-group label-floating">
+                                                        <div class="form-group">
+                                                            <label class="control-label" for="asset_type">Assets Type *</label>
+                                                            <select id="asset_type" class="form-control" name="asset_type">
+                                                                <option value="">Select Asset Type</option>
+                                                            </select>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
