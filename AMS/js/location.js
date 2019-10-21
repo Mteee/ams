@@ -45,7 +45,6 @@ function closeMe() {
     localStorage.area = ''
     localStorage.room_no = ''
     localStorage.sub_location = ''
-    localStorage.asset_no = ''
     open("../index.html", '_self')
     window.location.replace("../index.html");
     window.close();
@@ -58,7 +57,6 @@ window.onload = function () {
         localStorage.area = ''
         localStorage.room_no = ''
         localStorage.sub_location = ''
-        localStorage.asset_no = ''
         // populate_dropdown();
     }
 }
@@ -118,7 +116,7 @@ populate_dropdown();
 // populate_add_dropdown();
 
 function add_new_location(){
-    $('#loader-overlay-location').show();
+    $('#overlay-newAssetView').show();
     populate_add_dropdown();
 }
 
@@ -167,7 +165,6 @@ function getRoom() {
 }
 
 var allArr = {
-    search_location_asset_no: [],
     search_location_sub_location: [],
     search_location_room: [],
     search_location_area: [],
@@ -179,13 +176,13 @@ function getItems(url, id, scrollArea, menuid, empty) {
 
     var descrption = $('#location_description').val();
 
-    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"'+descrption+'","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}');
+    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"'+descrption+'","asset_class":"' + localStorage.filter + '"}');
 
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"'+descrption+'","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}',
+        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"'+descrption+'","asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
 
             // if ($("#search_location_roomno").val() !== "") {
@@ -291,7 +288,6 @@ function clearLocalStorageFilters() {
     localStorage.area = '';
     localStorage.room_no = '';
     localStorage.sub_location = '';
-    localStorage.asset_no = '';
 
     $('#search_location_building').val("");
     $('#search_location_level').val("");
@@ -313,7 +309,7 @@ function search() {
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location);
     var current = "";
     // console.log(results);
-    if (" -  -  -  -  -  - " == results) {
+    if (results == " -  -  -  -  - ") {
         swal.fire({
             title: "Oooops!",
             text: 'please select at least one filter',
@@ -332,13 +328,13 @@ function search() {
         $('#loader').fadeIn(500);
         document.getElementById('current').innerHTML = "";
 
-        console.log('{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_sub_location":"' + localStorage.sub_location + '","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}');
+        console.log('{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_sub_location":"' + localStorage.sub_location + '","asset_class":"' + localStorage.filter + '"}');
 
         $.ajax({
             url: "../../ams_apis/slimTest/index.php/get_all_locations",
             type: "POST",
             dataType: 'json',
-            data: '{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_sub_location":"' + localStorage.sub_location + '","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}',
+            data: '{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_sub_location":"' + localStorage.sub_location + '","asset_class":"' + localStorage.filter + '"}',
             success: function (data) {
                 $('#loader').fadeOut(500);
 
@@ -540,10 +536,10 @@ function createTable(tableID, tableData) {
             //     }
             // },
             {
-                "targets": -1,
-                "data": null,
-                "orderable": false,
-                "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
+                // "targets": -1,
+                // "data": null,
+                // "orderable": false,
+                // "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
             },
             {
                 "targets": -2,
@@ -703,15 +699,12 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('meun_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_location_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            document.getElementById('menu_location_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-
 
             localStorage.building = '';
             localStorage.level = '';
             localStorage.area = '';
             localStorage.room_no = '';
             localStorage.sub_location = '';
-            localStorage.asset_no = '';
 
             populate_dropdown();
 
@@ -728,8 +721,6 @@ function clearData(input, btnDafualtId, text) {
             $('#room_location_filter').text("ROOM");
             $('#search_location_sublocaction').val("");
             $('#sublocaction_location_filter').text("SUB LOCATION");
-            $('#search_location_assetNo').val("");
-            $('#assetNo_location_filter').text("ASSET NUMBER");
 
 
         } else if (input == "#search_location_level") {
@@ -738,13 +729,11 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('meun_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_location_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            document.getElementById('menu_location_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
             localStorage.level = '';
             localStorage.area = '';
             localStorage.room_no = '';
             localStorage.sub_location = '';
-            localStorage.asset_no = '';
             populate_dropdown();
 
             $(input).val("");
@@ -758,20 +747,16 @@ function clearData(input, btnDafualtId, text) {
             $('#room_location_filter').text("ROOM");
             $('#search_location_sublocaction').val("");
             $('#sublocaction_location_filter').text("SUB LOCATION");
-            $('#search_location_assetNo').val("");
-            $('#assetNo_location_filter').text("ASSET NUMBER");
 
         } else if (input == "#search_location_area") {
 
             document.getElementById('meun_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_location_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            document.getElementById('menu_location_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
             localStorage.area = '';
             localStorage.room_no = '';
             localStorage.sub_location = '';
-            localStorage.asset_no = '';
 
             populate_dropdown();
 
@@ -781,19 +766,15 @@ function clearData(input, btnDafualtId, text) {
             $('#room_location_filter').text("ROOM");
             $('#search_location_sublocaction').val("");
             $('#sublocaction_location_filter').text("SUB LOCATION");
-            $('#search_location_assetNo').val("");
-            $('#assetNo_location_filter').text("ASSET NUMBER");
 
         }
         else if (input == "#search_location_room") {
 
             document.getElementById('menu_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_location_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            document.getElementById('menu_location_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
             localStorage.room_no = '';
             localStorage.sub_location = '';
-            localStorage.asset_no = '';
 
             populate_dropdown();
 
@@ -801,36 +782,18 @@ function clearData(input, btnDafualtId, text) {
             $('#room_location_filter').text("ROOM");
             $('#search_location_sublocaction').val("");
             $('#sublocaction_location_filter').text("SUB LOCATION");
-            $('#search_location_assetNo').val("");
-            $('#assetNo_location_filter').text("ASSET NUMBER");
 
         }
         else if (input == "#search_location_sublocaction") {
 
             document.getElementById('menu_location_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            document.getElementById('menu_location_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
             localStorage.sub_location = '';
-            localStorage.asset_no = '';
 
             populate_dropdown();
 
             $('#search_location_sublocaction').val("");
             $('#sublocaction_location_filter').text("SUB LOCATION");
-            $('#search_location_assetNo').val("");
-            $('#assetNo_location_filter').text("ASSET NUMBER");
-
-        }
-        else if (input == "#search_location_assetNo") {
-
-            document.getElementById('menu_new_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-
-            localStorage.asset_no = '';
-
-            populate_dropdown();
-
-            $('#search_location_assetNo').val("");
-            $('#assetNo_location_filter').text("ASSET NUMBER");
 
         }
         else if (input == "#search_new_room") {
@@ -843,13 +806,6 @@ function clearData(input, btnDafualtId, text) {
             $('#room_new_filter').text("ROOM");
 
         }
-
-
-        // if (btnDafualtId == "#dropdown_approve_room") {
-        //     populate_room();
-        //     $(input).val("");
-        //     $(btnDafualtId).text(text);
-        // }
     }
 }
 
@@ -896,15 +852,6 @@ $('#menu_location_sublocaction').on('click', '.dropdown-item', function () {
     populate_dropdown();
     $("#sublocaction_location_filter").dropdown('toggle');
     $('#search_location_sublocaction').val($(this)[0].value);
-});
-
-// asset_no
-$('#menu_location_assetNo').on('click', '.dropdown-item', function () {
-    $('#assetNo_location_filter').text($(this)[0].value);
-    localStorage.asset_no = $(this)[0].value;
-    populate_dropdown();
-    $("#assetNo_location_filter").dropdown('toggle');
-    $('#search_location_assetNo').val($(this)[0].value);
 });
 
 
@@ -974,7 +921,6 @@ function clearLocalStorageFilters() {
     localStorage.area = '';
     localStorage.room_no = '';
     localStorage.sub_location = '';
-    localStorage.asset_no = '';
 
     $('#search_location_building').val("");
     $('#search_location_level').val("");
@@ -1063,7 +1009,7 @@ var onSearch_new = function (searchValue) {
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            // search();
+            search();
         }
     }
 }
@@ -1099,9 +1045,7 @@ $('#asset_increment').on('click', function (e) {
     document.getElementById(outerElement[1]).scrollIntoView();
 
 
-})
-
-
+});
 
 function checkFilter(key) {
     var res = {};
@@ -1115,22 +1059,20 @@ function checkFilter(key) {
             resetBtn('#area_location_filter', "AREA");
             resetBtn('#room_location_filter', "ROOM");
             resetBtn('#sublocaction_location_filter', "SUB LOCATION");
-            resetBtn('#assetNo_location_filter', "ASSET NUMBER");
 
             $('#search_location_building').val("");
             $('#search_location_level').val("");
             $('#search_location_area').val("");
             $('#search_location_room').val("");
             $('#search_location_sublocaction').val("");
-            $('#search_location_assetNo').val("");
 
             localStorage.building = '';
             localStorage.level = '';
             localStorage.area = '';
             localStorage.room_no = '';
             localStorage.sub_location = '';
-            localStorage.asset_primary_id = '';
             break;
+
         case "search_location_level":
             res = { "btnId": "level_location_filter", "btnContent": "LEVEL" };
 
@@ -1144,13 +1086,11 @@ function checkFilter(key) {
             $('#search_location_area').val("");
             $('#search_location_room').val("");
             $('#search_location_sublocaction').val("");
-            $('#search_location_assetNo').val("");
 
             localStorage.level = '';
             localStorage.area = '';
             localStorage.room_no = '';
             localStorage.sub_location = '';
-            localStorage.asset_primary_id = '';
             break;
         case "search_location_area":
             res = { "btnId": "area_location_filter", "btnContent": "AREA" };
@@ -1158,17 +1098,14 @@ function checkFilter(key) {
             resetBtn('#area_location_filter', "AREA");
             resetBtn('#room_location_filter', "ROOM");
             resetBtn('#sublocaction_location_filter', "SUB LOCATION");
-            resetBtn('#assetNo_location_filter', "ASSET NUMBER");
 
             $('#search_location_area').val("");
             $('#search_location_room').val("");
             $('#search_location_sublocaction').val("");
-            $('#search_location_assetNo').val("");
 
             localStorage.area = '';
             localStorage.room_no = '';
             localStorage.sub_location = '';
-            localStorage.asset_primary_id = '';
             break;
         case "search_location_room":
             res = { "btnId": "room_location_filter", "btnContent": "ROOM" };
@@ -1176,35 +1113,22 @@ function checkFilter(key) {
 
             resetBtn('#room_location_filter', "ROOM");
             resetBtn('#sublocaction_location_filter', "SUB LOCATION");
-            resetBtn('#assetNo_location_filter', "ASSET NUMBER");
 
             $('#search_location_room').val("");
             $('#search_location_sublocaction').val("");
-            $('#search_location_assetNo').val("");
 
             localStorage.room_no = '';
             localStorage.sub_location = '';
-            localStorage.asset_primary_id = '';
             break;
+
         case "search_location_sublocaction":
             res = { "btnId": "sublocaction_location_filter", "btnContent": "SUB LOCATION" };
 
             resetBtn('#sublocaction_location_filter', "SUB LOCATION");
-            resetBtn('#assetNo_location_filter', "ASSET NUMBER");
 
             $('#search_location_sublocaction').val("");
-            $('#search_location_assetNo').val("");
 
             localStorage.sub_location = '';
-            localStorage.asset_primary_id = '';
-            break;
-        case "search_location_assetNo":
-            res = { "btnId": "assetNo_location_filter", "btnContent": "ASSET NUMBER" };
-
-            resetBtn('#assetNo_location_filter', "ASSET NUMBER");
-            $('#search_location_sublocaction').val("");
-
-            localStorage.asset_primary_id = '';
             break;
         default:
             res = { "btnId": "not found", "btnContent": "not found" };
