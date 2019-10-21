@@ -4360,28 +4360,13 @@ $app->map(['GET','POST'],'/asset_room_no_location', function(Request $request, R
         
         $res = json_decode($assets_no);
         $length = $res->rows;
-        $sub = '';
         
         foreach($res->data as $value){
 
-            $sub = '<tr>
-                    <td>'.$value->ASSET_ID.'</td>
-                    <td>'.$value->ASSET_ROOM_NO_NEW.'</td>
-                    <td>'.$value->ASSET_ROOM_NO_OLD.'</td>
-                    </tr>';
-        }
-
-         echo json_encode(array("rows"=>$length,"data"=>$sub));
-        foreach($res->data as $value){
-
             $response [] = $value->ASSET_ROOM_NO;
-            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
-            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
-        }
-
-        // echo $assets_no;
-         echo json_encode(array("rows"=>$length,"data" =>$response));
+        }         
+        echo json_encode(array("rows"=>$length,"data" =>$response));
     }
     else{
         echo json_encode(array("rows" => 0 ,"data" =>"Error"));

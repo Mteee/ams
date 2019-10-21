@@ -818,7 +818,7 @@ function getSelectedItems(id) {
                 if (data.data[1].status_res == "C") {
                     showDialogTransferDialog(assetValues, rowsSelected);
                 }
-                else if (data.data[1].status_res == "DIFF") {
+                else if (data.data[0].status_res == "DIFF") {
                     swal.fire({
                         title: "Asset with different status.",
                         text: " You've selected assets that cannot be moved as one unit!\nNot allowed to select more than 1",
@@ -828,7 +828,7 @@ function getSelectedItems(id) {
                         allowOutsideClick: true,
                     })
                 }
-                else if (data.data[1].status_res == "CT") {
+                else if (data.data[0].status_res == "CT") {
                     showRevertDialog(assetQuoteDel, assetValues);
                 }
                 else if (data.data[0].room_res == "n"){

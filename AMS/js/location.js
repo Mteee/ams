@@ -59,7 +59,7 @@ window.onload = function () {
         localStorage.room_no = ''
         localStorage.sub_location = ''
         localStorage.asset_no = ''
-        populate_dropdown();
+        // populate_dropdown();
     }
 }
 
@@ -90,15 +90,13 @@ function viewAsset(assetId) {
     });
 }
 
-
-
 function populate_add_dropdown() {
     
     getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_add_location_area', 'scroll_add_location_area', 'meun_add_location_area', 'empty_add_location_area');
     // get level
     getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_add_location_level', 'scroll_add_location_level', 'menu_add_location_level', 'empty_add_location_level');
     // get building
-    getItems('../../ams_apis/slimTest/index.php/building_location', 'add_location_building', 'scroll_add_location_building', 'menu_location_building', 'empty_add_location_building');
+    getItems('../../ams_apis/slimTest/index.php/building_location', 'search_add_location_building', 'scroll_add_location_building', 'menu_add_location_building', 'empty_add_location_building');
 
 }
 
@@ -177,7 +175,7 @@ var allArr = {
     search_location_building: []
 };
 
-function getItems(url, id, scrollArea, menuid) {
+function getItems(url, id, scrollArea, menuid, empty) {
 
     var descrption = $('#location_description').val();
 
@@ -190,21 +188,21 @@ function getItems(url, id, scrollArea, menuid) {
         data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"'+descrption+'","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
 
-            if ($("#search_location_roomno").val() !== "") {
+            // if ($("#search_location_roomno").val() !== "") {
 
-                if (id == "search_location_building") {
-                    $("#building_location_filter").text(data.data[0])
-                    $("#search_location_building").val(data.data[0])
-                }
-                if (id == "search_location_level") {
-                    $("#level_location_filter").text(data.data[0])
-                    $("#search_location_level").val(data.data[0])
-                }
-                if (id == "search_location_location") {
-                    $("#dropdown_location_location").text(data.data[0])
-                    $("#search_location_location").val(data.data[0])
-                }
-            }
+            //     if (id == "search_location_building") {
+            //         $("#building_location_filter").text(data.data[0])
+            //         $("#search_location_building").val(data.data[0])
+            //     }
+            //     if (id == "search_location_level") {
+            //         $("#level_location_filter").text(data.data[0])
+            //         $("#search_location_level").val(data.data[0])
+            //     }
+            //     if (id == "search_location_location") {
+            //         $("#dropdown_location_location").text(data.data[0])
+            //         $("#search_location_location").val(data.data[0])
+            //     }
+            // }
 
 
             console.log(data);
