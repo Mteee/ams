@@ -4290,7 +4290,6 @@ $app->map(['GET','POST'],'/asset_level_new_location', function(Request $request,
     $room_no = strtoupper($data->room_no);
     $sub_location = strtoupper($data->sub_location);
     $description = strtoupper($data->description);
-    $asset_no = strtoupper($data->asset_no);
     $asset_class = strtoupper($data->asset_class);
     $response = array();
 
@@ -4340,7 +4339,6 @@ $app->map(['GET','POST'],'/asset_area_location', function(Request $request, Resp
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $sub_location = strtoupper($data->sub_location);
-    $asset_no = strtoupper($data->asset_no);
     $description = strtoupper($data->description);
     $asset_class = strtoupper($data->asset_class);
     $response = array();
