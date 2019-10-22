@@ -103,7 +103,6 @@ $(document).ready(function () {
             console.log(tab);
             console.log(navigation);
             console.log(index);
-            console.log(next);
 
             
 
@@ -207,33 +206,37 @@ $(document).ready(function () {
             console.log(tab);
             console.log(navigation);
             console.log("current "+index);
-            console.log("next "+next);
 
-            if(next > index){
-                console.log("forward");
-            }
-            else if(next < index){
-                console.log("backwards");
-                // return true;
-            }
-            
-            if(next > index+1){
-                return false;
-            }
-            
-            if (nextTab(index,next)) {
-                console.log("getTabId(index)");
-                console.log(getTabId(index));
-                var $valid = $('#'+getTabId(index)+' input').valid();
-                console.log($valid);
-                if (!$valid) {
-                    console.log(index);
-                    console.log("here");
-                    console.log(next);
-                    check_error(next);
+            if(index !== 4){
+                console.log("next "+next);
+
+                if(next > index){
+                    console.log("forward");
+                }
+                else if(next < index){
+                    console.log("backwards");
+                    // return true;
+                }
+                
+                if(next > index+1){
                     return false;
-                } 
+                }
+                
+                if (nextTab(index,next)) {
+                    console.log("getTabId(index)");
+                    console.log(getTabId(index));
+                    var $valid = $('#'+getTabId(index)+' input').valid();
+                    console.log($valid);
+                    if (!$valid) {
+                        console.log(index);
+                        console.log("here");
+                        console.log(next);
+                        check_error(next);
+                        return false;
+                    } 
+                }
             }
+
         },
 
         onTabShow: function (tab, navigation, index) {

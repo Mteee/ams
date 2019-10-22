@@ -202,7 +202,7 @@ function getValues() {
     //basic (2 inputs && 1 select)
     var selects = $("#basic select").find("option:selected").text();
     var input_classification = $("#classification_wizard").val();
-    var input_room = $("#room_no_new").val();
+    var input_room = $("#room_new_filter").val();
 
     //date (2 dates)
     var input_date = $("#date input[type='date']");
@@ -215,6 +215,8 @@ function getValues() {
 
     //serial (2+ inputs)
     var input_serial = $("#asset_group input[type='text']");
+    console.log("================[input_serial]===================");
+    console.log(input_serial);
     var serial = ["asset_id", "asset_desc"];
 
     //model (1 inputs)
@@ -282,12 +284,14 @@ function getDatee(a) {
 }
 
 function extractValues_inElements(a, arr, key) {
-    console.log(a);
+
     if (key == "serial") {
+        console.log("serial");
+        console.log(a);
         var stringValue = "";
         for (i = 0; i < a.length; i++) {
             console.log(a.length + " " + i);
-            if (i == a.length - 2) {
+            if (i == a.length - 3) {
 
                 stringValue += a[i].value + "|" + a[++i].value+ "|" + a[++i].value
             } else {
@@ -1400,7 +1404,8 @@ var newAssetGroup = function () {
         "class": "form-control my_required",
         required: "required",
         name: "asset_number" + n(),
-        id: "input_" + n()
+        id: "input_" + n(),
+        type:"text"
     });
 
     var asset_number_group = $("<div/>", {
@@ -1430,7 +1435,8 @@ var newAssetGroup = function () {
         class: "form-control my_required",
         name: "asset_description" + n(),
         required: "required",
-        value : ""+desc_checked
+        value : ""+desc_checked,
+        type:"text"
     });
 
     var close_close_btn = $("<button/>", {
@@ -1478,7 +1484,8 @@ var newAssetGroup = function () {
     var serial_no_input = $("<input/>", {
         class: "form-control pull-right",
         id: "serial_no_"+n(),
-        name: "serial_no_" + n()
+        name: "serial_no_" + n(),
+        type:"text"
     })
 
 
