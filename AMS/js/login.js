@@ -50,7 +50,7 @@ function startApp() {
           localStorage.dropdownFilter = "ALL EQUIPMENT";
           setTimeout(function () {
 
-            window.location.href = "../AMS/views/viewAssets.html";
+            window.location.href = "../AMS/views/linkAssets.html";
           }, timeout);
         }
 

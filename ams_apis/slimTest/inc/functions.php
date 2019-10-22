@@ -5,7 +5,7 @@ try{
 	session_start();
 	error_reporting(E_ALL);
 	ini_set('display_errors', '1');
-	$connect = oci_connect('AMSD', 'amsd', '10.192.200.157:1521/lms1.ialch.co.za');
+	$connect = oci_connect('AMSP', 'amsp', '10.192.200.157:1521/lms1.ialch.co.za');
 	
 	//$connect= new PDO('mysql:host=localhost;dbname=ame','root','');
 	//$dbh = new PDO('oci:dbname=10.192.200.173:1521/XE/dwpd1', 'ame_mirth', 'am3_m1rth');
