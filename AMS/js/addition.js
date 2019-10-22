@@ -992,7 +992,7 @@ function clearData(input, btnDafualtId, text) {
             localStorage.room_no = "";
             getRoom();
             $('#search_new_room').val("");
-            $('#room_new_filter').text("ROOM");
+            $('#room_new_filter').val("");
 
         }
 
@@ -1062,7 +1062,7 @@ $('#menu_addition_assetNo').on('click', '.dropdown-item', function () {
 
 // newly added room
 $('#menu_new_room').on('click', '.dropdown-item', function () {
-    $('#room_new_filter').text($(this)[0].value);
+    $('#room_new_filter').val($(this)[0].value);
     localStorage.room_no = $(this)[0].value;
     $("#room_new_filter").removeClass("btn-outline-danger").addClass("btn-outline-info");
     populate_dropdown();

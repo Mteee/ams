@@ -46,6 +46,9 @@ $(document).ready(function () {
             asset_description: {
                 required: true,
             },
+            asset_serial_no: {
+                required: true,
+            },
             // email: {
             //   required: true,
             //   minlength: 3,
@@ -79,6 +82,9 @@ $(document).ready(function () {
             serviced_by:{
                 required: true,
             },
+            room_no_new:{
+                required: true,
+            }
 
         },
 
@@ -102,6 +108,11 @@ $(document).ready(function () {
             console.log(index);
             
             var $valid = $('.wizard-card form').valid();
+
+            if (!$valid) {
+                $validator.focusInvalid();
+                return false;
+            }
             var input_arr = $('#asset_group input');
             var input_date_fields = $('#date input');
             var input_date_service = $('#service input');
@@ -181,12 +192,7 @@ $(document).ready(function () {
             //         return false;
             //     }
             // }
-            else {
-                if (!$valid) {
-                    $validator.focusInvalid();
-                    return false;
-                }
-            }
+            
         },
 
         onInit: function (tab, navigation, index) {

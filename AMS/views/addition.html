@@ -378,37 +378,39 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
-                                            <div class="dropdown" style="margin-top:28px" class="room_no_dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_new_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    ROOM
-                                                </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_new_room" aria-labelledby="room_new_filter" style="width: 100%;">
-                                                    <form class="px-4 py-2">
+                                            <div class="form-group label-floating is-empty">
+                                                <label for="" class="control-label">ROOM*</label>
+                                                <div class="dropdown" style="margin-top:28px" class="room_no_dropdown">
+                                                    <input class="btn btn-outline-info form-control" name="room_no_new" type="button" id="room_new_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
 
-                                                        <div class="input-group">
-                                                            <div class="form-group is-empty form-control" style="margin-top: 4px;">
-                                                                <input type="search" id="search_new_room" class="form-control" placeholder="Room" name="room_no_new" onkeyup="onSearch('search_new_room','#empty_new_room')" autofocus="autofocus" required>
-                                                                <span class="material-input"></span>
-                                                            </div>
-                                                            <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_new_room" onclick="clearData('#search_new_room','#room_new_filter','ROOM')"><i
+                                                    <div class="dropdown-menu clusterize-scroll" id="scroll_new_room" aria-labelledby="room_new_filter" style="width: 100%;">
+                                                        <form class="px-4 py-2">
+
+                                                            <div class="input-group">
+                                                                <div class="form-group is-empty form-control" style="margin-top: 4px;">
+                                                                    <input type="search" id="search_new_room" class="form-control" placeholder="Room" name="" onkeyup="onSearch('search_new_room','#empty_new_room')" autofocus="autofocus" required>
+                                                                    <span class="material-input"></span>
+                                                                </div>
+                                                                <div class="input-group-append">
+                                                                    <span class="input-group-text btn btn-danger text-light" id="clear_new_room" onclick="clearData('#search_new_room','#room_new_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                        <div id="menu_new_room" class="text-center" onchange="testMethod()">
+                                                            <div id="Assetload" class="dropdown-loader">
+                                                                <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
                                                         </div>
-                                                    </form>
-                                                    <div id="menu_new_room" class="text-center" onchange="testMethod()">
-                                                        <div id="Assetload" class="dropdown-loader">
-                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        <div id="empty_new_room" class="dropdown-header">No room found
                                                         </div>
-                                                    </div>
-                                                    <div id="empty_new_room" class="dropdown-header">No room found
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <!-- <div class="form-group label-floating">
+                                                <!-- <div class="form-group label-floating">
                                                 <label class="control-label">Room *</label>
                                                 <input type="text" name="room_no" class="form-control" id="room_no">
                                             </div> -->
+                                            </div>
                                         </div>
                                         <div class="col-sm-10 offset-1">
                                             <div class="form-group label-floating">
@@ -540,7 +542,7 @@
                                                                 <div class="col-sm-3">
                                                                     <div class="form-group label-floating">
                                                                         <label class="control-label">Serial No.*</label>
-                                                                        <input type="text" name="asset_description" class="form-control">
+                                                                        <input type="text" name="asset_serial_no" class="form-control">
                                                                     </div>
                                                                 </div>
                                                             </div>
