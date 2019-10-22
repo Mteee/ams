@@ -976,7 +976,7 @@ function clearData(input, btnDafualtId, text) {
         }
         else if (input == "#search_addition_assetNo") {
 
-            document.getElementById('menu_new_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_addition_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
             localStorage.asset_no = '';
 
@@ -1065,7 +1065,7 @@ $('#menu_new_room').on('click', '.dropdown-item', function () {
     $('#room_new_filter').val($(this)[0].value);
     localStorage.room_no = $(this)[0].value;
     $("#room_new_filter").removeClass("btn-outline-danger").addClass("btn-outline-info");
-    populate_dropdown();
+    getRoom();
     $("#room_new_filter").dropdown('toggle');
     $('#search_new_room').val($(this)[0].value);
 });
@@ -1108,7 +1108,7 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
 $('#asset_class').on('change', function () {
     localStorage.filter = $("#asset_class option:selected").text();
-    resetBtn('#room_new_filter', 'ROOM');
+    resetBtn('#room_new_filter', 'ROOM (*)');
     $('#search_new_room').val("");
     localStorage.room_no ="";
     getRoom();
