@@ -11,8 +11,6 @@
     <link rel="stylesheet" href="../css/animate.css">
     <link rel="stylesheet" href="../css/main_add_new.css">
     <link rel="stylesheet" href="../css/font-awesome.css">
-    <!-- Add IntroJs styles -->
-    <!-- <link href="../css/introjs.css" rel="stylesheet"> -->
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link rel="stylesheet" href="../css/style.css">
@@ -288,6 +286,12 @@
         .description_added_assets i {
             padding: 8px 4px;
         }
+
+        #text-error.btn-outline-danger:hover {
+            color: #dc3545;
+            background-color: #ec001800 !important;
+            border-color: #dc354600 !important;
+        }
     </style>
 
 </head>
@@ -369,7 +373,6 @@
 
                                                 <label class="control-label">Asset Class *</label>
                                                 <select name="asset_class" class="form-control" id="asset_class">
-                                                    <!-- <option disabled="" selected=""></option> -->
                                                     <option value="2" selected="">FACILITIES MANAGEMENT</option>
                                                     <option value="3">IT EQUIPMENT</option>
                                                     <option value="4">MEDICAL EQUIPMENT</option>
@@ -378,18 +381,17 @@
                                             </div>
                                         </div>
                                         <div class="col-sm-5">
-                                            <div class="form-group label-floating is-empty">
-                                                <label for="" class="control-label">ROOM*</label>
-                                                <div class="dropdown" style="margin-top:28px" class="room_no_dropdown">
-                                                    <input class="btn btn-outline-info form-control" name="room_no_new" type="button" id="room_new_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
+                                            <div class="form-group label-floating" id="room_error">
+                                                <label class="control-label label-floating"> ROOM * </label>
+                                                <input class="form-control" name="room_no_new" type="button" id="room_new_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
 
+                                                <div class="dropdown" style="margin-top:-40px">
                                                     <div class="dropdown-menu clusterize-scroll" id="scroll_new_room" aria-labelledby="room_new_filter" style="width: 100%;">
                                                         <form class="px-4 py-2">
 
                                                             <div class="input-group">
-                                                                <div class="form-group is-empty form-control" style="margin-top: 4px;">
+                                                                <div class="form-group form-control" style="margin-top: 4px;">
                                                                     <input type="search" id="search_new_room" class="form-control" placeholder="Room" name="" onkeyup="onSearch('search_new_room','#empty_new_room')" autofocus="autofocus" required>
-                                                                    <span class="material-input"></span>
                                                                 </div>
                                                                 <div class="input-group-append">
                                                                     <span class="input-group-text btn btn-danger text-light" id="clear_new_room" onclick="clearData('#search_new_room','#room_new_filter','ROOM')"><i

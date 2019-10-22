@@ -202,7 +202,7 @@ function getValues() {
     //basic (2 inputs && 1 select)
     var selects = $("#basic select").find("option:selected").text();
     var input_classification = $("#classification_wizard").val();
-    var input_room = $("#room_new_filter").text();
+    var input_room = $("#room_no_new").val();
 
     //date (2 dates)
     var input_date = $("#date input[type='date']");
@@ -1065,6 +1065,7 @@ $('#menu_new_room').on('click', '.dropdown-item', function () {
     $('#room_new_filter').val($(this)[0].value);
     localStorage.room_no = $(this)[0].value;
     $("#room_new_filter").removeClass("btn-outline-danger").addClass("btn-outline-info");
+    $("#room_error").removeClass("has-error");
     getRoom();
     $("#room_new_filter").dropdown('toggle');
     $('#search_new_room').val($(this)[0].value);

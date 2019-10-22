@@ -33,7 +33,18 @@ $(document).ready(function () {
     //     })
     // });
 
+    var tabs = {
+                    prev:-1,
+                    current:0,
+                    next:1
+                };
 
+    function nextTab(curr,next){
+        if(curr < next){
+            return true;
+        }
+        return false;
+    }
 
     // Code for the Validator
     var $validator = $('.wizard-card form').validate({
@@ -49,41 +60,29 @@ $(document).ready(function () {
             asset_serial_no: {
                 required: true,
             },
-            // email: {
-            //   required: true,
-            //   minlength: 3,
-            // },
-            asset_class: {
-                required: true,
+            room_no_new: {
+                required: true
             },
-            room_no_dropdown: {
-                required: true,
-                minlength: 2,
+            classification_name: {
+                required: true
             },
-            classification_name:{
-                required: true,
-                minlength: 2,
+            purchase_date: {
+                required: true
             },
-            purchase_date:{
-                required: true,
+            warranty_date: {
+                required: true
             },
-            warranty_date:{
-                required: true,
+            disposal_date: {
+                required: true
             },
-            disposal_date:{
-                required: true,
+            service_date: {
+                required: true
             },
-            service_date:{
-                required: true,
+            service_due_date: {
+                required: true
             },
-            service_due_date:{
-                required: true,
-            },
-            serviced_by:{
-                required: true,
-            },
-            room_no_new:{
-                required: true,
+            serviced_by: {
+                required: true
             }
 
         },
@@ -99,86 +98,79 @@ $(document).ready(function () {
         'nextSelector': '.btn-next',
         'previousSelector': '.btn-previous',
 
-        onNext: function (tab, navigation, index) {
-            console.log("tab");
+        onNext: function (tab, navigation, index,next) {
+            console.log("================[onNext]=======================");
             console.log(tab);
-            console.log("navigation");
             console.log(navigation);
-            console.log("index");
             console.log(index);
-            
-            var $valid = $('.wizard-card form').valid();
+            console.log(next);
 
-            if (!$valid) {
-                $validator.focusInvalid();
-                return false;
-            }
+            
+
             var input_arr = $('#asset_group input');
             var input_date_fields = $('#date input');
             var input_date_service = $('#service input');
 
-            if (index == 4){
-                var res = validateInputChildren(input_arr);
-                console.log("res");
-                console.log(res);
-                if (res.bool) {
-                    input_arr[res.index].focus();
-                    $('#text-error').addClass( "btn-outline-danger" );
+            if (index == 1) {
+                var $valid = $('#basic input').valid();
+
+                if (!$valid) {
+                    $validator.focusInvalid();
+                    $('#text-error').addClass("btn-outline-danger");
+                    check_error(index);
                     return false;
+                } else{
+                    $('#text-error').removeClass("btn-outline-danger");
+                    $("#room_no_new").addClass("btn-outline-info").removeClass("btn-outline-danger");
                 }
-            }else
-            if (index == 2){
+            }
+                
+            if (index == 2) {
                 var res = validateInputChildren(input_date_fields);
                 console.log("res");
                 console.log(res);
                 if (res.bool) {
                     input_arr[res.index].focus();
-                    $('#text-error').addClass( "btn-outline-danger" );
-                    $( "#date_group_1" ).removeClass( "border-secondary" ).addClass( "border-danger" );
-                    $( "#date_group_2" ).removeClass( "border-secondary" ).addClass( "border-danger" );
+                    $('#text-error').addClass("btn-outline-danger");
+                    check_error(index);
                     return false;
                 }
-                else{
-                    $( "#date_group_1" ).removeClass( "border-danger" ).addClass( "border-secondary" );
-                    $( "#date_group_2" ).removeClass( "border-danger" ).addClass( "border-secondary" );
+                else {
+                    $("#date_group_1").removeClass("border-danger").addClass("border-secondary");
+                    $("#date_group_2").removeClass("border-danger").addClass("border-secondary");
                 }
             }
 
-            if (index == 3){
+            if (index == 3) {
                 var res = validateInputChildren(input_date_service);
                 console.log("res");
                 console.log(res);
                 if (res.bool) {
                     input_arr[res.index].focus();
-                    $('#text-error').addClass( "btn-outline-danger" );
-                    $( "#date_group_3" ).removeClass( "border-secondary" ).addClass( "border-danger" );
-                    $( "#date_group_4" ).removeClass( "border-secondary" ).addClass( "border-danger" );
+                    $('#text-error').addClass("btn-outline-danger");
+                    check_error(index);
                     return false;
                 }
-                
-                else{
-                    $( "#date_group_3" ).removeClass( "border-danger" ).addClass( "border-secondary" );
-                    $( "#date_group_4" ).removeClass( "border-danger" ).addClass( "border-secondary" );
+
+                else {
+                    $('#text-error').addClass("btn-outline-danger");
+                    $("#date_group_3").removeClass("border-danger").addClass("border-secondary");
+                    $("#date_group_4").removeClass("border-danger").addClass("border-secondary");
                 }
             }
-            else if (index == 1) {
-                // var res = validateInputChildren(input_room_no);
-                // console.log("res");
-                console.log(index);
-                if (($('#room_new_filter').text()).indexOf("ROOM") > -1 ){
-                    // input_arr[res.index].focus();
-                    // $("#text-error").text("Please choose room");
-                    // $('#text-error').addClass( "text-danger" );
-                    $( "#room_new_filter" ).removeClass( "btn-outline-info" ).addClass( "btn-outline-danger" );
-                    return false;
-                }
-                var selectedValue = parseInt($('#asset_class').children("option:selected").val());
-                if(selectedValue < 2){
-                    $( "#room_new_filter" ).removeClass( "btn-outline-info" ).addClass( "btn-outline-danger" );
+
+            if (index == 4) {
+                var res = validateInputChildren(input_arr);
+                console.log("res");
+                console.log(res);
+                if (res.bool) {
+                    input_arr[res.index].focus();
+                    $('#text-error').addClass("btn-outline-danger");
                     return false;
                 }
             }
-           
+            
+
             // else if (index == 2) {
             //     var res = validateInputChildren(input_date_fields);
             //     console.log("res");
@@ -192,7 +184,7 @@ $(document).ready(function () {
             //         return false;
             //     }
             // }
-            
+
         },
 
         onInit: function (tab, navigation, index) {
@@ -209,19 +201,50 @@ $(document).ready(function () {
             $('.moving-tab').css('transition', 'transform 0s');
         },
 
-        onTabClick: function (tab, navigation, index) {
-            var $valid = $('.wizard-card form').valid();
+        onTabClick: function (tab, navigation, index,next) {
+            
+            console.log("==============[onTabClick]==============");
+            console.log(tab);
+            console.log(navigation);
+            console.log("current "+index);
+            console.log("next "+next);
 
-            if (!$valid) {
+            if(next > index){
+                console.log("forward");
+            }
+            else if(next < index){
+                console.log("backwards");
+                // return true;
+            }
+            
+            if(next > index+1){
                 return false;
-            } else {
-                return true;
+            }
+            
+            if (nextTab(index,next)) {
+                console.log("getTabId(index)");
+                console.log(getTabId(index));
+                var $valid = $('#'+getTabId(index)+' input').valid();
+                console.log($valid);
+                if (!$valid) {
+                    console.log(index);
+                    console.log("here");
+                    console.log(next);
+                    check_error(next);
+                    return false;
+                } 
             }
         },
 
         onTabShow: function (tab, navigation, index) {
             var $total = navigation.find('li').length;
             var $current = index + 1;
+
+
+            console.log("=============[onTabShow]==============");
+            console.log(tab);
+            console.log(navigation);
+            console.log(index);
 
             var $wizard = navigation.closest('.wizard-card');
 
@@ -259,11 +282,24 @@ $(document).ready(function () {
         }
     });
 
+    function getTabId(value){
+        var arrTabs = [
+                        "basic",        // 0
+                        "date",         // 1
+                        "service",      // 2
+                        "serail",       // 3
+                        "commissioning" // 4
+                      ];
+      
+           return arrTabs[value];
+        
+    }
+
 
     function validateInputChildren(a) {
         var response = {
-             "bool": false,
-             "index": 0
+            "bool": false,
+            "index": 0
         };
 
 
@@ -276,16 +312,32 @@ $(document).ready(function () {
             }
 
 
-              
+
         }
 
         console.log("response");
         console.log(response);
 
-      
+
         return response;
-      
-       
+
+
+    }
+
+    function check_error(value){
+        switch(value){  
+            case 1:
+                    $("#room_no_new").removeClass("btn-outline-info").addClass("btn-outline-danger");
+                    break;
+            case 2:
+                    $("#date_group_1").removeClass("border-secondary").addClass("border-danger");
+                    $("#date_group_2").removeClass("border-secondary").addClass("border-danger");
+                    break;
+            case 3:
+                    $("#date_group_3").removeClass("border-secondary").addClass("border-danger");
+                    $("#date_group_4").removeClass("border-secondary").addClass("border-danger");
+                    break;
+        }
     }
 
     function isEmpty(a) {
@@ -322,6 +374,7 @@ $(document).ready(function () {
     $('.set-full-height').css('height', 'auto');
 
 });
+
 
 
 
