@@ -1497,9 +1497,27 @@ function confirmLink() {
             if (data.data == "LINK WAS SUCCESSFUL") {
                 searchasset()
                 search();
-                document.getElementById('alert_header').innerHTML = "Hooray!!!!";
-                document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5"><img src="../img/success.gif" width=60/> <p class="text-muted">Assets linked successfully</p></span>';
-                document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button>';
+
+                swal.fire({
+                    title: "Assignment Success",
+                    text: data.data,
+                    type: "success",
+                    showCloseButton: true,
+                    allowOutsideClick: true,
+
+                }).then(function (result) {
+                    if (result.value) {
+
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+                
+                // document.getElementById('alert_header').innerHTML = "Hooray!!!!";
+                // document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5"><img src="../img/success.gif" width=60/> <p class="text-muted">Assets linked successfully</p></span>';
+                // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button>';
             }
             console.log("======================data================")
             console.log(data);
@@ -1523,7 +1541,7 @@ function unlinkSub(assetId) {
         level = document.getElementById('search_level').value,
         area = document.getElementById('search_area').value,
         room_no = document.getElementById('search_room_sub').value;
-    description = document.getElementById('sub_description').value;
+        description = document.getElementById('sub_description').value;
 
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
