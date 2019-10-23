@@ -501,7 +501,7 @@ function addLocation(){
     var selected = locationBuild(loc_type);
  
     if(loc_type == 0){
-
+        console.log(building+" "+level+" "+area+" "+new_room)
         if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room)){
            //room creation
         }else{
@@ -523,12 +523,38 @@ function addLocation(){
         
          if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(room) && !isEmpty(new_sub_location)){
             //sub location creation
+        }else{
+            swal.fire({
+                title: "Oooops!",
+                text: 'please insert all info',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            });
         }
         
     }else if(loc_type == 2){
         if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room) && !isEmpty(new_sub_location)){
             //room & sub location creation
-         }
+         }else{
+            swal.fire({
+                title: "Oooops!",
+                text: 'please insert all info',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            });
+        }
         
     }
     
