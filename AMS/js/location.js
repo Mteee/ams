@@ -488,7 +488,6 @@ function replaceAll(find, replace, str) {
 }
 
 function addLocation(){
-    console.log("finish");
     var building = document.getElementById("search_add_location_building").value;
     var level = document.getElementById("search_add_location_level").value;
     var area = document.getElementById("search_add_location_area").value;
@@ -502,25 +501,28 @@ function addLocation(){
  
     if(loc_type == 0){
 
+            console.log(building+" "+level+" "+area+" "+new_room);
         if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room)){
            //room creation
+           console.log("building++level++area++new_room");
         }
 
     }else if(loc_type == 1){
-        
+        console.log(building+" "+level+" "+area+" "+room+" "+new_sub_location);
          if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(room) && !isEmpty(new_sub_location)){
             //sub location creation
+            console.log("building++level++area++room++new_sub_location");
         }
         
     }else if(loc_type == 2){
+        console.log(building+" "+level+" "+area+" "+new_room+" "+new_sub_location);
         if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room) && !isEmpty(new_sub_location)){
             //room & sub location creation
+            console.log("building++level++area++new_room++new_sub_location");
          }
         
     }
-    
 }
-
 
 function isEmpty(value){
     if(value == undefined || value == " " || value == "" || value == '' || value == ' '){
@@ -981,7 +983,7 @@ $('#menu_add_location_level').on('click', '.dropdown-item', function () {
     localStorage.level_add = $(this)[0].value;
     populate_add_dropdown();
     $("#level_add_location_filter").dropdown('toggle');
-    $('#search-add_location_level').val($(this)[0].value);
+    $('#search_add_location_level').val($(this)[0].value);
 });
 
 // newly area
