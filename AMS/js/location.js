@@ -496,16 +496,32 @@ function addLocation(){
     var new_room = document.getElementById("new_added_room").value;
     var new_sub_location = document.getElementById("new_sub_location").value;
 
-    var res = building + " - " + level + " - " + area + " - " + room + " - " + new_room + " - " + " - " + new_sub_location;
-    var loc_type = $("#basic input[type=radio]:checked");
+  
+    var loc_type = $("#basic input[type=radio]:checked")[0].value;
     var selected = locationBuild(loc_type);
-    
+ 
     if(loc_type == 0){
+        var res = building + " - " + level + " - " + area + " - " + room;
+      
 
+        if(res !== " -  -  - "){
+           //room creation
+        }
     }else if(loc_type == 1){
-
+        
+        var res = building + " - " + level + " - " + area + " - " + new_sub_location;
+     
+        if(res !== " -  -  - "){
+            //sub creation
+        }
+        
     }else if(loc_type == 2){
-
+        
+        var res = building + " - " + level + " - " + area + " - " + new_room + " - " + new_sub_location;
+        console.log("2 - "+res);
+        if(res !== " -  -  -  - "){
+            //room and sub creation
+        }
     }
     
 }
