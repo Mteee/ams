@@ -217,6 +217,7 @@ function getValues() {
     var input_serial = $("#asset_group input[type='text']");
     console.log("================[input_serial]===================");
     console.log(input_serial);
+    document.getElementById('assets_add_new').innerHTML = Math.floor((input_serial.length)/3);
     var serial = ["asset_id", "asset_desc"];
 
     //model (1 inputs)
