@@ -38,45 +38,10 @@ $(document).ready(function () {
     // Code for the Validator
     var $validator = $('.wizard-card form').validate({
         rules: {
-            "category[]": "required",
-
-            asset_number: {
+            sub_location: {
                 required: true,
             },
-            asset_description: {
-                required: true,
-            },
-            // email: {
-            //   required: true,
-            //   minlength: 3,
-            // },
-            asset_class: {
-                required: true,
-            },
-            room_no_dropdown: {
-                required: true,
-                minlength: 2,
-            },
-            classification_name: {
-                required: true,
-                minlength: 2,
-            },
-            purchase_date: {
-                required: true,
-            },
-            warranty_date: {
-                required: true,
-            },
-            disposal_date: {
-                required: true,
-            },
-            service_date: {
-                required: true,
-            },
-            service_due_date: {
-                required: true,
-            },
-            serviced_by: {
+            new_room: {
                 required: true,
             },
 
@@ -99,7 +64,7 @@ $(document).ready(function () {
 
             var loc_type = $("#basic input[type=radio]:checked");
 
-            console.log(loc_type);
+            console.log("next");
 
             if (loc_type.length == 0) {
                 swal.fire({
