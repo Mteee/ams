@@ -501,26 +501,66 @@ function addLocation(){
     var selected = locationBuild(loc_type);
  
     if(loc_type == 0){
-        var res = building + " - " + level + " - " + area + " - " + room;
-      
+        var res = building + " - " + level + " - " + area + " - " + new_room;
 
         if(res !== " -  -  - "){
            //room creation
+        }else{
+            swal.fire({
+                title: "Oooops!",
+                text: 'please insert all info',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            });
         }
+
     }else if(loc_type == 1){
         
-        var res = building + " - " + level + " - " + area + " - " + new_sub_location;
+        var res = building + " - " + level + " - " + area + " - " + room + " - " + new_sub_location;
      
-        if(res !== " -  -  - "){
+        if(res !== " -  -  -  - "){
             //sub creation
+        }else{
+            swal.fire({
+                title: "Oooops!",
+                text: 'please insert all info',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            });
         }
         
     }else if(loc_type == 2){
         
         var res = building + " - " + level + " - " + area + " - " + new_room + " - " + new_sub_location;
         console.log("2 - "+res);
-        if(res !== " -  -  -  - "){
+        if(res == " -  -  -  - "){
             //room and sub creation
+
+        }else{
+            swal.fire({
+                title: "Oooops!",
+                text: 'please insert all info',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            });
         }
     }
     
