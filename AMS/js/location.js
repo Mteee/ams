@@ -488,12 +488,13 @@ function replaceAll(find, replace, str) {
 }
 
 function addLocation(){
-    var building = "";
-    var level = "";
-    var area = "";
-    var room = "";
-    var new_room = "";
-    var new_sub_location = "";
+    console.log("finish");
+    var building = document.getElementById("search_add_location_building").value;
+    var level = document.getElementById("search_add_location_level").value;
+    var area = document.getElementById("search_add_location_area").value;
+    var room = document.getElementById("search_add_location_room").value;
+    var new_room = document.getElementById("new_added_room").value;
+    var new_sub_location = document.getElementById("new_sub_location").value;
 
     var res = building + " - " + level + " - " + area + " - " + room + " - " + new_room + " - " + " - " + new_sub_location;
     var loc_type = $("#basic input[type=radio]:checked");
