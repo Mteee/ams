@@ -67,7 +67,7 @@ populate_dropdown();
 
 function addAsset() {
 
-    
+
 
     var json_data = {
         asset_class: "",
@@ -80,7 +80,7 @@ function addAsset() {
         serviced_by: "",
         assets: "",
         model: "",
-        asset_type:"",
+        asset_type: "",
         cert: ""
     };
 
@@ -144,7 +144,7 @@ function addAsset() {
     }, 4000);
 }
 
-function getAssetsType(){
+function getAssetsType() {
 
     $.ajax({
         url: "../../ams_apis//slimTest/index.php/getAssetsType",
@@ -155,8 +155,8 @@ function getAssetsType(){
 
 
             var types = '<option value="">Select Asset Type</option>';
-            for(var i=0;i<10;i++){
-                types += '<option value="'+data.data[i].ASSET_TYPEID+'">'+data.data[i].ASSET_TYPE_DESC+'</option>';
+            for (var i = 0; i < 10; i++) {
+                types += '<option value="' + data.data[i].ASSET_TYPEID + '">' + data.data[i].ASSET_TYPE_DESC + '</option>';
             }
             document.getElementById('asset_type').innerHTML = types;
         },
@@ -223,7 +223,7 @@ function getValues() {
     //model (1 inputs)
     var input_model = $("#model input");
     var input_asset_type = $("#asset_type").children("option:selected").val();
-    var serial = ["model","asset_type"];
+    var serial = ["model", "asset_type"];
 
     //commissioning
     var input_radio_checked = $("#commissioning input[type='radio']:checked");
@@ -294,9 +294,9 @@ function extractValues_inElements(a, arr, key) {
             console.log(a.length + " " + i);
             if (i == a.length - 3) {
 
-                stringValue += a[i].value + "|" + a[++i].value+ "|" + a[++i].value
+                stringValue += a[i].value + "|" + a[++i].value + "|" + a[++i].value
             } else {
-                stringValue += a[i].value + "|" + a[++i].value+ "|" + a[++i].value + "^"
+                stringValue += a[i].value + "|" + a[++i].value + "|" + a[++i].value + "^"
             }
 
         }
@@ -1116,7 +1116,7 @@ $('#asset_class').on('change', function () {
     localStorage.filter = $("#asset_class option:selected").text();
     resetBtn('#room_new_filter', 'ROOM (*)');
     $('#search_new_room').val("");
-    localStorage.room_no ="";
+    localStorage.room_no = "";
     getRoom();
 });
 
@@ -1202,7 +1202,13 @@ var onSearch = function (searchValue, emptyId) {
 
     if (searchValue.value.length == 0) {
         var resObj = checkFilter(getId);
-        populate_dropdown();
+        console.log(resObj);
+        if(emptyId == "#empty_new_room"){
+            getRoom();
+            console.log("room new");
+        }else{
+            populate_dropdown();
+        }
         $('#' + resObj.btnId).text(resObj.btnContent);
     }
 
@@ -1367,6 +1373,10 @@ function checkFilter(key) {
 
             localStorage.asset_primary_id = '';
             break;
+        case "search_new_room":
+            res = { "btnId": "not found", "btnContent": "not found" };
+            localStorage.room_no = '';
+            break;
         default:
             res = { "btnId": "not found", "btnContent": "not found" };
             break;
@@ -1377,8 +1387,8 @@ function checkFilter(key) {
 
 var newAssetGroup = function () {
     var desc_checked = "";
-    if($('#desc_check').prop("checked") === true){
-        desc_checked =  $('#add_desc').val();
+    if ($('#desc_check').prop("checked") === true) {
+        desc_checked = $('#add_desc').val();
     }
 
 
@@ -1406,7 +1416,7 @@ var newAssetGroup = function () {
         required: "required",
         name: "asset_number" + n(),
         id: "input_" + n(),
-        type:"text"
+        type: "text"
     });
 
     var asset_number_group = $("<div/>", {
@@ -1430,14 +1440,14 @@ var newAssetGroup = function () {
         text: "Asset description *"
     });
 
-    
+
 
     var desc_input = $("<input/>", {
         class: "form-control my_required",
         name: "asset_description" + n(),
         required: "required",
-        value : ""+desc_checked,
-        type:"text"
+        value: "" + desc_checked,
+        type: "text"
     });
 
     var close_close_btn = $("<button/>", {
@@ -1469,12 +1479,12 @@ var newAssetGroup = function () {
     //                                                                 </div>
     //     </div>
 
-    var col_sm_3 = $("<div/>",{
-        "class":"col-sm-3"
+    var col_sm_3 = $("<div/>", {
+        "class": "col-sm-3"
     });
 
-    var form_group = $("<div/>",{
-        "class":"form-group label-floating"
+    var form_group = $("<div/>", {
+        "class": "form-group label-floating"
     });
 
     var serial_floating_label = $("<label/>", {
@@ -1484,68 +1494,68 @@ var newAssetGroup = function () {
 
     var serial_no_input = $("<input/>", {
         class: "form-control pull-right",
-        id: "serial_no_"+n(),
+        id: "serial_no_" + n(),
         name: "serial_no_" + n(),
-        type:"text"
+        type: "text"
     })
 
 
 
 
-        
 
 
-        //count
-        $(p_count).appendTo(col_count);
-    
+
+    //count
+    $(p_count).appendTo(col_count);
+
     // <button type="button" id="close" class="close" onclick="">&times;</button>
 
-        //serail number
-        $(serial_floating_label).appendTo(form_group);
-        $(serial_no_input).appendTo(form_group);
-        $(form_group).appendTo(col_sm_3);
+    //serail number
+    $(serial_floating_label).appendTo(form_group);
+    $(serial_no_input).appendTo(form_group);
+    $(form_group).appendTo(col_sm_3);
 
-        //description
-        $(desc_floating_label).appendTo(floating_desc_label_group);
-        $(desc_input).appendTo(floating_desc_label_group);
-        $(floating_desc_label_group).appendTo(desc_col_sm_10);
-        $(desc_col_sm_10).appendTo(col_sm_5_desc);
-    
-        //assetNumber
-        $(asset_number_label).appendTo(asset_number_group);
-        $(asset_number_input).appendTo(asset_number_group);
-        $(asset_number_group).appendTo(col_sm_5);
-    
-        //button tag
-        $(glyph).appendTo(close_close_btn);
-        //cout tag
-        $(col_count).prependTo(outerDiv);
-        $(close_close_btn).prependTo(outerDiv);
-        $(col_sm_5).appendTo(outerDiv);
-        $(col_sm_5_desc).appendTo(outerDiv);
-        $(col_sm_3).appendTo(outerDiv);
-    
-        // console.log("focus_div");
-        // console.log(focus_div);
-    
-        // $('#'+focus_div).focus();
-    
+    //description
+    $(desc_floating_label).appendTo(floating_desc_label_group);
+    $(desc_input).appendTo(floating_desc_label_group);
+    $(floating_desc_label_group).appendTo(desc_col_sm_10);
+    $(desc_col_sm_10).appendTo(col_sm_5_desc);
+
+    //assetNumber
+    $(asset_number_label).appendTo(asset_number_group);
+    $(asset_number_input).appendTo(asset_number_group);
+    $(asset_number_group).appendTo(col_sm_5);
+
+    //button tag
+    $(glyph).appendTo(close_close_btn);
+    //cout tag
+    $(col_count).prependTo(outerDiv);
+    $(close_close_btn).prependTo(outerDiv);
+    $(col_sm_5).appendTo(outerDiv);
+    $(col_sm_5_desc).appendTo(outerDiv);
+    $(col_sm_3).appendTo(outerDiv);
+
+    // console.log("focus_div");
+    // console.log(focus_div);
+
+    // $('#'+focus_div).focus();
+
     return {
-            "0": outerDiv,
-            "1": focus_div
-            };
+        "0": outerDiv,
+        "1": focus_div
+    };
 }
 
 
 $('#asset_group').on('click', 'button', function (e) {
-            e.preventDefault();
-        console.log($("#asset_group").find("#focus-input-" + this.id));
-        var target = $("#asset_group").find("#focus-input-" + this.id);
-    
+    e.preventDefault();
+    console.log($("#asset_group").find("#focus-input-" + this.id));
+    var target = $("#asset_group").find("#focus-input-" + this.id);
+
     // if($("div#asset_group")[0].children.length+1 == count){
-            //     count = 1;
-            // }
+    //     count = 1;
+    // }
 
 
-            $(target).remove();
+    $(target).remove();
 });
