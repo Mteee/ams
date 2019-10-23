@@ -99,7 +99,7 @@ function search() {
         document.getElementById('overlay-alert-message').style.display = "none";
         document.getElementById('overlay-alert-message').style.display = "block";
         document.getElementById('alert_header').innerHTML = "Assets Transfer";
-        document.getElementById('alert-message-body').innerHTML = '<span style="font-weight: bold;color:red;">Please enter alteast one filter</span>';
+        document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=50 /></div><br><span style="font-weight: bold;color:red;">Please enter alteast one filter</span>';
         document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
 
     } 
@@ -263,7 +263,6 @@ function search() {
 
     function checkboxSelectedLength() {
         var lengthh = $(":checkbox:checked").length;
-        // console.log(lengthh);
         return lengthh;
     }
 
@@ -494,7 +493,6 @@ var allArr = {
 // console.log("allArr");
 
 function getItems(url, id, scrollArea, menuid) {
-    console.log("get items for dropdown");
     console.log('{"asset_class":"' + localStorage.filter + '","asset_location":"' + localStorage.menuLocation + '","asset_room":"' + localStorage.menuRoom + '","asset_id":"' + localStorage.menuAssets + '"}');
     $.ajax({
         url: url,
@@ -668,6 +666,7 @@ function getSelectedItems(id) {
         $('#dropdown_transfer_room').text("ROOM...");
         $('#search_transfer_roomno').val("");
 
+        console.log(rowsSelected);
         getSelectedAssets(rowsSelected);
         localStorage.menuRoom = '';
         localStorage.menuAssets = '';

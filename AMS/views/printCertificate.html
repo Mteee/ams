@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="http://localhost/AMEProjects/ams/AMS/css/bootstrap.css">
+    <style>
+        @page {
+            size: landscape;
+            margin: 20px !important;
+            font-size: 10pt;
+        }
+        
+        @media print {
+            body {
+                font-size: 10pt
+            }
+        }
+        
+        @media screen {
+            body {
+                font-size: 13px
+            }
+        }
+        
+        @media screen,
+        print {
+            body {
+                line-height: 1.2
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <iframe id='iframePrint' frameborder="0" name='fancyiframe'></iframe>
+
+
+    <script src="../js/jspdf.debug.js"></script> -->
+
+    <div class="container" style="border:1px solid black;" id="comm_cert">
+
+        <!-- Header Logo  -->
+        <!-- <div class="row" style="margin-top: 20px;">
+            <div class="col-md-2 text-center">
+                <img src="../img/certificate/impilo.png" width="100" style="padding:10px" />
+            </div>
+            <div class="col-md-8 text-center" style="font-weight: bolder;padding:10px;">
+                <h3>Inkosi Albert Luthuli Central Hospital<br />Impilo Commissioning Certificate</h3>
+            </div>
+            <div class="col-md-2 text-center">
+                <img src="../img/certificate/Dept. health.png" width="200" style="margin-left: -50px" />
+            </div>
+        </div> -->
+
+        <table class="table">
+            <tr>
+                <td> <img src="http://localhost/AMEProjects/ams/AMS/img/certificate/impilo.png" width="100" style="" /></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-center">
+                    <h4>Inkosi Albert Luthuli Central Hospital<br />Impilo Commissioning Certificate</h4>
+                </td>
+                <td></td>
+                <td> <img src="http://localhost/AMEProjects/ams/AMS/img/certificate/Dept. health.png" width="220" /></td>
+            </tr>
+        </table>
+
+        <!-- End Header Logo -->
+
+
+        <!-- Certificate Number Details -->
+        <div class="row" style="margin-top: 20px;background: black;text-emphasis-color: white;padding:10px;margin-top:-20px;">
+            <div class="col-md-12 text-center">
+                <!-- end Transaction Type -->
+                <table style="width:100%">
+                    <tr>
+                        <td>
+                            <!-- cert -->
+                            <span style="font-weight:bolder;margin-left: 25px">Certificate Number :</span>
+                            <span id="cert_no">2019/000240</span>
+                            <!-- end cert -->
+
+                            <!-- date -->
+                            <span style="font-weight:bolder;margin-left: 20px">Date :</span>
+                            <span id="current_date">2019/08/14 08:30</span>
+                            <!-- end date  -->
+
+                            <!-- Equipment Category -->
+                            <span style="font-weight:bolder;margin-left: 20px">Equipment Category :</span>
+                            <span id="equip_cart">Information Technology</span>
+                            <!-- end Equipment Category -->
+
+                            <!-- Tansaction Type -->
+                            <span style="font-weight:bolder;margin-left: 20px">Transaction Type :</span>
+                            <span id="trans_type">Removal</span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <!-- END Certificate Number Details -->
+
+        <div class="row text-center">
+
+
+            <table style="width:100%;">
+                <tr class="text-center" style="border:1px solid #ccc;background: rgb(241, 241, 241)">
+                    <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Project Agreement BoQ Reference</th>
+                    <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Service Provider Invoice Number</th>
+                    <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Reference</th>
+                </tr>
+                <tr class="text-center">
+                    <td style="width:33.33%;padding:5px;border:1px solid #ccc;">IT9002</td>
+                    <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
+                    <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
+                </tr>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-md-12" style="padding:0">
+                <table class="table table-bordered" style="font-size:10pt;width:100%;">
+                    <thead>
+                        <tr style="background: rgb(241, 241, 241)">
+                            <th>Model</th>
+                            <th>Description</th>
+                            <th>Asset Number</th>
+                            <th>Primary Asset</th>
+                            <th>Manufacturer</th>
+                            <th>Room Number</th>
+                            <th>Location / Dept</th>
+                            <th>Purchase Date</th>
+                            <th>Disposed Date</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cert_assets_selected"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- signatures  -->
+
+        <div class="row">
+            <div class="col-md-12">
+                <!-- Service Provier Signature -->
+                <div class="row">
+                    <table style="width:100%;margin:0;padding:0;">
+                        <tr>
+                            <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                On Behalf of Service Provider :</th>
+                        </tr>
+                        <tr class="" style="font-weight:bolder;">
+                            <td style="width:33.33%;padding:5px;"> Name : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Title : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;">Date : _________________________________</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <!-- end Service Provier Signature -->
+
+                <!-- Inkosi Albert Luthuli Central Hospital -->
+
+                <div class="row">
+                    <table style="width:100%;margin:0;padding:0;">
+                        <tr>
+                            <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                On Behalf of Inkosi Albert Luthuli Central Hospital:</th>
+                        </tr>
+                        <tr class="" style="font-weight:bolder;">
+                            <td style="width:33.33%;padding:5px;"> Name : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Title : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;">Date : _________________________________</td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- end Inkosi Albert Luthuli Central Hospital -->
+
+                <!-- Impilo Consortium -->
+                <div class="row">
+                    <table style="width:100%;margin:0;padding:0;">
+                        <tr>
+                            <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
+                                On Behalf of Impilo Consortium:</th>
+                        </tr>
+                        <tr class="" style="font-weight:bolder;">
+                            <td style="width:33.33%;padding:5px;"> Name : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Title : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;">Date : _________________________________</td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- end Impilo Consortium -->
+            </div>
+        </div>
+
+        <!-- End signatures  -->
+
+    </div>
+
+    <button id="ignorePDF" onclick="javascript:pdf()">Print Certificate</button>
+
+    <!-- <table class="table ">
+            <tr>
+                <td></td>
+                <th colspan="5 ">Inkosi Albert Luthuli Central Hospital<br />Impilo Commissioning Certificate</th>
+                <td><img src="../img/certificate/Dept. health.png " width="200 " /></td>
+            </tr>
+            <tr>
+                <th>Certificate Number : </th>
+                <th>Date : </th>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <th><span id="cert_number " style="font-weight: 200 ">2019/000240</span></th>
+                <td><span id="current_date " style="font-weight: 200 ">2019/08/14 08:30</span></td>
+                <th></th>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </table> -->
+    </div>
+
+    <script src="../js/jquery.js "></script>
+    <script src="../js/printThis.js "></script>
+    <script>
+        var assets = "";
+        for (var i = 0; i < 10; i++) {
+            assets += "<tr>" +
+                "<td>H471B</td>" +
+                "<td>EPSON</td>" +
+                "<td>RKEF5X</td>" +
+                "<td>RKEF5X</td>" +
+                "<td>UNKNOWN</td>" +
+                "<td>L5-553</td>" +
+                "<td>Board Room</td>" +
+                "<td>09.05.2016</td>" +
+                "<td>14.08.2019</td>" +
+                "</tr>"
+        }
+
+        document.getElementById('cert_assets_selected').innerHTML = assets;
+
+        function pdf() {
+            $('.container').printThis({
+                debug: false, // show the iframe for debugging
+                importCSS: true, // import parent page css
+                importStyle: true, // import style tags
+                printContainer: true, // print outer container/$.selector
+                loadCSS: "http://localhost/AMEProjects/ams/AMS/css/bootstrap.css", // path to additional css file - use an array [] for multiple
+                pageTitle: "Inkosi Albert Luthuli Central Hospital \nImpilo Commissioning Certificate", // add title to print page
+                removeInline: false, // remove inline styles from print elements
+                removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
+                printDelay: 333, // variable print delay
+                header: null, // prefix to html
+                footer: null, // postfix to html
+                base: false, // preserve the BASE tag or accept a string for the URL
+                formValues: true, // preserve input/form values
+                canvas: false, // copy canvas content
+                doctypeString: '...', // enter a different doctype for older markup
+                removeScripts: false, // remove script tags from print content
+                copyTagClasses: true, // copy classes from the html & body tag
+                beforePrintEvent: null, // function for printEvent in iframe
+                beforePrint: null, // function called before iframe is filled
+                afterPrint: null // function called before iframe is removed
+            });
+        }
+    </script>
+</body>
+
+</html>
