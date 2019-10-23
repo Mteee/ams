@@ -502,29 +502,33 @@ function addLocation(){
     var selected = locationBuild(loc_type);
  
     if(loc_type == 0){
-        var res = building + " - " + level + " - " + area + " - " + room;
-      
 
-        if(res !== " -  -  - "){
+        if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room)){
            //room creation
         }
+
     }else if(loc_type == 1){
         
-        var res = building + " - " + level + " - " + area + " - " + new_sub_location;
-     
-        if(res !== " -  -  - "){
-            //sub creation
+         if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(room) && !isEmpty(new_sub_location)){
+            //sub location creation
         }
         
     }else if(loc_type == 2){
+        if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room) && !isEmpty(new_sub_location)){
+            //room & sub location creation
+         }
         
-        var res = building + " - " + level + " - " + area + " - " + new_room + " - " + new_sub_location;
-        console.log("2 - "+res);
-        if(res !== " -  -  -  - "){
-            //room and sub creation
-        }
     }
     
+}
+
+
+function isEmpty(value){
+    if(value == undefined || value == " " || value == "" || value == '' || value == ' '){
+        return true;
+    }
+
+    return false;
 }
 
 function locationBuild(value){
