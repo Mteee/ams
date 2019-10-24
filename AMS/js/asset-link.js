@@ -475,7 +475,7 @@ function searchasset() {
             },
             allowOutsideClick: true,
         })
-        
+
         // document.getElementById('overlay-alert-message').style.display = "none";
         // document.getElementById('overlay-alert-message').style.display = "block";
         // document.getElementById('alert_header').innerHTML = "Assets Linking";
@@ -1430,7 +1430,7 @@ function linkAssets(id) {
     function showDropdown(assets_selected) {
         console.log("here1");
         swal.fire({
-            title: "assign a sub location?",
+            title: "assign a primary asset",
             html: assets_selected,
             allowOutsideClick: false,
             confirmButtonColor: "#419641",
@@ -1459,7 +1459,7 @@ function linkAssets(id) {
             }
         })
     }
-    
+
 
     // var form = $('#frm-example');
 
@@ -1514,10 +1514,28 @@ function confirmLink() {
 
                     }
                 })
-                
-                // document.getElementById('alert_header').innerHTML = "Hooray!!!!";
-                // document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5"><img src="../img/success.gif" width=60/> <p class="text-muted">Assets linked successfully</p></span>';
-                // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button>';
+
+            }
+            else if (data.data == "LINK WAS NOT SUCCESSFUL") {
+                searchasset()
+                search();
+                swal.fire({
+                    title: "Assignment Failed",
+                    text: data.data,
+                    showCloseButton: true,
+                    type: "error",
+                    allowOutsideClick: true,
+
+                }).then(function (result) {
+                    if (result.value) {
+
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
+
+                    }
+                })
+                console.log(data);
             }
             console.log("======================data================")
             console.log(data);
@@ -1541,7 +1559,7 @@ function unlinkSub(assetId) {
         level = document.getElementById('search_level').value,
         area = document.getElementById('search_area').value,
         room_no = document.getElementById('search_room_sub').value;
-        description = document.getElementById('sub_description').value;
+    description = document.getElementById('sub_description').value;
 
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description);
