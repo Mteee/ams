@@ -660,3 +660,10 @@ div#inAssetsTable_length {
 .swal2-container {
     z-index: 99999 !important;
 }
+
+.system_desc {
+    font-size: 16pt !important;
+    margin-top: -11pt;
+    color: #50a950;
+    font-weight: bolder;
+}

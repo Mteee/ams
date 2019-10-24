@@ -653,3 +653,10 @@ div#inAssetsTable_length {
 .dropdown-header {
     display: none;
 }
+
+.system_desc {
+    font-size: 16pt !important;
+    margin-top: -11pt;
+    color: #50a950;
+    font-weight: bolder;
+}
