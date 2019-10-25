@@ -26,7 +26,7 @@ function viewAsset(cert_no) {
     console.log('{"cert_no" :"' + cert_no + '"}');
 
     $.ajax({
-        url: "../../ams_apis//slimTest/index.php/getAsset_for_CertNO",
+        url: "../../ams_apis/slimTest/index.php/getAsset_for_CertNO",
         method: "POST",
         dataType: "JSON",
         data: '{"cert_no" :"' + cert_no + '"}',
@@ -264,7 +264,7 @@ function search() {
                             str += data.data[k].ASSET_CLASS + '","';
                             str += checkType(data.data[k].ASSET_CERTIFICATE_TYPE) + '","';
                             str += data.data[k].ASSET_CERTIFICATE_CREATION_DATE + '","';
-                            str += isSpecified(data.data[k].ASSET_CERTIFICATE_PRINT_DATE) + '","';
+                            str += isSpecified(data.data[k].ASSET_PRINT_DATE) + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_CERTIFICATE_STATUS) + '"]';
                         } else {
 
@@ -274,7 +274,7 @@ function search() {
                             str += data.data[k].ASSET_CLASS + '","';
                             str += checkType(data.data[k].ASSET_CERTIFICATE_TYPE) + '","';
                             str += data.data[k].ASSET_CERTIFICATE_CREATION_DATE + '","';
-                            str += isSpecified(data.data[k].ASSET_CERTIFICATE_PRINT_DATE) + '","';
+                            str += isSpecified(data.data[k].ASSET_PRINT_DATE) + '","';
                             str += updateLetterToIcon(data.data[k].ASSET_CERTIFICATE_STATUS) + '"],';
                         }
                     }
@@ -689,7 +689,7 @@ var onSearch = function (searchValue, emptyId) {
 }
 
 function isSpecified(value) {
-    if (value == null) {
+    if (value == null || value ==  undefined) {
         return "NEVER";
     }
     return value;

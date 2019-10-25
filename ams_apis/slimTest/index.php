@@ -4092,7 +4092,7 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
 
 
     $sql = "SELECT 
-                a.ASSET_CERT_NO,a.ASSET_CLASS,b.ASSET_CERTIFICATE_TYPE,b.ASSET_CERTIFICATE_CREATION_DATE,b.ASSET_CERTIFICATE_PRINT_DATE,b.ASSET_CERTIFICATE_STATUS
+                a.ASSET_CERT_NO,a.ASSET_CLASS,b.ASSET_CERTIFICATE_TYPE,b.ASSET_CERTIFICATE_CREATION_DATE,a.ASSET_PRINT_DATE,b.ASSET_CERTIFICATE_STATUS
             FROM 
                 AMSD.ASSETS_VW a, AMSD.ASSETS_CERTIFICATE b
             WHERE a.ASSET_ID = b.ASSET_ID
@@ -4104,7 +4104,8 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
             AND a.ASSET_ROOM_NO LIKE '%$room_no%'
             AND a.ASSET_SUB_LOCATION LIKE '%$sub_location%'
             AND a.ASSET_CERT_NO LIKE '%$cert_no%'
-            GROUP BY a.ASSET_CERT_NO,a.ASSET_CLASS,b.ASSET_CERTIFICATE_TYPE,b.ASSET_CERTIFICATE_CREATION_DATE,b.ASSET_CERTIFICATE_PRINT_DATE,b.ASSET_CERTIFICATE_STATUS";
+           GROUP BY a.ASSET_CERT_NO,a.ASSET_CLASS,b.ASSET_CERTIFICATE_TYPE,b.ASSET_CERTIFICATE_CREATION_DATE,a.ASSET_PRINT_DATE,b.ASSET_CERTIFICATE_STATUS
+            ";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -4531,6 +4532,42 @@ $app->map(['GET','POST'],'/getAssetsType', function(Request $request, Response $
         echo json_encode(array("rows" => 0 ,"data" =>[]));
     }
  
+});
+
+//commissioning procedure
+$app->map(['GET','POST'],'/asset_print_cert',function(Request $request, Response $response){
+
+    try{
+
+        global $connect;
+
+        $data = json_decode(file_get_contents('php://input'));
+        $cert = strtoupper($data->cert_no);
+        $username = strtoupper($data->username);
+        $v_out = "";
+
+
+        $sql  = "BEGIN AMSD.asset_certificate_print(:v_asset_user,:v_asset_cert_no,:v_out); END;";
+        $statement = oci_parse($connect,$sql);
+        oci_bind_by_name($statement, ':v_asset_user', $username, 50);
+        oci_bind_by_name($statement, ':v_asset_cert_no', $cert, 50);
+        oci_bind_by_name($statement, ':v_out',  $v_out, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($v_out == "y"){
+            echo json_encode(array("rows" => 1 ,"data" =>"CERTIFICATE PRINTED SUCCESSFULLY"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"CERTIFICATE PRINT WAS NOT COMMISSIONED"));
+        }
+    }
+    catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+
 });
 
 $app->run();
