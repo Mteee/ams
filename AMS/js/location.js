@@ -88,35 +88,6 @@ function viewAsset(assetId) {
     });
 }
 
-function populate_add_dropdown() {
-
-    // get room
-    getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_add_location_room', 'scroll_add_location_room', 'menu_add_location_room', 'empty_add_location_room');
-    // get area
-    getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_add_location_area', 'scroll_add_location_area', 'meun_add_location_area', 'empty_add_location_area');
-    // get level
-    getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_add_location_level', 'scroll_add_location_level', 'menu_add_location_level', 'empty_add_location_level');
-    // get building
-    getItems('../../ams_apis/slimTest/index.php/building_location', 'search_add_location_building', 'scroll_add_location_building', 'menu_add_location_building', 'empty_add_location_building');
-
-}
-
-function populate_dropdown() {
-    // get room
-    getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_location_room', 'scroll_location_room', 'menu_location_room', 'empty_location_room');
-    // get area
-    getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_location_area', 'scroll_location_area', 'meun_location_area', 'empty_location_area');
-    // get level
-    getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_location_level', 'scroll_location_level', 'menu_location_level', 'empty_location_level');
-    // get building
-    getItems('../../ams_apis/slimTest/index.php/building_location', 'search_location_building', 'scroll_location_building', 'menu_location_building', 'empty_location_building');
-    // get sub_location
-    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_location', 'search_location_sublocaction', 'scroll_location_sublocaction', 'menu_location_sublocaction', 'empty_locaton_sublocaction');
-
-}
-
-populate_dropdown();
-// populate_add_dropdown();
 
 function add_new_location() {
     $('#overlay-newAssetView').show();
@@ -163,9 +134,35 @@ $("#sameLocation").change(function () {
 //     } 
 // });
 
-function getRoom() {
-    getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_new_room', 'scroll_new_room', 'menu_new_room', 'empty_new_room');
+
+function populate_add_dropdown() {
+
+    // get room
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_add_location_room', 'scroll_add_location_room', 'menu_add_location_room', 'empty_add_location_room','add');
+    // get area
+    getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_add_location_area', 'scroll_add_location_area', 'meun_add_location_area', 'empty_add_location_area','add');
+    // get level
+    getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_add_location_level', 'scroll_add_location_level', 'menu_add_location_level', 'empty_add_location_level','add');
+    // get building
+    getItems('../../ams_apis/slimTest/index.php/building_location', 'search_add_location_building', 'scroll_add_location_building', 'menu_add_location_building', 'empty_add_location_building','add');
+
 }
+
+function populate_dropdown() {
+    // get room
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_location_room', 'scroll_location_room', 'menu_location_room', 'empty_location_room','');
+    // get area
+    getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_location_area', 'scroll_location_area', 'meun_location_area', 'empty_location_area','');
+    // get level
+    getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_location_level', 'scroll_location_level', 'menu_location_level', 'empty_location_level','');
+    // get building
+    getItems('../../ams_apis/slimTest/index.php/building_location', 'search_location_building', 'scroll_location_building', 'menu_location_building', 'empty_location_building','');
+    // get sub_location
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_location', 'search_location_sublocaction', 'scroll_location_sublocaction', 'menu_location_sublocaction', 'empty_locaton_sublocaction','');
+
+}
+
+populate_dropdown();
 
 var allArr = {
     search_location_sub_location: [],
@@ -175,17 +172,30 @@ var allArr = {
     search_location_building: []
 };
 
-function getItems(url, id, scrollArea, menuid, empty) {
+function getItems(url, id, scrollArea, menuid, empty,type) {
 
     var descrption = $('#location_description').val();
-
-    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}');
-
+ 
+    
+    
+    
+    var jsonData = '';
+    console.log('type');
+    console.log(type);
+    if(type == 'add'){
+        console.log('add');
+        console.log('{"building":"' + localStorage.building_add + '","level":"' + localStorage.level_add + '","area":"' + localStorage.area_add + '","room_no":"' + localStorage.room_no_add + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}');
+        jsonData = '{"building":"' + localStorage.building_add + '","level":"' + localStorage.level_add + '","area":"' + localStorage.area_add + '","room_no":"' + localStorage.room_no_add + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}';
+    }else{
+        console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}');
+        jsonData = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}';
+    }
+    
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}',
+        data: jsonData,
         success: function (data) {
 
             // if ($("#search_location_roomno").val() !== "") {
@@ -275,11 +285,11 @@ function filterItems(rows, value, scrollArea, menuid) {
     }));
 }
 
-function add_new_asset() {
-    localStorage.filter = $("#asset_class option:selected").text();
-    getRoom();
-    document.getElementById('overlay-newAssetView').style.display = "block";
-}
+// function add_new_asset() {
+//     localStorage.filter = $("#asset_class option:selected").text();
+//     getRoom();
+//     document.getElementById('overlay-newAssetView').style.display = "block";
+// }
 
 function closeAsset(id) {
     document.getElementById(id).style.display = "none"
@@ -926,10 +936,23 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('meun_add_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_add_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-            getRoom();
+            
+            localStorage.building_add = '';
+            localStorage.level_add = '';
+            localStorage.area_add = '';
+            localStorage.room_no_add = '';
+            
+            populate_add_dropdown();
 
-            $('#search_new_room').val("");
-            $('#room_new_filter').text("ROOM");
+
+            $('#search_add_location_building').val("");
+            $('#building_add_location_filter').text("");
+            $('#search_add_location_level').val("");
+            $('#level_add_location_filter').text("");
+            $('#search_add_location_area').val("");
+            $('#area_add_location_filter').text("");
+            $('#search_add_location_room').val("");
+            $('#room_add_location_filter').text("");
 
         }
         else if (input == "#search_add_location_level") {
@@ -939,10 +962,19 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('meun_add_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_add_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-            getRoom();
+            localStorage.level_add = '';
+            localStorage.area_add = '';
+            localStorage.room_no_add = '';
 
-            $('#search_new_room').val("");
-            $('#room_new_filter').text("ROOM");
+            populate_add_dropdown();
+
+            $('#search_add_location_level').val("");
+            $('#level_add_location_filter').text("");
+            $('#search_add_location_area').val("");
+            $('#area_add_location_filter').text("");
+            $('#search_add_location_room').val("");
+            $('#room_add_location_filter').text("");
+
 
         }
         else if (input == "#search_add_location_area") {
@@ -952,10 +984,15 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('meun_add_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_add_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-            getRoom();
+            localStorage.area_add = '';
+            localStorage.room_no_add = '';
 
-            $('#search_new_room').val("");
-            $('#room_new_filter').text("ROOM");
+            populate_add_dropdown();
+
+            $('#search_add_location_area').val("");
+            $('#area_add_location_filter').text("");
+            $('#search_add_location_room').val("");
+            $('#room_add_location_filter').text("");
 
         }
         else if (input == "#search_add_location_room") {
@@ -965,10 +1002,13 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('meun_add_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_add_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-            getRoom();
+            localStorage.room_no_add = '';
 
-            $('#search_new_room').val("");
-            $('#room_new_filter').text("ROOM");
+
+            populate_add_dropdown();
+
+            $('#search_add_location_room').val("");
+            $('#room_add_location_filter').text("");
 
         }
     }
@@ -1027,6 +1067,10 @@ $('#menu_add_location_building').on('click', '.dropdown-item', function () {
     populate_add_dropdown();
     $("#building_add_location_filter").dropdown('toggle');
     $('#search_add_location_building').val($(this)[0].value);
+    $('#search_add_location_building').removeClass('is-empty');
+
+
+
 });
 
 // newly level
@@ -1036,6 +1080,7 @@ $('#menu_add_location_level').on('click', '.dropdown-item', function () {
     populate_add_dropdown();
     $("#level_add_location_filter").dropdown('toggle');
     $('#search_add_location_level').val($(this)[0].value);
+    $('#search_add_location_level').removeClass('is-empty');
 });
 
 // newly area
@@ -1045,6 +1090,7 @@ $('#meun_add_location_area').on('click', '.dropdown-item', function () {
     populate_add_dropdown();
     $("#area_add_location_filter").dropdown('toggle');
     $('#search_add_location_area').val($(this)[0].value);
+    $('#search_add_location_area').removeClass('is-empty');
 });
 
 // newly room
@@ -1054,6 +1100,7 @@ $('#menu_add_location_room').on('click', '.dropdown-item', function () {
     populate_add_dropdown();
     $("#room_add_location_filter").dropdown('toggle');
     $('#search_add_location_room').val($(this)[0].value);
+    $('#search_add_location_room').removeClass('is-empty');
 });
 
 if (localStorage.dropdownFilter == "ALL EQUIPMENT") {

@@ -103,7 +103,7 @@ function viewAsset(assetId) {
     console.log('{"primary_asset_id" :"' + assetId + '"}');
 
     $.ajax({
-        url: "../../ams_apis//slimTest/index.php/singleAsset",
+        url: "../../ams_apis/slimTest/index.php/singleAsset",
         method: "POST",
         dataType: "JSON",
         data: '{"primary_asset_id" :"' + assetId + '"}',
