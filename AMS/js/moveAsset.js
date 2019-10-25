@@ -1552,7 +1552,7 @@ var onSearch = function (searchValue, emptyId) {
     var getId = searchValue;
 
     var found = false;
-    // console.log(localStorage.getItem("rows"));
+    console.log(allArr[searchValue]);
     //handle enter
     document.getElementById(searchValue).onkeypress = function (e) {
 
@@ -1567,15 +1567,17 @@ var onSearch = function (searchValue, emptyId) {
     // var rows = JSON.parse(localStorage.getItem(searchValue));
     var rows = allArr[searchValue];
 
+
     searchValue = document.getElementById(searchValue);
 
     for (var i = 0; i < rows.length; i++) {
 
         var suitable = false;
 
-        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+        // console.log("rows[i].values[0]");
+        // console.log(rows[i].values[0]);
 
-        if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
+        if (rows[i].values[0].indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
             found = true;
         }

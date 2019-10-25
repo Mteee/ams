@@ -2403,10 +2403,10 @@ $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Respo
             AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' OR A_OLD.ASSET_CLASS IS NULL)
+            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' OR A_OLD.ASSET_SUB_LOCATION IS NULL)
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
-            AND (A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_PRIMARY_ID IS NULL)
+            AND (A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_PRIMARY_ID IS NOT NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             GROUP BY A_OLD.ASSET_PRIMARY_ID
             ORDER BY A_OLD.ASSET_PRIMARY_ID";
