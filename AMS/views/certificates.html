@@ -784,7 +784,10 @@
                     beforePrintEvent: null, // function for printEvent in iframe
                     beforePrint: null, // function called before iframe is filled
                     afterPrint: function() {
-                        alert('dfvdf');
+                        var cer_no = document.getElementById('cert_no_field').innerHTML;
+                        var jsonData = '{"username" : "' + localStorage.username + '","cert_no":"' + cer_no + '"}';
+
+                        console.log(jsonData);
                     }
                 });
 
