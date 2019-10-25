@@ -89,7 +89,7 @@ function viewAsset(assetId) {
 }
 
 function populate_add_dropdown() {
-    
+
     // get room
     getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_add_location_room', 'scroll_add_location_room', 'menu_add_location_room', 'empty_add_location_room');
     // get area
@@ -112,30 +112,30 @@ function populate_dropdown() {
     getItems('../../ams_apis/slimTest/index.php/building_location', 'search_location_building', 'scroll_location_building', 'menu_location_building', 'empty_location_building');
     // get sub_location
     getItems('../../ams_apis/slimTest/index.php/asset_sub_location_location', 'search_location_sublocaction', 'scroll_location_sublocaction', 'menu_location_sublocaction', 'empty_locaton_sublocaction');
-        
+
 }
 
 populate_dropdown();
 // populate_add_dropdown();
 
-function add_new_location(){
+function add_new_location() {
     $('#overlay-newAssetView').show();
     populate_add_dropdown();
 }
 
-function createLocation(){
+function createLocation() {
     var input_building = $("#building_location_filter").text();
     var input_level = $("#level_location_filter").text();
     var input_area = $("#area_location_filter").text();
     var input_Room = $("#location_new_room").text();
     var input_sub = $("#location_new_sub_location").text();
 
-    console.log(input_building+ " " +input_level + " " + input_area + " " + input_Room + " " + input_sub);
+    console.log(input_building + " " + input_level + " " + input_area + " " + input_Room + " " + input_sub);
 
-    if($('#sameLocation').prop("checked") === true){
-        console.log("same"); 
-    }else{
-        console.log("diff"); 
+    if ($('#sameLocation').prop("checked") === true) {
+        console.log("same");
+    } else {
+        console.log("diff");
     }
 
 
@@ -144,15 +144,15 @@ function createLocation(){
     //check sub
 }
 
-$("#sameLocation").change(function() {
-    console.log(this.checked); 
-    if($('#sameLocation').prop("checked") === true){
-        $("#newSubLocation").css({"display":"none !important"}); 
-        console.log("1"); 
-    }else{
-       $("#newSubLocation").css({"display":"block !important"}); 
-        console.log("2"); 
-    } 
+$("#sameLocation").change(function () {
+    console.log(this.checked);
+    if ($('#sameLocation').prop("checked") === true) {
+        $("#newSubLocation").css({ "display": "none !important" });
+        console.log("1");
+    } else {
+        $("#newSubLocation").css({ "display": "block !important" });
+        console.log("2");
+    }
 });
 
 // $('#sameLocation').change(function(){
@@ -179,13 +179,13 @@ function getItems(url, id, scrollArea, menuid, empty) {
 
     var descrption = $('#location_description').val();
 
-    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"'+descrption+'","asset_class":"' + localStorage.filter + '"}');
+    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}');
 
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"'+descrption+'","asset_class":"' + localStorage.filter + '"}',
+        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
 
             // if ($("#search_location_roomno").val() !== "") {
@@ -306,8 +306,8 @@ function search() {
         level = document.getElementById('search_location_level').value,
         area = document.getElementById('search_location_area').value,
         room_no = document.getElementById('search_location_room').value;
-        description = document.getElementById('location_description').value;
-        sub_location = document.getElementById('search_location_sublocaction').value;
+    description = document.getElementById('location_description').value;
+    sub_location = document.getElementById('search_location_sublocaction').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location);
     var current = "";
@@ -361,7 +361,7 @@ function search() {
                             str += data.data[k].ASSET_AREA_DETAIL + '","';
                             str += data.data[k].ASSET_ROOM_NO + '","';
                             str += data.data[k].HD_ASSET_ROOM_LOCATION + '","';
-                            str += data.data[k].HD_ASSET_DESC  + '"]';
+                            str += data.data[k].HD_ASSET_DESC + '"]';
                         } else {
 
                             str += '["' + data.data[k].ASSET_BUILDING + '","';
@@ -371,7 +371,7 @@ function search() {
                             str += data.data[k].ASSET_AREA_DETAIL + '","';
                             str += data.data[k].ASSET_ROOM_NO + '","';
                             str += data.data[k].HD_ASSET_ROOM_LOCATION + '","';
-                            str += data.data[k].HD_ASSET_DESC  +'"],';
+                            str += data.data[k].HD_ASSET_DESC + '"],';
                         }
                     }
 
@@ -487,7 +487,7 @@ function replaceAll(find, replace, str) {
     return str;
 }
 
-function addLocation(){
+function addLocation() {
     var building = document.getElementById("search_add_location_building").value;
     var level = document.getElementById("search_add_location_level").value;
     var area = document.getElementById("search_add_location_area").value;
@@ -495,15 +495,39 @@ function addLocation(){
     var new_room = document.getElementById("new_added_room").value;
     var new_sub_location = document.getElementById("new_sub_location").value;
 
-  
+
     var loc_type = $("#basic input[type=radio]:checked")[0].value;
     var selected = locationBuild(loc_type);
- 
-    if(loc_type == 0){
-        console.log(building+" "+level+" "+area+" "+new_room)
-        if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room)){
-           //room creation
-        }else{
+    console.log("loc_type");
+    console.log(loc_type);
+    if (loc_type == 0) {
+        if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room)) {
+            //room creation
+            console.log("room creation");
+            newLocation(building ,level ,area ,new_room ," ", "room");
+        } else {
+            swal.fire({
+                title: "Oooops!",
+                text: 'please insert all info',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            });
+        }
+        
+    } else if (loc_type == 1) {
+        if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(room) && !isEmpty(new_sub_location)) {
+            //sub location creation
+            console.log("sub location creation");
+            console.log(building + " " + level + " " + area + " " + room + " " + new_sub_location)
+            newLocation(building ,level ,area ,room ,new_sub_location,"Sub Location");
+            
+        } else {
             swal.fire({
                 title: "Oooops!",
                 text: 'please insert all info',
@@ -518,29 +542,14 @@ function addLocation(){
             });
         }
 
-    }else if(loc_type == 1){
-         if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(room) && !isEmpty(new_sub_location)){
-            //sub location creation
-        }else{
-            swal.fire({
-                title: "Oooops!",
-                text: 'please insert all info',
-                type: 'error',
-                showCloseButton: true,
-                closeButtonColor: '#3DB3D7',
-                animation: false,
-                customClass: {
-                    popup: 'animated tada'
-                },
-                allowOutsideClick: true,
-            });
-        }
+    } else if (loc_type == 2) {
         
-    }else if(loc_type == 2){
-        
-        if(!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room) && !isEmpty(new_sub_location)){
+        if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room) && !isEmpty(new_sub_location)) {
             //room & sub location creation
-         }else{
+            console.log(building + " " + level + " " + area + " " + new_room + " " + new_sub_location)
+            console.log("Room And Sub");
+            newLocation(building ,level ,area ,new_room ,new_sub_location,"Both");
+        } else {
             swal.fire({
                 title: "Oooops!",
                 text: 'please insert all info',
@@ -554,33 +563,42 @@ function addLocation(){
                 allowOutsideClick: true,
             });
         }
-        
+
     }
 }
 
-function isEmpty(value){
-    if(value == undefined || value == " " || value == "" || value == '' || value == ' '){
+function isEmpty(value) {
+    if (value == undefined || value == " " || value == "" || value == '' || value == ' ') {
         return true;
     }
 
     return false;
 }
 
-function locationBuild(value){
-    var obj = {key:"",desc : ""};
-    switch(value){
+function newLocation(building, area, level, room, sublocaction, status) {
+    console.log("valid.....")
+    console.log(building + " " + area + " " + level + " " + room + " " + sublocaction + " " + status);
+    $("#loader-overlay-location").fadeIn(500);
+    $.ajax({
+
+    });
+}
+
+function locationBuild(value) {
+    var obj = { key: "", desc: "" };
+    switch (value) {
         case "0":
             obj.key = "NR";
             obj.desc = "NEW ROOM";
-        break;
+            break;
         case "1":
             obj.key = "NSL";
             obj.desc = "NEW SUB LOCATOIN";
-        break;
+            break;
         case "2":
             obj.key = "B";
             obj.desc = "NEW ROOM & SUB LOCATION";
-        break;
+            break;
         default:
             obj.key = "ERR";
             obj.desc = "NON SELECTED";
@@ -1309,7 +1327,7 @@ function checkFilter(key) {
             localStorage.sub_location = '';
             break;
 
-            //add new filters
+        //add new filters
         case "search_add_location_building":
             res = { "btnId": "building_location_filter", "btnContent": "BUILDING" };
 

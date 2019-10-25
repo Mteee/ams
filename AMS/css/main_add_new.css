@@ -227,7 +227,8 @@ input[type="checkbox"]:disabled:after {
 #overlay-newAssetView,
 #overlay-comm,
 #overlay-decomAsset,
-#overlay-alert-message {
+#overlay-alert-message,
+#loader-overlay-location {
     display: none;
     position: fixed;
     width: 100%;
@@ -238,6 +239,11 @@ input[type="checkbox"]:disabled:after {
     padding: 0;
     z-index: 1;
     background: rgba(0, 0, 0, 0.5);
+}
+
+#loader-overlay-location{
+    background: rgba(255, 255, 255, 0.8) !important;
+    z-index: 999999999999999999;
 }
 
 #overlay-approve {
