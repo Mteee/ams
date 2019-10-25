@@ -1184,7 +1184,7 @@ function showDialogTransferDialog(rowsSelected, raw_assets) {
                         if (result.value) {
                             // showDropdown(assets_selected);
                             // continuee(assetValues,input_building,input_level,input_area,input_Room,input_Room,input_radio_checked);
-                            confirmAssets(rowsSelected, input_building, input_level, input_area, input_Room, input_Room, input_radio_checked);
+                            confirmAssets(rowsSelected, input_building, input_level, input_area, input_Room, input_Room, "SKIP");
 
                         } else if (
                             /* Read more about handling dismissals below */
@@ -1197,8 +1197,8 @@ function showDialogTransferDialog(rowsSelected, raw_assets) {
                     });
 
                 } else {
-                    confirmAssets(rowsSelected, input_building, input_level, input_area, input_Room, input_Room, input_radio_checked);
-                    console.log(rowsSelected + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + input_Room + "," + input_radio_checked);
+                    confirmAssets(rowsSelected, input_building, input_level, input_area, input_Room, input_Room,  "SKIP");
+                    console.log(rowsSelected + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + input_Room + "," + "SKIP");
                 }
             }
         }
@@ -1551,6 +1551,8 @@ var onSearch = function (searchValue, emptyId) {
 
     var getId = searchValue;
 
+    console.log(searchValue);
+
     var found = false;
     // console.log(localStorage.getItem("rows"));
     //handle enter
@@ -1565,17 +1567,21 @@ var onSearch = function (searchValue, emptyId) {
 
 
     // var rows = JSON.parse(localStorage.getItem(searchValue));
+    console.log(allArr);
+    
     var rows = allArr[searchValue];
 
     searchValue = document.getElementById(searchValue);
-
+    console.log(searchValue.value);
     for (var i = 0; i < rows.length; i++) {
 
         var suitable = false;
 
-        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+        // console.log((rows[i].values[0]).indexOf(searchValue.value) + 1);
+        // console.log(rows[i].values[0].toString().indexOf(searchValue.value) + 1);
+        // console.log(rows[i].values[0]);
 
-        if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
+        if (((rows[i].values[0]).toString()).indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
             found = true;
         }

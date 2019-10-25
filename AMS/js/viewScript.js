@@ -801,9 +801,9 @@ var onSearch = function (searchValue, emptyId) {
 
         var suitable = false;
 
-        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+        // console.log(rows[i].values[0].trim().toString().indexOf(searchValue.value) + 1);
 
-        if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
+        if (rows[i].values[0].trim().toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
             found = true;
         }
