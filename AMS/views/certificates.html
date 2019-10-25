@@ -783,7 +783,9 @@
                     copyTagClasses: true, // copy classes from the html & body tag
                     beforePrintEvent: null, // function for printEvent in iframe
                     beforePrint: null, // function called before iframe is filled
-                    afterPrint: null // function called before iframe is removed
+                    afterPrint: function() {
+                        alert('dfvdf');
+                    }
                 });
 
             }
