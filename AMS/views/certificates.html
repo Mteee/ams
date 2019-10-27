@@ -784,7 +784,74 @@
                     beforePrintEvent: null, // function for printEvent in iframe
                     beforePrint: null, // function called before iframe is filled
                     afterPrint: function() {
-                        alert('dfvdf');
+                        var cer_no = document.getElementById('cert_no_field').innerHTML;
+                        var jsonData = '{"username" : "' + localStorage.username + '","cert_no":"' + cer_no + '"}';
+
+                        console.log(jsonData);
+
+                        $.ajax({
+                            url: "../../ams_apis/slimTest/index.php/asset_print_cert",
+                            method: "POST",
+                            data: jsonData,
+                            dataType: 'JSON',
+                            success: function(data) {
+                                console.log(data);
+                                if (data.rows > 0) {
+                                    swal.fire({
+                                        title: data.data,
+                                        type: 'success',
+                                        showCloseButton: true,
+                                        closeButtonColor: '#3DB3D7',
+                                        animation: false,
+                                        customClass: {
+                                            popup: 'animated tada'
+                                        },
+                                        allowOutsideClick: true,
+                                    });
+                                    $('#overlay-printView').hide();
+                                    search();
+
+                                } else {
+                                    swal.fire({
+                                        title: data.data,
+                                        type: 'error',
+                                        showCloseButton: true,
+                                        closeButtonColor: '#3DB3D7',
+                                        animation: false,
+                                        customClass: {
+                                            popup: 'animated tada'
+                                        },
+                                        allowOutsideClick: true,
+                                    });
+                                }
+
+
+                            },
+                            error: function(err) {
+                                swal.fire({
+                                    title: 'Ooops',
+                                    text: 'Something went wrong. Please try again or contact admin.',
+                                    type: 'error',
+                                    showCloseButton: true,
+                                    closeButtonColor: '#3DB3D7',
+                                    animation: false,
+                                    customClass: {
+                                        popup: 'animated tada'
+                                    },
+                                    allowOutsideClick: true,
+
+                                }).then(function(result) {
+                                    if (result.value) {
+                                        $('#overlay-printView').hide();
+                                        search();
+                                    } else if (
+                                        result.dismiss === Swal.DismissReason.cancel
+                                    ) {
+
+                                    }
+                                })
+                            }
+                        });
                     }
                 });
 
