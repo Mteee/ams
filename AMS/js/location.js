@@ -137,6 +137,8 @@ $("#sameLocation").change(function () {
 
 function populate_add_dropdown() {
 
+    // get asset type
+    getItems('../../ams_apis/slimTest/index.php/getAssetsTypeLocation', 'search_add_location_assetType', 'scroll_assetType_location', 'menu_add_location_assetType', 'empty_add_location_assetType','add');
     // get room
     getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_add_location_room', 'scroll_add_location_room', 'menu_add_location_room', 'empty_add_location_room','add');
     // get area
@@ -514,7 +516,7 @@ function addLocation() {
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room)) {
             //room creation
             console.log("room creation");
-            newLocation(building ,level ,area ,new_room ," ", "room");
+            newLocation(building ,level ,area ,new_room ," ", "NR");
         } else {
             swal.fire({
                 title: "Oooops!",
@@ -535,7 +537,7 @@ function addLocation() {
             //sub location creation
             console.log("sub location creation");
             console.log(building + " " + level + " " + area + " " + room + " " + new_sub_location)
-            newLocation(building ,level ,area ,room ,new_sub_location,"Sub Location");
+            newLocation(building ,level ,area ,room ,new_sub_location,"NSL");
             
         } else {
             swal.fire({
@@ -558,7 +560,7 @@ function addLocation() {
             //room & sub location creation
             console.log(building + " " + level + " " + area + " " + new_room + " " + new_sub_location)
             console.log("Room And Sub");
-            newLocation(building ,level ,area ,new_room ,new_sub_location,"Both");
+            newLocation(building ,level ,area ,new_room ,new_sub_location,"BT");
         } else {
             swal.fire({
                 title: "Oooops!",
@@ -585,12 +587,23 @@ function isEmpty(value) {
     return false;
 }
 
-function newLocation(building, area, level, room, sublocaction, status) {
+function newLocation(building, level, area, room, sublocaction, status) {
     console.log("valid.....")
     console.log(building + " " + area + " " + level + " " + room + " " + sublocaction + " " + status);
-    $("#loader-overlay-location").fadeIn(500);
-    $.ajax({
+    // $("#loader-overlay-location").fadeIn(500);
+    document.getElementById("loader-overlay-location").style.display = "block";
 
+    $.ajax({
+        url:"../../ams_apis/slimTest/index.php/new_location",
+        data:'{"building":"'+building+'","area":"'+area+'","level":"'+level+'","room_no":"'+room+'","sub_location":"'+sublocaction+'","type":"'+status+'","username":"'+localStorage.username+'"}',
+        method:"POST",
+        dataType:"JSON",
+        success:function(data){
+            console.log(data);
+        },
+        error:function(data_error){
+            console.log(data_error);
+        }
     });
 }
 
