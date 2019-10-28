@@ -649,7 +649,7 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
                     type: 'success',
                     showCloseButton: false,
                     closeButtonColor: '#3DB3D7',
-                    allowOutsideClick: ,
+                    allowOutsideClick: false,
                 })
                 .then(function(res){
                     if(res.value){
@@ -686,10 +686,6 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
             
         }
     });
-}
-
-function melusiMethod(){
-    alert("meulsi alert");
 }
 
 function locationBuild(value) {
