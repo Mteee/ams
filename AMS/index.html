@@ -15,11 +15,20 @@
     <link rel="stylesheet" href="css/font-awesome.css">
     <link rel="shortcut icon" href="img/Logo.png" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
+
+    <style>
+        .system_desc {
+            font-size: 32pt !important;
+            text-shadow: -3px -1px 2px #2f2c2c96;
+        }
+    </style>
 </head>
 
 <body>
 
     <div class="Login-Loader"></div>
+
+
 
     <div id="page">
         <div id="login-container">
@@ -28,6 +37,7 @@
                     <div class="col-md-12 text-center">
                         <div class="display-t js-fullheight">
                             <div class="display-tc animate-box">
+                                <div class="system_desc">DEVELOPMENT</div>
                                 <nav class="fh5co-nav" role="navigation">
                                     <div id="fh5co-logo"><img src="./img/Logo.png" width=150 /></div>
                                 </nav>
@@ -37,8 +47,7 @@
                                         <div class="" id="fh5co-header-subscribe">
                                             <div class="col-md-12 col-md-offset-0">
 
-                                                <button onclick="startApp()"
-                                                    class="btn btn-danger form-control text-uppercase">Start</button>
+                                                <button onclick="startApp()" class="btn btn-danger form-control text-uppercase">Start</button>
 
                                             </div>
                                         </div>
@@ -55,11 +64,9 @@
                 </div>
             </div>
 
-            <div class="bg-cover js-fullheight"
-                style="background-image: url(./img/dsc_0386.jpg); background-size: cover;">
+            <div class="bg-cover js-fullheight" style="background-image: url(./img/dsc_0386.jpg); background-size: cover;">
                 <div class="width: 100% !important">
-                    <img src="./img/Webp.net-resizeimage.png" width=200
-                        style="position: fixed !important; bottom:30px; right:30px;">
+                    <img src="./img/Webp.net-resizeimage.png" width=200 style="position: fixed !important; bottom:30px; right:30px;">
                 </div>
             </div>
         </div>
@@ -76,59 +83,58 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
 
     <script>
-
-        $(window).bind("pageshow", function (event) {
+        $(window).bind("pageshow", function(event) {
             if (event.originalEvent.persisted) {
                 window.location.reload();
             }
         });
 
         var isMobile = {
-            Android: function () {
+            Android: function() {
                 return navigator.userAgent.match(/Android/i);
             },
-            BlackBerry: function () {
+            BlackBerry: function() {
                 return navigator.userAgent.match(/BlackBerry/i);
             },
-            iOS: function () {
+            iOS: function() {
                 return navigator.userAgent.match(/iPhone|iPad|iPod/i);
             },
-            Opera: function () {
+            Opera: function() {
                 return navigator.userAgent.match(/Opera Mini/i);
             },
-            Windows: function () {
+            Windows: function() {
                 return navigator.userAgent.match(/IEMobile/i);
             },
-            any: function () {
+            any: function() {
                 return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
             }
         };
 
 
         // iPad and iPod detection	
-        var isiPad = function () {
+        var isiPad = function() {
             return (navigator.platform.indexOf("iPad") != -1);
         };
 
-        var isiPhone = function () {
+        var isiPhone = function() {
             return (
                 (navigator.platform.indexOf("iPhone") != -1) ||
                 (navigator.platform.indexOf("iPod") != -1)
             );
         };
 
-        var fullHeight = function () {
+        var fullHeight = function() {
             if (!isMobile.any()) {
                 $('.js-fullheight').css('height', $(window).height());
-                $(window).resize(function () {
+                $(window).resize(function() {
                     $('.js-fullheight').css('height', $(window).height());
                 });
             }
         };
 
-        var mobileMenuOutsideClick = function () {
+        var mobileMenuOutsideClick = function() {
 
-            $(document).click(function (e) {
+            $(document).click(function(e) {
                 var container = $("#fh5co-offcanvas, .js-fh5co-nav-toggle");
                 if (!container.is(e.target) && container.has(e.target).length === 0) {
 
@@ -144,20 +150,20 @@
 
 
 
-        var contentWayPoint = function () {
+        var contentWayPoint = function() {
             var i = 0;
-            $('.animate-box').waypoint(function (direction) {
+            $('.animate-box').waypoint(function(direction) {
 
                 if (direction === 'down' && !$(this.element).hasClass('animated-fast')) {
 
                     i++;
 
                     $(this.element).addClass('item-animate');
-                    setTimeout(function () {
+                    setTimeout(function() {
 
-                        $('body .animate-box.item-animate').each(function (k) {
+                        $('body .animate-box.item-animate').each(function(k) {
                             var el = $(this);
-                            setTimeout(function () {
+                            setTimeout(function() {
                                 var effect = el.data('animate-effect');
                                 if (effect === 'fadeIn') {
                                     el.addClass('fadeIn animated-fast');
@@ -177,21 +183,22 @@
 
                 }
 
-            }, { offset: '85%' });
+            }, {
+                offset: '85%'
+            });
         };
 
 
         // Loading page
-        var loaderPage = function () {
+        var loaderPage = function() {
             $(".Login-Loader").fadeOut("slow");
         };
 
-        $(function () {
+        $(function() {
             fullHeight();
             contentWayPoint();
             loaderPage();
         });
-
     </script>
 </body>
 
