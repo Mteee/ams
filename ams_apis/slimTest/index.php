@@ -4574,6 +4574,7 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
     $sub_location = strtoupper($data->sub_location);
     $type = strtoupper($data->type);
     $username = strtoupper($data->username);
+    $asset_type = strtoupper($data->asset_type);
     $v_out = "";
 
     if($type == "NR"){
@@ -4585,7 +4586,8 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
 
         if($room_no_exec){
             //return room no already exit;
-            echo json_encode("Room already exists");
+            echo json_encode(array("rows" => 0 ,"data" =>"ROOM NO ALREADY EXISTS, CHOOSE DIFFERENT ROOM"));
+
         }else{
             $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,'',:AREA_NAME,'',:ROOM_NO,:RESULT); END;";
             $statement = oci_parse($connect,$sql_new_room_proc);
@@ -4601,26 +4603,71 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
             oci_commit($connect);
 
                 if($v_out == "y"){
-                    echo json_encode(array("rows" => 0 ,"data" =>"ROOM CREATED SUCCESSFULLY"));
+                    echo json_encode(array("rows" => 1 ,"data" =>"ROOM CREATED SUCCESSFULLY"));
                 }
                 else
                 {
-                    echo json_encode(array("rows" => 1 ,"data" =>"ROOM NOT CREATED"));
+                    echo json_encode(array("rows" => 0 ,"data" =>"ROOM NOT CREATED"));
                 }
         }
 
     }
     else if($type == "NSL"){
         // echo json_encode("New Sub Location");
-        $sql_check_room = "SELECT HD_ASSET_ROOM_LOCATION FROM AMSD.ASSETS_LOCATION WHERE HD_ASSET_ROOM_LOCATION = '$room_no'";
+        $sql_check_sub_location = "SELECT HD_ASSET_ROOM_LOCATION FROM AMSD.ASSETS_LOCATION WHERE HD_ASSET_ROOM_LOCATION = '$sub_location'";
 
-        $room_no_exec =$func->executeQuery($sql_check_room);
+        $sub_location_exec =$func->executeQuery($sql_check_sub_location);
 
-        if($room_no_exec){
-            //return room no already exit;
-            echo json_encode("Room already exists");
+        if($sub_location_exec){
+            //return sub location already exit;
+            echo json_encode(array("rows" => 0 ,"data" =>"SUB LOCATION ALREADY EXISTS, CHOOSE A DIFFERENT ONE"));
         }
         else{
+            
+            $sql_new_sub_proc = "BEGIN AMSD.assets_create_sub_location(:USERNAME,:ROOM_NO,:SUB_LOCATION,:ASSET_TYPE,:RESULT); END;";
+            $statement = oci_parse($connect,$sql_new_sub_proc);
+            oci_bind_by_name($statement, ':USERNAME', $username, 30);
+            oci_bind_by_name($statement, ':ROOM_NO', $room_no, 4000);
+            oci_bind_by_name($statement, ':SUB_LOCATION', $sub_location, 30);
+            oci_bind_by_name($statement, ':ASSET_TYPE', $asset_type, 4000);
+            oci_bind_by_name($statement, ':RESULT', $v_out, 2);
+
+            oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+            oci_commit($connect);
+
+                if($v_out == "y"){
+                    echo json_encode(array("rows" => 1 ,"data" =>"SUB LOCATION CREATED SUCCESSFULLY"));
+                }
+                else
+                {
+                    echo json_encode(array("rows" => 0 ,"data" =>"SUB LOCATION NOT CREATED"));
+                }
+            }
+    }
+    else if($type == "BT"){
+
+        $sql_check_room = "SELECT HD_ASSET_ROOM_LOCATION FROM AMSD.ASSETS_LOCATION WHERE HD_ASSET_ROOM_LOCATION = '$room_no'";
+        $sql_check_sub_location = "SELECT HD_ASSET_ROOM_LOCATION FROM AMSD.ASSETS_LOCATION WHERE HD_ASSET_ROOM_LOCATION = '$sub_location'";
+
+        $room_exec = $func->executeQuery($sql_check_room);
+        $sub_exec = $func->executeQuery($sql_check_sub_location);
+
+
+        if($room_exec != false && $sub_exec != false){
+            //room and sub exits
+            echo json_encode(array("rows" => 0 ,"data" =>"ROOM NUMBER & SUB LOCATION ALREADY EXISTS, CHOOSE A DIFFERENT ONE`S"));
+        }
+        else if($room_exec == false && $sub_exec != false){
+            //sub exits
+            echo json_encode(array("rows" => 0 ,"data" =>"SUB LOCATION ALREADY EXISTS, CHOOSE A DIFFERENT ONE"));
+        } 
+        else if($room_exec != false && $sub_exec == false){
+            //room exists
+            echo json_encode(array("rows" => 0 ,"data" =>"ROOM NUMBER ALREADY EXISTS, CHOOSE A DIFFERENT ONE"));
+        } 
+        else if($room_exec == false && $sub_exec == false){
+            // nothing exits
             
             $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,'',:AREA_NAME,'',:ROOM_NO,:RESULT); END;";
             $statement = oci_parse($connect,$sql_new_room_proc);
@@ -4635,17 +4682,34 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
 
             oci_commit($connect);
 
-                if($v_out == "y"){
-                    echo json_encode(array("rows" => 0 ,"data" =>"ROOM CREATED SUCCESSFULLY"));
-                }
-                else
-                {
-                    echo json_encode(array("rows" => 1 ,"data" =>"ROOM NOT CREATED"));
-                }
+            if($v_out == "y"){
+
+                $sql_new_sub_proc = "BEGIN AMSD.assets_create_sub_location(:USERNAME,:ROOM_NO,:SUB_LOCATION,:ASSET_TYPE,:RESULT); END;";
+                $statement = oci_parse($connect,$sql_new_sub_proc);
+                oci_bind_by_name($statement, ':USERNAME', $username, 30);
+                oci_bind_by_name($statement, ':ROOM_NO', $room_no, 4000);
+                oci_bind_by_name($statement, ':SUB_LOCATION', $sub_location, 30);
+                oci_bind_by_name($statement, ':ASSET_TYPE', $asset_type, 4000);
+                oci_bind_by_name($statement, ':RESULT', $v_out, 2);
+
+                oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+                oci_commit($connect);
+
+                    if($v_out == "y"){
+                        echo json_encode(array("rows" => 1 ,"data" =>"SUB & ROOM CREATED SUCCESSFULLY"));
+                    }
+                    else
+                    {
+                        echo json_encode(array("rows" => 0 ,"data" =>"SUB LOCATION NOT CREATED"));
+                    }
             }
-    }
-    else if($type == "BT"){
-        echo json_encode("New Both sub location");
+            else
+            {
+                echo json_encode(array("rows" => 0 ,"data" =>"ROOM NOT CREATED"));
+            }
+        } 
+
     }
 });
 

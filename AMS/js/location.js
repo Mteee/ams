@@ -83,6 +83,18 @@ function viewAsset(assetId) {
         error: function (err) {
             console.log(err);
             // console.log("error");
+            swal.fire({
+                title: "Oooops!",
+                text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            })
 
         }
     });
@@ -100,8 +112,9 @@ function createLocation() {
     var input_area = $("#area_location_filter").text();
     var input_Room = $("#location_new_room").text();
     var input_sub = $("#location_new_sub_location").text();
+    var asset_type = $("#search_add_location_assetType").text();
 
-    console.log(input_building + " " + input_level + " " + input_area + " " + input_Room + " " + input_sub);
+    console.log(input_building + " " + input_level + " " + input_area + " " + input_Room + " " + input_sub + " " +asset_type);
 
     if ($('#sameLocation').prop("checked") === true) {
         console.log("same");
@@ -257,6 +270,18 @@ function getItems(url, id, scrollArea, menuid, empty,type) {
             console.log(data_err);
             console.log("Error");
             console.log(localStorage.filter);
+            swal.fire({
+                title: "Oooops!",
+                text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            })
         }
     });
 }
@@ -459,7 +484,18 @@ function search() {
                 console.log(err)
                 $('#searchView').fadeIn(500);
                 $('#loader').hide();
-                alert('Ooops');
+                swal.fire({
+                    title: "Oooops!",
+                    text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
+                    type: 'error',
+                    showCloseButton: true,
+                    closeButtonColor: '#3DB3D7',
+                    animation: false,
+                    customClass: {
+                        popup: 'animated tada'
+                    },
+                    allowOutsideClick: true,
+                })
             }
         });
     }
@@ -506,6 +542,8 @@ function addLocation() {
     var room = document.getElementById("search_add_location_room").value;
     var new_room = document.getElementById("new_added_room").value;
     var new_sub_location = document.getElementById("new_sub_location").value;
+    var asset_type = document.getElementById("search_add_location_assetType").value;
+
 
 
     var loc_type = $("#basic input[type=radio]:checked")[0].value;
@@ -516,7 +554,7 @@ function addLocation() {
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room)) {
             //room creation
             console.log("room creation");
-            newLocation(building ,level ,area ,new_room ," ", "NR");
+            newLocation(building ,level ,area ,new_room ," ", "NR", asset_type);
         } else {
             swal.fire({
                 title: "Oooops!",
@@ -536,8 +574,8 @@ function addLocation() {
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(room) && !isEmpty(new_sub_location)) {
             //sub location creation
             console.log("sub location creation");
-            console.log(building + " " + level + " " + area + " " + room + " " + new_sub_location)
-            newLocation(building ,level ,area ,room ,new_sub_location,"NSL");
+            console.log(building + " " + level + " " + area + " " + room + " " + new_sub_location + " " + asset_type);
+            newLocation(building ,level ,area ,room ,new_sub_location,"NSL",asset_type);
             
         } else {
             swal.fire({
@@ -558,9 +596,9 @@ function addLocation() {
         
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room) && !isEmpty(new_sub_location)) {
             //room & sub location creation
-            console.log(building + " " + level + " " + area + " " + new_room + " " + new_sub_location)
+            console.log(building + " " + level + " " + area + " " + new_room + " " + new_sub_location + " " +asset_type)
             console.log("Room And Sub");
-            newLocation(building ,level ,area ,new_room ,new_sub_location,"BT");
+            newLocation(building ,level ,area ,new_room ,new_sub_location,"BT", asset_type);
         } else {
             swal.fire({
                 title: "Oooops!",
@@ -587,7 +625,7 @@ function isEmpty(value) {
     return false;
 }
 
-function newLocation(building, level, area, room, sublocaction, status) {
+function newLocation(building, level, area, room, sublocaction, status, asset_type) {
     console.log("valid.....")
     console.log(building + " " + area + " " + level + " " + room + " " + sublocaction + " " + status);
     // $("#loader-overlay-location").fadeIn(500);
@@ -595,16 +633,63 @@ function newLocation(building, level, area, room, sublocaction, status) {
 
     $.ajax({
         url:"../../ams_apis/slimTest/index.php/new_location",
-        data:'{"building":"'+building+'","area":"'+area+'","level":"'+level+'","room_no":"'+room+'","sub_location":"'+sublocaction+'","type":"'+status+'","username":"'+localStorage.username+'"}',
+        data:'{"building":"'+building+'","area":"'+area+'","level":"'+level+'","room_no":"'+room+'","sub_location":"'+sublocaction+'","type":"'+status+'","username":"'+localStorage.username+'","asset_type":"'+asset_type+'"}',
         method:"POST",
         dataType:"JSON",
         success:function(data){
+            document.getElementById("loader-overlay-location").style.display = "none";
+
+            if(data.rows == 1){
+                document.getElementById("add_location_form").reset();
+                $('#overlay-newAssetView').hide();
+
+                swal.fire({
+                    title: "Success",
+                    text: data.data,
+                    type: 'success',
+                    showCloseButton: false,
+                    closeButtonColor: '#3DB3D7',
+                    allowOutsideClick: ,
+                })
+                .then(function(res){
+                    if(res.value){
+                    }
+                })
+            }
+            else if(data.rows == 0){
+                swal.fire({
+                    title: "Error",
+                    text: data.data,
+                    type: 'error',
+                    showCloseButton: true,
+                    closeButtonColor: '#FF0000',
+                    allowOutsideClick: true,
+                })
+            }
             console.log(data);
         },
         error:function(data_error){
             console.log(data_error);
+            document.getElementById("loader-overlay-location").style.display = "none";
+            swal.fire({
+                title: "Oooops!",
+                text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            })
+            
         }
     });
+}
+
+function melusiMethod(){
+    alert("meulsi alert");
 }
 
 function locationBuild(value) {
@@ -775,6 +860,18 @@ function viewCommAssets(assets) {
         },
         error: function (err) {
             console.log(err);
+            swal.fire({
+                title: "Oooops!",
+                text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            })
         }
     });
 
@@ -827,6 +924,18 @@ function confirmComm(assets_ids, certificate_no) {
         },
         error: function (err) {
             console.log(err);
+            swal.fire({
+                title: "Oooops!",
+                text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
+                type: 'error',
+                showCloseButton: true,
+                closeButtonColor: '#3DB3D7',
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+                allowOutsideClick: true,
+            })
         }
     });
 
@@ -1024,6 +1133,17 @@ function clearData(input, btnDafualtId, text) {
             $('#room_add_location_filter').text("");
 
         }
+
+        else if (input == "#search_add_location_assetType") {
+
+            document.getElementById('menu_add_location_assetType').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
+            populate_add_dropdown();
+
+            $('#search_add_location_assetType').val("");
+            $('#assetType_location_filter').text("");
+
+        }
     }
 }
 
@@ -1115,6 +1235,17 @@ $('#menu_add_location_room').on('click', '.dropdown-item', function () {
     $('#search_add_location_room').val($(this)[0].value);
     $('#search_add_location_room').removeClass('is-empty');
 });
+
+
+// newly asset type
+$('#menu_add_location_assetType').on('click', '.dropdown-item', function () {
+    $('#assetType_location_filter').text($(this)[0].value);
+    $("#assetType_location_filter").dropdown('toggle');
+    $('#search_add_location_assetType').val($(this)[0].value);
+    $('#search_add_location_assetType').removeClass('is-empty');
+});
+
+
 
 if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
