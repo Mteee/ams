@@ -228,6 +228,7 @@ input[type="checkbox"]:disabled:after {
 #overlay-comm,
 #overlay-decomAsset,
 #overlay-alert-message,
+#loader-overlay,
 #loader-overlay-location {
     display: none;
     position: fixed;

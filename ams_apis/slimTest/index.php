@@ -2011,6 +2011,7 @@ $app->map(['GET','POST'],'/asset_sub_location_transfer', function(Request $reque
                 AMSD.ASSETS_LOCATION             
             WHERE ASSET_BUILDING LIKE '%$building%'
             AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND substr(HD_ASSET_ROOM_LOCATION,1,2) in ('VL','SW','AL','SC','SA','PL','AP') 
             AND HD_ASSET_ROOM_LOCATION||ASSET_ROOM_NO NOT IN(SELECT ASSET_SUB_LOCATION||ASSET_ROOM_NO FROM AMSD.ASSETS)
             AND ASSET_LEVEL LIKE '%$level%'
             AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
@@ -4534,40 +4535,182 @@ $app->map(['GET','POST'],'/getAssetsType', function(Request $request, Response $
  
 });
 
-//commissioning procedure
-$app->map(['GET','POST'],'/asset_print_cert',function(Request $request, Response $response){
+$app->map(['GET','POST'],'/getAssetsTypeLocation', function(Request $request, Response $response){
+    global $func;
+    $response = array();
+    $sql = "SELECT ASSET_TYPE_DESC FROM AMSD.ASSETS_TYPE ORDER BY ASSET_TYPEID";
+    
 
-    try{
+    $assets_no =$func->executeQuery($sql);
 
-        global $connect;
+    if($assets_no){
 
-        $data = json_decode(file_get_contents('php://input'));
-        $cert = strtoupper($data->cert_no);
-        $username = strtoupper($data->username);
-        $v_out = "";
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        
+        foreach($res->data as $value){
+
+            $response [] = $value->ASSET_TYPE_DESC;
+
+        }         
+        echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>[]));
+    }
+ 
+});
 
 
-        $sql  = "BEGIN AMSD.asset_certificate_print(:v_asset_user,:v_asset_cert_no,:v_out); END;";
-        $statement = oci_parse($connect,$sql);
-        oci_bind_by_name($statement, ':v_asset_user', $username, 50);
-        oci_bind_by_name($statement, ':v_asset_cert_no', $cert, 50);
-        oci_bind_by_name($statement, ':v_out',  $v_out, 2);
+$app->map(['GET','POST'],'/new_location', function (Request $requet, Response $response){
+    global $func;
+    global $connect;
 
-        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $type = strtoupper($data->type);
+    $username = strtoupper($data->username);
+    $asset_type = strtoupper($data->asset_type);
+    $v_out = "";
 
-        oci_commit($connect);
+    if($type == "NR"){
+        // echo json_encode("New Room");
+        //check if room already exits
+        $sql_check_room = "SELECT HD_ASSET_ROOM_LOCATION FROM AMSD.ASSETS_LOCATION WHERE HD_ASSET_ROOM_LOCATION = '$room_no'";
 
-        if($v_out == "y"){
-            echo json_encode(array("rows" => 1 ,"data" =>"CERTIFICATE PRINTED SUCCESSFULLY"));
+        $room_no_exec =$func->executeQuery($sql_check_room);
+
+        if($room_no_exec){
+            //return room no already exit;
+            echo json_encode(array("rows" => 0 ,"data" =>"ROOM NO ALREADY EXISTS, CHOOSE DIFFERENT ROOM"));
+
+        }else{
+            $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,'',:AREA_NAME,'',:ROOM_NO,:RESULT); END;";
+            $statement = oci_parse($connect,$sql_new_room_proc);
+            oci_bind_by_name($statement, ':USERNAME', $username, 30);
+            oci_bind_by_name($statement, ':BUILDING', $building, 4000);
+            oci_bind_by_name($statement, ':LEVEL', $level, 30);
+            oci_bind_by_name($statement, ':AREA_NAME', $area, 4000);
+            oci_bind_by_name($statement, ':ROOM_NO', $room_no, 30);
+            oci_bind_by_name($statement, ':RESULT', $v_out, 2);
+
+            oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+            oci_commit($connect);
+
+                if($v_out == "y"){
+                    echo json_encode(array("rows" => 1 ,"data" =>"ROOM CREATED SUCCESSFULLY"));
+                }
+                else
+                {
+                    echo json_encode(array("rows" => 0 ,"data" =>"ROOM NOT CREATED"));
+                }
+        }
+
+    }
+    else if($type == "NSL"){
+        // echo json_encode("New Sub Location");
+        $sql_check_sub_location = "SELECT HD_ASSET_ROOM_LOCATION FROM AMSD.ASSETS_LOCATION WHERE HD_ASSET_ROOM_LOCATION = '$sub_location'";
+
+        $sub_location_exec =$func->executeQuery($sql_check_sub_location);
+
+        if($sub_location_exec){
+            //return sub location already exit;
+            echo json_encode(array("rows" => 0 ,"data" =>"SUB LOCATION ALREADY EXISTS, CHOOSE A DIFFERENT ONE"));
         }
         else{
-            echo json_encode(array("rows" => 0 ,"data" =>"CERTIFICATE PRINT WAS NOT COMMISSIONED"));
-        }
-    }
-    catch (Exception $pdoex) {
-        echo "Database Error : " . $pdoex->getMessage();
-    }
+            
+            $sql_new_sub_proc = "BEGIN AMSD.assets_create_sub_location(:USERNAME,:ROOM_NO,:SUB_LOCATION,:ASSET_TYPE,:RESULT); END;";
+            $statement = oci_parse($connect,$sql_new_sub_proc);
+            oci_bind_by_name($statement, ':USERNAME', $username, 30);
+            oci_bind_by_name($statement, ':ROOM_NO', $room_no, 4000);
+            oci_bind_by_name($statement, ':SUB_LOCATION', $sub_location, 30);
+            oci_bind_by_name($statement, ':ASSET_TYPE', $asset_type, 4000);
+            oci_bind_by_name($statement, ':RESULT', $v_out, 2);
 
+            oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+            oci_commit($connect);
+
+                if($v_out == "y"){
+                    echo json_encode(array("rows" => 1 ,"data" =>"SUB LOCATION CREATED SUCCESSFULLY"));
+                }
+                else
+                {
+                    echo json_encode(array("rows" => 0 ,"data" =>"SUB LOCATION NOT CREATED"));
+                }
+            }
+    }
+    else if($type == "BT"){
+
+        $sql_check_room = "SELECT HD_ASSET_ROOM_LOCATION FROM AMSD.ASSETS_LOCATION WHERE HD_ASSET_ROOM_LOCATION = '$room_no'";
+        $sql_check_sub_location = "SELECT HD_ASSET_ROOM_LOCATION FROM AMSD.ASSETS_LOCATION WHERE HD_ASSET_ROOM_LOCATION = '$sub_location'";
+
+        $room_exec = $func->executeQuery($sql_check_room);
+        $sub_exec = $func->executeQuery($sql_check_sub_location);
+
+
+        if($room_exec != false && $sub_exec != false){
+            //room and sub exits
+            echo json_encode(array("rows" => 0 ,"data" =>"ROOM NUMBER & SUB LOCATION ALREADY EXISTS, CHOOSE A DIFFERENT ONE`S"));
+        }
+        else if($room_exec == false && $sub_exec != false){
+            //sub exits
+            echo json_encode(array("rows" => 0 ,"data" =>"SUB LOCATION ALREADY EXISTS, CHOOSE A DIFFERENT ONE"));
+        } 
+        else if($room_exec != false && $sub_exec == false){
+            //room exists
+            echo json_encode(array("rows" => 0 ,"data" =>"ROOM NUMBER ALREADY EXISTS, CHOOSE A DIFFERENT ONE"));
+        } 
+        else if($room_exec == false && $sub_exec == false){
+            // nothing exits
+            
+            $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,'',:AREA_NAME,'',:ROOM_NO,:RESULT); END;";
+            $statement = oci_parse($connect,$sql_new_room_proc);
+            oci_bind_by_name($statement, ':USERNAME', $username, 30);
+            oci_bind_by_name($statement, ':BUILDING', $building, 4000);
+            oci_bind_by_name($statement, ':LEVEL', $level, 30);
+            oci_bind_by_name($statement, ':AREA_NAME', $area, 4000);
+            oci_bind_by_name($statement, ':ROOM_NO', $room_no, 30);
+            oci_bind_by_name($statement, ':RESULT', $v_out, 2);
+
+            oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+            oci_commit($connect);
+
+            if($v_out == "y"){
+
+                $sql_new_sub_proc = "BEGIN AMSD.assets_create_sub_location(:USERNAME,:ROOM_NO,:SUB_LOCATION,:ASSET_TYPE,:RESULT); END;";
+                $statement = oci_parse($connect,$sql_new_sub_proc);
+                oci_bind_by_name($statement, ':USERNAME', $username, 30);
+                oci_bind_by_name($statement, ':ROOM_NO', $room_no, 4000);
+                oci_bind_by_name($statement, ':SUB_LOCATION', $sub_location, 30);
+                oci_bind_by_name($statement, ':ASSET_TYPE', $asset_type, 4000);
+                oci_bind_by_name($statement, ':RESULT', $v_out, 2);
+
+                oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+                oci_commit($connect);
+
+                    if($v_out == "y"){
+                        echo json_encode(array("rows" => 1 ,"data" =>"SUB & ROOM CREATED SUCCESSFULLY"));
+                    }
+                    else
+                    {
+                        echo json_encode(array("rows" => 0 ,"data" =>"SUB LOCATION NOT CREATED"));
+                    }
+            }
+            else
+            {
+                echo json_encode(array("rows" => 0 ,"data" =>"ROOM NOT CREATED"));
+            }
+        } 
+
+    }
 });
 
 $app->run();

@@ -90,6 +90,7 @@ $(document).ready(function () {
                 andRemoveClass('#room_drop', "show_input", "hide_input");
                 andRemoveClass('#input_room_new', "hide_input", "show_input");
                 andRemoveClass('#input_sub_new', "show_input", "hide_input");
+                andRemoveClass('#assetType_drop', "show_input", "hide_input");
                 console.log("231");
             }
             if (radio_selected == "1") {
@@ -99,6 +100,7 @@ $(document).ready(function () {
                 andRemoveClass('#room_drop', "hide_input", "show_input");
                 andRemoveClass('#input_room_new', "show_input", "hide_input");
                 andRemoveClass('#input_sub_new', "hide_input", "show_input");
+                andRemoveClass('#assetType_drop', "hide_input", "show_input");
                 console.log("123");
             }
             if (radio_selected == "2") {
@@ -107,6 +109,7 @@ $(document).ready(function () {
                 andRemoveClass('#room_drop', "show_input", "hide_input");
                 andRemoveClass('#input_room_new', "hide_input", "show_input");
                 andRemoveClass('#input_sub_new', "hide_input", "show_input");
+                andRemoveClass('#assetType_drop', "hide_input", "show_input");
                 console.log("321");
             }
 
