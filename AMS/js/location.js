@@ -662,13 +662,22 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
                     title: "Success",
                     text: data.data,
                     type: 'success',
-                    showCloseButton: false,
+                    showCloseButton: ()=>{
+                        window.location.reload();
+                    },
                     closeButtonColor: '#3DB3D7',
-                    allowOutsideClick: false,
+                    allowOutsideClick: ()=>{
+                        window.location.reload();
+                    },
                 })
                     .then(function (res) {
                         if (res.value) {
+                            window.location.reload();
                         }
+                        else{
+                            window.location.reload();
+                        }
+                        
                     })
             }
             else if (data.rows == 0) {
