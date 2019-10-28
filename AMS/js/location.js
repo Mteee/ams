@@ -114,7 +114,7 @@ function createLocation() {
     var input_sub = $("#location_new_sub_location").text();
     var asset_type = $("#search_add_location_assetType").text();
 
-    console.log(input_building + " " + input_level + " " + input_area + " " + input_Room + " " + input_sub + " " +asset_type);
+    console.log(input_building + " " + input_level + " " + input_area + " " + input_Room + " " + input_sub + " " + asset_type);
 
     if ($('#sameLocation').prop("checked") === true) {
         console.log("same");
@@ -151,29 +151,29 @@ $("#sameLocation").change(function () {
 function populate_add_dropdown() {
 
     // get asset type
-    getItems('../../ams_apis/slimTest/index.php/getAssetsTypeLocation', 'search_add_location_assetType', 'scroll_assetType_location', 'menu_add_location_assetType', 'empty_add_location_assetType','add');
+    getItems('../../ams_apis/slimTest/index.php/getAssetsTypeLocation', 'search_add_location_assetType', 'scroll_assetType_location', 'menu_add_location_assetType', 'empty_add_location_assetType', 'add');
     // get room
-    getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_add_location_room', 'scroll_add_location_room', 'menu_add_location_room', 'empty_add_location_room','add');
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_add_location_room', 'scroll_add_location_room', 'menu_add_location_room', 'empty_add_location_room', 'add');
     // get area
-    getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_add_location_area', 'scroll_add_location_area', 'meun_add_location_area', 'empty_add_location_area','add');
+    getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_add_location_area', 'scroll_add_location_area', 'meun_add_location_area', 'empty_add_location_area', 'add');
     // get level
-    getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_add_location_level', 'scroll_add_location_level', 'menu_add_location_level', 'empty_add_location_level','add');
+    getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_add_location_level', 'scroll_add_location_level', 'menu_add_location_level', 'empty_add_location_level', 'add');
     // get building
-    getItems('../../ams_apis/slimTest/index.php/building_location', 'search_add_location_building', 'scroll_add_location_building', 'menu_add_location_building', 'empty_add_location_building','add');
+    getItems('../../ams_apis/slimTest/index.php/building_location', 'search_add_location_building', 'scroll_add_location_building', 'menu_add_location_building', 'empty_add_location_building', 'add');
 
 }
 
 function populate_dropdown() {
     // get room
-    getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_location_room', 'scroll_location_room', 'menu_location_room', 'empty_location_room','');
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no_location', 'search_location_room', 'scroll_location_room', 'menu_location_room', 'empty_location_room', '');
     // get area
-    getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_location_area', 'scroll_location_area', 'meun_location_area', 'empty_location_area','');
+    getItems('../../ams_apis/slimTest/index.php/asset_area_location', 'search_location_area', 'scroll_location_area', 'meun_location_area', 'empty_location_area', '');
     // get level
-    getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_location_level', 'scroll_location_level', 'menu_location_level', 'empty_location_level','');
+    getItems('../../ams_apis/slimTest/index.php/asset_level_new_location', 'search_location_level', 'scroll_location_level', 'menu_location_level', 'empty_location_level', '');
     // get building
-    getItems('../../ams_apis/slimTest/index.php/building_location', 'search_location_building', 'scroll_location_building', 'menu_location_building', 'empty_location_building','');
+    getItems('../../ams_apis/slimTest/index.php/building_location', 'search_location_building', 'scroll_location_building', 'menu_location_building', 'empty_location_building', '');
     // get sub_location
-    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_location', 'search_location_sublocaction', 'scroll_location_sublocaction', 'menu_location_sublocaction', 'empty_locaton_sublocaction','');
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_location', 'search_location_sublocaction', 'scroll_location_sublocaction', 'menu_location_sublocaction', 'empty_locaton_sublocaction', '');
 
 }
 
@@ -187,25 +187,25 @@ var allArr = {
     search_location_building: []
 };
 
-function getItems(url, id, scrollArea, menuid, empty,type) {
+function getItems(url, id, scrollArea, menuid, empty, type) {
 
     var descrption = $('#location_description').val();
- 
-    
-    
-    
+
+
+
+
     var jsonData = '';
     console.log('type');
     console.log(type);
-    if(type == 'add'){
+    if (type == 'add') {
         console.log('add');
         console.log('{"building":"' + localStorage.building_add + '","level":"' + localStorage.level_add + '","area":"' + localStorage.area_add + '","room_no":"' + localStorage.room_no_add + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}');
         jsonData = '{"building":"' + localStorage.building_add + '","level":"' + localStorage.level_add + '","area":"' + localStorage.area_add + '","room_no":"' + localStorage.room_no_add + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}';
-    }else{
+    } else {
         console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}');
         jsonData = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}';
     }
-    
+
     $.ajax({
         url: url,
         method: 'POST',
@@ -554,7 +554,7 @@ function addLocation() {
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room)) {
             //room creation
             console.log("room creation");
-            newLocation(building ,level ,area ,new_room ," ", "NR", asset_type);
+            newLocation(building, level, area, new_room, " ", "NR", asset_type);
         } else {
             swal.fire({
                 title: "Oooops!",
@@ -569,14 +569,14 @@ function addLocation() {
                 allowOutsideClick: true,
             });
         }
-        
+
     } else if (loc_type == 1) {
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(room) && !isEmpty(new_sub_location)) {
             //sub location creation
             console.log("sub location creation");
             console.log(building + " " + level + " " + area + " " + room + " " + new_sub_location + " " + asset_type);
-            newLocation(building ,level ,area ,room ,new_sub_location,"NSL",asset_type);
-            
+            newLocation(building, level, area, room, new_sub_location, "NSL", asset_type);
+
         } else {
             swal.fire({
                 title: "Oooops!",
@@ -593,12 +593,12 @@ function addLocation() {
         }
 
     } else if (loc_type == 2) {
-        
+
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room) && !isEmpty(new_sub_location)) {
             //room & sub location creation
-            console.log(building + " " + level + " " + area + " " + new_room + " " + new_sub_location + " " +asset_type)
+            console.log(building + " " + level + " " + area + " " + new_room + " " + new_sub_location + " " + asset_type)
             console.log("Room And Sub");
-            newLocation(building ,level ,area ,new_room ,new_sub_location,"BT", asset_type);
+            newLocation(building, level, area, new_room, new_sub_location, "BT", asset_type);
         } else {
             swal.fire({
                 title: "Oooops!",
@@ -632,15 +632,30 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
     document.getElementById("loader-overlay-location").style.display = "block";
 
     $.ajax({
-        url:"../../ams_apis/slimTest/index.php/new_location",
-        data:'{"building":"'+building+'","area":"'+area+'","level":"'+level+'","room_no":"'+room+'","sub_location":"'+sublocaction+'","type":"'+status+'","username":"'+localStorage.username+'","asset_type":"'+asset_type+'"}',
-        method:"POST",
-        dataType:"JSON",
-        success:function(data){
+        url: "../../ams_apis/slimTest/index.php/new_location",
+        data: '{"building":"' + building + '","area":"' + area + '","level":"' + level + '","room_no":"' + room + '","sub_location":"' + sublocaction + '","type":"' + status + '","username":"' + localStorage.username + '","asset_type":"' + asset_type + '"}',
+        method: "POST",
+        dataType: "JSON",
+        success: function (data) {
             document.getElementById("loader-overlay-location").style.display = "none";
 
-            if(data.rows == 1){
+            if (data.rows == 1) {
                 document.getElementById("add_location_form").reset();
+
+                resetBtn('#building_add_location_filter', "");
+                resetBtn('#level_add_location_filter', "");
+                resetBtn('#area_add_location_filter', "");
+                resetBtn('#room_add_location_filter', "");
+                resetBtn('#assetType_location_filter', "");
+
+                $("#search_add_location_building").val("");
+                $("#search_add_location_level").val("");
+                $("#search_add_location_area").val("");
+                $("#search_add_location_room").val("");
+                $("#search_add_location_assetType").val("");
+
+                clearAddLocalStorage();
+
                 $('#overlay-newAssetView').hide();
 
                 swal.fire({
@@ -651,12 +666,12 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
                     closeButtonColor: '#3DB3D7',
                     allowOutsideClick: false,
                 })
-                .then(function(res){
-                    if(res.value){
-                    }
-                })
+                    .then(function (res) {
+                        if (res.value) {
+                        }
+                    })
             }
-            else if(data.rows == 0){
+            else if (data.rows == 0) {
                 swal.fire({
                     title: "Error",
                     text: data.data,
@@ -668,7 +683,7 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
             }
             console.log(data);
         },
-        error:function(data_error){
+        error: function (data_error) {
             console.log(data_error);
             document.getElementById("loader-overlay-location").style.display = "none";
             swal.fire({
@@ -683,9 +698,16 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
                 },
                 allowOutsideClick: true,
             })
-            
+
         }
     });
+}
+
+function clearAddLocalStorage(){
+    localStorage.building_add = "";
+    localStorage.level_add = "";
+    localStorage.area_add = "";
+    localStorage.room_no_add = "";
 }
 
 function locationBuild(value) {
@@ -1054,12 +1076,12 @@ function clearData(input, btnDafualtId, text) {
             document.getElementById('meun_add_location_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('menu_add_location_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
-            
+
             localStorage.building_add = '';
             localStorage.level_add = '';
             localStorage.area_add = '';
             localStorage.room_no_add = '';
-            
+
             populate_add_dropdown();
 
 
