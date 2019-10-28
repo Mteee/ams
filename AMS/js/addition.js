@@ -123,7 +123,7 @@ function addAsset() {
                 console.log("success");
                 console.log(data);
                 document.getElementById("add_asset_form").reset();
-                console.log($('.wizard-card').bootstrapWizard());
+                // console.log($('.wizard-card').bootstrapWizard());
                 // $('.wizard-card').bootstrapWizard.onInit();
                 document.getElementById('overlay-newAssetView').style.display = "none";
                 document.getElementById('assetsAdd').innerHTML = data.tdata;
