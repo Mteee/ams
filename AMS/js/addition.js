@@ -147,7 +147,7 @@ function addAsset() {
 function getAssetsType() {
 
     $.ajax({
-        url: "../../ams_apis//slimTest/index.php/getAssetsType",
+        url: "../../ams_apis/slimTest/index.php/getAssetsType",
         method: "POST",
         dataType: "JSON",
         success: function (data) {
@@ -1112,13 +1112,38 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
     $('#class-options').prop('disabled', 'disabled');
 }
 
+var defaultRooms = {
+                        "FACILITIES MANAGEMENT" : "1B27-1",
+                        "MEDICAL EQUIPMENT" : "1G11-1",
+                        "IT EQUIPMENT" : "2H27-1"
+                   };
+
 $('#asset_class').on('change', function () {
-    localStorage.filter = $("#asset_class option:selected").text();
-    resetBtn('#room_new_filter', 'ROOM (*)');
-    $('#search_new_room').val("");
-    localStorage.room_no = "";
-    getRoom();
+    var selectedClass =  $("#asset_class option:selected").text();
+    var selectedClass =  $("#asset_class option:selected").val();
+    // resetBtn('#room_new_filter', 'ROOM (*)');
+    var selectDefaultRoom = "";
+    if(selectedClass == "1"){
+        selectDefaultRoom = defaultRooms["FACILITIES MANAGEMENT"];
+    }else if(selectedClass == "2"){
+        selectDefaultRoom = defaultRooms["IT EQUIPMENT"];
+    }else{
+        selectDefaultRoom = defaultRooms["MEDICAL EQUIPMENT"];
+    }
+    localStorage.filter = selectedClass
+
+    $('#search_new_room').val(selectDefaultRoom);
+    $('#room_new_filter').val(selectDefaultRoom);
+    
+    // localStorage.room_no = "";
+    // getRoom();
+
 });
+
+
+    $('#search_new_room').val(defaultRooms["FACILITIES MANAGEMENT"]);
+    $('#room_new_filter').val(defaultRooms["FACILITIES MANAGEMENT"]);
+
 
 function resetBtn(resetId, resetTxt) {
     $(resetId).text(resetTxt);
@@ -1498,10 +1523,6 @@ var newAssetGroup = function () {
         name: "serial_no_" + n(),
         type: "text"
     })
-
-
-
-
 
 
 
