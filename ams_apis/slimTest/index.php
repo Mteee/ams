@@ -573,7 +573,7 @@ $app->map(['GET','POST'],'/assetCert_print',function(Request $request, Response 
     // }
 
 
-    $sql = "SELECT a_vw.ASSET_MODEL,
+    $sql = "SELECT DISTINCT a_vw.ASSET_MODEL,
                     a_vw.ASSET_PRIMARY_ID,
                     a_vw.HD_ASSET_LOCATION,
                     a_vw.ASSET_ID,
@@ -4828,5 +4828,42 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
 
     }
 });
+
+
+$app->map(['GET','POST'],'/asset_print_cert',function(Request $request, Response $response){
+
+    try{
+
+        global $connect;
+
+        $data = json_decode(file_get_contents('php://input'));
+        $cert = strtoupper($data->cert_no);
+        $username = strtoupper($data->username);
+        $v_out = "";
+
+
+        $sql  = "BEGIN AMSD.asset_certificate_print(:v_asset_user,:v_asset_cert_no,:v_out); END;";
+        $statement = oci_parse($connect,$sql);
+        oci_bind_by_name($statement, ':v_asset_user', $username, 50);
+        oci_bind_by_name($statement, ':v_asset_cert_no', $cert, 50);
+        oci_bind_by_name($statement, ':v_out',  $v_out, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($v_out == "y"){
+            echo json_encode(array("rows" => 1 ,"data" =>"CERTIFICATE PRINTED SUCCESSFULLY"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"CERTIFICATE PRINT WAS NOT COMMISSIONED"));
+        }
+    }
+    catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+
+});
+
 
 $app->run();

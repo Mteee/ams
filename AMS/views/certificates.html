@@ -70,15 +70,7 @@
             body {
                 font-size: 10pt !important;
                 size: landscape !important;
-                margin: 20px 5px 20px 5px !important;
-                font-size: 10pt !important;
-            }
-        }
-        
-        @media screen {
-            body {
-                font-size: 10pt !important;
-                margin: 20px 5px 20px 5px !important;
+                margin: 2px 5px 20px 5px !important;
                 font-size: 10pt !important;
             }
         }
@@ -87,7 +79,15 @@
             body {
                 font-size: 10pt !important;
                 size: landscape !important;
-                margin: 20px 10px 20px 10px !important;
+                margin: 2px 5px 20px 5px !important;
+                font-size: 10pt !important;
+            }
+        }
+        
+        @media screen {
+            body {
+                font-size: 10pt !important;
+                margin: 1px 5px 20px 5px !important;
                 font-size: 10pt !important;
             }
         }
@@ -95,7 +95,7 @@
         @page {
             font-size: 10pt !important;
             size: landscape !important;
-            margin: 20px 5px 20px 5px !important;
+            margin: 1px 5px 20px 5px !important;
             font-size: 10pt !important;
         }
     </style>
@@ -146,7 +146,7 @@
 
 
                                 <!-- Certificate Number Details -->
-                                <div class="row bg-dark text-white" style="padding:10px">
+                                <div class="row bg-dark text-white" style="padding:10px;background: black !important">
                                     <div class="col-md-12 text-center">
                                         <!-- end Transaction Type -->
                                         <table style="width:100%;text-align: center;">
@@ -220,9 +220,9 @@
                                                 <!-- <td style="width:33.33%;padding:5px;border:1px solid #ccc;">IT9002</td>
                                                 <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
                                                 <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td> -->
-                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;text-align: center;"><input style="border:none;text-align: center;" type="text" name="" placeholder="xxxxxx" class="form-control" id=""></td>
-                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;text-align: center;"><input style="border:none;text-align: center;" type="text" name="" placeholder="xxxxxx" class="form-control" id=""></td>
-                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;text-align: center;"><input style="border:none;text-align: center;" type="text" name="" placeholder="xxxxxx" class="form-control" id=""></td>
+                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;text-align: center;"><input style="border:none;text-align: center;" type="text" name="" class="form-control" id=""></td>
+                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;text-align: center;"><input style="border:none;text-align: center;" type="text" name="" class="form-control" id=""></td>
+                                                <td style="width:33.33%;padding:5px;border:1px solid #ccc;text-align: center;"><input style="border:none;text-align: center;" type="text" name="" class="form-control" id=""></td>
                                             </tr>
                                         </thead>
                                     </table>
@@ -480,7 +480,7 @@
             </nav>
             <!-- end navigation  -->
 
-            <div class="row" style="margin-top: 37px;">
+            <div class="row" style="margin-top: 57px;">
                 <div class="col-md-12" style="height:80vh;padding-right:40px;">
                     <div class="row">
                         <div class="col-md-12">
@@ -767,23 +767,41 @@
                     debug: false, // show the iframe for debugging
                     importCSS: true, // import parent page css
                     importStyle: true, // import style tags
-                    printContainer: false, // print outer container/$.selector
+                    printContainer: true, // print outer container/$.selector
                     loadCSS: ["../css/main_add_new.css", "../css/bootstrap-theme.css"], // path to additional css file - use an array [] for multiple
-                    pageTitle: "Inkosi Albert Luthuli Central Hospital \nImpilo Commissioning Certificate", // add title to print page
+                    pageTitle: false, // add title to print page
                     removeInline: false, // remove inline styles from print elements
                     removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
                     printDelay: 333, // variable print delay
-                    header: null, // prefix to html
-                    footer: null, // postfix to html
+                    header: "<span id='cert_number'></span>", // prefix to html
+                    footer: false, // postfix to html
                     base: false, // preserve the BASE tag or accept a string for the URL
                     formValues: true, // preserve input/form values
                     canvas: true, // copy canvas content
                     doctypeString: '<!DOCTYPE HTML>', // enter a different doctype for older markup
                     removeScripts: false, // remove script tags from print content
                     copyTagClasses: true, // copy classes from the html & body tag
-                    beforePrintEvent: null, // function for printEvent in iframe
-                    beforePrint: null, // function called before iframe is filled
-                    afterPrint: function() {
+                    beforePrintEvent: function(data) {
+                        console.log("beforePrintEventdata");
+                        console.log(data);
+                        console.log("beforePrintEventdata");
+
+                        alert("Print clicked");
+                    }, // function for printEvent in iframe
+                    beforePrint: function(data) {
+                        console.log("beforePrintdata");
+                        console.log(data);
+                        console.log("beforePrintdata");
+
+                        var cer_no = document.getElementById('cert_no_field').innerHTML;
+                        $('#cert_number').innerHTML = cer_no;
+                    }, // function called before iframe is filled
+                    afterPrint: function(data) {
+
+                        console.log("beforePrintdata");
+                        console.log(data);
+                        console.log("beforePrintdata");
+
                         var cer_no = document.getElementById('cert_no_field').innerHTML;
                         var jsonData = '{"username" : "' + localStorage.username + '","cert_no":"' + cer_no + '"}';
 
