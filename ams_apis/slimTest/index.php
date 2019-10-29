@@ -38,7 +38,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         AND ASSET_AREA_NAME LIKE '%$area%' 
         AND ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
         AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
-        AND HD_ASSET_LOCATION LIKE '%$sub_location%' 
+        AND ASSET_SUB_LOCATION LIKE '%$sub_location%' 
         AND ASSET_PRIMARY_ID LIKE '%$asset_primar_id%' 
         AND ASSET_ID=ASSET_PRIMARY_ID";
 
