@@ -142,7 +142,7 @@ function search() {
                 $('#loader').fadeOut(500);
 
                 console.log("======================data===============================");
-                // console.log(data);
+                console.log(data);
                 var table = null;
                 console.log("================test===============================");
                 // console.log(data);
@@ -153,7 +153,7 @@ function search() {
 
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
-                        console.log(data.data[k].ASSET_IS_SUB);
+                        // console.log(data);
                         // if ((data.rows - 1) == k) {
 
                         //     if(data.data[k].ASSET_CLASS == "IT EQUIPMENT"){
@@ -191,7 +191,7 @@ function search() {
                             str += data.data[k].ASSET_ROOM_NO + '","';
                             str += data.data[k].ASSET_AREA + '","';
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
-                            str += updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"]';
+                            str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"]';
                         } else {
 
                             str += '["' + data.data[k].ASSET_ID + '","';
@@ -200,7 +200,7 @@ function search() {
                             str += data.data[k].ASSET_ROOM_NO + '","';
                             str += data.data[k].ASSET_AREA + '","';
                             str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
-                            str += updateLetterToIcon(data.data[k].ASSET_IS_SUB) + '"],';
+                            str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"],';
                         }
                     }
 
