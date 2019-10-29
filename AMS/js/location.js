@@ -670,8 +670,8 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
                 $('#overlay-newAssetView').hide();
 
                 swal.fire({
-                    title: "Success",
-                    text: data.data,
+                    title: "SUCCESS",
+                    html: "<div>"+data.data+"</div>",
                     type: 'success',
                     showCloseButton: () => {
                         window.location.reload();
@@ -693,8 +693,8 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
             }
             else if (data.rows == 0) {
                 swal.fire({
-                    title: "Error",
-                    text: data.data,
+                    title: "ERROR",
+                    html: "<div>"+data.data+"</div>",
                     type: 'error',
                     showCloseButton: true,
                     closeButtonColor: '#FF0000',
@@ -1464,17 +1464,28 @@ var onSearch = function (searchValue, emptyId) {
     var getId = searchValue;
 
     var found = false;
-    // console.log(localStorage.getItem("rows"));
+    console.log(searchValue);
 
     // var rows = JSON.parse(localStorage.getItem(searchValue));
     var rows = allArr[searchValue];
+
+    const input = document.querySelector('input');
 
     document.getElementById(searchValue).onkeypress = function (e) {
 
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            search();
+            if(searchValue.indexOf("search_add_location_building")>-1 || searchValue.indexOf("search_add_location_level")>-1 || searchValue.indexOf("search_add_location_area")>-1 || searchValue.indexOf("search_add_location_proper_area")>-1 || searchValue.indexOf("search_add_location_area_detail")>-1 || searchValue.indexOf("search_add_location_room")>-1 || searchValue.indexOf("search_add_location_assetType")>-1){
+
+                console.log("searchValue");
+
+              
+
+            }else{
+                search();
+
+            }
         }
     }
 
