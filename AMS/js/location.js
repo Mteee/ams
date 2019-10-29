@@ -161,9 +161,9 @@ function populate_add_dropdown() {
     // get building
     getItems('../../ams_apis/slimTest/index.php/building_location', 'search_add_location_building', 'scroll_add_location_building', 'menu_add_location_building', 'empty_add_location_building', 'add');
     // get area
-    getItems('../../ams_apis/slimTest/index.php/asset_proper_area', 'search_add_location_proper_area', 'scroll_add_location_proper_area', 'meun_add_location_proper_area', 'empty_add_location_proper_area', 'add');
+    getItems('../../ams_apis/slimTest/index.php/asset_proper_area', 'search_add_location_proper_area', 'scroll_add_location_proper_area', 'meun_add_location_proper_area', 'empty_add_location_proper_area', 'new');
     // get area detail
-    getItems('../../ams_apis/slimTest/index.php/asset_area_detail', 'search_add_location_area_detail', 'scroll_add_location_area_detail', 'meun_add_location_area_detail', 'empty_add_location_area_detail', 'add');
+    getItems('../../ams_apis/slimTest/index.php/asset_area_detail', 'search_add_location_area_detail', 'scroll_add_location_area_detail', 'meun_add_location_area_detail', 'empty_add_location_area_detail', 'new');
 
 }
 
@@ -198,14 +198,18 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
     var jsonData = '';
     console.log('type');
     console.log(type);
+
+    if(type == 'new'){
+        jsonData = '{"building":"' + localStorage.building_add + '","level":"' + localStorage.level_add + '","area":"' + localStorage.area_add + '","room_no":"' + localStorage.room_no_add + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '","proper_area":"' + localStorage.proper_area + '","area_details":"' + localStorage.area_detail + '"}';
+    }else
     if (type == 'add') {
-        console.log('add');
-        console.log('{"building":"' + localStorage.building_add + '","level":"' + localStorage.level_add + '","area":"' + localStorage.area_add + '","room_no":"' + localStorage.room_no_add + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}');
+    
         jsonData = '{"building":"' + localStorage.building_add + '","level":"' + localStorage.level_add + '","area":"' + localStorage.area_add + '","room_no":"' + localStorage.room_no_add + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}';
     } else {
-        console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}');
         jsonData = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}';
     }
+
+    console.log(jsonData);
 
     $.ajax({
         url: url,
@@ -650,12 +654,16 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
                 resetBtn('#area_add_location_filter', "");
                 resetBtn('#room_add_location_filter', "");
                 resetBtn('#assetType_location_filter', "");
+                resetBtn('#proper_area_add_location_filter', "");
+                resetBtn('#area_detail_add_location_filter', "");
 
                 $("#search_add_location_building").val("");
                 $("#search_add_location_level").val("");
                 $("#search_add_location_area").val("");
                 $("#search_add_location_room").val("");
                 $("#search_add_location_assetType").val("");
+                $("#search_add_location_proper_area").val("");
+                $("#search_add_location_area_detail").val("");
 
                 clearAddLocalStorage();
 
@@ -720,6 +728,8 @@ function clearAddLocalStorage() {
     localStorage.level_add = "";
     localStorage.area_add = "";
     localStorage.room_no_add = "";
+    localStorage.proper_area = "";
+    localStorage.area_detail = "";
 }
 
 function locationBuild(value) {
@@ -1419,6 +1429,8 @@ function clearLocalStorageFilters() {
     localStorage.level_add = '';
     localStorage.area_add = '';
     localStorage.room_no_add = '';
+    localStorage.proper_area = "";
+    localStorage.area_detail = "";
 
     $('#search_location_building').val("");
     $('#search_location_level').val("");

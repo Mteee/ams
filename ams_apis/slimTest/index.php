@@ -4126,7 +4126,6 @@ $app->map(['GET','POST'],'/check_id', function(Request $request, Response $respo
     $asset_id = strtoupper($data->asset_id);
     $response = array();
 
-
         $sql = "SELECT (SELECT ASSET_PRIMARY_ID FROM AMSD.ASSETS 
         WHERE ASSET_PRIMARY_ID = '$asset_id'
         HAVING COUNT(ASSET_PRIMARY_ID)>1
@@ -4396,6 +4395,8 @@ $app->map(['GET','POST'],'/asset_proper_area', function(Request $request, Respon
     $sub_location = strtoupper($data->sub_location);
     $description = strtoupper($data->description);
     $asset_class = strtoupper($data->asset_class);
+    $proper_area = strtoupper($data->proper_area);
+    $area_details = strtoupper($data->area_details);
     $response = array();
 
     if($asset_class == 'ALL EQUIPMENT'){
@@ -4406,10 +4407,11 @@ $app->map(['GET','POST'],'/asset_proper_area', function(Request $request, Respon
                 ASSET_AREA 
                 FROM AMSD.ASSETS_LOCATION 
                 WHERE ASSET_BUILDING LIKE '%$building%'
-            AND ASSET_AREA LIKE '%$level%'
+                AND ASSET_LEVEL LIKE '%$level%'
+            AND ASSET_AREA LIKE '%$proper_area%'
+            AND ASSET_AREA_DETAIL LIKE '%$area_details%'
             AND ASSET_AREA_NAME LIKE '%$area%'
             AND ASSET_ROOM_NO LIKE '%$room_no%'
-            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
             AND HD_ASSET_DESC LIKE '%$description%'
             GROUP BY ASSET_AREA
             ORDER BY ASSET_AREA";
@@ -4448,6 +4450,8 @@ $app->map(['GET','POST'],'/asset_area_detail', function(Request $request, Respon
     $sub_location = strtoupper($data->sub_location);
     $description = strtoupper($data->description);
     $asset_class = strtoupper($data->asset_class);
+    $proper_area = strtoupper($data->proper_area);
+    $area_details = strtoupper($data->area_details);
     $response = array();
 
     if($asset_class == 'ALL EQUIPMENT'){
@@ -4458,10 +4462,10 @@ $app->map(['GET','POST'],'/asset_area_detail', function(Request $request, Respon
                 ASSET_AREA_DETAIL 
                 FROM AMSD.ASSETS_LOCATION 
                 WHERE ASSET_BUILDING LIKE '%$building%'
-            AND ASSET_AREA_DETAIL LIKE '%$level%'
-            AND ASSET_AREA_DETAIL LIKE '%$area%'
+                AND ASSET_LEVEL  LIKE '%$level%'
+            AND ASSET_AREA_DETAIL LIKE '%$area_details%'
+            AND ASSET_AREA LIKE '%$proper_area%'
             AND ASSET_ROOM_NO LIKE '%$room_no%'
-            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
             AND HD_ASSET_DESC LIKE '%$description%'
             GROUP BY ASSET_AREA_DETAIL
             ORDER BY ASSET_AREA_DETAIL";
@@ -4697,7 +4701,7 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
             echo json_encode(array("rows" => 0 ,"data" =>"ROOM NO ALREADY EXISTS, CHOOSE DIFFERENT ROOM"));
 
         }else{
-            $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,':AREA',:AREA_NAME,':AREA_DETAIL',:ROOM_NO,:RESULT); END;";
+            $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,:AREA,:AREA_NAME,:AREA_DETAIL,:ROOM_NO,:RESULT); END;";
             $statement = oci_parse($connect,$sql_new_room_proc);
             oci_bind_by_name($statement, ':USERNAME', $username, 30);
             oci_bind_by_name($statement, ':BUILDING', $building, 4000);
@@ -4779,12 +4783,14 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
         else if($room_exec == false && $sub_exec == false){
             // nothing exits
             
-            $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,'',:AREA_NAME,'',:ROOM_NO,:RESULT); END;";
+            $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,:AREA,:AREA_NAME,:AREA_DETAIL,:ROOM_NO,:RESULT); END;";
             $statement = oci_parse($connect,$sql_new_room_proc);
             oci_bind_by_name($statement, ':USERNAME', $username, 30);
             oci_bind_by_name($statement, ':BUILDING', $building, 4000);
             oci_bind_by_name($statement, ':LEVEL', $level, 30);
+            oci_bind_by_name($statement, ':AREA', $proper_area, 30);
             oci_bind_by_name($statement, ':AREA_NAME', $area, 4000);
+            oci_bind_by_name($statement, ':AREA_DETAIL', $area_detail, 4000);
             oci_bind_by_name($statement, ':ROOM_NO', $room_no, 30);
             oci_bind_by_name($statement, ':RESULT', $v_out, 2);
 
