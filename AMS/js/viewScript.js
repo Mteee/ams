@@ -34,12 +34,7 @@ function closeApp() {
 
 function closeMe() {
     // reset 
-    localStorage.building = '';
-    localStorage.level = '';
-    localStorage.area = '';
-    localStorage.room_no = '';
-    localStorage.sub_location = '';
-    localStorage.asset_primary_id = '';
+    localStorage.clear();
     open("../index.html", '_self')
     window.location.replace("../index.html");
     window.close();
@@ -1125,3 +1120,5 @@ var onSearch_new = function (searchValue) {
         }
     }
 }
+
+localStorage.dropdownFilter = "ALL EQUIPMENT";
