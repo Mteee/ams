@@ -4334,6 +4334,7 @@ $app->map(['GET','POST'],'/asset_level_new_location', function(Request $request,
     }
 });
 
+// area_name
 $app->map(['GET','POST'],'/asset_area_location', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -4384,6 +4385,109 @@ $app->map(['GET','POST'],'/asset_area_location', function(Request $request, Resp
     }
 });
 
+//area
+$app->map(['GET','POST'],'/asset_proper_area', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $description = strtoupper($data->description);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT 
+                ASSET_AREA 
+                FROM AMSD.ASSETS_LOCATION 
+                WHERE ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_AREA LIKE '%$level%'
+            AND ASSET_AREA_NAME LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND HD_ASSET_DESC LIKE '%$description%'
+            GROUP BY ASSET_AREA
+            ORDER BY ASSET_AREA";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_AREA;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+});
+
+
+//area_detail
+$app->map(['GET','POST'],'/asset_area_detail', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $sub_location = strtoupper($data->sub_location);
+    $description = strtoupper($data->description);
+    $asset_class = strtoupper($data->asset_class);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT 
+                ASSET_AREA_DETAIL 
+                FROM AMSD.ASSETS_LOCATION 
+                WHERE ASSET_BUILDING LIKE '%$building%'
+            AND ASSET_AREA_DETAIL LIKE '%$level%'
+            AND ASSET_AREA_DETAIL LIKE '%$area%'
+            AND ASSET_ROOM_NO LIKE '%$room_no%'
+            AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND HD_ASSET_DESC LIKE '%$description%'
+            GROUP BY ASSET_AREA_DETAIL
+            ORDER BY ASSET_AREA_DETAIL";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_AREA_DETAIL;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+});
+
 $app->map(['GET','POST'],'/asset_room_no_location', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -4392,6 +4496,8 @@ $app->map(['GET','POST'],'/asset_room_no_location', function(Request $request, R
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $sub_location = strtoupper($data->sub_location);
+    $description = strtoupper($data->description);
+    $asset_class = strtoupper($data->asset_class);
     $description = strtoupper($data->description);
     $asset_class = strtoupper($data->asset_class);
     $response = array();
@@ -4572,10 +4678,12 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
     $area = strtoupper($data->area);
     $room_no = strtoupper($data->room_no);
     $sub_location = strtoupper($data->sub_location);
-    $type = strtoupper($data->type);
     $username = strtoupper($data->username);
     $asset_type = strtoupper($data->asset_type);
+    $proper_area = strtoupper($data->proper_area);
+    $area_detail = strtoupper($data->area_detail);
     $v_out = "";
+    $type = strtoupper($data->type);
 
     if($type == "NR"){
         // echo json_encode("New Room");
@@ -4589,12 +4697,14 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
             echo json_encode(array("rows" => 0 ,"data" =>"ROOM NO ALREADY EXISTS, CHOOSE DIFFERENT ROOM"));
 
         }else{
-            $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,'',:AREA_NAME,'',:ROOM_NO,:RESULT); END;";
+            $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,':AREA',:AREA_NAME,':AREA_DETAIL',:ROOM_NO,:RESULT); END;";
             $statement = oci_parse($connect,$sql_new_room_proc);
             oci_bind_by_name($statement, ':USERNAME', $username, 30);
             oci_bind_by_name($statement, ':BUILDING', $building, 4000);
             oci_bind_by_name($statement, ':LEVEL', $level, 30);
+            oci_bind_by_name($statement, ':AREA', $proper_area, 30);
             oci_bind_by_name($statement, ':AREA_NAME', $area, 4000);
+            oci_bind_by_name($statement, ':AREA_DETAIL', $area_detail, 4000);
             oci_bind_by_name($statement, ':ROOM_NO', $room_no, 30);
             oci_bind_by_name($statement, ':RESULT', $v_out, 2);
 
