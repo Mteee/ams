@@ -485,7 +485,7 @@ function searchasset() {
     }
     else {
 
-        console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '"}');
+        console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '","asset_class":"' + localStorage.filter + '"}');
         if (building !== '') {
             $('#dropdown_sub_location').text(building);
         }
@@ -509,7 +509,7 @@ function searchasset() {
             url: '../../ams_apis/slimTest/index.php/assets_not_linked',
             method: 'POST',
             dataType: 'JSON',
-            data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '"}',
+            data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '","asset_class":"' + localStorage.filter + '"}',
             success: function (data) {
                 var table = null;
                 console.log(data);
@@ -1055,19 +1055,8 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
         //clear btn text
-        resetBtn('#dropdown_assets', 'ASSET NO...');
-        resetBtn('#dropdown_room', 'ROOM...');
-        resetBtn('#dropdown_location', 'LOCATION ...');
-
-        //clear search inputs
-        resetInput('#searchlocation', '');
-        resetInput('#searchroomno', '');
-        resetInput('#searchasset', '');
-
-        localStorage.menuAssets = '';
-        localStorage.menuLocation = '';
-        localStorage.menuRoom = '';
-        populate_dropdown();
+        clearSublocation();
+        clearSubfilters();
     });
 
 }
@@ -1080,6 +1069,10 @@ else {
 
 function resetBtn(resetId, resetTxt) {
     $(resetId).text(resetTxt);
+}
+
+function resetInput(resetId, resetTxt) {
+    $(resetId).val(resetTxt);
 }
 
 
@@ -1657,7 +1650,7 @@ var onSearch = function (table, searchValue, emptyId) {
 
         var suitable = false;
 
-        console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
+        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
 
         if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;

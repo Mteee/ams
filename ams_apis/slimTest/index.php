@@ -1194,6 +1194,11 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
     $room_no = strtoupper($data->room_no);
     $description = strtoupper($data->description);
     $asset_primary_id = strtoupper($data->asset_primary_id);
+    $asset_class = strtoupper($data->asset_class);
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
 
     $sql = "SELECT 
     a_new.ASSET_ID,
@@ -1215,6 +1220,7 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
     AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
     AND a_new.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
     AND a_new.ASSET_ID = a_new.ASSET_PRIMARY_ID
+    AND a_new.ASSET_CLASS LIKE '%$asset_class%'
     GROUP BY a_new.ASSET_ID,l_new.ASSET_ROOM_NO,l_new.ASSET_AREA_NAME,a_new.ASSET_CLASSIFICATION || ' - ' || ASSET_DESCRIPTION";
 
     $assets_no =$func->executeQuery($sql);
