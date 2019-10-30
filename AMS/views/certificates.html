@@ -799,101 +799,92 @@
                     afterPrint: function(data) {
 
                         swal.fire({
-                                        title: "Printed?",
-                                        type: 'question',
-                                        text:"Did the certificate print successfully?",
-                                        showCloseButton: true,
-                                        confirmButtonText: "Yes",
-                                        showCancelButton: true,
-                                        cancelButtonText: "No",
-                                        closeButtonColor: '#3DB3D7',
-                                        allowOutsideClick: false,
-                                    }).then(function(results){
-                                        if(results){
-                                            updatePrint();
-                                        }
-                                    })
-
-                        console.log("beforePrintdata");
-                        console.log(data);
-                        console.log("beforePrintdata");
-
-                        var cer_no = document.getElementById('cert_no_field').innerHTML;
-                        var jsonData = '{"username" : "' + localStorage.username + '","cert_no":"' + cer_no + '"}';
-
-                        console.log(jsonData);
-
-          
+                            title: "Printed?",
+                            type: 'question',
+                            text: "Did the certificate print successfully?",
+                            showCloseButton: true,
+                            confirmButtonText: "Yes",
+                            showCancelButton: true,
+                            cancelButtonText: "No",
+                            closeButtonColor: '#3DB3D7',
+                            allowOutsideClick: false,
+                        }).then(function(results) {
+                            if (results.value) {
+                                updatePrint();
+                            }
+                        })
                     }
                 });
 
             }
 
 
-            function updatePrint(){
+            function updatePrint() {
+                var cer_no = document.getElementById('cert_no_field').innerHTML;
+                var jsonData = '{"username" : "' + localStorage.username + '","cert_no":"' + cer_no + '"}';
                 $.ajax({
-                            url: "../../ams_apis/slimTest/index.php/asset_print_cert",
-                            method: "POST",
-                            data: jsonData,
-                            dataType: 'JSON',
-                            success: function(data) {
-                                console.log(data);
-                                if (data.rows > 0) {
-                                    swal.fire({
-                                        title: data.data,
-                                        type: 'success',
-                                        showCloseButton: true,
-                                        closeButtonColor: '#3DB3D7',
-                                        animation: false,
-                                        customClass: {
-                                            popup: 'animated tada'
-                                        },
-                                        allowOutsideClick: true,
-                                    });
-                                    $('#overlay-printView').hide();
-                                    search();
+                    url: "../../ams_apis/slimTest/index.php/asset_print_cert",
+                    method: "POST",
+                    data: jsonData,
+                    dataType: 'JSON',
+                    success: function(data) {
+                        console.log(data);
+                        if (data.rows > 0) {
+                            swal.fire({
+                                title: data.data,
+                                type: 'success',
+                                showCloseButton: true,
+                                closeButtonColor: '#3DB3D7',
+                                animation: false,
+                                customClass: {
+                                    popup: 'animated tada'
+                                },
+                                allowOutsideClick: true,
+                            });
+                            $('#overlay-printView').hide();
+                            search();
 
-                                } else {
-                                    swal.fire({
-                                        title: data.data,
-                                        type: 'error',
-                                        showCloseButton: true,
-                                        closeButtonColor: '#3DB3D7',
-                                        animation: false,
-                                        customClass: {
-                                            popup: 'animated tada'
-                                        },
-                                        allowOutsideClick: true,
-                                    });
-                                }
+                        } else {
+                            swal.fire({
+                                title: data.data,
+                                type: 'error',
+                                showCloseButton: true,
+                                closeButtonColor: '#3DB3D7',
+                                animation: false,
+                                customClass: {
+                                    popup: 'animated tada'
+                                },
+                                allowOutsideClick: true,
+                            });
+                        }
 
 
+                    },
+                    error: function(err) {
+                        swal.fire({
+                            title: 'Ooops',
+                            text: 'Something went wrong. Please try again or contact admin.',
+                            type: 'error',
+                            showCloseButton: true,
+                            closeButtonColor: '#3DB3D7',
+                            animation: false,
+                            customClass: {
+                                popup: 'animated tada'
                             },
-                            error: function(err) {
-                                swal.fire({
-                                    title: 'Ooops',
-                                    text: 'Something went wrong. Please try again or contact admin.',
-                                    type: 'error',
-                                    showCloseButton: true,
-                                    closeButtonColor: '#3DB3D7',
-                                    animation: false,
-                                    customClass: {
-                                        popup: 'animated tada'
-                                    },
-                                    allowOutsideClick: true,
+                            allowOutsideClick: true,
 
-                                }).then(function(result) {
-                                    if (result.value) {
-                                        $('#overlay-printView').hide();
-                                        search();
-                                    } else if (
-                                        result.dismiss === Swal.DismissReason.cancel
-                                    ) {
+                        }).then(function(result) {
+                            if (result.value) {
+                                $('#overlay-printView').hide();
+                                search();
+                            } else if (
+                                result.dismiss === Swal.DismissReason.cancel
+                            ) {
 
-                                    }
-                                })
                             }
-                        });
+                        })
+                    }
+                });
             }
         </script>
 
