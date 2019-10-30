@@ -798,6 +798,22 @@
                     }, // function called before iframe is filled
                     afterPrint: function(data) {
 
+                        swal.fire({
+                                        title: "Printed?",
+                                        type: 'question',
+                                        text:"Did the certificate print successfully?",
+                                        showCloseButton: true,
+                                        confirmButtonText: "Yes",
+                                        showCancelButton: true,
+                                        cancelButtonText: "No",
+                                        closeButtonColor: '#3DB3D7',
+                                        allowOutsideClick: false,
+                                    }).then(function(results){
+                                        if(results){
+                                            updatePrint();
+                                        }
+                                    })
+
                         console.log("beforePrintdata");
                         console.log(data);
                         console.log("beforePrintdata");
@@ -807,7 +823,15 @@
 
                         console.log(jsonData);
 
-                        $.ajax({
+          
+                    }
+                });
+
+            }
+
+
+            function updatePrint(){
+                $.ajax({
                             url: "../../ams_apis/slimTest/index.php/asset_print_cert",
                             method: "POST",
                             data: jsonData,
@@ -870,9 +894,6 @@
                                 })
                             }
                         });
-                    }
-                });
-
             }
         </script>
 
