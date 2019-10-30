@@ -1078,6 +1078,11 @@ else {
 }
 
 
+function resetBtn(resetId, resetTxt) {
+    $(resetId).text(resetTxt);
+}
+
+
 //function clear button
 function clearData(input, btnDafualtId, text, emptyId) {
     // var inputData = document.getElementById(input).(val);
