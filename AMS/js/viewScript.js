@@ -638,6 +638,13 @@ function checkFilter(key) {
         case "search_view_building":
             res = { "btnId": "building_view_filter", "btnContent": "BUILDING" };
 
+            document.getElementById('menu_view_building').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('meun_view_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
             $('#search_view_building').val("");
             $('#building_view_filter').text("BUILDING");
             $('#search_view_level').val("");
@@ -662,6 +669,12 @@ function checkFilter(key) {
         case "search_view_level":
             res = { "btnId": "level_view_filter", "btnContent": "LEVEL" };
 
+            document.getElementById('menu_view_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('meun_view_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
             $('#search_view_level').val("");
             $('#level_view_filter').text("LEVEL");
             $('#search_view_area').val("");
@@ -684,6 +697,11 @@ function checkFilter(key) {
         case "search_view_area":
             res = { "btnId": "area_view_filter", "btnContent": "AREA" };
 
+            document.getElementById('meun_view_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
             $('#search_view_area').val("");
             $('#area_view_filter').text("AREA");
             $('#search_view_room').val("");
@@ -703,6 +721,10 @@ function checkFilter(key) {
         case "search_view_room":
             res = { "btnId": "room_view_filter", "btnContent": "ROOM" };
 
+            document.getElementById('menu_view_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
             $('#search_view_room').val("");
             $('#room_view_filter').text("ROOM");
             $('#search_view_sublocaction').val("");
@@ -719,6 +741,9 @@ function checkFilter(key) {
         case "search_view_sublocaction":
             res = { "btnId": "sublocaction_view_filter", "btnContent": "SUB LOCATION" };
 
+            document.getElementById('menu_view_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            document.getElementById('menu_view_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
             $('#search_view_sublocaction').val("");
             $('#sublocaction_view_filter').text("SUB LOCATION");
             $('#search_view_assetNo').val("");
@@ -731,6 +756,8 @@ function checkFilter(key) {
 
         case "search_view_assetNo":
             res = { "btnId": "assetNo_view_filter", "btnContent": "ASSET NO" };
+
+            document.getElementById('menu_view_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
             $('#search_view_assetNo').val("");
             $('#assetNo_view_filter').text("ASSET NO");
