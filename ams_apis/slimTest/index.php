@@ -4797,7 +4797,6 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
     }
 });
 
-
 $app->map(['GET','POST'],'/asset_print_cert',function(Request $request, Response $response){
 
     try{
@@ -4833,7 +4832,6 @@ $app->map(['GET','POST'],'/asset_print_cert',function(Request $request, Response
 
 });
 
-
 $app->map(['GET','POST'],'/unlink_assets',function(Request $request, Response $response){
     try{
         global $connect;
@@ -4864,8 +4862,6 @@ $app->map(['GET','POST'],'/unlink_assets',function(Request $request, Response $r
     }catch (Exception $pdoex) {
         echo "Database Error : " . $pdoex->getMessage();
     }
-    
-
 });
 
 $app->run();
