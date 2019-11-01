@@ -45,20 +45,42 @@ function startApp() {
         console.log(data[0].filter);
         var filter = data[0].filter;
         
+        
         if (filter != null && filter != '') {
           localStorage.filter = filter;
-          localStorage.dropdownFilter = "ALL EQUIPMENT";
+          localStorage.backupFilter = filter;
           setTimeout(function () {
 
             window.location.href = "../AMS/views/viewAssets.html";
           }, timeout);
+        }else{
+          swal.fire({
+            title: "Unexpected Error #41200",
+            text: "An error has occured, please contact admin (amsdev@ialch.co.za)",
+            type: "error",
+            showCloseButton: true,
+            confirmButtonColor: "#C12E2A",
+            allowOutsideClick: true,
+    
+         })
         }
 
       },
       error: function (err) {
         console.log(err);
+
         $("#btnSave").attr("disabled", false);
-        alert("Please contact system admin");
+
+        swal.fire({
+        title: "Unexpected Error #41404",
+        text: "An error has occured, please contact admin (amsdev@ialch.co.za)",
+        type: "error",
+        showCloseButton: true,
+        confirmButtonColor: "#C12E2A",
+        allowOutsideClick: true,
+
+     })
+
         $('#loginLoader').hide();
       }
     });

@@ -315,8 +315,8 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;" data-step="2"
-            data-intro="This is a navigation menu, with your class or department">
+            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;"
+                data-step="2" data-intro="This is a navigation menu, with your class or department">
                 <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
                         style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span>/ <em><span
                             class="text-muted">ASSET VIEW</span></em></div>
@@ -325,11 +325,11 @@
             <div class=" col-md-3">
                 <div class="row">
                     <div class="col-md-4 offset-6" data-step="3"
-                    data-intro="This is a navigation menu, with your class or department">
+                        data-intro="This is a navigation menu, with your class or department">
                         <div id="username">Username</div>
                     </div>
                     <div class="col-md-2" data-step="4"
-                    data-intro="This is a navigation menu, with your class or department">
+                        data-intro="This is a navigation menu, with your class or department">
                         <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;"
                             onclick="closeApp()">
                             <span style="color:white" class="fa fa-power-off"></span>
@@ -376,7 +376,7 @@
                                         </th>
                                         <th>
                                             <div class="dropdown" data-step="5"
-                                            data-intro="This is a navigation menu, with your class or department">
+                                                data-intro="This is a navigation menu, with your class or department">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
                                                     type="button" id="building_view_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
@@ -550,7 +550,7 @@
 
                                         <th>
                                             <div class="dropdown" data-step="6"
-                                            data-intro="This is a navigation menu, with your class or department">
+                                                data-intro="This is a navigation menu, with your class or department">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
                                                     type="button" id="assetNo_view_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
@@ -590,12 +590,13 @@
                                         </th>
                                         <th>
                                             <button onclick="search()" type="text" class="btn btn-success" data-step="7"
-                                            data-intro="This is a navigation menu, with your class or department">
+                                                data-intro="This is a navigation menu, with your class or department">
                                                 <span class="fa fa-search"></span>
                                                 Search
                                             </button>
-                                            <button onclick="cleaAllFilters()" type="text" class="btn btn-danger" data-step="8"
-                                            data-intro="This is a navigation menu, with your class or department">
+                                            <button onclick="cleaAllFilters()" type="text" class="btn btn-danger"
+                                                data-step="8"
+                                                data-intro="This is a navigation menu, with your class or department">
                                                 <span class="fa fa-close"></span>
                                                 Clear
                                             </button>
@@ -606,7 +607,7 @@
                                     <table class="table" id="currentAssetsTable">
                                         <thead style="background:#000000;color:#ffffff;">
                                             <tr data-step="9"
-                                            data-intro="This is a navigation menu, with your class or department">
+                                                data-intro="This is a navigation menu, with your class or department">
                                                 <th scope="col">
                                                     #
                                                 </th>
@@ -640,7 +641,7 @@
                                             </tr>
                                         </thead>
                                         <tbody id="current" data-step="10"
-                                        data-intro="This is a navigation menu, with your class or department">
+                                            data-intro="This is a navigation menu, with your class or department">
                                             <div id="loader" class="loader">
                                                 <img src="../img/loading-transparent.gif" alt="">
                                             </div>
@@ -690,8 +691,50 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
         <script type="text/javascript"
             src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
-
+        <script src="../js/printThis.js "></script>
         <script>
+
+            function printData() {
+                // var divToPrint = document.getElementById("tablePrint");
+                // var htmlToPrint = '' +
+                //     '<style type="text/css">' +
+                //     'table th, table td {' +
+                //     'border:1px solid #000;' +
+                //     'padding:0.5em;' +
+                //     'font-size:12pt;' +
+                //     '}' +
+                //     '</style>';
+                // htmlToPrint += divToPrint.outerHTML;
+                // newWin = window.open("");
+                // newWin.document.write(htmlToPrint);
+                // newWin.print();
+                // newWin.close();
+
+                $('#tablePrint').printThis({
+                    debug: false, // show the iframe for debugging
+                    importCSS: true, // import parent page css
+                    importStyle: true, // import style tags
+                    printContainer: true, // print outer container/$.selector
+                    loadCSS: ["../css/main_add_new.css", "../css/bootstrap-theme.css"], // path to additional css file - use an array [] for multiple
+                    pageTitle: "ASSETS VIEW", // add title to print page
+                    removeInline: false, // remove inline styles from print elements
+                    removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
+                    printDelay: 333, // variable print delay
+                    header: false, // prefix to html
+                    footer: false, // postfix to html
+                    base: false, // preserve the BASE tag or accept a string for the URL
+                    formValues: true, // preserve input/form values
+                    canvas: true, // copy canvas content
+                    doctypeString: '<!DOCTYPE HTML>', // enter a different doctype for older markup
+                    removeScripts: false, // remove script tags from print content
+                    copyTagClasses: true, // copy classes from the html & body tag
+                    beforePrintEvent: null, // function for printEvent in iframe
+                    beforePrint: null, // function called before iframe is filled
+                    afterPrint:null
+                });
+            }
+
+
             const $menu = $('#menu-list');
 
             $(document).mouseup(e => {

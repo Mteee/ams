@@ -454,7 +454,7 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
             return json_encode($response);
         }
         else{
-            $filter = "FACILITIES MANAGEMENT";
+            $filter = "ALL EQUIPMENT";
             array_push($response,array("filter"=>$filter));
             return json_encode($response);
         }
