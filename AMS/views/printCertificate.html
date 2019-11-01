@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="http://localhost/AMEProjects/ams/AMS/css/bootstrap.css">
     <style>
         @page {
             size: landscape;
-            margin: 10%;
+            margin: 20px !important;
             font-size: 10pt;
         }
         
@@ -58,7 +58,7 @@
 
         <table class="table">
             <tr>
-                <td> <img src="../img/certificate/impilo.png" width="100" style="" /></td>
+                <td> <img src="http://localhost/AMEProjects/ams/AMS/img/certificate/impilo.png" width="100" style="" /></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -67,7 +67,7 @@
                     <h4>Inkosi Albert Luthuli Central Hospital<br />Impilo Commissioning Certificate</h4>
                 </td>
                 <td></td>
-                <td> <img src="../img/certificate/Dept. health.png" width="220" /></td>
+                <td> <img src="http://localhost/AMEProjects/ams/AMS/img/certificate/Dept. health.png" width="220" /></td>
             </tr>
         </table>
 
@@ -75,7 +75,7 @@
 
 
         <!-- Certificate Number Details -->
-        <div class="row" style="margin-top: 20px;background: black;color: white;padding:10px;margin-top:-20px;">
+        <div class="row" style="margin-top: 20px;background: black;text-emphasis-color: white;padding:10px;margin-top:-20px;">
             <div class="col-md-12 text-center">
                 <!-- end Transaction Type -->
                 <table style="width:100%">
@@ -115,7 +115,7 @@
                     <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Service Provider Invoice Number</th>
                     <th style="width:33.33%;padding:5px;border:1px solid #ccc;">Reference</th>
                 </tr>
-                <tr>
+                <tr class="text-center">
                     <td style="width:33.33%;padding:5px;border:1px solid #ccc;">IT9002</td>
                     <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
                     <td style="width:33.33%;padding:5px;border:1px solid #ccc;">xxxxxxxx</td>
@@ -154,11 +154,10 @@
                             <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
                                 On Behalf of Service Provider :</th>
                         </tr>
-                        <tr class="text-center" style="font-weight:bolder;">
-                            <td style="width:33.33%;padding:5px;"> Name : _________________________________________</td>
-                            <td style="width:33.33%;padding:5px;"> Title : _________________________________________
-                            </td>
-                            <td style="width:33.33%;padding:5px;">Date : _________________________________________</td>
+                        <tr class="" style="font-weight:bolder;">
+                            <td style="width:33.33%;padding:5px;"> Name : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Title : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;">Date : _________________________________</td>
                         </tr>
                     </table>
                 </div>
@@ -173,11 +172,10 @@
                             <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
                                 On Behalf of Inkosi Albert Luthuli Central Hospital:</th>
                         </tr>
-                        <tr class="text-center" style="font-weight:bolder;">
-                            <td style="width:33.33%;padding:5px;"> Name : _________________________________________</td>
-                            <td style="width:33.33%;padding:5px;"> Title : _________________________________________
-                            </td>
-                            <td style="width:33.33%;padding:5px;">Date : _________________________________________</td>
+                        <tr class="" style="font-weight:bolder;">
+                            <td style="width:33.33%;padding:5px;"> Name : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Title : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;">Date : _________________________________</td>
                         </tr>
                     </table>
                 </div>
@@ -190,11 +188,10 @@
                             <th colspan="3" style="font-weight:bolder;padding:5px;background: rgb(241, 241, 241);border-top:1px solid black;">
                                 On Behalf of Impilo Consortium:</th>
                         </tr>
-                        <tr class="text-center" style="font-weight:bolder;">
-                            <td style="width:33.33%;padding:5px;"> Name : _________________________________________</td>
-                            <td style="width:33.33%;padding:5px;"> Title : _________________________________________
-                            </td>
-                            <td style="width:33.33%;padding:5px;">Date : _________________________________________</td>
+                        <tr class="" style="font-weight:bolder;">
+                            <td style="width:33.33%;padding:5px;"> Name : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;"> Title : _________________________________</td>
+                            <td style="width:33.33%;padding:5px;">Date : _________________________________</td>
                         </tr>
                     </table>
                 </div>
@@ -206,11 +203,7 @@
 
     </div>
 
-    <button id="ignorePDF" onclick="javascript:PDF1()">Print Certificate</button>
-
-
-
-
+    <button id="ignorePDF" onclick="javascript:pdf()">Print Certificate</button>
 
     <!-- <table class="table ">
             <tr>
@@ -239,7 +232,7 @@
     </div>
 
     <script src="../js/jquery.js "></script>
-    <script src="../js/jspdf.debug.js "></script>
+    <script src="../js/printThis.js "></script>
     <script>
         function PDF1() {
             var doc = new jsPDF('l', 'pt', 'a4', true);
@@ -285,7 +278,6 @@
 
         // }
     </script>
-
 </body>
 
 </html>

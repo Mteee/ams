@@ -251,7 +251,7 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
     $count = 0;
     global $func;
 
-
+ 
 
     if(!empty($ASSET_NO)){
 
@@ -307,7 +307,6 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
                 // echo $res->ASSET_ID.'<br>';
                 
                 if($ASSET_NO != $res->ASSET_ID){
-                //    TO-Do Limit description length
                 $sub .= '<tr>
                                 <td>'.$res->ASSET_ID.'</td>
                                 <td>'.$res->ASSET_CLASSIFICATION.'</td>
@@ -1238,7 +1237,7 @@ $app->map(['GET','POST'],'/building_sub', function(Request $request, Response $r
     $response = array();
 
     $sql = "SELECT 
-                ASSET_BUILDING
+                L_NEW.ASSET_BUILDING
             FROM 
                 AMSD.ASSETS_LOCATION 
             WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
@@ -1283,7 +1282,7 @@ $app->map(['GET','POST'],'/asset_level_new_sub', function(Request $request, Resp
     $response = array();
 
     $sql = "SELECT 
-                ASSET_LEVEL 
+                L_NEW.ASSET_LEVEL 
             FROM 
             AMSD.ASSETS_LOCATION 
             WHERE substr(hd_asset_room_location,1,2) in ('VL','SW','AL','SC','SA','PL','AP')
@@ -4866,5 +4865,73 @@ $app->map(['GET','POST'],'/asset_print_cert',function(Request $request, Response
 
 });
 
+
+$app->map(['GET','POST'],'/unlink_assets',function(Request $request, Response $response){
+    try{
+        global $connect;
+        $data = json_decode(file_get_contents('php://input'));
+        $ASSETS_ID = strtoupper($data->assetid);
+        $USERNAME = strtoupper($data->username);
+        $RESULT = '';
+
+        // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
+
+        $sql = "BEGIN amsd.asset_it_fix_unlink_sub(:ASSET_ID,:RESULT); END;";
+        $statement = oci_parse($connect,$sql);
+        // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
+        oci_bind_by_name($statement, ':ASSET_ID', $ASSETS_ID, 30);
+        oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($RESULT == "y"){
+            echo json_encode(array("rows" => 0 ,"data" =>"UNLINK WAS SUCCESSFUL"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"UNLINK WAS NOT SUCCESSFUL"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+    
+
+});
+
+$app->map(['GET','POST'],'/unlink_all_subs',function(Request $request, Response $response){
+    try{
+        global $connect;
+        $data = json_decode(file_get_contents('php://input'));
+        $ASSETS_ID = strtoupper($data->asset_primary_id);
+        $USERNAME = strtoupper($data->username);
+        $RESULT = '';
+
+        // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
+
+        $sql = "BEGIN amsd.asset_it_fix_unlink_all_subs(:ASSET_ID,:RESULT); END;";
+        $statement = oci_parse($connect,$sql);
+        // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
+        oci_bind_by_name($statement, ':ASSET_ID', $ASSETS_ID, 30);
+        oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
+
+        oci_execute($statement , OCI_NO_AUTO_COMMIT);
+
+        oci_commit($connect);
+
+        if($RESULT == "y"){
+            echo json_encode(array("rows" => 0 ,"data" =>"UNLINKING ALL SUBS WAS SUCCESSFUL"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"UNLINKING ALL SUBS WAS NOT SUCCESSFUL"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+    
+
+});
 
 $app->run();
