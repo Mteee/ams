@@ -1074,9 +1074,9 @@ $('#menu_new_room').on('click', '.dropdown-item', function () {
     $('#search_new_room').val($(this)[0].value);
 });
 
-if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
+if (localStorage.filter == "ALL EQUIPMENT") {
 
-    // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
     $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
@@ -1085,29 +1085,28 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
     $('#class-options').on('change', function () {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
+        toogleSub(filter);
 
-        if (filter == "IT EQUIPMENT") {
-            $('.filter_sub').show();
-        } else {
-            $('.filter_sub').hide();
-        }
         clearLocalStorageFilters();
         populate_dropdown();
-
         //clear btn text
-        resetBtn('#building_addition_filter', "BUILDING");
-        resetBtn('#level_addition_filter', "LEVEL");
-        resetBtn('#area_addition_filter', "AREA");
-        resetBtn('#room_addition_filter', "ROOM");
-        resetBtn('#sublocaction_addition_filter', "SUB LOCATION");
-        resetBtn('#assetNo_addition_filter', "ASSET NUMBER");
+        checkFilter("search_addition_building");
 
     });
 
 } else {
+    toogleSub(localStorage.filter);
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
+}
+
+function toogleSub(filter) {
+    if (filter == "IT EQUIPMENT") {
+        $('.filter_sub').show();
+    } else {
+        $('.filter_sub').hide();
+    }
 }
 
 var defaultRooms = {

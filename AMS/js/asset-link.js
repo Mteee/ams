@@ -667,7 +667,7 @@ function unlinkAll(assetId) {
                 closeAsset('overlay-asset');
                 searchasset()
                 search();
-                
+
                 swal.fire({
                     title: "unlinked Successfully",
                     text: data.data,
@@ -1160,7 +1160,7 @@ $('#menu_asset_no_sub').on('click', '.dropdown-item', function () {
 // end assets menu  onclick 
 
 //Department Dropdown Check
-if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
+if (localStorage.filter == "ALL EQUIPMENT") {
 
     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
@@ -1171,29 +1171,44 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
     $('#class-options').on('change', function () {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
-        //clear btn text
-        resetBtn('#dropdown_assets', 'ASSET NO...');
-        resetBtn('#dropdown_room', 'ROOM...');
-        resetBtn('#dropdown_location', 'LOCATION ...');
+        toogleSub(filter);
 
-        //clear search inputs
-        resetInput('#searchlocation', '');
-        resetInput('#searchroomno', '');
-        resetInput('#searchasset', '');
-
-        localStorage.menuAssets = '';
-        localStorage.menuLocation = '';
-        localStorage.menuRoom = '';
+        clearLocalStorageFilters();
         populate_dropdown();
+        //clear btn text
+        checkFilter("search_addition_building");
+
     });
 
-}
-else {
+} else {
+    toogleSub(localStorage.filter);
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
 }
 
+function toogleSub(filter) {
+    if (filter == "IT EQUIPMENT") {
+        $('.filter_sub').show();
+    } else {
+        $('.filter_sub').hide();
+    }
+}
+
+function clearLocalStorageFilters() {
+
+    localStorage.building = '';
+    localStorage.area = '';
+    localStorage.level = '';
+    localStorage.room_no = '';
+    localStorage.sub_location = '';
+    localStorage.building_assets = '';
+    localStorage.area_assets = '';
+    localStorage.level_assets = '';
+    localStorage.room_no_assets = '';
+    localStorage.asset_no = '';
+
+}
 
 //function clear button
 function clearData(input, btnDafualtId, text, emptyId) {

@@ -455,7 +455,7 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
         }
         else{
             $filter = "ALL EQUIPMENT";
-            array_push($response,array("filter"=>$filter));
+            array_push($response,array("filter"=>$filter,"role"=>"V|M"));
             return json_encode($response);
         }
 
