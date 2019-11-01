@@ -13,22 +13,20 @@
     <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-    <link href="../css/introjs.css" rel="stylesheet">
-    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css"
-        rel="stylesheet" />
+    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
 
     <style>
         .dropdown-menu {
             max-height: 300px;
             overflow-y: auto;
-            overflow-x: hidden;
         }
-
+        
         #searchWith th {
             width: 350px;
         }
-
+        
         .toggle-btn {
             border-radius: 50%;
             border: 2px solid white;
@@ -37,31 +35,30 @@
             font-weight: bolder;
             font-size: 18px;
         }
-
+        
         .toggle-btn:hover {
             cursor: pointer;
         }
-
+        
         .print_scroll {
             height: 620px;
             overflow: auto;
         }
-
+        
         .print_scroll thead {
             position: sticky;
             top: 0;
         }
-
         /* *{
             font-size:12pt;
         } */
-
+        
         #overlay-printView table th,
         #overlay-printView table td {
             border: 2px solid #000;
             padding: 0.5em;
         }
-
+        
         .system_info {
             position: fixed;
             bottom: 20px;
@@ -76,25 +73,25 @@
             color: white;
             left: 20px;
         }
-
+        
         .menu-group {
             display: none;
         }
-
+        
         .is-active .menu-group {
             display: block;
         }
-
+        
         .system_info:hover {
             cursor: pointer;
             box-shadow: 5px 4px 19px #000000d4;
             transition: 500ms;
         }
-
+        
         .system_info:hover .tooltiptext {
             visibility: visible;
         }
-
+        
         .system_info .tooltiptext {
             visibility: hidden;
             width: 160px;
@@ -112,7 +109,7 @@
             margin-left: 27px;
             margin-top: -16px;
         }
-
+        
         * {
             font-size: 9pt !important;
         }
@@ -121,59 +118,71 @@
 </head>
 
 <body>
-    <div id="overlay-printView">
-        <div class="asset-details animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
-            <span class="exit-asset" onclick="closeAsset('overlay-printView')">&times;</span>
+    <div id="overlay-decomAsset">
+        <div class="asset-transfer-details animated bounceInUp" id="assetDescom">
+            <span class="exit-asset" onclick="closeAsset('overlay-decomAsset')">&times;</span>
 
-            <div class="asset-body" style="font-size: 12pt;">
-                <div class="print_scroll">
-                    <table class="table" id="tablePrint">
-                        <thead class="bg-light text-dark">
-                            <th scope="col">
-                                #
-                            </th>
-                            <th scope="col">
-                                Location
-                            </th>
-                            <th scope="col">
-                                Room
-                            </th>
-                            <th scope="col">
-                                Asset No
-                            </th>
-                            <th scope="col">
-                                Description
-                            </th>
-                        </thead>
-                        <tbody id="tbodyPrint"></tbody>
-                    </table>
+            <div class="asset-transfer-body">
+                <div id="transferAssets">
+
+                    <div class="asset-header text-center">
+                        <strong>ASSET DECOMMISSIONING</strong>
+                        <div class="col-md-6 offset-3 my-2">
+                            <select class="form-control text-muted fa py-5" style="font-size: 15pt;" id="comments">
+                                <option value="1" class="fa">Disposed</option>
+                                <option value="2" class="fa">Out For Repairs</option>
+                                <!-- <option value="3"></option> -->
+                            </select>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="transfer-scroll" style="height: 288px !important;">
+                                <table class="table my-1 table-striped table-bordered">
+                                    <thead style="background:#1d1a1a; color: #ffffff; padding: 13px;">
+                                        <tr>
+                                            <th>ASSET NO</th>
+                                            <th>DESCRIPTION</th>
+                                            <th>CERTIFICATE NUMBER</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="tbody" id="assetTbody">
+
+                                    </tbody>
+                                </table>
+                                <div id="loaderDeComm" class="loader_trans">
+                                    <img src="../img/loading-transparent.gif" alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="asset-transfer-footer text-right">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="sub-item-number text-center">
+                            <p class="text-muted">Number of selected assets: <strong><span id="movItemCount"
+                                        class="text-dark">5</span></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success" id="confirmDecomm" onclick="">Dispose</button>
+                        <button class="btn btn-danger" onclick="closeAsset('overlay-decomAsset')">Cancel</button>
+                    </div>
                 </div>
             </div>
-            <div class="print-asset-footer text-center">
 
-                <div class="col-md-12" style="text-align: right">
-                    <button class="btn btn-danger" onclick="closeAsset('overlay-printView')">Cancel</button>
-                    <button type="submit" class="btn btn-success  export" value="Export"
-                        onclick="doit('xlsx','tablePrint');">
-                        <i class="fa fa-file-excel-o" aria-hidden="true"></i> <span
-                            style="padding-left:10px;">Export</span>
-                    </button>
-                    <button type="submit" class="btn btn-primary  export" onclick="printData()">
-                        <i class="fa fa-file" aria-hidden="true"></i> <span style="padding-left:10px;">Print</span>
-                    </button>
-                </div>
-
-            </div>
         </div>
-
-
-        <!-- <div class="sub-item-number text-center py-2">
-                        <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
-                                    class="text-dark">5</span></strong></p>
-                    </div> -->
     </div>
     <div id="overlay-asset">
-        <div class="asset-details animated bounceInUp" id="assetView">
+        <div class="asset-details animated bounceInUp" id="assetView" style="height:453px;">
             <span class="exit-asset" onclick="closeAsset('overlay-asset')">&times;</span>
 
             <div class="asset-body">
@@ -207,64 +216,26 @@
                             </tr>
                         </tbody>
                     </table>
-
-
-
-                    <!-- <div class="row text-center">
-                        <div class="col-md-6">
-                            <p class="text-muted">
-                                <strong>Room</strong>:<span id="roomValue"> xxxxx</span>
-                            </p>
-                        </div>
-                        <div class="col-md-6">
-                            <p class="text-muted">
-                                <strong>Location</strong>:<span id="locValue"> xxxxx</span>
-                            </p>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-md-6 offset-3">
-                            <ul id="primaryAssets">
-                                <li class="primaryList">
-                                    <span id="assetBody">Test</span> - <span id="primDescription">xxxxxxx</span>
-                                    <ul id="subAsset">
-                                        <li class="subList">Sub Assets 1</li>
-                                        <li class="subList">Sub Assets 2</li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div> -->
                 </div>
 
             </div>
             <div class="asset-footer text-center">
                 <div class="row">
-                    <div class="col-md-3 text-left">
+                    <div class="col-offset-10 col-2">
                         <button class="btn btn-default" onclick="closeAsset('overlay-asset')">back</button>
                     </div>
-                    <div class="col-md-6">
-                        <div class="sub-item-number text-center">
-                            <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
-                                        class="text-dark">5</span></strong></p>
-                        </div>
-                    </div>
-                    <!-- <div class="col-md-3 text-right">
-                        <button class="btn btn-default btn-success" onclick="closeAsset('overlay-asset')">Unlink
-                            All</button>
-                    </div> -->
                 </div>
+            </div>
+
+            <div class="sub-item-number text-center py-2">
+                <p class="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
+                            class="text-dark">5</span></strong></p>
             </div>
         </div>
     </div>
-
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
-            style="background: rgb(59, 56, 56);height:80px">
-            <div class="col-md-3" id="menu-bar"
-                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px" data-step="1"
-                data-intro="This is a navigation menu, with your class or department">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
                 <div class="row" style="margin-top:-25px;">
                     <span onclick="showNav()">
                         <div class="col-md-2">
@@ -282,16 +253,14 @@
 
                 <div id="menu-list" class="is-active">
                     <ul class="menu-group">
-                        <a href="#">
-                            <li class="menu-item active">view</li>
+                        <a href="./viewAssets.html">
+                            <li class="menu-item">view</li>
                         </a>
                         <a href="./moveAssets.html" target="_self">
                             <li class="menu-item">movement</li>
                         </a>
-                        <a href="./certificates.html" target="_self"></a>
                         <a href="./certificates.html">
                             <li class="menu-item">certificates</li>
-                        </a>
                         </a>
                         <div class="dropright dropdown" id="drodown-menu">
                             <li class="menu-item" id="com_item" data-toggle="dropdown">commissioning</li>
@@ -300,8 +269,8 @@
                                     <li class="menu-item ">addition</li>
                                 </a>
                                 <li class="divider"></li>
-                                <a href="./removal.html" target="_self">
-                                    <li class="menu-item">removal</li>
+                                <a href="#" target="_self">
+                                    <li class="menu-item active">removal</li>
                                 </a>
                             </ul>
                         </div>
@@ -314,44 +283,28 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;"
-                data-step="2" data-intro="This is a navigation menu, with your class or department">
-                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
-                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span>/ <em><span
-                            class="text-muted">ASSET VIEW</span></em></div>
+            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span
+                                class="text-muted">DECOMMISSIONING</span></em>
+                    </span>
+                </div>
                 <div class="system_desc">DEVELOPMENT</div>
             </div>
             <div class=" col-md-3">
                 <div class="row">
-                    <div class="col-md-4 offset-6" data-step="3"
-                        data-intro="This is a navigation menu, with your class or department">
+                    <div class="col-md-4 offset-6">
                         <div id="username">Username</div>
                     </div>
-                    <div class="col-md-2" data-step="4"
-                        data-intro="This is a navigation menu, with your class or department">
-                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;"
-                            onclick="closeApp()">
+                    <div class="col-md-2">
+                        <button class="btn btn-danger" onclick="closeApp()" style="width:40px;height: 40px;border-radius: 50%;">
                             <span style="color:white" class="fa fa-power-off"></span>
                         </button>
                     </div>
                 </div>
 
-
-                <!-- <div class="nav-item dropdown">
-                    <a class="btn btn-secondary form-control btn-light dropdown-toggle text-left rounded-top rounded-bottom" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        All
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" href="#"></a>
-                        <a class="dropdown-item" href="#">IT Equipment</a>
-                        <a class="dropdown-item" href="#">Medical Equipment</a>
-                      </div>
-                  </div>
-                 -->
-
             </div>
         </nav>
-        <div class="row" style="margin-top: 57px">
+        <div class="row" style="margin-top: 57px;">
             <div class="col-md-12" style="height:80vh;padding-right:40px;">
                 <div class="row">
                     <div class="col-md-12">
@@ -367,6 +320,7 @@
                             </div>
                         </div>
                         <div class="row">
+
                             <div class="col-md-12">
                                 <table class="table" id="view_filters">
                                     <tr>
@@ -374,228 +328,169 @@
                                             Search
                                         </th>
                                         <th>
-                                            <div class="dropdown" data-step="5"
-                                                data-intro="This is a navigation menu, with your class or department">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="building_view_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_removal_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     BUILDING
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="building_view_filter"
-                                                    id="scroll_view_building">
+                                                <div class="dropdown-menu" aria-labelledby="building_removal_filter" id="scroll_removal_building">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_building"
-                                                                class="form-control" placeholder="Building"
-                                                                onkeyup="onSearch('search_view_building','#empty_view_building')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_removal_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_removal_building','#empty_removal_building')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_building"
-                                                                    onclick="clearData('#search_view_building','#building_view_filter','BUILDING')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_removal_building" onclick="clearData('#search_removal_building','#building_removal_filter','BUILDING')"><i
                                                                         class="fa fa-close"></i>
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_building">
+                                                    <div id="menu_removal_building">
                                                         <div id="building_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_building" class="dropdown-header">No building
-                                                        found
+                                                    <div id="empty_removal_building" class="dropdown-header">No building found
                                                     </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="level_view_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_removal_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     LEVEL
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="level_view_filter"
-                                                    id="scroll_view_level">
+                                                <div class="dropdown-menu" aria-labelledby="level_removal_filter" id="scroll_removal_level">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_level"
-                                                                class="form-control" placeholder="Level"
-                                                                onkeyup="onSearch('search_view_level','#empty_view_level')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_removal_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_removal_level','#empty_removal_level')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_level"
-                                                                    onclick="clearData('#search_view_level','#level_view_filter','LEVEL')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_removal_level" onclick="clearData('#search_removal_level','#level_removal_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_level">
+                                                    <div id="menu_removal_level">
                                                         <div id="Roomload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_level" class="dropdown-header">No level found
+                                                    <div id="empty_removal_level" class="dropdown-header">No level found
                                                     </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="area_view_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_removal_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_area"
-                                                    aria-labelledby="area_view_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_removal_area" aria-labelledby="area_removal_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_area"
-                                                                class="form-control" placeholder="Area"
-                                                                onkeyup="onSearch('search_view_area','#empty_view_area')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_removal_area" class="form-control" placeholder="Area" onkeyup="onSearch('search_removal_area','#empty_removal_area')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_area"
-                                                                    onclick="clearData('#search_view_area','#area_view_filter','AREA')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_removal_area" onclick="clearData('#search_removal_area','#area_removal_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_view_area" onchange="testMethod()">
+                                                    <div id="meun_removal_area" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_area" class="dropdown-header">No area found
+                                                    <div id="empty_removal_area" class="dropdown-header">No area found
                                                     </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="room_view_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_removal_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_room"
-                                                    aria-labelledby="room_view_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_removal_room" aria-labelledby="room_removal_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_room"
-                                                                class="form-control" placeholder="Room"
-                                                                onkeyup="onSearch('search_view_room','#empty_view_room')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_removal_room" class="form-control" placeholder="Room" onkeyup="onSearch('search_removal_room','#empty_removal_room')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_room"
-                                                                    onclick="clearData('#search_view_room','#room_view_filter','ROOM')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_removal_room" onclick="clearData('#search_removal_room','#room_removal_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_room" onchange="testMethod()">
+                                                    <div id="menu_removal_room" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_room" class="dropdown-header">No room found
+                                                    <div id="empty_removal_room" class="dropdown-header">No room found
                                                     </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="sublocaction_view_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="subloacation_removal_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_view_sublocaction"
-                                                    aria-labelledby="sublocaction_view_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_removal_sublocaction" aria-labelledby="sublocaction_removal_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_sublocaction"
-                                                                class="form-control" placeholder="Sub Location"
-                                                                onkeyup="onSearch('search_view_sublocaction','#empty_view_sublocaction')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_removal_sublocaction" class="form-control" placeholder="Sub Location" onkeyup="onSearch('search_removal_sublocaction','#empty_removal_sublocaction')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_sublocaction"
-                                                                    onclick="clearData('#search_view_sublocaction','#sublocaction_view_filter','SUB LOCATION')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_removal_sublocaction" onclick="clearData('#search_removal_sublocaction','#sublocaction_removal_filter','SUB LOCATION')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_sublocaction" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_removal_sublocaction" class="text-center" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_sublocaction" class="dropdown-header">No
-                                                        sublocation found</div>
+                                                    <div id="empty_removal_sublocaction" class="dropdown-header">No sublocation found</div>
                                                 </div>
                                             </div>
                                         </th>
 
                                         <th>
-                                            <div class="dropdown" data-step="6"
-                                                data-intro="This is a navigation menu, with your class or department">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="assetNo_view_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="assetNo_removal_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ASSET NO
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_assetNo"
-                                                    aria-labelledby="assetNo_view_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_removal_assetNo" aria-labelledby="assetNo_removal_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_assetNo"
-                                                                class="form-control" placeholder="ASSET NO"
-                                                                onkeyup="onSearch('search_view_assetNo','#empty_view_assetNo')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_removal_assetNo" class="form-control" placeholder="ASSET NO" onkeyup="onSearch('search_removal_assetNo','#empty_removal_assetNo')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_assetNo"
-                                                                    onclick="clearData('#search_view_assetNo','#assetNo_view_filter','ASSET NO')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_removal_assetNo" onclick="clearData('#search_removal_assetNo','#assetNo_removal_filter','ASSET NO')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_assetNo" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_removal_assetNo" class="text-center" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_assetNo" class="dropdown-header">No asset found
+                                                    <div id="empty_removal_assetNo" class="dropdown-header">No asset found
                                                     </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
-                                            <input type="text" id="view_description" class="form-control"
-                                                placeholder="Description..." onkeyup="onSearch_new('view_description')">
+                                            <input type="text" id="view_description" class="form-control" placeholder="Description..." onkeyup="onSearch_new('view_description')">
                                         </th>
                                         <th>
-                                            <button onclick="search()" type="text" class="btn btn-success" data-step="7"
-                                                data-intro="This is a navigation menu, with your class or department">
+                                            <button onclick="search()" type="text" class="btn btn-success">
                                                 <span class="fa fa-search"></span>
                                                 Search
                                             </button>
-                                            <button onclick="cleaAllFilters()" type="text" class="btn btn-danger"
-                                                data-step="8"
-                                                data-intro="This is a navigation menu, with your class or department">
+                                            <button onclick="cleaAllFilters()" type="text" class="btn btn-danger">
                                                 <span class="fa fa-close"></span>
                                                 Clear
                                             </button>
@@ -605,8 +500,7 @@
                                 <form id="frm-example" method="POST">
                                     <table class="table" id="currentAssetsTable">
                                         <thead style="background:#000000;color:#ffffff;">
-                                            <tr data-step="9"
-                                                data-intro="This is a navigation menu, with your class or department">
+                                            <tr>
                                                 <th scope="col">
                                                     #
                                                 </th>
@@ -631,22 +525,20 @@
 
                                                 </th>
                                                 <th scope="col">
-                                                    Has Sub Assets
+                                                    Is sub assets
 
                                                 </th>
                                                 <th scope="col">
-                                                    View
+                                                    View <span class="fa fa-eye" style="color:#DDDDDD;"></span>
                                                 </th>
                                             </tr>
                                         </thead>
-                                        <tbody id="current" data-step="10"
-                                            data-intro="This is a navigation menu, with your class or department">
+                                        <tbody id="current">
                                             <div id="loader" class="loader">
                                                 <img src="../img/loading-transparent.gif" alt="">
                                             </div>
                                             <div id="searchView" class="search_start">
-                                                <p style="margin-top:200px">Please search your asset using the search
-                                                    above
+                                                <p style="margin-top:200px">Please search your asset using the search above
                                                 </p>
                                                 <img width="200" src="../img/loupe.png" alt="Search">
                                             </div>
@@ -658,9 +550,9 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                <button id="printAssets" style="display: none" class="btn btn-sm btn-info"><span
-                                        class="fa fa-print"></span>
-                                    Print View</button>
+                                <button id="DecomAssets" style="display: none" class="btn btn-md btn-info"><span
+                                        class="fa fa-paste"></span>
+                                    Decommission</button>
                             </div>
                         </div>
                         </form>
@@ -671,8 +563,8 @@
     </div>
 
     <div class="system_info" onclick="javascript:introJs().setOption('showProgress', true).start();">
-        <span class="fa fa-info"></span><span class="tooltiptext"><strong></strong>Press me to tour the asset system
-            </strong></span>
+        <span class="fa fa-info"></span><span class="tooltiptext"><strong></strong>Press me to tour the asset movement
+            system </strong></span>
 
         <script src="../js/jquery.js"></script>
         <script src="../js/clusterize.min.js"></script>
@@ -682,58 +574,14 @@
         <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
         <script src="../js/export/shim.min.js"></script>
         <script src="../js/export/xlsx.full.min.js"></script>
-        <script type="text/javascript" src="../js/intro.js"></script>
         <script src="../js/export/Blob.js"></script>
         <script src="../js/export/FileSaver.js"></script>
         <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
-        <script src="../js/viewScript.js"></script>
+        <script src="../js/removal.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
-        <script type="text/javascript"
-            src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
-        <script src="../js/printThis.js "></script>
+        <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+
         <script>
-
-            function printData() {
-                // var divToPrint = document.getElementById("tablePrint");
-                // var htmlToPrint = '' +
-                //     '<style type="text/css">' +
-                //     'table th, table td {' +
-                //     'border:1px solid #000;' +
-                //     'padding:0.5em;' +
-                //     'font-size:12pt;' +
-                //     '}' +
-                //     '</style>';
-                // htmlToPrint += divToPrint.outerHTML;
-                // newWin = window.open("");
-                // newWin.document.write(htmlToPrint);
-                // newWin.print();
-                // newWin.close();
-
-                $('#tablePrint').printThis({
-                    debug: false, // show the iframe for debugging
-                    importCSS: true, // import parent page css
-                    importStyle: true, // import style tags
-                    printContainer: true, // print outer container/$.selector
-                    loadCSS: ["../css/main_add_new.css", "../css/bootstrap-theme.css"], // path to additional css file - use an array [] for multiple
-                    pageTitle: "ASSETS VIEW", // add title to print page
-                    removeInline: false, // remove inline styles from print elements
-                    removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
-                    printDelay: 333, // variable print delay
-                    header: false, // prefix to html
-                    footer: false, // postfix to html
-                    base: false, // preserve the BASE tag or accept a string for the URL
-                    formValues: true, // preserve input/form values
-                    canvas: true, // copy canvas content
-                    doctypeString: '<!DOCTYPE HTML>', // enter a different doctype for older markup
-                    removeScripts: false, // remove script tags from print content
-                    copyTagClasses: true, // copy classes from the html & body tag
-                    beforePrintEvent: null, // function for printEvent in iframe
-                    beforePrint: null, // function called before iframe is filled
-                    afterPrint:null
-                });
-            }
-
-
             const $menu = $('#menu-list');
 
             $(document).mouseup(e => {
@@ -769,11 +617,11 @@
                 document.body.style.zoom = value;
             }
 
-            $("#com_item,#com_list").mouseover(function () {
+            $("#com_item,#com_list").mouseover(function() {
                 $("#com_list").fadeIn();
             });
 
-            $("#com_item,#com_list").mouseleave(function () {
+            $("#com_item,#com_list").mouseleave(function() {
                 $("#com_list").fadeOut();
             });
 
