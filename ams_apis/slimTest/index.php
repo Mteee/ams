@@ -1722,39 +1722,7 @@ $app->map(['GET','POST'],'/link_assets',function(Request $request, Response $res
     
 
 });
-$app->map(['GET','POST'],'/unlink_assets',function(Request $request, Response $response){
-    try{
-        global $connect;
-        $data = json_decode(file_get_contents('php://input'));
-        $ASSETS_ID = strtoupper($data->assetid);
-        $USERNAME = strtoupper($data->username);
-        $RESULT = '';
 
-        // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
-
-        $sql = "BEGIN amsd.asset_it_fix_unlink_sub(:ASSET_ID,:RESULT); END;";
-        $statement = oci_parse($connect,$sql);
-        // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
-        oci_bind_by_name($statement, ':ASSET_ID', $ASSETS_ID, 30);
-        oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
-
-        oci_execute($statement , OCI_NO_AUTO_COMMIT);
-
-        oci_commit($connect);
-
-        if($RESULT == "y"){
-            echo json_encode(array("rows" => 0 ,"data" =>"UNLINK WAS SUCCESSFUL"));
-        }
-        else{
-            echo json_encode(array("rows" => 0 ,"data" =>"UNLINK WAS NOT SUCCESSFUL"));
-        }
-
-    }catch (Exception $pdoex) {
-        echo "Database Error : " . $pdoex->getMessage();
-    }
-    
-
-});
 $app->map(['GET','POST'],'/unlink_all_subs',function(Request $request, Response $response){
     try{
         global $connect;
@@ -4891,40 +4859,6 @@ $app->map(['GET','POST'],'/unlink_assets',function(Request $request, Response $r
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"UNLINK WAS NOT SUCCESSFUL"));
-        }
-
-    }catch (Exception $pdoex) {
-        echo "Database Error : " . $pdoex->getMessage();
-    }
-    
-
-});
-
-$app->map(['GET','POST'],'/unlink_all_subs',function(Request $request, Response $response){
-    try{
-        global $connect;
-        $data = json_decode(file_get_contents('php://input'));
-        $ASSETS_ID = strtoupper($data->asset_primary_id);
-        $USERNAME = strtoupper($data->username);
-        $RESULT = '';
-
-        // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
-
-        $sql = "BEGIN amsd.asset_it_fix_unlink_all_subs(:ASSET_ID,:RESULT); END;";
-        $statement = oci_parse($connect,$sql);
-        // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
-        oci_bind_by_name($statement, ':ASSET_ID', $ASSETS_ID, 30);
-        oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
-
-        oci_execute($statement , OCI_NO_AUTO_COMMIT);
-
-        oci_commit($connect);
-
-        if($RESULT == "y"){
-            echo json_encode(array("rows" => 0 ,"data" =>"UNLINKING ALL SUBS WAS SUCCESSFUL"));
-        }
-        else{
-            echo json_encode(array("rows" => 0 ,"data" =>"UNLINKING ALL SUBS WAS NOT SUCCESSFUL"));
         }
 
     }catch (Exception $pdoex) {
