@@ -43,7 +43,9 @@ function startApp() {
       success: function (data) {
 
         console.log(data[0].filter);
+        
         var filter = data[0].filter;
+        localStorage.role = data[0].role;
         
         
         if (filter != null && filter != '') {

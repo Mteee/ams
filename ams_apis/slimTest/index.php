@@ -441,15 +441,16 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
     $username = strtoupper($data->username);
    if($username != null && $username != ''){
 
-        $sql_query = "SELECT ASSET_USER_CLASS FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME='$username'";
+        $sql_query = "SELECT ASSET_USER_CLASS,ASSETS_USER_ROLES FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME='$username'";
         
         $results =$func->executeQuery($sql_query);
 
         if($results){
             $decoded_res = json_decode($results);
             $filter = $decoded_res->data[0]->ASSET_USER_CLASS;
+            $role = $decoded_res->data[0]->ASSETS_USER_ROLES;
 
-            array_push($response,array("filter"=>$filter));
+            array_push($response,array("filter"=>$filter,"role"=>$role));
             return json_encode($response);
         }
         else{
