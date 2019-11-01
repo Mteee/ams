@@ -3229,6 +3229,7 @@ $app->map(['GET','POST'],'/getAll_Assets_with_Cert_no',function(Request $request
     AND (ASSET_CLASSIFICATION LIKE '%$asset_description%'
         OR ASSET_DESCRIPTION LIKE '%$asset_description%')
     AND ASSET_CERT_NO IS NOT NULL 
+    AND ASSET_PRINT_DATE IS NOT NULL
     AND ASSET_STATUS = 'ACTIVE'";
 
     $assets_withno_crt =$func->executeQuery($sql);
