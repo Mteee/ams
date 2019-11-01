@@ -749,7 +749,9 @@ function checkFilter(key) {
             localStorage.room_no = '';
             localStorage.sub_location = '';
             localStorage.asset_primary_id = '';
+            
             break;
+
         case "search_move_room":
             res = {"btnId": "room_move_filter", "btnContent": "ROOM"};
 

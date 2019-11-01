@@ -153,7 +153,6 @@ function getAssetsType() {
         success: function (data) {
             console.log(data);
 
-
             var types = '<option value="">Select Asset Type</option>';
             for (var i = 0; i < 10; i++) {
                 types += '<option value="' + data.data[i].ASSET_TYPEID + '">' + data.data[i].ASSET_TYPE_DESC + '</option>';
@@ -217,7 +216,7 @@ function getValues() {
     var input_serial = $("#asset_group input[type='text']");
     console.log("================[input_serial]===================");
     console.log(input_serial);
-    document.getElementById('assets_add_new').innerHTML = Math.floor((input_serial.length)/3);
+    document.getElementById('assets_add_new').innerHTML = Math.floor((input_serial.length) / 3);
     var serial = ["asset_id", "asset_desc"];
 
     //model (1 inputs)
@@ -848,7 +847,6 @@ function confirmComm(assets_ids, certificate_no) {
 
 }
 
-
 function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);
     var value = $(input).val();
@@ -1113,36 +1111,36 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 }
 
 var defaultRooms = {
-                        "FACILITIES MANAGEMENT" : "1B27-1",
-                        "MEDICAL EQUIPMENT" : "1G11-1",
-                        "IT EQUIPMENT" : "2H27-1"
-                   };
+    "FACILITIES MANAGEMENT": "1B27-1",
+    "MEDICAL EQUIPMENT": "1G11-1",
+    "IT EQUIPMENT": "2H27-1"
+};
 
 $('#asset_class').on('change', function () {
-    var selectedClass =  $("#asset_class option:selected").text();
-    var selectedClass =  $("#asset_class option:selected").val();
+    var selectedClass = $("#asset_class option:selected").text();
+    var selectedClass = $("#asset_class option:selected").val();
     // resetBtn('#room_new_filter', 'ROOM (*)');
     var selectDefaultRoom = "";
-    if(selectedClass == "1"){
+    if (selectedClass == "1") {
         selectDefaultRoom = defaultRooms["FACILITIES MANAGEMENT"];
-    }else if(selectedClass == "2"){
+    } else if (selectedClass == "2") {
         selectDefaultRoom = defaultRooms["IT EQUIPMENT"];
-    }else{
+    } else {
         selectDefaultRoom = defaultRooms["MEDICAL EQUIPMENT"];
     }
     localStorage.filter = selectedClass
 
     $('#search_new_room').val(selectDefaultRoom);
     $('#room_new_filter').val(selectDefaultRoom);
-    
+
     // localStorage.room_no = "";
     // getRoom();
 
 });
 
 
-    $('#search_new_room').val(defaultRooms["FACILITIES MANAGEMENT"]);
-    $('#room_new_filter').val(defaultRooms["FACILITIES MANAGEMENT"]);
+$('#search_new_room').val(defaultRooms["FACILITIES MANAGEMENT"]);
+$('#room_new_filter').val(defaultRooms["FACILITIES MANAGEMENT"]);
 
 
 function resetBtn(resetId, resetTxt) {
@@ -1228,10 +1226,10 @@ var onSearch = function (searchValue, emptyId) {
     if (searchValue.value.length == 0) {
         var resObj = checkFilter(getId);
         console.log(resObj);
-        if(emptyId == "#empty_new_room"){
+        if (emptyId == "#empty_new_room") {
             getRoom();
             console.log("room new");
-        }else{
+        } else {
             populate_dropdown();
         }
         $('#' + resObj.btnId).text(resObj.btnContent);
