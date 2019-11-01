@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
     <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
+
     <style>
         .dropdown-menu {
             max-height: 300px;
@@ -23,7 +25,7 @@
         }
         
         #searchWith th {
-            width: 350px;
+            /* width: 350px; */
         }
         
         .toggle-btn {
@@ -48,6 +50,9 @@
             position: sticky;
             top: 0;
         }
+        /* *{
+                font-size:12pt;
+            } */
         
         #overlay-printView table th,
         #overlay-printView table td {
@@ -55,16 +60,14 @@
             padding: 0.5em;
         }
         
-        .big_btn {
-            height: 100px;
-            width: 122px;
-            font-size: 29pt;
+        * {
+            font-size: 9pt !important;
         }
     </style>
 </head>
 
 <body>
-    <div id="overlay-alert-message" style="z-index: 999">
+    <div id="overlay-alert-message" style="z-index: 1001">
         <div class="asset-details animated bounceInUp" id="alert-message" style="margin: 15% auto;
                 width: 752px;
                 height: 266px;z-index: 9999999999999999">
@@ -75,7 +78,6 @@
             <div class="asset-body text-center">
                 <span id="alert-message-body">
                     Loading...
-
                 </span>
             </div>
             <div class="asset-footer text-center" style="position: absolute;
@@ -165,18 +167,19 @@
             </div>
             <div class="asset-footer">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <button class="btn btn-default" onclick="closeAsset('overlay-asset')">back</button>
                     </div>
-                    <div class="col-md-6 text-right">
+                    <div class="col-md-4 text-center">
+                        <div class="sub-item-number text-center py-2">
+                            <p id="text-muted">Number Of Assets: <strong><span id="subItemCount"
+                                        class="text-dark">5</span></strong></p>
+                        </div>
+                    </div>
+                    <div class="col-md-4 text-right">
                         <button class="btn btn-default btn-success" id="unlink_all">Unlink All</button>
                     </div>
                 </div>
-            </div>
-
-            <div class="sub-item-number text-center py-2">
-                <p id="text-muted">Number Of Sub Assets: <strong><span id="subItemCount"
-                            class="text-dark">5</span></strong></p>
             </div>
         </div>
     </div>
@@ -192,7 +195,7 @@
                         </div>
                     </span>
 
-                    <div class="col-md-7 offset-3">
+                    <div class="col-md-7 offset-2">
                         <select class="form-control text-muted user-class" id="class-options">
 
                         </select>
@@ -207,25 +210,34 @@
                         <a href="./moveAssets.html" target="_self">
                             <li class="menu-item">movement</li>
                         </a>
-                        <a href="#" target="_self">
+                        <a href="./certificates.html">
                             <li class="menu-item">certificates</li>
                         </a>
                         <div class="dropright dropdown" id="drodown-menu">
                             <li class="menu-item" data-toggle="dropdown">commissioning</li>
                             <ul class="dropdown-menu">
-                                <li class="menu-item active">addition</li>
+                                <a href="./addition.html" target="_self">
+                                    <li class="menu-item">addition</li>
+                                </a>
                                 <li class="divider"></li>
-                                <li class="menu-item">removal</li>
+                                <a href="./removal.html" target="_self">
+                                    <li class="menu-item">removal</li>
+                                </a>
                             </ul>
                         </div>
 
                         <li class="menu-item active">asset link</li>
                         </a>
+                        <a href="./location.html">
+                            <li class="menu-item">new location</li>
+                        </a>
                     </ul>
                 </div>
             </div>
             <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
-                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span></div>
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span> / <em><span
+                    class="text-muted">ASSET LINKING</span></em></div>
+                <div class="system_desc">DEVELOPMENT</div>
             </div>
             <div class=" col-md-3">
                 <div class="row">
@@ -233,7 +245,7 @@
                         <div id="username">Username</div>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;">
+                        <button class="btn btn-danger" onclick="closeApp()" style="width:40px;height: 40px;border-radius: 50%;">
                             <span style="color:white" class="fa fa-power-off"></span>
                         </button>
                     </div>
@@ -245,7 +257,7 @@
         <!-- end navigation -->
 
         <!-- search filters -->
-        <div class="row" style="margin-top: 2.897%;">
+        <div class="row" style="margin-top: 47px;">
             <div class="col-md-12" style="height:80vh;padding-right:40px;">
                 <div class="row">
                     <div class="col-md-12">
@@ -273,9 +285,9 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="text" id="search_link_location" class="form-control" placeholder="BUILDING" onkeyup="onSearch('subLocation','search_link_location','#empty_link_location')" autofocus="autofocus">
+                                                                    <input type="search" id="search_link_location" class="form-control" placeholder="BUILDING" onkeyup="onSearch('searchWith','search_link_location','#empty_link_location')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_link_Location" onclick="clearData('#search_link_location','#dropdown_link_location','BUILDING')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_link_Location" onclick="clearData('#search_link_location','#dropdown_link_location','BUILDING','#empty_link_location')"><i
                                                                                 class="fa fa-close"></i></span>
 
                                                                     </div>
@@ -300,9 +312,9 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="text" id="search_prim_level" class="form-control" placeholder="Level" onkeyup="onSearch('subLocation','search_prim_level','#empty_prim_level')" autofocus="autofocus">
+                                                                    <input type="search" id="search_prim_level" class="form-control" placeholder="Level" onkeyup="onSearch('searchWith','search_prim_level','#empty_prim_level')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_prim_level" onclick="clearData('#search_prim_level','#dropdown_prim_level','LEVEL')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_prim_level" onclick="clearData('#search_prim_level','#dropdown_prim_level','LEVEL','#empty_prim_level')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -326,9 +338,9 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="text" id="search_prim_area" class="form-control" placeholder="area" onkeyup="onSearch('subLocation','search_prim_area','#empty_prim_area')" autofocus="autofocus">
+                                                                    <input type="search" id="search_prim_area" class="form-control" placeholder="area" onkeyup="onSearch('searchWith','search_prim_area','#empty_prim_area')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_prim_area" onclick="clearData('#search_prim_area','#dropdown_prim_area','AREA')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_prim_area" onclick="clearData('#search_prim_area','#dropdown_prim_area','AREA','#empty_prim_area')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -343,18 +355,6 @@
                                                         </div>
                                                     </div>
                                                 </th>
-                                                <th rowspan="2">
-                                                    <button onclick="search()" type="text" class="btn btn-success text-light big_btn">
-                                                        <span class="fa fa-search"></span>
-                                                    </button>
-                                                    <button type="text" onclick="clearPrimFilters()" class="btn btn-danger text-light big_btn">
-                                                        <span class="fa fa-close"></span>
-                                                    </button>
-                                                </th>
-                                            </tr>
-
-                                            <!-- second row -->
-                                            <tr>
                                                 <th>
                                                     <div class="dropdown">
                                                         <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_prim_room" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -364,9 +364,9 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="text" id="search_prim_room" class="form-control" placeholder="room" onkeyup="onSearch('subLocation','search_prim_room','#empty_prim_room')" autofocus="autofocus">
+                                                                    <input type="search" id="search_prim_room" class="form-control" placeholder="room" onkeyup="onSearch('searchWith','search_prim_room','#empty_prim_room')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_prim_room" onclick="clearData('#search_prim_room','#dropdown_prim_room','ROOM')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_prim_room" onclick="clearData('#search_prim_room','#dropdown_prim_room','ROOM','#empty_prim_room')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -382,20 +382,84 @@
                                                     </div>
                                                 </th>
                                                 <th>
-                                                    <input type="text" id="prim_description" class="form-control" placeholder="Description..." onkeyup="onSearch_new('subLocation','prim_description','#empty_prim_room')">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_prim_sublocation" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            SUB LOCATION
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdown_prim_sublocation" id="scrol_prim_sublocation">
+                                                            <form class="px-4 py-2">
+
+                                                                <div class="input-group">
+                                                                    <input type="search" id="search_prim_sublocation" class="form-control" placeholder="room" onkeyup="onSearch('searchWith','search_prim_sublocation','#empty_prim_sublocation')" autofocus>
+                                                                    <div class="input-group-append">
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_prim_sublocation" onclick="clearData('#search_prim_sublocation','#dropdown_prim_sublocation','SUB LOCATION','#empty_prim_sublocation')"><i
+                                                                                class="fa fa-close"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                            <div id="menu_prim_sublocation">
+                                                                <div id="prim_sublocation_load" class="dropdown-loader">
+                                                                    <img src="../img/loading-transparent.gif" alt="" width="160">
+                                                                </div>
+                                                            </div>
+                                                            <div id="empty_prim_sublocation" class="dropdown-header">No Sub Location
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </th>
                                                 <th>
-                                                    <input type="text" id="prim_classification" class="form-control" placeholder="Asset Classification..." onkeyup="onSearch_new('subLocation','prim_classification','#empty_prim_room')">
+                                                    <input type="text" id="prim_description" class="form-control" onkeyup="onSearch_new('searchWith','prim_description')" placeholder="Description...">
+                                                </th>
+
+
+                                                <th>
+                                                    <button onclick="search()" type="text" class="btn btn-success text-light">
+                                                        <span class="fa fa-search"></span>
+                                                    </button>
+                                                    <button onclick="clearSublocation()" type="text" class="btn btn-danger text-light">
+                                                        <span class="fa fa-close"></span>
+                                                    </button>
                                                 </th>
                                             </tr>
-                                            <!-- close second row -->
                                         </table>
+                                        <!-- end sub location filter -->
+                                        <!-- sub location header -->
+                                        <!-- <table class="table">
+                                            <tr>
+                                                <th colspan="6" style="padding: 5px;text-align: left;font-size: 12pt;"
+                                                    class="text-danger">
+                                                    <span style="padding: 5px; width:100px;">Sub Locations</span>
+                                                </th>
+                                            </tr>
+                                        </table> -->
+                                        <!-- end sub location header -->
+                                        <!-- main sub location table -->
+                                        <!-- <table class="table" id="subLocationTable">
+                                            <thead style="background:#000000;color:#ffffff;">
+                                                <tr>
+                                                    <th scope="col">
+                                                        #
+                                                    </th>
+                                                    <th scope="col">
+                                                        Asset No
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        Room
+
+                                                <th>
+                                                    <button onclick="search()" type="text" class="btn btn-success text-light">
+                                                            <span class="fa fa-search"></span>
+                                                        </button>
+                                                </th>
+                                            </tr>
+                                        </table> -->
                                         <!-- end sub location filter -->
                                         <!-- sub location header -->
                                         <table class="table">
                                             <tr>
                                                 <th colspan="6" style="padding: 5px;text-align: left;font-size: 12pt;" class="text-danger">
-                                                    <span style="padding: 5px; width:100px;">Primary Assets</span>
+                                                    <span style="padding: 5px; width:100px;">Sub Locations</span>
                                                 </th>
                                             </tr>
                                         </table>
@@ -408,26 +472,32 @@
                                                         #
                                                     </th>
                                                     <th scope="col">
-                                                        Primary ID
-                                                    </th>
-                                                    <th scope="col">
-                                                        Description
-                                                    </th>
-                                                    <th scope="col">
-                                                        Asset Classification
+                                                        Sub Location
+
                                                     </th>
                                                     <th scope="col">
                                                         Room
-                                                    </th>
-                                                    <th scope="col" class="text-center">
-                                                        Sub Location
+
                                                     </th>
                                                     <th scope="col">
-                                                        Has Sub
+                                                        Location
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        Description
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        HAS PRI
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        HAS ASSETS
 
                                                     </th>
                                                     <th scope="col">
                                                         View
+
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -459,9 +529,9 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="text" id="search_sub_location" class="form-control" placeholder="Building..." onkeyup="onSearch('assets','search_sub_location','#empty_sub_location')" autofocus="autofocus">
+                                                                    <input type="search" id="search_sub_location" class="form-control" placeholder="Building..." onkeyup="onSearch('subSearch','search_sub_location','#empty_sub_location')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_sub_location" onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_sub_location" onclick="clearData('#search_sub_location','#dropdown_sub_location','BUILDING','#empty_sub_location')"><i
                                                                                 class="fa fa-close"></i></span>
 
                                                                     </div>
@@ -486,9 +556,9 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="text" id="search_level" class="form-control" placeholder="level" onkeyup="onSearch('assets','search_level','#empty_level')" autofocus="autofocus">
+                                                                    <input type="search" id="search_level" class="form-control" placeholder="level" onkeyup="onSearch('subSearch','search_level','#empty_level')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_level" onclick="clearData('#search_level','#sub_level_dropdown','LEVEL')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_level" onclick="clearData('#search_level','#sub_level_dropdown','LEVEL','#empty_level')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -512,9 +582,9 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="text" id="search_area" class="form-control" placeholder="area..." onkeyup="onSearch('assets','search_area','#empty_area')" autofocus="autofocus">
+                                                                    <input type="search" id="search_area" class="form-control" placeholder="area..." onkeyup="onSearch('subSearch','search_area','#empty_area')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_area" onclick="clearData('#search_area','#area_dropdown','AREA...')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_area" onclick="clearData('#search_area','#area_dropdown','AREA...','#empty_area')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -529,18 +599,6 @@
                                                         </div>
                                                     </div>
                                                 </th>
-
-                                                <th rowspan="2">
-                                                    <button onclick="searchasset()" type="text" class="btn btn-success big_btn">
-                                                        <span class="fa fa-search"></span>
-
-                                                    </button>
-                                                    <button type="text" onclick="clearSubFilters()" class="btn btn-danger text-light big_btn">
-                                                        <span class="fa fa-close"></span>
-                                                    </button>
-                                                </th>
-                                            </tr>
-                                            <tr>
                                                 <th>
                                                     <div class="dropdown">
                                                         <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_room_sub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -550,9 +608,9 @@
                                                             <form class="px-4 py-2">
 
                                                                 <div class="input-group">
-                                                                    <input type="text" id="search_room_sub" class="form-control" placeholder="room" onkeyup="onSearch('assets','search_room_sub','#empty_room_sub')" autofocus="autofocus">
+                                                                    <input type="search" id="search_room_sub" class="form-control" placeholder="room" onkeyup="onSearch('subSearch','search_room_sub','#empty_room_sub')" autofocus>
                                                                     <div class="input-group-append">
-                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_room_sub" onclick="clearData('#search_room_sub','#dropdown_room_sub','ROOM')"><i
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_room_sub" onclick="clearData('#search_room_sub','#dropdown_room_sub','ROOM','#empty_room_sub')"><i
                                                                                 class="fa fa-close"></i></span>
                                                                     </div>
                                                                 </div>
@@ -568,10 +626,42 @@
                                                     </div>
                                                 </th>
                                                 <th>
-                                                    <input type="text" id="sub_description" class="form-control" placeholder="Description..." onkeyup="onSearch_new('assets','sub_description','#empty_prim_room')">
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="dropdown_asset_no_sub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            ASSET NUMBER
+                                                        </button>
+                                                        <div class="dropdown-menu" aria-labelledby="dropdown_asset_no_sub" id="scrol_asset_no_sub">
+                                                            <form class="px-4 py-2">
+                                                                <div class="input-group">
+                                                                    <input type="search" id="search_asset_no_sub" class="form-control" placeholder="asset number" onkeyup="onSearch('subSearch','search_asset_no_sub','#empty_asset_no_sub')" autofocus>
+                                                                    <div class="input-group-append">
+                                                                        <span class="input-group-text btn btn-danger text-light" id="clear_asset_no_sub" onclick="clearData('#search_asset_no_sub','#dropdown_asset_no_sub','ASSET NUMBER','#empty_asset_no_sub')"><i
+                                                                                class="fa fa-close"></i></span>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                            <div id="menu_asset_no_sub">
+                                                                <div id="sub_asset_no_loader" class="dropdown-loader">
+                                                                    <img src="../img/loading-transparent.gif" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div id="empty_asset_no_sub" class="dropdown-header">No asset number found
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </th>
                                                 <th>
-                                                    <input type="text" id="sub_classification" class="form-control" placeholder="Asset Classification..." onkeyup="onSearch_new('assets','sub_classification','#empty_prim_room')">
+                                                    <input type="text" id="sub_description" onkeyup="onSearch_new('subSearch','sub_description')" class="form-control" placeholder="Description...">
+                                                </th>
+
+                                                <th>
+                                                    <button onclick="searchasset()" type="text" class="btn btn-success">
+                                                        <span class="fa fa-search"></span>
+
+                                                    </button>
+                                                    <button onclick="clearSubfilters()" type="text" class="btn btn-danger">
+                                                        <span class="fa fa-close"></span>
+                                                    </button>
                                                 </th>
                                             </tr>
                                         </table>
@@ -593,16 +683,20 @@
                                                         #
                                                     </th>
                                                     <th scope="col">
-                                                        Asset ID
-                                                    </th>
-                                                    <th scope="col">
-                                                        Description
-                                                    </th>
-                                                    <th scope="col">
-                                                        Asset Classification
+                                                        Asset No
+
                                                     </th>
                                                     <th scope="col">
                                                         Room
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        Location
+
+                                                    </th>
+                                                    <th scope="col">
+                                                        Description
+
                                                     </th>
                                                 </tr>
                                             </thead>
@@ -645,6 +739,8 @@
     <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
     <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
     <script src="../js/asset-link.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
+
 
 
 </body>

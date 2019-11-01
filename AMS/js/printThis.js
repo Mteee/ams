@@ -159,7 +159,7 @@
                 baseURL = opt.base;
             } else {
                 // Use the page URL as the base
-                baseURL = document.location.protocol + '//' + document.location.host;
+                baseURL = "";
             }
 
             $head.append('<base href="' + baseURL + '">');
@@ -169,6 +169,7 @@
                 var href = $(this).attr("href");
                 if (href) {
                     var media = $(this).attr("media") || "all";
+                    console.log("<link type='text/css' rel='stylesheet' href='" + href + "' media='" + media + "'>");
                     $head.append("<link type='text/css' rel='stylesheet' href='" + href + "' media='" + media + "'>");
                 }
             });
@@ -325,7 +326,7 @@
         base: false,                // preserve the BASE tag or accept a string for the URL
         formValues: true,           // preserve input/form values
         canvas: false,              // copy canvas content
-        doctypeString: '<!DOCTYPE html>', // enter a different doctype for older markup
+        doctypeString: '<!DOCTYPE HTML>', // enter a different doctype for older markup
         removeScripts: false,       // remove script tags from print content
         copyTagClasses: false,      // copy classes from the html & body tag
         beforePrintEvent: null,     // callback function for printEvent in iframe
