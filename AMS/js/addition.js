@@ -499,13 +499,13 @@ function search() {
                 console.log("================test===============================");
                 // console.log(data);
                 // console.log(data.data.ASSET_IS_SUB);
+                // console.log(data.data[k].ASSET_IS_SUB);
 
 
                 if (data.rows > 0) {
 
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
-                        console.log(data.data[k].ASSET_IS_SUB);
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_ID + '","';
                             str += data.data[k].ASSET_ID + '","';

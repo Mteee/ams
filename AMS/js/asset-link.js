@@ -512,7 +512,9 @@ function searchasset() {
             data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '","asset_class":"' + localStorage.filter + '"}',
             success: function (data) {
                 var table = null;
+                console.log("==============[data]=====================");
                 console.log(data);
+                console.log("==============[data]=====================");
                 $('#AssetsLoader').fadeOut(500);
 
                 if (data.rows > 0) {
@@ -536,9 +538,12 @@ function searchasset() {
                     str += ']}'
 
                     str = replaceAll("\r\n", "", str);
-
+                    str = replaceAll("\\", "|", str);
+                    
+                    console.log(str);
                     str = (JSON.parse(str));
-                    // console.log(str.data);
+
+                    
                     table_dom = "#subAssetsTable";
 
                     table = createTable("#subAssetsTable", str.data);
@@ -1041,30 +1046,36 @@ $('#menu_asset_no_sub').on('click', '.dropdown-item', function () {
 
 
 // end assets menu  onclick 
-
+$('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+localStorage.filter = "IT EQUIPMENT";
+clearSublocation();
+clearSubfilters();
+$('#class-options').prop('disabled', 'disabled');
 //Department Dropdown Check
-if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
+// if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
-    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
-    $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
-    $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
-    $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
-    $('#class-options').prop('disabled', false);
+//     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+//     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
+//     $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+//     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
+//     $('#class-options').prop('disabled', false);
 
-    $('#class-options').on('change', function () {
-        var filter = $("#class-options option:selected").text();
-        localStorage.filter = filter;
-        //clear btn text
-        clearSublocation();
-        clearSubfilters();
-    });
+//     $('#class-options').on('change', function () {
+//         var filter = $("#class-options option:selected").text();
+//         localStorage.filter = "IT EQUIPMENT";
+//         //clear btn text
+//         clearSublocation();
+//         clearSubfilters();
+//     });
 
-}
-else {
-    $('#class-options').append(new Option(localStorage.filter, "user_class"));
-    $('#class-options').css({ "-moz-appearance": "none" });
-    $('#class-options').prop('disabled', 'disabled');
-}
+//     $('#class-options').prop('disabled', 'disabled');
+
+// }
+// else {
+//     $('#class-options').append(new Option(localStorage.filter, "user_class"));
+//     $('#class-options').css({ "-moz-appearance": "none" });
+//     $('#class-options').prop('disabled', 'disabled');
+// }
 
 
 function resetBtn(resetId, resetTxt) {
