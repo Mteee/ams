@@ -4111,7 +4111,6 @@ $app->map(['GET','POST'],'/check_id', function(Request $request, Response $respo
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-        
         echo $assets_no;
     }
     else{
