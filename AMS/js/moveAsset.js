@@ -133,9 +133,9 @@ function search() {
         level = document.getElementById('search_move_level').value,
         area = document.getElementById('search_move_area').value,
         room_no = document.getElementById('search_move_room').value;
-    description = document.getElementById('move_description').value;
-    sub_location = document.getElementById('search_move_sublocaction').value;
-    asset_primary_id = document.getElementById('search_move_assetNo').value;
+        description = document.getElementById('move_description').value;
+        sub_location = document.getElementById('search_move_sublocaction').value;
+        asset_primary_id = document.getElementById('search_move_assetNo').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location + " - " + asset_primary_id);
     var current = "";
