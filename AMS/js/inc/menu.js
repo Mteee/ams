@@ -15,7 +15,7 @@ function customMenu(menu_ids) {
     
     var roles = localStorage.role;
         
-    if(roles != "ROOT"){
+    if(roles != "ADMIN"){
         var roles_default = ("V|M|C|CAR|CA|CR|AL|L").split("|");
         var role_split = roles.split("|");
 
