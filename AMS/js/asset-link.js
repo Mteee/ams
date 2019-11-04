@@ -213,29 +213,22 @@ function search() {
                 var table = null;
                 console.log(data);
                 $('#loader').fadeOut(500);
-                // console.log("data.rows");
-                // console.log(data.rows);
-                // console.log("data.rows");
 
                 if (data.rows > 0) {
 
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
                         if ((data.rows - 1) == k) {
-                            str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
-                                data.data[k].ASSET_CLASSIFICATION + '","' +
+                            str += '["' + data.data[k].AL_NO + '","' +
+                                data.data[k].AL_NO + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].HD_ASSET_LOCATION + '","' +
                                 data.data[k].HD_ASSET_DESC + '","' +
                                 updateLetterToIcon(data.data[k].HAS_PRI) + '","' +
                                 updateLetterToIcon(data.data[k].HAS_SUB) + '"]';
                         } else {
-                            str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
-                                data.data[k].ASSET_CLASSIFICATION + '","' +
+                            str += '["' + data.data[k].AL_NO + '","' +
+                                data.data[k].AL_NO + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].HD_ASSET_LOCATION + '","' +
                                 data.data[k].HD_ASSET_DESC + '","' +
@@ -279,7 +272,7 @@ function search() {
                             $('#subLocationTable tbody input[type=checkbox]').prop("checked", false);
                             $(this).prop("checked", true);
                             console.log("test1");
-                            asset_link.al_no = [dataInfo[0], dataInfo[4]];
+                            asset_link.al_no = dataInfo[0];
                         } else {
                             asset_link.al_no = null;
                         }
@@ -305,13 +298,12 @@ function search() {
 
                     // table.clear().draw();
 
+
                 }
                 else {
                     // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
-                    // $('#searchView').fadeIn(500);
-                    // console.log("test");
+                    $('#searchView').fadeIn(500);
                     // console.log(data.data);
-                    // console.log("test");
 
                     table = createTable("#subLocationTable", data.data);
                     $(" #subLocationTable .sorting_disabled input").prop("disabled", true); //Disable
