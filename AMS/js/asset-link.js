@@ -529,7 +529,7 @@ function searchasset() {
 
         $('#subAssetsSearch').hide();
         $('#AssetsLoader').fadeIn(500);
-        console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '"}');
+        console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '"');
 
         $.ajax({
             url: '../../ams_apis/slimTest/index.php/assets_not_linked',
