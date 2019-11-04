@@ -809,7 +809,6 @@ var onSearch = function (searchValue, emptyId) {
         rows[i].active = suitable;
     }
 
-
     if (searchValue.value.length == 0) {
         var resObj = checkFilter(getId);
         populate_dropdown();
@@ -827,14 +826,12 @@ var onSearch = function (searchValue, emptyId) {
     clusterize[getId].update(filterRows(rows));
 }
 
-
 function replaceAll(find, replace, str) {
     while (str.indexOf(find) > -1) {
         str = str.replace(find, replace);
     }
     return str;
 }
-
 
 function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);
@@ -980,7 +977,6 @@ function clearData(input, btnDafualtId, text) {
 
         }
 
-
         // if (btnDafualtId == "#dropdown_approve_room") {
         //     populate_room();
         //     $(input).val("");
@@ -1015,7 +1011,6 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 
         //clear btn text
         checkFilter("search_view_building");
-
 
     });
 
@@ -1056,13 +1051,11 @@ function clearLocalStorageFilters() {
     $('#search_view_room').val("");
     $('#search_view_sublocaction').val("");
     $('#search_view_assetNo').val("");
-
 }
 
 function cleaAllFilters() {
 
     clearLocalStorageFilters();
-
     populate_dropdown();
 
     $('#building_view_filter').text("BUILDING");
@@ -1074,8 +1067,6 @@ function cleaAllFilters() {
 
     //description
     $('#view_description').val("");
-
-
 }
 
 var onSearch_new = function (searchValue) {

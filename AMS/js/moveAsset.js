@@ -2004,15 +2004,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 
     $('#class-options').on('change', function () {
         var filter = $("#class-options option:selected").text();
-        if (filter == "IT EQUIPMENT") {
-            console.log("show");
-            $('.filter_sub').show();
-            $('#transfer_type').show();
-        } else {
-            console.log("hide");
-            $('.filter_sub').hide();
-            $('#transfer_type').hide();
-        }
+        toogleSub(localStorage.filter);
         localStorage.filter = filter;
         //clear btn text
         resetBtn();
@@ -2024,9 +2016,19 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     });
 
 } else {
+    toogleSub(localStorage.filter);
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({"-moz-appearance": "none"});
     $('#class-options').prop('disabled', 'disabled');
+}
+
+
+function toogleSub(filter) {
+    if (filter == "IT EQUIPMENT") {
+        $('.filter_sub').show();
+    } else {
+        $('.filter_sub').hide();
+    }
 }
 
 function resetInput(resetId, resetTxt) {
