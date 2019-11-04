@@ -503,7 +503,8 @@
                                                 </div>
 
                                             </div>
-                                            <div class="row form-control" style="background-image: none;" id="area_drop">
+                                            <div class="row form-control" style="background-image: none;"
+                                                id="area_drop">
                                                 <div class="form-group label-floating">
                                                     <div class="col-sm-12">
                                                         <label class="control-label">AREA *</label>
@@ -555,7 +556,8 @@
 
                                         </div>
                                         <div class="col-sm-5">
-                                            <div class="row form-control" style="background-image: none;" id="area_detail_drop">
+                                            <div class="row form-control" style="background-image: none;"
+                                                id="area_detail_drop">
                                                 <div class="form-group label-floating">
                                                     <div class="col-sm-12">
                                                         <label class="control-label">AREA DETAIL *</label>
@@ -799,36 +801,36 @@
                     </div>
 
                 </span>
-                <div id="menu-list">
-                    <ul class="menu-group" style="font-size: 15pt !important;">
-                        <a href="./viewAssets.html" target="_self">
+                <div id="menu-list" class="is-active">
+                    <ul class="menu-group">
+                        <a id="ams_view" href="./viewAssets.html">
                             <li class="menu-item">view</li>
                         </a>
-                        <a href="./moveAssets.html" target="_self">
+                        <a id="ams_move" href="./moveAssets.html" target="_self">
                             <li class="menu-item">movement</li>
                         </a>
-                        <a href="./certificates.html">
-                            <li class="menu-item">certificates</li>
+                        <a id="ams_cert" href="./certificates.html">
+                            <li class="menu-item active">certificates</li>
+                        </a>
                         </a>
                         <div class="dropright dropdown" id="drodown-menu">
-                            <li class="menu-item" data-toggle="dropdown">commissioning</li>
-                            <ul class="dropdown-menu">
-                                <a href="./addition.html">
-                                    <li class="menu-item active">addition</li>
+                            <li class="menu-item" id="com_item" data-toggle="dropdown">commissioning</li>
+                            <ul class="dropdown-menu" id="com_list">
+                                <a id="ams_add" href="./addition.html" target="_self">
+                                    <li class="menu-item ">addition</li>
                                 </a>
                                 <li class="divider"></li>
-                                <a href="./removal.html" target="_self">
+                                <a id="ams_rem" href="./removal.html" target="_self">
                                     <li class="menu-item">removal</li>
                                 </a>
                             </ul>
                         </div>
-                        <a href="./linkAssets.html">
+                        <a id="ams_asset_link" href="./linkAssets.html" target="_self">
                             <li class="menu-item">asset link</li>
                         </a>
-                        <a href="#">
-                            <li class="menu-item active">new location</li>
+                        <a id="ams_location" href="#">
+                            <li class="menu-item">new location</li>
                         </a>
-
                     </ul>
                 </div>
             </div>
@@ -1157,6 +1159,7 @@
     <script src="../js/assets/jquery.bootstrap.js"></script>
     <script src="../js/jquery.validate.min.js"></script>
     <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/inc/menu.js"></script>
     <script src="../js/location.js"></script>
 
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
