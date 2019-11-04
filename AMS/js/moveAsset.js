@@ -1991,12 +1991,14 @@ $('#menu_approve_sub').on('click', '.dropdown-item', function () {
 
 // dropdown hangler
 
-if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
+if (localStorage.filter == "ALL EQUIPMENT") {
 
 
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
-    $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+    if (localStorage.filter == "IT EQUIPMENT") 
+        $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
     $('#class-options').prop('disabled', false);
 
@@ -2010,11 +2012,6 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
         clearLocalStorageFilters();
         //populate filters
         populate_dropdown();
-
-        //
-        // tableArr["currentAssetsTable"].clear().draw();
-        // tableArr["inAssetsTable"].clear().draw();
-        // tableArr["outAssetsTable"].clear().draw();
 
     });
 
