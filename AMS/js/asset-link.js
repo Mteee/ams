@@ -529,16 +529,18 @@ function searchasset() {
 
         $('#subAssetsSearch').hide();
         $('#AssetsLoader').fadeIn(500);
-        console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","classicification":"' + classicification + '"}');
+        console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '"}');
 
         $.ajax({
             url: '../../ams_apis/slimTest/index.php/assets_not_linked',
             method: 'POST',
             dataType: 'JSON',
-            data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '"}',
+            data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '","asset_class":"' + localStorage.filter + '"}',
             success: function (data) {
                 var table = null;
+                console.log("==============[data]=====================");
                 console.log(data);
+                console.log("==============[data]=====================");
                 $('#AssetsLoader').fadeOut(500);
 
                 if (data.rows > 0) {
@@ -548,23 +550,26 @@ function searchasset() {
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_ID + '|' + data.data[k].ASSET_DESCRIPTION + '","' +
                                 data.data[k].ASSET_ID + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
-                                data.data[k].ASSET_CLASSIFICATION + '","' +
-                                data.data[k].ASSET_ROOM_NO + '"]';
+                                data.data[k].ASSET_ROOM_NO + '","' +
+                                data.data[k].ASSET_AREA_NAME + '","' +
+                                data.data[k].ASSET_DESCRIPTION + '"]';
                         } else {
                             str += '["' + data.data[k].ASSET_ID + '|' + data.data[k].ASSET_DESCRIPTION + '","' +
                                 data.data[k].ASSET_ID + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
-                                data.data[k].ASSET_CLASSIFICATION + '","' +
-                                data.data[k].ASSET_ROOM_NO + '"],';
+                                data.data[k].ASSET_ROOM_NO + '","' +
+                                data.data[k].ASSET_AREA_NAME + '","' +
+                                data.data[k].ASSET_DESCRIPTION + '"],';
                         }
                     }
                     str += ']}'
 
                     str = replaceAll("\r\n", "", str);
+                    str = replaceAll("\\", "|", str);
 
+                    console.log(str);
                     str = (JSON.parse(str));
-                    // console.log(str.data);
+
+
                     table_dom = "#subAssetsTable";
 
                     table = createTable("#subAssetsTable", str.data);
@@ -596,7 +601,10 @@ function searchasset() {
 
                         // }
                     });
-                    // $('#loader').hide();
+
+
+
+
 
                     // table.clear().draw();
 
