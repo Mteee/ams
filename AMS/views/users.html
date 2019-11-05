@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AMS | Addition</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/main_add_new.css">
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
+    <link rel="stylesheet" href="../css/style.css">
+
+    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
+
+
+    <link href="../css/material-bootstrap-wizard.css" rel="stylesheet" />
+
+    <style>
+        .number-style {
+            width: 30px;
+            height: 30px;
+            padding: 4px;
+            font-size: 8pt;
+            border-radius: 50%;
+            margin: 5px;
+            border: 1px solid #0000003d;
+            background: white;
+            color: black;
+            font-weight: bolder;
+        }
+        
+        .asset_group_style {
+            margin: 0 !important;
+            border-radius: 5px;
+        }
+        
+        .mt_group {
+            margin-top: 10px !important;
+        }
+        
+        #wizard .nav {
+            padding-left: 0;
+            margin-bottom: 0;
+            list-style: none;
+        }
+        
+        #wizard {
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            font-weight: 300;
+            line-height: 1.5em;
+        }
+        
+        #wizard .nav-pills {
+            background-color: rgba(200, 200, 200, 0.2);
+        }
+        
+        #wizard .nav-pills>li {
+            float: left;
+        }
+        
+        #wizard .nav>li {
+            position: relative;
+            display: block;
+        }
+        
+        #wizard .nav>li>a {
+            position: relative;
+            display: block;
+            padding: 10px 15px;
+        }
+        
+        .wizard-container {
+            padding-top: 100px;
+            z-index: 3;
+        }
+        
+        .wizard-container .wizard-navigation {
+            position: relative;
+        }
+        
+        .wizard-card {
+            min-height: 410px;
+            box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card {
+            background-color: #FFFFFF;
+            padding: 10px 0;
+            width: 100%;
+            border-radius: 6px;
+            color: rgba(0, 0, 0, 0.87);
+            background: #fff;
+        }
+        
+        .card {
+            position: relative;
+            display: -ms-flexbox;
+            display: flex;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-color: #fff;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, 0.125);
+            border-radius: 0.25rem;
+        }
+        
+        .wizard-card .wizard-header {
+            text-align: center;
+            padding: 25px 0 35px;
+        }
+        
+        .wizard-card .wizard-title {
+            margin: 0;
+        }
+        
+        .card-title,
+        .card-title a,
+        .wizard-title,
+        .wizard-title a {
+            color: #3C4858;
+            text-decoration: none;
+        }
+        
+        .title,
+        .card-title,
+        .wizard-title {
+            font-weight: 700;
+        }
+        
+        .assets_info_plus {
+            height: 184px;
+            overflow-y: auto;
+            padding-left: 21px;
+        }
+        
+        .system_info {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            text-align: center;
+            height: 50px;
+            border: 6px solid #343a4000;
+            background: #2fb02f;
+            border-radius: 50%;
+            padding: 7px 11px;
+            color: white;
+            left: 20px;
+        }
+        
+        .system_info:hover {
+            cursor: pointer;
+            box-shadow: 5px 4px 19px #000000d4;
+            transition: 500ms;
+        }
+        
+        .system_info:hover .tooltiptext {
+            visibility: visible;
+        }
+        
+        .system_info .tooltiptext {
+            visibility: hidden;
+            width: 160px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #f9f9f9;
+            text-align: center;
+            border-radius: 6px;
+            padding: 8px 0px;
+            position: absolute;
+            z-index: 1;
+            margin-left: 27px;
+            margin-top: -16px;
+        }
+        
+        .wizard-card[data-color="green"] .moving-tab {
+            background-color: #4caf50;
+            box-shadow: 0 16px 26px -10px rgba(76, 175, 80, 0.56), 0 4px 25px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(76, 175, 80, 0.2);
+            width: 188px !important;
+        }
+        
+        .form-group {
+            margin-bottom: 0 !important;
+        }
+        
+        .form-control:disabled,
+        .form-control[readonly] {
+            background-color: #e9ecef !important;
+            opacity: 1;
+            border-bottom: 1px dotted rgba(210, 210, 210, 0) !important;
+        }
+        
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .input-group {
+            flex-wrap: inherit !important;
+        }
+        
+        .ripple-container {
+            display: none;
+        }
+        
+        #search_new_room,
+        #menu_new_room .dropdown-item {
+            background-image: none !important;
+        }
+        
+        #room_new_filter:hover {
+            color: slategray;
+        }
+        
+        * {
+            font-size: 9pt !important;
+        }
+        
+        #menu-list {
+            height: auto !important;
+        }
+        
+        .material-icons {
+            font-size: 30pt !important;
+        }
+        
+        #overlay-assets-added {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            z-index: 9999999 !important;
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .asset-assets-added-details {
+            position: relative;
+            margin: 10% auto;
+            width: 668px;
+            height: 459px;
+            border-radius: 5px;
+            background: white;
+            z-index: 2;
+            position: relative;
+        }
+        
+        #loader-overlay {
+            position: absolute;
+            padding: 0;
+            top: 0;
+            left: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 99999999999;
+            display: none;
+            background: rgba(255, 255, 255, 0.9) !important;
+        }
+        
+        .desc_check_style {
+            position: absolute;
+            left: 0;
+            margin-left: -11px;
+            margin-top: -15px;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+        }
+        
+        .description_added_assets {
+            text-align: center;
+            font-weight: bolder;
+        }
+        
+        .description_added_assets i {
+            padding: 8px 4px;
+        }
+        
+        #text-error.btn-outline-danger:hover {
+            color: #dc3545;
+            background-color: #ec001800 !important;
+            border-color: #dc354600 !important;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="overlay-assets-added">
+        <div class="asset-assets-added-details animated bounceInUp" id="assets-added">
+            <span class="exit-asset" onclick="closeAsset('overlay-assets-added')">&times;</span>
+            <div class="asset-header text-center">
+                <strong>ADD USER</strong>
+            </div>
+            <div class="asset-assets-added-body" style="margin-top: 20px;">
+
+                <div class="row">
+                    <div class="col-sm-10 offset-1">
+
+                        <div class="user-info">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label for="u_username">USERNAME</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" name="u_username" class="form-control" id="u_username">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label for="u_badge">BADGE NUMEBR</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <input type="text" name="u_badge" class="form-control" id="u_badge">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <div class="col-md-12">
+                                            <label for="u_class">USER CLASS</label>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <select name="u_class" class="form-control" id="u_class">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="u_roles">
+                                <div class="col-md-12">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <br>
+                                            <p style="font-weight: bolder;" class="text-success">USERS PERMISSIONS</p>
+                                            <table class="table">
+                                                <tr>
+                                                    <td> <input type="checkbox" name="r_view" id="r_view" value="V">
+                                                    </td>
+                                                    <th>VIEW ASSETS</th>
+                                                    <td> <input type="checkbox" name="r_car" id="r_car" value="CAR">
+                                                    </td>
+                                                    <th>COMMISSIONING</th>
+                                                </tr>
+                                                <tr>
+                                                    <td> <input type="checkbox" name="r_move" id="r_move" value="M">
+                                                    </td>
+                                                    <th>MOVE ASSETS</th>
+                                                    <td> <input type="checkbox" name="r_ca" id="r_ca" value="CA"></td>
+                                                    <th>CREATE ASSETS</th>
+                                                </tr>
+                                                <tr>
+                                                    <td> <input type="checkbox" name="r_al" id="r_al" value="AL"></td>
+                                                    <th>LINK/UNLINK ASSETS</th>
+                                                    <td> <input type="checkbox" name="r_cr" id="r_cr" value="CR"></td>
+                                                    <th>REMOVE ASSETS</th>
+                                                </tr>
+                                                <tr>
+                                                    <td> <input type="checkbox" name="r_cert" id="r_cert" value="C">
+                                                    </td>
+                                                    <th>CERTIFICATES</th>
+                                                    <td> <input type="checkbox" name="r_cr" id="r_cr" value="CR"></td>
+                                                    <th>REMOVE ASSETS</th>
+                                                </tr>
+                                                <tr>
+                                                    <td> <input type="checkbox" name="r_l" id="r_l" value="L"></td>
+                                                    <th>LOCATIONS</th>
+                                                    <td> <input type="checkbox" name="r_u" id="r_u" value="U"></td>
+                                                    <th>USERS</th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <!-- <div class="row">
+                                        <div class="col-md-12">
+                                            <div>
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label for="r_car">commissioning</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="checkbox" name="r_car" id="r_car" value="CAR">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label for="r_ca">Add Assets</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="checkbox" name="r_ca" id="r_ca" value="CA">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-2">
+                                                        <label for="r_cr">REMOVE Assets</label>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <input type="checkbox" name="r_cr" id="r_cr" value="CR">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label for="r_al">Link/Unlink Assets</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input type="checkbox" name="r_al" id="r_al" value="AL">
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-2">
+                                                    <label for="r_l">Locations</label>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <input type="checkbox" name="r_l" id="r_l" value="L">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> -->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="asset-transfer-footer text-right">
+                <div class="row">
+                    <div class="col-md-6">
+
+                    </div>
+                    <div class="col-md-6">
+                        <button class="btn btn-success" onclick="insert_user()">Add</button>
+                        <button class="btn btn-danger" onclick="closeAsset('overlay-assets-added')">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- row -->
+    </div>
+    <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
+        <!-- navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar" style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px">
+                <span>
+                    <div class="row" style="margin-top:-25px;" data-step="1"
+                        data-intro="This is a navigation menu, with your class or department">
+                        <div class="col-md-2" onclick="showNav()">
+                            <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40" /></div>
+                            <div class="menu-text">MENU</div>
+                        </div>
+
+                        <div class="col-md-7 offset-2">
+                            <select class="form-control text-muted user-class" id="class-options">
+
+                            </select>
+                        </div>
+                    </div>
+
+                </span>
+                <div id="menu-list" class="is-active">
+                    <ul class="menu-group">
+                        <a id="ams_view" href="./viewAssets.html">
+                            <li class="menu-item">view</li>
+                        </a>
+                        <a id="ams_move" href="./moveAssets.html" target="_self">
+                            <li class="menu-item">movement</li>
+                        </a>
+                        <a id="ams_cert" href="./certificates.html">
+                            <li class="menu-item">certificates</li>
+                        </a>
+                        </a>
+                        <div class="dropright dropdown" id="drodown-menu">
+                            <li class="menu-item " id="com_item" data-toggle="dropdown">commissioning</li>
+                            <ul class="dropdown-menu" id="com_list">
+                                <a id="ams_add" href="#" target="_self">
+                                    <li class="menu-item active">addition</li>
+                                </a>
+                                <li class="divider"></li>
+                                <a id="ams_rem" href="./removal.html" target="_self">
+                                    <li class="menu-item">removal</li>
+                                </a>
+                            </ul>
+                        </div>
+                        <a id="ams_asset_link" href="./linkAssets.html" target="_self">
+                            <li class="menu-item">asset link</li>
+                        </a>
+                        <a id="ams_location" href="./location.html">
+                            <li class="menu-item">new location</li>
+                        </a>
+                        <a id="ams_users" href="./users.html">
+                            <li class="menu-item active">Users</li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;">
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM / <em><span
+                                class="text-muted">USERS</span></em>
+                    </span>
+                </div>
+                <div class="system_desc">DEVELOPMENT</div>
+            </div>
+            <div class=" col-md-3">
+                <div class="row">
+                    <div class="col-md-4 offset-6">
+                        <div id="username">Username</div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;" onclick="closeApp()" data-step="2" data-intro="This red button is for closing the system">
+                            <span style="color:white" class="fa fa-power-off"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <!-- end navigation  -->
+
+        <div class="row" style="margin-top: 80px">
+            <div class="col-md-12" style="height:80vh;padding-right:40px;">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-12 " style="font-size: 15pt !important;
+                            font-weight: bolder;
+                            padding: 10px;padding-left:20px">
+                                USERS
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-12">
+
+                                <form id="frm-example" method="POST">
+                                    <table class="table" id="usersTable" style="font-size:13pt">
+                                        <thead style="background:#000000;color:#ffffff;">
+                                            <tr>
+                                                <th scope="col">
+                                                    ASSET USERNAME
+                                                </th>
+                                                <th scope="col">
+                                                    ASSETS USER BADGENO
+                                                </th>
+                                                <th scope="col">
+                                                    ASSET USER CLASS
+                                                </th>
+                                                <th scope="col">
+                                                    ASSET USER CREATED
+                                                </th>
+                                                <th scope="col">
+                                                    ASSETS USER ROLES
+                                                </th>
+                                                <th scope="col">
+                                                    View
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="users">
+                                            <div class="row" id="users_loader" style="width: 100%;text-align: center;position: absolute;margin-top: 160px;">
+                                                <div class="col-md-12">
+                                                    <img src="../img/loading-transparent.gif" style="position: inherit" alt="" width="100">
+                                                </div>
+                                            </div>
+                                        </tbody>
+                                    </table>
+                                    <!-- <div class="row my-5">
+                                        <div class="col-md-12">
+                                            <button id="commAssets" style="display: none" class="btn btn-md btn-info"><span class="fa fa-paste"></span>
+                                                Commission</button>
+                                        </div>
+                                    </div> -->
+                                </form>
+                            </div>
+                        </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="system_info" onclick="add_new_user()">
+        <span class="fa fa-plus fa-lg"></span><span class="tooltiptext"><strong></strong>Add New Users</strong></span>
+    </div>
+
+    <script src="../js/jquery.js"></script>
+    <script src="../js/clusterize.min.js"></script>
+    <script src="../js/assets/bootstrap.min.js"></script>
+    <script src="../js/assets/material-bootstrap-wizard.js"></script>
+    <script src="../js/assets/jquery.bootstrap.js"></script>
+    <script src="../js/jquery.validate.min.js"></script>
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/inc/menu.js"></script>
+
+    <script src="../js/users.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
+    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+
+    <script>
+        // $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
+
+        // function addAssets() {
+        //     $('#overlay-printView').fadeIn(500);
+        // }
+
+        // $("#form-total").steps({
+        //     headerTag: "h2",
+        //     bodyTag: "section",
+        //     transitionEffect: "fade",
+        //     enableAllSteps: false,
+        //     cssClass: "wizard",
+        //     enablePagination: true,
+        //     stepsOrientation: "vertical",
+        //     autoFocus: true,
+        //     enableCancelButton: false,
+        //     forceMoveForward: false,
+        //     stepsContainerTag: "div",
+        //     transitionEffectSpeed: 400,
+        //     titleTemplate: '<div class="title">#title#</div>',
+        //     labels: {
+        //         previous: '<i class="py-2 fa fa-arrow-circle-left"></i> Previous',
+        //         next: 'Next <i class="py-2 fa fa-arrow-circle-right"></i>',
+        //         cancel: "Cancel",
+        //         current: "current step:",
+        //         pagination: "Pagination",
+        //         finish: 'Finish <i class="fa fa-thumbs-up"></i>',
+        //         loading: "Loading ..."
+        //     },
+        //     destroy: true,
+        //     onFinished: function () {
+        //         $('#form-total').steps("reset");
+        //         $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
+        //         closeAsset('overlay-printView');
+        //     },
+        //     onStepChanged: function (event, current, next) {
+        //         if (current > 0) {
+        //             $('.actions ul li:first-child').attr('style', 'opacity:1 !important;transition:500ms;');
+        //             console.log('back000');
+        //         } else if(current == 0) {
+        //             console.log('back');
+        //             $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
+        //         }
+
+        //         if (current == 3) {
+        //             $('.actions ul li:nth-child(2)').attr('style', 'opacity:0 !important;transition:500ms;');
+
+        //         } else {
+        //             $('.actions ul li:nth-child(2)').attr('style', 'opacity:1 !important;transition:500ms;');
+
+        //         }
+        //     },
+        //     onStepChanging: function (event, currentIndex, newIndex) {
+        //         var form = $(this);
+        //         var check = true;
+        //         if (currentIndex == 0) {
+
+        //             if (($("#newRoom").val()).length == 0) {
+        //                 $("#error-msg-room").text("This field is required");
+        //                 check = false;
+        //             } else {
+        //                 $("#error-msg-room").text("");
+        //             }
+        //             if (($("#classifiction_name").val()).length == 0) {
+        //                 $("#error-msg-class-name").text("This field is required");
+        //                 check = false;
+        //             } else {
+        //                 $("#error-msg-class-name").text("");
+        //             }
+        //             if ($("#asset_class")[0].selectedIndex == 0) {
+        //                 $("#error-msg-asset-class").text("This field is required");
+        //                 check = false;
+        //             } else {
+        //                 $("#error-msg-asset-class").text("");
+        //             }
+
+
+        //         }
+
+        //         if (currentIndex == 1) {
+
+        //         }
+
+        //         return true;
+        //     }
+        // })
+
+        // $(".dropdown, .btn-group").hover(function () {
+        //     var dropdownMenu = $(this).children(".dropdown-menu");
+        //     if (dropdownMenu.is(":visible")) {
+        //         console.log('not visible');
+        //         // dropdownMenu.parent().toggleClass("open");
+        //     } else {
+        //         console.log('visible');
+        //         $(this).toggleClass("open");
+        //     }
+        // });
+
+        const $menu = $('#menu-list');
+
+        $(document).mouseup(e => {
+            if (!$menu.is(e.target) // if the target of the click isn't the container...
+                &&
+                $menu.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                // $menu.removeClass('is-active');
+                $('#menu-list').fadeOut(500);
+            }
+        });
+
+        function showNav() {
+            $('#menu-list').slideToggle('fast');
+        }
+
+        // document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
+
+        // function replaceAll(find, replace, str) {
+        //     while (str.indexOf(find) > -1) {
+        //         str = str.replace(find, replace);
+        //     }
+        //     return str;
+        // }
+
+        // function onError(error) {
+        //     console.log(`Error: ${error}`);
+        // }
+
+        // var setting = browser.tabs.setZoom(2);
+        // setting.then(null, onError);
+        $('#r_car').change(function() {
+            if (this.checked) {
+                $('#r_ca').prop('checked', true);
+                $('#r_cr').prop('checked', true);
+            } else {
+                $('#r_ca').prop('checked', false);
+                $('#r_cr').prop('checked', false);
+            }
+        });
+
+        $('#r_ca').change(function() {
+            if (this.checked) {
+                $('#r_car').prop('checked', true);
+            } else {
+                if ($('#r_cr').is(':checked')) {
+                    $('#r_car').prop('checked', true);
+                } else {
+                    $('#r_car').prop('checked', false);
+                }
+            }
+        });
+
+        $('#r_cr').change(function() {
+            if (this.checked) {
+                $('#r_car').prop('checked', true);
+            } else {
+                if ($('#r_ca').is(':checked')) {
+                    $('#r_car').prop('checked', true);
+                } else {
+                    $('#r_car').prop('checked', false);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
