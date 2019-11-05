@@ -248,14 +248,7 @@ function search() {
                             $('#DecomAssets').fadeOut(500);
                         }
                     }, 500);
-
-
-                    console.log("=======================================data=======================================");
-                    console.log(data);
-                    console.log("=======================================data[0]=======================================");
-                    console.log(data[0]);
-                    console.log("=======================================data=======================================");
-
+            
                     checkId(data[0], this);
 
                     // if (res != " ") {
@@ -337,7 +330,7 @@ function checkId(asset_id, check_this) {
             console.log(data.data[0]);
             var errors = [];
 
-            console.log("data" + data.data.IS_PRIMARY + " / " + data.data.IS_SUB + " / " + data.data.IS_LINKED);
+            console.log("data" + data.data[0].IS_PRIMARY + " / " + data.data[0].IS_SUB + " / " + data.data[0].IS_LINKED);
 
             results = "found";
             if (data.data[0].IS_PRIMARY != null) {

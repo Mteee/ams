@@ -75,23 +75,6 @@ $(document).mouseup(e => {
     }
 });
 
-//empty primary table inputs
-$('#search_link_location').val('');
-$('#search_prim_level').val('');
-$('#search_prim_area').val('');
-$('#search_prim_room').val('');
-$('#prim_description').val('');
-$('#prim_classification').val('');
-
-
-//empty sub assets table
-$('#search_sub_location').val('');
-$('#search_level').val('');
-$('#search_area').val('');
-$('#search_room_sub').val('');
-$('#sub_description').val('');
-$('#sub_classification').val('');
-
 function showNav() {
     $('#menu-list').slideToggle('fast');
 }
@@ -213,29 +196,22 @@ function search() {
                 var table = null;
                 console.log(data);
                 $('#loader').fadeOut(500);
-                // console.log("data.rows");
-                // console.log(data.rows);
-                // console.log("data.rows");
 
                 if (data.rows > 0) {
 
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
                         if ((data.rows - 1) == k) {
-                            str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
-                                data.data[k].ASSET_CLASSIFICATION + '","' +
+                            str += '["' + data.data[k].AL_NO + '","' +
+                                data.data[k].AL_NO + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].HD_ASSET_LOCATION + '","' +
                                 data.data[k].HD_ASSET_DESC + '","' +
                                 updateLetterToIcon(data.data[k].HAS_PRI) + '","' +
                                 updateLetterToIcon(data.data[k].HAS_SUB) + '"]';
                         } else {
-                            str += '["' + data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_PRIMARY_ID + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
-                                data.data[k].ASSET_CLASSIFICATION + '","' +
+                            str += '["' + data.data[k].AL_NO + '","' +
+                                data.data[k].AL_NO + '","' +
                                 data.data[k].ASSET_ROOM_NO + '","' +
                                 data.data[k].HD_ASSET_LOCATION + '","' +
                                 data.data[k].HD_ASSET_DESC + '","' +
@@ -279,7 +255,7 @@ function search() {
                             $('#subLocationTable tbody input[type=checkbox]').prop("checked", false);
                             $(this).prop("checked", true);
                             console.log("test1");
-                            asset_link.al_no = [dataInfo[0], dataInfo[4]];
+                            asset_link.al_no = dataInfo[0];
                         } else {
                             asset_link.al_no = null;
                         }
@@ -305,13 +281,12 @@ function search() {
 
                     // table.clear().draw();
 
+
                 }
                 else {
                     // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
-                    // $('#searchView').fadeIn(500);
-                    // console.log("test");
+                    $('#searchView').fadeIn(500);
                     // console.log(data.data);
-                    // console.log("test");
 
                     table = createTable("#subLocationTable", data.data);
                     $(" #subLocationTable .sorting_disabled input").prop("disabled", true); //Disable
@@ -529,7 +504,6 @@ function searchasset() {
 
         $('#subAssetsSearch').hide();
         $('#AssetsLoader').fadeIn(500);
-        console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","classicification":"' + classicification + '"}');
 
         $.ajax({
             url: '../../ams_apis/slimTest/index.php/assets_not_linked',
@@ -548,15 +522,15 @@ function searchasset() {
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_ID + '|' + data.data[k].ASSET_DESCRIPTION + '","' +
                                 data.data[k].ASSET_ID + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
-                                data.data[k].ASSET_CLASSIFICATION + '","' +
-                                data.data[k].ASSET_ROOM_NO + '"]';
+                                data.data[k].ASSET_ROOM_NO + '","' +
+                                data.data[k].ASSET_AREA_NAME + '","' +
+                                data.data[k].ASSET_DESCRIPTION + '"]';
                         } else {
                             str += '["' + data.data[k].ASSET_ID + '|' + data.data[k].ASSET_DESCRIPTION + '","' +
                                 data.data[k].ASSET_ID + '","' +
-                                data.data[k].ASSET_DESCRIPTION + '","' +
-                                data.data[k].ASSET_CLASSIFICATION + '","' +
-                                data.data[k].ASSET_ROOM_NO + '"],';
+                                data.data[k].ASSET_ROOM_NO + '","' +
+                                data.data[k].ASSET_AREA_NAME + '","' +
+                                data.data[k].ASSET_DESCRIPTION + '"],';
                         }
                     }
                     str += ']}'
@@ -596,7 +570,10 @@ function searchasset() {
 
                         // }
                     });
-                    // $('#loader').hide();
+
+
+
+
 
                     // table.clear().draw();
 
@@ -621,80 +598,6 @@ function searchasset() {
     }
 }
 
-function viewAsset(assetId) {
-    var currentItem = "";
-    document.getElementById('overlay-asset').style.display = "block";
-    // console.log($('#assetBody'));
-    $('#assetBody')['0'].innerHTML = assetId;
-
-    $.ajax({
-        url: "../../ams_apis/slimTest/index.php/singleAsset",
-        method: "POST",
-        dataType: "JSON",
-        data: '{"primary_asset_id" :"' + assetId + '"}',
-        success: function (data) {
-            // console.log("success");
-            document.getElementById('viewAssets').innerHTML = data[0].table;
-            document.getElementById('subItemCount').innerText = data[0].items;
-
-            if (data[0].items > 0) {
-                $('#unlink_all').fadeIn(500);
-                $('#unlink_all').on('click', function () {
-                    unlinkAll(assetId);
-                });
-            } else {
-                $('#unlink_all').hide();
-            }
-        },
-        error: function (err) {
-            console.log(err);
-            console.log("error");
-
-        }
-    });
-}
-
-
-function unlinkAll(assetId) {
-    $.ajax({
-        url: "../../ams_apis/slimTest/index.php/unlink_all_subs",
-        method: "POST",
-        dataType: "JSON",
-        data: '{"asset_primary_id" :"' + assetId + '","username":"' + localStorage.username + '"}',
-        success: function (data) {
-            console.log(data);
-            if (data.data == "UNLINKING ALL SUBS WAS SUCCESSFUL") {
-                closeAsset('overlay-asset');
-                searchasset()
-                search();
-
-                swal.fire({
-                    title: "unlinked Successfully",
-                    text: data.data,
-                    type: "success",
-                    showCloseButton: true,
-                    allowOutsideClick: true,
-
-                }).then(function (result) {
-                    if (result.value) {
-
-                    } else if (
-                        result.dismiss === Swal.DismissReason.cancel
-                    ) {
-
-                    }
-                })
-
-            }
-        },
-        error: function (err) {
-            console.log(err);
-            console.log("error");
-
-        }
-    });
-}
-
 function checkboxSelectedLength(id) {
     var lengthh = $(id + " input:checkbox:checked").length;
     console.log(lengthh);
@@ -714,6 +617,7 @@ var allArr = {
     search_room_sub: [],
     search_asset_no_sub: []
 };
+
 
 function sub_location_filters() {
     /*Sub Location Filters*/
@@ -787,22 +691,6 @@ function createTable(tableID, tableData) {
                     'value': tableData[0]
                 },
                 "className": "dt-center"
-            },
-            {
-                'targets': -1,
-                "render": function (data, type, row, meta) {
-                    // "data": null,
-                    // "orderable": false,
-                    // "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>",
-                    // "className": "dt-center"
-
-                    if (tableID == "#subLocationTable") {
-                        return "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>";
-                    } else {
-                        return data
-                    }
-                }
-
             },
             {
                 "targets": -2,
@@ -978,12 +866,7 @@ var clusterize = {
     search_link_location: [],
     search_prim_level: [],
     search_prim_area: [],
-    search_prim_room: [],
-
-    search_sub_location: [],
-    search_level: [],
-    search_area: [],
-    search_room_sub: []
+    search_prim_room: []
 };
 
 function getSelectedAssets(assets) {
@@ -1160,7 +1043,7 @@ $('#menu_asset_no_sub').on('click', '.dropdown-item', function () {
 // end assets menu  onclick 
 
 //Department Dropdown Check
-if (localStorage.filter == "ALL EQUIPMENT") {
+if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
@@ -1171,44 +1054,29 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     $('#class-options').on('change', function () {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
-        toogleSub(filter);
-
-        clearLocalStorageFilters();
-        populate_dropdown();
         //clear btn text
-        checkFilter("search_addition_building");
+        resetBtn('#dropdown_assets', 'ASSET NO...');
+        resetBtn('#dropdown_room', 'ROOM...');
+        resetBtn('#dropdown_location', 'LOCATION ...');
 
+        //clear search inputs
+        resetInput('#searchlocation', '');
+        resetInput('#searchroomno', '');
+        resetInput('#searchasset', '');
+
+        localStorage.menuAssets = '';
+        localStorage.menuLocation = '';
+        localStorage.menuRoom = '';
+        populate_dropdown();
     });
 
-} else {
-    toogleSub(localStorage.filter);
+}
+else {
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
 }
 
-function toogleSub(filter) {
-    if (filter == "IT EQUIPMENT") {
-        $('.filter_sub').show();
-    } else {
-        $('.filter_sub').hide();
-    }
-}
-
-function clearLocalStorageFilters() {
-
-    localStorage.building = '';
-    localStorage.area = '';
-    localStorage.level = '';
-    localStorage.room_no = '';
-    localStorage.sub_location = '';
-    localStorage.building_assets = '';
-    localStorage.area_assets = '';
-    localStorage.level_assets = '';
-    localStorage.room_no_assets = '';
-    localStorage.asset_no = '';
-
-}
 
 //function clear button
 function clearData(input, btnDafualtId, text, emptyId) {
@@ -1612,17 +1480,9 @@ function linkAssets(id) {
 
 }
 
-function confirmLink(test) {
-
+function confirmLink() {
     var e = document.getElementById("primary_asset_id");
-    // p_id = e.options[e.selectedIndex].value;
-    var p_id;
-
-    if (test == "alc_no") {
-        p_id = e.options[e.selectedIndex].value;
-    } else {
-        p_id = "SKIP";
-    }
+    // $('#primary_asset_id').on('change', function () {
 
     // });
     var p_id = e.options[e.selectedIndex].value;
@@ -1631,12 +1491,13 @@ function confirmLink(test) {
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/link_assets",
         method: "POST",
-        data: '{"al_no":"' + p_id + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + asset_link.al_no[0] + '","username":"' + localStorage.username + '"}',
+        data: '{"al_no":"' + asset_link.al_no + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + p_id + '","username":"' + localStorage.username + '"}',
         dataType: "JSON",
         success: function (data) {
             if (data.data == "LINK WAS SUCCESSFUL") {
                 searchasset()
                 search();
+
                 swal.fire({
                     title: "Assignment Success",
                     text: data.data,
@@ -1677,6 +1538,7 @@ function confirmLink(test) {
                 console.log(data);
             }
             console.log("======================data================")
+            console.log(data);
             console.log("======================data================")
 
             asset_link = {
@@ -1690,50 +1552,6 @@ function confirmLink(test) {
     });
 }
 
-// window.addEventListener('keypress', function (e) {
-
-//     if (e.keyCode == 13) {
-//         search();
-//     }
-// }, false);
-
-
-
-// function enterPress(input){
-//     input.addEventListener('keypress', function (e) {
-
-//     if (e.keyCode == 13) {
-//         search();
-//     }
-
-// }, false);
-
-// }
-
-// function runScript(e) {
-//     //See notes about 'which' and 'key'
-//     if (e.keyCode == 13) {
-//         preventDefault();l
-//         search();
-//     }
-// }
-
-var onSearch_new = function (table, searchValue, emptyId) {
-    document.getElementById(searchValue).onkeypress = function (e) {
-
-        console.log(e.keyCode + " " + table);
-        if (e.keyCode == 13 && table == "subLocation") {
-            e.preventDefault();
-            search();
-        }
-
-        if (e.keyCode == 13 && table == "assets") {
-            e.preventDefault();
-            searchasset();
-        }
-
-    }
-}
 
 function unlinkSub(assetId) {
 
@@ -1808,21 +1626,6 @@ function unlinkSub(assetId) {
 var onSearch = function (table, searchValue, emptyId) {
 
     var getId = searchValue;
-
-    document.getElementById(searchValue).onkeypress = function (e) {
-
-        console.log(e.keyCode + " " + table);
-        if (e.keyCode == 13 && table == "subLocation") {
-            e.preventDefault();
-            search();
-        }
-
-        if (e.keyCode == 13 && table == "assets") {
-            e.preventDefault();
-            searchasset();
-        }
-
-    }
 
     var found = false;
 
