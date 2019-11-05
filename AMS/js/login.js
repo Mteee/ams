@@ -42,13 +42,13 @@ function startApp() {
       method: "POST",
       success: function (data) {
 
-        console.log(data[0].filter);
+        console.log(data);
         
         var filter = data[0].filter;
         localStorage.role = data[0].role;
         
         
-        if (filter != null && filter != '') {
+        if (filter != null && filter != '' && data[0].status != "0") {
           localStorage.filter = filter;
           localStorage.backupFilter = filter;
           setTimeout(function () {
@@ -57,14 +57,15 @@ function startApp() {
           }, timeout);
         }else{
           swal.fire({
-            title: "Unexpected Error #41200",
-            text: "An error has occured, please contact admin (amsdev@ialch.co.za)",
+            title: "Account Locked",
+            text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE:#41200",
             type: "error",
             showCloseButton: true,
             confirmButtonColor: "#C12E2A",
             allowOutsideClick: true,
     
-         })
+         });
+         $('#loginLoader').slideToggle(500);
         }
 
       },
@@ -83,7 +84,7 @@ function startApp() {
 
      })
 
-        $('#loginLoader').hide();
+     $('#loginLoader').slideToggle(500);
       }
     });
 

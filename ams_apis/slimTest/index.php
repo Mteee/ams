@@ -441,7 +441,7 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
     $username = strtoupper($data->username);
    if($username != null && $username != ''){
 
-        $sql_query = "SELECT ASSET_USER_CLASS,ASSETS_USER_ROLES FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME='$username'";
+        $sql_query = "SELECT ASSET_USER_CLASS,ASSETS_USER_ROLES,ASSTES_USER_STATUS FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME='$username' AND ASSTES_USER_STATUS = '1'";
         
         $results =$func->executeQuery($sql_query);
 
@@ -449,13 +449,14 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
             $decoded_res = json_decode($results);
             $filter = $decoded_res->data[0]->ASSET_USER_CLASS;
             $role = $decoded_res->data[0]->ASSETS_USER_ROLES;
+            $status = $decoded_res->data[0]->ASSTES_USER_STATUS;
 
-            array_push($response,array("filter"=>$filter,"role"=>$role));
+            array_push($response,array("filter"=>$filter,"role"=>$role,"status"=>$status));
             return json_encode($response);
         }
         else{
             $filter = "ALL EQUIPMENT";
-            array_push($response,array("filter"=>$filter,"role"=>"V|M"));
+            array_push($response,array("filter"=>$filter,"role"=>"V|M","status"=>"0"));
             return json_encode($response);
         }
 
@@ -4857,6 +4858,86 @@ $app->map(['GET','POST'],'/unlink_assets',function(Request $request, Response $r
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"UNLINK WAS NOT SUCCESSFUL"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+$app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $asset_class = strtoupper($data->asset_class);
+        $role = strtoupper($data->role);
+
+        if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSTES_USER_STATUS = '1'";
+        else{
+            if($asset_class == 'ALL EQUIPMENT')
+                $asset_class = '';
+
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_CLASS LIKE '%$asset_class%'";
+        }
+
+        $users =$func->executeQuery($sql);
+
+        if($users){
+
+             echo $users;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+$app->map(['GET','POST'],'/getClasses',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $asset_class = strtoupper($data->asset_class);
+        $role = strtoupper($data->role);
+
+        if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
+            $sql = "SELECT * FROM ASSETS_CLASS";
+        else
+            $sql = "SELECT * FROM ASSETS_CLASS WHERE ASSET_CLASS_NAME LIKE '%$asset_class%'";
+
+        $users =$func->executeQuery($sql);
+
+        if($users){
+
+             echo $users;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+$app->map(['GET','POST'],'/deleteUser',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $username = strtoupper($data->username);
+
+        $sql = "UPDATE ASSETS_USER SET ASSTES_USER_STATUS = '0' WHERE ASSET_USERNAME = '$username'";
+
+        $deleteusers =$func->executeNonQuery($sql);
+
+        if($deleteusers){
+
+            echo json_encode(array("rows" => 1 ,"data" =>"User ".$username." Successfully deleted"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"User was not deleted"));
         }
 
     }catch (Exception $pdoex) {
