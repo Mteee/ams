@@ -11,6 +11,7 @@ var menu_ids = [
 ];
 
 customMenu(menu_ids);
+
 function customMenu(menu_ids) {
     
     var roles = localStorage.role;

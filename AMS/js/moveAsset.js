@@ -1575,6 +1575,7 @@ var onSearch = function (searchValue, emptyId) {
 
 
     searchValue = document.getElementById(searchValue);
+    
     console.log(searchValue.value);
     for (var i = 0; i < rows.length; i++) {
 

@@ -509,10 +509,12 @@ function searchasset() {
             url: '../../ams_apis/slimTest/index.php/assets_not_linked',
             method: 'POST',
             dataType: 'JSON',
-            data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '"}',
+            data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '","asset_class":"' + localStorage.filter + '"}',
             success: function (data) {
                 var table = null;
+                console.log("==============[data]=====================");
                 console.log(data);
+                console.log("==============[data]=====================");
                 $('#AssetsLoader').fadeOut(500);
 
                 if (data.rows > 0) {
@@ -536,9 +538,12 @@ function searchasset() {
                     str += ']}'
 
                     str = replaceAll("\r\n", "", str);
+                    str = replaceAll("\\", "|", str);
 
+                    console.log(str);
                     str = (JSON.parse(str));
-                    // console.log(str.data);
+
+
                     table_dom = "#subAssetsTable";
 
                     table = createTable("#subAssetsTable", str.data);

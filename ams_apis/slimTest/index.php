@@ -2040,7 +2040,7 @@ $app->map(['GET','POST'],'/building_view', function(Request $request, Response $
             AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' OR A_OLD.ASSET_SUB_LOCATION IS NULL)
+            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%')
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND (A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_PRIMARY_ID IS NULL)
@@ -2152,7 +2152,7 @@ $app->map(['GET','POST'],'/asset_level_new_view', function(Request $request, Res
             AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' OR A_OLD.ASSET_CLASS IS NULL)
+            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%')
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND (A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_PRIMARY_ID IS NULL)
@@ -2207,7 +2207,7 @@ $app->map(['GET','POST'],'/asset_area_view', function(Request $request, Response
             AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' OR A_OLD.ASSET_CLASS IS NULL)
+            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%')
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND (A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_PRIMARY_ID IS NULL)
@@ -2261,7 +2261,7 @@ $app->map(['GET','POST'],'/asset_room_no_view', function(Request $request, Respo
             AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' OR A_OLD.ASSET_CLASS IS NULL)
+            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%')
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND (A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_PRIMARY_ID IS NULL)
@@ -2316,7 +2316,7 @@ $app->map(['GET','POST'],'/asset_sub_location_move', function(Request $request, 
             AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' OR A_OLD.ASSET_CLASS IS NULL)
+            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' OR A_OLD.ASSET_SUB_LOCATION IS NOT NULL)
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND (A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_PRIMARY_ID IS NULL)
@@ -2372,7 +2372,7 @@ $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Respo
             AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
             AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
             AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' OR A_OLD.ASSET_SUB_LOCATION IS NULL)
+            AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' 
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
             AND (A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_PRIMARY_ID IS NOT NULL)
@@ -3573,7 +3573,7 @@ $app->map(['GET','POST'],'/decomm_asset',function(Request $request, Response $re
         oci_commit($connect);
 
         if($v_out == "y"){
-            echo json_encode(array("rows" => 0 ,"data" =>"ASSETS DECOMMISSIONED SUCCESSFULLY"));
+            echo json_encode(array("rows" => 1 ,"data" =>"ASSETS DECOMMISSIONED SUCCESSFULLY"));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"ASSETS WAS NOT DECOMMISSIONED"));
