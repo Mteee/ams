@@ -71,8 +71,6 @@ function getValues() {
     alert("getUserValues");
 }
 
-
-
 function extractValues_inElements(a, arr, key) {
     if (key == "serial") {
         console.log("serial");
@@ -92,36 +90,52 @@ function extractValues_inElements(a, arr, key) {
     }
 }
 
-
 var allArr = {
     usersTable: []
 };
 
-function add_new_user() {
-    localStorage.filter = $("#asset_class option:selected").text();
+function getValues_onElements(arrElements) {
+    var newArr = []
+    for (var i = 0; i < arrElements.length; i++) {
+        newArr.push(arrElements[i].value);
+    }
+    return newArr;
+}
+
+function sliptWith(arr, separator) {
+    var str = ""
+    for (var i = 0; i < arr.length; i++) {
+        if (arr.length - 1 == i)
+            str += arr[i];
+        else
+            str += arr[i] + separator;
+    }
+    return str;
+}
+
+function show_add_new_user() {
     document.getElementById('overlay-assets-added').style.display = "block";
 }
 
 function closeAsset(id) {
-    document.getElementById(id).style.display = "none"
+    document.getElementById(id).style.display = "none";
 }
 
 addUserClasses();
+function addUserClasses() {
 
-function addUserClasses(){
-
-    var jsonData = '{"asset_class":"'+localStorage.filter+'","role":"'+localStorage.role+'"}';
+    var jsonData = '{"asset_class":"' + localStorage.filter + '","role":"' + localStorage.role + '"}';
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/getClasses",
         type: "POST",
         dataType: 'json',
-        data:jsonData,
+        data: jsonData,
         success: function (data) {
 
             var options = "";
 
-            for(var i=0;i<data.rows;i++){
-                options += "<option value='"+data.data[i].ASSET_CLASS_NAME+"'>"+data.data[i].ASSET_CLASS_NAME+"</option>";
+            for (var i = 0; i < data.rows; i++) {
+                options += "<option value='" + data.data[i].ASSET_CLASS_NAME + "'>" + data.data[i].ASSET_CLASS_NAME + "</option>";
             }
 
             document.getElementById('u_class').innerHTML += options;
@@ -129,17 +143,27 @@ function addUserClasses(){
             console.log(data);
             console.log("data");
         },
-        error:function(error){
-            console.log(error);
+        error: function (error) {
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'getClasses'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+
+            })
         }
     });
 }
 
-getUsers(localStorage.filter,localStorage.role);
 
-function getUsers(a,b) {
 
-    var jsonData = '{"asset_class" :"' + a + '","role" :"' + b + '"}';
+getUsers(localStorage.filter, localStorage.role, localStorage.username);
+
+function getUsers(a, b, c) {
+
+    var jsonData = '{"asset_class" :"' + a + '","role" :"' + b + '","user" :"' + c + '"}';
 
     console.log(jsonData);
 
@@ -149,28 +173,28 @@ function getUsers(a,b) {
         dataType: 'json',
         data: jsonData,
         success: function (data) {
-            
+            console.log(data);
             if (data.rows > 0) {
 
                 var str = '{"data" : [';
 
                 for (var k = 0; k < data.rows; k++) {
-                    console.log(data.data[k].ASSET_USERNAME +"!="+ localStorage.username);
-                    if((data.data[k].ASSET_USERNAME).toUpperCase() != (localStorage.username).toUpperCase()){
-                        if ((data.rows - 1) == k) {
-                            str += '["' + data.data[k].ASSET_USERNAME + '","';
-                            str += data.data[k].ASSETS_USER_BADGENO + '","';
-                            str += data.data[k].ASSET_USER_CLASS + '","';
-                            str += data.data[k].ASSET_USER_CREATED + '","';
-                            str += data.data[k].ASSETS_USER_ROLES + '"]';
-                        } else {
-                            str += '["' + data.data[k].ASSET_USERNAME + '","';
-                            str += data.data[k].ASSETS_USER_BADGENO + '","';
-                            str += data.data[k].ASSET_USER_CLASS + '","';
-                            str += data.data[k].ASSET_USER_CREATED + '","';
-                            str += data.data[k].ASSETS_USER_ROLES + '"],';
-                        }
+                    console.log(data.data[k].ASSET_USERNAME + "!=" + localStorage.username);
+
+                    if ((data.rows - 1) == k) {
+                        str += '["' + data.data[k].ASSET_USERNAME + '","';
+                        str += data.data[k].ASSETS_USER_BADGENO + '","';
+                        str += data.data[k].ASSET_USER_CLASS + '","';
+                        str += data.data[k].ASSET_USER_CREATED + '","';
+                        str += data.data[k].ASSETS_USER_ROLES + '"]';
+                    } else {
+                        str += '["' + data.data[k].ASSET_USERNAME + '","';
+                        str += data.data[k].ASSETS_USER_BADGENO + '","';
+                        str += data.data[k].ASSET_USER_CLASS + '","';
+                        str += data.data[k].ASSET_USER_CREATED + '","';
+                        str += data.data[k].ASSETS_USER_ROLES + '"],';
                     }
+
                 }
 
                 str += ']}'
@@ -183,9 +207,9 @@ function getUsers(a,b) {
                 // console.log(str.data);
                 $('#users_loader').hide();
                 table = createTable("#usersTable", str.data);
-                
+
                 // table.clear().draw();
-                
+
 
 
             }
@@ -198,53 +222,59 @@ function getUsers(a,b) {
 
             }
 
-          
+            $('#usersTable tbody').on('click', 'button[name="view"]', function () {
+                var data = table.row($(this).parents('tr')).data();
+                view_user(data[0]);
+            });
 
-        $('#usersTable tbody').on('click', 'button[name="view"]', function () {
-            var data = table.row($(this).parents('tr')).data();
-            view_user(data[0]);
-        });
+            $('#usersTable tbody').on('click', 'button[name="edit"]', function () {
+                var data = table.row($(this).parents('tr')).data();
+                edit_user(data[0]);
+            });
 
-        $('#usersTable tbody').on('click', 'button[name="edit"]', function () {
-            var data = table.row($(this).parents('tr')).data();
-            edit_user(data[0]);
-        });
+            $('#usersTable tbody').on('click', 'button[name="delete"]', function () {
+                var data = table.row($(this).parents('tr')).data();
+                swal.fire({
+                    html: "<span style='font-size:13pt importnat;'>Are you sure you want to delete <strong>" + data[0] + "</strong>?</span>",
+                    type: "question",
+                    showCancelButton: true,
+                    confirmButtonColor: "#419641",
+                    confirmButtonText: "Yes",
+                    cancelButtonText: "No",
+                    cancelButtonColor: "#C12E2A",
+                    closeOnConfirm: false,
+                    closeOnCancel: false,
+                    showCloseButton: true,
+                    allowOutsideClick: false,
+                    customClass: {
+                        popup: 'animated tada'
+                    }
+                }).then(function (result) {
+                    if (result.value) {
+                        delete_user(data[0]);
+                    } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                    ) {
 
-        $('#usersTable tbody').on('click', 'button[name="delete"]', function () {
-            var data = table.row($(this).parents('tr')).data();
-            swal.fire({
-                html: "<span style='font-size:13pt importnat;'>Are you sure you want to delete <strong>"+data[0]+"</strong>?</span>",
-                type: "question",
-                showCancelButton: true,
-                confirmButtonColor: "#419641",
-                confirmButtonText: "Yes",
-                cancelButtonText: "No",
-                cancelButtonColor: "#C12E2A",
-                closeOnConfirm: false,
-                closeOnCancel: false,
-                showCloseButton: true,
-                allowOutsideClick: false,
-                customClass: {
-                    popup: 'animated tada'
-                }
-            }).then(function (result) {
-                if (result.value) {
-                    delete_user(data[0]);
-                } else if (
-                    result.dismiss === Swal.DismissReason.cancel
-                ) {
-        
-                }
-            })
-        
-        });
+                    }
+                })
+
+            });
 
         },
         error: function (err) {
             console.log(err)
             $('#searchView').fadeIn(500);
             $('#loader').hide();
-            alert('Ooops');
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'getAllUsers_on_class'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+
+            })
         }
     });
 }
@@ -304,9 +334,9 @@ function createTable(tableID, tableData) {
                 "targets": -1,
                 "data": null,
                 "orderable": false,
-                "defaultContent": "<button type='button' name='view' class='btn btn-primary'><span class='fa fa-eye'></span></button>"+
-                                  " <button type='button' name='edit' class='btn btn-info'><span class='fa fa-edit'></span></button>"+
-                                  " <button type='button' name='delete' class='btn btn-danger'><span class='fa fa-trash'></span></button>"
+                "defaultContent": "<button type='button' name='view' class='btn btn-primary'><span class='fa fa-eye'></span></button>" +
+                    " <button type='button' name='edit' class='btn btn-info'><span class='fa fa-edit'></span></button>" +
+                    " <button type='button' name='delete' class='btn btn-danger'><span class='fa fa-trash'></span></button>"
             },
             {
                 "className": "dt-center",
@@ -327,15 +357,134 @@ function createTable(tableID, tableData) {
     return table;
 }
 
-function view_user(username){
-    alert('view Clicked'+username);
+function view_user(username) {
+    alert('view Clicked' + username);
 }
 
-function edit_user(username){
-    alert('edit Clicked'+username);
+
+
+function add_user() {
+    var user_details = $(".user-info select option:selected,.user-info input[type='text']");
+    var user_roles = $(".user-info input[type='checkbox']:checked");
+    var arr_user_details = getValues_onElements(user_details);
+    var arr_user_roles = getValues_onElements(user_roles);
+
+
+    console.log(arr_user_details);
+
+    if(arr_user_details[0] == "" || arr_user_details[1] == ""){
+
+    }else if (arr_user_roles.length == 0) {
+        swal.fire({
+            title: "User must have atleast one role",
+            type: "error",
+            showCloseButton: true,
+            confirmButtonColor: "#C12E2A",
+            allowOutsideClick: true,
+            animation: false,
+            customClass: {
+                popup: 'animated tada'
+            }
+
+        }).then(function(res){
+            if(res.value){
+
+            }else{
+                window.location.reload();
+            }
+        });
+        $('#add_users').off().on('click','button',function(e){
+            e.preventDefault();
+        });
+    } else {
+        var strRoles = "";
+        if ($('#r_ca').is(':checked')) 
+            strRoles = "ADMIN";
+        else
+          strRoles = sliptWith(arr_user_roles, "|");
+
+        var jsonData = '{"u_username":"' + arr_user_details[0] + '","u_badge":"' + arr_user_details[1] + '","u_class":"' + arr_user_details[2] + '","user_added_by":"' + localStorage.username + '","u_roles":"' + strRoles + '"}'
+
+        $.ajax({
+            url: "../../ams_apis/slimTest/index.php/createUser",
+            type: "POST",
+            dataType: 'json',
+            data: jsonData,
+            success: function (data) {
+                console.log(data);
+                if (data.rows > 0) {
+                    if (data.rows == 2) {
+                        swal.fire({
+                            title: data.data,
+                            type: "error",
+                            showCloseButton: true,
+                            confirmButtonColor: "#C12E2A",
+                            allowOutsideClick: true,
+                            animation: false,
+                            customClass: {
+                                popup: 'animated tada'
+                            }
+
+                        });
+                    }
+                    else {
+                        swal.fire({
+                            title: data.data,
+                            type: "success",
+                            showCloseButton: true,
+                            confirmButtonColor: "#419641",
+                            allowOutsideClick: true,
+                            animation: false,
+                            customClass: {
+                                popup: 'animated tada'
+                            }
+
+                        });
+
+                        getUsers(localStorage.filter, localStorage.role, localStorage.username);
+                    }
+                } else {
+
+                    swal.fire({
+                        title: data.data,
+                        type: "error",
+                        showCloseButton: true,
+                        confirmButtonColor: "#C12E2A",
+                        allowOutsideClick: true,
+                        animation: false,
+                        customClass: {
+                            popup: 'animated tada'
+                        }
+
+                    });
+                }
+            },
+            error: function (error) {
+                console.log(error);
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) code : 'createUser'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+
+                })
+            }
+        });
+        closeAsset('overlay-assets-added');
+        $('#add_users').off().on('click','button',function(e){
+            e.preventDefault();
+        });
+    }
 }
 
-function delete_user(username){
+
+function edit_user(username) {
+    alert('edit Clicked' + username);
+}
+
+function delete_user(username) {
     $('#users_loader').slideToggle(500);
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/deleteUser",
@@ -343,17 +492,17 @@ function delete_user(username){
         data: '{"username" : "' + username + '"}',
         dataType: "JSON",
         success: function (data) {
-            if(data.rows > 0){
-                getUsers(localStorage.filter,localStorage.role)
+            if (data.rows > 0) {
+                getUsers(localStorage.filter, localStorage.role, localStorage.username);
                 swal.fire({
                     title: "Success",
-                    text:  data.data,
+                    text: data.data,
                     type: "success",
                     showCloseButton: true,
-                    confirmButtonColor: "#C12E2A",
+                    confirmButtonColor: "#419641",
                     allowOutsideClick: true,
                 });
-            }else{
+            } else {
                 swal.fire({
                     title: "Error",
                     text: data.data,
@@ -363,12 +512,18 @@ function delete_user(username){
                     allowOutsideClick: true,
                 });
             }
-            
+
         },
         error: function (err) {
-           alert("err");
-           alert(err);
-           alert("err");
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'deleteUser'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+
+            })
         }
     });
 }
@@ -483,7 +638,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
         // toogleSub(filter);
-        getUsers(localStorage.filter,localStorage.role);
+        getUsers(localStorage.filter, localStorage.role, localStorage.username);
         // clearLocalStorageFilters();
         // populate_dropdown();
         //clear btn text

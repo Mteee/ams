@@ -26,13 +26,14 @@ class Functions{
 			// $sql="SELECT ASSET_ID,ASSET_CLASS,ASSET_ROOM_NO,ASSET_LOCATION,ASSET_DESCRIPTION,RECSTATUS FROM DWDEV.DEV_SAP_ASSETS WHERE ASSET_ID ='ZBM1053-0021'";
 			$statement = oci_parse($connect,$query);
 			oci_execute($statement);
-		
+			oci_close($connect);
 			while (($row = oci_fetch_assoc($statement)) != false) {
 				$arr [] = $row;
 				$count++;
 			}
 
 			if($count > 0){
+				
 				return json_encode(array("rows" => $count ,"data" =>$arr));
 			}else{
 				return false;
