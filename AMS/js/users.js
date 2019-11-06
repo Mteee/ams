@@ -60,11 +60,14 @@ window.onload = function () {
 }
 
 function desc_role(value) {
-    if (value != "ADMIN") {
-        return "Permissions : <strong>" + value.split("|").length + "</strong>";
+    if (value == "ADMIN") {
+        return value;
+    }else if(value == "null" || value == null || value == undefined){
+        return "<strong>No Permissions</strong>";
     }
-
-    return value;
+    
+    return "Permissions : <strong>" + value.split("|").length + "</strong>";
+   
 }
 
 function view_user(username) {
@@ -521,7 +524,7 @@ $('#add_user').click(function () {
 
     } else {
         var strRoles = "";
-        if ($('#r_all').is(':checked'))
+        if (user_roles.length == 10)
             strRoles = "ADMIN";
         else
             strRoles = sliptWith(arr_user_roles, "|");
@@ -606,9 +609,7 @@ $('#add_user').click(function () {
 function edit_user(username) {
     document.getElementById('user_name').innerHTML = "<strong>UPDATE USER</strong>";
     disableFormFields();
-           
-           
-  
+             
     $('#add_user').hide();
     $('#update_user').show();
     $('#overlay-assets-added').show();
@@ -645,16 +646,14 @@ function edit_user(username) {
 }
 
 $('#update_user').click(function () {
-    $("#add_users").submit(function (e) {
-        e.preventDefault();
-    });
+    // $("#update_user").submit(function (e) {
+    //     e.preventDefault();
+    // });
     var user_roles = $(".user-info input[type='checkbox']:checked");
     var arr_user_roles = getValues_onElements(user_roles);
 
-  
-
     var strRoles = "";
-        if ($('#r_all').is(':checked'))
+        if (user_roles.length == 10)
             strRoles = "ADMIN";
         else
             strRoles = sliptWith(arr_user_roles, "|");
@@ -670,6 +669,15 @@ $('#update_user').click(function () {
         swal.fire({
             title: "No Changes Made",
             text: "Please make changes before updating",
+            type: "error",
+            showCloseButton: true,
+            confirmButtonColor: "#C12E2A",
+            allowOutsideClick: true,
+        });
+    }else if(user_roles.length == 0){
+        swal.fire({
+            title: "No Changes Made",
+            text: "You must select atlease one roles",
             type: "error",
             showCloseButton: true,
             confirmButtonColor: "#C12E2A",
@@ -695,7 +703,9 @@ $('#update_user').click(function () {
 
                 });
 
+                localStorage.user_role = strRoles;
                 getUsers(localStorage.filter, localStorage.role, localStorage.username);
+                closeAsset('overlay-assets-added');
     
             },
             error: function (error) {
