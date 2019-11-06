@@ -302,6 +302,12 @@
         #user_info .col-md-4 {
             display: inline-block;
         }
+        
+        input[type="checkbox"]:checked,
+        input[type="checkbox"]:checked::after {
+            background: #2aa1c0 !important;
+            border-color: white !important;
+        }
     </style>
 
 </head>
@@ -469,8 +475,9 @@
 
                         </div>
                         <div class="col-md-6">
-                            <button id="update_user" type="submit" class="btn btn-primary" style="display: none;" onclick="update_user()">Update User</button>
-                            <button id="add_user" type="submit" class="btn btn-success" onclick="add_user()">Create User</button>
+                            <button id="update_user" type="submit" class="btn btn-primary" style="display: none;">Update
+                                User</button>
+                            <button id="add_user" type="submit" class="btn btn-success">Create User</button>
                             <button type="reset" class="btn btn-danger" onclick="closeAsset('overlay-assets-added')">Cancel</button>
                         </div>
                     </div>
@@ -617,8 +624,6 @@
                                 </form>
                             </div>
                         </div>
-
-                        </form>
                     </div>
                 </div>
             </div>

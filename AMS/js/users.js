@@ -1,5 +1,4 @@
 
-
 var user_class = localStorage.username;
 
 $('#username').text(user_class.toUpperCase());
@@ -10,7 +9,6 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
 } else {
     localStorage.filter = localStorage.backupFilter;
 }
-
 
 function closeApp() {
     swal.fire({
@@ -61,9 +59,9 @@ window.onload = function () {
     }
 }
 
-function desc_role(value){
-    if(value != "ADMIN"){
-        return "Permissions : <strong>"+value.split("|").length+"</strong>";
+function desc_role(value) {
+    if (value != "ADMIN") {
+        return "Permissions : <strong>" + value.split("|").length + "</strong>";
     }
 
     return value;
@@ -119,12 +117,8 @@ function sliptWith(arr, separator) {
     return str;
 }
 
-function show_add_new_user() {
-    document.getElementById('user_name').innerHTML = "<strong>ADD USER</strong>";
-    document.getElementById('overlay-assets-added').style.display = "block";
-}
-
 function closeAsset(id) {
+    document.getElementById("add_users").reset();
     document.getElementById(id).style.display = "none";
 }
 
@@ -191,13 +185,13 @@ function getUsers(a, b, c) {
                         str += data.data[k].ASSETS_USER_BADGENO + '","';
                         str += data.data[k].ASSET_USER_CLASS + '","';
                         str += data.data[k].ASSET_USER_CREATED + '","';
-                        str += desc_role(data.data[k].ASSETS_USER_ROLES)+ '"]';
+                        str += desc_role(data.data[k].ASSETS_USER_ROLES) + '"]';
                     } else {
                         str += '["' + data.data[k].ASSET_USERNAME + '","';
                         str += data.data[k].ASSETS_USER_BADGENO + '","';
                         str += data.data[k].ASSET_USER_CLASS + '","';
                         str += data.data[k].ASSET_USER_CREATED + '","';
-                        str += desc_role(data.data[k].ASSETS_USER_ROLES)+ '"],';
+                        str += desc_role(data.data[k].ASSETS_USER_ROLES) + '"],';
                     }
 
                 }
@@ -362,31 +356,89 @@ function createTable(tableID, tableData) {
 }
 
 var form_ids_fields = [
-    "u_username",       
-    "u_badge",       
-    "u_class",      
-    "r_all",       
-    "r_view",       
-    "r_car",       
-    "r_move",       
-    "r_ca",       
-    "r_al",       
-    "r_cr",       
-    "r_cert",        
-    "r_l",       
-    "r_u",       
+    "u_username",       // 0
+    "u_badge",          // 1
+    "u_class",          // 2
+    "r_all",            // 3
+    "r_view",           // 4
+    "r_move",           // 5
+    "r_cert",           // 6
+    "r_car",            // 7
+    "r_ca",             // 8
+    "r_cr",             // 9
+    "r_al",             // 10
+    "r_l",              // 11
+    "r_u"               // 12
 ];
 
-function disableFormFields(){
-   for(var i=0;i<form_ids_fields.length;i++){
-       $('#'+form_ids_fields[i]).prop("disabled",true);
-    //    document.getElementById().disabled = true;
-   }
+function disableFormFields() {
+    for (var i = 0; i < form_ids_fields.length; i++) {
+        $('#' + form_ids_fields[i]).prop("disabled", true);
+        //    document.getElementById().disabled = true;
+    }
 }
 
+function enableFormFields() {
+    for (var i = 0; i < form_ids_fields.length; i++) {
+        $('#' + form_ids_fields[i]).prop("disabled", false);
+        //    document.getElementById().disabled = true;
+    }
+}
+
+function checkAll() {
+    for (var i = 3; i < form_ids_fields.length; i++) {
+        $('#' + form_ids_fields[i]).prop("checked", true);
+        //    document.getElementById().disabled = true;
+    }
+}
+
+function check_checkboxes(arr) {
+
+    if (arr != "ADMIN") {
+        var arr = arr.split("|");
+        console.log(arr);
+        for (var i = 0; i < arr.length; i++) {
+            $('#' + checkValueWithId(arr[i])).prop('checked', true);
+        }
+    } else {
+        checkAll();
+    }
+
+}
+
+function checkValueWithId(value) {
+    switch (value) {
+        case "V":
+            return form_ids_fields[4];
+        case "M":
+            return form_ids_fields[5];
+        case "C":
+            return form_ids_fields[6];
+        case "CAR":
+            return form_ids_fields[7];
+        case "CA":
+            return form_ids_fields[8];
+        case "CR":
+            return form_ids_fields[9];
+        case "AL":
+            return form_ids_fields[10];
+        case "L":
+            return form_ids_fields[11];
+        case "U":
+            return form_ids_fields[12];
+    }
+}
+
+function show_add_new_user() {
+    enableFormFields();
+    $('#add_user').show();
+    $('#update_user').hide();
+    document.getElementById('user_name').innerHTML = "<strong>ADD USER</strong>";
+    document.getElementById('overlay-assets-added').style.display = "block";
+}
 
 function view_user(username) {
-    
+
     document.getElementById('user_name').innerHTML = "<strong>VIEW USER</strong>";
     $('#add_user').hide();
     $('#update_user').hide();
@@ -395,7 +447,7 @@ function view_user(username) {
         url: "../../ams_apis/slimTest/index.php/getAdminUser",
         type: "POST",
         dataType: 'json',
-        data: '{"user":"'+username+'"}',
+        data: '{"user":"' + username + '"}',
         success: function (data) {
             console.log("data view user");
             console.log(data);
@@ -403,6 +455,7 @@ function view_user(username) {
             document.getElementById(form_ids_fields[0]).value = data.data[0].ASSET_USERNAME;
             document.getElementById(form_ids_fields[1]).value = data.data[0].ASSETS_USER_BADGENO;
             document.getElementById(form_ids_fields[2]).value = data.data[0].ASSET_USER_CLASS;
+            check_checkboxes(data.data[0].ASSETS_USER_ROLES);
         },
         error: function (error) {
             console.log(error);
@@ -417,24 +470,27 @@ function view_user(username) {
             })
         }
     });
-    
+
 }
 
-function add_user() {
-   
-    $('#add_user').show();
-    $('#update_user').hide();
+
+$('#add_users').off().on('click', 'button', function () {
+    $("#add_users").submit(function (e) {
+        e.preventDefault();
+    });
     var user_details = $(".user-info select option:selected,.user-info input[type='text']");
     var user_roles = $(".user-info input[type='checkbox']:checked");
     var arr_user_details = getValues_onElements(user_details);
     var arr_user_roles = getValues_onElements(user_roles);
 
-
     console.log(arr_user_details);
+    console.log(arr_user_roles.length);
 
-    if(arr_user_details[0] == "" || arr_user_details[1] == ""){
+    if (arr_user_details[0] == "" || arr_user_details[1] == "") {
 
-    }else if (arr_user_roles.length == 0) {
+
+
+    } else if (arr_user_roles.length == 0) {
         swal.fire({
             title: "User must have atleast one role",
             type: "error",
@@ -446,22 +502,22 @@ function add_user() {
                 popup: 'animated tada'
             }
 
-        }).then(function(res){
-            if(res.value){
+        }).then(function (res) {
+            if (res.value) {
 
-            }else{
+            } else {
                 window.location.reload();
             }
         });
-        $('#add_users').off().on('click','button',function(e){
-            e.preventDefault();
-        });
+
+
+
     } else {
         var strRoles = "";
-        if ($('#r_ca').is(':checked')) 
+        if ($('#r_ca').is(':checked'))
             strRoles = "ADMIN";
         else
-          strRoles = sliptWith(arr_user_roles, "|");
+            strRoles = sliptWith(arr_user_roles, "|");
 
         var jsonData = '{"u_username":"' + arr_user_details[0] + '","u_badge":"' + arr_user_details[1] + '","u_class":"' + arr_user_details[2] + '","user_added_by":"' + localStorage.username + '","u_roles":"' + strRoles + '"}'
 
@@ -532,12 +588,12 @@ function add_user() {
                 })
             }
         });
+
         closeAsset('overlay-assets-added');
-        $('#add_users').off().on('click','button',function(e){
-            e.preventDefault();
-        });
+
     }
-}
+
+});
 
 
 function edit_user(username) {
@@ -549,11 +605,11 @@ function edit_user(username) {
         url: "../../ams_apis/slimTest/index.php/getAdminUser",
         type: "POST",
         dataType: 'json',
-        data: '{"user":"'+username+'"}',
+        data: '{"user":"' + username + '"}',
         success: function (data) {
             console.log("data edit user");
             console.log(data);
-            
+
         },
         error: function (error) {
             console.log(error);
@@ -570,9 +626,10 @@ function edit_user(username) {
     });
 }
 
-function update_user(){
-    alert("update clicked");
-}
+$('#update_users').off().on('click', 'button', function (e) {
+    e.preventDefault();
+    alert('update clicked');
+});
 
 function delete_user(username) {
     $('#users_loader').slideToggle(500);
