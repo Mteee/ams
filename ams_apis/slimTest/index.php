@@ -456,7 +456,9 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
         }
         else{
             $filter = "ALL EQUIPMENT";
-            array_push($response,array("filter"=>$filter,"role"=>"V|M","status"=>"0"));
+            //$func->closeConnection($results);
+            $func->executeNonQuery("INSERT INTO AMSD.ASSETS_USER VALUES('$username','N/A','ALL EQUIPMENT',sysdate,'system added','V|M','1')");
+            array_push($response,array("filter"=>$filter,"role"=>"V|M","status"=>"1"));
             return json_encode($response);
         }
 
@@ -4870,16 +4872,39 @@ $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Resp
         $data = json_decode(file_get_contents('php://input'));
         $asset_class = strtoupper($data->asset_class);
         $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
 
         if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
-            $sql = "SELECT * FROM ASSETS_USER WHERE ASSTES_USER_STATUS = '1'";
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSTES_USER_STATUS = '1' AND ASSET_USERNAME <> '$user'";
         else{
             if($asset_class == 'ALL EQUIPMENT')
                 $asset_class = '';
 
-            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_CLASS LIKE '%$asset_class%'";
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_CLASS LIKE '%$asset_class%' AND ASSTES_USER_STATUS = '1' AND ASSET_USERNAME <> '$user'";
         }
 
+        $users =$func->executeQuery($sql);
+
+        if($users){
+
+             echo $users;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+$app->map(['GET','POST'],'/getAdminUser',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $user = strtoupper($data->user);
+
+        $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USERNAME = '$user'";
+        
         $users =$func->executeQuery($sql);
 
         if($users){
@@ -4904,8 +4929,12 @@ $app->map(['GET','POST'],'/getClasses',function(Request $request, Response $resp
 
         if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
             $sql = "SELECT * FROM ASSETS_CLASS";
-        else
+        else{
+            if($asset_class == 'ALL EQUIPMENT')
+                $asset_class = '';
+            
             $sql = "SELECT * FROM ASSETS_CLASS WHERE ASSET_CLASS_NAME LIKE '%$asset_class%'";
+        }
 
         $users =$func->executeQuery($sql);
 
@@ -4938,6 +4967,39 @@ $app->map(['GET','POST'],'/deleteUser',function(Request $request, Response $resp
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"User was not deleted"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+$app->map(['GET','POST'],'/createUser',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $username = strtoupper($data->u_username);
+        $u_badge = strtoupper($data->u_badge);
+        $u_class = strtoupper($data->u_class);
+        $user_added_by = strtoupper($data->user_added_by);
+        $u_roles = strtoupper($data->u_roles);  
+
+        $sql = "SELECT * FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME = '$username'";
+
+        $res = $func->executeQuery($sql);
+
+        if($res){
+            echo json_encode(array("rows" => 2 ,"data" =>"User already Exists"));
+        }else{
+            $sql = "INSERT INTO AMSD.ASSETS_USER VALUES('$username','$u_badge','$u_class',sysdate,'added by ".$user_added_by."','$u_roles','1')";
+
+            $userAdded =$func->executeNonQuery($sql);
+    
+            if($userAdded){
+                echo json_encode(array("rows" => 1 ,"data" =>"User Successfully Added"));
+            }
+            else{
+                echo json_encode(array("rows" => 0 ,"data" =>"User was not Added"));
+            }
         }
 
     }catch (Exception $pdoex) {

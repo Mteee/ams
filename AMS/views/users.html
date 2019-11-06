@@ -292,103 +292,119 @@
             background-color: #ec001800 !important;
             border-color: #dc354600 !important;
         }
+        
+        #user_info {
+            overflow: auto;
+            white-space: nowrap;
+            padding-bottom: 4px;
+        }
+        
+        #user_info .col-md-4 {
+            display: inline-block;
+        }
     </style>
 
 </head>
 
 <body>
-    <div id="overlay-assets-added">
-        <div class="asset-assets-added-details animated bounceInUp" id="assets-added">
-            <span class="exit-asset" onclick="closeAsset('overlay-assets-added')">&times;</span>
-            <div class="asset-header text-center">
-                <strong>ADD USER</strong>
-            </div>
-            <div class="asset-assets-added-body" style="margin-top: 20px;">
+    <div id="overlay-assets-added" style="z-index: 44 !important;">
+        <form action="#send" id="add_users" method="POST">
+            <div class="asset-assets-added-details animated bounceInUp" id="assets-added">
+                <input type="reset" class="exit-asset" onclick="closeAsset('overlay-assets-added')" value="x">
+                <div class="asset-header text-center" id="user_name">
+                    <strong>ADD USER</strong>
+                </div>
 
-                <div class="row">
-                    <div class="col-sm-10 offset-1">
+                <div class="asset-assets-added-body" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-sm-10 offset-1">
 
-                        <div class="user-info">
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <label for="u_username">USERNAME</label>
+                            <div class="user-info">
+                                <div class="row" id="user_info">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label for="u_username">USERNAME</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" required name="u_username" class="form-control" id="u_username">
+                                            </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <input type="text" name="u_username" class="form-control" id="u_username">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label for="u_badge">BADGE NUMEBR</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <input type="text" required name="u_badge" class="form-control" id="u_badge">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label for="u_class">USER CLASS</label>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <select name="u_class" class="form-control" id="u_class">
+
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <label for="u_badge">BADGE NUMEBR</label>
+                                <div class="row" id="u_roles">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <br>
+                                                <p style="font-weight: bolder;" class="text-success"> <input type="checkbox" name="r_all" id="r_all" value="ADMIN" style="margin: -5px 9px;"> USERS PERMISSIONS </p>
+                                                <table class="table">
+                                                    <tr>
+                                                        <td> <input type="checkbox" name="r_view" id="r_view" value="V">
+                                                        </td>
+                                                        <th>VIEW ASSETS</th>
+                                                        <td> <input type="checkbox" name="r_car" id="r_car" value="CAR">
+                                                        </td>
+                                                        <th>COMMISSIONING</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> <input type="checkbox" name="r_move" id="r_move" value="M">
+                                                        </td>
+                                                        <th>MOVE ASSETS</th>
+                                                        <td> <input type="checkbox" name="r_ca" id="r_ca" value="CA">
+                                                        </td>
+                                                        <th>CREATE ASSETS</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> <input type="checkbox" name="r_al" id="r_al" value="AL">
+                                                        </td>
+                                                        <th>LINK/UNLINK ASSETS</th>
+                                                        <td> <input type="checkbox" name="r_cr" id="r_cr" value="CR">
+                                                        </td>
+                                                        <th>REMOVE ASSETS</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> <input type="checkbox" name="r_cert" id="r_cert" value="C">
+                                                        </td>
+                                                        <th>CERTIFICATES</th>
+                                                        <td> <input type="checkbox" name="r_u" id="r_u" value="U">
+                                                        </td>
+                                                        <th>USERS</th>
+                                                    </tr>
+                                                    <tr>
+                                                        <td> <input type="checkbox" name="r_l" id="r_l" value="L"></td>
+                                                        <th>LOCATIONS</th>
+                                                        <td> </td>
+                                                        <th></th>
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
-                                        <div class="col-md-12">
-                                            <input type="text" name="u_badge" class="form-control" id="u_badge">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <label for="u_class">USER CLASS</label>
-                                        </div>
-                                        <div class="col-md-12" style="padding-right: 2px; padding-left:1px;">
-                                            <select name="u_class" class="form-control" id="u_class">
 
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row" id="u_roles">
-                                <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <br>
-                                            <p style="font-weight: bolder;" class="text-success">USERS PERMISSIONS</p>
-                                            <table class="table">
-                                                <tr>
-                                                    <td> <input type="checkbox" name="r_view" id="r_view" value="V">
-                                                    </td>
-                                                    <th>VIEW ASSETS</th>
-                                                    <td> <input type="checkbox" name="r_car" id="r_car" value="CAR">
-                                                    </td>
-                                                    <th>COMMISSIONING</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <input type="checkbox" name="r_move" id="r_move" value="M">
-                                                    </td>
-                                                    <th>MOVE ASSETS</th>
-                                                    <td> <input type="checkbox" name="r_ca" id="r_ca" value="CA"></td>
-                                                    <th>CREATE ASSETS</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <input type="checkbox" name="r_al" id="r_al" value="AL"></td>
-                                                    <th>LINK/UNLINK ASSETS</th>
-                                                    <td> <input type="checkbox" name="r_cr" id="r_cr" value="CR"></td>
-                                                    <th>REMOVE ASSETS</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <input type="checkbox" name="r_cert" id="r_cert" value="C">
-                                                    </td>
-                                                    <th>CERTIFICATES</th>
-                                                    <td> <input type="checkbox" name="r_cr" id="r_cr" value="CR"></td>
-                                                    <th>REMOVE ASSETS</th>
-                                                </tr>
-                                                <tr>
-                                                    <td> <input type="checkbox" name="r_l" id="r_l" value="L"></td>
-                                                    <th>LOCATIONS</th>
-                                                    <td> <input type="checkbox" name="r_u" id="r_u" value="U"></td>
-                                                    <th>USERS</th>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                    <!-- <div class="row">
+                                        <!-- <div class="row">
                                         <div class="col-md-12">
                                             <div>
                                                 <div class="form-group">
@@ -440,26 +456,31 @@
                                         </div>
                                     </div> -->
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="asset-transfer-footer text-right">
-                <div class="row">
-                    <div class="col-md-6">
 
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-success" onclick="insert_user()">Add</button>
-                        <button class="btn btn-danger" onclick="closeAsset('overlay-assets-added')">Cancel</button>
+                </div>
+                <div class="asset-transfer-footer text-right">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                        </div>
+                        <div class="col-md-6">
+                            <button id="update_user" type="submit" class="btn btn-primary" style="display: none;" onclick="update_user()">Update User</button>
+                            <button id="add_user" type="submit" class="btn btn-success" onclick="add_user()">Create User</button>
+                            <button type="reset" class="btn btn-danger" onclick="closeAsset('overlay-assets-added')">Cancel</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
 
-        <!-- row -->
+
+            </div>
+
+            <!-- row -->
+        </form>
     </div>
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
         <!-- navigation -->
@@ -604,7 +625,7 @@
         </div>
     </div>
 
-    <div class="system_info" onclick="add_new_user()">
+    <div class="system_info" onclick="show_add_new_user()">
         <span class="fa fa-plus fa-lg"></span><span class="tooltiptext"><strong></strong>Add New Users</strong></span>
     </div>
 
@@ -783,6 +804,15 @@
                 } else {
                     $('#r_car').prop('checked', false);
                 }
+            }
+        });
+
+
+        $('#r_all').change(function() {
+            if (this.checked) {
+                $('#u_roles input[type="checkbox"]').prop('checked', true);
+            } else {
+                $('#u_roles input[type="checkbox"]').prop('checked', false);
             }
         });
     </script>
