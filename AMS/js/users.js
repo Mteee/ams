@@ -385,6 +385,13 @@ function enableFormFields() {
     }
 }
 
+function enableCheckboxFields() {
+    for (var i = 3; i < form_ids_fields.length; i++) {
+        $('#' + form_ids_fields[i]).prop("disabled", false);
+        //    document.getElementById().disabled = true;
+    }
+}
+
 function checkAll() {
     for (var i = 3; i < form_ids_fields.length; i++) {
         $('#' + form_ids_fields[i]).prop("checked", true);
@@ -474,13 +481,13 @@ function view_user(username) {
 }
 
 
-$('#add_users').off().on('click', 'button', function () {
+$('#add_user').click(function () {
     $("#add_users").submit(function (e) {
         e.preventDefault();
     });
     var user_details = $(".user-info select option:selected,.user-info input[type='text']");
-    var user_roles = $(".user-info input[type='checkbox']:checked");
     var arr_user_details = getValues_onElements(user_details);
+    var user_roles = $(".user-info input[type='checkbox']:checked");
     var arr_user_roles = getValues_onElements(user_roles);
 
     console.log(arr_user_details);
@@ -514,7 +521,7 @@ $('#add_users').off().on('click', 'button', function () {
 
     } else {
         var strRoles = "";
-        if ($('#r_ca').is(':checked'))
+        if ($('#r_all').is(':checked'))
             strRoles = "ADMIN";
         else
             strRoles = sliptWith(arr_user_roles, "|");
@@ -598,6 +605,10 @@ $('#add_users').off().on('click', 'button', function () {
 
 function edit_user(username) {
     document.getElementById('user_name').innerHTML = "<strong>UPDATE USER</strong>";
+    disableFormFields();
+           
+           
+  
     $('#add_user').hide();
     $('#update_user').show();
     $('#overlay-assets-added').show();
@@ -609,6 +620,13 @@ function edit_user(username) {
         success: function (data) {
             console.log("data edit user");
             console.log(data);
+            document.getElementById(form_ids_fields[0]).value = data.data[0].ASSET_USERNAME;
+            document.getElementById(form_ids_fields[1]).value = data.data[0].ASSETS_USER_BADGENO;
+            document.getElementById(form_ids_fields[2]).value = data.data[0].ASSET_USER_CLASS;
+            check_checkboxes(data.data[0].ASSETS_USER_ROLES);
+            localStorage.user_role = data.data[0].ASSETS_USER_ROLES;
+            localStorage.user_username = data.data[0].ASSET_USERNAME;
+            enableCheckboxFields();
 
         },
         error: function (error) {
@@ -626,9 +644,74 @@ function edit_user(username) {
     });
 }
 
-$('#update_users').off().on('click', 'button', function (e) {
-    e.preventDefault();
-    alert('update clicked');
+$('#update_user').click(function () {
+    $("#add_users").submit(function (e) {
+        e.preventDefault();
+    });
+    var user_roles = $(".user-info input[type='checkbox']:checked");
+    var arr_user_roles = getValues_onElements(user_roles);
+
+  
+
+    var strRoles = "";
+        if ($('#r_all').is(':checked'))
+            strRoles = "ADMIN";
+        else
+            strRoles = sliptWith(arr_user_roles, "|");
+
+            console.log("arr_user_roles");
+            console.log(arr_user_roles);
+            console.log("localStorage.role");
+            console.log(localStorage.role);
+            console.log("strRoles");
+            console.log(strRoles);
+
+    if(strRoles == localStorage.user_role){
+        swal.fire({
+            title: "No Changes Made",
+            text: "Please make changes before updating",
+            type: "error",
+            showCloseButton: true,
+            confirmButtonColor: "#C12E2A",
+            allowOutsideClick: true,
+        });
+    }else{
+        $.ajax({
+            url: "../../ams_apis/slimTest/index.php/updateAdminUser",
+            type: "POST",
+            dataType: 'json',
+            data: '{"roles":"' + strRoles + '","username":"' + localStorage.user_username + '"}',
+            success: function (data) {
+                swal.fire({
+                    title: data.data,
+                    type: "success",
+                    showCloseButton: true,
+                    confirmButtonColor: "#419641",
+                    allowOutsideClick: true,
+                    animation: false,
+                    customClass: {
+                        popup: 'animated tada'
+                    }
+
+                });
+
+                getUsers(localStorage.filter, localStorage.role, localStorage.username);
+    
+            },
+            error: function (error) {
+                console.log(error);
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) code : 'updateAdminUser'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+    
+                })
+            }
+        });
+    }
 });
 
 function delete_user(username) {

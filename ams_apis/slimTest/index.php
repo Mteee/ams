@@ -4973,6 +4973,29 @@ $app->map(['GET','POST'],'/deleteUser',function(Request $request, Response $resp
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+$app->map(['GET','POST'],'/updateAdminUser',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $roles = strtoupper($data->roles);
+        $username = strtoupper($data->username);
+
+        $sql = "UPDATE ASSETS_USER SET ASSETS_USER_ROLES = '$roles' WHERE ASSET_USERNAME = '$username'";
+
+        $deleteusers =$func->executeNonQuery($sql);
+
+        if($deleteusers){
+
+            echo json_encode(array("rows" => 1 ,"data" =>"User ".$username." Successfully Updates Roles"));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"User was not Updated"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
 $app->map(['GET','POST'],'/createUser',function(Request $request, Response $response){
     try{
         global $func;
