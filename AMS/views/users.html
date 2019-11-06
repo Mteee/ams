@@ -311,7 +311,7 @@
         <form action="#send" id="add_users" method="POST">
             <div class="asset-assets-added-details animated bounceInUp" id="assets-added">
                 <input type="reset" class="exit-asset" onclick="closeAsset('overlay-assets-added')" value="x">
-                <div class="asset-header text-center">
+                <div class="asset-header text-center" id="user_name">
                     <strong>ADD USER</strong>
                 </div>
 
@@ -389,15 +389,15 @@
                                                         <td> <input type="checkbox" name="r_cert" id="r_cert" value="C">
                                                         </td>
                                                         <th>CERTIFICATES</th>
-                                                        <td> <input type="checkbox" name="r_cr" id="r_cr" value="CR">
+                                                        <td> <input type="checkbox" name="r_u" id="r_u" value="U">
                                                         </td>
-                                                        <th>REMOVE ASSETS</th>
+                                                        <th>USERS</th>
                                                     </tr>
                                                     <tr>
                                                         <td> <input type="checkbox" name="r_l" id="r_l" value="L"></td>
                                                         <th>LOCATIONS</th>
-                                                        <td> <input type="checkbox" name="r_u" id="r_u" value="U"></td>
-                                                        <th>USERS</th>
+                                                        <td> </td>
+                                                        <th></th>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -468,7 +468,8 @@
 
                         </div>
                         <div class="col-md-6">
-                            <button type="submit" class="btn btn-success" onclick="add_user()">Create User</button>
+                            <button id="update_user" type="submit" class="btn btn-primary" style="display: none;" onclick="update_user()">Update User</button>
+                            <button id="add_user" type="submit" class="btn btn-success" onclick="add_user()">Create User</button>
                             <button type="reset" class="btn btn-danger" onclick="closeAsset('overlay-assets-added')">Cancel</button>
                         </div>
                     </div>

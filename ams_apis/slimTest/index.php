@@ -4897,6 +4897,28 @@ $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Resp
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+$app->map(['GET','POST'],'/getAdminUser',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $user = strtoupper($data->user);
+
+        $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USERNAME = '$user'";
+        
+        $users =$func->executeQuery($sql);
+
+        if($users){
+
+             echo $users;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
 
 $app->map(['GET','POST'],'/getClasses',function(Request $request, Response $response){
     try{

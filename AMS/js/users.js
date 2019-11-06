@@ -61,7 +61,13 @@ window.onload = function () {
     }
 }
 
+function desc_role(value){
+    if(value != "ADMIN"){
+        return "Permissions : <strong>"+value.split("|").length+"</strong>";
+    }
 
+    return value;
+}
 
 function view_user(username) {
     alert("View user Clicked");
@@ -114,6 +120,7 @@ function sliptWith(arr, separator) {
 }
 
 function show_add_new_user() {
+    document.getElementById('user_name').innerHTML = "<strong>ADD USER</strong>";
     document.getElementById('overlay-assets-added').style.display = "block";
 }
 
@@ -157,8 +164,6 @@ function addUserClasses() {
     });
 }
 
-
-
 getUsers(localStorage.filter, localStorage.role, localStorage.username);
 
 function getUsers(a, b, c) {
@@ -186,13 +191,13 @@ function getUsers(a, b, c) {
                         str += data.data[k].ASSETS_USER_BADGENO + '","';
                         str += data.data[k].ASSET_USER_CLASS + '","';
                         str += data.data[k].ASSET_USER_CREATED + '","';
-                        str += data.data[k].ASSETS_USER_ROLES + '"]';
+                        str += desc_role(data.data[k].ASSETS_USER_ROLES)+ '"]';
                     } else {
                         str += '["' + data.data[k].ASSET_USERNAME + '","';
                         str += data.data[k].ASSETS_USER_BADGENO + '","';
                         str += data.data[k].ASSET_USER_CLASS + '","';
                         str += data.data[k].ASSET_USER_CREATED + '","';
-                        str += data.data[k].ASSETS_USER_ROLES + '"],';
+                        str += desc_role(data.data[k].ASSETS_USER_ROLES)+ '"],';
                     }
 
                 }
@@ -286,7 +291,6 @@ function replaceAll(find, replace, str) {
     return str;
 }
 
-
 function createTable(tableID, tableData) {
     var table = $(tableID).DataTable({
         "paging": true,
@@ -357,13 +361,69 @@ function createTable(tableID, tableData) {
     return table;
 }
 
-function view_user(username) {
-    alert('view Clicked' + username);
+var form_ids_fields = [
+    "u_username",       
+    "u_badge",       
+    "u_class",      
+    "r_all",       
+    "r_view",       
+    "r_car",       
+    "r_move",       
+    "r_ca",       
+    "r_al",       
+    "r_cr",       
+    "r_cert",        
+    "r_l",       
+    "r_u",       
+];
+
+function disableFormFields(){
+   for(var i=0;i<form_ids_fields.length;i++){
+       $('#'+form_ids_fields[i]).prop("disabled",true);
+    //    document.getElementById().disabled = true;
+   }
 }
 
 
+function view_user(username) {
+    
+    document.getElementById('user_name').innerHTML = "<strong>VIEW USER</strong>";
+    $('#add_user').hide();
+    $('#update_user').hide();
+    $('#overlay-assets-added').show();
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/getAdminUser",
+        type: "POST",
+        dataType: 'json',
+        data: '{"user":"'+username+'"}',
+        success: function (data) {
+            console.log("data view user");
+            console.log(data);
+            disableFormFields();
+            document.getElementById(form_ids_fields[0]).value = data.data[0].ASSET_USERNAME;
+            document.getElementById(form_ids_fields[1]).value = data.data[0].ASSETS_USER_BADGENO;
+            document.getElementById(form_ids_fields[2]).value = data.data[0].ASSET_USER_CLASS;
+        },
+        error: function (error) {
+            console.log(error);
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) code : 'createUser'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+
+            })
+        }
+    });
+    
+}
 
 function add_user() {
+   
+    $('#add_user').show();
+    $('#update_user').hide();
     var user_details = $(".user-info select option:selected,.user-info input[type='text']");
     var user_roles = $(".user-info input[type='checkbox']:checked");
     var arr_user_details = getValues_onElements(user_details);
@@ -481,7 +541,37 @@ function add_user() {
 
 
 function edit_user(username) {
-    alert('edit Clicked' + username);
+    document.getElementById('user_name').innerHTML = "<strong>UPDATE USER</strong>";
+    $('#add_user').hide();
+    $('#update_user').show();
+    $('#overlay-assets-added').show();
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/getAdminUser",
+        type: "POST",
+        dataType: 'json',
+        data: '{"user":"'+username+'"}',
+        success: function (data) {
+            console.log("data edit user");
+            console.log(data);
+            
+        },
+        error: function (error) {
+            console.log(error);
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) code : 'createUser'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+
+            })
+        }
+    });
+}
+
+function update_user(){
+    alert("update clicked");
 }
 
 function delete_user(username) {
@@ -624,7 +714,6 @@ function delete_user(username) {
 //     });
 
 // }
-
 
 if (localStorage.filter == "ALL EQUIPMENT") {
 
