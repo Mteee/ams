@@ -1,5 +1,4 @@
 
-
 var user_class = localStorage.username;
 
 $('#username').text(user_class.toUpperCase());
@@ -119,12 +118,9 @@ function sliptWith(arr, separator) {
     return str;
 }
 
-function show_add_new_user() {
-    document.getElementById('user_name').innerHTML = "<strong>ADD USER</strong>";
-    document.getElementById('overlay-assets-added').style.display = "block";
-}
 
 function closeAsset(id) {
+    document.getElementById("add_users").reset(); 
     document.getElementById(id).style.display = "none";
 }
 
@@ -377,11 +373,43 @@ var form_ids_fields = [
     "r_u",       
 ];
 
+
+
+
 function disableFormFields(){
    for(var i=0;i<form_ids_fields.length;i++){
        $('#'+form_ids_fields[i]).prop("disabled",true);
     //    document.getElementById().disabled = true;
    }
+}
+
+function enableFormFields(){
+   for(var i=0;i<form_ids_fields.length;i++){
+       $('#'+form_ids_fields[i]).prop("disabled",false);
+    //    document.getElementById().disabled = true;
+   }
+}
+
+
+function check_checkboxes(arr){
+
+    for(var i=0;i<arr.length;i++){
+        $().prop('checked',true);
+    }
+}
+
+function checkValueWithId(value){
+    switch(value){
+        
+    }
+}
+
+function show_add_new_user() {
+    enableFormFields();
+    $('#add_user').show();
+    $('#update_user').hide();
+    document.getElementById('user_name').innerHTML = "<strong>ADD USER</strong>";
+    document.getElementById('overlay-assets-added').style.display = "block";
 }
 
 
@@ -403,6 +431,8 @@ function view_user(username) {
             document.getElementById(form_ids_fields[0]).value = data.data[0].ASSET_USERNAME;
             document.getElementById(form_ids_fields[1]).value = data.data[0].ASSETS_USER_BADGENO;
             document.getElementById(form_ids_fields[2]).value = data.data[0].ASSET_USER_CLASS;
+
+
         },
         error: function (error) {
             console.log(error);
@@ -420,20 +450,23 @@ function view_user(username) {
     
 }
 
-function add_user() {
-   
-    $('#add_user').show();
-    $('#update_user').hide();
+
+$('#add_users').off().on('click','button',function(){
+    $("#add_users").submit(function(e) {
+        e.preventDefault();
+    });
     var user_details = $(".user-info select option:selected,.user-info input[type='text']");
     var user_roles = $(".user-info input[type='checkbox']:checked");
     var arr_user_details = getValues_onElements(user_details);
     var arr_user_roles = getValues_onElements(user_roles);
 
-
     console.log(arr_user_details);
+    console.log(arr_user_roles.length);
 
     if(arr_user_details[0] == "" || arr_user_details[1] == ""){
-
+       
+           
+       
     }else if (arr_user_roles.length == 0) {
         swal.fire({
             title: "User must have atleast one role",
@@ -453,9 +486,9 @@ function add_user() {
                 window.location.reload();
             }
         });
-        $('#add_users').off().on('click','button',function(e){
-            e.preventDefault();
-        });
+     
+          
+  
     } else {
         var strRoles = "";
         if ($('#r_ca').is(':checked')) 
@@ -532,12 +565,12 @@ function add_user() {
                 })
             }
         });
+        
         closeAsset('overlay-assets-added');
-        $('#add_users').off().on('click','button',function(e){
-            e.preventDefault();
-        });
+       
     }
-}
+ 
+});
 
 
 function edit_user(username) {
@@ -570,9 +603,10 @@ function edit_user(username) {
     });
 }
 
-function update_user(){
-    alert("update clicked");
-}
+$('#update_users').off().on('click','button',function(e){
+  e.preventDefault();
+  alert('update clicked');
+});
 
 function delete_user(username) {
     $('#users_loader').slideToggle(500);
