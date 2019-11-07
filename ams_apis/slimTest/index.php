@@ -3516,8 +3516,8 @@ $app->map(['GET','POST'],'/comm_asset',function(Request $request, Response $resp
         $sql  = "BEGIN asset_certificate_comm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'COMM','','1',:v_out); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':v_username', $username, 50);
-        oci_bind_by_name($statement, ':v_asset_class', $asset_class, 4000);
-        oci_bind_by_name($statement, ':v_asset_ids', $assets, 50);
+        oci_bind_by_name($statement, ':v_asset_class', $asset_class, 50);
+        oci_bind_by_name($statement, ':v_asset_ids', $assets, 4000);
         oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
         // oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
         oci_bind_by_name($statement, ':v_out',  $v_out, 2);
@@ -3565,8 +3565,8 @@ $app->map(['GET','POST'],'/decomm_asset',function(Request $request, Response $re
         $sql  = "BEGIN asset_certificate_decomm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'',:v_comments,:v_out); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':v_username', $username, 50);
-        oci_bind_by_name($statement, ':v_asset_class', $asset_class, 4000);
-        oci_bind_by_name($statement, ':v_asset_ids', $assets, 50);
+        oci_bind_by_name($statement, ':v_asset_class', $asset_class, 50);
+        oci_bind_by_name($statement, ':v_asset_ids', $assets, 4000);
         oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
         oci_bind_by_name($statement, ':v_comments', $comments, 50);
         oci_bind_by_name($statement, ':v_out',  $v_out, 2);
