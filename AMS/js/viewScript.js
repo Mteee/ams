@@ -205,11 +205,11 @@ function search() {
                     }, 500);
                 });
 
-                $('#currentAssetsTable tbody').on('click', 'button', function () {
-
+                $('#currentAssetsTable tbody').off().on('click', 'button', function () {
                     var data = table_data["currentAssetsTable"].row($(this).parents('tr')).data();
                     viewAsset(data[0]);
                 });
+
                 // $('#printAssetsView').fadeIn(500);
 
             },
