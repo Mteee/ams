@@ -507,17 +507,17 @@ $('#menu_view_assetNo').on('click', '.dropdown-item', function () {
 function populate_dropdown() {
 
     //asset No
-    getItems('../../ams_apis/slimTest/index.php/asset_primary_view', 'search_view_assetNo', 'scroll_view_assetNo', 'menu_view_assetNo', 'empty_view_assetNo');
+    getItems('../../ams_apis/slimTest/index.php/asset_primary_view_v', 'search_view_assetNo', 'scroll_view_assetNo', 'menu_view_assetNo', 'empty_view_assetNo');
     //sub location
-    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_view', 'search_view_sublocaction', 'scroll_view_sublocaction', 'menu_view_sublocaction', 'empty_view_sublocaction');
+    getItems('../../ams_apis/slimTest/index.php/asset_sub_location_view_v', 'search_view_sublocaction', 'scroll_view_sublocaction', 'menu_view_sublocaction', 'empty_view_sublocaction');
     // get room
-    getItems('../../ams_apis/slimTest/index.php/asset_room_no_view', 'search_view_room', 'scroll_view_room', 'menu_view_room', 'empty_view_room');
+    getItems('../../ams_apis/slimTest/index.php/asset_room_no_view_v', 'search_view_room', 'scroll_view_room', 'menu_view_room', 'empty_view_room');
     // get area
-    getItems('../../ams_apis/slimTest/index.php/asset_area_view', 'search_view_area', 'scroll_view_area', 'meun_view_area', 'empty_view_area');
+    getItems('../../ams_apis/slimTest/index.php/asset_area_view_v', 'search_view_area', 'scroll_view_area', 'meun_view_area', 'empty_view_area');
     // get level
-    getItems('../../ams_apis/slimTest/index.php/asset_level_new_view', 'search_view_level', 'scroll_view_level', 'menu_view_level', 'empty_view_level');
+    getItems('../../ams_apis/slimTest/index.php/asset_level_new_view_v', 'search_view_level', 'scroll_view_level', 'menu_view_level', 'empty_view_level');
     // get building
-    getItems('../../ams_apis/slimTest/index.php/building_view', 'search_view_building', 'scroll_view_building', 'menu_view_building', 'empty_view_building');
+    getItems('../../ams_apis/slimTest/index.php/building_view_v', 'search_view_building', 'scroll_view_building', 'menu_view_building', 'empty_view_building');
 
 }
 

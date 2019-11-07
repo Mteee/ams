@@ -361,6 +361,8 @@ function checkId(asset_id, check_this) {
             if (errors.length > 0) {
 
                 $(check_this).prop("checked", false);
+                console.log("check_this");
+                console.log(check_this);
 
                 var listOfErros = "<div class='text-center' style='position: sticky;margin: 0 auto; width:260px;'><ol style='text-align:left !important; font-weight:bolder;'>";
                 for (var i = 0; i < errors.length; i++)
@@ -527,7 +529,7 @@ function createTable(tableID, tableData) {
 }
 
 function viewDecomAsset(assets) {
-    // console.log($('#assetBody'));
+    console.log(assets);
 
     if (assets.length == 0) {
         swal.fire({
