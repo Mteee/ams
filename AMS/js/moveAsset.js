@@ -268,6 +268,7 @@ function search() {
                     console.log(data.data);
 
                     table = createTable(table_dom, data.data);
+                    $('th.dt-checkboxes-select-all input').remove();
 
                 }
 
@@ -400,6 +401,7 @@ function search() {
                 // },
                 {
                     'targets': 0,
+                    "orderable": false,
                     'checkboxes': {
                         'selectRow': true
                     }
@@ -1563,6 +1565,7 @@ var onSearch = function (searchValue, emptyId) {
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
+            
             search();
         }
     }
@@ -1997,7 +2000,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
-    if (localStorage.filter == "IT EQUIPMENT") 
+    if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN") 
         $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
 
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
@@ -2005,7 +2008,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 
     $('#class-options').on('change', function () {
         var filter = $("#class-options option:selected").text();
-        toogleSub(localStorage.filter);
+        toogleSub(filter);
         localStorage.filter = filter;
         //clear btn text
         resetBtn();
@@ -2013,6 +2016,19 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         clearLocalStorageFilters();
         //populate filters
         populate_dropdown();
+        $('#currentAssetsTable').DataTable().clear().destroy();
+        $('#outAssetsTable').DataTable().clear().destroy();
+        $('#inAssetsTable').DataTable().clear().destroy();
+        $('#searchView').show();
+        $('#inSearch').show();
+        $('#outSearch').show();
+        // $('#loader').hide();
+        // $('#searchView').hide();
+        // document.getElementById('current').innerHTML = '<div id="searchView" class="search_start">'+
+        //                                             '<p style="margin-top:200px">Please search your asset using the search above'+
+        //                                             '</p>'+
+        //                                             '<img width="200" src="../img/loupe.png" alt="Search">'+
+        //                                         '</div>';
 
     });
 
@@ -2027,8 +2043,10 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 function toogleSub(filter) {
     if (filter == "IT EQUIPMENT") {
         $('.filter_sub').show();
+        $('#transfer_type').show();
     } else {
         $('.filter_sub').hide();
+        $('#transfer_type').hide();
     }
 }
 
@@ -2137,11 +2155,25 @@ function cleaAllFilters() {
 
 var onSearch_new = function (searchValue) {
     document.getElementById(searchValue).onkeypress = function (e) {
-
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
+            setValueInputBtn(id,searchValue)
             search();
         }
     }
 }
+
+
+function setValueBtn(id,value){
+    $('#'+id).text(value);
+}
+function setValueInput(id,value){
+    $('#'+id).val(value);
+}
+
+function setValueInputBtn(id,value){
+    setValueBtn(id,value);
+    setValueInput(id,value);
+}
+
