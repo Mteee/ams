@@ -437,7 +437,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
 
     if(!empty($ASSET_NO)){
 
-        $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID='$ASSET_NO'";
+        $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID='$ASSET_NO' OR ASSET_PRIMARY_ID='$ASSET_NO'";
 
         $assets =$func->executeQuery($sql);
 
@@ -446,41 +446,93 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
             $loc = $results->data[0]->ASSET_AREA;
             $room = $results->data[0]->ASSET_ROOM_NO;
             $sub = '
-            <table id="viewAssetTable1" style="width:100%;border-radius: 5px;">
-                <thead>
-                    <tr>
-                        <div class="asset-header text-center">
-                            Asset#
-                        </div>
-                    </tr>
-                </thead>
-                <tbody id="asset-info">
-                    <tr id="assetLocation">
-                        <th class="theading">Location</th>
-                        <td>'.$loc.'</td>
-                    </tr>
-                    <tr id="assetRoom">
-                        <th class="theading">Room </th>
-                        <td>'.$room.'</td>
-                    </tr>
-                    <tr>
-                        <th class="theading">Primary </th>
-                        <td><span id="assetBody">'.$ASSET_NO.'</span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <table class="table-bordered" id="viewAssetTable1" style="width:100%;border-radius: 5px;">
+            <thead>
+                <tr>
+                    <div class="asset-header text-center">
+                        Asset#
+                    </div>
+                </tr>
+            </thead>
+            <tbody id="asset-info">
+                <tr>
+                    <th style="width:25%" class="theading">ASSET CLASS</th>
+                    <td style="width:25%">'.$func->replaceNull($results->data[0]->ASSET_CLASS).'</td>
+                    <th style="width:25%" class="theading">PRIMARY</th>
+                    <td style="width:25%">'.$func->replaceNull($results->data[0]->ASSET_PRIMARY_ID).'</td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">BUILDING </th>
+                    <td style="width:25%">'.$func->replaceNull($results->data[0]->ASSET_BUILDING).'</td>
+                    <th style="width:25%" class="theading">ASSET ID </th>
+                    <td style="width:25%">'.$func->replaceNull($results->data[0]->ASSET_ID).'</td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">LEVEL </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_LEVEL).'</span></td>
+                    <th style="width:25%" class="theading">MODEL </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_MODEL).'</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">AREA </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_AREA).'</span></td>
+                    <th style="width:25%" class="theading">DESCRIPTION </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_DESCRIPTION).'</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">AREA NAME </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_AREA_NAME).'</span></td>
+                    <th style="width:25%" class="theading">CLASSIFICATION </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_CLASSIFICATION).'</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">ROOM </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_ROOM_NO).'</span></td>
+                    <th style="width:25%" class="theading">SERVICE DATE </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_SERVICE_BY).'</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">SUB LOCATION </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_SUB_LOCATION).'</span></td>
+                    <th style="width:25%" class="theading">STATUS </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_STATUS).'</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">CERTIFICATE NUMBER </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_CERT_NO).'</span></td>
+                    <th style="width:25%" class="theading">PRINT DATE </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_PRINT_DATE).'</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">CREATION DATE </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_CREATE_DT).'</span></td>
+                    <th style="width:25%" class="theading">TRANSACTION STATUS </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_TRANSACTION_STATUS).'</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">IS PRIMARY? </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_HAS_SUB_ASSETS).'</span></td>
+                    <th style="width:25%" class="theading">IS SUB ASSET? </th>
+                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_IS_SUB).'</span></td>
+                </tr>
+            </tbody>
+        </table>
 
-            <div class="test-scroll">
+        <div class="test-scroll">
             <table id="viewAssetTable2" class="table-bordered table-striped">
                 <thead>
                     <tr style="" class="text-light">
-                        <th class="theading-sub bg-dark">Sub Asset(s)</th>
-                        <th class="theading-sub bg-dark">Description</th>
+                        <th style="width:35%" class="theading-sub bg-dark text-left">Sub Asset(s)</th>
+                        <th style="width:55%" class="theading-sub bg-dark text-left">Description</th>
+                        <th style="width:10%" class="theading-sub bg-dark text-left">View Asset</th>
                     </tr>
                 </thead>
                 <tbody id="asset-info">
                     ';
 
+            // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_PRIMARY_ID='$ASSET_NO'";
+            // $assets =$func->executeQuery($sql);
+            // $results = json_decode($assets);
             foreach($results->data as $res){
 
                 // echo $res->ASSET_ID.'<br>';
@@ -488,8 +540,9 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
                 if($ASSET_NO != $res->ASSET_ID){
                 //    TO-Do Limit description length
                 $sub .= '<tr>
-                                <td>'.$res->ASSET_ID.'</td>
-                                <td>'.$res->ASSET_DESCRIPTION.'</td>
+                                <td style="width:35%">'.$res->ASSET_ID.'</td>
+                                <td style="width:55%">'.$res->ASSET_DESCRIPTION.' - '.$res->ASSET_CLASSIFICATION.'</td>
+                                <td style="width:10%" class="text-center"><button type="button" class="btn btn-primary" onclick="viewAsset(\''.$res->ASSET_ID.'\')"><span class="fa fa-eye"></span></button></td>
                             </tr>
                         ';
 
@@ -511,7 +564,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
             }
             else{
                 $sub .= '<tr class="text-center py-4">
-                            <td colspan="2"><p class="text-muted py-4">No sub assets found</p></td>
+                            <td colspan="3"><p class="text-muted py-4">No sub assets found</p></td>
                         </tr>
                         ';
                 $sub .= ' 

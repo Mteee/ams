@@ -67,6 +67,13 @@ class Functions{
 		return $value;
 	}
 
+	public function replaceNull($value){
+		if($value == "UNDEFINED" || $value == 'UNDEFINED' || $value == null || $value == "null"){
+			$value = "N/A";
+		}
+		return strtoupper($value);
+	}
+
 	//updating y to icons
 	public function updateLetterToIcon($letter){
     
