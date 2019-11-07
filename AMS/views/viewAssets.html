@@ -114,13 +114,30 @@
         * {
             font-size: 9pt !important;
         }
+        
+        .asset_view_update_view {
+            width: 900px !important;
+            height: 650px !important;
+        }
+        
+        .asset-body {
+            color: black;
+            height: 598px;
+            padding: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.13);
+        }
+        
+        .test-scroll {
+            height: 207px;
+            overflow-y: auto;
+        }
     </style>
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
 
 <body>
     <div id="overlay-printView">
-        <div class="asset-details animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
+        <div class="asset-details  animated bounceInUp" style="width: 1000px;height: 700px;" id="wrapper-printView">
             <span class="exit-asset" onclick="closeAsset('overlay-printView')">&times;</span>
 
             <div class="asset-body" style="font-size: 12pt;">
@@ -143,7 +160,9 @@
                                 Description
                             </th>
                         </thead>
-                        <tbody id="tbodyPrint"></tbody>
+                        <tbody id="tbodyPrint">
+
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -170,12 +189,12 @@
                     </div> -->
     </div>
     <div id="overlay-asset">
-        <div class="asset-details animated bounceInUp" id="assetView">
+        <div class="asset-details asset_view_update_view animated bounceInUp" id="assetView">
             <span class="exit-asset" onclick="closeAsset('overlay-asset')">&times;</span>
 
             <div class="asset-body">
                 <div id="viewAssets">
-                    <table id="viewAssetTable" style="width:100%;border:1px solid #ccc;border-radius: 5px;">
+                    <table class="table-bordered" id="viewAssetTable1" style="width:100%;border-radius: 5px;">
                         <thead>
                             <tr>
                                 <div class="asset-header text-center">
@@ -183,27 +202,87 @@
                                 </div>
                             </tr>
                         </thead>
-
                         <tbody id="asset-info">
-                            <tr id="assetLocation">
-                                <th class="theading">Location</th>
-                                <td></td>
-                            </tr>
-                            <tr id="assetRoom">
-                                <th class="theading">Room </th>
-                                <td></td>
+                            <tr>
+                                <th style="width:25%" class="theading">ASSET CLASS</th>
+                                <td style="width:25%">xxxx</td>
+                                <th style="width:25%" class="theading">PRIMARY</th>
+                                <td style="width:25%">xxxx</td>
                             </tr>
                             <tr>
-                                <th class="theading">Primary </th>
-                                <td><span id="assetBody">Test</span></td>
+                                <th style="width:25%" class="theading">BUILDING </th>
+                                <td style="width:25%">xxxx</td>
+                                <th style="width:25%" class="theading">ASSET ID </th>
+                                <td style="width:25%">xxxx</td>
                             </tr>
-                            <!-- loop -->
                             <tr>
-                                <th class="theading">Sub Item</th>
-                                <td></td>
+                                <th style="width:25%" class="theading">LEVEL </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                                <th style="width:25%" class="theading">MODEL </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                            </tr>
+                            <tr>
+                                <th style="width:25%" class="theading">AREA </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                                <th style="width:25%" class="theading">DESCRIPTION </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                            </tr>
+                            <tr>
+                                <th style="width:25%" class="theading">AREA NAME </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                                <th style="width:25%" class="theading">CLASSIFICATION </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                            </tr>
+                            <tr>
+                                <th style="width:25%" class="theading">ROOM </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                                <th style="width:25%" class="theading">SERVICE DATE </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                            </tr>
+                            <tr>
+                                <th style="width:25%" class="theading">SUB LOCATION </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                                <th style="width:25%" class="theading">STATUS </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                            </tr>
+                            <tr>
+                                <th style="width:25%" class="theading">CERTIFICATE NUMBER </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                                <th style="width:25%" class="theading">PRINT DATE </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                            </tr>
+                            <tr>
+                                <th style="width:25%" class="theading">CREATION DATE </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                                <th style="width:25%" class="theading">TRANSACTION STATUS </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                            </tr>
+                            <tr>
+                                <th style="width:25%" class="theading">IS PRIMARY? </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                                <th style="width:25%" class="theading">IS SUB ASSET? </th>
+                                <td style="width:25%"><span id="assetBody">xxxx</span></td>
                             </tr>
                         </tbody>
                     </table>
+
+                    <div class="test-scroll">
+                        <table id="viewAssetTable2" class="table-bordered table-striped">
+                            <thead>
+                                <tr style="" class="text-light">
+                                    <th class="theading-sub bg-dark text-left">Sub Asset(s)</th>
+                                    <th class="theading-sub bg-dark text-left">Description</th>
+                                </tr>
+                            </thead>
+                            <tbody id="asset-info">
+                                <tr class="text-center py-4">
+                                    <td colspan="2">
+                                        <p class="text-muted py-4">No sub assets found</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
 
 

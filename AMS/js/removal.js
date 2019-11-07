@@ -238,7 +238,7 @@ function search() {
 
                 }
 
-                $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
+                $('#currentAssetsTable tbody,#currentAssetsTable thead').off().on('click', 'input[type="checkbox"]', function () {
                     var data = table_data["currentAssetsTable"].row($(this).parents('tr')).data();
                     setTimeout(function () {
                         console.log(checkboxSelectedLength());
@@ -365,7 +365,6 @@ function checkId(asset_id, check_this) {
                 var listOfErros = "<div class='text-center' style='position: sticky;margin: 0 auto; width:260px;'><ol style='text-align:left !important; font-weight:bolder;'>";
                 for (var i = 0; i < errors.length; i++)
                     listOfErros += "<li class='text-danger'>" + errors[i] + "</li>";
-
 
                 listOfErros += "</ol></div>";
                 sweetAlertMessage(listOfErros);
@@ -1248,6 +1247,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         resetBtn('#room_removal_filter', "ROOM");
         resetBtn('#subloacation_removal_filter', "SUB LOCATION");
         resetBtn('#assetNo_removal_filter', "ASSET NO");
+        clearData('#building_removal_filter','#search_removal_building','BUILDING')
 
     });
 

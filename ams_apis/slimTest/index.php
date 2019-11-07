@@ -105,36 +105,84 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
             $loc = $results->data[0]->ASSET_AREA;
             $room = $results->data[0]->ASSET_ROOM_NO;
             $sub = '
-            <table id="viewAssetTable1" style="width:100%;border-radius: 5px;">
-                <thead>
-                    <tr>
-                        <div class="asset-header text-center">
-                            Asset#
-                        </div>
-                    </tr>
-                </thead>
-                <tbody id="asset-info">
-                    <tr id="assetLocation">
-                        <th class="theading">Location</th>
-                        <td>'.$loc.'</td>
-                    </tr>
-                    <tr id="assetRoom">
-                        <th class="theading">Room </th>
-                        <td>'.$room.'</td>
-                    </tr>
-                    <tr>
-                        <th class="theading">Primary </th>
-                        <td><span id="assetBody">'.$ASSET_NO.'</span></td>
-                    </tr>
-                </tbody>
-            </table>
+            <table class="table-bordered" id="viewAssetTable1" style="width:100%;border-radius: 5px;">
+            <thead>
+                <tr>
+                    <div class="asset-header text-center">
+                        Asset#
+                    </div>
+                </tr>
+            </thead>
+            <tbody id="asset-info">
+                <tr>
+                    <th style="width:25%" class="theading">ASSET CLASS</th>
+                    <td style="width:25%">xxxx</td>
+                    <th style="width:25%" class="theading">PRIMARY</th>
+                    <td style="width:25%">xxxx</td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">BUILDING </th>
+                    <td style="width:25%">xxxx</td>
+                    <th style="width:25%" class="theading">ASSET ID </th>
+                    <td style="width:25%">xxxx</td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">LEVEL </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                    <th style="width:25%" class="theading">MODEL </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">AREA </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                    <th style="width:25%" class="theading">DESCRIPTION </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">AREA NAME </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                    <th style="width:25%" class="theading">CLASSIFICATION </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">ROOM </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                    <th style="width:25%" class="theading">SERVICE DATE </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">SUB LOCATION </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                    <th style="width:25%" class="theading">STATUS </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">CERTIFICATE NUMBER </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                    <th style="width:25%" class="theading">PRINT DATE </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">CREATION DATE </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                    <th style="width:25%" class="theading">TRANSACTION STATUS </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                </tr>
+                <tr>
+                    <th style="width:25%" class="theading">IS PRIMARY? </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                    <th style="width:25%" class="theading">IS SUB ASSET? </th>
+                    <td style="width:25%"><span id="assetBody">xxxx</span></td>
+                </tr>
+            </tbody>
+        </table>
 
-            <div class="test-scroll">
+        <div class="test-scroll">
             <table id="viewAssetTable2" class="table-bordered table-striped">
                 <thead>
                     <tr style="" class="text-light">
-                        <th class="theading-sub bg-dark">Sub Asset(s)</th>
-                        <th class="theading-sub bg-dark">Description</th>
+                        <th class="theading-sub bg-dark text-left">Sub Asset(s)</th>
+                        <th class="theading-sub bg-dark text-left">Description</th>
                     </tr>
                 </thead>
                 <tbody id="asset-info">
