@@ -459,12 +459,7 @@ function closeApp(){
 
 function closeMe() {
     // reset 
-    localStorage.building = '';
-    localStorage.area = '';
-    localStorage.level = '';
-    localStorage.room_no = '';
-    localStorage.sub_location = '';
-
+    localStorage.clear();
     open("../index.html", '_self')
     window.location.replace("../index.html");
     window.close();

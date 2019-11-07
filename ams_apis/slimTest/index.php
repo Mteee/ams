@@ -117,7 +117,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
                 <tr>
                     <th style="width:25%" class="theading">ASSET CLASS</th>
                     <td style="width:25%">'.$func->replaceNull($results->data[0]->ASSET_CLASS).'</td>
-                    <th style="width:25%" class="theading">PRIMARY</th>
+                    <th style="width:25%" class="theading">PRIMARY ID</th>
                     <td style="width:25%">'.$func->replaceNull($results->data[0]->ASSET_PRIMARY_ID).'</td>
                 </tr>
                 <tr>
@@ -170,9 +170,9 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
                 </tr>
                 <tr>
                     <th style="width:25%" class="theading">IS PRIMARY? </th>
-                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_HAS_SUB_ASSETS).'</span></td>
+                    <td style="width:25%"><span id="assetBody">'.$func->updateLetterToIcon($func->replaceNull($results->data[0]->ASSET_HAS_SUB_ASSETS)).'</span></td>
                     <th style="width:25%" class="theading">IS SUB ASSET? </th>
-                    <td style="width:25%"><span id="assetBody">'.$func->replaceNull($results->data[0]->ASSET_IS_SUB).'</span></td>
+                    <td style="width:25%"><span id="assetBody">'.$func->updateLetterToIcon($func->replaceNull($results->data[0]->ASSET_IS_SUB)).'</span></td>
                 </tr>
             </tbody>
         </table>

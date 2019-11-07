@@ -40,12 +40,7 @@ function closeApp() {
 
 function closeMe() {
     // reset 
-    localStorage.building = '';
-    localStorage.level = ''
-    localStorage.area = ''
-    localStorage.room_no = ''
-    localStorage.sub_location = ''
-    localStorage.asset_no = ''
+    localStorage.clear();
     open("../index.html", '_self')
     window.location.replace("../index.html");
     window.close();
@@ -1078,7 +1073,10 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 
     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
-    $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+
+    if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")
+        $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
     $('#class-options').prop('disabled', false);
 

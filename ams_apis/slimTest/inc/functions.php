@@ -74,6 +74,7 @@ class Functions{
 		return strtoupper($value);
 	}
 
+
 	//updating y to icons
 	public function updateLetterToIcon($letter){
     
