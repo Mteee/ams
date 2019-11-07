@@ -1211,8 +1211,9 @@ function resetInput(resetId, resetTxt) {
 //     }
 // });
 
-if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
+if (localStorage.filter == "ALL EQUIPMENT") {
 
+    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
     $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
@@ -1253,7 +1254,7 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 } else {
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
-    $('#class-options').prop('disabled', 'disabled');
+    $('#class-options').prop('disabled', true);
 }
 
 function resetBtn(resetId, resetTxt) {
