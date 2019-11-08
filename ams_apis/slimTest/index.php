@@ -437,7 +437,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
 
     if(!empty($ASSET_NO)){
 
-        $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID='$ASSET_NO' OR ASSET_PRIMARY_ID='$ASSET_NO'";
+        $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID='$ASSET_NO' OR ASSET_PRIMARY_ID='$ASSET_NO' ORDER BY ASSET_PRIMARY_ID";
 
         $assets =$func->executeQuery($sql);
 

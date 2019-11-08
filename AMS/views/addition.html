@@ -292,6 +292,31 @@
             background-color: #ec001800 !important;
             border-color: #dc354600 !important;
         }
+        
+        .asset_view_update_view {
+            width: 900px !important;
+            height: 724px !important;
+        }
+        
+        .asset-body {
+            color: black;
+            height: 674px;
+            padding: 20px;
+            border-top: 1px solid rgba(0, 0, 0, 0.13);
+        }
+        
+        .test-scroll {
+            height: 207px;
+            overflow-y: auto;
+        }
+        
+        .theading {
+            width: 50%;
+            background: #343a40 !important;
+            padding: 7px 15px;
+            color: white;
+            border: 1px solid #343a40 !important;
+        }
     </style>
 
 </head>
@@ -692,7 +717,7 @@
     </div>
 
     <div id="overlay-asset">
-        <div class="asset-details animated bounceInUp" id="assetView">
+        <div class="asset-details asset_view_update_view animated bounceInUp" id="assetView">
             <span class="exit-asset" onclick="closeAsset('overlay-asset')">&times;</span>
 
             <div class="asset-body">

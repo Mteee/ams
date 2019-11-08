@@ -355,7 +355,6 @@ function search() {
             "paging": true,
             "processing": true,
             "searching": false,
-            // "ordering": true,
             "responsive": true,
             "ordering": false,
             "pageLength": length,
@@ -363,9 +362,6 @@ function search() {
             "destroy": true,
             ajax: function (data, callback, settings) {
                 var out = [];
-                // console.log("=======================");
-                // console.log(data);
-                // console.log("=======================");
                 for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
                     if (tableData[i] == undefined) {
                         break;
@@ -409,6 +405,7 @@ function search() {
                 },
                 {
                     "className": "dt-center",
+                    "orderable": false,
                     "targets": [-2, 0]
                 },
                 {

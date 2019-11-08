@@ -233,7 +233,7 @@ function search() {
 
                 }
 
-                $('#currentAssetsTable tbody,#currentAssetsTable thead').off().on('click', 'input[type="checkbox"]', function () {
+                $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
                     var data = table_data["currentAssetsTable"].row($(this).parents('tr')).data();
                     setTimeout(function () {
                         console.log(checkboxSelectedLength());
