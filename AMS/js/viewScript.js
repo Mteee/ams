@@ -70,7 +70,7 @@ function closeAsset(id) {
 function viewAsset(assetId) {
     var currentItem = "";
     // console.log($('#assetBody'));
-    $('#assetBody')['0'].innerHTML = assetId;
+    // $('#assetBody')['0'].innerHTML = assetId;
     console.log('{"primary_asset_id" :"' + assetId + '"}');
 
     $.ajax({

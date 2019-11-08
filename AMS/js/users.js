@@ -36,12 +36,7 @@ function closeApp() {
 
 function closeMe() {
     // reset 
-    localStorage.building = '';
-    localStorage.level = ''
-    localStorage.area = ''
-    localStorage.room_no = ''
-    localStorage.sub_location = ''
-    localStorage.asset_no = ''
+    localStorage.clear();
     open("../index.html", '_self')
     window.location.replace("../index.html");
     window.close();
