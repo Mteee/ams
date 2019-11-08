@@ -61,7 +61,6 @@ $(document).mouseup(e => {
     if (!$menu.is(e.target) // if the target of the click isn't the container...
         && $menu.has(e.target).length === 0) // ... nor a descendant of the container
     {
-        // $menu.removeClass('is-active');
         $('#menu-list').fadeOut(500);
     }
 });
@@ -143,12 +142,6 @@ function search() {
             allowOutsideClick: true,
         })
 
-        // document.getElementById('overlay-alert-message').style.display = "none";
-        // document.getElementById('overlay-alert-message').style.display = "block";
-        // document.getElementById('alert_header').innerHTML = "Assets Linking";
-        // document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><br><span class="text-muted">please select at least one filter</span>';
-        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
-
     } else {
 
         console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '"}');
@@ -169,12 +162,6 @@ function search() {
             $('#dropdown_prim_sublocation').text(sub_location);
         }
 
-
-        //building
-        //level
-        //Area
-        //room_no
-
         $('#primSearchView').hide();
         $('#loader').fadeIn(500);
 
@@ -185,7 +172,6 @@ function search() {
             data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","description":"' + description + '","sub_location":"' + sub_location + '"}',
             success: function (data) {
                 var table = null;
-                console.log(data);
                 $('#loader').fadeOut(500);
 
                 if (data.rows > 0) {
@@ -215,13 +201,11 @@ function search() {
                     str = replaceAll("\r\n", "", str);
 
                     str = (JSON.parse(str));
-                    // console.log(str.data);
                     table_dom = "#subLocationTable";
 
                     table = createTable("#subLocationTable", str.data);
                     $(" #subLocationTable .sorting_disabled input").prop("disabled", true); //Disable
                     $(" #subLocationTable .sorting_disabled input").css({ "cursor": "none" });
-
 
                     var _table_id = table_dom.replace("#", "");
                     tableArr[_table_id] = table;
@@ -230,63 +214,38 @@ function search() {
 
                         dataInfo = tableArr["subLocationTable"].row($(this).parents('tr')).data();
 
-                        // setTimeout(function () {
-                        //     // console.log(checkboxSelectedLength());
-                        //     if (checkboxSelectedLength() > 0) {
-                        //         $("#linkBtn").fadeIn(500);
-                        //         console.log("Test");
-                        //     } else {
-                        //         // console.log("Else Test");
-                        //         $("#linkBtn").fadeOut(500);
-                        //     }
-                        // }, 500);
-
-                        console.log($(this).prop("checked"));
                         if ($(this).prop("checked") == true) {
                             $('#subLocationTable tbody input[type=checkbox]').prop("checked", false);
                             $(this).prop("checked", true);
-                            console.log("test1");
                             asset_link.al_no = dataInfo[0];
                         } else {
                             asset_link.al_no = null;
                         }
 
-                        console.log(asset_link);
 
                     });
 
                     $('#subLocationTable tbody').on('click', 'button', function () {
-                        console.log("click");
                         var data = tableArr["subLocationTable"].row($(this).parents('tr')).data();
-                        // if (data == null || data == undefined) {
-                        //     data = (localStorage.tableDataSet).split(',');
-                        // } else {
-                        //     localStorage.tableDataSet = data;
-                        // }
                         viewAsset(data[0]);
                     });
-
-
-
-
-
-                    // table.clear().draw();
-
-
                 }
                 else {
-                    // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
                     $('#searchView').fadeIn(500);
-                    // console.log(data.data);
-
                     table = createTable("#subLocationTable", data.data);
                     $(" #subLocationTable .sorting_disabled input").prop("disabled", true); //Disable
                     $(" #subLocationTable .sorting_disabled input").css({ "cursor": "none" });
-
                 }
             },
             error: function (error) {
-                console.log(error);
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'sub_location'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+                });
             }
         });
 
@@ -317,8 +276,7 @@ function clearSublocation() {
     $('#dropdown_prim_room').text("ROOM");
     //description
     $('#prim_description').val("");
-    // //classiffication
-    // $('#prim_classification').val("");
+
 }
 
 //updating y to icons
@@ -339,7 +297,6 @@ function updateLetterToIcon(letter) {
 function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
-    // console.log($('#assetBody'));
     $('#assetBody')['0'].innerHTML = assetId;
 
     $.ajax({
@@ -348,7 +305,6 @@ function viewAsset(assetId) {
         dataType: "JSON",
         data: '{"al_no" :"' + assetId + '"}',
         success: function (data) {
-            // console.log("success");
             document.getElementById('viewAssets').innerHTML = data[0].table;
             document.getElementById('subItemCount').innerText = data[0].items;
 
@@ -362,8 +318,14 @@ function viewAsset(assetId) {
             }
         },
         error: function (err) {
-            console.log(err);
-            console.log("error");
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'singleAsset_al_no'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
 
         }
     });
@@ -379,9 +341,7 @@ function unlinkAll(assetId) {
             console.log(data);
             if (data.data == "UNLINKING ALL SUBS WAS SUCCESSFUL") {
                 closeAsset('overlay-asset');
-                // searchasset();
                 search();
-
                 swal.fire({
                     title: "unlinked Successfully",
                     text: data.data,
@@ -402,8 +362,14 @@ function unlinkAll(assetId) {
             }
         },
         error: function (err) {
-            console.log(err);
-            console.log("error");
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'unlink_all_subs'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
 
         }
     });
@@ -466,17 +432,9 @@ function searchasset() {
             },
             allowOutsideClick: true,
         })
-
-        // document.getElementById('overlay-alert-message').style.display = "none";
-        // document.getElementById('overlay-alert-message').style.display = "block";
-        // document.getElementById('alert_header').innerHTML = "Assets Linking";
-        // document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><br><span class="text-muted">please select at least one filter</span>';
-        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
-
     }
     else {
 
-        console.log('{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '"}');
         if (building !== '') {
             $('#dropdown_sub_location').text(building);
         }
@@ -503,9 +461,6 @@ function searchasset() {
             data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","description":"' + description + '","asset_primary_id":"' + asset_no + '","asset_class":"' + localStorage.filter + '"}',
             success: function (data) {
                 var table = null;
-                console.log("==============[data]=====================");
-                console.log(data);
-                console.log("==============[data]=====================");
                 $('#AssetsLoader').fadeOut(500);
 
                 if (data.rows > 0) {
@@ -531,9 +486,7 @@ function searchasset() {
                     str = replaceAll("\r\n", "", str);
                     str = replaceAll("\\", "|", str);
 
-                    console.log(str);
                     str = (JSON.parse(str));
-
 
                     table_dom = "#subAssetsTable";
 
@@ -545,41 +498,17 @@ function searchasset() {
                     tableArr[_table_id] = table;
 
                     $('#subAssetsTable tbody').on('click', 'input[type="checkbox"]', function () {
-                        // var data = table.row($(this).parents('tr')).data();
                         setTimeout(function () {
-                            // console.log(checkboxSelectedLength());
                             if (checkboxSelectedLength('#subAssetsTable') > 0) {
                                 $("#linkBtn").fadeIn(500);
-                                console.log("Test");
                             } else {
-                                // console.log("Else Test");
                                 $("#linkBtn").fadeOut(500);
                             }
                         }, 500);
-
-                        // if ($(this).prop("checked") == true) {
-                        //     $('input[type=checkbox]').prop("checked", false);
-                        //     $(this).prop("checked", true);
-                        //     console.log("test1");
-
-                        // }else{
-
-                        // }
                     });
-
-
-
-
-
-                    // table.clear().draw();
-
-
                 }
                 else {
-                    // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
                     $('#searchView').fadeIn(500);
-                    // console.log(data.data);
-
                     table = createTable("#subAssetsTable", data.data);
                     $("#subAssetsTable .sorting_disabled input").prop("disabled", true); //Disable
                     $("#subAssetsTable .sorting_disabled input:hover").css({ "cursor": "auto" });
@@ -587,8 +516,14 @@ function searchasset() {
                 }
             },
             error: function (error) {
-                console.log(error);
-            }
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'assets_not_linked'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+                });            }
         });
 
     }
@@ -596,7 +531,6 @@ function searchasset() {
 
 function checkboxSelectedLength(id) {
     var lengthh = $(id + " input:checkbox:checked").length;
-    console.log(lengthh);
     return lengthh;
 }
 
@@ -633,24 +567,15 @@ function assets_filters() {
 }
 
 function createTable(tableID, tableData) {
-    console.log("========================table Data====================");
-    console.log(tableData);
-    console.log("========================table Data====================");
     var table = $(tableID).DataTable({
-        // "data": tableData,
         "paging": true,
         "processing": true,
         "searching": false,
-        // "ordering": true,
         "ordering": false,
         "serverSide": true,
         "destroy": true,
         ajax: function (data, callback, settings) {
             var out = [];
-            console.log("=======================");
-            console.log(tableData);
-            // console.log(data);
-            console.log("=======================");
             for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
                 if (tableData[i] == undefined) {
                     break;
@@ -661,10 +586,7 @@ function createTable(tableID, tableData) {
 
             }
 
-            // console.log("=========out=========");
-            // console.log(out);
-            // console.log("========out==========");
-            setTimeout(function () {
+           setTimeout(function () {
                 callback({
                     draw: data.draw,
                     data: out,
@@ -674,12 +596,6 @@ function createTable(tableID, tableData) {
             }, 50);
         },
         "columnDefs": [
-            // {
-            //     "targets": 0,
-            //     "data": tableData,
-            //     "orderable": false,
-            //     "defaultContent": "<input class='checkitem' type='checkbox' value=''/>"
-            // },
             {
                 'targets': 0,
                 'checkboxes': {
@@ -694,11 +610,6 @@ function createTable(tableID, tableData) {
             }, {
                 'targets': -1,
                 "render": function (data, type, row, meta) {
-                    // "data": null,
-                    // "orderable": false,
-                    // "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>",
-                    // "className": "dt-center"
-
                     if (tableID == "#subLocationTable") {
                         return "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>";
                     } else {
@@ -708,47 +619,15 @@ function createTable(tableID, tableData) {
             }
         ],
         fnCreatedRow: function (nTd, nRow, aData, iDataIndex) {
-            console.log(aData[0]);
             $(nRow).attr('id', aData[0]);
-            // console.log($(nTd).children()[0].children);
         }
     });
-
-    // $('#frm-example').on('submit', function (e) {
-    //     // Prevent actual form submission
-    //     e.preventDefault();
-    //     var rows_selected = table.column(0).checkboxes.selected();
-
-    //     var form = $('#frm-example');
-
-    //     // Iterate over all selected checkboxes
-    //     // $.each(rows_selected, function (index, rowId) {
-    //     //     // Create a hidden element 
-    //     //     $(form).append(
-    //     //         $('<input>')
-    //     //             .attr('type', 'hidden')
-    //     //             .attr('name', 'id[]')
-    //     //             .val(rowId)
-    //     //     );
-    //     // }); 
-
-    //     var rowsSelected = rows_selected.join(",").split(",");
-
-    //     viewPrintAssets(rowsSelected);
-    //     // Remove added elements
-    //     $('input[name="id\[\]"]', form).remove();
-
-    //     e.preventDefault();
-
-    // });
-
 
     return table;
 }
 
 function getItems(url, id, scrollArea, menuid) {
 
-    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '"}');
 
     $.ajax({
         url: url,
@@ -756,12 +635,8 @@ function getItems(url, id, scrollArea, menuid) {
         dataType: 'JSON',
         data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '"}',
         success: function (data) {
-            console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
-            // console.log("=============searchValue================");
-            // console.log(searchValue);
-            // console.log("=============searchValue=================");
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
@@ -777,8 +652,14 @@ function getItems(url, id, scrollArea, menuid) {
 
         },
         error: function (data_err) {
-            console.log("Error");
-            console.log(data_err);
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : #'"+id+"'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
         }
     })
 }
@@ -793,12 +674,8 @@ function getAssetsFilter(url, id, scrollArea, menuid) {
         dataType: 'JSON',
         data: '{"building":"' + localStorage.building_assets + '","level":"' + localStorage.level_assets + '","area":"' + localStorage.area_assets + '","room_no":"' + localStorage.room_no_assets + '","asset_primary_id":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
-            console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
-            // console.log("=============searchValue================");
-            // console.log(searchValue);
-            // console.log("=============searchValue=================");
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
@@ -814,8 +691,14 @@ function getAssetsFilter(url, id, scrollArea, menuid) {
 
         },
         error: function (data_err) {
-            console.log("Error");
-            console.log(data_err);
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : #'"+id+"'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
         }
     })
 }
@@ -1079,7 +962,6 @@ else {
 
 //function clear button
 function clearData(input, btnDafualtId, text, emptyId) {
-    // var inputData = document.getElementById(input).(val);
     var value = $(input).val();
 
     if (value.length > 0) {
@@ -1317,19 +1199,10 @@ function clearData(input, btnDafualtId, text, emptyId) {
             $('#sub_description').val("");
 
         }
-
-        // if (btnDafualtId == "#dropdown_approve_room") {
-        //     populate_room();
-        //     $(input).val("");
-        //     $(btnDafualtId).text(text);
-        // }
     }
 }
 
 function linkAssets(id) {
-    // var rows_selected = tableArr[id].column(0).checkboxes.selected();
-    // console.log(rows_selected.length);
-    // console.log(rows_selected[rows_selected.length - 1]);
 
     if (asset_link.al_no == null) {
         swal.fire({
@@ -1348,11 +1221,6 @@ function linkAssets(id) {
             }
         });
 
-        // document.getElementById('overlay-alert-message').style.display = "none";
-        // document.getElementById('overlay-alert-message').style.display = "block";
-        // document.getElementById('alert_header').innerHTML = "<span class='text-center'>Select Sub Location</span>";
-        // document.getElementById('alert-message-body').innerHTML = '<div class="text-center"><img src="../img/fail.png" width=60 /></div><p class="text-muted">Sub Location is required</p>';
-        // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-success" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">OK</button>';
     } else {
 
         var newArr = [];
@@ -1360,9 +1228,6 @@ function linkAssets(id) {
         for (var i = 0; i < rows_selected.length; i++) {
             newArr.push(rows_selected[i]);
         }
-        console.log("newArr-1");
-        console.log(newArr);
-        console.log(asset_link.al_no);
 
         var arrAPI = [];
 
@@ -1372,18 +1237,13 @@ function linkAssets(id) {
             data: '{"al_no":"' + asset_link.al_no + '"}',
             dataType: 'JSON',
             success: function (data) {
-                console.log("flag")
-                console.log(data)
-
+                
                 if (data.data == "Error") {
                     data.data = [];
                 }
-                console.log("flag")
                 for (var i = 0; i < data.data.length; i++) {
                     newArr.push((data.data[i])["A_A"]);
                 }
-
-                console.log(newArr);
 
                 var arr = [];
                 var values = [];
@@ -1394,9 +1254,6 @@ function linkAssets(id) {
                     arr.push(value[0]);
                 }
 
-                console.log(arr);
-                console.log(values);
-
                 asset_link.selected_assets = createAssetDelimeter(arr);
 
                 var assets_selected = "<select id='primary_asset_id' class='form-control dropdown' required>";
@@ -1405,21 +1262,18 @@ function linkAssets(id) {
                     assets_selected += "<option value='" + (values[i])[0] + "' >" + (values[i])[0] + " - " + (values[i])[1] + "</option>"
                 }
                 assets_selected += "</select>";
-
                 showDropdown(assets_selected);
-
-                // document.getElementById('overlay-alert-message').style.display = "none";
-                // document.getElementById('overlay-alert-message').style.display = "block";
-                // document.getElementById('alert_header').innerHTML = "Selected Primary Asset ID";
-                // document.getElementById('alert-message-body').innerHTML = '<div class="text-center px-5" style="margin-top:15px;">' + assets_selected + '</span>';
-                // document.getElementById('alert-footer').innerHTML = '<button class="btn btn-danger" onclick="closeAsset(\'overlay-alert-message\')" style="width:100px">Close</button> | <button class="btn btn-success" onclick="confirmLink()" style="width:100px">OK</button>';
-
 
             },
             error: function (error) {
-                console.log("error")
-                console.log(error)
-                console.log("error")
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'getAssets_al_no'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+                });
             }
 
 
@@ -1427,7 +1281,6 @@ function linkAssets(id) {
     }
 
     function showDropdown(assets_selected) {
-        console.log("here1");
         swal.fire({
             title: "assign a primary asset",
             html: assets_selected,
@@ -1449,8 +1302,6 @@ function linkAssets(id) {
                 } else {
                     confirmLink(p_id);
                 }
-                console.log(p_id);
-                // test = "alc_no";
             } else if (
                 result.dismiss === Swal.DismissReason.cancel
             ) {
@@ -1458,35 +1309,11 @@ function linkAssets(id) {
             }
         })
     }
-
-
-    // var form = $('#frm-example');
-
-    // // Iterate over all selected checkboxes
-    // $.each(rows_selected, function (index, rowId) {
-    //     // Create a hidden element 
-    //     $(form).append(
-    //         $('<input>')
-    //             .attr('type', 'hidden')
-    //             .attr('name', 'id[]')
-    //             .val(rowId)
-    //     );
-    // }); 
-
-    // var rowsSelected = rows_selected.join(",").split(",");
-    // console.log("rows_selected-2");
-
-
 }
 
 function confirmLink() {
     var e = document.getElementById("primary_asset_id");
-    // $('#primary_asset_id').on('change', function () {
-
-    // });
     var p_id = e.options[e.selectedIndex].value;
-    console.log('{"al_no":"' + asset_link.al_no + '","assetIds" : "' + asset_link.selected_assets + '","primary_asset_id" : "' + p_id + '","username":"' + localStorage.username + '"}');
-
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/link_assets",
         method: "POST",
@@ -1534,19 +1361,21 @@ function confirmLink() {
 
                     }
                 })
-                console.log(data);
             }
-            console.log("======================data================")
-            console.log(data);
-            console.log("======================data================")
-
             asset_link = {
                 al_no: null,
                 selected_assets: null
             }
         },
         error: function (errr) {
-            console.log(errr);
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'link_assets'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
         }
     });
 }
@@ -1612,11 +1441,16 @@ function unlinkSub(assetId) {
                     }
                 })
             }
-            console.log(data);
         },
         error: function (err) {
-            console.log(err);
-            console.log("error");
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'unlink_assets'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
         }
     });
 }
@@ -1633,30 +1467,22 @@ var onSearch = function (btn_id,table, searchValue, emptyId) {
     document.getElementById(searchValue).onkeypress = function (e) {
         var value = searchValue.value;
 
-        console.log(e.keyCode + " " + table);
         if (e.keyCode == 13 && table == "searchWith") {
             e.preventDefault();
 
             if (value.length>0) {
-
                 setValueBtn(btn_id, value);
                 search();
-    
             }
         }
 
         if (e.keyCode == 13 && table == "subSearch") {
             e.preventDefault();
-
             if (value.length>0) {
-
                 setValueBtn(btn_id, value);
                 searchasset();
-    
             }
-
         }
-
     }
 
     searchValue = document.getElementById(searchValue);
@@ -1664,14 +1490,10 @@ var onSearch = function (btn_id,table, searchValue, emptyId) {
     for (var i = 0; i < rows.length; i++) {
 
         var suitable = false;
-
-        console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
-
         if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
             found = true;
         }
-
         rows[i].active = suitable;
     }
 
@@ -1689,8 +1511,6 @@ var onSearch = function (btn_id,table, searchValue, emptyId) {
             clearLocalStorrageSubAssets();
             assets_filters();
         }
-
-        // populate_room();
     }
 
     if (found) {
@@ -1699,15 +1519,12 @@ var onSearch = function (btn_id,table, searchValue, emptyId) {
         $(emptyId).css("display", "block");
     }
 
-    // console.log(clusterize[getId]);
-
     clusterize[getId].update(filterRows(rows));
 }
 
 var onSearch_new = function (table, searchValue) {
     document.getElementById(searchValue).onkeypress = function (e) {
 
-        console.log(e.keyCode + " " + table);
         if (e.keyCode == 13 && table == "searchWith") {
             e.preventDefault();
             search();

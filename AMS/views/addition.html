@@ -354,7 +354,6 @@
                     </div>
                     <div class="col-md-6">
                         <button class="btn btn-success" onclick="window.location.reload();">Okay</button>
-                        <!-- <button class="btn btn-danger" onclick="closeAsset('overlay-comm')">Cancel</button> -->
                     </div>
                 </div>
             </div>
@@ -433,10 +432,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <!-- <div class="form-group label-floating">
-                                                <label class="control-label">Room *</label>
-                                                <input type="text" name="room_no" class="form-control" id="room_no">
-                                            </div> -->
+
                                             </div>
                                         </div>
                                         <div class="col-sm-10 offset-1">
@@ -477,16 +473,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- <div class="col-sm-10 offset-1">
-                                            <div class="form-group">
-                                                <label class="control-label">Disposal Date *</label>
-                                                <div class="input-group">
-                                                    <input type="date" class="form-control" name="disposal_date">
-                                                    <span class="input-group-addon"><i
-                                                            class="fa fa-calendar"></i></span>
-                                                </div>
-                                            </div>
-                                        </div> -->
+
                                     </div>
                                 </div>
 
@@ -873,22 +860,18 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                    
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button"
-                                                    id="building_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="building_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     BUILDING
                                                 </button>
-                                    
-                                    
+
+
                                                 <div class="dropdown-menu" aria-labelledby="building_addition_filter" id="scroll_addition_building">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_building" class="form-control" placeholder="Building"
-                                                                onkeyup="onSearch('building_addition_filter','search_addition_building','#empty_addition_building')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_building" class="form-control" placeholder="Building" onkeyup="onSearch('building_addition_filter','search_addition_building','#empty_addition_building')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_building"
-                                                                    onclick="clearData('#search_addition_building','#building_addition_filter','BUILDING')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_building" onclick="clearData('#search_addition_building','#building_addition_filter','BUILDING')"><i
                                                                         class="fa fa-close"></i>
                                                                 </span>
                                                             </div>
@@ -906,19 +889,16 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_addition_filter"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     LEVEL
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="level_addition_filter" id="scroll_addition_level">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_level" class="form-control" placeholder="Level"
-                                                                onkeyup="onSearch('level_addition_filter','search_addition_level','#empty_addition_level')" autofocus="autofocus">
+                                                            <input type="search" id="search_addition_level" class="form-control" placeholder="Level" onkeyup="onSearch('level_addition_filter','search_addition_level','#empty_addition_level')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_level"
-                                                                    onclick="clearData('#search_addition_level','#level_addition_filter','LEVEL')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_level" onclick="clearData('#search_addition_level','#level_addition_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -935,19 +915,15 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_addition_filter"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_area"
-                                                    aria-labelledby="area_addition_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_area" aria-labelledby="area_addition_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_area" class="form-control" placeholder="Area"
-                                                                onkeyup="onSearch('area_addition_filter','search_addition_area','#empty_addition_area')" autofocus="autofocus">
+                                                            <input type="search" id="search_addition_area" class="form-control" placeholder="Area" onkeyup="onSearch('area_addition_filter','search_addition_area','#empty_addition_area')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_area"
-                                                                    onclick="clearData('#search_addition_area','#area_addition_filter','AREA')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_area" onclick="clearData('#search_addition_area','#area_addition_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -964,20 +940,16 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_addition_filter"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_room"
-                                                    aria-labelledby="room_addition_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_room" aria-labelledby="room_addition_filter">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_room" class="form-control" placeholder="Room"
-                                                                onkeyup="onSearch('room_addition_filter','search_addition_room','#empty_addition_room')" autofocus="autofocus">
+                                                            <input type="search" id="search_addition_room" class="form-control" placeholder="Room" onkeyup="onSearch('room_addition_filter','search_addition_room','#empty_addition_room')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_room"
-                                                                    onclick="clearData('#search_addition_room','#room_addition_filter','ROOM')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_room" onclick="clearData('#search_addition_room','#room_addition_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -994,22 +966,16 @@
                                         </th>
                                         <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button"
-                                                    id="sublocaction_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="sublocaction_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_sublocaction"
-                                                    aria-labelledby="sublocaction_addition_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_sublocaction" aria-labelledby="sublocaction_addition_filter">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_sublocaction" class="form-control"
-                                                                placeholder="Sub Location"
-                                                                onkeyup="onSearch('sublocaction_addition_filter','search_addition_sublocaction','#empty_addition_sublocaction')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_sublocaction" class="form-control" placeholder="Sub Location" onkeyup="onSearch('sublocaction_addition_filter','search_addition_sublocaction','#empty_addition_sublocaction')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_sublocaction"
-                                                                    onclick="clearData('#search_addition_sublocaction','#sublocaction_addition_filter','SUB LOCATION')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_sublocaction" onclick="clearData('#search_addition_sublocaction','#sublocaction_addition_filter','SUB LOCATION')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -1023,25 +989,19 @@
                                                 </div>
                                             </div>
                                         </th>
-                                    
+
                                         <th>
                                             <div class="dropdown">
-                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="assetNo_addition_filter"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="assetNo_addition_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ASSET NUMBER
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_assetNo"
-                                                    aria-labelledby="assetNo_addition_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_assetNo" aria-labelledby="assetNo_addition_filter">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
-                                                            <input type="search" id="search_addition_assetNo" class="form-control"
-                                                                placeholder="ASSET NUMBER"
-                                                                onkeyup="onSearch('assetNo_addition_filter','search_addition_assetNo','#empty_addition_assetNo')"
-                                                                autofocus="autofocus">
+                                                            <input type="search" id="search_addition_assetNo" class="form-control" placeholder="ASSET NUMBER" onkeyup="onSearch('assetNo_addition_filter','search_addition_assetNo','#empty_addition_assetNo')" autofocus="autofocus">
                                                             <div class="input-group-append">
-                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_assetNo"
-                                                                    onclick="clearData('#search_addition_assetNo','#assetNo_addition_filter','ASSET NUMBER')"><i
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_addition_assetNo" onclick="clearData('#search_addition_assetNo','#assetNo_addition_filter','ASSET NUMBER')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
@@ -1057,8 +1017,7 @@
                                             </div>
                                         </th>
                                         <th>
-                                            <input type="text" id="addition_description" onkeyup="onSearch_new('addition_description')" class="form-control"
-                                                placeholder="Description...">
+                                            <input type="text" id="addition_description" onkeyup="onSearch_new('addition_description')" class="form-control" placeholder="Description...">
                                         </th>
                                         <th>
                                             <button onclick="search()" type="text" class="btn btn-success form-control">
@@ -1157,111 +1116,12 @@
     <script src="../js/jquery.validate.min.js"></script>
     <script src="../js/bootstrap.bundle.js"></script>
     <script src="../js/inc/menu.js"></script>
-
     <script src="../js/addition.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
     <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
 
     <script>
-        // $('.actions ul li.disabled, .actions ul li:first-child').attr('style', 'opacity:1 !important');
-
-        // function addAssets() {
-        //     $('#overlay-printView').fadeIn(500);
-        // }
-
-        // $("#form-total").steps({
-        //     headerTag: "h2",
-        //     bodyTag: "section",
-        //     transitionEffect: "fade",
-        //     enableAllSteps: false,
-        //     cssClass: "wizard",
-        //     enablePagination: true,
-        //     stepsOrientation: "vertical",
-        //     autoFocus: true,
-        //     enableCancelButton: false,
-        //     forceMoveForward: false,
-        //     stepsContainerTag: "div",
-        //     transitionEffectSpeed: 400,
-        //     titleTemplate: '<div class="title">#title#</div>',
-        //     labels: {
-        //         previous: '<i class="py-2 fa fa-arrow-circle-left"></i> Previous',
-        //         next: 'Next <i class="py-2 fa fa-arrow-circle-right"></i>',
-        //         cancel: "Cancel",
-        //         current: "current step:",
-        //         pagination: "Pagination",
-        //         finish: 'Finish <i class="fa fa-thumbs-up"></i>',
-        //         loading: "Loading ..."
-        //     },
-        //     destroy: true,
-        //     onFinished: function () {
-        //         $('#form-total').steps("reset");
-        //         $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
-        //         closeAsset('overlay-printView');
-        //     },
-        //     onStepChanged: function (event, current, next) {
-        //         if (current > 0) {
-        //             $('.actions ul li:first-child').attr('style', 'opacity:1 !important;transition:500ms;');
-        //             console.log('back000');
-        //         } else if(current == 0) {
-        //             console.log('back');
-        //             $('.actions ul li:first-child').attr('style', 'opacity:0 !important;transition:500ms;');
-        //         }
-
-        //         if (current == 3) {
-        //             $('.actions ul li:nth-child(2)').attr('style', 'opacity:0 !important;transition:500ms;');
-
-        //         } else {
-        //             $('.actions ul li:nth-child(2)').attr('style', 'opacity:1 !important;transition:500ms;');
-
-        //         }
-        //     },
-        //     onStepChanging: function (event, currentIndex, newIndex) {
-        //         var form = $(this);
-        //         var check = true;
-        //         if (currentIndex == 0) {
-
-        //             if (($("#newRoom").val()).length == 0) {
-        //                 $("#error-msg-room").text("This field is required");
-        //                 check = false;
-        //             } else {
-        //                 $("#error-msg-room").text("");
-        //             }
-        //             if (($("#classifiction_name").val()).length == 0) {
-        //                 $("#error-msg-class-name").text("This field is required");
-        //                 check = false;
-        //             } else {
-        //                 $("#error-msg-class-name").text("");
-        //             }
-        //             if ($("#asset_class")[0].selectedIndex == 0) {
-        //                 $("#error-msg-asset-class").text("This field is required");
-        //                 check = false;
-        //             } else {
-        //                 $("#error-msg-asset-class").text("");
-        //             }
-
-
-        //         }
-
-        //         if (currentIndex == 1) {
-
-        //         }
-
-        //         return true;
-        //     }
-        // })
-
-        // $(".dropdown, .btn-group").hover(function () {
-        //     var dropdownMenu = $(this).children(".dropdown-menu");
-        //     if (dropdownMenu.is(":visible")) {
-        //         console.log('not visible');
-        //         // dropdownMenu.parent().toggleClass("open");
-        //     } else {
-        //         console.log('visible');
-        //         $(this).toggleClass("open");
-        //     }
-        // });
-
         const $menu = $('#menu-list');
 
         $(document).mouseup(e => {
@@ -1277,22 +1137,6 @@
         function showNav() {
             $('#menu-list').slideToggle('fast');
         }
-
-        // document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
-
-        // function replaceAll(find, replace, str) {
-        //     while (str.indexOf(find) > -1) {
-        //         str = str.replace(find, replace);
-        //     }
-        //     return str;
-        // }
-
-        // function onError(error) {
-        //     console.log(`Error: ${error}`);
-        // }
-
-        // var setting = browser.tabs.setZoom(2);
-        // setting.then(null, onError);
     </script>
     <!--Start of Tawk.to Script-->
     <script type="text/javascript">
