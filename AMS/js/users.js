@@ -185,16 +185,16 @@ function getUsers(a, b, c) {
 
                     if ((data.rows - 1) == k) {
                         str += '["' + data.data[k].ASSET_USERNAME + '","';
-                        str += data.data[k].ASSETS_USER_BADGENO + '","';
+                        str += data.data[k].ASSET_USER_BADGENO + '","';
                         str += data.data[k].ASSET_USER_CLASS + '","';
                         str += data.data[k].ASSET_USER_CREATED + '","';
-                        str += desc_role(data.data[k].ASSETS_USER_ROLES) + '"]';
+                        str += desc_role(data.data[k].ASSET_USER_ROLES) + '"]';
                     } else {
                         str += '["' + data.data[k].ASSET_USERNAME + '","';
-                        str += data.data[k].ASSETS_USER_BADGENO + '","';
+                        str += data.data[k].ASSET_USER_BADGENO + '","';
                         str += data.data[k].ASSET_USER_CLASS + '","';
                         str += data.data[k].ASSET_USER_CREATED + '","';
-                        str += desc_role(data.data[k].ASSETS_USER_ROLES) + '"],';
+                        str += desc_role(data.data[k].ASSET_USER_ROLES) + '"],';
                     }
 
                 }
@@ -463,9 +463,9 @@ function view_user(username) {
             console.log(data);
             disableFormFields();
             document.getElementById(form_ids_fields[0]).value = data.data[0].ASSET_USERNAME;
-            document.getElementById(form_ids_fields[1]).value = data.data[0].ASSETS_USER_BADGENO;
+            document.getElementById(form_ids_fields[1]).value = data.data[0].ASSET_USER_BADGENO;
             document.getElementById(form_ids_fields[2]).value = data.data[0].ASSET_USER_CLASS;
-            check_checkboxes(data.data[0].ASSETS_USER_ROLES);
+            check_checkboxes(data.data[0].ASSET_USER_ROLES);
         },
         error: function (error) {
             console.log(error);
@@ -622,10 +622,10 @@ function edit_user(username) {
             console.log("data edit user");
             console.log(data);
             document.getElementById(form_ids_fields[0]).value = data.data[0].ASSET_USERNAME;
-            document.getElementById(form_ids_fields[1]).value = data.data[0].ASSETS_USER_BADGENO;
+            document.getElementById(form_ids_fields[1]).value = data.data[0].ASSET_USER_BADGENO;
             document.getElementById(form_ids_fields[2]).value = data.data[0].ASSET_USER_CLASS;
-            check_checkboxes(data.data[0].ASSETS_USER_ROLES);
-            localStorage.user_role = data.data[0].ASSETS_USER_ROLES;
+            check_checkboxes(data.data[0].ASSET_USER_ROLES);
+            localStorage.user_role = data.data[0].ASSET_USER_ROLES;
             localStorage.user_username = data.data[0].ASSET_USERNAME;
             enableCheckboxFields();
 

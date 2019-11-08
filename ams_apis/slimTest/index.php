@@ -835,15 +835,15 @@ $app->map(['GET','POST'],'/login',function(Request $request, Response $response)
     $username = strtoupper($data->username);
    if($username != null && $username != ''){
 
-        $sql_query = "SELECT ASSET_USER_CLASS,ASSETS_USER_ROLES,ASSTES_USER_STATUS FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME='$username' AND ASSTES_USER_STATUS = '1'";
+        $sql_query = "SELECT ASSET_USER_CLASS,ASSET_USER_ROLES,ASSET_USER_STATUS FROM AMSD.ASSETS_USER WHERE ASSET_USERNAME='$username' AND ASSET_USER_STATUS = '1'";
         
         $results =$func->executeQuery($sql_query);
 
         if($results){
             $decoded_res = json_decode($results);
             $filter = $decoded_res->data[0]->ASSET_USER_CLASS;
-            $role = $decoded_res->data[0]->ASSETS_USER_ROLES;
-            $status = $decoded_res->data[0]->ASSTES_USER_STATUS;
+            $role = $decoded_res->data[0]->ASSET_USER_ROLES;
+            $status = $decoded_res->data[0]->ASSET_USER_STATUS;
 
             array_push($response,array("filter"=>$filter,"role"=>$role,"status"=>$status));
             return json_encode($response);
@@ -5269,12 +5269,12 @@ $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Resp
         $user = strtoupper($data->user);
 
         if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
-            $sql = "SELECT * FROM ASSETS_USER WHERE ASSTES_USER_STATUS = '1' AND ASSET_USERNAME <> '$user'";
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user'";
         else{
             if($asset_class == 'ALL EQUIPMENT')
                 $asset_class = '';
 
-            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_CLASS LIKE '%$asset_class%' AND ASSTES_USER_STATUS = '1' AND ASSET_USERNAME <> '$user'";
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_CLASS LIKE '%$asset_class%' AND ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user'";
         }
 
         $users =$func->executeQuery($sql);
@@ -5322,12 +5322,12 @@ $app->map(['GET','POST'],'/getClasses',function(Request $request, Response $resp
         $role = strtoupper($data->role);
 
         if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
-            $sql = "SELECT * FROM ASSETS_CLASS";
+                $sql = "SELECT * FROM ASSETS_CLASS";
         else{
             if($asset_class == 'ALL EQUIPMENT')
                 $asset_class = '';
             
-            $sql = "SELECT * FROM ASSETS_CLASS WHERE ASSET_CLASS_NAME LIKE '%$asset_class%'";
+                $sql = "SELECT * FROM ASSETS_CLASS WHERE ASSET_CLASS_NAME LIKE '%$asset_class%'";
         }
 
         $users =$func->executeQuery($sql);
@@ -5351,7 +5351,7 @@ $app->map(['GET','POST'],'/deleteUser',function(Request $request, Response $resp
         $data = json_decode(file_get_contents('php://input'));
         $username = strtoupper($data->username);
 
-        $sql = "UPDATE ASSETS_USER SET ASSTES_USER_STATUS = '0' WHERE ASSET_USERNAME = '$username'";
+        $sql = "UPDATE ASSETS_USER SET ASSET_USER_STATUS = '0' WHERE ASSET_USERNAME = '$username'";
 
         $deleteusers =$func->executeNonQuery($sql);
 
@@ -5374,7 +5374,7 @@ $app->map(['GET','POST'],'/updateAdminUser',function(Request $request, Response 
         $roles = strtoupper($data->roles);
         $username = strtoupper($data->username);
 
-        $sql = "UPDATE ASSETS_USER SET ASSETS_USER_ROLES = '$roles' WHERE ASSET_USERNAME = '$username'";
+        $sql = "UPDATE ASSETS_USER SET ASSET_USER_ROLES = '$roles' WHERE ASSET_USERNAME = '$username'";
 
         $deleteusers =$func->executeNonQuery($sql);
 
