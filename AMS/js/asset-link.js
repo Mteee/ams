@@ -1622,7 +1622,7 @@ function unlinkSub(assetId) {
 }
 
 
-var onSearch = function (table, searchValue, emptyId) {
+var onSearch = function (btn_id,table, searchValue, emptyId) {
 
     var getId = searchValue;
 
@@ -1631,16 +1631,30 @@ var onSearch = function (table, searchValue, emptyId) {
     var rows = allArr[searchValue];
 
     document.getElementById(searchValue).onkeypress = function (e) {
+        var value = searchValue.value;
 
         console.log(e.keyCode + " " + table);
         if (e.keyCode == 13 && table == "searchWith") {
             e.preventDefault();
-            search();
+
+            if (value.length>0) {
+
+                setValueBtn(btn_id, value);
+                search();
+    
+            }
         }
 
         if (e.keyCode == 13 && table == "subSearch") {
             e.preventDefault();
-            searchasset();
+
+            if (value.length>0) {
+
+                setValueBtn(btn_id, value);
+                searchasset();
+    
+            }
+
         }
 
     }
@@ -1705,4 +1719,16 @@ var onSearch_new = function (table, searchValue) {
         }
 
     }
+}
+
+function setValueBtn(id, value) {
+    $('#' + id).text(value);
+}
+function setValueInput(id, value) {
+    $('#' + id).val(value);
+}
+
+function setValueInputBtn(id_1, id_2, value) {
+    setValueBtn(id_1, value);
+    setValueInput(id_2, value);
 }

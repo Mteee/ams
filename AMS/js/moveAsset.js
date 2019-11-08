@@ -545,9 +545,7 @@ var allArr = {
     search_move_assetNo: []
 };
 
-// console.log("allArr");
-// console.log(allArr);
-// console.log("allArr");
+
 
 function getItems(url, id, scrollArea, menuid, empty_view) {
 
@@ -1565,7 +1563,7 @@ var onSearch = function (btn_id, searchValue, emptyId) {
 
             var value = searchValue.value;
 
-            if (value != "" || value != null || value != '' || value != ' ' || value != " ") {
+            if (value.length>0) {
 
                 setValueBtn(btn_id, value);
                 search();

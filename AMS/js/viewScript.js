@@ -774,7 +774,7 @@ function checkFilter(key) {
     return res;
 }
 
-var onSearch = function (searchValue, emptyId) {
+var onSearch = function (btn_id,searchValue, emptyId) {
 
     var getId = searchValue;
 
@@ -789,7 +789,14 @@ var onSearch = function (searchValue, emptyId) {
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            search();
+            var value = searchValue.value;
+
+            if (value.length) {
+
+                setValueBtn(btn_id, value);
+                search();
+
+            }
         }
     }
 
@@ -832,6 +839,21 @@ function replaceAll(find, replace, str) {
     }
     return str;
 }
+
+
+function setValueBtn(id, value) {
+    $('#' + id).text(value);
+}
+function setValueInput(id, value) {
+    $('#' + id).val(value);
+}
+
+function setValueInputBtn(id_1, id_2, value) {
+    setValueBtn(id_1, value);
+    setValueInput(id_2, value);
+}
+
+
 
 function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);

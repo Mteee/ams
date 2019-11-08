@@ -1,8 +1,7 @@
 clearLocalStorageFilters();
 populate_filters();
-checkClass();
-setUsername();
 checkFilter();
+
 
 window.onload = function () {
     if (localStorage.building !== '' || localStorage.level !== '' || localStorage.area !== '' || localStorage.room_no !== '' || localStorage.certificate_number !== '' || localStorage.sub_location !== '') {
@@ -45,43 +44,61 @@ function viewAsset(cert_no) {
 }
 
 
+if (localStorage.filter == "ALL EQUIPMENT") {
 
-function checkClass() {
-    if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
-        console.log(localStorage.filter);
-        $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
+
+    // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+    
+    if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN") {
         $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
-        $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
-        $('#class-options').prop('disabled', false);
+    }
+    
+    $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
+    $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
+    $('#class-options').prop('disabled', false);
 
-        $('#class-options').on('change', function () {
-            var filter = $("#class-options option:selected").text();
-            localStorage.filter = filter;
-            clearLocalStorageFilters();
-            populate_filters();
+    $('#class-options').on('change', function () {
+        var filter = $("#class-options option:selected").text();
+        toogleSub(filter);
+        localStorage.filter = filter;
+        //clear btn text
 
-            if (filter == "IT EQUIPMENT") {
-                $('.filter_sub').show();
-            } else {
-                $('.filter_sub').hide();
-            }
+        //clear btn text
+        resetBtn('#building_certificates_filter', "BUILDING");
+        resetBtn('#level_certificates_filter', "LEVEL");
+        resetBtn('#area_certificates_filter', "AREA");
+        resetBtn('#room_certificates_filter', "ROOM");
+        resetBtn('#sublocaction_certificates_filter', "SUB LOCATION");
+        resetBtn('#certNo_certificates_filter', "CERTIFICATE NUMBER");
+        //clear search inputs and local storage
 
-            //clear btn text
-            resetBtn('#building_certificates_filter', "BUILDING");
-            resetBtn('#level_certificates_filter', "LEVEL");
-            resetBtn('#area_certificates_filter', "AREA");
-            resetBtn('#room_certificates_filter', "ROOM");
-            resetBtn('#sublocaction_certificates_filter', "SUB LOCATION");
-            resetBtn('#certNo_certificates_filter', "CERTIFICATE NUMBER");
+        clearLocalStorageFilters();
+        populate_filters();
 
-        });
 
+        $('#currentAssetsTable').DataTable().clear().destroy();
+        $('#searchView').show();
+
+    });
+
+} else {
+    toogleSub(localStorage.filter);
+    $('#class-options').append(new Option(localStorage.filter, "user_class"));
+    $('#class-options').css({ "-moz-appearance": "none" });
+    $('#class-options').prop('disabled', 'disabled');
+}
+
+
+function toogleSub(filter) {
+    if (filter == "IT EQUIPMENT") {
+        $('.filter_sub').show();
+        $('#transfer_type').show();
     } else {
-        $('#class-options').append(new Option(localStorage.filter, "user_class"));
-        $('#class-options').css({ "-moz-appearance": "none" });
-        $('#class-options').prop('disabled', 'disabled');
+        $('.filter_sub').hide();
+        $('#transfer_type').hide();
     }
 }
+
 
 function setUsername() {
     $('#username').text(localStorage.username);
@@ -433,7 +450,7 @@ function clearAllFilters() {
 
 }
 
-function closeApp(){
+function closeApp() {
     swal.fire({
         title: "Exit Application",
         text: "Are you sure you want to exit?",
@@ -631,7 +648,7 @@ function clearData(input, btnDafualtId, text) {
 }
 
 
-var onSearch = function (searchValue, emptyId) {
+var onSearch = function (btn_id, searchValue, emptyId) {
 
     var getId = searchValue;
 
@@ -645,7 +662,20 @@ var onSearch = function (searchValue, emptyId) {
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            search();
+
+            console.log("=====================================================================================");
+            console.log(searchValue);
+            var value = searchValue.value;
+
+            console.log("=================value=====================");
+            console.log(value.length);
+
+            if (value.length > 0) {
+
+                setValueBtn(btn_id, value);
+                search();
+
+            }
         }
     }
 
@@ -683,8 +713,22 @@ var onSearch = function (searchValue, emptyId) {
     clusterize[getId].update(filterRows(rows));
 }
 
+
+function setValueBtn(id, value) {
+    $('#' + id).text(value);
+}
+function setValueInput(id, value) {
+    $('#' + id).val(value);
+}
+
+function setValueInputBtn(id_1, id_2, value) {
+    setValueBtn(id_1, value);
+    setValueInput(id_2, value);
+}
+
+
 function isSpecified(value) {
-    if (value == null || value ==  undefined) {
+    if (value == null || value == undefined) {
         return "NEVER";
     }
     return value;
@@ -976,45 +1020,45 @@ function createTable(tableID, tableData) {
 
         // var rowsSelected = rows_selected.join(",").split(",");
 
-        
 
-    $.ajax({
-        url: '../../ams_apis/slimTest/index.php/assetCert_print',
-        method: 'post',
-        data: '{"cert":"'+rows_selected[rows_selected.length-1]+'"}',
-        dataType: "JSON",
-        success: function(data) {
-            var assets = "";
-            console.log(data);
-            for (var i = 0; i < data.rows; i++) {
-                assets += "<tr>" +
-                    "<td>" + data.data[i].ASSET_MODEL + "</td>" +
-                    "<td>" + data.data[i].ASSET_DESCRIPTION + "</td>" +
-                    "<td>" + data.data[i].ASSET_ID + "</td>" +
-                    "<td>" + data.data[i].ASSET_PRIMARY_ID + "</td>" +
-                    "<td>" + data.data[i].ASSET_CLASSIFICATION + "</td>" +
-                    "<td>" + data.data[i].ASSET_ROOM_NO + "</td>" +
-                    "<td>" + data.data[i].HD_ASSET_LOCATION + "</td>" +
-                    "<td>" + data.data[i].ASSET_PURCHASE_DT.substr(0,10) + "</td>" +
-                    "<td>" + checkDesposal(data.data[i].ASSET_DISPOSAL_DT) + "</td>" +
-                    "</tr>"
+
+        $.ajax({
+            url: '../../ams_apis/slimTest/index.php/assetCert_print',
+            method: 'post',
+            data: '{"cert":"' + rows_selected[rows_selected.length - 1] + '"}',
+            dataType: "JSON",
+            success: function (data) {
+                var assets = "";
+                console.log(data);
+                for (var i = 0; i < data.rows; i++) {
+                    assets += "<tr>" +
+                        "<td>" + data.data[i].ASSET_MODEL + "</td>" +
+                        "<td>" + data.data[i].ASSET_DESCRIPTION + "</td>" +
+                        "<td>" + data.data[i].ASSET_ID + "</td>" +
+                        "<td>" + data.data[i].ASSET_PRIMARY_ID + "</td>" +
+                        "<td>" + data.data[i].ASSET_CLASSIFICATION + "</td>" +
+                        "<td>" + data.data[i].ASSET_ROOM_NO + "</td>" +
+                        "<td>" + data.data[i].HD_ASSET_LOCATION + "</td>" +
+                        "<td>" + data.data[i].ASSET_PURCHASE_DT.substr(0, 10) + "</td>" +
+                        "<td>" + checkDesposal(data.data[i].ASSET_DISPOSAL_DT) + "</td>" +
+                        "</tr>"
+                }
+
+
+                document.getElementById('cert_no_field').innerHTML = data.data[0].ASSET_CERTIFICATE_NO;
+                document.getElementById('creation_date_field').innerHTML = data.data[0].ASSET_CERTIFICATE_CREATION_DATE;
+                document.getElementById('equip_cart').innerHTML = data.data[0].ASSET_CLASS;
+                document.getElementById('trans_type').innerHTML = checkTypeForCert(data.data[0].ASSET_CERTIFICATE_TYPE);
+
+
+                document.getElementById('subItemCount').innerHTML = data.rows;
+                document.getElementById('cert_assets_selected').innerHTML = assets;
+                document.getElementById('overlay-printView').style.display = "block";
+            },
+            error: function (error) {
+                console.log(error);
             }
-
-
-            document.getElementById('cert_no_field').innerHTML = data.data[0].ASSET_CERTIFICATE_NO;
-            document.getElementById('creation_date_field').innerHTML = data.data[0].ASSET_CERTIFICATE_CREATION_DATE;
-            document.getElementById('equip_cart').innerHTML = data.data[0].ASSET_CLASS;
-            document.getElementById('trans_type').innerHTML = checkTypeForCert(data.data[0].ASSET_CERTIFICATE_TYPE);
-
-
-            document.getElementById('subItemCount').innerHTML = data.rows;
-            document.getElementById('cert_assets_selected').innerHTML = assets;
-            document.getElementById('overlay-printView').style.display = "block";
-        },
-        error: function(error) {
-            console.log(error);
-        }
-    });
+        });
         // viewCommAssets(rowsSelected);
         // Remove added elements
         $('input[name="id\[\]"]', form).remove();
@@ -1027,11 +1071,11 @@ function createTable(tableID, tableData) {
     return table;
 }
 
-function checkDesposal(value){
-    if(value == null || value == undefined){
+function checkDesposal(value) {
+    if (value == null || value == undefined) {
         value = "N/A";
-    }else{
-        value = value.substr(0,10);
+    } else {
+        value = value.substr(0, 10);
     }
 
     return value;

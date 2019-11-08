@@ -272,7 +272,7 @@
                     <div class="test-scroll">
                         <table id="viewAssetTable2" class="table-bordered table-striped">
                             <thead>
-                                <tr style="" class="text-light">
+                                <tr class="text-light">
                                     <th class="theading-sub bg-dark text-left">Sub Asset(s)</th>
                                     <th class="theading-sub bg-dark text-left">Description</th>
                                 </tr>
@@ -468,7 +468,7 @@
                                                         <div class="input-group">
                                                             <input type="search" id="search_view_building"
                                                                 class="form-control" placeholder="Building"
-                                                                onkeyup="onSearch('search_view_building','#empty_view_building')"
+                                                                onkeyup="onSearch('building_view_filter','search_view_building','#empty_view_building')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
@@ -500,11 +500,11 @@
                                                 <div class="dropdown-menu" aria-labelledby="level_view_filter"
                                                     id="scroll_view_level">
                                                     <form class="px-4 py-2">
-
+                                    
                                                         <div class="input-group">
                                                             <input type="search" id="search_view_level"
                                                                 class="form-control" placeholder="Level"
-                                                                onkeyup="onSearch('search_view_level','#empty_view_level')"
+                                                                onkeyup="onSearch('level_view_filter','search_view_level','#empty_view_level')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
@@ -537,7 +537,7 @@
                                                         <div class="input-group">
                                                             <input type="search" id="search_view_area"
                                                                 class="form-control" placeholder="Area"
-                                                                onkeyup="onSearch('search_view_area','#empty_view_area')"
+                                                                onkeyup="onSearch('area_view_filter','search_view_area','#empty_view_area')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
@@ -567,11 +567,11 @@
                                                 <div class="dropdown-menu clusterize-scroll" id="scroll_view_room"
                                                     aria-labelledby="room_view_filter">
                                                     <form class="px-4 py-2">
-
+                                    
                                                         <div class="input-group">
                                                             <input type="search" id="search_view_room"
                                                                 class="form-control" placeholder="Room"
-                                                                onkeyup="onSearch('search_view_room','#empty_view_room')"
+                                                                onkeyup="onSearch('room_view_filter','search_view_room','#empty_view_room')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
@@ -602,11 +602,11 @@
                                                     id="scroll_view_sublocaction"
                                                     aria-labelledby="sublocaction_view_filter">
                                                     <form class="px-4 py-2">
-
+                                    
                                                         <div class="input-group">
                                                             <input type="search" id="search_view_sublocaction"
                                                                 class="form-control" placeholder="Sub Location"
-                                                                onkeyup="onSearch('search_view_sublocaction','#empty_view_sublocaction')"
+                                                                onkeyup="onSearch('sublocaction_view_filter','search_view_sublocaction','#empty_view_sublocaction')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
@@ -627,23 +627,23 @@
                                                 </div>
                                             </div>
                                         </th>
-
+                                    
                                         <th>
-                                            <div class="dropdown" data-step="6"
-                                                data-intro="This is a navigation menu, with your class or department">
+                                            <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
                                                     type="button" id="assetNo_view_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false">
+                                                    aria-haspopup="true" aria-expanded="false" data-step="6"
+                                                    data-intro="This is a navigation menu, with your class or department">
                                                     ASSET NO
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll" id="scroll_view_assetNo"
                                                     aria-labelledby="assetNo_view_filter">
                                                     <form class="px-4 py-2">
-
+                                    
                                                         <div class="input-group">
                                                             <input type="search" id="search_view_assetNo"
                                                                 class="form-control" placeholder="ASSET NO"
-                                                                onkeyup="onSearch('search_view_assetNo','#empty_view_assetNo')"
+                                                                onkeyup="onSearch('assetNo_view_filter','search_view_assetNo','#empty_view_assetNo')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
@@ -751,9 +751,9 @@
         </div>
     </div>
 
-    <div class="system_info" onclick="javascript:introJs().setOption('showProgress', true).start();">
+    <!-- <div class="system_info" onclick="javascript:introJs().setOption('showProgress', true).start();">
         <span class="fa fa-info"></span><span class="tooltiptext"><strong></strong>Press me to tour the asset system
-            </strong></span>
+            </strong></span> -->
 
         <script src="../js/jquery.js"></script>
         <script src="../js/clusterize.min.js"></script>

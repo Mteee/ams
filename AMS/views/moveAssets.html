@@ -1199,9 +1199,9 @@
         </div>
     </div>
 
-    <div class="system_info" onclick="javascript:introJs().setOption('showProgress', true).start();">
+    <!-- <div class="system_info" onclick="javascript:introJs().setOption('showProgress', true).start();">
         <span class="fa fa-info"></span><span class="tooltiptext"><strong></strong>Press me to tour the asset movement
-            system </strong></span>
+            system </strong></span> -->
     </div>
     <script src="../js/jquery.js"></script>
     <script src="../js/clusterize.min.js"></script>
@@ -1233,8 +1233,6 @@
         function showNav() {
             $('#menu-list').slideToggle('fast');
         }
-
-        document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
         function replaceAll(find, replace, str) {
             while (str.indexOf(find) > -1) {

@@ -2,10 +2,6 @@ clearLocalStorageFilters();
 
 $('#searchView').fadeIn(500);
 
-var user_class = localStorage.username;
-
-$('#username').text(user_class);
-
 //check for filter in local storage
 if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
     localStorage.backupFilter = localStorage.filter;
@@ -1184,7 +1180,7 @@ function cleaAllFilters() {
 }
 
 
-var onSearch = function (searchValue, emptyId) {
+var onSearch = function (btn_id, searchValue, emptyId) {
 
     var getId = searchValue;
 
@@ -1199,7 +1195,15 @@ var onSearch = function (searchValue, emptyId) {
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            search();
+            
+            var value = searchValue.value;
+
+            if (value.length>0) {
+
+                setValueBtn(btn_id, value);
+                search();
+
+            }
         }
     }
 
@@ -1254,6 +1258,22 @@ var onSearch_new = function (searchValue) {
         }
     }
 }
+
+
+function setValueBtn(id, value) {
+    $('#' + id).text(value);
+}
+function setValueInput(id, value) {
+    $('#' + id).val(value);
+}
+
+function setValueInputBtn(id_1, id_2, value) {
+    setValueBtn(id_1, value);
+    setValueInput(id_2, value);
+}
+
+
+
 
 var count = 1;
 

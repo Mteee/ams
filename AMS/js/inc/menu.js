@@ -65,3 +65,13 @@ function role_link(value, menu_ids) {
 
     }
 }
+
+function replaceAll(find, replace, str) {
+    while (str.indexOf(find) > -1) {
+        str = str.replace(find, replace);
+    }
+    return str;
+}
+
+// username
+document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
