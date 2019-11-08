@@ -99,27 +99,17 @@ function addAsset() {
         for (i = 0; i < key.length; i++) {
             json_data[key[i]] = values[i];
         }
-
-        console.log(json_data);
         var dataSend = "";
-
-        console.log('{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '"}');
-
         $.ajax({
             url: "../../ams_apis//slimTest/index.php/add_assets",
             method: "POST",
             dataType: "JSON",
             data: '{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '"}',
             success: function (data) {
-                console.log("success");
-                console.log(data);
                 document.getElementById("add_asset_form").reset();
-                // console.log($('.wizard-card').bootstrapWizard());
-                // $('.wizard-card').bootstrapWizard.onInit();
                 document.getElementById('overlay-newAssetView').style.display = "none";
                 document.getElementById('assetsAdd').innerHTML = data.tdata;
                 setTimeout(function () {
-                    // document.getElementById('overlay-assets-added').style.display = "block !important";
                     $('#overlay-assets-added').show();
                     $('#loader-overlay').hide();
 
@@ -127,9 +117,14 @@ function addAsset() {
 
             },
             error: function (err) {
-                console.log(err);
-                // console.log("error");
-
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'add_assets'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+                });
             }
         });
     }, 4000);
@@ -142,8 +137,6 @@ function getAssetsType() {
         method: "POST",
         dataType: "JSON",
         success: function (data) {
-            console.log(data);
-
             var types = '<option value="">Select Asset Type</option>';
             for (var i = 0; i < 10; i++) {
                 types += '<option value="' + data.data[i].ASSET_TYPEID + '">' + data.data[i].ASSET_TYPE_DESC + '</option>';
@@ -151,8 +144,14 @@ function getAssetsType() {
             document.getElementById('asset_type').innerHTML = types;
         },
         error: function (err) {
-            console.log(err);
-            console.log("error");
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'getAssetsType'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
         }
     });
 }
@@ -160,26 +159,25 @@ function getAssetsType() {
 function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
-    // console.log($('#assetBody'));
     $('#assetBody')['0'].innerHTML = assetId;
-
-    console.log("eye-icon");
-    console.log('{"primary_asset_id" :"' + assetId + '"}');
-
     $.ajax({
         url: "../../ams_apis//slimTest/index.php/singleAsset",
         method: "POST",
         dataType: "JSON",
         data: '{"primary_asset_id" :"' + assetId + '"}',
         success: function (data) {
-            // console.log("success");
             document.getElementById('viewAssets').innerHTML = data[0].table;
             document.getElementById('subItemCount').innerText = data[0].items;
         },
         error: function (err) {
-            console.log(err);
-            // console.log("error");
-
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'singleAsset'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
         }
     });
 }
@@ -187,7 +185,6 @@ function viewAsset(assetId) {
 function getValues() {
     var inputValues = [];
 
-    // var inputs = $(".wizard-card form input[type='text'],.wizard-card form input[type='date']");
 
     //basic (2 inputs && 1 select)
     var selects = $("#basic select").find("option:selected").text();
@@ -205,8 +202,7 @@ function getValues() {
 
     //serial (2+ inputs)
     var input_serial = $("#asset_group input[type='text']");
-    console.log("================[input_serial]===================");
-    console.log(input_serial);
+
     document.getElementById('assets_add_new').innerHTML = Math.floor((input_serial.length) / 3);
     var serial = ["asset_id", "asset_desc"];
 
@@ -232,19 +228,24 @@ function getValues() {
 
     if (input_radio_checked[0].value == "YES") {
         //get certNumber using apis
-        // inputValues.push("12345");
 
         $.ajax({
             url: "../../ams_apis/slimTest/index.php/generate_certificate_number",
             method: "post",
             dataType: "json",
             success: function (data) {
-                console.log(data);
                 inputValues.push(data.certificate_number);
             },
             error: function (err) {
-                console.log(err);
                 inputValues.push("");
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'generate_certificate_number'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+                });
 
             }
         });
@@ -256,7 +257,6 @@ function getValues() {
 
 function getDatee(a) {
     var date = new Date(a);
-    console.log(date);
 
     var day = parseInt(date.getDate());
     var month = parseInt(date.getMonth()) + 1;
@@ -277,11 +277,8 @@ function getDatee(a) {
 function extractValues_inElements(a, arr, key) {
 
     if (key == "serial") {
-        console.log("serial");
-        console.log(a);
         var stringValue = "";
         for (i = 0; i < a.length; i++) {
-            console.log(a.length + " " + i);
             if (i == a.length - 3) {
 
                 stringValue += a[i].value + "|" + a[++i].value + "|" + a[++i].value
@@ -336,7 +333,6 @@ var allArr = {
 
 function getItems(url, id, scrollArea, menuid) {
 
-    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}');
 
     $.ajax({
         url: url,
@@ -344,12 +340,8 @@ function getItems(url, id, scrollArea, menuid) {
         dataType: 'JSON',
         data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
-            console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
-            // console.log("=============searchValue================");
-            // console.log(searchValue);
-            // console.log("=============searchValue=================");
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
@@ -359,31 +351,19 @@ function getItems(url, id, scrollArea, menuid) {
             }
 
             allArr[id] = rows;
-
-            // localStorage.setItem(id, JSON.stringify(rows));
-            // Storage.prototype._setItem(id,rows);
-
             filterItems(rows, id, scrollArea, menuid);
-            // // console.log(data.data);
-            // // buildDropDown('menuAssets', data.data, '#emptyAssets');
-            // // let contents = []
-            // // for(var i=0;i<data.rows;i++){
-
-            // //     contents.push('<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>')
-
-            // //     $('#menuAssets').append(contents.join(""))
-
-            // //     //Hide the row that shows no items were found
-            // //     $('#emptyAssets').hide()
-            // // }
-            // console.log('done');
-            // // buildDropDown('#menuAssets',data.data);
 
         },
         error: function (data_err) {
-            console.log(data_err);
-            console.log("Error");
-            console.log(localStorage.filter);
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : #'"+id+"'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+
+            });
         }
     });
 }
@@ -453,7 +433,6 @@ function search() {
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location + " - " + asset_no);
     var current = "";
-    // console.log(results);
     if (" -  -  -  -  -  - " == results) {
         swal.fire({
             title: "Oooops!",
@@ -472,9 +451,6 @@ function search() {
         $('#searchView').hide();
         $('#loader').fadeIn(500);
         document.getElementById('current').innerHTML = "";
-
-        console.log('{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_sub_location":"' + localStorage.sub_location + '","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}');
-
         $.ajax({
             url: "../../ams_apis/slimTest/index.php/getAll_Assets_withNo_Cert_no",
             type: "POST",
@@ -482,20 +458,12 @@ function search() {
             data: '{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_sub_location":"' + localStorage.sub_location + '","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}',
             success: function (data) {
                 $('#loader').fadeOut(500);
-
-                console.log("======================data===============================");
-                // console.log(data);
                 var table = null;
-                console.log("================test===============================");
-                // console.log(data);
-                // console.log(data.data.ASSET_IS_SUB);
-
 
                 if (data.rows > 0) {
 
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
-                        console.log(data.data[k].ASSET_IS_SUB);
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_ID + '","';
                             str += data.data[k].ASSET_ID + '","';
@@ -520,78 +488,43 @@ function search() {
                     }
 
                     str += ']}'
-
-                    console.log("Replace all");
-                    console.log(str);
-
                     str = replaceAll("\n", "", str);
-                    // str = replaceAll("'", "^", str);
-
-                    console.log(str);
-
                     str = (JSON.parse(str));
-                    // console.log(str.data);
-
                     table = createTable("#currentAssetsTable", str.data);
-
-                    // table.clear().draw();
-
 
                 }
                 else {
-                    // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
-                    // $('#searchView').fadeIn(500);
-                    // console.log(data.data);
-
                     table = createTable("#currentAssetsTable", data.data);
-
                 }
 
                 $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
                     var data = table.row($(this).parents('tr')).data();
                     setTimeout(function () {
-                        console.log(checkboxSelectedLength());
                         if (checkboxSelectedLength() > 0) {
                             $('#commAssets').fadeIn(500);
                         } else {
                             $('#commAssets').fadeOut(500);
                         }
                     }, 500);
-
-                    // var check_id = table.row($(this).parents('tr')).data();
-                    // console.log(check_id[0]);
-                    // checkIsPrim(check_id[0]);
-
-
-                    // if(data == null || data == undefined){
-                    //     data = (localStorage.b).split(',');
-                    // console.log("---------------localStorage---------------");
-                    // console.log(data);
-                    // console.log("---------------data---------------");
-                    // }else{
-                    //     localStorage.b = data;
-                    //     console.log("---------------Default---------------");
-                    //     console.log(data);
-                    //     console.log("---------------data---------------");
-                    // }
-
-                    // alert(data[0] + "'s salary is: " + data[4]);
                 });
 
                 $('#currentAssetsTable tbody').on('click', 'button', function () {
-
                     var data = table.row($(this).parents('tr')).data();
                     viewAsset(data[0]);
-
                 });
-                // $('#printAssetsView').fadeIn(500);
 
             },
             error: function (err) {
-                console.log(err)
                 $('#searchView').fadeIn(500);
                 $('#loader').hide();
-                alert('Ooops');
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'getAssetsType'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+                });
             }
         });
     }
@@ -637,15 +570,11 @@ function createTable(tableID, tableData) {
         "paging": true,
         "processing": true,
         "searching": false,
-        // "ordering": true,
         "ordering": false,
         "serverSide": true,
         "destroy": true,
         ajax: function (data, callback, settings) {
             var out = [];
-            // console.log("=======================");
-            // console.log(data);
-            // console.log("=======================");
             for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
                 if (tableData[i] == undefined) {
                     break;
@@ -656,9 +585,6 @@ function createTable(tableID, tableData) {
 
             }
 
-            // console.log("=========out=========");
-            // console.log(out);
-            // console.log("========out==========");
             setTimeout(function () {
                 callback({
                     draw: data.draw,
@@ -669,12 +595,6 @@ function createTable(tableID, tableData) {
             }, 50);
         },
         "columnDefs": [
-            // {
-            //     "targets": 0,
-            //     "data": tableData,
-            //     "orderable": false,
-            //     "defaultContent": "<input class='checkitem' type='checkbox' value=''/>"
-            // },
             {
                 'targets': 0,
                 'checkboxes': {
@@ -700,15 +620,12 @@ function createTable(tableID, tableData) {
             'style': 'multi'
         },
         fnCreatedRow: function (nTd, nRow, aData, iDataIndex) {
-
             $(nRow).attr('id', aData[0]);
-            // console.log($(nTd).children()[0].children);
         }
     });
 
     $('#frm-example').on('submit', function (e) {
 
-        console.log("click");
         // Prevent actual form submission
         e.preventDefault();
         var rows_selected = table.column(0).checkboxes.selected();
@@ -744,11 +661,7 @@ function createTable(tableID, tableData) {
 function viewCommAssets(assets) {
     var currentItem = "";
     document.getElementById('overlay-comm').style.display = "block";
-    // console.log($('#assetBody'));
     document.getElementById('movItemCount').innerHTML = assets.length;
-
-
-    console.log(assets);
 
     var assets_arr = assets;
     var send_assets = "";
@@ -761,7 +674,6 @@ function viewCommAssets(assets) {
 
     }
 
-    console.log(send_assets);
     var cert_no = { data: "" };
 
     $.ajax({
@@ -771,7 +683,6 @@ function viewCommAssets(assets) {
         data: '{"assert_primary_id" : "' + send_assets + '"}',
         dataType: "json",
         success: function (data) {
-            console.log(data);
             $('#loaderComm').hide();
             if (data.rows > 0) {
                 document.getElementById("assetTbody").innerHTML = data.data;
@@ -780,7 +691,14 @@ function viewCommAssets(assets) {
             }
         },
         error: function (err) {
-            console.log(err);
+           swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'generate_Cert_no'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
         }
     });
 
@@ -801,19 +719,13 @@ function viewCommAssets(assets) {
 
 function confirmComm(assets_ids, certificate_no) {
 
-    console.log('{"assets" : "' + assets_ids + '","cert" : "' + certificate_no + '"}');
-
-
     $.ajax({
-        // url: "assets.json",
         url: "../../ams_apis/slimTest/index.php/comm_asset",
         method: "post",
         data: '{"username":"' + localStorage.username + '","asset_class":"' + localStorage.filter + '","assets":"' + assets_ids + '","cert":"' + certificate_no + '"}',
         dataType: "json",
         success: function (data) {
             closeAsset('overlay-comm');
-            console.log(data);
-            // $('#commAssets').fadeOut(500);
             search();
             $('#commAssets').fadeOut(500);
             swal.fire({
@@ -832,14 +744,20 @@ function confirmComm(assets_ids, certificate_no) {
             }
         },
         error: function (err) {
-            console.log(err);
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'comm_asset'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
         }
     });
 
 }
 
 function clearData(input, btnDafualtId, text) {
-    // var inputData = document.getElementById(input).(val);
     var value = $(input).val();
 
     if (value.length > 0) {
@@ -981,7 +899,6 @@ function clearData(input, btnDafualtId, text) {
 
         }
         else if (input == "#search_new_room") {
-            console.log("serahc_new_room");
             document.getElementById('menu_new_room').innerHTML = '<div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             localStorage.room_no = "";
             getRoom();
@@ -990,12 +907,6 @@ function clearData(input, btnDafualtId, text) {
 
         }
 
-
-        // if (btnDafualtId == "#dropdown_approve_room") {
-        //     populate_room();
-        //     $(input).val("");
-        //     $(btnDafualtId).text(text);
-        // }
     }
 }
 
@@ -1112,7 +1023,7 @@ var defaultRooms = {
 $('#asset_class').on('change', function () {
     var selectedClass = $("#asset_class option:selected").text();
     var selectedClass = $("#asset_class option:selected").val();
-    // resetBtn('#room_new_filter', 'ROOM (*)');
+
     var selectDefaultRoom = "";
     if (selectedClass == "1") {
         selectDefaultRoom = defaultRooms["FACILITIES MANAGEMENT"];
@@ -1125,9 +1036,6 @@ $('#asset_class').on('change', function () {
 
     $('#search_new_room').val(selectDefaultRoom);
     $('#room_new_filter').val(selectDefaultRoom);
-
-    // localStorage.room_no = "";
-    // getRoom();
 
 });
 
@@ -1185,9 +1093,7 @@ var onSearch = function (btn_id, searchValue, emptyId) {
     var getId = searchValue;
 
     var found = false;
-    // console.log(localStorage.getItem("rows"));
 
-    // var rows = JSON.parse(localStorage.getItem(searchValue));
     var rows = allArr[searchValue];
 
     document.getElementById(searchValue).onkeypress = function (e) {
@@ -1212,9 +1118,6 @@ var onSearch = function (btn_id, searchValue, emptyId) {
     for (var i = 0; i < rows.length; i++) {
 
         var suitable = false;
-
-        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
-
         if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
             found = true;
@@ -1226,10 +1129,8 @@ var onSearch = function (btn_id, searchValue, emptyId) {
 
     if (searchValue.value.length == 0) {
         var resObj = checkFilter(getId);
-        console.log(resObj);
         if (emptyId == "#empty_new_room") {
             getRoom();
-            console.log("room new");
         } else {
             populate_dropdown();
         }
@@ -1242,23 +1143,18 @@ var onSearch = function (btn_id, searchValue, emptyId) {
         $(emptyId).css("display", "block");
     }
 
-    // console.log(clusterize[getId]);
-
     clusterize[getId].update(filterRows(rows));
 }
 
 
 var onSearch_new = function (searchValue) {
     document.getElementById(searchValue).onkeypress = function (e) {
-
-        console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
             search();
         }
     }
 }
-
 
 function setValueBtn(id, value) {
     $('#' + id).text(value);
@@ -1272,41 +1168,18 @@ function setValueInputBtn(id_1, id_2, value) {
     setValueInput(id_2, value);
 }
 
-
-
-
 var count = 1;
-
 var target = $("div#asset_group");
 var n = function () {
     return $("div#asset_group")[0].children.length;
 };
 
-
 $('#asset_increment').on('click', function (e) {
     e.preventDefault();
-    // $('asset_group');
     var outerElement = newAssetGroup();
-    // console.log(newAssetGroup());
-    // console.log($("div#asset_group")[0].children.length);
     $(outerElement[0]).appendTo(target);
-
-    console.log($('.wizard-card form').validate);
-
-    console.log($('#' + outerElement[1]));
-    console.log("=========================================");
-    // console.log($('#'+outerElement[1]).offset().top);
-    // alert($("div#scroll_group_view").scrollTop());
-    // $("div#scroll_group_view").animate({
-    //     scrollTop: 0
-    // });
-    // $("div#scroll_group_view").animate({
-    //     scrollTop: ($('#'+outerElement[1]).offset().top)
-    // });
     document.getElementById(outerElement[1]).scrollIntoView();
-
-
-})
+});
 
 
 
@@ -1510,15 +1383,6 @@ var newAssetGroup = function () {
         text: count
     });
 
-    //serial no
-    // <div class="col-sm-3">
-    //     <div class="form-group label-floating">
-    //         <label class="control-label">Serial No.*</label>
-    //         <input type="text" name="asset_description"
-    //             class="form-control">
-    //                                                                 </div>
-    //     </div>
-
     var col_sm_3 = $("<div/>", {
         "class": "col-sm-3"
     });
@@ -1544,8 +1408,6 @@ var newAssetGroup = function () {
     //count
     $(p_count).appendTo(col_count);
 
-    // <button type="button" id="close" class="close" onclick="">&times;</button>
-
     //serail number
     $(serial_floating_label).appendTo(form_group);
     $(serial_no_input).appendTo(form_group);
@@ -1564,17 +1426,13 @@ var newAssetGroup = function () {
 
     //button tag
     $(glyph).appendTo(close_close_btn);
+
     //cout tag
     $(col_count).prependTo(outerDiv);
     $(close_close_btn).prependTo(outerDiv);
     $(col_sm_5).appendTo(outerDiv);
     $(col_sm_5_desc).appendTo(outerDiv);
     $(col_sm_3).appendTo(outerDiv);
-
-    // console.log("focus_div");
-    // console.log(focus_div);
-
-    // $('#'+focus_div).focus();
 
     return {
         "0": outerDiv,
@@ -1585,13 +1443,6 @@ var newAssetGroup = function () {
 
 $('#asset_group').on('click', 'button', function (e) {
     e.preventDefault();
-    console.log($("#asset_group").find("#focus-input-" + this.id));
     var target = $("#asset_group").find("#focus-input-" + this.id);
-
-    // if($("div#asset_group")[0].children.length+1 == count){
-    //     count = 1;
-    // }
-
-
     $(target).remove();
 });
