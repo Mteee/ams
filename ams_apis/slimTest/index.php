@@ -5322,12 +5322,12 @@ $app->map(['GET','POST'],'/getClasses',function(Request $request, Response $resp
         $role = strtoupper($data->role);
 
         if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
-            $sql = "SELECT * FROM ASSETS_CLASS";
+                $sql = "SELECT * FROM ASSETS_CLASS";
         else{
             if($asset_class == 'ALL EQUIPMENT')
                 $asset_class = '';
             
-            $sql = "SELECT * FROM ASSETS_CLASS WHERE ASSET_CLASS_NAME LIKE '%$asset_class%'";
+                $sql = "SELECT * FROM ASSETS_CLASS WHERE ASSET_CLASS_NAME LIKE '%$asset_class%'";
         }
 
         $users =$func->executeQuery($sql);
