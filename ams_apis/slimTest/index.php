@@ -2785,7 +2785,7 @@ $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Respo
         $length = $res->rows;
         foreach($res->data as $value){
 
-            $response [] = $value->ASSET_ID;
+            $response [] = $value->ASSET_PRIMARY_ID;
             // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
             // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
 
