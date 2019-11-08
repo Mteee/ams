@@ -128,9 +128,9 @@ function search() {
         level = document.getElementById('search_move_level').value,
         area = document.getElementById('search_move_area').value,
         room_no = document.getElementById('search_move_room').value;
-        description = document.getElementById('move_description').value;
-        sub_location = document.getElementById('search_move_sublocaction').value;
-        asset_primary_id = document.getElementById('search_move_assetNo').value;
+    description = document.getElementById('move_description').value;
+    sub_location = document.getElementById('search_move_sublocaction').value;
+    asset_primary_id = document.getElementById('search_move_assetNo').value;
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location + " - " + asset_primary_id);
     var current = "";
@@ -666,7 +666,7 @@ function checkFilter(key) {
 
     switch (key) {
         case "search_move_building":
-            res = {"btnId": "building_move_filter", "btnContent": "BUILDING"};
+            res = { "btnId": "building_move_filter", "btnContent": "BUILDING" };
 
             resetBtn('#building_move_filter', "BUILDING");
             resetBtn('#level_move_filter', "LEVEL");
@@ -698,7 +698,7 @@ function checkFilter(key) {
             break;
 
         case "search_move_level":
-            res = {"btnId": "level_move_filter", "btnContent": "LEVEL"};
+            res = { "btnId": "level_move_filter", "btnContent": "LEVEL" };
 
             resetBtn('#level_move_filter', "LEVEL");
             resetBtn('#area_move_filter', "AREA");
@@ -725,7 +725,7 @@ function checkFilter(key) {
             localStorage.asset_primary_id = '';
             break;
         case "search_move_area":
-            res = {"btnId": "area_move_filter", "btnContent": "AREA"};
+            res = { "btnId": "area_move_filter", "btnContent": "AREA" };
 
             resetBtn('#area_move_filter', "AREA");
             resetBtn('#room_move_filter', "ROOM");
@@ -746,11 +746,11 @@ function checkFilter(key) {
             localStorage.room_no = '';
             localStorage.sub_location = '';
             localStorage.asset_primary_id = '';
-            
+
             break;
 
         case "search_move_room":
-            res = {"btnId": "room_move_filter", "btnContent": "ROOM"};
+            res = { "btnId": "room_move_filter", "btnContent": "ROOM" };
 
             resetBtn('#room_move_filter', "ROOM");
             resetBtn('#sublocaction_move_filter', "SUB LOCATION");
@@ -770,7 +770,7 @@ function checkFilter(key) {
             break;
 
         case "search_move_sublocaction":
-            res = {"btnId": "sublocaction_move_filter", "btnContent": "SUB LOCATION"};
+            res = { "btnId": "sublocaction_move_filter", "btnContent": "SUB LOCATION" };
 
             resetBtn('#sublocaction_move_filter', "SUB LOCATION");
             resetBtn('#assetNo_move_filter', "ASSET NO");
@@ -785,7 +785,7 @@ function checkFilter(key) {
             localStorage.asset_primary_id = '';
             break;
         case "search_move_assetNo":
-            res = {"btnId": "assetNo_move_filter", "btnContent": "ASSET NO"};
+            res = { "btnId": "assetNo_move_filter", "btnContent": "ASSET NO" };
 
             resetBtn('#assetNo_move_filter', "ASSET NO");
 
@@ -795,7 +795,7 @@ function checkFilter(key) {
             localStorage.asset_primary_id = '';
             break;
         default:
-            res = {"btnId": "not found", "btnContent": "not found"};
+            res = { "btnId": "not found", "btnContent": "not found" };
             break;
     }
 
@@ -1196,7 +1196,7 @@ function showDialogTransferDialog(rowsSelected, raw_assets) {
                     });
 
                 } else {
-                    confirmAssets(rowsSelected, input_building, input_level, input_area, input_Room, input_Room,  "SKIP");
+                    confirmAssets(rowsSelected, input_building, input_level, input_area, input_Room, input_Room, "SKIP");
                     console.log(rowsSelected + "," + input_building + "," + input_level + "," + input_area + "," + input_Room + "," + input_Room + "," + "SKIP");
                 }
             }
@@ -1546,7 +1546,7 @@ function getSelectedAssets(assets) {
     });
 }
 
-var onSearch = function (searchValue, emptyId) {
+var onSearch = function (btn_id, searchValue, emptyId) {
 
     var getId = searchValue;
 
@@ -1560,20 +1560,30 @@ var onSearch = function (searchValue, emptyId) {
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            
-            search();
+            console.log("================================searchValue==============================");
+            console.log(searchValue);
+
+            var value = searchValue.value;
+
+            if (value != "" || value != null || value != '' || value != ' ' || value != " ") {
+
+                setValueBtn(btn_id, value);
+                search();
+
+            }
+
         }
     }
 
 
     // var rows = JSON.parse(localStorage.getItem(searchValue));
     console.log(allArr);
-    
+
     var rows = allArr[searchValue];
 
 
     searchValue = document.getElementById(searchValue);
-    
+
     console.log(searchValue.value);
     for (var i = 0; i < rows.length; i++) {
 
@@ -1995,7 +2005,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
-    if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN") 
+    if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")
         $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
 
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
@@ -2030,7 +2040,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 } else {
     toogleSub(localStorage.filter);
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
-    $('#class-options').css({"-moz-appearance": "none"});
+    $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
 }
 
@@ -2153,22 +2163,22 @@ var onSearch_new = function (searchValue) {
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            setValueInputBtn(id,searchValue)
+            setValueInputBtn(id, searchValue)
             search();
         }
     }
 }
 
 
-function setValueBtn(id,value){
-    $('#'+id).text(value);
+function setValueBtn(id, value) {
+    $('#' + id).text(value);
 }
-function setValueInput(id,value){
-    $('#'+id).val(value);
+function setValueInput(id, value) {
+    $('#' + id).val(value);
 }
 
-function setValueInputBtn(id,value){
-    setValueBtn(id,value);
-    setValueInput(id,value);
+function setValueInputBtn(id_1, id_2, value) {
+    setValueBtn(id_1, value);
+    setValueInput(id_2, value);
 }
 
