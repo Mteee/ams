@@ -82,20 +82,14 @@ class Functions{
 
 		switch($letter){
 			case "y":
+			case "Y":
 				$results = '<i class="fa fa-check-circle" style="color:green;font-size:13pt !important;"></i>';
 				break;
 			case "n":
-				$results = '<i class="fa fa-times-circle" style="color:red;font-size:13pt !important;"></i>';
-				break;
+			case "N":
 			case null:
-				$results = '<i class="fa fa-times-circle" style="color:red;font-size:13pt !important;"></i>';
-				break;
 			case "null":
-				$results = '<i class="fa fa-times-circle" style="color:red;font-size:13pt !important;"></i>';
-				break;
 			case  " ":
-				$results = '<i class="fa fa-times-circle" style="color:red;font-size:13pt !important;"></i>';
-				break;           
 			case "":
 				$results = '<i class="fa fa-times-circle" style="color:red;font-size:13pt !important;"></i>';
 				break;
