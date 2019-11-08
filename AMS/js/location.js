@@ -57,11 +57,7 @@ window.onload = function () {
 function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
-    // console.log($('#assetBody'));
     $('#assetBody')['0'].innerHTML = assetId;
-
-    console.log("eye-icon");
-    console.log('{"primary_asset_id" :"' + assetId + '"}');
 
     $.ajax({
         url: "../../ams_apis//slimTest/index.php/singleAsset",
@@ -69,13 +65,10 @@ function viewAsset(assetId) {
         dataType: "JSON",
         data: '{"primary_asset_id" :"' + assetId + '"}',
         success: function (data) {
-            // console.log("success");
             document.getElementById('viewAssets').innerHTML = data[0].table;
             document.getElementById('subItemCount').innerText = data[0].items;
         },
         error: function (err) {
-            console.log(err);
-            // console.log("error");
             swal.fire({
                 title: "Oooops!",
                 text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
@@ -107,12 +100,11 @@ function createLocation() {
     var input_sub = $("#location_new_sub_location").text();
     var asset_type = $("#search_add_location_assetType").text();
 
-    console.log(input_building + " " + input_level + " " + input_area + " " + input_Room + " " + input_sub + " " + asset_type);
 
     if ($('#sameLocation').prop("checked") === true) {
-        console.log("same");
+
     } else {
-        console.log("diff");
+
     }
 
 
@@ -122,13 +114,10 @@ function createLocation() {
 }
 
 $("#sameLocation").change(function () {
-    console.log(this.checked);
     if ($('#sameLocation').prop("checked") === true) {
         $("#newSubLocation").css({ "display": "none !important" });
-        console.log("1");
     } else {
         $("#newSubLocation").css({ "display": "block !important" });
-        console.log("2");
     }
 });
 
@@ -189,8 +178,6 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
     var descrption = $('#location_description').val();
 
     var jsonData = '';
-    console.log('type');
-    console.log(type);
 
     if (type == 'new') {
         jsonData = '{"building":"' + localStorage.building_add + '","level":"' + localStorage.level_add + '","area":"' + localStorage.area_add + '","room_no":"' + localStorage.room_no_add + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '","proper_area":"' + localStorage.proper_area + '","area_details":"' + localStorage.area_detail + '"}';
@@ -202,7 +189,6 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
             jsonData = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","description":"' + descrption + '","asset_class":"' + localStorage.filter + '"}';
         }
 
-    console.log(jsonData);
 
     $.ajax({
         url: url,
@@ -228,12 +214,9 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
             }
 
 
-            console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
-            // console.log("=============searchValue================");
-            // console.log(searchValue);
-            // console.log("=============searchValue=================");
+
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
@@ -248,7 +231,6 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
             // Storage.prototype._setItem(id,rows);
 
             filterItems(rows, id, scrollArea, menuid);
-            // // console.log(data.data);
             // // buildDropDown('menuAssets', data.data, '#emptyAssets');
             // // let contents = []
             // // for(var i=0;i<data.rows;i++){
@@ -260,14 +242,11 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
             // //     //Hide the row that shows no items were found
             // //     $('#emptyAssets').hide()
             // // }
-            // console.log('done');
             // // buildDropDown('#menuAssets',data.data);
 
         },
         error: function (data_err) {
-            console.log(data_err);
-            console.log("Error");
-            console.log(localStorage.filter);
+            
             swal.fire({
                 title: "Oooops!",
                 text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
@@ -346,7 +325,6 @@ function search() {
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location);
     var current = "";
-    // console.log(results);
     if (results == " -  -  -  -  - ") {
         swal.fire({
             title: "Oooops!",
@@ -366,8 +344,6 @@ function search() {
         $('#loader').fadeIn(500);
         document.getElementById('current').innerHTML = "";
 
-        console.log('{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_sub_location":"' + localStorage.sub_location + '","asset_class":"' + localStorage.filter + '"}');
-
         $.ajax({
             url: "../../ams_apis/slimTest/index.php/get_all_locations",
             type: "POST",
@@ -376,18 +352,14 @@ function search() {
             success: function (data) {
                 $('#loader').fadeOut(500);
 
-                console.log("======================data===============================");
-                console.log(data);
+                
                 var table = null;
-                console.log("================test===============================");
-                // console.log(data);
-                // console.log(data.data.ASSET_IS_SUB);
+               
 
                 if (data.rows > 0) {
 
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
-                        console.log(data.data[k].get_lcoations);
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_BUILDING + '","';
                             str += data.data[k].ASSET_LEVEL + '","';
@@ -412,16 +384,11 @@ function search() {
 
                     str += ']}'
 
-                    console.log("Replace all");
-                    console.log(str);
-
+                
                     str = replaceAll("\n", "", str);
                     // str = replaceAll("'", "^", str);
 
-                    console.log(str);
-
                     str = (JSON.parse(str));
-                    // console.log(str.data);
 
                     table = createTable("#currentAssetsTable", str.data);
 
@@ -432,7 +399,6 @@ function search() {
                 else {
                     // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
                     // $('#searchView').fadeIn(500);
-                    // console.log(data.data);
 
                     table = createTable("#currentAssetsTable", data.data);
 
@@ -441,7 +407,6 @@ function search() {
                 $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
                     var data = table.row($(this).parents('tr')).data();
                     setTimeout(function () {
-                        console.log(checkboxSelectedLength());
                         if (checkboxSelectedLength() > 0) {
                             $('#commAssets').fadeIn(500);
                         } else {
@@ -450,23 +415,8 @@ function search() {
                     }, 500);
 
                     // var check_id = table.row($(this).parents('tr')).data();
-                    // console.log(check_id[0]);
                     // checkIsPrim(check_id[0]);
 
-
-                    // if(data == null || data == undefined){
-                    //     data = (localStorage.b).split(',');
-                    // console.log("---------------localStorage---------------");
-                    // console.log(data);
-                    // console.log("---------------data---------------");
-                    // }else{
-                    //     localStorage.b = data;
-                    //     console.log("---------------Default---------------");
-                    //     console.log(data);
-                    //     console.log("---------------data---------------");
-                    // }
-
-                    // alert(data[0] + "'s salary is: " + data[4]);
                 });
 
                 $('#currentAssetsTable tbody').on('click', 'button', function () {
@@ -479,7 +429,6 @@ function search() {
 
             },
             error: function (err) {
-                console.log(err)
                 $('#searchView').fadeIn(500);
                 $('#loader').hide();
                 swal.fire({
@@ -548,12 +497,10 @@ function addLocation() {
 
     var loc_type = $("#basic input[type=radio]:checked")[0].value;
     var selected = locationBuild(loc_type);
-    console.log("loc_type");
-    console.log(loc_type);
+
     if (loc_type == 0) {
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room) && !isEmpty(proper_area) && !isEmpty(area_detail)) {
             //room creation
-            console.log("room creation");
             newLocation(building, level, area, new_room, " ", "NR", asset_type, proper_area, area_detail);
         } else {
             swal.fire({
@@ -573,8 +520,7 @@ function addLocation() {
     } else if (loc_type == 1) {
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(room) && !isEmpty(new_sub_location)) {
             //sub location creation
-            console.log("sub location creation");
-            console.log(building + " " + level + " " + area + " " + room + " " + new_sub_location + " " + asset_type);
+           
             newLocation(building, level, area, room, new_sub_location, "NSL", asset_type, "", "");
 
         } else {
@@ -596,8 +542,7 @@ function addLocation() {
 
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room) && !isEmpty(new_sub_location) && !isEmpty(proper_area) && !isEmpty(area_detail)) {
             //room & sub location creation
-            console.log(building + " " + level + " " + area + " " + new_room + " " + new_sub_location + " " + asset_type)
-            console.log("Room And Sub");
+    
             newLocation(building, level, area, new_room, new_sub_location, "BT", asset_type, proper_area, area_detail);
         } else {
             swal.fire({
@@ -626,8 +571,6 @@ function isEmpty(value) {
 }
 
 function newLocation(building, level, area, room, sublocaction, status, asset_type, proper_area, area_detail) {
-    console.log("valid.....")
-    console.log(building + " " + area + " " + level + " " + room + " " + sublocaction + " " + status + " " + proper_area + " " + area_detail);
     // $("#loader-overlay-location").fadeIn(500);
     document.getElementById("loader-overlay-location").style.display = "block";
 
@@ -694,10 +637,8 @@ function newLocation(building, level, area, room, sublocaction, status, asset_ty
                     allowOutsideClick: true,
                 })
             }
-            console.log(data);
         },
         error: function (data_error) {
-            console.log(data_error);
             document.getElementById("loader-overlay-location").style.display = "none";
             swal.fire({
                 title: "Oooops!",
@@ -760,9 +701,7 @@ function createTable(tableID, tableData) {
         "destroy": true,
         ajax: function (data, callback, settings) {
             var out = [];
-            // console.log("=======================");
-            // console.log(data);
-            // console.log("=======================");
+
             for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
                 if (tableData[i] == undefined) {
                     break;
@@ -773,9 +712,7 @@ function createTable(tableID, tableData) {
 
             }
 
-            // console.log("=========out=========");
-            // console.log(out);
-            // console.log("========out==========");
+          
             setTimeout(function () {
                 callback({
                     draw: data.draw,
@@ -814,13 +751,11 @@ function createTable(tableID, tableData) {
         fnCreatedRow: function (nTd, nRow, aData, iDataIndex) {
 
             $(nRow).attr('id', aData[0]);
-            // console.log($(nTd).children()[0].children);
         }
     });
 
     $('#frm-example').on('submit', function (e) {
 
-        console.log("click");
         // Prevent actual form submission
         e.preventDefault();
         var rows_selected = table.column(0).checkboxes.selected();
@@ -856,11 +791,8 @@ function createTable(tableID, tableData) {
 function viewCommAssets(assets) {
     var currentItem = "";
     document.getElementById('overlay-comm').style.display = "block";
-    // console.log($('#assetBody'));
     document.getElementById('movItemCount').innerHTML = assets.length;
 
-
-    console.log(assets);
 
     var assets_arr = assets;
     var send_assets = "";
@@ -873,7 +805,6 @@ function viewCommAssets(assets) {
 
     }
 
-    console.log(send_assets);
     var cert_no = { data: "" };
 
     $.ajax({
@@ -883,7 +814,6 @@ function viewCommAssets(assets) {
         data: '{"assert_primary_id" : "' + send_assets + '"}',
         dataType: "json",
         success: function (data) {
-            console.log(data);
             $('#loaderComm').hide();
             if (data.rows > 0) {
                 document.getElementById("assetTbody").innerHTML = data.data;
@@ -892,7 +822,6 @@ function viewCommAssets(assets) {
             }
         },
         error: function (err) {
-            console.log(err);
             swal.fire({
                 title: "Oooops!",
                 text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
@@ -925,9 +854,6 @@ function viewCommAssets(assets) {
 
 function confirmComm(assets_ids, certificate_no) {
 
-    console.log('{"assets" : "' + assets_ids + '","cert" : "' + certificate_no + '"}');
-
-
     $.ajax({
         // url: "assets.json",
         url: "../../ams_apis/slimTest/index.php/comm_asset",
@@ -936,7 +862,6 @@ function confirmComm(assets_ids, certificate_no) {
         dataType: "json",
         success: function (data) {
             closeAsset('overlay-comm');
-            console.log(data);
             // $('#commAssets').fadeOut(500);
             search();
             $('#commAssets').fadeOut(500);
@@ -956,7 +881,6 @@ function confirmComm(assets_ids, certificate_no) {
             }
         },
         error: function (err) {
-            console.log(err);
             swal.fire({
                 title: "Oooops!",
                 text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
@@ -1469,7 +1393,6 @@ var onSearch = function (btn_id,searchValue, emptyId) {
     var getId = searchValue;
 
     var found = false;
-    console.log(searchValue);
 
     // var rows = JSON.parse(localStorage.getItem(searchValue));
     var rows = allArr[searchValue];
@@ -1478,23 +1401,15 @@ var onSearch = function (btn_id,searchValue, emptyId) {
 
     document.getElementById(searchValue).onkeypress = function (e) {
 
-        console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
 
             
             var value = searchValue.value;
-
-            console.log("valuessss")
-            console.log(value)
-            console.log("searchValue")
-            console.log(getId)
             
             if (value.length > 0) {
 
                 if (getId.indexOf("search_add_location_building") > -1 || getId.indexOf("search_add_location_level") > -1 || getId.indexOf("search_add_location_area") > -1 || getId.indexOf("search_add_location_proper_area") > -1 || getId.indexOf("search_add_location_area_detail") > -1 || getId.indexOf("search_add_location_room") > -1 || getId.indexOf("search_add_location_assetType") > -1) {
-
-                    console.log("searchValue");
 
 
                 } else {
@@ -1513,7 +1428,6 @@ var onSearch = function (btn_id,searchValue, emptyId) {
 
         var suitable = false;
 
-        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
 
         if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
@@ -1536,7 +1450,6 @@ var onSearch = function (btn_id,searchValue, emptyId) {
         $(emptyId).css("display", "block");
     }
 
-    // console.log(clusterize[getId]);
 
     clusterize[getId].update(filterRows(rows));
 }
@@ -1545,7 +1458,6 @@ var onSearch = function (btn_id,searchValue, emptyId) {
 var onSearch_new = function (searchValue) {
     document.getElementById(searchValue).onkeypress = function (e) {
 
-        console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
             search();
@@ -1578,15 +1490,10 @@ $('#asset_increment').on('click', function (e) {
     e.preventDefault();
     // $('asset_group');
     var outerElement = newAssetGroup();
-    // console.log(newAssetGroup());
-    // console.log($("div#asset_group")[0].children.length);
+
     $(outerElement[0]).appendTo(target);
 
-    console.log($('.wizard-card form').validate);
 
-    console.log($('#' + outerElement[1]));
-    console.log("=========================================");
-    // console.log($('#'+outerElement[1]).offset().top);
     // alert($("div#scroll_group_view").scrollTop());
     // $("div#scroll_group_view").animate({
     //     scrollTop: 0

@@ -18,8 +18,6 @@ window.onload = function () {
 function viewAsset(cert_no) {
     var currentItem = "";
     document.getElementById('overlay-comm').style.display = "block";
-    // console.log($('#assetBody'));
-    // $('#assetBody')['0'].innerHTML = cert_no;
 
     console.log("eye-icon");
     console.log('{"cert_no" :"' + cert_no + '"}');
@@ -30,14 +28,12 @@ function viewAsset(cert_no) {
         dataType: "JSON",
         data: '{"cert_no" :"' + cert_no + '"}',
         success: function (data) {
-            // console.log("success");
             document.getElementById("assetTbody").innerHTML = data.data;
             $("#movItemCount").text(data.rows);
             $("#loaderComm").hide();
         },
         error: function (err) {
             console.log(err);
-            // console.log("error");
 
         }
     });
@@ -138,15 +134,12 @@ var allArr = {
 
 function getFilters(url, id, scrollArea, menuid) {
 
-    console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","certificate_number":"' + localStorage.certificate_number + '","asset_class":"' + localStorage.filter + '"}');
-
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
         data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","cert_no":"' + localStorage.certificate_number + '","asset_class":"' + localStorage.filter + '"}',
         success: function (data) {
-            console.log(data);
             var rows = [];
             var searchValue = document.getElementById(id);
 
@@ -164,9 +157,7 @@ function getFilters(url, id, scrollArea, menuid) {
 
         },
         error: function (data_err) {
-            console.log(data_err);
-            console.log("Error");
-            console.log(localStorage.filter);
+
         }
     });
 
@@ -252,8 +243,6 @@ function search() {
         $('#loader').fadeIn(500);
         document.getElementById('current').innerHTML = "";
 
-        console.log('{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","asset_sub_location":"' + sub_location + '","certificate_number":"' + certificate_number + '","asset_class":"' + localStorage.filter + '"}');
-
         $.ajax({
             url: "../../ams_apis/slimTest/index.php/getCerts",
             type: "POST",
@@ -262,10 +251,7 @@ function search() {
             success: function (data) {
                 $('#loader').fadeOut(500);
 
-                console.log("======================data===============================");
-                console.log(data);
                 var table = null;
-                console.log("================test===============================");
                 // console.log(data);
                 // console.log(data.data.ASSET_CERTIFICATE_STATUS);
 
@@ -298,12 +284,8 @@ function search() {
 
                     str += ']}';
 
-                    console.log(str);
-
                     str = replaceAll("\n", "", str);
                     // str = replaceAll("'", "^", str);
-
-                    console.log(str);
 
                     str = (JSON.parse(str));
                     // console.log(str.data);
@@ -340,7 +322,6 @@ function search() {
                     if ($(this).prop("checked") == true) {
                         $('#currentAssetsTable tbody input[type=checkbox]').prop("checked", false);
                         $(this).prop("checked", true);
-                        console.log("test1");
                         $('#printCert').fadeIn(500);
 
                         // asset_link.al_no = dataInfo[0];
@@ -353,33 +334,17 @@ function search() {
                         // asset_link.al_no = null;
                     }
 
-
-                    // if(data == null || data == undefined){
-                    //     data = (localStorage.b).split(',');
-                    // console.log("---------------localStorage---------------");
-                    // console.log(data);
-                    // console.log("---------------data---------------");
-                    // }else{
-                    //     localStorage.b = data;
-                    //     console.log("---------------Default---------------");
-                    //     console.log(data);
-                    //     console.log("---------------data---------------");
-                    // }
-
-                    // alert(data[0] + "'s salary is: " + data[4]);
                 });
 
                 $('#currentAssetsTable tbody').on('click', 'button', function () {
 
                     var data = table_data["currentAssetsTable"].row($(this).parents('tr')).data();
-                    console.log(data);
                     viewAsset(data[0]);
                 });
                 // $('#printAssetsView').fadeIn(500);
 
             },
             error: function (err) {
-                console.log(err)
                 $('#searchView').fadeIn(500);
                 $('#loader').hide();
                 alert('Ooops');
@@ -659,16 +624,11 @@ var onSearch = function (btn_id, searchValue, emptyId) {
     var rows = allArr[searchValue];
 
     document.getElementById(searchValue).onkeypress = function (e) {
-        console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
 
-            console.log("=====================================================================================");
-            console.log(searchValue);
+        
             var value = searchValue.value;
-
-            console.log("=================value=====================");
-            console.log(value.length);
 
             if (value.length > 0) {
 
@@ -684,8 +644,6 @@ var onSearch = function (btn_id, searchValue, emptyId) {
     for (var i = 0; i < rows.length; i++) {
 
         var suitable = false;
-
-        // console.log(rows[i].values[0].toString().indexOf(searchasset.value) + 1);
 
         if (rows[i].values[0].toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
@@ -707,8 +665,6 @@ var onSearch = function (btn_id, searchValue, emptyId) {
     } else {
         $(emptyId).css("display", "block");
     }
-
-    // console.log(clusterize[getId]);
 
     clusterize[getId].update(filterRows(rows));
 }
@@ -935,9 +891,6 @@ function createTable(tableID, tableData) {
         "destroy": true,
         ajax: function (data, callback, settings) {
             var out = [];
-            // console.log("=======================");
-            // console.log(data);
-            // console.log("=======================");
             for (var i = data.start, ien = data.start + data.length; i < ien; i++) {
                 if (tableData[i] == undefined) {
                     break;
@@ -948,9 +901,6 @@ function createTable(tableID, tableData) {
 
             }
 
-            // console.log("=========out=========");
-            // console.log(out);
-            // console.log("========out==========");
             setTimeout(function () {
                 callback({
                     draw: data.draw,
@@ -994,7 +944,6 @@ function createTable(tableID, tableData) {
         fnCreatedRow: function (nTd, nRow, aData, iDataIndex) {
 
             $(nRow).attr('id', aData[0]);
-            // console.log($(nTd).children()[0].children);
         }
     });
 
@@ -1056,7 +1005,6 @@ function createTable(tableID, tableData) {
                 document.getElementById('overlay-printView').style.display = "block";
             },
             error: function (error) {
-                console.log(error);
             }
         });
         // viewCommAssets(rowsSelected);
@@ -1101,7 +1049,6 @@ function checkboxSelectedLength() {
 var onSearch_new = function (searchValue) {
     document.getElementById(searchValue).onkeypress = function (e) {
 
-        console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
             search();
