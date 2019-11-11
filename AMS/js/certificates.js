@@ -19,8 +19,6 @@ function viewAsset(cert_no) {
     var currentItem = "";
     document.getElementById('overlay-comm').style.display = "block";
 
-    console.log("eye-icon");
-    console.log('{"cert_no" :"' + cert_no + '"}');
 
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/getAsset_for_CertNO",
@@ -33,7 +31,14 @@ function viewAsset(cert_no) {
             $("#loaderComm").hide();
         },
         error: function (err) {
-            console.log(err);
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'getAsset_for_CertNO'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
 
         }
     });
@@ -43,7 +48,6 @@ function viewAsset(cert_no) {
 if (localStorage.filter == "ALL EQUIPMENT") {
 
 
-    // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     
     if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN") {
         $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
@@ -157,7 +161,14 @@ function getFilters(url, id, scrollArea, menuid) {
 
         },
         error: function (data_err) {
-
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : #'"+id+"'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
         }
     });
 
@@ -223,7 +234,6 @@ function search() {
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location + " - " + certificate_number);
     var current = "";
-    // console.log(results);
     if (" -  -  -  -  -  - " == results) {
         swal.fire({
             title: "Oooops!",
@@ -252,15 +262,11 @@ function search() {
                 $('#loader').fadeOut(500);
 
                 var table = null;
-                // console.log(data);
-                // console.log(data.data.ASSET_CERTIFICATE_STATUS);
-
 
                 if (data.rows > 0) {
 
                     var str = '{"data" : [';
                     for (var k = 0; k < data.rows; k++) {
-                        console.log(data.data[k].ASSET_CERTIFICATE_STATUS);
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_CERT_NO + '","';
                             str += data.data[k].ASSET_CERT_NO + '","';
@@ -285,53 +291,30 @@ function search() {
                     str += ']}';
 
                     str = replaceAll("\n", "", str);
-                    // str = replaceAll("'", "^", str);
 
                     str = (JSON.parse(str));
-                    // console.log(str.data);
 
                     table_data["currentAssetsTable"] = createTable("#currentAssetsTable", str.data);
                     $(" #currentAssetsTable .sorting_disabled input").prop("disabled", true); //Disable
                     $(" #currentAssetsTable .sorting_disabled input").css({ "display": "none" });
 
-                    // table.clear().draw();
-
 
                 }
                 else {
-                    // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
-                    // $('#searchView').fadeIn(500);
-                    // console.log(data.data);
 
                     table_data["currentAssetsTable"] = createTable("#currentAssetsTable", data.data);
 
                 }
 
                 $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
-                    // var data = table.row($(this).parents('tr')).data();
-                    // setTimeout(function () {
-                    //     console.log(checkboxSelectedLength());
-                    //     if (checkboxSelectedLength() > 0) {
-                    //         $('#printCert').fadeIn(500);
-                    //     } else {
-                    //         $('#printCert').fadeIn(500);
-                    //     }
-                    // }, 500);
-
 
                     if ($(this).prop("checked") == true) {
                         $('#currentAssetsTable tbody input[type=checkbox]').prop("checked", false);
                         $(this).prop("checked", true);
                         $('#printCert').fadeIn(500);
 
-                        // asset_link.al_no = dataInfo[0];
                     } else {
                         $('#printCert').fadeOut(500);
-
-
-                        // $('#printCert').slideToggle('fast');
-
-                        // asset_link.al_no = null;
                     }
 
                 });
@@ -341,13 +324,19 @@ function search() {
                     var data = table_data["currentAssetsTable"].row($(this).parents('tr')).data();
                     viewAsset(data[0]);
                 });
-                // $('#printAssetsView').fadeIn(500);
 
             },
             error: function (err) {
                 $('#searchView').fadeIn(500);
                 $('#loader').hide();
-                alert('Ooops');
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'getCerts'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+                });
             }
         });
     }
@@ -450,7 +439,6 @@ function closeMe() {
 
 
 function clearData(input, btnDafualtId, text) {
-    // var inputData = document.getElementById(input).(val);
     var value = $(input).val();
 
     if (value.length > 0) {
@@ -582,33 +570,12 @@ function clearData(input, btnDafualtId, text) {
         else if (input == "#search_certificates_certNo") {
 
             document.getElementById('menu_certificates_certNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-
             resetBtn('#certNo_certificates_filter', "CERTIFICATE NUMBER");
-
             localStorage.certificate_number = '';
-
             $('#search_certificates_certNo').val("");
-
             populate_filters();
 
         }
-        // else if (input == "#search_new_room") {
-
-        //     document.getElementById('menu_new_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-
-        //     getRoom();
-
-        //     $('#search_new_room').val("");
-        //     $('#room_new_filter').text("ROOM");
-
-        // }
-
-
-        // if (btnDafualtId == "#dropdown_approve_room") {
-        //     populate_room();
-        //     $(input).val("");
-        //     $(btnDafualtId).text(text);
-        // }
     }
 }
 
@@ -618,9 +585,6 @@ var onSearch = function (btn_id, searchValue, emptyId) {
     var getId = searchValue;
 
     var found = false;
-    // console.log(localStorage.getItem("rows"));
-
-    // var rows = JSON.parse(localStorage.getItem(searchValue));
     var rows = allArr[searchValue];
 
     document.getElementById(searchValue).onkeypress = function (e) {
@@ -885,7 +849,6 @@ function createTable(tableID, tableData) {
         "paging": true,
         "processing": true,
         "searching": false,
-        // "ordering": true,
         "ordering": false,
         "serverSide": true,
         "destroy": true,
@@ -911,12 +874,6 @@ function createTable(tableID, tableData) {
             }, 50);
         },
         "columnDefs": [
-            // {
-            //     "targets": 0,
-            //     "data": tableData,
-            //     "orderable": false,
-            //     "defaultContent": "<input class='checkitem' type='checkbox' value=''/>"
-            // },
             {
                 'targets': 0,
                 'checkboxes': {
@@ -967,10 +924,6 @@ function createTable(tableID, tableData) {
             );
         });
 
-        // var rowsSelected = rows_selected.join(",").split(",");
-
-
-
         $.ajax({
             url: '../../ams_apis/slimTest/index.php/assetCert_print',
             method: 'post',
@@ -978,7 +931,6 @@ function createTable(tableID, tableData) {
             dataType: "JSON",
             success: function (data) {
                 var assets = "";
-                console.log(data);
                 for (var i = 0; i < data.rows; i++) {
                     assets += "<tr>" +
                         "<td>" + data.data[i].ASSET_MODEL + "</td>" +
@@ -1007,7 +959,6 @@ function createTable(tableID, tableData) {
             error: function (error) {
             }
         });
-        // viewCommAssets(rowsSelected);
         // Remove added elements
         $('input[name="id\[\]"]', form).remove();
 
