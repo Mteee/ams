@@ -1116,7 +1116,7 @@ function showDialogTransferDialog(rowsSelected, raw_assets) {
 
 
                         swal.fire({
-                            title: "Sub Location is required",
+                            title: "A valid Sub Location is required",
                             type: "error",
                             confirmButtonColor: "#419641",
                             showCloseButton: true,
@@ -1558,9 +1558,10 @@ var onSearch = function (btn_id, searchValue, emptyId) {
 
             if (value.length>0) {
 
-                setValueBtn(btn_id, value);
-                search();
-
+                if(btn_id.indexOf("_move_filter") > -1){
+                    setValueBtn(btn_id, value);
+                    search();
+                }
             }
 
         }
@@ -1788,6 +1789,7 @@ function clearData(input, btnDafualtId, text) {
             $('#level_transfer_filter').text("LEVEL");
             $('#dropdown_transfer_location').text("AREA");
             $('#dropdown_transfer_room').text("ROOM");
+
         } else if (input == "#search_transfer_level") {
             document.getElementById('menu_transfer_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
             document.getElementById('empty_transfer_Location').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
@@ -1858,7 +1860,7 @@ function clearData(input, btnDafualtId, text) {
             $('#search_transfer_sub').val("");
 
             //btn
-            $('#dropdown_transfer_sub').text("SUB  LOCATION");
+            $('#dropdown_transfer_sub').text("SUB LOCATION");
 
         } else if (input == "#search_approve_roomno") {
             document.getElementById('menu_approve_Room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
