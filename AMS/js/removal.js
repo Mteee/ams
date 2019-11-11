@@ -946,7 +946,7 @@ function checkFilter(key) {
 }
 
 
-var onSearch = function (searchValue, emptyId) {
+var onSearch = function (btn_id,searchValue, emptyId) {
 
     var getId = searchValue;
 
@@ -961,7 +961,12 @@ var onSearch = function (searchValue, emptyId) {
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            search();
+            var value = searchValue.value;
+
+            if (value.length > 0) {
+                setValueBtn(btn_id, value);
+                search();
+            }
         }
     }
 
@@ -1195,6 +1200,10 @@ function resetBtn(resetId, resetTxt) {
 
 function resetInput(resetId, resetTxt) {
     $(resetId).val(resetTxt);
+}
+
+function setValueBtn(id, value) {
+    $('#' + id).text(value);
 }
 
 

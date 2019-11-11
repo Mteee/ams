@@ -57,7 +57,7 @@ window.onload = function () {
 function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
-    $('#assetBody')['0'].innerHTML = assetId;
+    // $('#assetBody')['0'].innerHTML = assetId;
 
     $.ajax({
         url: "../../ams_apis//slimTest/index.php/singleAsset",
@@ -124,7 +124,7 @@ $("#sameLocation").change(function () {
 // $('#sameLocation').change(function(){
 //     if($('#sameLocation').prop("checked") === true){
 //         $("#location_new_sub_location").hide(); 
-//     }else{
+//     }else{ooutlook
 //         $("#location_new_sub_location").show(); 
 //     } 
 // });

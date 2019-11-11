@@ -92,7 +92,9 @@ function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
     // console.log($('#assetBody'));
-    $('#assetBody')['0'].innerHTML = assetId;
+    // $('#assetBody')['0'].innerHTML = assetId;
+
+    console.log(assetId);
 
     console.log("eye-icon");
     console.log('{"primary_asset_id" :"' + assetId + '"}');
@@ -1115,20 +1117,14 @@ function showDialogTransferDialog(rowsSelected, raw_assets) {
 
                         swal.fire({
                             title: "Sub Location is required",
-                            type: "question",
-                            showCancelButton: true,
+                            type: "error",
                             confirmButtonColor: "#419641",
-                            confirmButtonText: "Yes",
-                            cancelButtonText: "No",
-                            cancelButtonColor: "#C12E2A",
-                            closeOnConfirm: false,
-                            closeOnCancel: false,
                             showCloseButton: true,
                             allowOutsideClick: false,
                         }).then((result) => {
                             if (result.value) {
                                 // showDropdown(assets_selected);
-                                continuee(rowsSelected, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked);
+                                // continuee(rowsSelected, input_building, input_level, input_area, input_Room, input_sub, input_radio_checked);
 
                             } else if (
                                 /* Read more about handling dismissals below */
