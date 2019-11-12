@@ -489,7 +489,7 @@ $app->map(['GET','POST'],'/singleAsset',function(Request $request, Response $res
                 <tr>
                     <th style="width:25%" class="theading">ROOM </th>
                     <td style="width:25%"><span>'.$func->replaceNull($results->data[0]->ASSET_ROOM_NO).'</span></td>
-                    <th style="width:25%" class="theading">SERVICE DATE </th>
+                    <th style="width:25%" class="theading">SERVICE BY </th>
                     <td style="width:25%"><span>'.$func->replaceNull($results->data[0]->ASSET_SERVICE_BY).'</span></td>
                 </tr>
                 <tr>

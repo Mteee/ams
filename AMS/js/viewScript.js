@@ -8,38 +8,6 @@
 //Clear Local Storage
 clearLocalStorageFilters();
 
-function closeApp() {
-    swal.fire({
-        title: "Exit Application",
-        text: "Are you sure you want to exit?",
-        type: "question",
-        showCloseButton: true,
-        confirmButtonColor: "#C12E2A",
-        allowOutsideClick: true,
-        animation: false,
-        customClass: {
-            popup: 'animated tada'
-        }
-
-    }).then(function (result) {
-        if (result.value) {
-            closeMe();
-        } else if (
-            result.dismiss === Swal.DismissReason.cancel
-        ) {
-
-        }
-    })
-}
-
-function closeMe() {
-    // reset 
-    localStorage.clear();
-    open("../index.html", '_self')
-    window.location.replace("../index.html");
-    window.close();
-}
-
 //check for filter in local storage
 if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
     localStorage.backupFilter = localStorage.filter;
@@ -53,7 +21,6 @@ window.onload = function () {
         populate_dropdown();
     }
 }
-
 
 $('#searchView').fadeIn(500);
 
@@ -205,9 +172,15 @@ function search() {
                     }, 500);
                 });
 
-                $('#currentAssetsTable tbody').on('click', 'button', function () {
+                $('#currentAssetsTable tbody').on('click', 'button[name="view"]', function () {
                     var data = table_data["currentAssetsTable"].row($(this).parents('tr')).data();
                     viewAsset(data[0]);
+                });
+
+                $('#currentAssetsTable tbody').on('click', 'button[name="edit"]', function () {
+                    console.log("edit");
+                    editView(data[0]);
+
                 });
 
                 // $('#printAssetsView').fadeIn(500);
@@ -231,6 +204,10 @@ function search() {
         });
 
     }
+}
+
+function editView(id){
+    
 }
 
 function createTable(tableID, tableData) {
@@ -275,7 +252,8 @@ function createTable(tableID, tableData) {
                 "targets": -1,
                 "data": null,
                 "orderable": false,
-                "defaultContent": "<button type='button' class='btn btn-primary'><span class='fa fa-eye'></span></button>"
+                "defaultContent": "<button type='button' name='view' class='btn btn-primary'><span class='fa fa-eye'></span></button>"+
+                " <button type='button' name='edit' class='btn btn-info'><span class='fa fa-edit'></span></button>"
             },
             {
                 "className": "dt-center",
@@ -381,15 +359,15 @@ function viewPrintAssets(assets) {
                 document.getElementById('overlay-printView').style.display = "block";
             }
             else {
-                swal.fire({
-                    title: "Nothing Selected",
-                    text: "Please select at least one item to print",
-                    type: "error",
-                    showCloseButton: true,
-                    confirmButtonColor: "#C12E2A",
-                    allowOutsideClick: true,
+                // swal.fire({
+                //     title: "Nothing Selected",
+                //     text: "Please select at least one item to print",
+                //     type: "error",
+                //     showCloseButton: true,
+                //     confirmButtonColor: "#C12E2A",
+                //     allowOutsideClick: true,
 
-                })
+                // })
             }
         },
         error: function (err) {
@@ -408,7 +386,6 @@ function viewPrintAssets(assets) {
     });
 }
 
-
 function toggle_subs(sub_class) {
     $(sub_class).slideToggle('fast');
 }
@@ -423,33 +400,10 @@ function doit(type, fn, dl) {
         XLSX.writeFile(wb, 'Assets Selected ' + fn + " ." + (type || 'xlsx') || ('test.' + (type || 'xlsx')));
 }
 
-
-
 function checkboxSelectedLength() {
     var lengthh = $(":checkbox:checked").length;
     return lengthh;
 }
-
-//updating y to icons
-function updateLetterToIcon(letter) {
-    var results = "";
-    switch (letter) {
-        case "Y":
-            results = "<p class='text-success'><strong>YES</strong></p>";
-            break;
-        case "N":
-            results = "<p class='text-danger'><strong>NO</strong></p>";
-            break;
-        case "y":
-            results = "<p class='text-success'><strong>YES</strong></p>";
-            break;
-        case "n":
-            results = "<p class='text-danger'><strong>NO</strong></p>";
-            break;
-    }
-
-    return results;
-}//close updateLetterToIcon function
 
 // Building
 $('#menu_view_building').on('click', '.dropdown-item', function () {
@@ -532,10 +486,6 @@ var allArr = {
     search_view_assetNo: []
 };
 
-
-
-// onchanged menu
-
 function onItemSelect(menuId) {
 
     $('#menuAssets').on('click', '.dropdown-item', function () {
@@ -556,7 +506,6 @@ function setSearchValues(a, b, c) {
     $('#searchroomno').val(b);
     $('#searchlocation').val(c);
 }
-
 
 function getItems(url, id, scrollArea, menuid) {
 
@@ -608,8 +557,6 @@ var clusterize = {
     search_view_sublocaction: [],
     search_view_assetNo: []
 };
-
-
 
 var count = 0;
 
@@ -833,27 +780,6 @@ var onSearch = function (btn_id,searchValue, emptyId) {
     clusterize[getId].update(filterRows(rows));
 }
 
-function replaceAll(find, replace, str) {
-    while (str.indexOf(find) > -1) {
-        str = str.replace(find, replace);
-    }
-    return str;
-}
-
-
-function setValueBtn(id, value) {
-    $('#' + id).text(value);
-}
-function setValueInput(id, value) {
-    $('#' + id).val(value);
-}
-
-function setValueInputBtn(id_1, id_2, value) {
-    setValueBtn(id_1, value);
-    setValueInput(id_2, value);
-}
-
-
 
 function clearData(input, btnDafualtId, text) {
     // var inputData = document.getElementById(input).(val);
@@ -1007,14 +933,6 @@ function clearData(input, btnDafualtId, text) {
     }
 }
 
-function resetBtn(resetId, resetTxt) {
-    $(resetId).text(resetTxt);
-}
-
-function resetInput(resetId, resetTxt) {
-    $(resetId).val(resetTxt);
-}
-
 if (localStorage.filter == "ALL EQUIPMENT") {
 
     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
@@ -1041,22 +959,6 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
-}
-
-function toogleSub(filter) {
-    if (filter == "IT EQUIPMENT") {
-        $('.filter_sub').show();
-    } else {
-        $('.filter_sub').hide();
-    }
-}
-
-function resetBtn(resetId, resetTxt) {
-    $(resetId).text(resetTxt);
-}
-
-function resetInput(resetId, resetTxt) {
-    $(resetId).val(resetTxt);
 }
 
 function clearLocalStorageFilters() {

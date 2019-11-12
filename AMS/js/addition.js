@@ -9,39 +9,6 @@ if (localStorage.backupFilter == undefined || localStorage.backupFilter == "unde
     localStorage.filter = localStorage.backupFilter;
 }
 
-
-function closeApp() {
-    swal.fire({
-        title: "Exit Application",
-        text: "Are you sure you want to exit?",
-        type: "question",
-        showCloseButton: true,
-        confirmButtonColor: "#C12E2A",
-        allowOutsideClick: true,
-        animation: false,
-        customClass: {
-            popup: 'animated tada'
-        }
-
-    }).then(function (result) {
-        if (result.value) {
-            closeMe();
-        } else if (
-            result.dismiss === Swal.DismissReason.cancel
-        ) {
-
-        }
-    })
-}
-
-function closeMe() {
-    // reset 
-    localStorage.clear();
-    open("../index.html", '_self')
-    window.location.replace("../index.html");
-    window.close();
-}
-
 window.onload = function () {
     if (localStorage.building !== '' || localStorage.level !== '' || localStorage.area !== '' || localStorage.room_no !== '') {
         localStorage.building = '';
@@ -57,8 +24,6 @@ window.onload = function () {
 populate_dropdown();
 
 function addAsset() {
-
-
 
     var json_data = {
         asset_class: "",
@@ -159,7 +124,7 @@ function getAssetsType() {
 function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
-    $('#assetBody')['0'].innerHTML = assetId;
+    // $('#assetBody')['0'].innerHTML = assetId;
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/singleAsset",
         method: "POST",
@@ -357,7 +322,7 @@ function getItems(url, id, scrollArea, menuid) {
         error: function (data_err) {
             swal.fire({
                 title: "Unexpected Error #42404",
-                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : #'"+id+"'",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : #'" + id + "'",
                 type: "error",
                 showCloseButton: true,
                 confirmButtonColor: "#C12E2A",
@@ -374,6 +339,10 @@ var clusterize = {
     search_view_level: [],
     search_view_building: []
 };
+
+var tableArr = {
+    currentAssetsTable:[]
+}
 
 var count = 0;
 
@@ -450,6 +419,8 @@ function search() {
 
         $('#searchView').hide();
         $('#loader').fadeIn(500);
+
+        console.log(building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location + " - " + asset_no);
         document.getElementById('current').innerHTML = "";
         $.ajax({
             url: "../../ams_apis/slimTest/index.php/getAll_Assets_withNo_Cert_no",
@@ -490,8 +461,9 @@ function search() {
                     str += ']}'
                     str = replaceAll("\n", "", str);
                     str = (JSON.parse(str));
+                    console.log(str);
                     table = createTable("#currentAssetsTable", str.data);
-
+                    tableArr['currentAssetsTable'] = table;
                 }
                 else {
                     table = createTable("#currentAssetsTable", data.data);
@@ -509,7 +481,7 @@ function search() {
                 });
 
                 $('#currentAssetsTable tbody').on('click', 'button', function () {
-                    var data = table.row($(this).parents('tr')).data();
+                    var data = tableArr['currentAssetsTable'].row($(this).parents('tr')).data();
                     viewAsset(data[0]);
                 });
 
@@ -534,36 +506,6 @@ function checkboxSelectedLength() {
     var lengthh = $(":checkbox:checked").length;
     return lengthh;
 }
-
-//updating y to icons
-function updateLetterToIcon(letter) {
-    var results = "";
-
-    switch (letter) {
-        case "Y":
-            results = "<p class='text-success'><strong>YES</strong></p>";
-            break;
-        case "N":
-            results = "<p class='text-danger'><strong>NO</strong></p>";
-            break;
-        case "y":
-            results = "<p class='text-success'><strong>YES</strong></p>";
-            break;
-        case "n":
-            results = "<p class='text-danger'><strong>NO</strong></p>";
-            break;
-    }
-
-    return results;
-}//close updateLetterToIcon function
-
-function replaceAll(find, replace, str) {
-    while (str.indexOf(find) > -1) {
-        str = str.replace(find, replace);
-    }
-    return str;
-}
-
 
 function createTable(tableID, tableData) {
     var table = $(tableID).DataTable({
@@ -691,7 +633,7 @@ function viewCommAssets(assets) {
             }
         },
         error: function (err) {
-           swal.fire({
+            swal.fire({
                 title: "Unexpected Error #42404",
                 text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'generate_Cert_no'",
                 type: "error",
@@ -1006,14 +948,6 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     $('#class-options').prop('disabled', 'disabled');
 }
 
-function toogleSub(filter) {
-    if (filter == "IT EQUIPMENT") {
-        $('.filter_sub').show();
-    } else {
-        $('.filter_sub').hide();
-    }
-}
-
 var defaultRooms = {
     "FACILITIES MANAGEMENT": "1B27-1",
     "MEDICAL EQUIPMENT": "1G11-1",
@@ -1043,14 +977,6 @@ $('#asset_class').on('change', function () {
 $('#search_new_room').val(defaultRooms["FACILITIES MANAGEMENT"]);
 $('#room_new_filter').val(defaultRooms["FACILITIES MANAGEMENT"]);
 
-
-function resetBtn(resetId, resetTxt) {
-    $(resetId).text(resetTxt);
-}
-
-function resetInput(resetId, resetTxt) {
-    $(resetId).val(resetTxt);
-}
 
 function clearLocalStorageFilters() {
     localStorage.building = '';
@@ -1087,7 +1013,6 @@ function cleaAllFilters() {
     $('#view_description').val("");
 }
 
-
 var onSearch = function (btn_id, searchValue, emptyId) {
 
     var getId = searchValue;
@@ -1101,10 +1026,10 @@ var onSearch = function (btn_id, searchValue, emptyId) {
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            
+
             var value = searchValue.value;
 
-            if (value.length>0) {
+            if (value.length > 0) {
 
                 setValueBtn(btn_id, value);
                 search();
@@ -1146,7 +1071,6 @@ var onSearch = function (btn_id, searchValue, emptyId) {
     clusterize[getId].update(filterRows(rows));
 }
 
-
 var onSearch_new = function (searchValue) {
     document.getElementById(searchValue).onkeypress = function (e) {
         if (e.keyCode == 13) {
@@ -1154,18 +1078,6 @@ var onSearch_new = function (searchValue) {
             search();
         }
     }
-}
-
-function setValueBtn(id, value) {
-    $('#' + id).text(value);
-}
-function setValueInput(id, value) {
-    $('#' + id).val(value);
-}
-
-function setValueInputBtn(id_1, id_2, value) {
-    setValueBtn(id_1, value);
-    setValueInput(id_2, value);
 }
 
 var count = 1;
@@ -1180,8 +1092,6 @@ $('#asset_increment').on('click', function (e) {
     $(outerElement[0]).appendTo(target);
     document.getElementById(outerElement[1]).scrollIntoView();
 });
-
-
 
 function checkFilter(key) {
     var res = {};
@@ -1439,7 +1349,6 @@ var newAssetGroup = function () {
         "1": focus_div
     };
 }
-
 
 $('#asset_group').on('click', 'button', function (e) {
     e.preventDefault();
