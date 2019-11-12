@@ -178,9 +178,8 @@ function search() {
                 });
 
                 $('#currentAssetsTable tbody').on('click', 'button[name="edit"]', function () {
-                    console.log("edit");
+                    var data = table_data["currentAssetsTable"].row($(this).parents('tr')).data();
                     editView(data[0]);
-
                 });
 
                 // $('#printAssetsView').fadeIn(500);
@@ -206,9 +205,30 @@ function search() {
     }
 }
 
-function editView(id){
-    
+function editView(id) {
+    $("#overlay-assets-edit").show();
+    document.getElementById("asset_number").innerHTML = "<strong>" + id + "</strong>";
+
+    $.ajax({
+        url: '../../ams_apis/slimTest/index.php/edit_assets',
+        method: 'POST',
+        dataType: 'JSON',
+        data: '{"asset_id":"' + id + '"}',
+        success: function (data) {
+            console.log(data[0].data);
+            if (data[0].rows == 1) {
+                $("#edit_loader").hide();
+                document.getElementById("assets_body_edit").innerHTML = data[0].data;
+            }
+        }
+    })
 }
+
+$("#update_assets").off().on('click',function(e){
+    var asset_model = document.getElementById("").value,
+        asset_service_date = document.getElementById("").value,
+        asset_type
+});
 
 function createTable(tableID, tableData) {
     var table = $(tableID).DataTable({
@@ -252,8 +272,8 @@ function createTable(tableID, tableData) {
                 "targets": -1,
                 "data": null,
                 "orderable": false,
-                "defaultContent": "<button type='button' name='view' class='btn btn-primary'><span class='fa fa-eye'></span></button>"+
-                " <button type='button' name='edit' class='btn btn-info'><span class='fa fa-edit'></span></button>"
+                "defaultContent": "<button type='button' name='view' class='btn btn-primary'><span class='fa fa-eye'></span></button>" +
+                    " <button type='button' name='edit' class='btn btn-info'><span class='fa fa-edit'></span></button>"
             },
             {
                 "className": "dt-center",
@@ -721,7 +741,7 @@ function checkFilter(key) {
     return res;
 }
 
-var onSearch = function (btn_id,searchValue, emptyId) {
+var onSearch = function (btn_id, searchValue, emptyId) {
 
     var getId = searchValue;
 
@@ -941,7 +961,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
     $('#class-options').prop('disabled', false);
 
-    $('#class-options').unbind().on('change',function () {
+    $('#class-options').unbind().on('change', function () {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
         toogleSub(filter);

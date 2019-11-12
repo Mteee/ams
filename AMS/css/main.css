@@ -347,18 +347,21 @@ caption {
     margin: 149px auto;
 }
 
-.dropdown-loader {
+.dropdown-loader, .edit_assets_loader {
     /* position: absolute;
     margin: 320px auto;
     z-index: 1;
     width: 50px; */
     text-align: center;
+    margin: 0 auto;
 }
 
 .dropdown-loader img {
     width: 50px;
-    text-align: center;
-    margin: 0 auto;
+}
+
+.edit_assets_loader img {
+    width: 226px;
 }
 
 .dropdown-menu {

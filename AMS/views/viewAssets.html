@@ -133,6 +133,30 @@
             height: 207px;
             overflow-y: auto;
         }
+
+        #overlay-assets-edit {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            z-index: 9999999 !important;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .asset-assets-added-details {
+            position: relative;
+            margin: 10% auto;
+            width: 668px;
+            height: 459px;
+            border-radius: 5px;
+            background: white;
+            z-index: 2;
+            position: relative;
+        }
     </style>
     <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 </head>
@@ -338,6 +362,45 @@
         </div>
     </div>
 
+    <div id="overlay-assets-edit" style="z-index: 44 !important;">
+        <form action="#send" id="add_users" method="POST">
+            <div class="asset-assets-added-details animated bounceInUp" id="assets-added">
+                <input type="reset" class="exit-asset" onclick="closeAsset('overlay-assets-edit')" value="x">
+                <div class="asset-header text-center text-success" id="user_name">
+                    <strong>EDITTING ASSET</strong>
+                </div>
+
+                <div class="asset-assets-added-body" style="margin-top: 20px;">
+                    <div class="row">
+                        <div class="col-sm-10 offset-1">
+
+                            <div class="user-info" id="assets_body_edit">
+                                
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="asset-transfer-footer text-right">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="text-muted float-left">EDITING ASSET NUMBER <strong><span id="asset_number"></span></strong></p>
+                        </div>
+                        <div class="col-md-6">
+                            <button id="update_assets" type="button" class="btn btn-success">Update Assets</button>
+                            <button type="reset" class="btn btn-danger"
+                                onclick="closeAsset('overlay-assets-edit')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- row -->
+        </form>
+    </div>
+
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
             style="background: rgb(59, 56, 56);height:80px">
@@ -500,7 +563,7 @@
                                                 <div class="dropdown-menu" aria-labelledby="level_view_filter"
                                                     id="scroll_view_level">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
                                                             <input type="search" id="search_view_level"
                                                                 class="form-control" placeholder="Level"
@@ -567,7 +630,7 @@
                                                 <div class="dropdown-menu clusterize-scroll" id="scroll_view_room"
                                                     aria-labelledby="room_view_filter">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
                                                             <input type="search" id="search_view_room"
                                                                 class="form-control" placeholder="Room"
@@ -602,7 +665,7 @@
                                                     id="scroll_view_sublocaction"
                                                     aria-labelledby="sublocaction_view_filter">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
                                                             <input type="search" id="search_view_sublocaction"
                                                                 class="form-control" placeholder="Sub Location"
@@ -627,7 +690,7 @@
                                                 </div>
                                             </div>
                                         </th>
-                                    
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -639,7 +702,7 @@
                                                 <div class="dropdown-menu clusterize-scroll" id="scroll_view_assetNo"
                                                     aria-labelledby="assetNo_view_filter">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
                                                             <input type="search" id="search_view_assetNo"
                                                                 class="form-control" placeholder="ASSET NO"
@@ -755,109 +818,109 @@
         <span class="fa fa-info"></span><span class="tooltiptext"><strong></strong>Press me to tour the asset system
             </strong></span> -->
 
-        <script src="../js/jquery.js"></script>
-        <script src="../js/clusterize.min.js"></script>
-        <!-- <script src="../js/bootstrap.js"></script> -->
-        <script src="../js/bootstrap.bundle.js"></script>
-        <script src="../js/tablefilter.js"></script>
-        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script src="../js/export/shim.min.js"></script>
-        <script src="../js/export/xlsx.full.min.js"></script>
-        <script type="text/javascript" src="../js/intro.js"></script>
-        <script src="../js/export/Blob.js"></script>
-        <script src="../js/export/FileSaver.js"></script>
-        <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
-        <script src="../js/inc/menu.js"></script>
-        <script src="../js/inc/inc_methods.js"></script>
-        <script src="../js/viewScript.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
-        <script type="text/javascript"
-            src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
-        <script src="../js/printThis.js "></script>
-        <script>
-            function printData() {
-                // var divToPrint = document.getElementById("tablePrint");
-                // var htmlToPrint = '' +
-                //     '<style type="text/css">' +
-                //     'table th, table td {' +
-                //     'border:1px solid #000;' +
-                //     'padding:0.5em;' +
-                //     'font-size:12pt;' +
-                //     '}' +
-                //     '</style>';
-                // htmlToPrint += divToPrint.outerHTML;
-                // newWin = window.open("");
-                // newWin.document.write(htmlToPrint);
-                // newWin.print();
-                // newWin.close();
+    <script src="../js/jquery.js"></script>
+    <script src="../js/clusterize.min.js"></script>
+    <!-- <script src="../js/bootstrap.js"></script> -->
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/tablefilter.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="../js/export/shim.min.js"></script>
+    <script src="../js/export/xlsx.full.min.js"></script>
+    <script type="text/javascript" src="../js/intro.js"></script>
+    <script src="../js/export/Blob.js"></script>
+    <script src="../js/export/FileSaver.js"></script>
+    <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
+    <script src="../js/inc/menu.js"></script>
+    <script src="../js/inc/inc_methods.js"></script>
+    <script src="../js/viewScript.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
+    <script type="text/javascript"
+        src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    <script src="../js/printThis.js "></script>
+    <script>
+        function printData() {
+            // var divToPrint = document.getElementById("tablePrint");
+            // var htmlToPrint = '' +
+            //     '<style type="text/css">' +
+            //     'table th, table td {' +
+            //     'border:1px solid #000;' +
+            //     'padding:0.5em;' +
+            //     'font-size:12pt;' +
+            //     '}' +
+            //     '</style>';
+            // htmlToPrint += divToPrint.outerHTML;
+            // newWin = window.open("");
+            // newWin.document.write(htmlToPrint);
+            // newWin.print();
+            // newWin.close();
 
-                $('#tablePrint').printThis({
-                    debug: false, // show the iframe for debugging
-                    importCSS: true, // import parent page css
-                    importStyle: true, // import style tags
-                    printContainer: true, // print outer container/$.selector
-                    loadCSS: ["../css/main_add_new.css", "../css/bootstrap-theme.css"], // path to additional css file - use an array [] for multiple
-                    pageTitle: "ASSETS VIEW", // add title to print page
-                    removeInline: false, // remove inline styles from print elements
-                    removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
-                    printDelay: 333, // variable print delay
-                    header: false, // prefix to html
-                    footer: false, // postfix to html
-                    base: false, // preserve the BASE tag or accept a string for the URL
-                    formValues: true, // preserve input/form values
-                    canvas: true, // copy canvas content
-                    doctypeString: '<!DOCTYPE HTML>', // enter a different doctype for older markup
-                    removeScripts: false, // remove script tags from print content
-                    copyTagClasses: true, // copy classes from the html & body tag
-                    beforePrintEvent: null, // function for printEvent in iframe
-                    beforePrint: null, // function called before iframe is filled
-                    afterPrint: null
-                });
-            }
-
-
-            const $menu = $('#menu-list');
-
-            $(document).mouseup(e => {
-                if (!$menu.is(e.target) // if the target of the click isn't the container...
-                    &&
-                    $menu.has(e.target).length === 0) // ... nor a descendant of the container
-                {
-                    // $menu.removeClass('is-active');
-                    $('#menu-list').fadeOut(500);
-                }
+            $('#tablePrint').printThis({
+                debug: false, // show the iframe for debugging
+                importCSS: true, // import parent page css
+                importStyle: true, // import style tags
+                printContainer: true, // print outer container/$.selector
+                loadCSS: ["../css/main_add_new.css", "../css/bootstrap-theme.css"], // path to additional css file - use an array [] for multiple
+                pageTitle: "ASSETS VIEW", // add title to print page
+                removeInline: false, // remove inline styles from print elements
+                removeInlineSelector: false, // custom selectors to filter inline styles. removeInline must be true
+                printDelay: 333, // variable print delay
+                header: false, // prefix to html
+                footer: false, // postfix to html
+                base: false, // preserve the BASE tag or accept a string for the URL
+                formValues: true, // preserve input/form values
+                canvas: true, // copy canvas content
+                doctypeString: '<!DOCTYPE HTML>', // enter a different doctype for older markup
+                removeScripts: false, // remove script tags from print content
+                copyTagClasses: true, // copy classes from the html & body tag
+                beforePrintEvent: null, // function for printEvent in iframe
+                beforePrint: null, // function called before iframe is filled
+                afterPrint: null
             });
+        }
 
-            function showNav() {
-                $('#menu-list').slideToggle('fast');
+
+        const $menu = $('#menu-list');
+
+        $(document).mouseup(e => {
+            if (!$menu.is(e.target) // if the target of the click isn't the container...
+                &&
+                $menu.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                // $menu.removeClass('is-active');
+                $('#menu-list').fadeOut(500);
             }
-            document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
+        });
 
-            /*-------   Zoom handler -------*/
-            // var width = screen.width;
-            // var height = screen.height;
+        function showNav() {
+            $('#menu-list').slideToggle('fast');
+        }
+        document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
-            // console.log(width + " - " +height);
+        /*-------   Zoom handler -------*/
+        // var width = screen.width;
+        // var height = screen.height;
 
-            // if ((width < 1920) && (height < 1080)) {
-            //     toggleZoomScreen("80%");
-            // } else {
-            //     toggleZoomScreen("100%");
-            // }
+        // console.log(width + " - " +height);
 
-            toggleZoomScreen(window.innerWidth / window.outerWidth);
+        // if ((width < 1920) && (height < 1080)) {
+        //     toggleZoomScreen("80%");
+        // } else {
+        //     toggleZoomScreen("100%");
+        // }
 
-            function toggleZoomScreen(value) {
-                document.body.style.zoom = value;
-            }
+        toggleZoomScreen(window.innerWidth / window.outerWidth);
 
-            $("#com_item,#com_list").mouseover(function () {
-                $("#com_list").fadeIn();
-            });
+        function toggleZoomScreen(value) {
+            document.body.style.zoom = value;
+        }
 
-            $("#com_item,#com_list").mouseleave(function () {
-                $("#com_list").fadeOut();
-            });
+        $("#com_item,#com_list").mouseover(function () {
+            $("#com_list").fadeIn();
+        });
+
+        $("#com_item,#com_list").mouseleave(function () {
+            $("#com_list").fadeOut();
+        });
 
             // $("ul#com_item.dropdown-time>li.menu-item").click(function() {
             //     $("#com_list").slideToggle(2000);
@@ -867,23 +930,23 @@
             // tables
 
 
-            /*------   Zoom handler -----*/
-        </script>
-        <!--Start of Tawk.to Script-->
-        <script type="text/javascript">
-            var Tawk_API = Tawk_API || {},
-                Tawk_LoadStart = new Date();
-            (function () {
-                var s1 = document.createElement("script"),
-                    s0 = document.getElementsByTagName("script")[0];
-                s1.async = true;
-                s1.src = 'https://embed.tawk.to/5dc3eb8ce4c2fa4b6bda7284/default';
-                s1.charset = 'UTF-8';
-                s1.setAttribute('crossorigin', '*');
-                s0.parentNode.insertBefore(s1, s0);
-            })();
-        </script>
-        <!--End of Tawk.to Script-->
+        /*------   Zoom handler -----*/
+    </script>
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {},
+            Tawk_LoadStart = new Date();
+        (function () {
+            var s1 = document.createElement("script"),
+                s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/5dc3eb8ce4c2fa4b6bda7284/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
 </body>
 
 </html>

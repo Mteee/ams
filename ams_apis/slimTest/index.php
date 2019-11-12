@@ -5413,6 +5413,7 @@ $app->map(['GET','POST'],'/updateAdminUser',function(Request $request, Response 
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+
 $app->map(['GET','POST'],'/createUser',function(Request $request, Response $response){
     try{
         global $func;
@@ -5440,6 +5441,96 @@ $app->map(['GET','POST'],'/createUser',function(Request $request, Response $resp
             else{
                 echo json_encode(array("rows" => 0 ,"data" =>"User was not Added"));
             }
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+$app->map(['GET','POST'],'/edit_assets',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $asset_id = strtoupper($data->asset_id); 
+        $response = array();
+
+        $sql = "SELECT * FROM AMSD.ASSETS WHERE ASSET_ID = '$asset_id'";
+
+        $res = $func->executeQuery($sql);
+
+        if($res){
+            // echo $res;
+            $get_data = json_decode($res);
+
+            $asset_type = $func->executeQuery("SELECT ASSET_TYPE_DESC FROM AMSD.ASSETS_TYPE ORDER BY ASSET_TYPEID");
+
+            if($asset_type){
+                $asset_type_dc = json_decode($asset_type);
+                $count = count($asset_type_dc->data);
+                $str = '<div class="row" id="user_info">
+                        <div class="col-md-4 p-0">
+                            <div class="form-group">
+                                <div class="col-md-12 p-0">
+                                    <label for="v_asset_type">ASSET MODEL</label>
+                                </div>
+                                <div class="col-md-12 p-0">
+                                    <input type="text" value="'.$func->replaceNull($get_data->data[0]->ASSET_MODEL).'" required name="v_asset_type" class="form-control" id="v_asset_type">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 p-0">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <label for="v_service_date">ASSET SERVICE DATE</label>
+                                </div>
+                                <div class="col-md-12">
+                                    <input type="date" value="'.$func->replaceNull($get_data->data[0]->ASSET_SERVICE_DT).'" required name="v_service_date" class="form-control" id="v_service_date">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 p-0">
+                            <div class="form-group">
+                                <div class="col-md-12 p-0">
+                                    <label for="v_service_by">ASSET TYPE</label>
+                                </div>
+                                <div class="col-md-12 p-0">
+                                    <select id="asset_types" required class="form-control">
+                                        <option value="db_opt">'.$func->replaceNull($get_data->data[0]->ASSET_TYPE).'</option>';
+
+                                        for($t=0;$t<$count;$t++){
+                                            $str .= '<option value=val_'.$t.'>'.$asset_type_dc->data[$t]->ASSET_TYPE_DESC.'</option>';
+                                        }
+                                        
+                                $str .= ' </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row" id="user_info">
+                        <div class="col-md-4 p-0">
+                            <div class="form-group">
+                                <div class="col-md-12 p-0">
+                                    <label for="v_asset_type">ASSET COMMMENTS</label>
+                                </div>
+                                <div class="col-md-12 p-0">
+                                    <input type="text" value="'.$func->replaceNull($get_data->data[0]->ASSET_COMMENTS).'" required name="v_asset_type" class="form-control" id="v_asset_type">
+                                </div>
+                            </div>
+                        </div>
+                    </div>';
+
+                    array_push($response,array("data"=>$str,"rows"=>"1"));
+                    return json_encode($response);
+
+            }
+
+        }
+        else{
+            // array_push($response,array("data"=>"","rows"=>"0"));
+            // return json_encode($response);
         }
 
     }catch (Exception $pdoex) {
