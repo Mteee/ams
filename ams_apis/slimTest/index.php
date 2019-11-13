@@ -1613,6 +1613,7 @@ $app->map(['GET','POST'],'/assets_not_linked', function(Request $request, Respon
     AND l_new.ASSET_ROOM_NO LIKE '%$room_no%'
     AND a_new.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
     AND a_new.ASSET_ID = a_new.ASSET_PRIMARY_ID
+    AND a_new.ASSET_STATUS = '1'
     GROUP BY a_new.ASSET_ID,l_new.ASSET_ROOM_NO,l_new.ASSET_AREA_NAME,a_new.ASSET_CLASSIFICATION || ' - ' || ASSET_DESCRIPTION";
 
     $assets_no =$func->executeQuery($sql);
@@ -2055,7 +2056,6 @@ $app->map(['GET','POST'],'/asset_primary_id_view', function(Request $request, Re
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA LIKE '%$area%' OR L_NEW.ASSET_AREA IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
-            AND A_OLD.ASSET_STATUS = '1'
             AND A_OLD.ASSET_PRIMARY_ID LIKE '%$asset_primary_id%'
             AND A_OLD.ASSET_STATUS = '1'
             GROUP BY A_OLD.ASSET_PRIMARY_ID
