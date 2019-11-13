@@ -5513,10 +5513,10 @@ $app->map(['GET','POST'],'/edit_assets',function(Request $request, Response $res
                         <div class="col-md-4 p-0">
                             <div class="form-group">
                                 <div class="col-md-12 p-0">
-                                    <label for="v_asset_type">ASSET COMMMENTS</label>
+                                    <label for="v_asset_comments">ASSET COMMMENTS</label>
                                 </div>
                                 <div class="col-md-12 p-0">
-                                    <input type="text" value="'.$func->replaceNull($get_data->data[0]->ASSET_COMMENTS).'" required name="v_asset_type" class="form-control" id="v_asset_type">
+                                    <input type="text" value="'.$func->replaceNull($get_data->data[0]->ASSET_COMMENTS).'" required name="v_asset_comments" class="form-control" id="v_asset_comments">
                                 </div>
                             </div>
                         </div>
@@ -5536,6 +5536,34 @@ $app->map(['GET','POST'],'/edit_assets',function(Request $request, Response $res
     }catch (Exception $pdoex) {
         echo "Database Error : " . $pdoex->getMessage();
     }
+});
+
+$app->map(['GET','POST'],'/update_asset', function(Request $request, Response $responce){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $asset_model = strtoupper($data->asset_model); 
+    $asset_service_date = strtoupper($data->asset_service_date); 
+    $asset_comments = strtoupper($data->asset_comments); 
+    $asset_id = strtoupper($data->asset_id); 
+    $response = array();
+
+    $sql_update = "UPDATE AMSD.ASSETS SET ASSET_MODEL = '$asset_model', ASSET_SERVICE_DT = '$asset_service_date', ASSET_COMMENTS='$asset_comments' WHERE ASSET_ID = '$asset_id'";
+
+    $update_exec = $func->executeNoNQuery($sql_update);
+
+    if($update_exec){
+        $code = "update_success";
+        $message = "SUCCESSFULLY UPDATED ASSET DETAILS";
+        array_push($response,array("code"=>$code,"message"=>$message));
+        return json_encode($response);
+    }
+    else{
+        $code = "update_failed";
+        $message = "FAILED TO UPDATE ASSET DETAILS";
+        array_push($response,array("code"=>$code,"message"=>$message));
+        return json_encode($response);
+    }
+
 });
 
 $app->run();

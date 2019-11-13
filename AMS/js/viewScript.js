@@ -225,9 +225,63 @@ function editView(id) {
 }
 
 $("#update_assets").off().on('click',function(e){
-    var asset_model = document.getElementById("").value,
-        asset_service_date = document.getElementById("").value,
-        asset_type
+
+    var asset_model = document.getElementById("v_asset_type").value,
+        asset_service_date = document.getElementById("v_service_date").value,
+        asset_comments = document.getElementById("v_asset_comments").value;
+         asset_type = $("#asset_types option:selected").text();
+         asset_id = $("#asset_number").text();
+
+         console.log("asset_model : "+asset_model + " " + "asset_service_date : "+ asset_service_date + " " + "asset_comments : "+asset_comments + " " + "v : "+asset_type + " asset_id : " + asset_id);
+
+
+        if( asset_model.length > 0 && asset_service_date.length > 0 && asset_comments.length > 0 && asset_type.length > 0){
+            console.log(asset_model + " " + getDatee(asset_service_date) + " " + asset_comments + " " + asset_type);
+
+            $.ajax({
+                url:'../../ams_apis/slimTest/index.php/update_asset',
+                dataType:'JSON',
+                method:'POST',
+                data:'{"asset_model":"'+asset_model+'","asset_service_date":"'+getDatee(asset_service_date)+'","asset_comments":"'+asset_comments+'","asset_id":"'+asset_id+'"}',
+                success:function(data){
+                    console.log(data);
+                    if(data[0].code == "update_success"){
+                        closeAsset("overlay-assets-edit");
+
+                        swal.fire({
+                            title: "Updated Success",
+                            html: data[0].message,
+                            type: "success",
+                            showCloseButton: true,
+                            confirmButtonColor: "#419641",
+                            allowOutsideClick: true,
+        
+                        })
+                    }
+                },
+                error : function(data_error){
+                    console.log(data_error);
+                }
+
+            })
+        }
+        else{
+            swal.fire({
+                title:"All Fields Are Required",
+                type:"error",
+                allowOutsideClick:true,
+                showCancelButton:false,
+                confirmButtonColor:"#FF0000",
+                animation:false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+            }).then(function(results){
+                if(results.value == true){
+
+                }
+            })
+        }
 });
 
 function createTable(tableID, tableData) {

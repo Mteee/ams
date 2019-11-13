@@ -88,3 +88,22 @@ function toogleSub(filter) {
     }
 }
 
+
+function getDatee(a) {
+    var date = new Date(a);
+
+    var day = parseInt(date.getDate());
+    var month = parseInt(date.getMonth()) + 1;
+    var year = parseInt(date.getFullYear());
+
+    if (year < 10) {
+        year = "0" + year;
+    }
+    if (month < 10) {
+        month = "0" + month;
+    }
+    if (day < 10) {
+        day = "0" + day;
+    }
+    return (year + "/" + month + "/" + day);
+}
