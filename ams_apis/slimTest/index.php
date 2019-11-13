@@ -24,6 +24,8 @@ $app->map(['GET','POST'],'/asset_primary_view_v', function(Request $request, Res
     $room_no = strtoupper($data->room_no);
     $asset_primary_id = strtoupper($data->asset_primary_id);
     $asset_class = strtoupper($data->asset_class);
+    $asset_area_name = strtoupper($data->asset_area_name);
+
     $response = array();
 
     if($asset_class == 'ALL EQUIPMENT'){
@@ -40,6 +42,7 @@ $app->map(['GET','POST'],'/asset_primary_view_v', function(Request $request, Res
             AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' 
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
+            AND (L_NEW.ASSET_AREA LIKE '%$asset_area_name%' OR L_NEW.ASSET_AREA IS NULL)
             AND (A_OLD.ASSET_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_ID IS NOT NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             GROUP BY A_OLD.ASSET_ID
@@ -79,6 +82,8 @@ $app->map(['GET','POST'],'/asset_sub_location_view_v', function(Request $request
     $sub_location = strtoupper($data->sub_location);
     $asset_primary_id = strtoupper($data->asset_primary_id);
     $asset_class = strtoupper($data->asset_class);
+    $asset_area_name = strtoupper($data->asset_area_name);
+
     $response = array();
 
     if($asset_class == 'ALL EQUIPMENT'){
@@ -96,6 +101,7 @@ $app->map(['GET','POST'],'/asset_sub_location_view_v', function(Request $request
             AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' OR A_OLD.ASSET_CLASS IS NULL)
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
+            AND (L_NEW.ASSET_AREA LIKE '%$asset_area_name%' OR L_NEW.ASSET_AREA IS NULL)
             AND (A_OLD.ASSET_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_ID IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             --AND A_OLD.ASSET_STATUS = '1'
@@ -135,6 +141,8 @@ $app->map(['GET','POST'],'/asset_room_no_view_v', function(Request $request, Res
     $room_no = strtoupper($data->room_no);
     $asset_primary_id = strtoupper($data->asset_primary_id);
     $asset_class = strtoupper($data->asset_class);
+    $asset_area_name = strtoupper($data->asset_area_name);
+
     $response = array();
 
     if($asset_class == 'ALL EQUIPMENT'){
@@ -151,6 +159,7 @@ $app->map(['GET','POST'],'/asset_room_no_view_v', function(Request $request, Res
             AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%')
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
+            AND (L_NEW.ASSET_AREA LIKE '%$asset_area_name%' OR L_NEW.ASSET_AREA IS NULL)
             AND (A_OLD.ASSET_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_ID IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             --AND A_OLD.ASSET_STATUS = '1'
@@ -190,6 +199,8 @@ $app->map(['GET','POST'],'/asset_area_view_v', function(Request $request, Respon
     $asset_primary_id = strtoupper($data->asset_primary_id);
     $sub_location = strtoupper($data->sub_location);
     $asset_class = strtoupper($data->asset_class);
+    $asset_area_name = strtoupper($data->asset_area_name);
+
     $response = array();
 
     if($asset_class == 'ALL EQUIPMENT'){
@@ -197,7 +208,7 @@ $app->map(['GET','POST'],'/asset_area_view_v', function(Request $request, Respon
     }
 
     $sql = "SELECT 
-                L_NEW.ASSET_AREA_NAME
+                L_NEW.ASSET_AREA_NAME 
             FROM 
                 AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
@@ -207,6 +218,7 @@ $app->map(['GET','POST'],'/asset_area_view_v', function(Request $request, Respon
             AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%')
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
+            AND (L_NEW.ASSET_AREA LIKE '%$asset_area_name%' OR L_NEW.ASSET_AREA IS NULL)
             AND (A_OLD.ASSET_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_ID IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             ---AND A_OLD.ASSET_STATUS = '1'
@@ -234,6 +246,66 @@ $app->map(['GET','POST'],'/asset_area_view_v', function(Request $request, Respon
         echo json_encode(array("rows" => 0 ,"data" =>"Error"));
     }
 });
+
+
+$app->map(['GET','POST'],'/asset_area_name_view_v', function(Request $request, Response $response){
+    global $func;
+    $data = json_decode(file_get_contents('php://input'));
+    $building = strtoupper($data->building);
+    $level = strtoupper($data->level);
+    $area = strtoupper($data->area);
+    $room_no = strtoupper($data->room_no);
+    $asset_primary_id = strtoupper($data->asset_primary_id);
+    $sub_location = strtoupper($data->sub_location);
+    $asset_class = strtoupper($data->asset_class);
+    $asset_area_name = strtoupper($data->asset_area_name);
+    $response = array();
+
+    if($asset_class == 'ALL EQUIPMENT'){
+        $asset_class = '';
+    }
+
+    $sql = "SELECT 
+                L_NEW.ASSET_AREA 
+            FROM 
+                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
+            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+            AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
+            AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
+            AND L_NEW.ASSET_BUILDING LIKE '%$building%'
+            AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%')
+            AND L_NEW.ASSET_LEVEL LIKE '%$level%'
+            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
+            AND (L_NEW.ASSET_AREA LIKE '%$asset_area_name%' OR L_NEW.ASSET_AREA IS NULL)
+            AND (A_OLD.ASSET_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_ID IS NULL)
+            AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
+            ---AND A_OLD.ASSET_STATUS = '1'
+            GROUP BY L_NEW.ASSET_AREA
+            ORDER BY L_NEW.ASSET_AREA";
+
+    $assets_no =$func->executeQuery($sql);
+
+    if($assets_no){
+        
+        $res = json_decode($assets_no);
+        $length = $res->rows;
+        foreach($res->data as $value){
+
+            $response []= $value->ASSET_AREA;
+            // $response []= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+            // $items .= '<input type="button" class="dropdown-item form-control" type="button" value="'.$value->ASSET_ID.'"/>';
+
+        }
+
+        // echo $items;
+         echo json_encode(array("rows"=>$length,"data" =>$response));
+    }
+    else{
+        echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+    }
+});
+
+
 
 $app->map(['GET','POST'],'/asset_level_new_view_v', function(Request $request, Response $response){
     global $func;
@@ -300,6 +372,8 @@ $app->map(['GET','POST'],'/building_view_v', function(Request $request, Response
     $sub_location = strtoupper($data->sub_location);
     $asset_primary_id = strtoupper($data->asset_primary_id);
     $asset_class = strtoupper($data->asset_class);
+    $asset_area_name = strtoupper($data->asset_area_name);
+
     $response = array();
 
     if($asset_class == 'ALL EQUIPMENT'){
@@ -317,6 +391,7 @@ $app->map(['GET','POST'],'/building_view_v', function(Request $request, Response
             AND (A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%')
             AND L_NEW.ASSET_LEVEL LIKE '%$level%'
             AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
+            AND (L_NEW.ASSET_AREA LIKE '%$asset_area_name%' OR L_NEW.ASSET_AREA IS NULL)
             AND (A_OLD.ASSET_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_ID IS NULL)
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             --AND A_OLD.ASSET_STATUS = '1'
@@ -363,6 +438,8 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
     $asset_primar_id = strtoupper($data->asset_primary_id);
     $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
+    $asset_area_name = strtoupper($data->asset_area_name);
+
     $response = array();
 
     if(!empty($building) || !empty($level) || !empty($area) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS)){
@@ -376,10 +453,11 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         WHERE ASSET_BUILDING LIKE '%$building%' 
         AND ASSET_LEVEL LIKE '%$level%' 
         AND ASSET_ROOM_NO LIKE '%$room_no%' 
-        AND ASSET_AREA_NAME LIKE '%$area%' 
+        AND ASSET_AREA_NAME LIKE '%$area%'  
         AND ASSET_CLASSIFICATION LIKE '%$ASSET_DESCRIPTION%' 
         AND ASSET_CLASS LIKE '%$ASSET_CLASS%' 
         AND ASSET_SUB_LOCATION LIKE '%$sub_location%' 
+        AND ASSET_AREA LIKE '%$asset_area_name%' 
         AND ASSET_ID LIKE '%$asset_primar_id%'"; 
         // AND ASSET_ID=ASSET_PRIMARY_ID";
 

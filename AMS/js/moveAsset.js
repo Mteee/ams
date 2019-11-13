@@ -2017,6 +2017,9 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         $('#currentAssetsTable').DataTable().clear().destroy();
         $('#outAssetsTable').DataTable().clear().destroy();
         $('#inAssetsTable').DataTable().clear().destroy();
+        $("#btnApprove").hide();
+        $("#btnCancel").hide();
+        $("#btnTransfer").hide();
         $('#searchView').show();
         $('#inSearch').show();
         $('#outSearch').show();
