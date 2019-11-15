@@ -58,45 +58,68 @@ function addAsset() {
     var values = (getValues());
 
     $('#loader-overlay').show();
+    
+    for (i = 0; i < key.length; i++) {
+        json_data[key[i]] = values[i];
+    }
 
-    $("overlay-comm-details").show();
-
-
-    setTimeout(function () {
-        for (i = 0; i < key.length; i++) {
-            json_data[key[i]] = values[i];
+    setTimeout(function(){
+        if(json_data.cert != ""){
+            $("overlay-comm-details").show();
+        }else{
+            var boq =  document.getElementById("boq").val(),
+                invoce_number =  document.getElementById("invoce_number").val(),
+                asset_reference = document.getElementById("asset_reference").val();
+        
+            var data = '{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '", "v_boq":"' + boq + '", "v_invoce_number":"' + invoce_number + '", "v_asset_reference":"' + asset_reference + '"}'
+    
+            confirmAssetCreate(data);
         }
-        console.log(json_data);
+    },2000);
 
-        var dataSend = "";
-        // $.ajax({
-        //     url: "../../ams_apis/slimTest/index.php/add_assets",
-        //     method: "POST",
-        //     dataType: "JSON",
-        //     data: '{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '"}',
-        //     success: function (data) {
-        //         document.getElementById("add_asset_form").reset();
-        //         document.getElementById('overlay-newAssetView').style.display = "none";
-        //         document.getElementById('assetsAdd').innerHTML = data.tdata;
-        //         setTimeout(function () {
-        //             $('#overlay-assets-added').show();
-        //             $('#loader-overlay').hide();
+    console.log(json_data);
 
-        //         }), 2000;
+    $('#confirmCommAdd').off().on('click',function(){
+        var boq =  document.getElementById("boq").val(),
+            invoce_number =  document.getElementById("invoce_number").val(),
+            asset_reference = document.getElementById("asset_reference").val();
+        
+        var data = '{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '", "v_boq":"' + boq + '", "v_invoce_number":"' + invoce_number + '", "v_asset_reference":"' + asset_reference + '"}'
+    
+        confirmAssetCreate(data);
+    });
 
-        //     },
-        //     error: function (err) {
-        //         swal.fire({
-        //             title: "Unexpected Error #42404",
-        //             text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'add_assets'",
-        //             type: "error",
-        //             showCloseButton: true,
-        //             confirmButtonColor: "#C12E2A",
-        //             allowOutsideClick: true,
-        //         });
-        //     }
-        // });
-    }, 4000);
+
+}
+
+function confirmAssetCreate(data){
+    $.ajax({
+            url: "../../ams_apis/slimTest/index.php/add_assets",
+            method: "POST",
+            dataType: "JSON",
+            data: data,
+            success: function (data) {
+                document.getElementById("add_asset_form").reset();
+                document.getElementById('overlay-newAssetView').style.display = "none";
+                document.getElementById('assetsAdd').innerHTML = data.tdata;
+                setTimeout(function () {
+                    $('#overlay-assets-added').show();
+                    $('#loader-overlay').hide();
+
+                }), 2000;
+
+            },
+            error: function (err) {
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'add_assets'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+                });
+            }
+        });
 }
 
 function getAssetsType() {
@@ -232,7 +255,7 @@ function extractValues_inElements(a, arr, key) {
 
                 stringValue += a[i].value + "|" + a[++i].value + "|" + a[++i].value + "|" + a[++i].value
             } else {
-                stringValue += a[i].value + "|" + a[++i].value +  "|" + a[++i].value + "|" + a[++i].value + "^"
+                stringValue += a[i].value + "|" + a[++i].value + "|" + a[++i].value + "|" + a[++i].value + "^"
             }
 
         }
@@ -325,7 +348,7 @@ var clusterize = {
 };
 
 var tableArr = {
-    currentAssetsTable:[]
+    currentAssetsTable: []
 }
 
 var count = 0;
@@ -1193,8 +1216,8 @@ function checkFilter(key) {
 }
 
 var newAssetGroup = function () {
-    var desc_checked = "", room_check= "";
-    
+    var desc_checked = "", room_check = "";
+
     if ($('#desc_check').prop("checked") === true) {
         desc_checked = $('#add_desc').val();
     }
@@ -1213,12 +1236,12 @@ var newAssetGroup = function () {
         "class": "col-sm-11"
     });
 
-    var row_1 = $("<div/>",{
-        "class":"row"
+    var row_1 = $("<div/>", {
+        "class": "row"
     });
 
-    var row_2 = $("<div/>",{
-        "class":"row"
+    var row_2 = $("<div/>", {
+        "class": "row"
     });
 
     var col_sm_5 = $("<div/>", {
@@ -1311,29 +1334,29 @@ var newAssetGroup = function () {
         type: "text"
     });
 
-    var col_sm_6_room = $("<div/>",{
-        class:"col-sm-6"
+    var col_sm_6_room = $("<div/>", {
+        class: "col-sm-6"
     });
 
-    var col_sm_10_room = $("<div/>",{
-        class:"col-sm-10 offset-1"
+    var col_sm_10_room = $("<div/>", {
+        class: "col-sm-10 offset-1"
     });
 
-    var room_form_group = $("<div/>",{
-        class:"form-group label-floating"
+    var room_form_group = $("<div/>", {
+        class: "form-group label-floating"
     });
 
-    var room_label = $("<label/>",{
-        class:"control-label",
-        text:"Asset Room No.*"
+    var room_label = $("<label/>", {
+        class: "control-label",
+        text: "Asset Room No.*"
     });
 
-    var room_input = $("<input/>",{
-        class:"form-control",
-        id:"room_no_" + n(),
-        name:"room_no_" + n(),
-        type:"text",
-        value:"" + room_check
+    var room_input = $("<input/>", {
+        class: "form-control",
+        id: "room_no_" + n(),
+        name: "room_no_" + n(),
+        type: "text",
+        value: "" + room_check
     });
 
 
