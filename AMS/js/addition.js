@@ -168,7 +168,7 @@ function getValues() {
     //serial (2+ inputs)
     var input_serial = $("#asset_group input[type='text']");
 
-    document.getElementById('assets_add_new').innerHTML = Math.floor((input_serial.length) / 3);
+    document.getElementById('assets_add_new').innerHTML = Math.floor((input_serial.length) / 4);
     var serial = ["asset_id", "asset_desc"];
 
     //model (1 inputs)
@@ -227,9 +227,9 @@ function extractValues_inElements(a, arr, key) {
         for (i = 0; i < a.length; i++) {
             if (i == a.length - 3) {
 
-                stringValue += a[i].value + "|" + a[++i].value + "|" + a[++i].value
+                stringValue += a[i].value + "|" + a[++i].value + "|" + a[++i].value + "|" + a[++i].value
             } else {
-                stringValue += a[i].value + "|" + a[++i].value + "|" + a[++i].value + "^"
+                stringValue += a[i].value + "|" + a[++i].value +  "|" + a[++i].value + "|" + a[++i].value + "^"
             }
 
         }
@@ -1190,9 +1190,13 @@ function checkFilter(key) {
 }
 
 var newAssetGroup = function () {
-    var desc_checked = "";
+    var desc_checked = "", room_check= "";
+    
     if ($('#desc_check').prop("checked") === true) {
         desc_checked = $('#add_desc').val();
+    }
+    if ($('#room_check').prop("checked") === true) {
+        room_check = $('#add_room').val();
     }
 
 
@@ -1202,8 +1206,20 @@ var newAssetGroup = function () {
         id: focus_div
     });
 
+    var col_sm_11 = $("<div/>", {
+        "class": "col-sm-11"
+    });
+
+    var row_1 = $("<div/>",{
+        "class":"row"
+    });
+
+    var row_2 = $("<div/>",{
+        "class":"row"
+    });
+
     var col_sm_5 = $("<div/>", {
-        class: "col-sm-3"
+        class: "col-sm-5"
     });
 
     var asset_number_group = $("<div/>", {
@@ -1228,7 +1244,7 @@ var newAssetGroup = function () {
     });
 
     var col_sm_5_desc = $("<div/>", {
-        class: "col-sm-4"
+        class: "col-sm-6"
     });
 
     var desc_col_sm_10 = $("<div/>", {
@@ -1243,8 +1259,6 @@ var newAssetGroup = function () {
         class: "control-label",
         text: "Asset description *"
     });
-
-
 
     var desc_input = $("<input/>", {
         class: "form-control my_required",
@@ -1275,7 +1289,7 @@ var newAssetGroup = function () {
     });
 
     var col_sm_3 = $("<div/>", {
-        "class": "col-sm-3"
+        "class": "col-sm-5 offset-1"
     });
 
     var form_group = $("<div/>", {
@@ -1292,17 +1306,56 @@ var newAssetGroup = function () {
         id: "serial_no_" + n(),
         name: "serial_no_" + n(),
         type: "text"
-    })
+    });
+
+    var col_sm_6_room = $("<div/>",{
+        class:"col-sm-6"
+    });
+
+    var col_sm_10_room = $("<div/>",{
+        class:"col-sm-10 offset-1"
+    });
+
+    var room_form_group = $("<div/>",{
+        class:"form-group label-floating"
+    });
+
+    var room_label = $("<label/>",{
+        class:"control-label",
+        text:"Asset Room No.*"
+    });
+
+    var room_input = $("<input/>",{
+        class:"form-control",
+        id:"room_no_" + n(),
+        name:"room_no_" + n(),
+        type:"text",
+        value:"" + room_check
+    });
 
 
 
     //count
     $(p_count).appendTo(col_count);
 
+    //row 2
+
+    //room_no
+    $(room_label).appendTo(room_form_group);
+    $(room_input).appendTo(room_form_group);
+    $(room_form_group).appendTo(col_sm_10_room);
+    $(col_sm_10_room).appendTo(col_sm_6_room);
+
     //serail number
     $(serial_floating_label).appendTo(form_group);
     $(serial_no_input).appendTo(form_group);
     $(form_group).appendTo(col_sm_3);
+
+    //append row
+    $(col_sm_3).appendTo(row_2);
+    $(col_sm_6_room).appendTo(row_2);
+
+    //row 1
 
     //description
     $(desc_floating_label).appendTo(floating_desc_label_group);
@@ -1315,15 +1368,25 @@ var newAssetGroup = function () {
     $(asset_number_input).appendTo(asset_number_group);
     $(asset_number_group).appendTo(col_sm_5);
 
+    //append row 1
+    $(col_count).prependTo(row_1);
+    $(col_sm_5).appendTo(row_1);
+    $(col_sm_5_desc).appendTo(row_1);
+
+
+    //outer col-sm-11
+    $(row_1).appendTo(col_sm_11);
+    $(row_2).appendTo(col_sm_11);
+
     //button tag
     $(glyph).appendTo(close_close_btn);
 
-    //cout tag
-    $(col_count).prependTo(outerDiv);
+    //count tag
     $(close_close_btn).prependTo(outerDiv);
-    $(col_sm_5).appendTo(outerDiv);
-    $(col_sm_5_desc).appendTo(outerDiv);
-    $(col_sm_3).appendTo(outerDiv);
+    $(col_sm_11).appendTo(outerDiv);
+    // $(col_sm_5).appendTo(outerDiv);
+    // $(col_sm_5_desc).appendTo(outerDiv);
+    // $(col_sm_3).appendTo(outerDiv);
 
     return {
         "0": outerDiv,

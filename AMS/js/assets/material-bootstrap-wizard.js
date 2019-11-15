@@ -144,6 +144,11 @@ $(document).ready(function () {
                 var res = validateInputChildren(input_date_service);
                 console.log("res");
                 console.log(res);
+                console.log("index");
+                // console.log();
+                $("#add_room_group").removeClass("is-empty")
+                $("#add_room").val($("#room_new_filter").val());
+                
                 if (res.bool) {
                     input_arr[res.index].focus();
                     $('#text-error').addClass("btn-outline-danger");
