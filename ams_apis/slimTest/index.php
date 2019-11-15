@@ -4046,7 +4046,7 @@ $app->map(['GET','POST'],'/comm_asset',function(Request $request, Response $resp
             $asset_class = '';
         }
 
-        $sql  = "BEGIN asset_certificate_comm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'COMM','','1',:v_out); END;";
+        $sql  = "BEGIN asset_certificate_comm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'COMM','','1','','','',:v_out); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':v_username', $username, 50);
         oci_bind_by_name($statement, ':v_asset_class', $asset_class, 50);

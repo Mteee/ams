@@ -347,11 +347,11 @@
                                         </tr>
                                     </thead>
 
-                                    <tbody class="tbody" id="assetTbody">
+                                    <tbody class="tbody" id="assetTbodyDetails">
                                         <tr>
-                                            <td><input type="text" id="boq" class="form-control" placeholder="N/A"></td>
-                                            <td><input type="text" id="invoce_number" class="form-control" placeholder="N/A"></td>
-                                            <td><input type="text" id="asset_reference" class="form-control" placeholder="N/A"></td>
+                                            <td><input type="text" class="form-control" id="boq" placeholder="N/A"></td>
+                                            <td><input type="text" class="form-control" id="invoce_number" placeholder="N/A"></td>
+                                            <td><input type="text" class="form-control" id="asset_reference" placeholder="N/A"></td>                                   
                                         </tr>
                                     </tbody>
                                 </table>
@@ -609,7 +609,9 @@
                                                                         <div class="col-sm-6">
 
                                                                             <div class="col-sm-10 offset-1">
-                                                                                <input type="checkbox" id="desc_check" name="desc_check" class="desc_check_style">
+                                                                                <input type="checkbox" id="desc_check"
+                                                                                    name="desc_check"
+                                                                                    class="desc_check_style">
                                                                                 <div class="form-group label-floating">
                                                                                     <label class="control-label">Asset
                                                                                         description
@@ -630,8 +632,11 @@
                                                                         </div>
                                                                         <div class="col-sm-6">
                                                                             <div class="col-sm-10 offset-1">
-                                                                                <input type="checkbox" id="room_check" name="room_check" class="desc_check_style">
-                                                                                <div class="form-group label-floating" id="add_room_group">
+                                                                                <input type="checkbox" id="room_check"
+                                                                                    name="room_check"
+                                                                                    class="desc_check_style">
+                                                                                <div class="form-group label-floating"
+                                                                                    id="add_room_group">
                                                                                     <label class="control-label">Asset
                                                                                         Room
                                                                                         No.*</label>
@@ -755,6 +760,17 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="transfer-scroll" style="height: 288px !important;">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="text" class="form-control"
+                                                    placeholder="Project Agreement BoQ Reference"></th>
+                                            <th><input type="text" class="form-control"
+                                                    placeholder="Service Provider Invoice Number"></th>
+                                            <th><input type="text" class="form-control" placeholder="Reference"></th>
+                                        </tr>
+                                    </thead>
+                                </table>
                                 <table class="table my-1 table-striped table-bordered">
                                     <thead style="background:#1d1a1a; color: #ffffff; padding: 13px;">
                                         <tr>
