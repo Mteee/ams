@@ -16,8 +16,8 @@
     <!-- Add IntroJs styles -->
     <link href="../css/introjs.css" rel="stylesheet">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
+    <link rel="stylesheet" href="../css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../css/sweetalert2.css">
 
     <link href="../css/material-bootstrap-wizard.css" rel="stylesheet" />
 
@@ -280,8 +280,8 @@
         .btn-outline-info:hover {
             color: #17a2b8 !important;
         }
-
-        .dropdown .btn-outline-info:hover{
+        
+        .dropdown .btn-outline-info:hover {
             color: #fff !important;
         }
     </style>
@@ -539,7 +539,8 @@
 
                                                                     <div class="input-group">
                                                                         <div class="form-group is-empty form-control" style="margin-top: 0;">
-                                                                            <input type="search" id="search_add_location_room" style="margin: -5px;" class="form-control" placeholder="Room" name="room_add_location_filter" onkeyup="onSearch('room_add_location_filter','search_add_location_room','#empty_add_location_room')" autofocus="autofocus" required>
+                                                                            <input type="search" id="search_add_location_room" style="margin: -5px;" class="form-control" placeholder="Room" name="room_add_location_filter" onkeyup="onSearch('room_add_location_filter','search_add_location_room','#empty_add_location_room')" autofocus="autofocus"
+                                                                                required>
                                                                             <span class="material-input"></span>
                                                                         </div>
                                                                         <div class="input-group-append">
@@ -779,7 +780,7 @@
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="level_location_filter" id="scroll_location_level">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
                                                             <input type="search" id="search_location_level" class="form-control" placeholder="Level" onkeyup="onSearch('level_location_filter','search_location_level','#empty_location_level')" autofocus="autofocus">
                                                             <div class="input-group-append">
@@ -830,7 +831,7 @@
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll" id="scroll_location_room" aria-labelledby="room_location_filter">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
                                                             <input type="search" id="search_location_room" class="form-control" placeholder="Room" onkeyup="onSearch('room_location_filter','search_location_room','#empty_location_room')" autofocus="autofocus">
                                                             <div class="input-group-append">
@@ -849,7 +850,7 @@
                                                 </div>
                                             </div>
                                         </th>
-                                    
+
                                         <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="sublocaction_location_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -857,7 +858,7 @@
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll" id="scroll_location_sublocaction" aria-labelledby="sublocaction_location_filter">
                                                     <form class="px-4 py-2">
-                                    
+
                                                         <div class="input-group">
                                                             <input type="search" id="search_location_sublocaction" class="form-control" placeholder="Sub Location" onkeyup="onSearch('sublocaction_location_filter','search_location_sublocaction','#empty_location_sublocaction')" autofocus="autofocus">
                                                             <div class="input-group-append">
@@ -875,7 +876,7 @@
                                                 </div>
                                             </div>
                                         </th>
-                                    
+
                                         <th>
                                             <input type="text" id="location_description" onkeyup="onSearch_new('location_description')" class="form-control" placeholder="Description...">
                                         </th>
@@ -979,9 +980,9 @@
     <script src="../js/inc/menu.js"></script>
     <script src="../js/location.js"></script>
 
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
-    <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    <script src="../js/jquery.dataTables.min.js"></script>
+    <script src="../js/sweetalert2.all.js"></script>
+    <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
 
     <script>
         const $menu = $('#menu-list');
@@ -1000,21 +1001,7 @@
             $('#menu-list').slideToggle('fast');
         }
     </script>
-    <!--Start of Tawk.to Script-->
-    <script type="text/javascript">
-        var Tawk_API = Tawk_API || {},
-            Tawk_LoadStart = new Date();
-        (function() {
-            var s1 = document.createElement("script"),
-                s0 = document.getElementsByTagName("script")[0];
-            s1.async = true;
-            s1.src = 'https://embed.tawk.to/5dc3eb8ce4c2fa4b6bda7284/default';
-            s1.charset = 'UTF-8';
-            s1.setAttribute('crossorigin', '*');
-            s0.parentNode.insertBefore(s1, s0);
-        })();
-    </script>
-    <!--End of Tawk.to Script-->
+
 </body>
 
 

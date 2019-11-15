@@ -63,14 +63,10 @@ function updateLetterToIcon(letter) {
     var results = "";
     switch (letter) {
         case "Y":
-            results = "<p class='text-success'><strong>YES</strong></p>";
-            break;
-        case "N":
-            results = "<p class='text-danger'><strong>NO</strong></p>";
-            break;
         case "y":
             results = "<p class='text-success'><strong>YES</strong></p>";
             break;
+        case "N":
         case "n":
             results = "<p class='text-danger'><strong>NO</strong></p>";
             break;

@@ -13,9 +13,8 @@
     <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
     <link rel="stylesheet" href="../css/font-awesome.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-    <link type="text/css" href="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/css/dataTables.checkboxes.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+    <link type="text/css" href="../css/dataTables.checkboxes.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/sweetalert2.css">
 
     <style>
         .dropdown-menu {
@@ -595,91 +594,77 @@
         <span class="fa fa-info"></span><span class="tooltiptext"><strong></strong>Press me to tour the asset movement
             system </strong></span> -->
 
-        <script src="../js/jquery.js"></script>
-        <script src="../js/clusterize.min.js"></script>
-        <!-- <script src="../js/bootstrap.js"></script> -->
-        <script src="../js/bootstrap.bundle.js"></script>
-        <script src="../js/tablefilter.js"></script>
-        <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script src="../js/export/shim.min.js"></script>
-        <script src="../js/export/xlsx.full.min.js"></script>
-        <script src="../js/export/Blob.js"></script>
-        <script src="../js/export/FileSaver.js"></script>
-        <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
-        <script src="../js/inc/menu.js"></script>
-        <script src="../js/removal.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.js"></script>
-        <script type="text/javascript" src="//gyrocode.github.io/jquery-datatables-checkboxes/1.2.11/js/dataTables.checkboxes.min.js"></script>
+    <script src="../js/jquery.js"></script>
+    <script src="../js/clusterize.min.js"></script>
+    <!-- <script src="../js/bootstrap.js"></script> -->
+    <script src="../js/bootstrap.bundle.js"></script>
+    <script src="../js/tablefilter.js"></script>
+    <script src="../js/jquery.dataTables.min.js"></script>
+    <script src="../js/export/shim.min.js"></script>
+    <script src="../js/export/xlsx.full.min.js"></script>
+    <script src="../js/export/Blob.js"></script>
+    <script src="../js/export/FileSaver.js"></script>
+    <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
+    <script src="../js/inc/menu.js"></script>
+    <script src="../js/removal.js"></script>
+    <script src="../js/sweetalert2.all.js"></script>
+    <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
 
-        <script>
-            const $menu = $('#menu-list');
+    <script>
+        const $menu = $('#menu-list');
 
-            $(document).mouseup(e => {
-                if (!$menu.is(e.target) // if the target of the click isn't the container...
-                    &&
-                    $menu.has(e.target).length === 0) // ... nor a descendant of the container
-                {
-                    // $menu.removeClass('is-active');
-                    $('#menu-list').fadeOut(500);
-                }
-            });
-
-            function showNav() {
-                $('#menu-list').slideToggle('fast');
+        $(document).mouseup(e => {
+            if (!$menu.is(e.target) // if the target of the click isn't the container...
+                &&
+                $menu.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                // $menu.removeClass('is-active');
+                $('#menu-list').fadeOut(500);
             }
-            document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
+        });
 
-            /*-------   Zoom handler -------*/
-            // var width = screen.width;
-            // var height = screen.height;
+        function showNav() {
+            $('#menu-list').slideToggle('fast');
+        }
+        document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
 
-            // console.log(width + " - " +height);
+        /*-------   Zoom handler -------*/
+        // var width = screen.width;
+        // var height = screen.height;
 
-            // if ((width < 1920) && (height < 1080)) {
-            //     toggleZoomScreen("80%");
-            // } else {
-            //     toggleZoomScreen("100%");
-            // }
+        // console.log(width + " - " +height);
 
-            toggleZoomScreen(window.innerWidth / window.outerWidth);
+        // if ((width < 1920) && (height < 1080)) {
+        //     toggleZoomScreen("80%");
+        // } else {
+        //     toggleZoomScreen("100%");
+        // }
 
-            function toggleZoomScreen(value) {
-                document.body.style.zoom = value;
-            }
+        toggleZoomScreen(window.innerWidth / window.outerWidth);
 
-            $("#com_item,#com_list").mouseover(function() {
-                $("#com_list").fadeIn();
-            });
+        function toggleZoomScreen(value) {
+            document.body.style.zoom = value;
+        }
 
-            $("#com_item,#com_list").mouseleave(function() {
-                $("#com_list").fadeOut();
-            });
+        $("#com_item,#com_list").mouseover(function() {
+            $("#com_list").fadeIn();
+        });
 
-            // $("ul#com_item.dropdown-time>li.menu-item").click(function() {
-            //     $("#com_list").slideToggle(2000);
-            // });
+        $("#com_item,#com_list").mouseleave(function() {
+            $("#com_list").fadeOut();
+        });
+
+        // $("ul#com_item.dropdown-time>li.menu-item").click(function() {
+        //     $("#com_list").slideToggle(2000);
+        // });
 
 
-            // tables
+        // tables
 
 
-            /*------   Zoom handler -----*/
-        </script>
-        <!--Start of Tawk.to Script-->
-        <script type="text/javascript">
-            var Tawk_API = Tawk_API || {},
-                Tawk_LoadStart = new Date();
-            (function() {
-                var s1 = document.createElement("script"),
-                    s0 = document.getElementsByTagName("script")[0];
-                s1.async = true;
-                s1.src = 'https://embed.tawk.to/5dc3eb8ce4c2fa4b6bda7284/default';
-                s1.charset = 'UTF-8';
-                s1.setAttribute('crossorigin', '*');
-                s0.parentNode.insertBefore(s1, s0);
-            })();
-        </script>
-        <!--End of Tawk.to Script-->
+        /*------   Zoom handler -----*/
+    </script>
+
 </body>
 
 </html>

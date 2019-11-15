@@ -388,7 +388,45 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         $assets =$func->executeQuery($sql);
 
         if($assets){
-            echo $assets;
+            // echo $assets;
+
+            $assets_decode = json_decode($assets);
+
+            // print_r($assets_decode);
+
+
+            $len = $assets_decode->rows;
+
+            // echo $len;
+            $str = '{"data" : [';
+                for ($k = 0; $k < $len; $k++) {
+                    if (($len - 1) == $k){
+
+                        $str .= '["' . $assets_decode->data[$k]->ASSET_ID . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_ID . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_SUB_LOCATION . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_ROOM_NO . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_AREA . '","';
+                        $str .= str_replace("\"", "`", $assets_decode->data[$k]->ASSET_DESCRIPTION) . '","';
+                        $str .= $func->updateLetterToWords($assets_decode->data[$k]->ASSET_HAS_SUB_ASSETS) . '"]';
+                    } else {
+
+                        $str .= '["' . $assets_decode->data[$k]->ASSET_ID . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_ID . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_SUB_LOCATION . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_ROOM_NO . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_AREA . '","';
+                        $str .= str_replace("\"", "`", $assets_decode->data[$k]->ASSET_DESCRIPTION) . '","';
+                        $str .= $func->updateLetterToWords($assets_decode->data[$k]->ASSET_HAS_SUB_ASSETS) . '"],';
+                    }
+                }
+
+                $str .= ']}';
+
+                $str = str_replace("\n", "", $str);
+                $str = str_replace("\\", "", $str);
+
+                echo json_encode(array("rows" =>$len ,"data" => $str ));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>[]));
@@ -1425,7 +1463,7 @@ $app->map(['GET','POST'],'/confirmTransfer',function(Request $request, Response 
         $sql = "BEGIN AMSD.ASSET_TRANSFER_MOVEMENT(:USERNAME,:ASSET_NO,:BUILDING,:LEVEL,:AREA,:ROOM,:SUB,:TYPE,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':USERNAME', $username, 30);
-        oci_bind_by_name($statement, ':ASSET_NO', $assetIds, 4000);
+        oci_bind_by_name($statement, ':ASSET_NO', $assetIds, -1);
         oci_bind_by_name($statement, ':BUILDING', $building, 30);
         oci_bind_by_name($statement, ':LEVEL', $level, 30);
         oci_bind_by_name($statement, ':AREA', $area, 30);
@@ -1465,7 +1503,7 @@ $app->map(['GET','POST'],'/cancelTransfer',function(Request $request, Response $
         $sql = "BEGIN AMSD.asset_cancel_movement(:USERNAME,:ASSET_NO,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
-        oci_bind_by_name($statement, ':ASSET_NO', $ASSET_NO, 4000);
+        oci_bind_by_name($statement, ':ASSET_NO', $ASSET_NO, -1);
         oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
@@ -1521,7 +1559,7 @@ $app->map(['GET','POST'],'/approveAsset',function(Request $request, Response $re
         $sql = "BEGIN AMSD.asset_approve_movement(:USERNAME,:ASSET_NO,:ROOM,:SUB,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
-        oci_bind_by_name($statement, ':ASSET_NO', $ASSET_NO, 4000);
+        oci_bind_by_name($statement, ':ASSET_NO', $ASSET_NO, -1);
         oci_bind_by_name($statement, ':ROOM', $ROOM, 30);
         oci_bind_by_name($statement, ':SUB', $sub_location, 30);
         oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
@@ -3934,7 +3972,7 @@ $app->map(['GET','POST'],'/comm_asset',function(Request $request, Response $resp
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':v_username', $username, 50);
         oci_bind_by_name($statement, ':v_asset_class', $asset_class, 50);
-        oci_bind_by_name($statement, ':v_asset_ids', $assets, 4000);
+        oci_bind_by_name($statement, ':v_asset_ids', $assets, -1);
         oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
         // oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
         oci_bind_by_name($statement, ':v_out',  $v_out, 2);
@@ -3983,7 +4021,7 @@ $app->map(['GET','POST'],'/decomm_asset',function(Request $request, Response $re
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':v_username', $username, 50);
         oci_bind_by_name($statement, ':v_asset_class', $asset_class, 50);
-        oci_bind_by_name($statement, ':v_asset_ids', $assets, 4000);
+        oci_bind_by_name($statement, ':v_asset_ids', $assets, -1);
         oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
         oci_bind_by_name($statement, ':v_comments', $comments, 50);
         oci_bind_by_name($statement, ':v_out',  $v_out, 2);
@@ -4057,7 +4095,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
         $add_assets = oci_new_cursor($connect);
         // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
         oci_bind_by_name($statement, ':v_asset_class', $v_asset_class, 50);
-        oci_bind_by_name($statement, ':v_assets', $v_assets, 4000);
+        oci_bind_by_name($statement, ':v_assets', $v_assets, -1);
         oci_bind_by_name($statement, ':v_asset_model', $v_asset_model, 50);
         oci_bind_by_name($statement, ':v_asset_type', $v_asset_type, 50);
         oci_bind_by_name($statement, ':v_asset_classification', $v_asset_classification, 50);
@@ -4073,7 +4111,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
         oci_bind_by_name($statement, ':v_asset_cert_ind', $v_asset_cert_ind, 50);
         oci_bind_by_name($statement, ':v_asset_cert_no', $v_asset_cert_no, 50);
         oci_bind_by_name($statement, ':v_asset_added_by', $v_asset_added_by, 50);
-        // oci_bind_by_name($statement, ':v_out', $add_assets, 4000);
+        // oci_bind_by_name($statement, ':v_out', $add_assets, -1);
         oci_bind_by_name($statement, ':v_out', $add_assets, -1, OCI_B_CURSOR);
 
         // oci_execute($statement);
@@ -5092,11 +5130,11 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
             $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,:AREA,:AREA_NAME,:AREA_DETAIL,:ROOM_NO,:RESULT); END;";
             $statement = oci_parse($connect,$sql_new_room_proc);
             oci_bind_by_name($statement, ':USERNAME', $username, 30);
-            oci_bind_by_name($statement, ':BUILDING', $building, 4000);
+            oci_bind_by_name($statement, ':BUILDING', $building, -1);
             oci_bind_by_name($statement, ':LEVEL', $level, 30);
             oci_bind_by_name($statement, ':AREA', $proper_area, 30);
-            oci_bind_by_name($statement, ':AREA_NAME', $area, 4000);
-            oci_bind_by_name($statement, ':AREA_DETAIL', $area_detail, 4000);
+            oci_bind_by_name($statement, ':AREA_NAME', $area, -1);
+            oci_bind_by_name($statement, ':AREA_DETAIL', $area_detail, -1);
             oci_bind_by_name($statement, ':ROOM_NO', $room_no, 30);
             oci_bind_by_name($statement, ':RESULT', $v_out, 2);
 
@@ -5129,9 +5167,9 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
             $sql_new_sub_proc = "BEGIN AMSD.assets_create_sub_location(:USERNAME,:ROOM_NO,:SUB_LOCATION,:ASSET_TYPE,:RESULT); END;";
             $statement = oci_parse($connect,$sql_new_sub_proc);
             oci_bind_by_name($statement, ':USERNAME', $username, 30);
-            oci_bind_by_name($statement, ':ROOM_NO', $room_no, 4000);
+            oci_bind_by_name($statement, ':ROOM_NO', $room_no, -1);
             oci_bind_by_name($statement, ':SUB_LOCATION', $sub_location, 30);
-            oci_bind_by_name($statement, ':ASSET_TYPE', $asset_type, 4000);
+            oci_bind_by_name($statement, ':ASSET_TYPE', $asset_type, -1);
             oci_bind_by_name($statement, ':RESULT', $v_out, 2);
 
             oci_execute($statement , OCI_NO_AUTO_COMMIT);
@@ -5174,11 +5212,11 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
             $sql_new_room_proc = "BEGIN AMSD.asset_create_location(:USERNAME,'',:BUILDING,:LEVEL,:AREA,:AREA_NAME,:AREA_DETAIL,:ROOM_NO,:RESULT); END;";
             $statement = oci_parse($connect,$sql_new_room_proc);
             oci_bind_by_name($statement, ':USERNAME', $username, 30);
-            oci_bind_by_name($statement, ':BUILDING', $building, 4000);
+            oci_bind_by_name($statement, ':BUILDING', $building, -1);
             oci_bind_by_name($statement, ':LEVEL', $level, 30);
             oci_bind_by_name($statement, ':AREA', $proper_area, 30);
-            oci_bind_by_name($statement, ':AREA_NAME', $area, 4000);
-            oci_bind_by_name($statement, ':AREA_DETAIL', $area_detail, 4000);
+            oci_bind_by_name($statement, ':AREA_NAME', $area, -1);
+            oci_bind_by_name($statement, ':AREA_DETAIL', $area_detail, -1);
             oci_bind_by_name($statement, ':ROOM_NO', $room_no, 30);
             oci_bind_by_name($statement, ':RESULT', $v_out, 2);
 
@@ -5191,9 +5229,9 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
                 $sql_new_sub_proc = "BEGIN AMSD.assets_create_sub_location(:USERNAME,:ROOM_NO,:SUB_LOCATION,:ASSET_TYPE,:RESULT); END;";
                 $statement = oci_parse($connect,$sql_new_sub_proc);
                 oci_bind_by_name($statement, ':USERNAME', $username, 30);
-                oci_bind_by_name($statement, ':ROOM_NO', $room_no, 4000);
+                oci_bind_by_name($statement, ':ROOM_NO', $room_no, -1);
                 oci_bind_by_name($statement, ':SUB_LOCATION', $sub_location, 30);
-                oci_bind_by_name($statement, ':ASSET_TYPE', $asset_type, 4000);
+                oci_bind_by_name($statement, ':ASSET_TYPE', $asset_type, -1);
                 oci_bind_by_name($statement, ':RESULT', $v_out, 2);
 
                 oci_execute($statement , OCI_NO_AUTO_COMMIT);
