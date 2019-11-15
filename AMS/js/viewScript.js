@@ -115,44 +115,49 @@ function search() {
             success: function (data) {
                 $('#loader').fadeOut(500);
 
-                console.log("======================data===============================");
-                console.log(data);
+                // console.log("======================data===============================");
+                // console.log(data);
                 var table = null;
-                console.log("================test===============================");
+                // console.log("================test===============================");
                 // console.log(data);
                 // console.log(data.data.ASSET_IS_SUB);
 
 
                 if (data.rows > 0) {
 
-                    var str = '{"data" : [';
-                    for (var k = 0; k < data.rows; k++) {
-                        if ((data.rows - 1) == k) {
 
-                            str += '["' + data.data[k].ASSET_ID + '","';
-                            str += data.data[k].ASSET_ID + '","';
-                            str += data.data[k].ASSET_SUB_LOCATION + '","';
-                            str += data.data[k].ASSET_ROOM_NO + '","';
-                            str += data.data[k].ASSET_AREA + '","';
-                            str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
-                            str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"]';
-                        } else {
+                   
+                    // var str = '{"data" : [';
+                    // for (var k = 0; k < data.rows; k++) {
+                    //     if ((data.rows - 1) == k) {
 
-                            str += '["' + data.data[k].ASSET_ID + '","';
-                            str += data.data[k].ASSET_ID + '","';
-                            str += data.data[k].ASSET_SUB_LOCATION + '","';
-                            str += data.data[k].ASSET_ROOM_NO + '","';
-                            str += data.data[k].ASSET_AREA + '","';
-                            str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
-                            str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"],';
-                        }
-                    }
+                    //         str += '["' + data.data[k].ASSET_ID + '","';
+                    //         str += data.data[k].ASSET_ID + '","';
+                    //         str += data.data[k].ASSET_SUB_LOCATION + '","';
+                    //         str += data.data[k].ASSET_ROOM_NO + '","';
+                    //         str += data.data[k].ASSET_AREA + '","';
+                    //         str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
+                    //         str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"]';
+                    //     } else {
 
-                    str += ']}'
+                    //         str += '["' + data.data[k].ASSET_ID + '","';
+                    //         str += data.data[k].ASSET_ID + '","';
+                    //         str += data.data[k].ASSET_SUB_LOCATION + '","';
+                    //         str += data.data[k].ASSET_ROOM_NO + '","';
+                    //         str += data.data[k].ASSET_AREA + '","';
+                    //         str += replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION) + '","';
+                    //         str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"],';
+                    //     }
+                    // }
 
-                    str = replaceAll("\n", "", str);
-                    str = (JSON.parse(str));
+                    // str += ']}'
 
+                    // str = replaceAll("\n", "", str);
+
+                    var str = (JSON.parse(data.data));
+                    // console.log("data.data");
+                    // console.log(data.data);
+                    // console.log("data.data");
                     table_data["currentAssetsTable"] = createTable("#currentAssetsTable", str.data);
 
                     setTimeout(function () {

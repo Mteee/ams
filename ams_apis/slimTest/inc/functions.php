@@ -98,6 +98,23 @@ class Functions{
 		return $results;
 	}//close updateLetterToIcon function
 
+	function updateLetterToWords($letter) {
+		 $results = "";
+		switch ($letter) {
+			case "Y":
+			case "y":
+				$results = "<p class='text-success'><strong>YES</strong></p>";
+				break;
+			case "N":
+			case "n":
+				$results = "<p class='text-danger'><strong>NO</strong></p>";
+				break;
+		}
+	
+		return $results;
+	}
+	
+
 }
 
 class Assets{
