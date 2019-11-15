@@ -324,6 +324,65 @@
 
 <body>
 
+    <div id="overlay-comm-details" style="display: block;">
+            <div class="asset-transfer-details animated bounceInUp" id="assetTransfer">
+                <span class="exit-asset" onclick="closeAsset('overlay-comm-details')">&times;</span>
+    
+                <div class="asset-transfer-body">
+                    <div id="transferAssets">
+    
+                        <div class="asset-header text-center">
+                            <strong>ASSET COMMISSIONING DETAILS</strong>
+                        </div>
+    
+    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="transfer-scroll" style="height: 288px !important;">
+                                    <table class="table my-1 table-striped table-bordered">
+                                        <thead style="background:#1d1a1a; color: #ffffff; padding: 13px;">
+                                            <tr>
+                                                <th>Project Agreement BoQ Reference</th>
+                                                <th>Service Provider Invoice Number</th>
+                                                <th>Reference</th>
+                                            </tr>
+                                        </thead>
+    
+                                        <tbody class="tbody" id="assetTbody">
+                                            <tr>
+                                                <td><input type="text" class="form-control" placeholder="N/A"></td>
+                                                <td><input type="text" class="form-control" placeholder="N/A"></td>
+                                                <td><input type="text" class="form-control" placeholder="N/A"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+    
+                        </div>
+    
+                    </div>
+    
+                </div>
+                <div class="asset-transfer-footer text-right">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="sub-item-number text-center">
+                                <!-- <p class="text-muted">Number of selected assets: <strong><span id="movItemCount"
+                                            class="text-dark">5</span></strong></p> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="btn btn-success" id="confirmCommAdd" onclick="">Confirm</button>
+                            <!-- <button class="btn btn-danger" onclick="closeAsset('overlay-comm')">Cancel</button> -->
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </div>
+
+
     <div id="overlay-assets-added">
         <div class="asset-assets-added-details animated bounceInUp" id="assets-added">
             <span class="exit-asset" onclick="window.location.reload();">&times;</span>
@@ -836,7 +895,6 @@
             </div>
         </div>
     </div>
-
     <div id="loader-overlay">
         <div id="Assetload" class="dropdown-loader">
             <img src="../img/loading-transparent.gif" alt=""

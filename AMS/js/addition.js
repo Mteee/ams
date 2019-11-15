@@ -59,39 +59,43 @@ function addAsset() {
 
     $('#loader-overlay').show();
 
+    $("overlay-comm-details").show();
+
 
     setTimeout(function () {
         for (i = 0; i < key.length; i++) {
             json_data[key[i]] = values[i];
         }
+        console.log(json_data);
+
         var dataSend = "";
-        $.ajax({
-            url: "../../ams_apis/slimTest/index.php/add_assets",
-            method: "POST",
-            dataType: "JSON",
-            data: '{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '"}',
-            success: function (data) {
-                document.getElementById("add_asset_form").reset();
-                document.getElementById('overlay-newAssetView').style.display = "none";
-                document.getElementById('assetsAdd').innerHTML = data.tdata;
-                setTimeout(function () {
-                    $('#overlay-assets-added').show();
-                    $('#loader-overlay').hide();
+        // $.ajax({
+        //     url: "../../ams_apis/slimTest/index.php/add_assets",
+        //     method: "POST",
+        //     dataType: "JSON",
+        //     data: '{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '"}',
+        //     success: function (data) {
+        //         document.getElementById("add_asset_form").reset();
+        //         document.getElementById('overlay-newAssetView').style.display = "none";
+        //         document.getElementById('assetsAdd').innerHTML = data.tdata;
+        //         setTimeout(function () {
+        //             $('#overlay-assets-added').show();
+        //             $('#loader-overlay').hide();
 
-                }), 2000;
+        //         }), 2000;
 
-            },
-            error: function (err) {
-                swal.fire({
-                    title: "Unexpected Error #42404",
-                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'add_assets'",
-                    type: "error",
-                    showCloseButton: true,
-                    confirmButtonColor: "#C12E2A",
-                    allowOutsideClick: true,
-                });
-            }
-        });
+        //     },
+        //     error: function (err) {
+        //         swal.fire({
+        //             title: "Unexpected Error #42404",
+        //             text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'add_assets'",
+        //             type: "error",
+        //             showCloseButton: true,
+        //             confirmButtonColor: "#C12E2A",
+        //             allowOutsideClick: true,
+        //         });
+        //     }
+        // });
     }, 4000);
 }
 
@@ -149,7 +153,6 @@ function viewAsset(assetId) {
 
 function getValues() {
     var inputValues = [];
-
 
     //basic (2 inputs && 1 select)
     var selects = $("#basic select").find("option:selected").text();

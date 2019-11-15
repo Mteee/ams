@@ -4166,7 +4166,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN AMSD.asset_create(:v_asset_class,:v_assets,:v_asset_model,:v_asset_type,:v_asset_classification,:v_asset_room_no,:v_asset_purchase_dt,:v_asset_warranty_dt,:v_asset_vendor_id,:v_asset_vendor_name,:v_asset_useful_life,:v_asset_service_dt,:v_asset_service_due_dt,:v_asset_service_by,:v_asset_cert_ind,:v_asset_cert_no,:v_asset_added_by,:v_out); END;";               
+        $sql = "BEGIN AMSD.asset_create(:v_asset_class,:v_assets,:v_asset_model,:v_asset_type,:v_asset_classification,:v_asset_purchase_dt,:v_asset_warranty_dt,:v_asset_vendor_id,:v_asset_vendor_name,:v_asset_useful_life,:v_asset_service_dt,:v_asset_service_due_dt,:v_asset_service_by,:v_asset_cert_ind,:v_asset_cert_no,:v_asset_added_by,'','','',:v_out); END;";               
 
 
         $statement = oci_parse($connect,$sql);
@@ -4177,7 +4177,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
         oci_bind_by_name($statement, ':v_asset_model', $v_asset_model, 50);
         oci_bind_by_name($statement, ':v_asset_type', $v_asset_type, 50);
         oci_bind_by_name($statement, ':v_asset_classification', $v_asset_classification, 50);
-        oci_bind_by_name($statement, ':v_asset_room_no', $v_asset_room_no, 50);
+        // oci_bind_by_name($statement, ':v_asset_room_no', $v_asset_room_no, 50);
         oci_bind_by_name($statement, ':v_asset_purchase_dt', $v_asset_purchase_dt, 50);
         oci_bind_by_name($statement, ':v_asset_warranty_dt', $v_asset_warranty_dt, 50);
         oci_bind_by_name($statement, ':v_asset_vendor_id', $v_asset_vendor_id, 50);

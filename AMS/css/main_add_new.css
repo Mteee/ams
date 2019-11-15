@@ -226,6 +226,7 @@ input[type="checkbox"]:disabled:after {
 #overlay-printView,
 #overlay-newAssetView,
 #overlay-comm,
+#overlay-comm-details,
 #overlay-decomAsset,
 #overlay-alert-message,
 #loader-overlay,
