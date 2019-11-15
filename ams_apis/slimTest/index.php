@@ -1104,6 +1104,7 @@ $app->map(['GET','POST'],'/assetCert_print',function(Request $request, Response 
                     a_vw.ASSET_CLASS
             FROM AMSD.ASSETS_vw a_vw, AMSD.ASSETS_CERTIFICATE a_cert
             WHERE  a_vw.ASSET_CERT_NO = a_cert.ASSET_CERTIFICATE_NO
+            AND 
             AND a_vw.ASSET_CERT_NO = '$cert_no'";
 
 
@@ -3979,14 +3980,18 @@ $app->map(['GET','POST'],'/get_Asset_status_decom',function(Request $request, Re
         $zeros = "";
         if($len < 5){
 
-            for($i = $len;$i<5;$i++){
+            for($i = $len;$i>0;$i--){
                 $zeros .="0";
             }
 
             $cert_int = $zeros.$cert_int;
         }
 
-        $cert_int = date("Y").'/'.$cert_int;
+        if($str_arr[0] == (string)date("Y")){
+            $cert_int = date("Y").'/'.$cert_int;
+        }else{
+            $cert_int = date("Y").'/000000';
+        }
         // $ass ={ };
         // echo $cert_int." after";
         if(!empty($cert_int)){
