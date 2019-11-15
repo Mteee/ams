@@ -584,6 +584,32 @@
                                         </th>
                                         <th>
                                             <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_name_view_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    AREA NAME
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_area_name" aria-labelledby="area_name_view_filter">
+                                                    <form class="px-4 py-2">
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_view_area_name" class="form-control" placeholder="Area Name" onkeyup="onSearch('area_name_view_filter','search_view_area_name','#empty_view_area_name')" autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light" id="clear_view_area_name" onclick="clearData('#search_view_area_name','#area_name_view_filter','AREA NAME')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="meun_view_area_name" onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_view_area_name" class="dropdown-header">No area name found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_view_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
@@ -615,9 +641,8 @@
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll" id="scroll_view_sublocaction" aria-labelledby="sublocaction_view_filter">
                                                     <form class="px-4 py-2">
-
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_sublocaction" class="form-control" placeholder="Sub Location" onkeyup="onSearch('sublocaction_view_filter','search_view_sublocaction','#empty_view_sublocaction')" autofocus="autofocus">
+                                                            <input type="search" id="search_view_sublocaction" class="form-control" placeholder="SUB LOCATION" onkeyup="onSearch('sublocaction_view_filter','search_view_sublocaction','#empty_view_sublocaction')" autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light" id="clear_view_sublocaction" onclick="clearData('#search_view_sublocaction','#sublocaction_view_filter','SUB LOCATION')"><i
                                                                         class="fa fa-close"></i></span>
@@ -687,8 +712,7 @@
 
                                                 </th>
                                                 <th scope="col">
-                                                    SUB LOCATION
-
+                                                    Sub Location
                                                 </th>
                                                 <th scope="col">
                                                     Room
