@@ -4047,6 +4047,9 @@ $app->map(['GET','POST'],'/comm_asset',function(Request $request, Response $resp
         $cert = strtoupper($data->cert);
         $asset_class = strtoupper($data->asset_class);
         $username = strtoupper($data->username);
+        $boq = strtoupper($data->boq);
+        $invoce_number = strtoupper($data->invoce_number);
+        $asset_reference = strtoupper($data->asset_reference);
         $v_out = "";
         // $v_print_date = "";
         // $v_cert_status  = "1";
@@ -4057,12 +4060,15 @@ $app->map(['GET','POST'],'/comm_asset',function(Request $request, Response $resp
             $asset_class = '';
         }
 
-        $sql  = "BEGIN asset_certificate_comm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'COMM','','1','','','',:v_out); END;";
+        $sql  = "BEGIN asset_certificate_comm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'COMM','','1',:boq,:invoce_number,:asset_reference,:v_out); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':v_username', $username, 50);
         oci_bind_by_name($statement, ':v_asset_class', $asset_class, 50);
         oci_bind_by_name($statement, ':v_asset_ids', $assets, -1);
         oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
+        oci_bind_by_name($statement, ':boq', $boq, -1);
+        oci_bind_by_name($statement, ':invoce_number', $invoce_number, -1);
+        oci_bind_by_name($statement, ':asset_reference', $asset_reference, -1);
         // oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
         oci_bind_by_name($statement, ':v_out',  $v_out, 2);
 

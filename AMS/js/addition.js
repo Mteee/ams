@@ -56,40 +56,39 @@ function addAsset() {
     ]
 
     var values = (getValues());
-
-
+    $('#loader-overlay').show();
     setTimeout(function(){
+        $("#loader-overlay").hide();
         for (i = 0; i < key.length; i++) {
             json_data[key[i]] = values[i];
         }
-    
         console.log(json_data);
         if(json_data.cert != ""){
+            closeAsset("overlay-newAssetView");
             $("#overlay-comm-details").show();
         }else{
-            var boq =  document.getElementById("boq").val(),
-                invoce_number =  document.getElementById("invoce_number").val(),
-                asset_reference = document.getElementById("asset_reference").val();
-        
-            var data = '{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '", "v_boq":"' + boq + '", "v_invoce_number":"' + invoce_number + '", "v_asset_reference":"' + asset_reference + '"}'
-            $('#loader-overlay').show();
-            confirmAssetCreate(data);
+            
+            sendValues(json_data);
         }
-    },2000);
+    },4000);
 
     
 
     $('#confirmCommAdd').off().on('click',function(){
-        var boq =  document.getElementById("boq").val(),
-            invoce_number =  document.getElementById("invoce_number").val(),
-            asset_reference = document.getElementById("asset_reference").val();
-        
-        var data = '{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '", "v_boq":"' + boq + '", "v_invoce_number":"' + invoce_number + '", "v_asset_reference":"' + asset_reference + '"}'
-        $('#loader-overlay').show();
-        confirmAssetCreate(data);
+        sendValues(json_data);
     });
 
 
+}
+
+function sendValues(json_data){
+    var boq =  document.getElementById("boq").value,
+    invoce_number =  document.getElementById("invoce_number").value,
+    asset_reference = document.getElementById("asset_reference").value;
+
+    var data = '{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '", "v_boq":"' + boq + '", "v_invoce_number":"' + invoce_number + '", "v_asset_reference":"' + asset_reference + '"}'
+    $('#loader-overlay').show();
+    confirmAssetCreate(data);
 }
 
 function confirmAssetCreate(data){
@@ -668,10 +667,14 @@ function viewCommAssets(assets) {
 
 function confirmComm(assets_ids, certificate_no) {
 
+    var boq =  document.getElementById("boq_comm").value,
+                invoce_number =  document.getElementById("invoce_number_comm").value,
+                asset_reference = document.getElementById("asset_reference_comm").value;
+
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/comm_asset",
         method: "post",
-        data: '{"username":"' + localStorage.username + '","asset_class":"' + localStorage.filter + '","assets":"' + assets_ids + '","cert":"' + certificate_no + '"}',
+        data: '{"username":"' + localStorage.username + '","asset_class":"' + localStorage.filter + '","assets":"' + assets_ids + '","cert":"' + certificate_no + '","boq":"' + boq + '","invoce_number":"' + invoce_number + '","asset_reference":"' + asset_reference + '"}',
         dataType: "json",
         success: function (data) {
             closeAsset('overlay-comm');
