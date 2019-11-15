@@ -3765,6 +3765,8 @@ $app->map(['GET','POST'],'/generate_certificate_number',function(Request $reques
         $assets_no;
         $new_cert = json_decode($assets_no);
 
+        
+
         $new_cert = $new_cert->data[0]->ASSET_CERT_NO;
         $str_arr = explode("/", $new_cert);  
 
@@ -3773,18 +3775,23 @@ $app->map(['GET','POST'],'/generate_certificate_number',function(Request $reques
         $cert_int++;
         $len = strlen((string)$cert_int);
         $zeros = "";
+        
         if($len < 5){
 
-            for($i = $len;$i<5;$i++){
+            for($i = $len;$i>0;$i--){
                 $zeros .="0";
             }
 
             $cert_int = $zeros.$cert_int;
         }
 
-        $cert_int = date("Y").'/'.$cert_int;
+        if($str_arr[0] == (string)date("Y")){
+            $cert_int = date("Y").'/'.$cert_int;
+        }else{
+            $cert_int = date("Y").'/000000';
+        }
     
-        echo json_encode(array("rows" => 0 ,"certificate_number" =>$cert_int));
+        echo json_encode(array("rows" => 1 ,"certificate_number" =>$cert_int));
     }
 });
 
@@ -3839,14 +3846,18 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
         $zeros = "";
         if($len < 5){
 
-            for($i = $len;$i<5;$i++){
+            for($i = $len;$i>0;$i--){
                 $zeros .="0";
             }
 
             $cert_int = $zeros.$cert_int;
         }
 
-        $cert_int = date("Y").'/'.$cert_int;
+        if($str_arr[0] == (string)date("Y")){
+            $cert_int = date("Y").'/'.$cert_int;
+        }else{
+            $cert_int = date("Y").'/000000';
+        }
         // $ass ={ };
         // echo $cert_int." after";
         if(!empty($cert_int)){
