@@ -164,6 +164,17 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="transfer-scroll" style="height: 288px !important;">
+                                    <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <th><input type="text" class="form-control"
+                                                            id="boq_decomm" placeholder="Project Agreement BoQ Reference"></th>
+                                                    <th><input type="text" class="form-control"
+                                                            id="invoce_number_decomm" placeholder="Service Provider Invoice Number"></th>
+                                                    <th><input type="text" class="form-control" id="asset_reference_decomm" placeholder="Reference"></th>
+                                                </tr>
+                                            </thead>
+                                        </table>
                                 <table class="table my-1 table-striped table-bordered">
                                     <thead style="background:#1d1a1a; color: #ffffff; padding: 13px;">
                                         <tr>
@@ -363,7 +374,7 @@
                                                 <div class="dropdown-menu" aria-labelledby="building_removal_filter" id="scroll_removal_building">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_removal_building" class="form-control" placeholder="Building" onkeyup="onSearch('search_removal_building','#empty_removal_building')" autofocus="autofocus">
+                                                            <input type="search" id="search_removal_building" class="form-control" placeholder="Building" onkeyup="onSearch('building_removal_filter','search_removal_building','#empty_removal_building')" autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light" id="clear_removal_building" onclick="clearData('#search_removal_building','#building_removal_filter','BUILDING')"><i
                                                                         class="fa fa-close"></i>
@@ -390,7 +401,7 @@
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_removal_level" class="form-control" placeholder="Level" onkeyup="onSearch('search_removal_level','#empty_removal_level')" autofocus="autofocus">
+                                                            <input type="search" id="search_removal_level" class="form-control" placeholder="Level" onkeyup="onSearch('level_removal_filter','search_removal_level','#empty_removal_level')" autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light" id="clear_removal_level" onclick="clearData('#search_removal_level','#level_removal_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
@@ -415,7 +426,7 @@
                                                 <div class="dropdown-menu clusterize-scroll" id="scroll_removal_area" aria-labelledby="area_removal_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_removal_area" class="form-control" placeholder="Area" onkeyup="onSearch('search_removal_area','#empty_removal_area')" autofocus="autofocus">
+                                                            <input type="search" id="search_removal_area" class="form-control" placeholder="Area" onkeyup="onSearch('area_removal_filter','search_removal_area','#empty_removal_area')" autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light" id="clear_removal_area" onclick="clearData('#search_removal_area','#area_removal_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
@@ -441,7 +452,7 @@
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_removal_room" class="form-control" placeholder="Room" onkeyup="onSearch('search_removal_room','#empty_removal_room')" autofocus="autofocus">
+                                                            <input type="search" id="search_removal_room" class="form-control" placeholder="Room" onkeyup="onSearch('room_removal_filter','search_removal_room','#empty_removal_room')" autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light" id="clear_removal_room" onclick="clearData('#search_removal_room','#room_removal_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
@@ -467,7 +478,7 @@
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_removal_sublocaction" class="form-control" placeholder="Sub Location" onkeyup="onSearch('search_removal_sublocaction','#empty_removal_sublocaction')" autofocus="autofocus">
+                                                            <input type="search" id="search_removal_sublocaction" class="form-control" placeholder="Sub Location" onkeyup="onSearch('subloacation_removal_filter','search_removal_sublocaction','#empty_removal_sublocaction')" autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light" id="clear_removal_sublocaction" onclick="clearData('#search_removal_sublocaction','#sublocaction_removal_filter','SUB LOCATION')"><i
                                                                         class="fa fa-close"></i></span>
@@ -493,7 +504,7 @@
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_removal_assetNo" class="form-control" placeholder="ASSET NO" onkeyup="onSearch('search_removal_assetNo','#empty_removal_assetNo')" autofocus="autofocus">
+                                                            <input type="search" id="search_removal_assetNo" class="form-control" placeholder="ASSET NO" onkeyup="onSearch('assetNo_removal_filter','search_removal_assetNo','#empty_removal_assetNo')" autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light" id="clear_removal_assetNo" onclick="clearData('#search_removal_assetNo','#assetNo_removal_filter','ASSET NO')"><i
                                                                         class="fa fa-close"></i></span>
