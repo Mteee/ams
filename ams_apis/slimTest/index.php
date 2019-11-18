@@ -5371,14 +5371,20 @@ $app->map(['GET','POST'],'/asset_print_cert',function(Request $request, Response
 
         $data = json_decode(file_get_contents('php://input'));
         $cert = strtoupper($data->cert_no);
+        $v_asset_boq = strtoupper($data->v_asset_boq);
+        $v_asset_invno = strtoupper($data->v_asset_invno);
+        $v_asset_ref = strtoupper($data->v_asset_ref);
         $username = strtoupper($data->username);
         $v_out = "";
 
 
-        $sql  = "BEGIN AMSD.asset_certificate_print(:v_asset_user,:v_asset_cert_no,:v_out); END;";
+        $sql  = "BEGIN AMSD.asset_certificate_print(:v_asset_user,:v_asset_cert_no,:v_asset_boq,:v_asset_invno,:v_asset_ref,:v_out); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':v_asset_user', $username, 50);
         oci_bind_by_name($statement, ':v_asset_cert_no', $cert, 50);
+        oci_bind_by_name($statement, ':v_asset_boq', $v_asset_boq, 50);
+        oci_bind_by_name($statement, ':v_asset_invno', $v_asset_invno, 50);
+        oci_bind_by_name($statement, ':v_asset_ref', $v_asset_ref, 50);
         oci_bind_by_name($statement, ':v_out',  $v_out, 2);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
