@@ -923,13 +923,15 @@ function createTable(tableID, tableData) {
                     .val(rowId)
             );
         });
-
+        console.log("AJAX");
         $.ajax({
             url: '../../ams_apis/slimTest/index.php/assetCert_print',
             method: 'post',
             data: '{"cert":"' + rows_selected[rows_selected.length - 1] + '"}',
             dataType: "JSON",
             success: function (data) {
+                console.log("data");
+                console.log(data);
                 var assets = "";
                 for (var i = 0; i < data.rows; i++) {
                     assets += "<tr>" +
@@ -945,18 +947,21 @@ function createTable(tableID, tableData) {
                         "</tr>"
                 }
 
-
                 document.getElementById('cert_no_field').innerHTML = data.data[0].ASSET_CERTIFICATE_NO;
                 document.getElementById('creation_date_field').innerHTML = data.data[0].ASSET_CERTIFICATE_CREATION_DATE;
                 document.getElementById('equip_cart').innerHTML = data.data[0].ASSET_CLASS;
                 document.getElementById('trans_type').innerHTML = checkTypeForCert(data.data[0].ASSET_CERTIFICATE_TYPE);
 
+                document.getElementById('boq').value = (data.data[0].ASSET_BOQ_REFERENCE);
+                document.getElementById('invoce_number').value = (data.data[0].ASSET_SP_INV_NO);
+                document.getElementById('asset_reference').value = (data.data[0].ASSET_REFERENCE);
 
                 document.getElementById('subItemCount').innerHTML = data.rows;
                 document.getElementById('cert_assets_selected').innerHTML = assets;
                 document.getElementById('overlay-printView').style.display = "block";
             },
             error: function (error) {
+                console.log(error);
             }
         });
         // Remove added elements

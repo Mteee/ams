@@ -1087,25 +1087,33 @@ $app->map(['GET','POST'],'/assetCert_print',function(Request $request, Response 
     // }
 
 
-    $sql = "SELECT DISTINCT a_vw.ASSET_MODEL,
-                    a_vw.ASSET_PRIMARY_ID,
-                    a_vw.HD_ASSET_LOCATION,
-                    a_vw.ASSET_ID,
-                    a_vw.ASSET_ROOM_NO,
-                    a_vw.ASSET_AREA_NAME,
-                    a_vw.ASSET_CLASSIFICATION,
-                    a_vw.ASSET_DESCRIPTION,
-                    a_vw.ASSET_PURCHASE_DT,
-                    a_vw.ASSET_IS_SUB,
-                    a_vw.ASSET_DISPOSAL_DT,
-                    a_cert.ASSET_CERTIFICATE_NO,
-                    a_cert.ASSET_CERTIFICATE_TYPE,
-                    a_cert.ASSET_CERTIFICATE_CREATION_DATE,
-                    a_vw.ASSET_CLASS
-            FROM AMSD.ASSETS_vw a_vw, AMSD.ASSETS_CERTIFICATE a_cert
-            WHERE  a_vw.ASSET_CERT_NO = a_cert.ASSET_CERTIFICATE_NO
-            AND 
-            AND a_vw.ASSET_CERT_NO = '$cert_no'";
+    $sql = "     SELECT DISTINCT a_vw.ASSET_MODEL,
+                                a_vw.ASSET_PRIMARY_ID,
+                                a_vw.HD_ASSET_LOCATION,
+                                a_vw.ASSET_ID,
+                                a_vw.ASSET_ROOM_NO,
+                                a_vw.ASSET_AREA_NAME,
+                                a_vw.ASSET_CLASSIFICATION,
+                                a_vw.ASSET_DESCRIPTION,
+                                a_vw.ASSET_PURCHASE_DT,
+                                a_vw.ASSET_IS_SUB,
+                                a_vw.ASSET_DISPOSAL_DT,
+                                a_cert.ASSET_CERTIFICATE_NO,
+                                a_cert.ASSET_CERTIFICATE_TYPE,
+                                a_cert.ASSET_CERTIFICATE_CREATION_DATE,
+                                a_vw.ASSET_CLASS,
+                                aci.ASSET_BOQ_REFERENCE,
+                                aci.ASSET_SP_INV_NO,
+                                aci.ASSET_REFERENCE
+                            FROM AMSD.ASSETS_vw a_vw, AMSD.ASSETS_CERTIFICATE a_cert, AMSD.ASSETS_CERTIFICATE_INFO aci
+                            WHERE  a_vw.ASSET_CERT_NO = a_cert.ASSET_CERTIFICATE_NO
+                            AND    aci.ASSET_CERTIFICATE_INFO_DATE = (SELECT ASSET_CERTIFICATE_INFO_DATE
+                                                                    FROM (SELECT ASSET_CERTIFICATE_INFO_DATE
+                                                                FROM AMSD.ASSETS_CERTIFICATE_INFO 
+                                                                WHERE ASSET_CERTIFICATE_NO = '$cert_no' 
+                                                                ORDER BY ASSET_CERTIFICATE_INFO_DATE DESC)
+                                                                WHERE ROWNUM = 1)
+                            AND a_vw.ASSET_CERT_NO = '$cert_no'";
 
 
     $assets_no =$func->executeQuery($sql);

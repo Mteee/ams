@@ -325,8 +325,8 @@ function createTable(tableID, tableData) {
                 "targets": -1,
                 "data": null,
                 "orderable": false,
-                "defaultContent": "<button type='button' name='view' class='btn btn-primary'><span class='fa fa-eye'></span></button>" +
-                    " <button type='button' name='edit' class='btn btn-info edit_class' style='display:none;'><span class='fa fa-edit'></span></button>"
+                "defaultContent": "<button type='button' name='view' class='btn btn-primary'><span class='fa fa-eye'></span></button>" 
+                    // " <button type='button' name='edit' class='btn btn-info edit_class' style='display:none;'><span class='fa fa-edit'></span></button>"
             },
             {
                 "className": "dt-center",
