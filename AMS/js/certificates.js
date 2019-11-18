@@ -78,6 +78,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 
         $('#currentAssetsTable').DataTable().clear().destroy();
         $('#searchView').show();
+        $('#printCert').hide();
 
     });
 
