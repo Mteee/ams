@@ -924,13 +924,13 @@ $('#menu_asset_no_sub').on('click', '.dropdown-item', function () {
 //Department Dropdown Check
 if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
-    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
-    $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
+    // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+    // $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
 
-    if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")
+    // if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")
         $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
 
-    $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
+    // $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
     $('#class-options').prop('disabled', false);
 
     $('#class-options').on('change', function () {
@@ -954,7 +954,8 @@ if (localStorage.dropdownFilter == "ALL EQUIPMENT") {
 
 }
 else {
-    $('#class-options').append(new Option(localStorage.filter, "user_class"));
+    // $('#class-options').append(new Option(localStorage.filter, "user_class"));
+    $('#class-options').append(new Option("IT EQUIPMENT", "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
 }

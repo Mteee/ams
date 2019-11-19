@@ -928,9 +928,12 @@ $('#menu_new_room').on('click', '.dropdown-item', function () {
     $('#search_new_room').val($(this)[0].value);
 });
 
-if (localStorage.filter == "ALL EQUIPMENT") {
 
-    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+
+
+
+if (localStorage.filter == "ALL EQUIPMENT") {
+    localStorage.filter = "FACILITIES MANAGEMENT";
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
 
     if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")
@@ -980,7 +983,6 @@ $('#asset_class').on('change', function () {
 
     $('#search_new_room').val(selectDefaultRoom);
     $('#room_new_filter').val(selectDefaultRoom);
-
 });
 
 

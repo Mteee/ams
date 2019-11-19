@@ -170,7 +170,7 @@ function getUsers(a, b, c) {
         dataType: 'json',
         data: jsonData,
         success: function (data) {
-            console.log(data);
+            // console.log(data);
             if (data.rows > 0) {
 
                 var str = '{"data" : [';
