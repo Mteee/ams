@@ -3925,7 +3925,6 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
                     $sub .= '<tr>
                                     <td>'.$res->ASSET_ID.'</td>
                                     <td>'.$res->ASSET_DESCRIPTION.'</td>
-                                    <td>'.$cert_int.'</td>
                                 </tr>
                             ';
     

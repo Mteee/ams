@@ -661,15 +661,48 @@ function viewCommAssets(assets) {
     }
 
     $("#confirmComm").off().on("click", function () {
-        confirmComm(conc_assets, cert_no.data);
+        
+        $.ajax({
+            // url: "assets.json",
+            url: "../../ams_apis/slimTest/index.php/generate_Cert_no",
+            method: "post",
+            data: '{"assert_primary_id" : "' + send_assets + '"}',
+            dataType: "json",
+            success: function (data) {
+                $('#loaderComm').hide();
+                if (data.rows > 0) {
+                    confirmComm(conc_assets, data.certificate_number);
+                }else{
+                    swal.fire({
+                        title: "Error Generating Certificate",
+                        text: "Please try again later or contact admin (amsdev@ialch.co.za)",
+                        type: "error",
+                        showCloseButton: true,
+                        confirmButtonColor: "#C12E2A",
+                        allowOutsideClick: true,
+                    });
+                }
+            },
+            error: function (err) {
+                swal.fire({
+                    title: "Unexpected Error #42404",
+                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'generate_Cert_no'",
+                    type: "error",
+                    showCloseButton: true,
+                    confirmButtonColor: "#C12E2A",
+                    allowOutsideClick: true,
+                });
+            }
+        });
+       
     });
 }
 
 function confirmComm(assets_ids, certificate_no) {
 
     var boq =  document.getElementById("boq_comm").value,
-                invoce_number =  document.getElementById("invoce_number_comm").value,
-                asset_reference = document.getElementById("asset_reference_comm").value;
+        invoce_number =  document.getElementById("invoce_number_comm").value,
+        asset_reference = document.getElementById("asset_reference_comm").value;
 
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/comm_asset",
@@ -681,7 +714,7 @@ function confirmComm(assets_ids, certificate_no) {
             search();
             $('#commAssets').fadeOut(500);
             swal.fire({
-                title: "Success",
+                title: "Certificate Number : "+certificate_no,
                 text: data.data,
                 type: 'success',
                 showCloseButton: true,
