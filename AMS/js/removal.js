@@ -143,12 +143,12 @@ function search() {
                 $('#loader').fadeOut(500);
 
                 console.log("======================data===============================");
-                // console.log(data);
-                var table = null;
+                console.log(data);
                 console.log("================test===============================");
                 // console.log(data);
                 // console.log(data.data.ASSET_IS_SUB);
-
+                
+                var table = null;
 
                 if (data.rows > 0) {
 
@@ -1218,9 +1218,15 @@ function setValueBtn(id, value) {
 
 if (localStorage.filter == "ALL EQUIPMENT") {
 
-    $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+    
+    // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
+
+    localStorage.filter = "FACILITIES MANAGEMENT";
+
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
-    $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+    if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")
+        $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
+        
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
     $('#class-options').prop('disabled', false);
 

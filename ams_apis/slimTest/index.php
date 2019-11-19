@@ -3774,9 +3774,9 @@ $app->map(['GET','POST'],'/generate_certificate_number',function(Request $reques
         $assets_no;
         $new_cert = json_decode($assets_no);
 
-        
-
         $new_cert = $new_cert->data[0]->ASSET_CERT_NO;
+        // $new_cert = "2020/000000230265416";
+
         $str_arr = explode("/", $new_cert);  
 
         $cert_int = (int)$str_arr[1];
@@ -3784,23 +3784,23 @@ $app->map(['GET','POST'],'/generate_certificate_number',function(Request $reques
         $cert_int++;
         $len = strlen((string)$cert_int);
         $zeros = "";
-        
-        if($len < 5){
 
-            for($i = $len;$i>0;$i--){
+        if($len < 6){
+
+            for($i = $len;$i<6;$i++){
                 $zeros .="0";
             }
 
             $cert_int = $zeros.$cert_int;
         }
 
-        if($str_arr[0] == (string)date("Y")){
+        if($str_arr[0] == $str_arr[0]){
             $cert_int = date("Y").'/'.$cert_int;
         }else{
             $cert_int = date("Y").'/000000';
         }
     
-        echo json_encode(array("rows" => 1 ,"certificate_number" =>$cert_int));
+         echo json_encode(array("rows" => 1 ,"certificate_number" =>$cert_int));
     }
 });
 
@@ -3853,9 +3853,9 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
         $cert_int++;
         $len = strlen((string)$cert_int);
         $zeros = "";
-        if($len < 5){
+        if($len < 6){
 
-            for($i = $len;$i>0;$i--){
+            for($i = $len;$i<6;$i++){
                 $zeros .="0";
             }
 
@@ -3986,9 +3986,9 @@ $app->map(['GET','POST'],'/get_Asset_status_decom',function(Request $request, Re
         $cert_int++;
         $len = strlen((string)$cert_int);
         $zeros = "";
-        if($len < 5){
+        if($len < 6){
 
-            for($i = $len;$i>0;$i--){
+            for($i = $len;$i<6;$i++){
                 $zeros .="0";
             }
 
@@ -5444,7 +5444,7 @@ $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Resp
         $user = strtoupper($data->user);
 
         if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
-            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user'";
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user' ORDER BY ASSET_USERNAME ASC";
         else{
             if($asset_class == 'ALL EQUIPMENT')
                 $asset_class = '';
