@@ -3772,7 +3772,7 @@ $app->map(['GET','POST'],'/getAll_Assets_with_Cert_no',function(Request $request
     AND ASSET_ID LIKE '%$asset_no%'
     AND (ASSET_CLASSIFICATION LIKE '%$asset_description%'
         OR ASSET_DESCRIPTION LIKE '%$asset_description%')
-    AND ASSET_CERT_NO IS NOT NULL 
+    AND (ASSET_CERT_NO IS NOT NULL OR ASSET_CERT_NO <> '') 
     AND ASSET_PRINT_DATE IS NOT NULL
     AND ASSET_STATUS = 'ACTIVE'";
 
