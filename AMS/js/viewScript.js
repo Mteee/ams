@@ -619,6 +619,7 @@ function getItems(url, id, scrollArea, menuid) {
 
         },
         error: function (data_err) {
+            console.log(data_err);
             var id = id.split("_");
             id = id[id.length - 1];
             swal.fire({
