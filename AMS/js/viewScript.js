@@ -1109,6 +1109,11 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         //clear btn text
         checkFilter("search_view_building");
 
+        $('#currentAssetsTable').DataTable().clear().destroy();
+        $("#searchView").show();
+        $("#printAssets").hide();
+
+
     });
 
 } else {
