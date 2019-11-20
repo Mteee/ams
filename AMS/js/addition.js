@@ -721,6 +721,7 @@ function confirmComm(assets_ids, certificate_no) {
                 closeButtonColor: '#3DB3D7',
                 allowOutsideClick: true,
             })
+            
             $('#loaderComm').hide();
             if (data.rows > 0) {
                 document.getElementById("assetTbody").innerHTML = data.data;

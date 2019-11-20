@@ -98,6 +98,25 @@ class Functions{
 		return $results;
 	}//close updateLetterToIcon function
 
+	//updating y to icons
+	public function assetStatus($status){
+    
+		$results = "";
+
+		switch($status){
+			case "ACTIVE":
+			case "1":
+				$results = "<p class='text-success'><strong>".$status."</strong></p>";
+				break;
+			case  "0":
+			case "INACTIVE":
+				$results = "<p class='text-danger'><strong>".$status."</strong></p>";
+				break;
+		}
+
+		return $results;
+	}//close updateLetterToIcon function
+
 	function updateLetterToWords($letter) {
 		 $results = "";
 		switch ($letter) {

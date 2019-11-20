@@ -479,7 +479,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
             $ASSET_CLASS = '';
         }
         
-        $sql = "SELECT ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_HAS_SUB_ASSETS 
+        $sql = "SELECT ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_STATUS,ASSET_HAS_SUB_ASSETS
         FROM AMSD.ASSETS_VW
         WHERE ASSET_BUILDING LIKE '%$building%' 
         AND ASSET_LEVEL LIKE '%$level%' 
@@ -517,6 +517,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
                         $str .= $assets_decode->data[$k]->ASSET_ROOM_NO . '","';
                         $str .= $assets_decode->data[$k]->ASSET_AREA . '","';
                         $str .= str_replace("\"", "`", $assets_decode->data[$k]->ASSET_DESCRIPTION) . '","';
+                        $str .= $func->assetStatus($assets_decode->data[$k]->ASSET_STATUS) . '","';
                         $str .= $func->updateLetterToWords($assets_decode->data[$k]->ASSET_HAS_SUB_ASSETS) . '"]';
                     } else {
 
@@ -526,6 +527,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
                         $str .= $assets_decode->data[$k]->ASSET_ROOM_NO . '","';
                         $str .= $assets_decode->data[$k]->ASSET_AREA . '","';
                         $str .= str_replace("\"", "`", $assets_decode->data[$k]->ASSET_DESCRIPTION) . '","';
+                        $str .= $func->assetStatus($assets_decode->data[$k]->ASSET_STATUS) . '","';
                         $str .= $func->updateLetterToWords($assets_decode->data[$k]->ASSET_HAS_SUB_ASSETS) . '"],';
                     }
                 }
@@ -4057,7 +4059,6 @@ $app->map(['GET','POST'],'/get_Asset_status_decom',function(Request $request, Re
                     $sub .= '<tr>
                                     <td>'.$res->ASSET_ID.'</td>
                                     <td>'.$res->ASSET_DESCRIPTION.'</td>
-                                    <td>'.$cert_int.'</td>
                                 </tr>
                             ';
     
