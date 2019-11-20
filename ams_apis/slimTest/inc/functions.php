@@ -133,6 +133,25 @@ class Functions{
 		return $results;
 	}
 	
+	function desc_role($value) {
+		
+		if ($value == "ADMIN") {
+			return $value;
+		}else if($value == "null" || $value == null || $value == "undefined"){
+			return "<strong>No Permissions</strong>";
+		}else{
+			return "Permissions : <strong>" . count(explode("|",$value)) . "</strong>";
+		}
+	}
+
+	function isSpecified($value) {
+		if ($value == null) {
+			return "NOT SPECIFIED";
+		}
+		return $value;
+	}
+	
+	
 
 }
 

@@ -170,37 +170,12 @@ function getUsers(a, b, c) {
         dataType: 'json',
         data: jsonData,
         success: function (data) {
-            // console.log(data);
+            console.log(data);
             if (data.rows > 0) {
 
-                var str = '{"data" : [';
+                
 
-                for (var k = 0; k < data.rows; k++) {
-                    console.log(data.data[k].ASSET_USERNAME + "!=" + localStorage.username);
-
-                    if ((data.rows - 1) == k) {
-                        str += '["' + data.data[k].ASSET_USERNAME + '","';
-                        str += data.data[k].ASSET_USER_BADGENO + '","';
-                        str += data.data[k].ASSET_USER_CLASS + '","';
-                        str += data.data[k].ASSET_USER_CREATED + '","';
-                        str += desc_role(data.data[k].ASSET_USER_ROLES) + '"]';
-                    } else {
-                        str += '["' + data.data[k].ASSET_USERNAME + '","';
-                        str += data.data[k].ASSET_USER_BADGENO + '","';
-                        str += data.data[k].ASSET_USER_CLASS + '","';
-                        str += data.data[k].ASSET_USER_CREATED + '","';
-                        str += desc_role(data.data[k].ASSET_USER_ROLES) + '"],';
-                    }
-
-                }
-
-                str += ']}'
-
-                str = replaceAll("\n", "", str);
-
-                console.log(str);
-
-                str = (JSON.parse(str));
+                str = (JSON.parse(data.data));
                 // console.log(str.data);
                 $('#users_loader').hide();
                 table = createTable("#usersTable", str.data);

@@ -181,66 +181,14 @@ function search() {
                 $('#searchView').hide();
                 $('#loader').hide();
                 var table = null;
-                var rowIds = [];
-                var ASSET_ROOM_NO = "";
-                var ASSET_SUB_LOCATION = "";
-                console.log("dfbgbdgbfgbfdb");
-                console.log(table_dom);
-                console.log("dfbfgbdfbdfbdfb");
-                console.log(data);
-                console.log("dfbfgbdfbdfbdfb");
 
                 if (data.rows > 0) {
-                    localStorage.table_len = data.rows;
+                   
+                    console.log(data.data);
+                    str = (JSON.parse(data.data));
 
 
-                    var str = '{"data" : [';
-                    for (var k = 0; k < data.rows; k++) {
-
-                        if (data.data[k].ASSET_TRANSACTION_STATUS == "PENDING" || data.data[k].ASSET_TRANSACTION_STATUS == "PENDING-TEMP") {
-                            // console.log(data.data[k].ASSET_PRIMARY_ID);
-                            rowIds.push(data.data[k].ASSET_ID);
-
-                        }
-                        ;
-
-                        data.data[k].ASSET_DESCRIPTION = replaceAll("\"", "`", data.data[k].ASSET_DESCRIPTION);
-                        data.data[k].ASSET_DESCRIPTION = replaceAll("\'", "`", data.data[k].ASSET_DESCRIPTION);
-                        data.data[k].ASSET_DESCRIPTION = replaceAll("\\", "`", data.data[k].ASSET_DESCRIPTION);
-
-                        if ((data.rows - 1) == k) {
-
-                            str += '["' + data.data[k].ASSET_ID + '","';
-                            str += data.data[k].ASSET_ID + '","';
-                            str += isSpecified(data.data[k].ASSET_SUB_LOCATION) + '","';
-                            str += isSpecified(data.data[k].ASSET_ROOM_NO) + '","';
-                            str += data.data[k].ASSET_AREA + '","';
-                            str += data.data[k].ASSET_DESCRIPTION + '","';
-                            str += data.data[k].ASSET_STATUS + '","';
-                            str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"]';
-
-                        } else {
-
-                            str += '["' + data.data[k].ASSET_ID + '","';
-                            str += data.data[k].ASSET_ID + '","';
-                            str += isSpecified(data.data[k].ASSET_SUB_LOCATION) + '","';
-                            str += isSpecified(data.data[k].ASSET_ROOM_NO) + '","';
-                            str += data.data[k].ASSET_AREA + '","';
-                            str += data.data[k].ASSET_DESCRIPTION + '","';
-                            str += data.data[k].ASSET_STATUS + '","';
-                            str += updateLetterToIcon(data.data[k].ASSET_HAS_SUB_ASSETS) + '"],';
-
-                        }
-                    }
-                    str += ']}'
-                    str = replaceAll("\n", "", str);
-                    str = replaceAll("\r", "", str);
-                    str = (JSON.parse(str));
-
-
-                    // console.log(table_dom);
-
-                    table = createTable(table_dom, str.data, length, rowIds);
+                    table = createTable(table_dom, str.data, length, data.rowsID);
 
                     var _table_id = table_dom.replace("#", "");
                     tableArr[_table_id] = table;
