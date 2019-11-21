@@ -854,9 +854,14 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
                 $sub .= '<tr>
                                 <td>'.$res->ASSET_ID.'</td>
                                 <td>'.$res->ASSET_CLASSIFICATION.'</td>
-                                <td><button class="btn btn-info" onclick="unlinkSub(\''.$res->ASSET_ID.'\')"><i class="fa fa-chain-broken"></i></button></td>
-                            </tr>
-                        ';
+                                <td>';               
+                                
+                                $sub .= ($res->ASSET_ID == $res->ASSET_PRIMARY_ID) ? 
+                                       '' //  '<button class="btn btn-danger" onclick="unlinkPrimary()"><i class="fa fa-chain-broken"></i></button></td>'
+                                :  
+                                        '<button class="btn btn-info" onclick="unlinkSub(\''.$res->ASSET_ID.'\')"><i class="fa fa-chain-broken"></i></button></td>';
+
+                                $sub .=  '</tr>';
 
                             $count++;
                 }
@@ -1581,6 +1586,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
     $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
+    $rowIds = array();
 
     if(!empty($level) || !empty($building) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS) || !empty($room_no) || !empty($area)){
 
@@ -1627,7 +1633,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
 
                         $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
                         $str .= $assets->data[$k]->ASSET_ID . '","';
-                        $str .= $func->isSpecified($assets->data[$k]->asset_sub_location) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
                         $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
                         $str .= $assets->data[$k]->ASSET_AREA . '","';
                         $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
@@ -1638,7 +1644,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
 
                         $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
                         $str .= $assets->data[$k]->ASSET_ID . '","';
-                        $str .= $func->isSpecified($assets->data[$k]->asset_sub_location) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
                         $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
                         $str .= $assets->data[$k]->ASSET_AREA . '","';
                         $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
@@ -4806,7 +4812,56 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-        echo $assets_no;
+        // echo $assets_no;
+        $assets = json_decode($assets_no);
+        // print_r($assets);
+        $len = $assets->rows;
+
+        $str = '{"data" : [';
+            for ($k = 0; $k <  $len; $k++) {
+
+                if (($len- 1) == $k) {
+
+                    $str .= '["' . $assets->data[$k]->ASSET_CERT_NO . '","';
+                    $str .= $assets->data[$k]->ASSET_CERT_NO . '","';
+                    $str .= $assets->data[$k]->ASSET_CLASS . '","';
+                    $str .= $func->checkType($assets->data[$k]->ASSET_CERTIFICATE_TYPE) . '","';
+                    $str .= $assets->data[$k]->ASSET_CERTIFICATE_CREATION_DATE . '","';
+                    $str .= $func->isSpecified($assets->data[$k]->ASSET_PRINT_DATE) . '","';
+                    $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_CERTIFICATE_STATUS) . '"]';
+
+                } else {
+
+                    $str .= '["' . $assets->data[$k]->ASSET_CERT_NO . '","';
+                    $str .= $assets->data[$k]->ASSET_CERT_NO . '","';
+                    $str .= $assets->data[$k]->ASSET_CLASS . '","';
+                    $str .= $func->checkType($assets->data[$k]->ASSET_CERTIFICATE_TYPE) . '","';
+                    $str .= $assets->data[$k]->ASSET_CERTIFICATE_CREATION_DATE . '","';
+                    $str .= $func->isSpecified($assets->data[$k]->ASSET_PRINT_DATE) . '","';
+                    $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_CERTIFICATE_STATUS) . '"],';
+
+                }
+            }
+
+            $str .= ']}';
+
+
+            // $arrRemove = ['\n',' 14"',' 26"',' 18"','\r','\\']; // Replacing these values
+            // $arrWith   = ['',' 14`',' 26`',' 18`','',''];      // With these values
+
+
+            // $str = $func->replaceMulti($arrRemove,$arrWith,$str);
+
+            $str = str_replace("\n", "", $str);
+            $str = str_replace(' 14"', "14`", $str);
+            $str = str_replace(' 26"', "26`", $str);
+            $str = str_replace(' 18"', " 18`", $str);
+            $str = str_replace("\r", "", $str);
+            $str = str_replace("\\", "", $str);
+
+            echo json_encode(array("rows" =>$len ,"data" => $str));
+
+
     }
     else{
         echo json_encode(array("rows" => 0 ,"data" =>[]));

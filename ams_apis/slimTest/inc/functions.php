@@ -151,7 +151,33 @@ class Functions{
 		return $value;
 	}
 	
-	
+
+		
+	function checkType($val) {
+		$return_type = "";
+		switch ($val) {
+			case "COMM":
+			case " - 1":
+				$return_type = "<p class='text-info'><strong>ADDITION</strong></p>";
+				break;
+			case "DISPOSED - 0":
+			case "DECOMM":
+				$return_type = "<p class='text-success'><strong>REMOVAL/SCRAP</strong></p>";
+				break;
+		}
+
+		return $return_type;
+	}
+
+	function replaceMulti($arrRemove,$arrWith,$str){
+		
+		for($i=0;$i<count($arrRemove);$i++){
+			$str = str_replace($arrRemove[$i],$arrWith[$i],$str);
+		}
+
+		return $str;
+	}
+		
 
 }
 

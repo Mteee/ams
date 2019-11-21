@@ -294,6 +294,20 @@ function updateLetterToIcon(letter) {
     return results;
 }//close updateLetterToIcon function
 
+
+function unlinkPrimary(){
+    swal.fire({
+        title: "You can not unlink primary",
+        text: "You need to unlink all to do so",
+        type: "error",
+        showCloseButton: true,
+        confirmButtonColor: "#C12E2A",
+        allowOutsideClick: true,
+    });
+
+}
+
+
 function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
@@ -305,6 +319,9 @@ function viewAsset(assetId) {
         dataType: "JSON",
         data: '{"al_no" :"' + assetId + '"}',
         success: function (data) {
+
+
+
             document.getElementById('viewAssets').innerHTML = data[0].table;
             document.getElementById('subItemCount').innerText = data[0].items;
 
