@@ -1159,6 +1159,9 @@ function cleaAllFilters() {
     $('#view_description').val("");
 }
 
+
+
+
 var onSearch_new = function (searchValue) {
     document.getElementById(searchValue).onkeypress = function (e) {
 
