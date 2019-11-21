@@ -34,7 +34,7 @@ $app->map(['GET','POST'],'/asset_primary_view_v', function(Request $request, Res
 
     // $sql = "SELECT A_OLD.ASSET_ID
     //         FROM 
-    //             AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
+    //             AMSP.ASSETS_LOCATION L_NEW, AMSP.ASSETS  A_OLD
     //         WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
     //         AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
     //         AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
@@ -62,7 +62,7 @@ $app->map(['GET','POST'],'/asset_primary_view_v', function(Request $request, Res
                             AS ASSET_CLASS,
                         NVL (L_NEW.HD_ASSET_ROOM_LOCATION, 'NO DATA')
                             AS ASSET_SUB_LOCATION
-                FROM AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS A_OLD
+                FROM AMSP.ASSETS_LOCATION L_NEW, AMSP.ASSETS A_OLD
                 WHERE     L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
                 AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+))
                 WHERE     (ASSET_CLASS LIKE '%$asset_class%' OR ASSET_CLASS = 'NO DATA')
@@ -510,7 +510,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         }
 
         $sql = "SELECT ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_STATUS,ASSET_HAS_SUB_ASSETS
-        FROM AMSD.ASSETS_VW
+        FROM AMSP.ASSETS_VW
 
         WHERE ASSET_BUILDING LIKE '%$building%' 
         AND ASSET_LEVEL LIKE '%$level%' 
@@ -1547,7 +1547,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         AND avw.asset_id = lvw.asset_id
                         AND avw.asset_primary_id = lvw.asset_id";
 
-        // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
+        // $sql = "SELECT * FROM AMSP.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
 
 
         $assets =$func->executeQuery($sql);
