@@ -32,21 +32,50 @@ $app->map(['GET','POST'],'/asset_primary_view_v', function(Request $request, Res
         $asset_class = '';
     }
 
-    $sql = "SELECT A_OLD.ASSET_ID
-            FROM 
-                AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
-            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
-            AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
-            AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
-            AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' 
-            AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
-            AND (L_NEW.ASSET_AREA LIKE '%$asset_area_name%' OR L_NEW.ASSET_AREA IS NULL)
-            AND (A_OLD.ASSET_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_ID IS NOT NULL)
-            AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY A_OLD.ASSET_ID
-            ORDER BY A_OLD.ASSET_ID";
+    // $sql = "SELECT A_OLD.ASSET_ID
+    //         FROM 
+    //             AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
+    //         WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+    //         AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
+    //         AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
+    //         AND L_NEW.ASSET_BUILDING LIKE '%$building%'
+    //         AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' 
+    //         AND L_NEW.ASSET_LEVEL LIKE '%$level%'
+    //         AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
+    //         AND (L_NEW.ASSET_AREA LIKE '%$asset_area_name%' OR L_NEW.ASSET_AREA IS NULL)
+    //         AND (A_OLD.ASSET_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_ID IS NOT NULL)
+    //         AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
+    //         GROUP BY A_OLD.ASSET_ID
+    //         ORDER BY A_OLD.ASSET_ID";
+
+    $sql = "SELECT ASSET_ID
+            FROM (SELECT DISTINCT
+                        L_NEW.ASSET_ROOM_NO,
+                        L_NEW.HD_ASSET_ROOM_LOCATION,
+                        L_NEW.ASSET_AREA_NAME,
+                        L_NEW.ASSET_AREA,
+                        L_NEW.ASSET_LEVEL,
+                        L_NEW.ASSET_BUILDING,
+                        NVL (A_OLD.ASSET_ID, 'NO DATA')
+                            AS ASSET_ID,
+                        NVL (A_OLD.ASSET_CLASS, 'NO DATA')
+                            AS ASSET_CLASS,
+                        NVL (L_NEW.HD_ASSET_ROOM_LOCATION, 'NO DATA')
+                            AS ASSET_SUB_LOCATION
+                FROM AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS A_OLD
+                WHERE     L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+                AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+))
+                WHERE     (ASSET_CLASS LIKE '%$asset_class%' OR ASSET_CLASS = 'NO DATA')
+                AND (ASSET_BUILDING LIKE '%$building%')
+                AND (ASSET_SUB_LOCATION LIKE '%$sub_location%')
+                AND (ASSET_LEVEL LIKE '%$level%')
+                AND (ASSET_AREA_NAME LIKE '%$area%')
+                AND (ASSET_AREA LIKE '%$asset_area_name%' OR ASSET_AREA IS NULL)
+                AND (ASSET_ID LIKE '%$asset_primary_id%')
+                AND (ASSET_ROOM_NO LIKE '%$room_no%')
+--AND A_OLD.ASSET_STATUS = '1'
+            GROUP BY ASSET_ID
+            ORDER BY ASSET_ID";
 
     $assets_no =$func->executeQuery($sql);
 
@@ -116,8 +145,8 @@ $app->map(['GET','POST'],'/asset_sub_location_view_v', function(Request $request
                         L_NEW.ASSET_AREA,
                         L_NEW.ASSET_LEVEL,
                         L_NEW.ASSET_BUILDING,
-                        NVL (A_OLD.ASSET_PRIMARY_ID, 'NO DATA')
-                            AS ASSET_PRIMARY_ID,
+                        NVL (A_OLD.ASSET_ID, 'NO DATA')
+                            AS ASSET_ID,
                         NVL (A_OLD.ASSET_CLASS, 'NO DATA')
                             AS ASSET_CLASS,
                         NVL (L_NEW.HD_ASSET_ROOM_LOCATION, 'NO DATA')
@@ -131,7 +160,7 @@ $app->map(['GET','POST'],'/asset_sub_location_view_v', function(Request $request
                 AND (ASSET_LEVEL LIKE '%$level%')
                 AND (ASSET_AREA_NAME LIKE '%$area%')
                 AND (ASSET_AREA LIKE '%$asset_area_name%' OR ASSET_AREA IS NULL)
-                AND (ASSET_PRIMARY_ID LIKE '%$asset_primary_id%')
+                AND (ASSET_ID LIKE '%$asset_primary_id%')
                 AND (ASSET_ROOM_NO LIKE '%$room_no%')
                 AND substr(ASSET_SUB_LOCATION,1,2) in ('VL','SW','AL','SC','SA','PL','AP')   
 
@@ -5650,6 +5679,7 @@ $app->map(['GET','POST'],'/unlink_assets',function(Request $request, Response $r
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+
 $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Response $response){
     try{
         global $func;
@@ -5717,6 +5747,31 @@ $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Resp
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+
+$app->map(['GET','POST'],'/getSearchUser',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $username = strtoupper($data->username);
+
+        $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USERNAME LIKE '%$username%' ORDER BY ASSET_USERNAME ASC";
+
+        $users =$func->executeQuery($sql);
+
+        if($users){
+
+             echo $users;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+
 $app->map(['GET','POST'],'/getAdminUser',function(Request $request, Response $response){
     try{
         global $func;
@@ -5967,6 +6022,11 @@ $app->map(['GET','POST'],'/update_asset', function(Request $request, Response $r
         return json_encode($response);
     }
 
+});
+
+$app->map(['GET','POST'],'/get_usernames', function(Request $request, Response $response){
+    global $func;
+    $data = json_encode(file_get_contents('php://input'));
 });
 
 $app->run();

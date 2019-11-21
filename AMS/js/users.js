@@ -3,6 +3,8 @@ var user_class = localStorage.username;
 
 $('#username').text(user_class.toUpperCase());
 
+localStorage.searchUsername = "";
+
 //check for filter in local storage
 if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
     localStorage.backupFilter = localStorage.filter;
@@ -57,12 +59,12 @@ window.onload = function () {
 function desc_role(value) {
     if (value == "ADMIN") {
         return value;
-    }else if(value == "null" || value == null || value == undefined){
+    } else if (value == "null" || value == null || value == undefined) {
         return "<strong>No Permissions</strong>";
     }
-    
+
     return "Permissions : <strong>" + value.split("|").length + "</strong>";
-   
+
 }
 
 function view_user(username) {
@@ -158,6 +160,35 @@ function addUserClasses() {
 
 getUsers(localStorage.filter, localStorage.role, localStorage.username);
 
+populate_dropdown();
+
+function populate_dropdown() {
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/getSearchUser",
+        method: "POST",
+        dataType: 'json',
+        data: '{"username":"'+localStorage.searchUsername+'"}',
+        success: function (data) {
+            var rows = [];
+            for (var k = 0; k < data.rows; k++) {
+                rows.push({
+                    values: [data.data[k].ASSET_USERNAME],
+                    markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[k].ASSET_USERNAME + '"/>',
+                    active: true
+                });
+            }
+
+            allArr["search_users_username"] = rows;
+
+            filterItems(rows);
+        },
+        error: function(data_error){
+            console.log(data_error);
+        }
+
+    });
+}
+
 function getUsers(a, b, c) {
 
     var jsonData = '{"asset_class" :"' + a + '","role" :"' + b + '","user" :"' + c + '"}';
@@ -173,7 +204,30 @@ function getUsers(a, b, c) {
             console.log(data);
             if (data.rows > 0) {
 
-                
+                var str = '{"data" : [';
+
+                for (var k = 0; k < data.rows; k++) {
+                    if ((data.rows - 1) == k) {
+                        str += '["' + data.data[k].ASSET_USERNAME + '","';
+                        str += data.data[k].ASSET_USER_BADGENO + '","';
+                        str += data.data[k].ASSET_USER_CLASS + '","';
+                        str += data.data[k].ASSET_USER_CREATED + '","';
+                        str += desc_role(data.data[k].ASSET_USER_ROLES) + '"]';
+                    } else {
+                        str += '["' + data.data[k].ASSET_USERNAME + '","';
+                        str += data.data[k].ASSET_USER_BADGENO + '","';
+                        str += data.data[k].ASSET_USER_CLASS + '","';
+                        str += data.data[k].ASSET_USER_CREATED + '","';
+                        str += desc_role(data.data[k].ASSET_USER_ROLES) + '"],';
+                    }
+
+                }
+
+                str += ']}'
+
+                str = replaceAll("\n", "", str);
+
+                console.log(str);
 
                 str = (JSON.parse(data.data));
                 // console.log(str.data);
@@ -579,7 +633,7 @@ $('#add_user').click(function () {
 function edit_user(username) {
     document.getElementById('user_name').innerHTML = "<strong>UPDATE USER</strong>";
     disableFormFields();
-             
+
     $('#add_user').hide();
     $('#update_user').show();
     $('#overlay-assets-added').show();
@@ -623,19 +677,19 @@ $('#update_user').click(function () {
     var arr_user_roles = getValues_onElements(user_roles);
 
     var strRoles = "";
-        if (user_roles.length == 10)
-            strRoles = "ADMIN";
-        else
-            strRoles = sliptWith(arr_user_roles, "|");
+    if (user_roles.length == 10)
+        strRoles = "ADMIN";
+    else
+        strRoles = sliptWith(arr_user_roles, "|");
 
-            console.log("arr_user_roles");
-            console.log(arr_user_roles);
-            console.log("localStorage.role");
-            console.log(localStorage.role);
-            console.log("strRoles");
-            console.log(strRoles);
+    console.log("arr_user_roles");
+    console.log(arr_user_roles);
+    console.log("localStorage.role");
+    console.log(localStorage.role);
+    console.log("strRoles");
+    console.log(strRoles);
 
-    if(strRoles == localStorage.user_role){
+    if (strRoles == localStorage.user_role) {
         swal.fire({
             title: "No Changes Made",
             text: "Please make changes before updating",
@@ -644,7 +698,7 @@ $('#update_user').click(function () {
             confirmButtonColor: "#C12E2A",
             allowOutsideClick: true,
         });
-    }else if(user_roles.length == 0){
+    } else if (user_roles.length == 0) {
         swal.fire({
             title: "No Changes Made",
             text: "You must select atlease one roles",
@@ -653,7 +707,7 @@ $('#update_user').click(function () {
             confirmButtonColor: "#C12E2A",
             allowOutsideClick: true,
         });
-    }else{
+    } else {
         $.ajax({
             url: "../../ams_apis/slimTest/index.php/updateAdminUser",
             type: "POST",
@@ -676,7 +730,7 @@ $('#update_user').click(function () {
                 localStorage.user_role = strRoles;
                 getUsers(localStorage.filter, localStorage.role, localStorage.username);
                 closeAsset('overlay-assets-added');
-    
+
             },
             error: function (error) {
                 console.log(error);
@@ -687,7 +741,7 @@ $('#update_user').click(function () {
                     showCloseButton: true,
                     confirmButtonColor: "#C12E2A",
                     allowOutsideClick: true,
-    
+
                 })
             }
         });
@@ -738,103 +792,6 @@ function delete_user(username) {
     });
 }
 
-// function viewCommAssets(assets) {
-//     var currentItem = "";
-//     document.getElementById('overlay-comm').style.display = "block";
-//     // console.log($('#assetBody'));
-//     document.getElementById('movItemCount').innerHTML = assets.length;
-
-
-//     console.log(assets);
-
-//     var assets_arr = assets;
-//     var send_assets = "";
-//     for (var i = 0; i < assets_arr.length; i++) {
-//         if (i == assets_arr.length - 1) {
-//             send_assets += "\'" + assets_arr[i] + "\'";
-//         } else {
-//             send_assets += "\'" + assets_arr[i] + "\',";
-//         }
-
-//     }
-
-//     console.log(send_assets);
-//     var cert_no = { data: "" };
-
-//     $.ajax({
-//         // url: "assets.json",
-//         url: "../../ams_apis/slimTest/index.php/generate_Cert_no",
-//         method: "post",
-//         data: '{"assert_primary_id" : "' + send_assets + '"}',
-//         dataType: "json",
-//         success: function (data) {
-//             console.log(data);
-//             $('#loaderComm').hide();
-//             if (data.rows > 0) {
-//                 document.getElementById("assetTbody").innerHTML = data.data;
-//                 cert_no.data = data.certificate_number;
-//                 $("#movItemCount").text(data.rows);
-//             }
-//         },
-//         error: function (err) {
-//             console.log(err);
-//         }
-//     });
-
-//     var conc_assets = "";
-//     for (var i = 0; i < assets_arr.length; i++) {
-//         if (i != assets_arr.length - 1) {
-//             conc_assets += assets_arr[i] + "^";
-//         } else {
-//             conc_assets += assets_arr[i];
-//         }
-
-//     }
-
-//     $("#confirmComm").off().on("click", function () {
-//         confirmComm(conc_assets, cert_no.data);
-//     });
-// }
-
-// function confirmComm(assets_ids, certificate_no) {
-
-//     console.log('{"assets" : "' + assets_ids + '","cert" : "' + certificate_no + '"}');
-
-
-//     $.ajax({
-//         // url: "assets.json",
-//         url: "../../ams_apis/slimTest/index.php/comm_asset",
-//         method: "post",
-//         data: '{"username":"' + localStorage.username + '","asset_class":"' + localStorage.filter + '","assets":"' + assets_ids + '","cert":"' + certificate_no + '"}',
-//         dataType: "json",
-//         success: function (data) {
-//             closeAsset('overlay-comm');
-//             console.log(data);
-//             // $('#commAssets').fadeOut(500);
-//             search();
-//             $('#commAssets').fadeOut(500);
-//             swal.fire({
-//                 title: "Success",
-//                 text: data.data,
-//                 type: 'success',
-//                 showCloseButton: true,
-//                 closeButtonColor: '#3DB3D7',
-//                 allowOutsideClick: true,
-//             })
-//             $('#loaderComm').hide();
-//             if (data.rows > 0) {
-//                 document.getElementById("assetTbody").innerHTML = data.data;
-//                 cert_no.data = data.certificate_number;
-//                 $("movItemCount").text(data.rows);
-//             }
-//         },
-//         error: function (err) {
-//             console.log(err);
-//         }
-//     });
-
-// }
-
 if (localStorage.filter == "ALL EQUIPMENT") {
 
     $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
@@ -860,4 +817,251 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
+}
+
+var clusterize = {
+    search_users_username: []
+};
+
+var allArr = {
+    search_users_username: []
+};
+
+function filterItems(rows) {
+    clusterize["search_users_username"] = (new Clusterize({
+        rows: filterRows(rows),
+        scrollId: "scroll_username",
+        contentId: "menu_users_username"
+    }));
+
+}
+
+var filterRows = function (rows) {
+    var results = [];
+    for (var i = 0, ii = rows.length; i < ii; i++) {
+        if (rows[i].active) results.push(rows[i].markup)
+    }
+
+    return results;
+}
+
+var onSearch = function (btn_id, searchValue, emptyId) {
+
+    var getId = searchValue;
+
+    var found = false;
+    // console.log(localStorage.getItem("rows"));
+
+    // var rows = JSON.parse(localStorage.getItem(searchValue));
+    var rows = allArr[searchValue];
+
+    document.getElementById(searchValue).onkeypress = function (e) {
+
+        console.log(e.keyCode);
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            var value = searchValue.value;
+
+            if (value.length) {
+
+                getUsers(localStorage.filter, localStorage.role, localStorage.username);
+                setValueBtn(btn_id, value);
+                search();
+
+            }
+        }
+    }
+
+    searchValue = document.getElementById(searchValue);
+
+    for (var i = 0; i < rows.length; i++) {
+
+        var suitable = false;
+
+        // console.log(rows[i].values[0].trim().toString().indexOf(searchValue.value) + 1);
+
+        if (rows[i].values[0].trim().toString().indexOf((searchValue.value).toUpperCase()) + 1) {
+            suitable = true;
+            found = true;
+        }
+
+        rows[i].active = suitable;
+    }
+
+    if (searchValue.value.length == 0) {
+        // var resObj = checkFilter(getId);
+        // populate_dropdown();
+        // $('#' + resObj.btnId).text(resObj.btnContent);
+    }
+
+    if (found) {
+        $(emptyId).css("display", "none");
+    } else {
+        $(emptyId).css("display", "block");
+    }
+
+    // console.log(clusterize[getId]);
+
+    clusterize[getId].update(filterRows(rows));
+}
+
+$('#menu_users_username').on('click', '.dropdown-item', function () {
+    $('#username_filter').text($(this)[0].value);
+    localStorage.searchUsername = $(this)[0].value;
+    populate_dropdown();
+    $("#username_filter").dropdown('toggle');
+    $('#search_users_username').val($(this)[0].value);
+});
+
+function clearData(input, btnDafualtId, text) {
+    var value = $(input).val();
+
+    if (value.length > 0) {
+
+        if (input == "#search_users_username") {
+
+            document.getElementById('menu_users_username').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            
+            localStorage.searchUsername = '';
+
+            populate_dropdown();
+
+            $('#search_users_username').val("");
+            $('#username_filter').text("USERNAME");
+
+        }
+    }
+}
+
+function cleaAllFilters() {
+    
+    document.getElementById('menu_users_username').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+            
+    localStorage.searchUsername = '';
+
+    populate_dropdown();
+
+    $('#search_users_username').val("");
+    $('#username_filter').text("USERNAME");
+}
+
+function search(){
+    var username = document.getElementById("search_users_username").value;
+
+    if(username.length == 0){
+        swal.fire({
+            title: "Oooops!",
+            text: 'please select at least one filter',
+            type: 'error',
+            showCloseButton: true,
+            closeButtonColor: '#3DB3D7',
+            animation: false,
+            customClass: {
+                popup: 'animated tada'
+            },
+            allowOutsideClick: true,
+        })
+    }
+    else{
+        $('#usersTable').DataTable().clear().destroy();
+        $('#users_loader').show();
+
+        $.ajax({
+            url: "../../ams_apis/slimTest/index.php/getSearchUser",
+            method: "POST",
+            dataType: 'json',
+            data: '{"username":"'+localStorage.searchUsername+'"}',
+            success: function (data) {
+                $('#users_loader').hide();
+                if (data.rows > 0) {
+
+                    var str = '{"data" : [';
+    
+                    for (var k = 0; k < data.rows; k++) {
+                        if ((data.rows - 1) == k) {
+                            str += '["' + data.data[k].ASSET_USERNAME + '","';
+                            str += data.data[k].ASSET_USER_BADGENO + '","';
+                            str += data.data[k].ASSET_USER_CLASS + '","';
+                            str += data.data[k].ASSET_USER_CREATED + '","';
+                            str += desc_role(data.data[k].ASSET_USER_ROLES) + '"]';
+                        } else {
+                            str += '["' + data.data[k].ASSET_USERNAME + '","';
+                            str += data.data[k].ASSET_USER_BADGENO + '","';
+                            str += data.data[k].ASSET_USER_CLASS + '","';
+                            str += data.data[k].ASSET_USER_CREATED + '","';
+                            str += desc_role(data.data[k].ASSET_USER_ROLES) + '"],';
+                        }
+    
+                    }
+    
+                    str += ']}'
+    
+                    str = replaceAll("\n", "", str);
+    
+                    console.log(str);
+    
+                    str = (JSON.parse(str));
+                    // console.log(str.data);
+                    $('#users_loader').hide();
+                    table = createTable("#usersTable", str.data);
+    
+                    // table.clear().draw();
+    
+    
+    
+                }
+                else {
+                    // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
+                    // $('#searchView').fadeIn(500);
+                    // console.log(data.data);
+    
+                    table = createTable("#usersTable", []);
+    
+                }
+    
+                $('#usersTable tbody').on('click', 'button[name="view"]', function () {
+                    var data = table.row($(this).parents('tr')).data();
+                    view_user(data[0]);
+                });
+    
+                $('#usersTable tbody').on('click', 'button[name="edit"]', function () {
+                    var data = table.row($(this).parents('tr')).data();
+                    edit_user(data[0]);
+                });
+    
+                $('#usersTable tbody').on('click', 'button[name="delete"]', function () {
+                    var data = table.row($(this).parents('tr')).data();
+                    swal.fire({
+                        html: "<span style='font-size:13pt importnat;'>Are you sure you want to delete <strong>" + data[0] + "</strong>?</span>",
+                        type: "question",
+                        showCancelButton: true,
+                        confirmButtonColor: "#419641",
+                        confirmButtonText: "Yes",
+                        cancelButtonText: "No",
+                        cancelButtonColor: "#C12E2A",
+                        closeOnConfirm: false,
+                        closeOnCancel: false,
+                        showCloseButton: true,
+                        allowOutsideClick: false,
+                        customClass: {
+                            popup: 'animated tada'
+                        }
+                    }).then(function (result) {
+                        if (result.value) {
+                            delete_user(data[0]);
+                        } else if (
+                            result.dismiss === Swal.DismissReason.cancel
+                        ) {
+    
+                        }
+                    })
+    
+                });
+            },
+            error: function(data_error){
+                console.log(data_error);
+            }
+    
+        });
+    }
 }
