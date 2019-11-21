@@ -326,6 +326,7 @@ function createTable(tableID, tableData) {
         });
 
         var rowsSelected = rows_selected.join(",").split(",");
+        console.log(rowsSelected);
 
         viewPrintAssets(rowsSelected);
         // Remove added elements
