@@ -32,21 +32,51 @@ $app->map(['GET','POST'],'/asset_primary_view_v', function(Request $request, Res
         $asset_class = '';
     }
 
-    $sql = "SELECT A_OLD.ASSET_ID
-            FROM 
-                AMSP.ASSETS_LOCATION L_NEW, AMSP.ASSETS  A_OLD
-            WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
-            AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
-            AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
-            AND L_NEW.ASSET_BUILDING LIKE '%$building%'
-            AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' 
-            AND L_NEW.ASSET_LEVEL LIKE '%$level%'
-            AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
-            AND (L_NEW.ASSET_AREA LIKE '%$asset_area_name%' OR L_NEW.ASSET_AREA IS NULL)
-            AND (A_OLD.ASSET_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_ID IS NOT NULL)
-            AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
-            GROUP BY A_OLD.ASSET_ID
-            ORDER BY A_OLD.ASSET_ID";
+    // $sql = "SELECT A_OLD.ASSET_ID
+    //         FROM 
+    //             AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
+    //         WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+    //         AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+)
+    //         AND (A_OLD.ASSET_CLASS LIKE '%$asset_class%' OR A_OLD.ASSET_CLASS IS NULL)
+    //         AND L_NEW.ASSET_BUILDING LIKE '%$building%'
+    //         AND A_OLD.ASSET_SUB_LOCATION LIKE '%$sub_location%' 
+    //         AND L_NEW.ASSET_LEVEL LIKE '%$level%'
+    //         AND (L_NEW.ASSET_AREA_NAME LIKE '%$area%' OR L_NEW.ASSET_AREA_NAME IS NULL)
+    //         AND (L_NEW.ASSET_AREA LIKE '%$asset_area_name%' OR L_NEW.ASSET_AREA IS NULL)
+    //         AND (A_OLD.ASSET_ID LIKE '%$asset_primary_id%' OR A_OLD.ASSET_ID IS NOT NULL)
+    //         AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
+    //         GROUP BY A_OLD.ASSET_ID
+    //         ORDER BY A_OLD.ASSET_ID";
+
+    $sql = "SELECT ASSET_ID
+            FROM (SELECT DISTINCT
+                        L_NEW.ASSET_ROOM_NO,
+                        L_NEW.HD_ASSET_ROOM_LOCATION,
+                        L_NEW.ASSET_AREA_NAME,
+                        L_NEW.ASSET_AREA,
+                        L_NEW.ASSET_LEVEL,
+                        L_NEW.ASSET_BUILDING,
+                        NVL (A_OLD.ASSET_ID, 'NO DATA')
+                            AS ASSET_ID,
+                        NVL (A_OLD.ASSET_CLASS, 'NO DATA')
+                            AS ASSET_CLASS,
+                        NVL (L_NEW.HD_ASSET_ROOM_LOCATION, 'NO DATA')
+                            AS ASSET_SUB_LOCATION
+                FROM AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS A_OLD
+                WHERE     L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+                AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+))
+                WHERE     (ASSET_CLASS LIKE '%$asset_class%' OR ASSET_CLASS = 'NO DATA')
+                AND (ASSET_BUILDING LIKE '%$building%')
+                AND (ASSET_SUB_LOCATION LIKE '%$sub_location%')
+                AND (ASSET_LEVEL LIKE '%$level%')
+                AND (ASSET_AREA_NAME LIKE '%$area%')
+                AND (ASSET_AREA LIKE '%$asset_area_name%' OR ASSET_AREA IS NULL)
+                AND (ASSET_ID LIKE '%$asset_primary_id%')
+                AND (ASSET_ROOM_NO LIKE '%$room_no%')
+--AND A_OLD.ASSET_STATUS = '1'
+            GROUP BY ASSET_ID
+            ORDER BY ASSET_ID";
+
 
     $assets_no =$func->executeQuery($sql);
 
@@ -116,8 +146,8 @@ $app->map(['GET','POST'],'/asset_sub_location_view_v', function(Request $request
                         L_NEW.ASSET_AREA,
                         L_NEW.ASSET_LEVEL,
                         L_NEW.ASSET_BUILDING,
-                        NVL (A_OLD.ASSET_PRIMARY_ID, 'NO DATA')
-                            AS ASSET_PRIMARY_ID,
+                        NVL (A_OLD.ASSET_ID, 'NO DATA')
+                            AS ASSET_ID,
                         NVL (A_OLD.ASSET_CLASS, 'NO DATA')
                             AS ASSET_CLASS,
                         NVL (L_NEW.HD_ASSET_ROOM_LOCATION, 'NO DATA')
@@ -131,7 +161,7 @@ $app->map(['GET','POST'],'/asset_sub_location_view_v', function(Request $request
                 AND (ASSET_LEVEL LIKE '%$level%')
                 AND (ASSET_AREA_NAME LIKE '%$area%')
                 AND (ASSET_AREA LIKE '%$asset_area_name%' OR ASSET_AREA IS NULL)
-                AND (ASSET_PRIMARY_ID LIKE '%$asset_primary_id%')
+                AND (ASSET_ID LIKE '%$asset_primary_id%')
                 AND (ASSET_ROOM_NO LIKE '%$room_no%')
                 AND substr(ASSET_SUB_LOCATION,1,2) in ('VL','SW','AL','SC','SA','PL','AP')   
 
@@ -478,9 +508,10 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
         if($ASSET_CLASS == 'ALL EQUIPMENT'){
             $ASSET_CLASS = '';
         }
-        
-        $sql = "SELECT ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_HAS_SUB_ASSETS 
-        FROM AMSP.ASSETS_VW
+
+        $sql = "SELECT ASSET_CLASS,ASSET_SUB_LOCATION,ASSET_ID,ASSET_ROOM_NO,ASSET_AREA,ASSET_DESCRIPTION,ASSET_STATUS,ASSET_HAS_SUB_ASSETS
+        FROM AMSD.ASSETS_VW
+
         WHERE ASSET_BUILDING LIKE '%$building%' 
         AND ASSET_LEVEL LIKE '%$level%' 
         AND ASSET_ROOM_NO LIKE '%$room_no%' 
@@ -517,6 +548,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
                         $str .= $assets_decode->data[$k]->ASSET_ROOM_NO . '","';
                         $str .= $assets_decode->data[$k]->ASSET_AREA . '","';
                         $str .= str_replace("\"", "`", $assets_decode->data[$k]->ASSET_DESCRIPTION) . '","';
+                        $str .= $func->assetStatus($assets_decode->data[$k]->ASSET_STATUS) . '","';
                         $str .= $func->updateLetterToWords($assets_decode->data[$k]->ASSET_HAS_SUB_ASSETS) . '"]';
                     } else {
 
@@ -526,6 +558,7 @@ $app->map(['GET','POST'],'/getAssets', function (Request $request, Response $res
                         $str .= $assets_decode->data[$k]->ASSET_ROOM_NO . '","';
                         $str .= $assets_decode->data[$k]->ASSET_AREA . '","';
                         $str .= str_replace("\"", "`", $assets_decode->data[$k]->ASSET_DESCRIPTION) . '","';
+                        $str .= $func->assetStatus($assets_decode->data[$k]->ASSET_STATUS) . '","';
                         $str .= $func->updateLetterToWords($assets_decode->data[$k]->ASSET_HAS_SUB_ASSETS) . '"],';
                     }
                 }
@@ -852,9 +885,14 @@ $app->map(['GET','POST'],'/singleAsset_al_no',function(Request $request, Respons
                 $sub .= '<tr>
                                 <td>'.$res->ASSET_ID.'</td>
                                 <td>'.$res->ASSET_CLASSIFICATION.'</td>
-                                <td><button class="btn btn-info" onclick="unlinkSub(\''.$res->ASSET_ID.'\')"><i class="fa fa-chain-broken"></i></button></td>
-                            </tr>
-                        ';
+                                <td>';               
+                                
+                                $sub .= ($res->ASSET_ID == $res->ASSET_PRIMARY_ID) ? 
+                                       '' //  '<button class="btn btn-danger" onclick="unlinkPrimary()"><i class="fa fa-chain-broken"></i></button></td>'
+                                :  
+                                        '<button class="btn btn-info" onclick="unlinkSub(\''.$res->ASSET_ID.'\')"><i class="fa fa-chain-broken"></i></button></td>';
+
+                                $sub .=  '</tr>';
 
                             $count++;
                 }
@@ -1378,6 +1416,7 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
     $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
+    $rowIds = array();
 
     if(!empty($level) || !empty($building) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS) || !empty($room_no) || !empty($area)){
 
@@ -1404,7 +1443,53 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
         $assets =$func->executeQuery($sql);
 
         if($assets){
-            echo $assets;
+            $assets = json_decode($assets);
+            $len = $assets->rows;
+            $str = '{"data" : [';
+                for ($k = 0; $k <  $len; $k++) {
+                  
+                    if ($assets->data[$k]->ASSET_TRANSACTION_STATUS == "PENDING" || $assets->data[$k]->ASSET_TRANSACTION_STATUS == "PENDING-TEMP") {
+                        // console.log($assets->data[$k]->ASSET_PRIMARY_ID);
+                        // echo $assets->data[$k]->ASSET_TRANSACTION_STATUS;
+                        array_push($rowIds,$assets->data[$k]->ASSET_ID);
+                    }
+
+                    if (($assets->rows - 1) == $k) {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_HAS_SUB_ASSETS) . '"]';
+
+                    } else {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_HAS_SUB_ASSETS) . '"],';
+
+                    }
+                }
+
+                $str .= ']}';
+                $str = str_replace("\n", "", $str);
+                $str = str_replace(' 14"', "14`", $str);
+                $str = str_replace(' 26"', "26`", $str);
+                $str = str_replace(' 18"', " 18`", $str);
+                $str = str_replace("\r", "", $str);
+                $str = str_replace("\\", "", $str);
+
+
+                echo json_encode(array("rows" =>$len ,"data" => $str ,"rowsID" => $rowIds));
+
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>[]));
@@ -1427,6 +1512,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
     $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
+    $rowIds = array();
 
     if(!empty($level) || !empty($building) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS) || !empty($room_no) || !empty($area)){
 
@@ -1439,8 +1525,8 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         lvw.asset_location_area_new as ASSET_AREA,
                         avw.asset_class, 
                         lvw.asset_sub_location_new as ASSET_SUB_LOCATION,
-                        avw.asset_description,
-                        asset_is_sub,
+                        avw.asset_description as asset_description,
+                        asset_is_sub as asset_is_sub,
                         avw.ASSET_TRANSACTION_STATUS AS ASSET_STATUS
                 FROM AMSP.assets_log_pending_vw lvw, AMSP.assets_vw avw
                 WHERE        (asset_transaction_status = 'PENDING' OR asset_transaction_status = 'PENDING-TEMP')
@@ -1460,14 +1546,56 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         AND avw.asset_primary_id = lvw.asset_primary_id
                         AND avw.asset_id = lvw.asset_id
                         AND avw.asset_primary_id = lvw.asset_id";
-                                   
-                                
-        // $sql = "SELECT * FROM AMSP.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
+
+        // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
+
 
         $assets =$func->executeQuery($sql);
 
         if($assets){
-            echo $assets;
+
+            // echo $assets;
+            $assets = json_decode($assets);
+            // print_r($assets);
+            $len = $assets->rows;
+            $str = '{"data" : [';
+                for ($k = 0; $k <  $len; $k++) {
+
+                    if (($assets->rows - 1) == $k) {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"]';
+
+                    } else {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"],';
+
+                    }
+                }
+
+                $str .= ']}';
+                $str = str_replace("\n", "", $str);
+                $str = str_replace(' 14"', "14`", $str);
+                $str = str_replace(' 26"', "26`", $str);
+                $str = str_replace(' 18"', " 18`", $str);
+                $str = str_replace("\r", "", $str);
+                $str = str_replace("\\", "", $str);
+
+
+                echo json_encode(array("rows" =>$len ,"data" => $str ,"rowsID" => $rowIds));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>[]));
@@ -1490,6 +1618,7 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
     $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
+    $rowIds = array();
 
     if(!empty($level) || !empty($building) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS) || !empty($room_no) || !empty($area)){
 
@@ -1500,10 +1629,10 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
         $sql = " SELECT avw.asset_primary_id as ASSET_ID,
                         lvw.asset_room_no_old as ASSET_ROOM_NO,
                         lvw.asset_location_area_old as ASSET_AREA,
-                        avw.asset_sub_location,
-                        avw.asset_class,
-                        avw.asset_description,
-                        asset_is_sub,
+                        avw.asset_sub_location  as asset_sub_location,
+                        avw.asset_class as asset_class,
+                        avw.asset_description as asset_description,
+                        asset_is_sub as asset_is_sub,
                         avw.ASSET_TRANSACTION_STATUS AS ASSET_STATUS,
                         'OUT' as movement_type
                 FROM AMSP.assets_log_pending_vw lvw, AMSP.assets_vw avw
@@ -1526,7 +1655,47 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
         $assets =$func->executeQuery($sql);
 
         if($assets){
-            echo $assets;
+            $assets = json_decode($assets);
+            $len = $assets->rows;
+            $str = '{"data" : [';
+                for ($k = 0; $k <  $len; $k++) {
+                  
+
+                    if (($assets->rows - 1) == $k) {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"]';
+
+                    } else {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"],';
+
+                    }
+                }
+
+                $str .= ']}';
+                $str = str_replace("\n", "", $str);
+                $str = str_replace(' 14"', "14`", $str);
+                $str = str_replace(' 26"', "26`", $str);
+                $str = str_replace(' 18"', " 18`", $str);
+                $str = str_replace("\r", "", $str);
+                $str = str_replace("\\", "", $str);
+
+
+                echo json_encode(array("rows" =>$len ,"data" => $str ,"rowsID" => $rowIds));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>[]));
@@ -3925,7 +4094,6 @@ $app->map(['GET','POST'],'/generate_Cert_no',function(Request $request, Response
                     $sub .= '<tr>
                                     <td>'.$res->ASSET_ID.'</td>
                                     <td>'.$res->ASSET_DESCRIPTION.'</td>
-                                    <td>'.$cert_int.'</td>
                                 </tr>
                             ';
     
@@ -4058,7 +4226,6 @@ $app->map(['GET','POST'],'/get_Asset_status_decom',function(Request $request, Re
                     $sub .= '<tr>
                                     <td>'.$res->ASSET_ID.'</td>
                                     <td>'.$res->ASSET_DESCRIPTION.'</td>
-                                    <td>'.$cert_int.'</td>
                                 </tr>
                             ';
     
@@ -4677,7 +4844,56 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
     $assets_no =$func->executeQuery($sql);
 
     if($assets_no){
-        echo $assets_no;
+        // echo $assets_no;
+        $assets = json_decode($assets_no);
+        // print_r($assets);
+        $len = $assets->rows;
+
+        $str = '{"data" : [';
+            for ($k = 0; $k <  $len; $k++) {
+
+                if (($len- 1) == $k) {
+
+                    $str .= '["' . $assets->data[$k]->ASSET_CERT_NO . '","';
+                    $str .= $assets->data[$k]->ASSET_CERT_NO . '","';
+                    $str .= $assets->data[$k]->ASSET_CLASS . '","';
+                    $str .= $func->checkType($assets->data[$k]->ASSET_CERTIFICATE_TYPE) . '","';
+                    $str .= $assets->data[$k]->ASSET_CERTIFICATE_CREATION_DATE . '","';
+                    $str .= $func->isSpecified($assets->data[$k]->ASSET_PRINT_DATE) . '","';
+                    $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_CERTIFICATE_STATUS) . '"]';
+
+                } else {
+
+                    $str .= '["' . $assets->data[$k]->ASSET_CERT_NO . '","';
+                    $str .= $assets->data[$k]->ASSET_CERT_NO . '","';
+                    $str .= $assets->data[$k]->ASSET_CLASS . '","';
+                    $str .= $func->checkType($assets->data[$k]->ASSET_CERTIFICATE_TYPE) . '","';
+                    $str .= $assets->data[$k]->ASSET_CERTIFICATE_CREATION_DATE . '","';
+                    $str .= $func->isSpecified($assets->data[$k]->ASSET_PRINT_DATE) . '","';
+                    $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_CERTIFICATE_STATUS) . '"],';
+
+                }
+            }
+
+            $str .= ']}';
+
+
+            // $arrRemove = ['\n',' 14"',' 26"',' 18"','\r','\\']; // Replacing these values
+            // $arrWith   = ['',' 14`',' 26`',' 18`','',''];      // With these values
+
+
+            // $str = $func->replaceMulti($arrRemove,$arrWith,$str);
+
+            $str = str_replace("\n", "", $str);
+            $str = str_replace(' 14"', "14`", $str);
+            $str = str_replace(' 26"', "26`", $str);
+            $str = str_replace(' 18"', " 18`", $str);
+            $str = str_replace("\r", "", $str);
+            $str = str_replace("\\", "", $str);
+
+            echo json_encode(array("rows" =>$len ,"data" => $str));
+
+
     }
     else{
         echo json_encode(array("rows" => 0 ,"data" =>[]));
@@ -5466,6 +5682,7 @@ $app->map(['GET','POST'],'/unlink_assets',function(Request $request, Response $r
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+
 $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Response $response){
     try{
         global $func;
@@ -5487,6 +5704,65 @@ $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Resp
 
         if($users){
 
+            //  echo $users;
+
+               $assets_decode = json_decode($users);
+
+            // print_r($assets_decode);
+
+
+            $len = $assets_decode->rows;
+
+             $str = '{"data" : [';
+
+                for ($k = 0; $k < $len; $k++) {
+
+                    if (($len - 1) == $k) {
+                        $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
+                        $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"]';
+                    } else {
+                        $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
+                        $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"],';
+                    }
+
+                }
+
+                $str .= ']}';
+
+                $str = str_replace("\n", "", $str);
+                $str = str_replace("\\", "", $str);
+
+                // echo  $str;
+
+                echo json_encode(array("rows" =>$len ,"data" => $str ));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+$app->map(['GET','POST'],'/getSearchUser',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $username = strtoupper($data->username);
+
+        $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USERNAME LIKE '%$username%' ORDER BY ASSET_USERNAME ASC";
+
+        $users =$func->executeQuery($sql);
+
+        if($users){
+
              echo $users;
         }
         else{
@@ -5497,6 +5773,8 @@ $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Resp
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+
+
 $app->map(['GET','POST'],'/getAdminUser',function(Request $request, Response $response){
     try{
         global $func;
@@ -5747,6 +6025,11 @@ $app->map(['GET','POST'],'/update_asset', function(Request $request, Response $r
         return json_encode($response);
     }
 
+});
+
+$app->map(['GET','POST'],'/get_usernames', function(Request $request, Response $response){
+    global $func;
+    $data = json_encode(file_get_contents('php://input'));
 });
 
 $app->run();

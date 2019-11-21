@@ -234,6 +234,7 @@ function search() {
 
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location + " - " + certificate_number);
+    console.log(resultsn);
     var current = "";
     if (" -  -  -  -  -  - " == results) {
         swal.fire({
@@ -266,34 +267,7 @@ function search() {
 
                 if (data.rows > 0) {
 
-                    var str = '{"data" : [';
-                    for (var k = 0; k < data.rows; k++) {
-                        if ((data.rows - 1) == k) {
-                            str += '["' + data.data[k].ASSET_CERT_NO + '","';
-                            str += data.data[k].ASSET_CERT_NO + '","';
-                            str += data.data[k].ASSET_CLASS + '","';
-                            str += checkType(data.data[k].ASSET_CERTIFICATE_TYPE) + '","';
-                            str += data.data[k].ASSET_CERTIFICATE_CREATION_DATE + '","';
-                            str += isSpecified(data.data[k].ASSET_PRINT_DATE) + '","';
-                            str += updateLetterToIcon(data.data[k].ASSET_CERTIFICATE_STATUS) + '"]';
-                        } else {
-
-                            str += '["' + data.data[k].ASSET_CERT_NO + '","';
-                            str += data.data[k].ASSET_CERT_NO + '","';
-
-                            str += data.data[k].ASSET_CLASS + '","';
-                            str += checkType(data.data[k].ASSET_CERTIFICATE_TYPE) + '","';
-                            str += data.data[k].ASSET_CERTIFICATE_CREATION_DATE + '","';
-                            str += isSpecified(data.data[k].ASSET_PRINT_DATE) + '","';
-                            str += updateLetterToIcon(data.data[k].ASSET_CERTIFICATE_STATUS) + '"],';
-                        }
-                    }
-
-                    str += ']}';
-
-                    str = replaceAll("\n", "", str);
-
-                    str = (JSON.parse(str));
+                    str = (JSON.parse(data.data));
 
                     table_data["currentAssetsTable"] = createTable("#currentAssetsTable", str.data);
                     $(" #currentAssetsTable .sorting_disabled input").prop("disabled", true); //Disable

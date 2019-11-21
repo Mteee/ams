@@ -98,6 +98,25 @@ class Functions{
 		return $results;
 	}//close updateLetterToIcon function
 
+	//updating y to icons
+	public function assetStatus($status){
+    
+		$results = "";
+
+		switch($status){
+			case "ACTIVE":
+			case "1":
+				$results = "<p class='text-success'><strong>".$status."</strong></p>";
+				break;
+			case  "0":
+			case "INACTIVE":
+				$results = "<p class='text-danger'><strong>".$status."</strong></p>";
+				break;
+		}
+
+		return $results;
+	}//close updateLetterToIcon function
+
 	function updateLetterToWords($letter) {
 		 $results = "";
 		switch ($letter) {
@@ -114,6 +133,51 @@ class Functions{
 		return $results;
 	}
 	
+	function desc_role($value) {
+		
+		if ($value == "ADMIN") {
+			return $value;
+		}else if($value == "null" || $value == null || $value == "undefined"){
+			return "<strong>No Permissions</strong>";
+		}else{
+			return "Permissions : <strong>" . count(explode("|",$value)) . "</strong>";
+		}
+	}
+
+	function isSpecified($value) {
+		if ($value == null) {
+			return "NOT SPECIFIED";
+		}
+		return $value;
+	}
+	
+
+		
+	function checkType($val) {
+		$return_type = "";
+		switch ($val) {
+			case "COMM":
+			case " - 1":
+				$return_type = "<p class='text-info'><strong>ADDITION</strong></p>";
+				break;
+			case "DISPOSED - 0":
+			case "DECOMM":
+				$return_type = "<p class='text-success'><strong>REMOVAL/SCRAP</strong></p>";
+				break;
+		}
+
+		return $return_type;
+	}
+
+	function replaceMulti($arrRemove,$arrWith,$str){
+		
+		for($i=0;$i<count($arrRemove);$i++){
+			$str = str_replace($arrRemove[$i],$arrWith[$i],$str);
+		}
+
+		return $str;
+	}
+		
 
 }
 
