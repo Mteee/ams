@@ -1943,7 +1943,7 @@ $('#menu_approve_sub').on('click', '.dropdown-item', function () {
 
 if (localStorage.filter == "ALL EQUIPMENT") {
 
-
+    localStorage.filter = "FACILITIES MANAGEMENT"
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
     if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")
