@@ -1409,6 +1409,7 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
     $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
+    $rowIds = array();
 
     if(!empty($level) || !empty($building) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS) || !empty($room_no) || !empty($area)){
 
@@ -1435,7 +1436,53 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
         $assets =$func->executeQuery($sql);
 
         if($assets){
-            echo $assets;
+            $assets = json_decode($assets);
+            $len = $assets->rows;
+            $str = '{"data" : [';
+                for ($k = 0; $k <  $len; $k++) {
+                  
+                    if ($assets->data[$k]->ASSET_TRANSACTION_STATUS == "PENDING" || $assets->data[$k]->ASSET_TRANSACTION_STATUS == "PENDING-TEMP") {
+                        // console.log($assets->data[$k]->ASSET_PRIMARY_ID);
+                        // echo $assets->data[$k]->ASSET_TRANSACTION_STATUS;
+                        array_push($rowIds,$assets->data[$k]->ASSET_ID);
+                    }
+
+                    if (($assets->rows - 1) == $k) {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_HAS_SUB_ASSETS) . '"]';
+
+                    } else {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_HAS_SUB_ASSETS) . '"],';
+
+                    }
+                }
+
+                $str .= ']}';
+                $str = str_replace("\n", "", $str);
+                $str = str_replace(' 14"', "14`", $str);
+                $str = str_replace(' 26"', "26`", $str);
+                $str = str_replace(' 18"', " 18`", $str);
+                $str = str_replace("\r", "", $str);
+                $str = str_replace("\\", "", $str);
+
+
+                echo json_encode(array("rows" =>$len ,"data" => $str ,"rowsID" => $rowIds));
+
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>[]));
@@ -1458,6 +1505,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
     $ASSET_DESCRIPTION = strtoupper($data->description);
     $ASSET_CLASS = strtoupper($data->asset_class);
     $response = array();
+    $rowIds = array();
 
     if(!empty($level) || !empty($building) || !empty($ASSET_DESCRIPTION) || !empty($ASSET_CLASS) || !empty($room_no) || !empty($area)){
 
@@ -1470,8 +1518,8 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         lvw.asset_location_area_new as ASSET_AREA,
                         avw.asset_class, 
                         lvw.asset_sub_location_new as ASSET_SUB_LOCATION,
-                        avw.asset_description,
-                        asset_is_sub,
+                        avw.asset_description as asset_description,
+                        asset_is_sub as asset_is_sub,
                         avw.ASSET_TRANSACTION_STATUS AS ASSET_STATUS
                 FROM AMSD.assets_log_pending_vw lvw, AMSD.assets_vw avw
                 WHERE        (asset_transaction_status = 'PENDING' OR asset_transaction_status = 'PENDING-TEMP')
@@ -1492,13 +1540,54 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         AND avw.asset_id = lvw.asset_id
                         AND avw.asset_primary_id = lvw.asset_id";
                                    
-                                
         // $sql = "SELECT * FROM AMSD.ASSETS_VW WHERE ASSET_ID=ASSET_PRIMARY_ID";
 
         $assets =$func->executeQuery($sql);
 
         if($assets){
-            echo $assets;
+
+            // echo $assets;
+            $assets = json_decode($assets);
+            // print_r($assets);
+            $len = $assets->rows;
+            $str = '{"data" : [';
+                for ($k = 0; $k <  $len; $k++) {
+
+                    if (($assets->rows - 1) == $k) {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"]';
+
+                    } else {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"],';
+
+                    }
+                }
+
+                $str .= ']}';
+                $str = str_replace("\n", "", $str);
+                $str = str_replace(' 14"', "14`", $str);
+                $str = str_replace(' 26"', "26`", $str);
+                $str = str_replace(' 18"', " 18`", $str);
+                $str = str_replace("\r", "", $str);
+                $str = str_replace("\\", "", $str);
+
+
+                echo json_encode(array("rows" =>$len ,"data" => $str ,"rowsID" => $rowIds));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>[]));
@@ -1531,10 +1620,10 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
         $sql = " SELECT avw.asset_primary_id as ASSET_ID,
                         lvw.asset_room_no_old as ASSET_ROOM_NO,
                         lvw.asset_location_area_old as ASSET_AREA,
-                        avw.asset_sub_location,
-                        avw.asset_class,
-                        avw.asset_description,
-                        asset_is_sub,
+                        avw.asset_sub_location  as asset_sub_location,
+                        avw.asset_class as asset_class,
+                        avw.asset_description as asset_description,
+                        asset_is_sub as asset_is_sub,
                         avw.ASSET_TRANSACTION_STATUS AS ASSET_STATUS,
                         'OUT' as movement_type
                 FROM AMSD.assets_log_pending_vw lvw, AMSD.assets_vw avw
@@ -1557,7 +1646,47 @@ $app->map(['GET','POST'],'/getOutAssets', function (Request $request, Response $
         $assets =$func->executeQuery($sql);
 
         if($assets){
-            echo $assets;
+            $assets = json_decode($assets);
+            $len = $assets->rows;
+            $str = '{"data" : [';
+                for ($k = 0; $k <  $len; $k++) {
+                  
+
+                    if (($assets->rows - 1) == $k) {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->asset_sub_location) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"]';
+
+                    } else {
+
+                        $str .= '["' . $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $assets->data[$k]->ASSET_ID . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->asset_sub_location) . '","';
+                        $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
+                        $str .= $assets->data[$k]->ASSET_STATUS . '","';
+                        $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"],';
+
+                    }
+                }
+
+                $str .= ']}';
+                $str = str_replace("\n", "", $str);
+                $str = str_replace(' 14"', "14`", $str);
+                $str = str_replace(' 26"', "26`", $str);
+                $str = str_replace(' 18"', " 18`", $str);
+                $str = str_replace("\r", "", $str);
+                $str = str_replace("\\", "", $str);
+
+
+                echo json_encode(array("rows" =>$len ,"data" => $str ,"rowsID" => $rowIds));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>[]));
@@ -5517,7 +5646,43 @@ $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Resp
 
         if($users){
 
-             echo $users;
+            //  echo $users;
+
+               $assets_decode = json_decode($users);
+
+            // print_r($assets_decode);
+
+
+            $len = $assets_decode->rows;
+
+             $str = '{"data" : [';
+
+                for ($k = 0; $k < $len; $k++) {
+
+                    if (($len - 1) == $k) {
+                        $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
+                        $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"]';
+                    } else {
+                        $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
+                        $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"],';
+                    }
+
+                }
+
+                $str .= ']}';
+
+                $str = str_replace("\n", "", $str);
+                $str = str_replace("\\", "", $str);
+
+                // echo  $str;
+
+                echo json_encode(array("rows" =>$len ,"data" => $str ));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"Error"));

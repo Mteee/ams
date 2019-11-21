@@ -201,7 +201,7 @@ function getUsers(a, b, c) {
         dataType: 'json',
         data: jsonData,
         success: function (data) {
-            // console.log(data);
+            console.log(data);
             if (data.rows > 0) {
 
                 var str = '{"data" : [';
@@ -229,7 +229,7 @@ function getUsers(a, b, c) {
 
                 console.log(str);
 
-                str = (JSON.parse(str));
+                str = (JSON.parse(data.data));
                 // console.log(str.data);
                 $('#users_loader').hide();
                 table = createTable("#usersTable", str.data);
