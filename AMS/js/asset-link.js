@@ -311,7 +311,7 @@ function unlinkPrimary(){
 function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
-    $('#assetBody')['0'].innerHTML = assetId;
+    // $('#assetBody')['0'].innerHTML = assetId;
 
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/singleAsset_al_no",
@@ -319,7 +319,7 @@ function viewAsset(assetId) {
         dataType: "JSON",
         data: '{"al_no" :"' + assetId + '"}',
         success: function (data) {
-
+            console.log(assetId);
 
 
             document.getElementById('viewAssets').innerHTML = data[0].table;

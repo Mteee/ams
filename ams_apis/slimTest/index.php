@@ -1894,6 +1894,7 @@ $app->map(['GET','POST'],'/sub_location', function(Request $request, Response $r
     AND ASSET_ROOM_NO LIKE '%$room_no%'
     AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
     AND HD_ASSET_DESC LIKE '%$description%'
+    AND ASSET_LOCATION_STATUS = '1'
     order by AMSD.fn_pri_assigned (HD_ASSET_ROOM_LOCATION) ASC";
 
     $assets_no =$func->executeQuery($sql);
