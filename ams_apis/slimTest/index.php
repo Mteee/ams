@@ -1969,6 +1969,7 @@ $app->map(['GET','POST'],'/building_sub', function(Request $request, Response $r
             AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
             AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND ASSET_LOCATION_STATUS = '1'
             GROUP BY ASSET_BUILDING
             ORDER BY ASSET_BUILDING";
 
@@ -2014,6 +2015,7 @@ $app->map(['GET','POST'],'/asset_level_new_sub', function(Request $request, Resp
             AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
             AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND ASSET_LOCATION_STATUS = '1'
             GROUP BY ASSET_LEVEL
             ORDER BY ASSET_LEVEL";
 
@@ -2058,6 +2060,7 @@ $app->map(['GET','POST'],'/asset_area_sub', function(Request $request, Response 
             AND (ASSET_AREA_NAME LIKE '%$area%' OR ASSET_AREA_NAME IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
             AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND ASSET_LOCATION_STATUS = '1'
             GROUP BY ASSET_AREA_NAME
             ORDER BY ASSET_AREA_NAME";
 
@@ -2101,6 +2104,7 @@ $app->map(['GET','POST'],'/asset_room_no_sub', function(Request $request, Respon
             AND ASSET_AREA_NAME LIKE '%$area%'
             AND ASSET_ROOM_NO LIKE '%$room_no%'
             AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND ASSET_LOCATION_STATUS = '1'
             GROUP BY ASSET_ROOM_NO
             ORDER BY ASSET_ROOM_NO";
 
@@ -2147,6 +2151,7 @@ $app->map(['GET','POST'],'/asset_link_al_no', function(Request $request, Respons
             AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
             AND ASSET_ROOM_NO LIKE '%$room_no%'
             AND HD_ASSET_ROOM_LOCATION LIKE '%$sub_location%'
+            AND ASSET_LOCATION_STATUS = '1'
             GROUP BY HD_ASSET_ROOM_LOCATION
             ORDER BY HD_ASSET_ROOM_LOCATION";
 
