@@ -2860,12 +2860,12 @@ $app->map(['GET','POST'],'/link_assets',function(Request $request, Response $res
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN AMSD.asset_it_fix (:AL_NO,:ASSET_IDS,:PRIMARY_ID,:RESULT); END;";
+        $sql = "BEGIN AMSD.asset_it_fix (:USERNAME,:AL_NO,:ASSET_IDS,:PRIMARY_ID,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
-        // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
+        oci_bind_by_name($statement, ':USERNAME', $USERNAME, 100);
         oci_bind_by_name($statement, ':AL_NO', $ALC_NO, 100);
-        oci_bind_by_name($statement, ':ASSET_IDS', $ASSETS_IDS, 2000);
-        oci_bind_by_name($statement, ':PRIMARY_ID', $PRIMARY_ID, 2000);
+        oci_bind_by_name($statement, ':ASSET_IDS', $ASSETS_IDS, -1);
+        oci_bind_by_name($statement, ':PRIMARY_ID', $PRIMARY_ID, -1);
         oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
@@ -2896,9 +2896,9 @@ $app->map(['GET','POST'],'/unlink_all_subs',function(Request $request, Response 
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN AMSD.asset_it_fix_unlink_all_subs_view(:ASSET_ID,:RESULT); END;";
+        $sql = "BEGIN AMSD.asset_it_fix_unlink_all_subs_view(:USERNAME,:ASSET_ID,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
-        // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
+        oci_bind_by_name($statement, ':USERNAME', $USERNAME, 100);
         oci_bind_by_name($statement, ':ASSET_ID', $ASSETS_ID, 30);
         oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
 
@@ -6100,9 +6100,9 @@ $app->map(['GET','POST'],'/unlink_assets',function(Request $request, Response $r
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN AMSD.asset_it_fix_unlink_sub(:ASSET_ID,:RESULT); END;";
+        $sql = "BEGIN AMSD.asset_it_fix_unlink_sub(:USERNAME,:ASSET_ID,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
-        // oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
+        oci_bind_by_name($statement, ':USERNAME', $USERNAME, 30);
         oci_bind_by_name($statement, ':ASSET_ID', $ASSETS_ID, 30);
         oci_bind_by_name($statement, ':RESULT', $RESULT, 2);
 
