@@ -63,7 +63,7 @@
     width: 87%;
     margin: 0 0 0 10px;
     text-align: left;
-    background-color: none !important;
+    background: none !important;
     border-top: 1px solid #ccc;
     padding: 10px
 }
