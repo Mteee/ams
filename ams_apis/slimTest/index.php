@@ -5754,6 +5754,229 @@ $app->map(['GET','POST'],'/getAllUsers_on_class',function(Request $request, Resp
     }
 });
 
+$app->map(['GET','POST'],'/getUsers_dash',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $building = strtoupper($data->building);
+        $level = strtoupper($data->level);
+        $area_name = strtoupper($data->area_name);
+        $area = strtoupper($data->area);
+        $room_no = strtoupper($data->room_no);
+        $assetNo = strtoupper($data->assetNo);
+        $dateRange = strtoupper($data->dateRange);
+        $asset_class = strtoupper($data->asset_class);
+        $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
+
+        if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user' ORDER BY ASSET_USERNAME ASC";
+        else{
+            if($asset_class == 'ALL EQUIPMENT')
+                $asset_class = '';
+
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_CLASS LIKE '%$asset_class%' AND ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user'";
+        }
+
+        $users =$func->executeQuery($sql);
+
+        if($users){
+
+            //  echo $users;
+
+               $assets_decode = json_decode($users);
+
+            // print_r($assets_decode);
+
+
+            $len = $assets_decode->rows;
+
+             $str = '{"data" : [';
+
+                for ($k = 0; $k < $len; $k++) {
+
+                    if (($len - 1) == $k) {
+                        $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
+                        $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"]';
+                    } else {
+                        $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
+                        $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
+                        $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"],';
+                    }
+
+                }
+
+                $str .= ']}';
+
+                $str = str_replace("\n", "", $str);
+                $str = str_replace("\\", "", $str);
+
+                // echo  $str;
+
+                echo json_encode(array("rows" =>$len ,"data" => $str ));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+$app->map(['GET','POST'],'/getPendingAssets_dash',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $building = strtoupper($data->building);
+        $level = strtoupper($data->level);
+        $area_name = strtoupper($data->area_name);
+        $area = strtoupper($data->area);
+        $room_no = strtoupper($data->room_no);
+        $assetNo = strtoupper($data->assetNo);
+        $dateRange = strtoupper($data->dateRange);
+        $asset_class = strtoupper($data->asset_class);
+        $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
+
+        if($asset_class == 'ALL EQUIPMENT')
+            $asset_class = '';
+
+        $sql = "SELECT ASSET_PRIMARY_ID,ASSET_ROOM_NO_OLD,ASSET_BUILDING_NEW,ASSET_LEVEL_NEW,ASSET_LOCATION_AREA_NEW
+                FROM AMSD.ASSETS_LOG_PENDING_VW";
+        
+        $users =$func->executeQuery($sql);
+
+        if($users){
+
+             echo $users;
+
+            //    $assets_decode = json_decode($users);
+
+            // // print_r($assets_decode);
+
+
+            // $len = $assets_decode->rows;
+
+            //  $str = '{"data" : [';
+
+            //     for ($k = 0; $k < $len; $k++) {
+
+            //         if (($len - 1) == $k) {
+            //             $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
+            //             $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"]';
+            //         } else {
+            //             $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
+            //             $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"],';
+            //         }
+
+            //     }
+
+            //     $str .= ']}';
+
+            //     $str = str_replace("\n", "", $str);
+            //     $str = str_replace("\\", "", $str);
+
+            //     // echo  $str;
+
+            //     echo json_encode(array("rows" =>$len ,"data" => $str ));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+$app->map(['GET','POST'],'/getMovedAssets_dash',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $building = strtoupper($data->building);
+        $level = strtoupper($data->level);
+        $area_name = strtoupper($data->area_name);
+        $area = strtoupper($data->area);
+        $room_no = strtoupper($data->room_no);
+        $assetNo = strtoupper($data->assetNo);
+        $dateRange = strtoupper($data->dateRange);
+        $asset_class = strtoupper($data->asset_class);
+        $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
+
+        if($asset_class == 'ALL EQUIPMENT')
+            $asset_class = '';
+
+        $sql = "SELECT ASSET_PRIMARY_ID,ASSET_ROOM_NO_OLD,ASSET_BUILDING_NEW,ASSET_LEVEL_NEW,ASSET_LOCATION_AREA_NEW
+                FROM AMSD.ASSETS_LOG_PENDING_VW";
+        
+        $users =$func->executeQuery($sql);
+
+        if($users){
+
+             echo $users;
+
+            //    $assets_decode = json_decode($users);
+
+            // // print_r($assets_decode);
+
+
+            // $len = $assets_decode->rows;
+
+            //  $str = '{"data" : [';
+
+            //     for ($k = 0; $k < $len; $k++) {
+
+            //         if (($len - 1) == $k) {
+            //             $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
+            //             $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"]';
+            //         } else {
+            //             $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
+            //             $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
+            //             $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"],';
+            //         }
+
+            //     }
+
+            //     $str .= ']}';
+
+            //     $str = str_replace("\n", "", $str);
+            //     $str = str_replace("\\", "", $str);
+
+            //     // echo  $str;
+
+            //     echo json_encode(array("rows" =>$len ,"data" => $str ));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+
+
+
+
+
 $app->map(['GET','POST'],'/getSearchUser',function(Request $request, Response $response){
     try{
         global $func;
