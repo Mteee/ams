@@ -5764,30 +5764,34 @@ $app->map(['GET','POST'],'/getUsers_dash',function(Request $request, Response $r
         $area = strtoupper($data->area);
         $room_no = strtoupper($data->room_no);
         $assetNo = strtoupper($data->assetNo);
-        $dateRange = strtoupper($data->dateRange);
+        $dateStart = strtoupper($data->dateStart);
+        $dateEnd = strtoupper($data->dateEnd);
         $asset_class = strtoupper($data->asset_class);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
 
+        // echo $dateStart." - ".$dateEnd;
+
         if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
-            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user' ORDER BY ASSET_USERNAME ASC";
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user' AND  ASSET_USER_CREATED BETWEEN  to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') 
+            and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') ORDER BY ASSET_USERNAME ASC";
         else{
             if($asset_class == 'ALL EQUIPMENT')
                 $asset_class = '';
 
-            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_CLASS LIKE '%$asset_class%' AND ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user'";
+            $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_CLASS LIKE '%$asset_class%' AND ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user' AND ASSET_USER_CREATED BETWEEN  to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') 
+            and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS')";
         }
 
         $users =$func->executeQuery($sql);
 
         if($users){
 
-            //  echo $users;
+            // echo $users;
 
-               $assets_decode = json_decode($users);
+            $assets_decode = json_decode($users);
 
             // print_r($assets_decode);
-
 
             $len = $assets_decode->rows;
 
@@ -5839,17 +5843,28 @@ $app->map(['GET','POST'],'/getPendingAssets_dash',function(Request $request, Res
         $area = strtoupper($data->area);
         $room_no = strtoupper($data->room_no);
         $assetNo = strtoupper($data->assetNo);
-        $dateRange = strtoupper($data->dateRange);
+        $dateStart = strtoupper($data->dateStart);
+        $dateEnd = strtoupper($data->dateEnd);
         $asset_class = strtoupper($data->asset_class);
+        $sub_location = strtoupper($data->sub_location);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
 
         if($asset_class == 'ALL EQUIPMENT')
             $asset_class = '';
 
-        $sql = "SELECT ASSET_PRIMARY_ID,ASSET_ROOM_NO_OLD,ASSET_BUILDING_NEW,ASSET_LEVEL_NEW,ASSET_LOCATION_AREA_NEW
-                FROM AMSD.ASSETS_LOG_PENDING_VW";
-        
+        $sql = "SELECT * 
+                FROM AMSD.ASSETS_LOG_PENDING_VW 
+                WHERE ASSET_ID LIKE '%$assetNo%'
+                AND   (ASSET_BUILDING_OLD LIKE '%$building%' OR ASSET_BUILDING_NEW LIKE '%$building%')
+                AND   (ASSET_LEVEL_OLD LIKE '%$level%' OR ASSET_LEVEL_NEW LIKE '%$level%')
+                AND  ((ASSET_LOCATION_AREA_OLD LIKE '%$area%' OR ASSET_LOCATION_AREA_NEW LIKE '%$area%')
+                OR   (ASSET_LOCATION_AREA_OLD LIKE '%$area_name%' OR ASSET_LOCATION_AREA_NEW LIKE '%$area_name%'))
+                AND   (ASSET_ROOM_NO_OLD LIKE '%$room_no%' OR ASSET_ROOM_NO_NEW LIKE '%$room_no%') 
+                AND   (ASSET_SUB_LOCATION_OLD LIKE '%$sub_location%' OR ASSET_SUB_LOCATION_NEW LIKE '%$sub_location%')
+                AND   ASSET_DATE BETWEEN  to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') 
+                                      and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS')";
+    
         $users =$func->executeQuery($sql);
 
         if($users){
@@ -5900,6 +5915,7 @@ $app->map(['GET','POST'],'/getPendingAssets_dash',function(Request $request, Res
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+
 $app->map(['GET','POST'],'/getMovedAssets_dash',function(Request $request, Response $response){
     try{
         global $func;
@@ -5909,8 +5925,8 @@ $app->map(['GET','POST'],'/getMovedAssets_dash',function(Request $request, Respo
         $area_name = strtoupper($data->area_name);
         $area = strtoupper($data->area);
         $room_no = strtoupper($data->room_no);
-        $assetNo = strtoupper($data->assetNo);
-        $dateRange = strtoupper($data->dateRange);
+        $dateStart = strtoupper($data->dateStart);
+        $dateEnd = strtoupper($data->dateEnd);
         $asset_class = strtoupper($data->asset_class);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
@@ -5918,8 +5934,46 @@ $app->map(['GET','POST'],'/getMovedAssets_dash',function(Request $request, Respo
         if($asset_class == 'ALL EQUIPMENT')
             $asset_class = '';
 
-        $sql = "SELECT ASSET_PRIMARY_ID,ASSET_ROOM_NO_OLD,ASSET_BUILDING_NEW,ASSET_LEVEL_NEW,ASSET_LOCATION_AREA_NEW
-                FROM AMSD.ASSETS_LOG_PENDING_VW";
+        $sql = "SELECT asset_username,
+                        asset_class,
+                        asset_primary_id,
+                        asset_type,
+                        asset_id,
+                        asset_description,       
+                        from_asset_room_no,
+                        to_asset_room_no,
+                        from_asset_sub_location,
+                        to_asset_sub_location,
+                        asset_date,
+                        AMSD.fn_get_asset_tran_status(asset_tran_status) as asset_transaction_status
+                from
+                (
+                select asset_username,
+                        amsd.fn_get_asset_class(asset_id) as asset_class,
+                        asset_primary_id,
+                        AMSD.fn_get_asset_type(asset_primary_id) as asset_type,
+                        asset_id,
+                        AMSD.fn_get_asset_description(asset_id) as asset_description,       
+                        asset_room_no_old as from_asset_room_no,
+                        asset_room_no_new as to_asset_room_no,
+                        asset_sub_location_old as from_asset_sub_location,
+                        asset_sub_location_new as to_asset_sub_location,
+                        max(asset_date) over (partition by asset_id, asset_primary_id) as asset_date_max,
+                        asset_date,
+                        row_number() over (partition by asset_id, asset_primary_id order by asset_primary_id, asset_id,asset_date desc) as asset_order,
+                        --AMSD.fn_get_asset_tran_status(asset_tran_status) as asset_transaction_status
+                        asset_tran_status
+                from amsd.assets_log
+                --movement only
+                where (asset_room_no_old <> asset_room_no_new
+                    or asset_sub_location_old <> asset_sub_location_new)
+                order by asset_primary_id, asset_id,asset_date
+                )
+                where asset_order = 1
+                --all assets movement excluding pending movement
+                and asset_tran_status in ('C','CT')
+                and asset_date between to_date('2019/11/10 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('2019/11/20 23:59:59','YYYY/MM/DD HH24:MI:SS')
+                and asset_class LIKE '$asset_class'";
         
         $users =$func->executeQuery($sql);
 
@@ -5971,11 +6025,6 @@ $app->map(['GET','POST'],'/getMovedAssets_dash',function(Request $request, Respo
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
-
-
-
-
-
 
 $app->map(['GET','POST'],'/getSearchUser',function(Request $request, Response $response){
     try{
