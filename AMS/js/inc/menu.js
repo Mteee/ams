@@ -8,7 +8,8 @@ var menu_ids = [
     "ams_asset_link",       //6
     "ams_location",         //7
     "ams_users",            //8
-    ""                      //9
+    "ams_dashboard",         //9
+    ""                      //10
 ];
 
 customMenu(menu_ids);
@@ -18,7 +19,7 @@ function customMenu(menu_ids) {
     var roles = localStorage.role;
         
     if(roles != "ADMIN"){
-        var roles_default = ("V|M|C|CAR|CA|CR|AL|L|U").split("|");
+        var roles_default = ("V|M|C|CAR|CA|CR|AL|L|U|D").split("|");
         var role_split = roles.split("|");
 
         role_split = roles_default.filter(function(val) {
@@ -60,8 +61,10 @@ function role_link(value, menu_ids) {
             return menu_ids[7];
         case "U":
             return menu_ids[8];
-        default:
+        case "D":
             return menu_ids[9];
+        default:
+            return menu_ids[10];
 
     }
 }
