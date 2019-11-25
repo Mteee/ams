@@ -6,7 +6,6 @@ $(function () {
     var end = moment();
 
     function cb(start, end) {
-
         $('#reportrange span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
     }
 
@@ -23,8 +22,9 @@ $(function () {
         }
     }, cb);
 
-    cb(start, end);
+    $('#reportrange span').html("select date");
 
+    // cb(start, end);
 });
 
 //check for filter in local storage
@@ -118,9 +118,9 @@ var clusterize = {
 
 function getItems(url, id, scrollArea, menuid, empty_id) {
 
-    
+
     var params = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.asset_area + '","asset_area_name":"' + localStorage.asset_area_name + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","asset_primary_id":"' + localStorage.asset_primary_id + '","asset_class":"' + localStorage.filter + '"}';
-    
+
     console.log(params);
     $.ajax({
         url: url,
@@ -391,6 +391,7 @@ function cleaAllFilters() {
 
     clearLocalStorageFilters();
     populate_dropdown();
+    $('#reportrange span').html("select date");
 
     $('#building_dashboard_filter').text("BUILDING");
     $('#level_dashboard_filter').text("LEVEL");
@@ -467,3 +468,39 @@ $('#menu_dashboard_assetNo').on('click', '.dropdown-item', function () {
     $("#assetNo_dashboard_filter").dropdown('toggle');
     $('#search_dashboard_assetNo').val($(this)[0].value);
 });
+
+function search() {
+    var building = document.getElementById('search_dashboard_building').value,
+        level = document.getElementById('search_dashboard_level').value,
+        area = document.getElementById('search_dashboard_area').value,
+        asset_area_name = document.getElementById('search_dashboard_area_name').value,
+        room_no = document.getElementById('search_dashboard_room').value,
+        sub_location = document.getElementById('search_dashboard_sublocaction').value,
+        asset_primary_id = document.getElementById('search_dashboard_assetNo').value,
+        date_range = $('#reportrange span').text();
+
+    var results = (building + " - " + level + " - " + area + " - " + asset_area_name + " - " + room_no + " - " + sub_location + " - " + asset_primary_id + " - " + date_range);
+
+    if (" -  -  -  -  -  -  - select date" == results) {
+        swal.fire({
+            title: "Oooops!",
+            text: 'please select at least one filter',
+            type: 'error',
+            showCloseButton: true,
+            closeButtonColor: '#3DB3D7',
+            animation: false,
+            customClass: {
+                popup: 'animated tada'
+            },
+            allowOutsideClick: true,
+        })
+    }
+    else{
+
+        console.log(results);
+
+    }
+
+
+
+}

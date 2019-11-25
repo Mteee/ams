@@ -25,6 +25,7 @@
         * {
             font-size: 9pt !important;
         }
+
         .dropdown-menu {
             max-height: 300px;
             overflow-y: auto;
@@ -374,177 +375,218 @@
                                                         found
                                                     </div>
                                                 </div>
-
                                             </div>
-                            </div>
-                            </th>
-                            <th>
-                                <div class="btn-outline-info" id="reportrange"
-                                    style="cursor: pointer; padding: 5px 10px; border: 1px solid #17a2b8;border-radius:5px;">
-                                    <i class="fa fa-calendar"></i>&nbsp;
-                                    <span></span> <i class="fa fa-caret-down"></i>
-                                </div>
-                            </th>
+                                        </th>
+                                        <th>
+                                            <div class="btn-outline-info" id="reportrange"
+                                                style="cursor: pointer; padding: 5px 10px; border: 1px solid #17a2b8;border-radius:5px;">
+                                                <i class="fa fa-calendar"></i>&nbsp;
+                                                <span id="date_range"></span> <i class="fa fa-caret-down"></i>
+                                            </div>
+                                        </th>
 
-                            <th>
-                                <button onclick="search()" type="text" class="btn btn-success" data-step="7"
-                                    data-intro="This is a navigation menu, with your class or department">
-                                    <span class="fa fa-search"></span>
-                                    Search
-                                </button>
-                                <button onclick="cleaAllFilters()" type="text" class="btn btn-danger" data-step="8"
-                                    data-intro="This is a navigation menu, with your class or department">
-                                    <span class="fa fa-close"></span>
-                                    Clear
-                                </button>
-                            </th>
+                                        <th>
+                                            <button onclick="search()" type="text" class="btn btn-success" data-step="7"
+                                                data-intro="This is a navigation menu, with your class or department">
+                                                <span class="fa fa-search"></span>
+                                                Search
+                                            </button>
+                                            <button onclick="cleaAllFilters()" type="text" class="btn btn-danger"
+                                                data-step="8"
+                                                data-intro="This is a navigation menu, with your class or department">
+                                                <span class="fa fa-close"></span>
+                                                Clear
+                                            </button>
+                                        </th>
 
-                            </tr>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="modals-container" onclick="hide('.modals-container')">
-                                <div class="modals animated slideInUp">
-                                    <div class="close-modals bg-red cursor-ponter" onclick="hide('.modals-container')">
-                                        <i class="material-icons">close</i></div>
-                                    <div class="modals-header" id="modal-header">
-                                        Active assets
-                                    </div>
-                                    <div class="modals-body" id="table-view">
-
-                                    </div>
-                                    <div class="modals-footer" id="modal-footer">
-                                        <button class="btn-lg bg-green" onclick="alert('Export clicked')"> <i
-                                                class="material-icons">cloud_download</i></button>
-                                    </div>
-                                </div>
+                                    </tr>
+                                </table>
                             </div>
                         </div>
-                    
-                        <div class="b-container text-center">
-                           
-                            
-                            <div class="card-wrapper">
-                                <div class="card-icon bg-orange">
-                                    <i class="material-icons">360</i>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-title"> Pending Assets</div>
-                                    <div class="card-number count" id="pendingAssetsCount">27</div>
-                                    <div class="card-footer">
-                                        <i class="material-icons mg-top text-orange">dashboard</i>
-                                        <span class="card-sub-title">Pending Complete</span>
-                                        <div class="btn-container">
-                                            <button class="btn-btn bg-orange" onclick="show('.modals-container','xxxxxx')">view</button>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modals-container" onclick="hide('.modals-container')">
+                                    <div class="modals animated slideInUp">
+                                        <div class="close-modals bg-red cursor-ponter"
+                                            onclick="hide('.modals-container')">
+                                            <i class="material-icons">close</i></div>
+                                        <div class="modals-header" id="modal-header">
+                                            Active assets
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="card-wrapper">
-                                <div class="card-icon bg-blue">
-                                    <i class="material-icons">sync_alt</i>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-title"> Moved Assets</div>
-                                    <div class="card-number count" id="movedAssetsCount">200</div>
-                                    <div class="card-footer">
-                                        <i class="material-icons mg-top text-blue">dashboard</i>
-                                        <span class="card-sub-title">Asset Movement</span>
-                                        <div class="btn-container">
-                                            <button class="btn-btn bg-blue" onclick="show('.modals-container','xxxxxx')">view</button>
+                                        <div class="modals-body" id="table-view">
+
+                                        </div>
+                                        <div class="modals-footer" id="modal-footer">
+                                            <button class="btn-lg bg-green" onclick="alert('Export clicked')"> <i
+                                                    class="material-icons">cloud_download</i></button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="card-wrapper">
-                                <div class="card-icon bg-orange">
-                                    <i class="material-icons">create_new_folder</i>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-title"> Created Assets</div>
-                                    <div class="card-number count" id="createdAssetsCount">10</div>
-                                    <div class="card-footer">
-                                        <i class="material-icons mg-top text-orange">dashboard</i>
-                                        <span class="card-sub-title">Assets Added</span>
-                                        <div class="btn-container">
-                                            <button class="btn-btn bg-orange" onclick="show('.modals-container','xxxxxx')">view</button>
+                            <div class="b-container text-center">
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-green">
+                                        <i class="material-icons">done</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Active Assets</div>
+                                        <div class="card-number count" id="pendingAssetsCount">15080</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-orange">dashboard</i>
+                                            <span class="card-sub-title">Pending Complete</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-green"
+                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="card-wrapper">
-                                <div class="card-icon bg-red">
-                                    <i class="material-icons">phonelink_off</i>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-title"> Removed Assets</div>
-                                    <div class="card-number count" id="removedAssetsCount">7511</div>
-                                    <div class="card-footer">
-                                        <i class="material-icons mg-top text-red">dashboard</i>
-                                        <span class="card-sub-title">Dicommissioned Assets</span>
-                                        <div class="btn-container">
-                                            <button class="btn-btn bg-red" onclick="show('.modals-container','xxxxxx')">view</button>
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-red">
+                                        <i class="material-icons">cancel</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Inactive Assets</div>
+                                        <div class="card-number count" id="pendingAssetsCount">15080</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-orange">dashboard</i>
+                                            <span class="card-sub-title">Pending Complete</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-red"
+                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="card-wrapper">
-                                <div class="card-icon bg-green">
-                                    <i class="material-icons">assignment_turned_in</i>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-title"> Certificates</div>
-                                    <div class="card-number count" id="comCertCount">5000000</div>
-                                    <div class="card-footer">
-                                        <i class="material-icons mg-top text-green">dashboard</i>
-                                        <span class="card-sub-title">Commission Certificates</span>
-                                        <div class="btn-container">
-                                            <button class="btn-btn bg-green" onclick="show('.modals-container','xxxxxx')">view</button>
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-orange">
+                                        <i class="material-icons">360</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Pending Assets</div>
+                                        <div class="card-number count" id="pendingAssetsCount">27</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-orange">dashboard</i>
+                                            <span class="card-sub-title">Pending Complete</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-orange"
+                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="card-wrapper">
-                                <div class="card-icon bg-blue">
-                                    <i class="material-icons">assignment_turned_in</i>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-title"> Certificates</div>
-                                    <div class="card-number count" id="decomCertCount">5000000</div>
-                                    <div class="card-footer">
-                                        <i class="material-icons mg-top text-blue">dashboard</i>
-                                        <span class="card-sub-title">Dicommission Certificates</span>
-                                        <div class="btn-container">
-                                            <button class="btn-btn bg-blue" onclick="show('.modals-container','xxxxxx')">view</button>
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-blue">
+                                        <i class="material-icons">sync_alt</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Moved Assets</div>
+                                        <div class="card-number count" id="movedAssetsCount">200</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-blue">dashboard</i>
+                                            <span class="card-sub-title">Asset Movement</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-blue"
+                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="card-wrapper">
-                                <div class="card-icon bg-green">
-                                    <i class="material-icons">supervisor_account</i>
-                                </div>
-                                <div class="card-body">
-                                    <div class="card-title">Users</div>
-                                    <div class="card-number count" id="usersCount">2510</div>
-                                    <div class="card-footer">
-                                        <i class="material-icons mg-top text-green">dashboard</i>
-                                        <span class="card-sub-title">Active Users</span>
-                                        <div class="btn-container">
-                                            <button class="btn-btn bg-green" onclick="show('.modals-container','xxxxxx')">view</button>
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-orange">
+                                        <i class="material-icons">create_new_folder</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Created Assets</div>
+                                        <div class="card-number count" id="createdAssetsCount">10</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-orange">dashboard</i>
+                                            <span class="card-sub-title">Assets Added</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-orange"
+                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-<!-- 
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-red">
+                                        <i class="material-icons">phonelink_off</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Removed Assets</div>
+                                        <div class="card-number count" id="removedAssetsCount">7511</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-red">dashboard</i>
+                                            <span class="card-sub-title">Dicommissioned Assets</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-red"
+                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-green">
+                                        <i class="material-icons">assignment_turned_in</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Certificates</div>
+                                        <div class="card-number count" id="comCertCount">5000000</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-green">dashboard</i>
+                                            <span class="card-sub-title">Commission Certificates</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-green"
+                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-blue">
+                                        <i class="material-icons">assignment_turned_in</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Certificates</div>
+                                        <div class="card-number count" id="decomCertCount">5000000</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-blue">dashboard</i>
+                                            <span class="card-sub-title">Dicommission Certificates</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-blue"
+                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-green">
+                                        <i class="material-icons">supervisor_account</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title">Users</div>
+                                        <div class="card-number count" id="usersCount">2510</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-green">dashboard</i>
+                                            <span class="card-sub-title">Active Users</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-green"
+                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 
                             <div class="card-wrapper">
                                 <div class="card-icon bg-blue">
                                     <i class="material-icons">assignment_turned_in</i>
@@ -629,45 +671,45 @@
                                     </div>
                                 </div>
                             </div> -->
+                            </div>
                         </div>
                     </div>
                 </div>
+
+
             </div>
 
 
-        </div>
+            <script src="../js/jquery.js"></script>
+            <script src="../js/clusterize.min.js"></script>
+            <!-- <script src="../js/bootstrap.js"></script> -->
+            <script src="../js/bootstrap.bundle.js"></script>
+            <script src="../js/tablefilter.js"></script>
+            <script src="../js/jquery.dataTables.min.js"></script>
+            <script src="../js/export/shim.min.js"></script>
+            <script src="../js/export/xlsx.full.min.js"></script>
+            <script type="text/javascript" src="../js/intro.js"></script>
+            <script src="../js/export/Blob.js"></script>
+            <script src="../js/export/FileSaver.js"></script>
+            <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
+            <script src="../js/inc/menu.js"></script>
+            <script src="../js/inc/inc_methods.js"></script>
+            <script src="../js/dashboard.js"></script>
+            <script src="../js/sweetalert2.all.js"></script>
+            <script src="../js/printThis.js "></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+            <script type="text/javascript"
+                src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <script src="../js/modal.js"></script>
+            <script src="../js/card.js"></script>
+            <script src="../js/table.js"></script>
 
-
-        <script src="../js/jquery.js"></script>
-        <script src="../js/clusterize.min.js"></script>
-        <!-- <script src="../js/bootstrap.js"></script> -->
-        <script src="../js/bootstrap.bundle.js"></script>
-        <script src="../js/tablefilter.js"></script>
-        <script src="../js/jquery.dataTables.min.js"></script>
-        <script src="../js/export/shim.min.js"></script>
-        <script src="../js/export/xlsx.full.min.js"></script>
-        <script type="text/javascript" src="../js/intro.js"></script>
-        <script src="../js/export/Blob.js"></script>
-        <script src="../js/export/FileSaver.js"></script>
-        <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
-        <script src="../js/inc/menu.js"></script>
-        <script src="../js/inc/inc_methods.js"></script>
-        <script src="../js/dashboard.js"></script>
-        <script src="../js/sweetalert2.all.js"></script>
-        <script src="../js/printThis.js "></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-        <script type="text/javascript"
-            src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <script src="../js/modal.js"></script>
-        <script src="../js/card.js"></script>
-        <script src="../js/table.js"></script>
-
-        <script type="text/javascript">
-            function showNav() {
-                $('#menu-list').slideToggle('fast');
-            }
-            document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
-        </script>
+            <script type="text/javascript">
+                function showNav() {
+                    $('#menu-list').slideToggle('fast');
+                }
+                document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
+            </script>
 </body>
 
 </html>
