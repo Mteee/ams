@@ -11,7 +11,6 @@
     padding: 20px;
 }
 
-
 .card-body {
     position: relative;
     border-radius: 5px;
@@ -42,20 +41,19 @@
     margin-top: 18px;
 }
 
-.card-title,
-.card-number,
-.card-footer {
+.card-title, .card-number, .card-footer {
     color: rgba(0, 0, 0, 0.5);
     text-align: right;
     font-family: "Roboto";
     font-weight: bolder;
-    font-size: 15pt;
-    padding: 10px 15px;
+    font-size: 15pt !important;
+    padding: 6px 15px;
 }
 
 .card-number {
-    margin-top: -10px;
-    font-size: 25pt;
+    margin-top: -29px;
+    font-size: 25pt !important;
+    margin-bottom: -6px;
 }
 
 .card-footer {
@@ -88,16 +86,17 @@
     box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.274);
 }
 
-.card-icon-hover{
+.card-icon-hover {
     cursor: none;
-    margin-top:-50px;
+    margin-top: -50px;
+    box-shadow: 0px 17px 20px 0px #00000087;
     transition: 500ms;
 }
 
-.cursor-ponter{
+.cursor-ponter {
     cursor: pointer;
 }
 
-.mg-top{
+.mg-top {
     margin-top: 8px;
 }
