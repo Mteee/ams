@@ -1,7 +1,7 @@
 apis();
 function apis(){
-    getItemsCount("getAllUsers_on_class","usersCount");
-    // getItemsCount("getAllUsers_on_class","pendingAssetsCount");
+    getItemsCount("getUsers_dash","usersCount");
+    getItemsCount("getPendingAssets_dash","pendingAssetsCount");
     // getItemsCount("getAllUsers_on_class","movedAssetsCount");
     // getItemsCount("getAllUsers_on_class","createdAssetsCount");
     // getItemsCount("getAllUsers_on_class","removedAssetsCount");
