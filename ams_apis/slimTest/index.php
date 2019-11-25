@@ -6269,6 +6269,99 @@ $app->map(['GET','POST'],'/getUsers_dash',function(Request $request, Response $r
     }
 });
 
+$app->map(['GET','POST'],'/getActiveAssets',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $building = strtoupper($data->building);
+        $level = strtoupper($data->level);
+        $area_name = strtoupper($data->area_name);
+        $area = strtoupper($data->area);
+        $room_no = strtoupper($data->room_no);
+        $assetNo = strtoupper($data->assetNo);
+        $dateStart = strtoupper($data->dateStart);
+        $dateEnd = strtoupper($data->dateEnd);
+        $asset_class = strtoupper($data->asset_class);
+        $sub_location = strtoupper($data->sub_location);
+        $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
+
+        if($asset_class == 'ALL EQUIPMENT')
+            $asset_class = '';
+
+        $sql = "SELECT * 
+                FROM ASSETS_VW 
+                WHERE ASSET_STATUS = 'ACTIVE'
+                AND   ASSET_ID LIKE '%$assetNo%'
+                AND   ASSET_BUILDING LIKE '%$building%'
+                AND   ASSET_LEVEL LIKE '%$level%'
+                AND   (ASSET_AREA LIKE '%$area%' OR ASSET_AREA_NAME LIKE '%$area_name%')
+                AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                AND   ASSET_CREATE_DT BETWEEN to_date('$dateStart','YYYY/MM/DD HH24:MI:SS')
+                                    AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS')";
+    
+        $users =$func->executeQuery($sql);
+
+        if($users){
+             echo $users;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+$app->map(['GET','POST'],'/getInactiveAssets',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $building = strtoupper($data->building);
+        $level = strtoupper($data->level);
+        $area_name = strtoupper($data->area_name);
+        $area = strtoupper($data->area);
+        $room_no = strtoupper($data->room_no);
+        $assetNo = strtoupper($data->assetNo);
+        $dateStart = strtoupper($data->dateStart);
+        $dateEnd = strtoupper($data->dateEnd);
+        $asset_class = strtoupper($data->asset_class);
+        $sub_location = strtoupper($data->sub_location);
+        $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
+
+        if($asset_class == 'ALL EQUIPMENT')
+            $asset_class = '';
+
+        $sql = "SELECT * 
+                FROM ASSETS_VW 
+                WHERE ASSET_STATUS = 'INACTIVE'
+                AND   ASSET_ID LIKE '%$assetNo%'
+                AND   ASSET_BUILDING LIKE '%$building%'
+                AND   ASSET_LEVEL LIKE '%$level%'
+                AND   (ASSET_AREA LIKE '%$area%' OR ASSET_AREA_NAME LIKE '%$area_name%')
+                AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                AND   ASSET_CREATE_DT BETWEEN to_date('$dateStart','YYYY/MM/DD HH24:MI:SS')
+                                    AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS')";
+    
+        $users =$func->executeQuery($sql);
+
+        if($users){
+             echo $users;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+
 $app->map(['GET','POST'],'/getPendingAssets_dash',function(Request $request, Response $response){
     try{
         global $func;
@@ -6469,6 +6562,162 @@ $app->map(['GET','POST'],'/getSearchUser',function(Request $request, Response $r
         $username = strtoupper($data->username);
 
         $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USERNAME LIKE '%$username%' ORDER BY ASSET_USERNAME ASC";
+
+        $users =$func->executeQuery($sql);
+
+        if($users){
+
+             echo $users;
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+$app->map(['GET','POST'],'/getCounts',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $building = strtoupper($data->building);
+        $level = strtoupper($data->level);
+        $area_name = strtoupper($data->area_name);
+        $area = strtoupper($data->area);
+        $room_no = strtoupper($data->room_no);
+        $sub_location = strtoupper($data->sub_location);
+        $dateStart = strtoupper($data->dateStart);
+        $dateEnd = strtoupper($data->dateEnd);
+        $assetNo = strtoupper($data->assetNo);
+        $asset_class = strtoupper($data->asset_class);
+        $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
+
+        if($asset_class == "ALL EQUIPMENT"){
+            $asset_class = '';
+        }
+
+        $sql = "--------------- active --------------------
+                    SELECT 
+                    (SELECT count(*) 
+                    FROM ASSETS_VW 
+                    WHERE ASSET_STATUS = 'INACTIVE'
+                    AND   ASSET_CLASS LIKE '%$asset_class%'
+                    AND   ASSET_ID LIKE '%$assetNo%'
+                    AND   ASSET_BUILDING LIKE '%$building%'
+                    AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_AREA LIKE '%$area%'
+                    AND   ASSET_AREA_NAME LIKE '%$area_name%'
+                    AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                    AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
+                                        AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL))  AS \"INACTIVE\"
+                ,   
+                    --------------------------------------------
+                    ----------------inactive--------------------
+                    --------------------------------------------
+                    (SELECT count(*)
+                    FROM ASSETS_VW 
+                    WHERE ASSET_STATUS = 'ACTIVE'
+                    AND   ASSET_CLASS LIKE '%$asset_class%'
+                    AND   ASSET_ID LIKE '%$assetNo%'
+                    AND   ASSET_BUILDING LIKE '%$building%'
+                    AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_AREA LIKE '%$area%'
+                    AND   ASSET_AREA_NAME LIKE '%$area_name%'
+                    AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                    AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
+                                        AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS')OR ASSET_CREATE_DT IS NULL) ) AS \"ACTIVE\",
+                    ---------------------------------------------------------------------------
+                    ------------------- unassigned assets certificates ------------------------
+                    ---------------------------------------------------------------------------
+                    (SELECT count(*)
+                    FROM ASSETS_VW 
+                    WHERE ASSET_CERT_NO IS NULL
+                    AND   ASSET_CLASS LIKE '%$asset_class%'
+                    AND   ASSET_ID LIKE '%$assetNo%'
+                    AND   ASSET_BUILDING LIKE '%$building%'
+                    AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_AREA LIKE '%$area%' 
+                    AND   ASSET_AREA_NAME LIKE '%$area_name%'
+                    AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                    AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
+                                        AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS')OR ASSET_CREATE_DT IS NULL) ) AS \"assetsWithNoCert\",
+                    -------------------------------------------------------------------------
+                    ------------------- assigned assets certificates ------------------------
+                    -------------------------------------------------------------------------
+                    (SELECT count(*)
+                    FROM ASSETS_VW 
+                    WHERE ASSET_CERT_NO IS NOT NULL
+                    AND   ASSET_CLASS LIKE '%$asset_class%'
+                    AND   ASSET_ID LIKE '%$assetNo%'
+                    AND   ASSET_BUILDING LIKE '%$building%'
+                    AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_AREA LIKE '%$area%' 
+                    AND   ASSET_AREA_NAME LIKE '%$area_name%'
+                    AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                    AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
+                                        AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS')OR ASSET_CREATE_DT IS NULL) ) AS \"assetsWithCert\",
+                    ---------------------------------------------
+                    ---------------- pending --------------------
+                    ---------------------------------------------
+                    (SELECT count(*) 
+                    FROM AMSD.ASSETS_LOG_PENDING_VW 
+                    WHERE ASSET_ID LIKE '%$assetNo%'
+                    AND   (ASSET_BUILDING_OLD LIKE '%$building%' OR   ASSET_BUILDING_NEW LIKE '%$building%')
+                    AND   (ASSET_LEVEL_OLD LIKE '%$level%' OR ASSET_LEVEL_NEW LIKE '%$level%')
+                    AND   ((ASSET_LOCATION_AREA_OLD LIKE '%$area%' OR ASSET_LOCATION_AREA_NEW LIKE '%$area_name%') 
+                    OR    (ASSET_LOCATION_AREA_OLD LIKE '%$area_name%' OR ASSET_LOCATION_AREA_NEW LIKE '%$area%') )
+                    AND   (ASSET_ROOM_NO_OLD LIKE '%$room_no%' OR ASSET_ROOM_NO_NEW LIKE '%$room_no%')
+                    AND   (ASSET_SUB_LOCATION_OLD LIKE '%$sub_location%' OR ASSET_SUB_LOCATION_NEW LIKE '%$sub_location%')
+                    AND   (ASSET_DATE BETWEEN  to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
+                                        and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS' )OR ASSET_DATE IS NULL)) AS \"PENDING\",
+                    (
+                    select count(*)
+                    from
+                    (
+                    select asset_username,
+                        amsd.fn_get_asset_class(asset_id) as asset_class,
+                        asset_primary_id,
+                        AMSD.fn_get_asset_type(asset_primary_id) as asset_type,
+                        asset_id,
+                        AMSD.fn_get_asset_description(asset_id) as asset_description,       
+                        asset_room_no_old as from_asset_room_no,
+                        asset_room_no_new as to_asset_room_no,
+                        asset_sub_location_old as from_asset_sub_location,
+                        asset_sub_location_new as to_asset_sub_location,
+                        max(asset_date) over (partition by asset_id, asset_primary_id) as asset_date_max,
+                        asset_date,
+                        row_number() over (partition by asset_id, asset_primary_id order by asset_primary_id, asset_id,asset_date desc) as asset_order,
+                        --AMSD.fn_get_asset_tran_status(asset_tran_status) as asset_transaction_status
+                        asset_tran_status
+                    from amsd.assets_log
+                    --movement only
+                    where (asset_room_no_old <> asset_room_no_new
+                        or asset_sub_location_old <> asset_sub_location_new)
+                    order by asset_primary_id, asset_id,asset_date
+                    )
+                    where asset_order = 1
+                    --all assets movement excluding pending movement
+                    and asset_tran_status in ('C','CT')
+                    and (asset_date between to_date('2000/01/01 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('9999/12/31 23:59:59','YYYY/MM/DD HH24:MI:SS') OR asset_date IS NULL)
+                    and asset_class LIKE '%%'           
+                    ) AS \"MOVED\",
+                    ------------------------------------------------
+                    ------------------ ACTIVE USERS -----------------
+                    ------------------------------------------------
+                    (SELECT count(*) 
+                    FROM ASSETS_USER 
+                    WHERE ASSET_USER_CLASS LIKE '%$asset_class %'
+                    AND ASSET_USER_STATUS = '1' 
+                    AND ASSET_USERNAME <> '$user' 
+                    AND (ASSET_USER_CREATED BETWEEN  to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') 
+                                and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_USER_CREATED IS NULL)) AS \"USERS\" 
+                    FROM DUAL";
 
         $users =$func->executeQuery($sql);
 
