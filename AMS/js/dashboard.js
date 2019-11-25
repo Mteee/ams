@@ -1,3 +1,4 @@
+clearLocalStorageFilters();
 //check for filter in local storage
 if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
     localStorage.backupFilter = localStorage.filter;
@@ -43,4 +44,23 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
+}
+
+
+function clearLocalStorageFilters() {
+    localStorage.building = '';
+    localStorage.level = '';
+    localStorage.area = '';
+    localStorage.asset_area_name = '';
+    localStorage.room_no = '';
+    localStorage.sub_location = '';
+    localStorage.asset_primary_id = '';
+
+    $('#search_view_building').val("");
+    $('#search_view_level').val("");
+    $('#search_view_area').val("");
+    $('#search_view_area_name').val("");
+    $('#search_view_room').val("");
+    $('#search_view_sublocaction').val("");
+    $('#search_view_assetNo').val("");
 }

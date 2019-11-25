@@ -120,7 +120,7 @@
                     <div class="col-sm-12">
                         <div class="row">
                             <div class="col-md-12">
-                                <table class="table" id="view_filters">
+                                <table class="table" id="dashboard_views">
                                     <tr>
                                         <th>
                                             Search
@@ -128,34 +128,33 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="building_view_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false" data-step="5"
-                                                    data-intro="This is a navigation menu, with your class or department">
+                                                    type="button" id="building_dashboard_view" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
                                                     BUILDING
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="building_view_filter"
-                                                    id="scroll_view_building">
+                                                <div class="dropdown-menu" aria-labelledby="building_dashboard_view"
+                                                    id="scroll_dashboard_building">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_building"
+                                                            <input type="search" id="search_dashboard_building"
                                                                 class="form-control" placeholder="Building"
-                                                                onkeyup="onSearch('building_view_filter','search_view_building','#empty_view_building')"
+                                                                onkeyup="onSearch('building_dashboard_view','search_dashboard_building','#empty_dashboard_building')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
                                                                     id="clear_view_building"
-                                                                    onclick="clearData('#search_view_building','#building_view_filter','BUILDING')"><i
+                                                                    onclick="clearData('#search_dashboard_building','#building_dashboard_view','BUILDING')"><i
                                                                         class="fa fa-close"></i>
                                                                 </span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_building">
+                                                    <div id="menu_dashboard_building">
                                                         <div id="building_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_building" class="dropdown-header">No building
+                                                    <div id="empty_dashboard_building" class="dropdown-header">No building
                                                         found
                                                     </div>
                                                 </div>
@@ -164,33 +163,33 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="level_view_filter" data-toggle="dropdown"
+                                                    type="button" id="level_dashboard_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     LEVEL
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="level_view_filter"
-                                                    id="scroll_view_level">
+                                                <div class="dropdown-menu" aria-labelledby="level_dashboard_filter"
+                                                    id="scroll_dashboard_level">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_level"
+                                                            <input type="search" id="search_dashboard_level"
                                                                 class="form-control" placeholder="Level"
-                                                                onkeyup="onSearch('level_view_filter','search_view_level','#empty_view_level')"
+                                                                onkeyup="onSearch('level_dashboard_filter','search_dashboard_level','#empty_dashboard_level')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_level"
-                                                                    onclick="clearData('#search_view_level','#level_view_filter','LEVEL')"><i
+                                                                    id="clear_dashboard_level"
+                                                                    onclick="clearData('#search_dashboard_level','#level_dashboard_filter','LEVEL')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_level">
-                                                        <div id="Roomload" class="dropdown-loader">
+                                                    <div id="menu_dashboard_level">
+                                                        <div id="level_load" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_level" class="dropdown-header">No level found
+                                                    <div id="empty_dashboard_level" class="dropdown-header">No level found
                                                     </div>
                                                 </div>
                                             </div>
@@ -198,32 +197,32 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="area_name_view_filter" data-toggle="dropdown"
+                                                    type="button" id="area_name_dashboard_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     AREA NAME
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_area_name"
-                                                    aria-labelledby="area_name_view_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_dashboard_area_name"
+                                                    aria-labelledby="area_name_dashboard_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_area_name"
+                                                            <input type="search" id="search_dashboard_area_name"
                                                                 class="form-control" placeholder="Area Name"
-                                                                onkeyup="onSearch('area_name_view_filter','search_view_area_name','#empty_view_area_name')"
+                                                                onkeyup="onSearch('area_name_dashboard_filter','search_dashboard_area_name','#empty_dashboard_area_name')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
                                                                     id="clear_view_area_name"
-                                                                    onclick="clearData('#search_view_area_name','#area_name_view_filter','AREA NAME')"><i
+                                                                    onclick="clearData('#search_dashboard_area_name','#area_name_dashboard_filter','AREA NAME')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_view_area_name" onchange="testMethod()">
-                                                        <div id="Assetload" class="dropdown-loader">
+                                                    <div id="meun_dashboard_area_name" onchange="testMethod()">
+                                                        <div id="area_name_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_area_name" class="dropdown-header">No area name
+                                                    <div id="empty_dashboard_area_name" class="dropdown-header">No area name
                                                         found
                                                     </div>
                                                 </div>
@@ -232,32 +231,32 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="area_view_filter" data-toggle="dropdown"
+                                                    type="button" id="area_dashboard_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_area"
-                                                    aria-labelledby="area_view_filter">
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_dashboard_area"
+                                                    aria-labelledby="area_dashboard_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_area"
+                                                            <input type="search" id="search_dashboard_area"
                                                                 class="form-control" placeholder="Area"
-                                                                onkeyup="onSearch('area_view_filter','search_view_area','#empty_view_area')"
+                                                                onkeyup="onSearch('area_dashboard_filter','search_dashboard_area','#empty_dashboard_area')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
-                                                                    id="clear_view_area"
-                                                                    onclick="clearData('#search_view_area','#area_view_filter','AREA')"><i
+                                                                    id="clear_dashboard_area"
+                                                                    onclick="clearData('#search_dashboard_area','#area_dashboard_filter','AREA')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_view_area" onchange="testMethod()">
-                                                        <div id="Assetload" class="dropdown-loader">
+                                                    <div id="meun_dashboard_area" onchange="testMethod()">
+                                                        <div id="area_load" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_area" class="dropdown-header">No area found
+                                                    <div id="empty_dashboard_area" class="dropdown-header">No area found
                                                     </div>
                                                 </div>
                                             </div>
@@ -265,33 +264,33 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="room_view_filter" data-toggle="dropdown"
+                                                    type="button" id="room_dashboard_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll" id="scroll_view_room"
-                                                    aria-labelledby="room_view_filter">
+                                                    aria-labelledby="room_dashboard_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_room"
+                                                            <input type="search" id="search_dashboard_room"
                                                                 class="form-control" placeholder="Room"
-                                                                onkeyup="onSearch('room_view_filter','search_view_room','#empty_view_room')"
+                                                                onkeyup="onSearch('room_dashboard_filter','search_dashboard_room','#empty_dashboard_room')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
                                                                     id="clear_view_room"
-                                                                    onclick="clearData('#search_view_room','#room_view_filter','ROOM')"><i
+                                                                    onclick="clearData('#search_dashboard_room','#room_dashboard_filter','ROOM')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_room" onchange="testMethod()">
+                                                    <div id="menu_dashboard_room" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_room" class="dropdown-header">No room found
+                                                    <div id="empty_dashboard_room" class="dropdown-header">No room found
                                                     </div>
                                                 </div>
                                             </div>
@@ -299,34 +298,34 @@
                                         <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="sublocaction_view_filter" data-toggle="dropdown"
+                                                    type="button" id="sublocaction_dashboard_filter" data-toggle="dropdown"
                                                     aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll"
                                                     id="scroll_view_sublocaction"
-                                                    aria-labelledby="sublocaction_view_filter">
+                                                    aria-labelledby="sublocaction_dashboard_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_sublocaction"
+                                                            <input type="search" id="search_dashboard_sublocaction"
                                                                 class="form-control" placeholder="SUB LOCATION"
-                                                                onkeyup="onSearch('sublocaction_view_filter','search_view_sublocaction','#empty_view_sublocaction')"
+                                                                onkeyup="onSearch('sublocaction_dashboard_filter','search_dashboard_sublocaction','#empty_dashboard_sublocaction')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
                                                                     id="clear_view_sublocaction"
-                                                                    onclick="clearData('#search_view_sublocaction','#sublocaction_view_filter','SUB LOCATION')"><i
+                                                                    onclick="clearData('#search_dashboard_sublocaction','#sublocaction_dashboard_filter','SUB LOCATION')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_sublocaction" class="text-center"
+                                                    <div id="menu_dashboard_sublocaction" class="text-center"
                                                         onchange="testMethod()">
-                                                        <div id="Assetload" class="dropdown-loader">
+                                                        <div id="sub_location_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_sublocaction" class="dropdown-header">No
+                                                    <div id="empty_dashboard_sublocaction" class="dropdown-header">No
                                                         sublocation found</div>
                                                 </div>
                                             </div>
@@ -334,61 +333,52 @@
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
-                                                    type="button" id="assetNo_view_filter" data-toggle="dropdown"
-                                                    aria-haspopup="true" aria-expanded="false" data-step="6"
-                                                    data-intro="This is a navigation menu, with your class or department">
+                                                    type="button" id="assetNo_dashboard_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
                                                     ASSET NO
                                                 </button>
                                                 <div class="dropdown-menu clusterize-scroll" id="scroll_view_assetNo"
-                                                    aria-labelledby="assetNo_view_filter">
+                                                    aria-labelledby="assetNo_dashboard_filter">
                                                     <form class="px-4 py-2">
 
                                                         <div class="input-group">
-                                                            <input type="search" id="search_view_assetNo"
+                                                            <input type="search" id="search_dashboard_assetNo"
                                                                 class="form-control" placeholder="ASSET NO"
-                                                                onkeyup="onSearch('assetNo_view_filter','search_view_assetNo','#empty_view_assetNo')"
+                                                                onkeyup="onSearch('assetNo_dashboard_filter','search_dashboard_assetNo','#empty_dashboard_assetNo')"
                                                                 autofocus="autofocus">
                                                             <div class="input-group-append">
                                                                 <span class="input-group-text btn btn-danger text-light"
                                                                     id="clear_view_assetNo"
-                                                                    onclick="clearData('#search_view_assetNo','#assetNo_view_filter','ASSET NO')"><i
+                                                                    onclick="clearData('#search_dashboard_assetNo','#assetNo_dashboard_filter','ASSET NO')"><i
                                                                         class="fa fa-close"></i></span>
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_view_assetNo" class="text-center"
+                                                    <div id="menu_dashboard_assetNo" class="text-center"
                                                         onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
                                                     </div>
-                                                    <div id="empty_view_assetNo" class="dropdown-header">No asset found
+                                                    <div id="empty_dashboard_assetNo" class="dropdown-header">No asset found
                                                     </div>
                                                 </div>
                                             </div>
                                         </th>
                                         <th>
                                             <div class="btn-outline-info" id="reportrange"
-                                                style="cursor: pointer; padding: 5px 10px; border: 1px solid #17a2b8;">
+                                                style="cursor: pointer; padding: 5px 10px; border: 1px solid #17a2b8; border-radius:5px;">
                                                 <i class="fa fa-calendar"></i>&nbsp;
                                                 <span></span> <i class="fa fa-caret-down"></i>
                                             </div>
                                         </th>
                                         <th>
-                                            <input type="text" id="view_description" class="form-control"
-                                                placeholder="Asset Description..."
-                                                onkeyup="onSearch_new('view_description')">
-                                        </th>
-
-                                        <th>
-                                            <button onclick="search()" type="text" class="btn btn-success" data-step="7"
-                                                data-intro="This is a navigation menu, with your class or department">
+                                            <button onclick="search()" type="text" class="btn btn-success" >
                                                 <span class="fa fa-search"></span>
                                                 Search
                                             </button>
                                             <button onclick="cleaAllFilters()" type="text" class="btn btn-danger"
-                                                data-step="8"
-                                                data-intro="This is a navigation menu, with your class or department">
+                                                >
                                                 <span class="fa fa-close"></span>
                                                 Clear
                                             </button>
@@ -430,11 +420,13 @@
     <script type="text/javascript">
         $(function () {
 
-            var start = moment().subtract(29, 'days');
+            var start = moment().subtract(10, 'days');
             var end = moment();
 
             function cb(start, end) {
-                $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                console.log(start);
+                console.log(end);
+                $('#reportrange span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
             }
 
             $('#reportrange').daterangepicker({
