@@ -380,6 +380,8 @@ function clearLocalStorageFilters() {
     localStorage.room_no = '';
     localStorage.sub_location = '';
     localStorage.asset_primary_id = '';
+    localStorage.dateStart = '';
+    localStorage.dateEnd = '';
 
     $('#search_dashboard_building').val("");
     $('#search_dashboard_level').val("");
@@ -499,6 +501,7 @@ function search() {
         })
     }
     else{
+        $("#loader-overlay").css("display","block");
 
         localStorage.building = building;
         localStorage.level = level;
@@ -507,11 +510,50 @@ function search() {
         localStorage.room_no = room_no;
         localStorage.assetno =  asset_primary_id;
         localStorage.sub_location = sub_location;
-        localStorage.dateStart = '2005/01/01';
-        localStorage.dateEnd = '9999/12/31';
-        var jsonData = '{"building" :"' + building + '","level" :"' + level + '","area_name" :"' + asset_area_name + '","area" :"' + area + '","room_no" :"' + room_no + '","sub_location" :"' + sub_location + '","assetNo" :"' + asset_primary_id + '","dateStart" :"' + localStorage.dateStart + '","dateEnd" :"' + localStorage.dateEnd + '","asset_class" :"' + localStorage.filter + '","role" :"' + localStorage.role + '","user" :"' + localStorage.username + '"}';
+
+        if(localStorage.dateStart == ''){
+            localStorage.dateStart = '2005/01/01';
+            localStorage.dateEnd = '9999/12/31';
+        }
+
+        var jsonData = '{"building" :"' + localStorage.building + '","level" :"' + localStorage.level + '","area_name" :"' + localStorage.area_name + '","area" :"' + localStorage.area + '","room_no" :"' + localStorage.room_no + '","sub_location" :"' + localStorage.sub_location + '","assetNo" :"' + localStorage.assetno + '","dateStart" :"' + localStorage.dateStart + '","dateEnd" :"' + localStorage.dateEnd + '","asset_class" :"' + localStorage.filter + '","role" :"' + localStorage.role + '","user" :"' + localStorage.username + '"}';
 
         console.log(jsonData);
+
+        $.ajax({
+            url: "../../ams_apis/slimTest/index.php/getCounts",
+            type: "POST",
+            dataType: 'json',
+            data: jsonData,
+            success: function (data) {
+                console.log(data);
+                document.getElementById("activeAssetsCount").innerHTML = data.data[0].ACTIVE;
+                document.getElementById("inactiveAssetsCount").innerHTML = data.data[0].INACTIVE;
+                document.getElementById("pendingAssetsCount").innerHTML = data.data[0].PENDING;
+                document.getElementById("movedAssetsCount").innerHTML = data.data[0].MOVED;
+                document.getElementById("assetsWithNoCrtCount").innerHTML = data.data[0].assetsWithNoCert;
+                document.getElementById("comCertCount").innerHTML = data.data[0].assetsWithCert;
+                document.getElementById("decomCertCount").innerHTML = data.data[0].assetsWithCert;
+                document.getElementById("usersCount").innerHTML = data.data[0].USERS;
+    
+                $('.count').each(function () {
+                    $(this).prop('Counter', 0).animate({
+                        Counter: $(this).text()
+                    }, {
+                        duration: 4000,
+                        easing: 'swing',
+                        step: function (now) {
+                            $(this).text(Math.ceil(now).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                        }
+                    });
+                });
+    
+                $("#loader-overlay").css("display","none");
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
 
     }
 
