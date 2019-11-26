@@ -43,7 +43,7 @@
 }
 
 .card-title, .card-number, .card-footer {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(0, 0, 0, 0.781);
     text-align: right;
     font-family: "Roboto";
     font-weight: bolder;
@@ -55,6 +55,7 @@
     margin-top: -29px;
     font-size: 25pt !important;
     margin-bottom: -6px;
+    color : rgb(148, 145, 145) !important;
 }
 
 .card-footer {

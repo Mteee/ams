@@ -5,8 +5,10 @@ function show(element,action){
     console.log(action);
     console.log(element);
     $(element).fadeIn();
+    getData(action);
 
 }
+
 function hide(element){
     $(element).fadeOut();
 }
