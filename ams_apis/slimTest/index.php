@@ -6709,8 +6709,9 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                     where asset_order = 1
                     --all assets movement excluding pending movement
                     and asset_tran_status in ('C','CT')
-                    and (asset_date between to_date('2000/01/01 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('9999/12/31 23:59:59','YYYY/MM/DD HH24:MI:SS') OR asset_date IS NULL)
+                    and (asset_date between to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR asset_date IS NULL)
                     and asset_class LIKE '%$asset_class%'           
+                    and asset_id LIKE '%$assetNo%'           
                     ) AS \"MOVED\",
                     ------------------------------------------------
                     ------------------ ACTIVE USERS -----------------
