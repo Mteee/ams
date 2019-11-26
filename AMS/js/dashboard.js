@@ -27,7 +27,6 @@ $(function () {
     }, cb);
 
     $('#reportrange span').html("select date");
-
     // cb(start, end);
 });
 
