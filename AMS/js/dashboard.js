@@ -6,6 +6,10 @@ $(function () {
     var end = moment();
 
     function cb(start, end) {
+
+        localStorage.startDate = start.format('YYYY/MM/DD');
+        localStorage.dateEnd = end.format('YYYY/MM/DD');
+
         $('#reportrange span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
     }
 
@@ -368,7 +372,6 @@ function clearData(input, btnDafualtId, text) {
 }
 
 
-
 function clearLocalStorageFilters() {
     localStorage.building = '';
     localStorage.level = '';
@@ -496,8 +499,9 @@ function search() {
         })
     }
     else{
+        var jsonData = '{"building" :"' + building + '","level" :"' + level + '","area_name" :"' + area_name + '","area" :"' + area + '","room_no" :"' + room_no + '","sub_location" :"' + sub_location + '","assetNo" :"' + assetno + '","dateStart" :"' + localStorage.dateStart + '","dateEnd" :"' + localStorage.dateEnd + '","asset_class" :"' + localStorage.filter + '","role" :"' + localStorage.role + '","user" :"' + localStorage.username + '"}';
 
-        console.log(results);
+        console.log(jsonData);
 
     }
 

@@ -6598,7 +6598,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
             $asset_class = '';
         }
 
-        $sql = "--------------- active --------------------
+        $sql = "--------------- inactive --------------------
                     SELECT 
                     (SELECT count(*) 
                     FROM ASSETS_VW 
@@ -6615,7 +6615,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                                         AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL))  AS \"INACTIVE\"
                 ,   
                     --------------------------------------------
-                    ----------------inactive--------------------
+                    ----------------- active -------------------
                     --------------------------------------------
                     (SELECT count(*)
                     FROM ASSETS_VW 
@@ -6705,14 +6705,14 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                     --all assets movement excluding pending movement
                     and asset_tran_status in ('C','CT')
                     and (asset_date between to_date('2000/01/01 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('9999/12/31 23:59:59','YYYY/MM/DD HH24:MI:SS') OR asset_date IS NULL)
-                    and asset_class LIKE '%%'           
+                    and asset_class LIKE '%$asset_class%'           
                     ) AS \"MOVED\",
                     ------------------------------------------------
                     ------------------ ACTIVE USERS -----------------
                     ------------------------------------------------
                     (SELECT count(*) 
                     FROM ASSETS_USER 
-                    WHERE ASSET_USER_CLASS LIKE '%$asset_class %'
+                    WHERE ASSET_USER_CLASS LIKE '%$asset_class%'
                     AND ASSET_USER_STATUS = '1' 
                     AND ASSET_USERNAME <> '$user' 
                     AND (ASSET_USER_CREATED BETWEEN  to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') 

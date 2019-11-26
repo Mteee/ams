@@ -31,11 +31,30 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
+        #loader-overlay {
+            position: absolute;
+            padding: 0;
+            top: 0;
+            left: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 99999999999;
+            display: none;
+            background: rgba(255, 255, 255, 0.966) !important;
+        }
     </style>
 
 </head>
 
 <body>
+
+    <div id="loader-overlay">
+        <div id="Assetload" class="dropdown-loader">
+            <img src="../img/loading-transparent.gif" alt=""
+                style="width: 220px;text-align: center;margin: 15% auto;background: #fdfdfd;padding: 23px;">
+        </div>
+    </div>
 
     <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
@@ -431,7 +450,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="card-title"> Active Assets</div>
-                                        <div class="card-number count" id="activeAssetsCount">15080</div>
+                                        <div class="card-number count" id="activeAssetsCount">7</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-green">dashboard</i>
                                             <span class="card-sub-title">Active assets</span>
@@ -449,7 +468,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="card-title"> Inactive Assets</div>
-                                        <div class="card-number count" id="inactiveAssetsCount">15080</div>
+                                        <div class="card-number count" id="inactiveAssetsCount">10</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-red">dashboard</i>
                                             <span class="card-sub-title">Inactive assets</span>
@@ -467,7 +486,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="card-title"> Pending Assets</div>
-                                        <div class="card-number count" id="pendingAssetsCount">27</div>
+                                        <div class="card-number count" id="pendingAssetsCount">1</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-orange">dashboard</i>
                                             <span class="card-sub-title">Pending Complete</span>
@@ -485,7 +504,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="card-title"> Moved Assets</div>
-                                        <div class="card-number count" id="movedAssetsCount">200</div>
+                                        <div class="card-number count" id="movedAssetsCount">5</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-blue">dashboard</i>
                                             <span class="card-sub-title">Asset Movement</span>
@@ -539,7 +558,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="card-title">Assets Not Assigned</div>
-                                        <div class="card-number count" id="assetsWithNoCrtCount">5000000</div>
+                                        <div class="card-number count" id="assetsWithNoCrtCount">9</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-orange">dashboard</i>
                                             <span class="card-sub-title">Assets With No Certificates</span>
@@ -557,10 +576,10 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="card-title"> Certificates</div>
-                                        <div class="card-number count" id="comCertCount">5000000</div>
+                                        <div class="card-number count" id="comCertCount">5</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-green">dashboard</i>
-                                            <span class="card-sub-title">Commission Certificates</span>
+                                            <span class="card-sub-title">Commissionined Certificates</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-green"
                                                     onclick="show('.modals-container','xxxxxx')">view</button>
@@ -575,10 +594,10 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="card-title"> Certificates</div>
-                                        <div class="card-number count" id="decomCertCount">5000000</div>
+                                        <div class="card-number count" id="decomCertCount">3</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-red">dashboard</i>
-                                            <span class="card-sub-title">Dicommission Certificates</span>
+                                            <span class="card-sub-title">Decommissioned Certificates</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-red"
                                                     onclick="show('.modals-container','xxxxxx')">view</button>
@@ -593,7 +612,7 @@
                                     </div>
                                     <div class="card-body">
                                         <div class="card-title">Users</div>
-                                        <div class="card-number count" id="usersCount">2510</div>
+                                        <div class="card-number count" id="usersCount">1</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-green">dashboard</i>
                                             <span class="card-sub-title">Active Users</span>
