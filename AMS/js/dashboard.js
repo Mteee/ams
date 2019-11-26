@@ -7,7 +7,7 @@ $(function () {
 
     function cb(start, end) {
 
-        localStorage.startDate = start.format('YYYY/MM/DD');
+        localStorage.dateStart = start.format('YYYY/MM/DD');
         localStorage.dateEnd = end.format('YYYY/MM/DD');
 
         $('#reportrange span').html(start.format('D MMMM, YYYY') + ' - ' + end.format('D MMMM, YYYY'));
@@ -510,8 +510,9 @@ function search() {
         localStorage.room_no = room_no;
         localStorage.assetno =  asset_primary_id;
         localStorage.sub_location = sub_location;
+        var date_range = $('#reportrange span').text();
 
-        if(localStorage.dateStart == ''){
+        if(date_range == 'select date'){
             localStorage.dateStart = '2005/01/01';
             localStorage.dateEnd = '9999/12/31';
         }
