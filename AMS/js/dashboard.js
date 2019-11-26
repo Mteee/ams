@@ -499,7 +499,17 @@ function search() {
         })
     }
     else{
-        var jsonData = '{"building" :"' + building + '","level" :"' + level + '","area_name" :"' + area_name + '","area" :"' + area + '","room_no" :"' + room_no + '","sub_location" :"' + sub_location + '","assetNo" :"' + assetno + '","dateStart" :"' + localStorage.dateStart + '","dateEnd" :"' + localStorage.dateEnd + '","asset_class" :"' + localStorage.filter + '","role" :"' + localStorage.role + '","user" :"' + localStorage.username + '"}';
+
+        localStorage.building = building;
+        localStorage.level = level;
+        localStorage.area_name = asset_area_name;
+        localStorage.area = area;
+        localStorage.room_no = room_no;
+        localStorage.assetno =  asset_primary_id;
+        localStorage.sub_location = sub_location;
+        localStorage.dateStart = '2005/01/01';
+        localStorage.dateEnd = '9999/12/31';
+        var jsonData = '{"building" :"' + building + '","level" :"' + level + '","area_name" :"' + asset_area_name + '","area" :"' + area + '","room_no" :"' + room_no + '","sub_location" :"' + sub_location + '","assetNo" :"' + asset_primary_id + '","dateStart" :"' + localStorage.dateStart + '","dateEnd" :"' + localStorage.dateEnd + '","asset_class" :"' + localStorage.filter + '","role" :"' + localStorage.role + '","user" :"' + localStorage.username + '"}';
 
         console.log(jsonData);
 
