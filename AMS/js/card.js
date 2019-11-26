@@ -24,6 +24,19 @@ function getItemsCount() {
             document.getElementById("comCertCount").innerHTML = data.data[0].assetsWithCert;
             document.getElementById("decomCertCount").innerHTML = data.data[0].assetsWithCert;
             document.getElementById("usersCount").innerHTML = data.data[0].USERS;
+
+            $('.count').each(function () {
+                $(this).prop('Counter', 0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 4000,
+                    easing: 'swing',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    }
+                });
+            });
+
             $("#loader-overlay").css("display","none");
         },
         error: function (error) {
