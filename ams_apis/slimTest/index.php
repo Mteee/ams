@@ -603,8 +603,7 @@ $app->map(['GET','POST'],'/asset_sub_location_dashboard_filters', function(Reque
                 AND (ASSET_ID LIKE '%$asset_primary_id%')
                 AND (ASSET_ROOM_NO LIKE '%$room_no%')
                 AND substr(ASSET_SUB_LOCATION,1,2) in ('VL','SW','AL','SC','SA','PL','AP')   
-
-        --AND A_OLD.ASSET_STATUS = '1'
+                --AND A_OLD.ASSET_STATUS = '1'
                     GROUP BY ASSET_SUB_LOCATION
                     ORDER BY ASSET_SUB_LOCATION";
 
@@ -6577,6 +6576,7 @@ $app->map(['GET','POST'],'/getSearchUser',function(Request $request, Response $r
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+
 $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $response){
     try{
         global $func;
