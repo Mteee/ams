@@ -533,7 +533,7 @@ function search() {
                 document.getElementById("movedAssetsCount").innerHTML = data.data[0].MOVED;
                 document.getElementById("assetsWithNoCrtCount").innerHTML = data.data[0].assetsWithNoCert;
                 document.getElementById("comCertCount").innerHTML = data.data[0].assetsWithCert;
-                document.getElementById("decomCertCount").innerHTML = data.data[0].assetsWithCert;
+                document.getElementById("decomCertCount").innerHTML = data.data[0].DECOM_ASSETS;
                 document.getElementById("usersCount").innerHTML = data.data[0].USERS;
     
                 $('.count').each(function () {
@@ -556,7 +556,13 @@ function search() {
         });
 
     }
+}
 
+function doit(type, fn, dl) {
+    var elt = document.getElementById(fn);
+    var wb = XLSX.utils.table_to_book(elt, { sheet: fn });
 
-
+    return dl ?
+        XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
+        XLSX.writeFile(wb, 'Assets Selected ' + fn + " ." + (type || 'xlsx') || ('test.' + (type || 'xlsx')));
 }

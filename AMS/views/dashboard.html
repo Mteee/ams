@@ -31,6 +31,7 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
+
         #loader-overlay {
             position: absolute;
             padding: 0;
@@ -436,8 +437,17 @@
 
                                         </div>
                                         <div class="modals-footer" id="modal-footer">
-                                            <button class="btn-lg bg-green" onc*lick="alert('Export clicked')"> <i
-                                                    class="material-icons">cloud_download</i></button>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <button class="btn-lg" onclick="doit('xlsx','table-expert')"
+                                                        id="exportBtn"> <i
+                                                            class="material-icons">cloud_download</i></button>
+                                                </div>
+                                                <div class="col-md-6">
+                                                        <!-- <div class="text-muted">number of rows <span class="bg-green">5</span></div> -->
+                                                    </div>
+
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -456,7 +466,7 @@
                                             <span class="card-sub-title">Active assets</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-green"
-                                                    onclick="show('.modals-container','getActive_dash')">view</button>
+                                                    onclick="show('getActive_dash','bg-green','Active Assets', 'activeAssetsCount')">view</button>
                                             </div>
                                         </div>
                                     </div>
@@ -474,7 +484,7 @@
                                             <span class="card-sub-title">Inactive assets</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-red"
-                                                    onclick="show('.modals-container','getInactive_dash')">view</button>
+                                                    onclick="show('getInactive_dash','bg-red','Inactive Assets', 'inactiveAssetsCount')">view</button>
                                             </div>
                                         </div>
                                     </div>
@@ -492,7 +502,7 @@
                                             <span class="card-sub-title">Pending Complete</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-orange"
-                                                    onclick="show('.modals-container','getPending_dash')">view</button>
+                                                    onclick="show('getPending_dash','bg-orange','Pending Assets', 'pendingAssetsCount')">view</button>
                                             </div>
                                         </div>
                                     </div>
@@ -510,7 +520,7 @@
                                             <span class="card-sub-title">Asset Movement</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-blue"
-                                                    onclick="show('.modals-container','getMoved_dash')">view</button>
+                                                    onclick="show('getMoved_dash','bg-blue','Moved Assets', 'movedAssetsCount')">view</button>
                                             </div>
                                         </div>
                                     </div>
@@ -528,7 +538,7 @@
                                             <span class="card-sub-title">Assets Added</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-orange"
-                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                                    onclick="show('xxxxxx')">view</button>
                                             </div>
                                         </div>
                                     </div>
@@ -546,7 +556,7 @@
                                             <span class="card-sub-title">Decommissioned Assets</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-red"
-                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                                    onclick="show('xxxxxx')">view</button>
                                             </div>
                                         </div>
                                     </div>
@@ -557,14 +567,14 @@
                                         <i class="material-icons">assignment</i>
                                     </div>
                                     <div class="card-body">
-                                        <div class="card-title">Assets Not Assigned</div>
+                                        <div class="card-title">Uncommissioned</div>
                                         <div class="card-number count" id="assetsWithNoCrtCount">9</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-orange">dashboard</i>
                                             <span class="card-sub-title">Assets With No Certificates</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-orange"
-                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                                    onclick="show('getUnassigned_dash','bg-orange','Uncommissioned', 'assetsWithNoCrtCount')">view</button>
                                             </div>
                                         </div>
                                     </div>
@@ -575,14 +585,14 @@
                                         <i class="material-icons">assignment_turned_in</i>
                                     </div>
                                     <div class="card-body">
-                                        <div class="card-title"> Certificates</div>
+                                        <div class="card-title"> Commissioned</div>
                                         <div class="card-number count" id="comCertCount">5</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-green">dashboard</i>
                                             <span class="card-sub-title">Commissioned Certificates</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-green"
-                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                                    onclick="show('getComm','bg-green','Commissioned', 'comCertCount')">view</button>
                                             </div>
                                         </div>
                                     </div>
@@ -593,14 +603,14 @@
                                         <i class="material-icons">assignment_late</i>
                                     </div>
                                     <div class="card-body">
-                                        <div class="card-title"> Certificates</div>
+                                        <div class="card-title"> Decommissioned</div>
                                         <div class="card-number count" id="decomCertCount">3</div>
                                         <div class="card-footer">
                                             <i class="material-icons mg-top text-red">dashboard</i>
                                             <span class="card-sub-title">Decommissioned Certificates</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-red"
-                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                                    onclick="show('getDecomm','bg-red','Decommissioned','decomCertCount')">view</button>
                                             </div>
                                         </div>
                                     </div>
@@ -618,7 +628,7 @@
                                             <span class="card-sub-title">Active Users</span>
                                             <div class="btn-container">
                                                 <button class="btn-btn bg-green"
-                                                    onclick="show('.modals-container','xxxxxx')">view</button>
+                                                    onclick="show('getUsers_dash','bg-green','Users', 'usersCount')">view</button>
                                             </div>
                                         </div>
                                     </div>
@@ -635,7 +645,7 @@
                                         <i class="material-icons mg-top text-blue">dashboard</i>
                                         <span class="card-sub-title">Created Certificates</span>
                                         <div class="btn-container">
-                                            <button class="btn-btn bg-blue" onclick="show('.modals-container','xxxxxx')">view</button>
+                                            <button class="btn-btn bg-blue" onclick="show('xxxxxx')">view</button>
                                         </div>
                                     </div>
                                 </div>
@@ -652,7 +662,7 @@
                                         <i class="material-icons mg-top text-blue">dashboard</i>
                                         <span class="card-sub-title">Created Certificates</span>
                                         <div class="btn-container">
-                                            <button class="btn-btn bg-blue" onclick="show('.modals-container','xxxxxx')">view</button>
+                                            <button class="btn-btn bg-blue" onclick="show('xxxxxx')">view</button>
                                         </div>
                                     </div>
                                 </div>
@@ -669,7 +679,7 @@
                                         <i class="material-icons mg-top text-blue">dashboard</i>
                                         <span class="card-sub-title">Created Certificates</span>
                                         <div class="btn-container">
-                                            <button class="btn-btn bg-blue" onclick="show('.modals-container','xxxxxx')">view</button>
+                                            <button class="btn-btn bg-blue" onclick="show('xxxxxx')">view</button>
                                         </div>
                                     </div>
                                 </div>
@@ -686,7 +696,7 @@
                                         <i class="material-icons mg-top text-blue">dashboard</i>
                                         <span class="card-sub-title">Created Certificates</span>
                                         <div class="btn-container">
-                                            <button class="btn-btn bg-blue" onclick="show('.modals-container','xxxxxx')">view</button>
+                                            <button class="btn-btn bg-blue" onclick="show('xxxxxx')">view</button>
                                         </div>
                                     </div>
                                 </div>
@@ -703,7 +713,7 @@
                                         <i class="material-icons mg-top text-blue">dashboard</i>
                                         <span class="card-sub-title">Created Certificates</span>
                                         <div class="btn-container">
-                                            <button class="btn-btn bg-blue" onclick="show('.modals-container','xxxxxx')">view</button>
+                                            <button class="btn-btn bg-blue" onclick="show('xxxxxx')">view</button>
                                         </div>
                                     </div>
                                 </div>

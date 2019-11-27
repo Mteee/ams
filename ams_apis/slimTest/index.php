@@ -6225,38 +6225,27 @@ $app->map(['GET','POST'],'/getUsers_dash',function(Request $request, Response $r
 
             $assets_decode = json_decode($users);
 
-            // print_r($assets_decode);
-
             $len = $assets_decode->rows;
 
-             $str = '{"data" : [';
-
-                for ($k = 0; $k < $len; $k++) {
-
-                    if (($len - 1) == $k) {
-                        $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
-                        $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
-                        $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
-                        $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
-                        $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"]';
-                    } else {
-                        $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
-                        $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
-                        $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
-                        $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
-                        $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"],';
+            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset Username</th><th>User Class</th><th>User Role</th><th>User Create Date</th></tr>';
+           
+                for ($i = 0; $i < $len; $i++) {
+                    $value = $assets_decode->data[$i];
+                    
+                    $str .= '<tr><td>'.($i+1).'</td>'.
+                        '<td>'.$value->ASSET_USERNAME.'</td>'.
+                        '<td>'.$value->ASSET_USER_CLASS.'</td>'.
+                        '<td>'.$value->ASSET_USER_ROLES.'</td>'.
+                        '<td>'.$func->checkPrint($value->ASSET_USER_CREATED).'</td></tr>';
                     }
+         
 
-                }
+            $str .= ' </table>';
 
-                $str .= ']}';
+            $str = str_replace("\n", "", $str);
+            $str = str_replace("\\", "", $str);
 
-                $str = str_replace("\n", "", $str);
-                $str = str_replace("\\", "", $str);
-
-                // echo  $str;
-
-                echo json_encode(array("rows" =>$len ,"data" => $str ));
+            echo json_encode(array("rows" =>$len ,"data" => $str ));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"Error"));
@@ -6359,7 +6348,6 @@ $app->map(['GET','POST'],'/getInactiveAssets',function(Request $request, Respons
     }
 });
 
-
 $app->map(['GET','POST'],'/getPendingAssets_dash',function(Request $request, Response $response){
     try{
         global $func;
@@ -6392,116 +6380,6 @@ $app->map(['GET','POST'],'/getPendingAssets_dash',function(Request $request, Res
                 AND   ASSET_DATE BETWEEN  to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') 
                                       and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS')";
     
-        $users =$func->executeQuery($sql);
-
-        if($users){
-
-             echo $users;
-
-            //    $assets_decode = json_decode($users);
-
-            // // print_r($assets_decode);
-
-
-            // $len = $assets_decode->rows;
-
-            //  $str = '{"data" : [';
-
-            //     for ($k = 0; $k < $len; $k++) {
-
-            //         if (($len - 1) == $k) {
-            //             $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
-            //             $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
-            //             $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
-            //             $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
-            //             $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"]';
-            //         } else {
-            //             $str .= '["' . $assets_decode->data[$k]->ASSET_USERNAME . '","';
-            //             $str .= $assets_decode->data[$k]->ASSET_USER_BADGENO . '","';
-            //             $str .= $assets_decode->data[$k]->ASSET_USER_CLASS . '","';
-            //             $str .= $assets_decode->data[$k]->ASSET_USER_CREATED . '","';
-            //             $str .= $func->desc_role($assets_decode->data[$k]->ASSET_USER_ROLES) . '"],';
-            //         }
-
-            //     }
-
-            //     $str .= ']}';
-
-            //     $str = str_replace("\n", "", $str);
-            //     $str = str_replace("\\", "", $str);
-
-            //     // echo  $str;
-
-            //     echo json_encode(array("rows" =>$len ,"data" => $str ));
-        }
-        else{
-            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
-        }
-
-    }catch (Exception $pdoex) {
-        echo "Database Error : " . $pdoex->getMessage();
-    }
-});
-
-$app->map(['GET','POST'],'/getMovedAssets_dash',function(Request $request, Response $response){
-    try{
-        global $func;
-        $data = json_decode(file_get_contents('php://input'));
-        $building = strtoupper($data->building);
-        $level = strtoupper($data->level);
-        $area_name = strtoupper($data->area_name);
-        $area = strtoupper($data->area);
-        $room_no = strtoupper($data->room_no);
-        $dateStart = strtoupper($data->dateStart);
-        $dateEnd = strtoupper($data->dateEnd);
-        $asset_class = strtoupper($data->asset_class);
-        $role = strtoupper($data->role);
-        $user = strtoupper($data->user);
-
-        if($asset_class == 'ALL EQUIPMENT')
-            $asset_class = '';
-
-        $sql = "SELECT asset_username,
-                        asset_class,
-                        asset_primary_id,
-                        asset_type,
-                        asset_id,
-                        asset_description,       
-                        from_asset_room_no,
-                        to_asset_room_no,
-                        from_asset_sub_location,
-                        to_asset_sub_location,
-                        asset_date,
-                        AMSD.fn_get_asset_tran_status(asset_tran_status) as asset_transaction_status
-                from
-                (
-                select asset_username,
-                        amsd.fn_get_asset_class(asset_id) as asset_class,
-                        asset_primary_id,
-                        AMSD.fn_get_asset_type(asset_primary_id) as asset_type,
-                        asset_id,
-                        AMSD.fn_get_asset_description(asset_id) as asset_description,       
-                        asset_room_no_old as from_asset_room_no,
-                        asset_room_no_new as to_asset_room_no,
-                        asset_sub_location_old as from_asset_sub_location,
-                        asset_sub_location_new as to_asset_sub_location,
-                        max(asset_date) over (partition by asset_id, asset_primary_id) as asset_date_max,
-                        asset_date,
-                        row_number() over (partition by asset_id, asset_primary_id order by asset_primary_id, asset_id,asset_date desc) as asset_order,
-                        --AMSD.fn_get_asset_tran_status(asset_tran_status) as asset_transaction_status
-                        asset_tran_status
-                from amsd.assets_log
-                --movement only
-                where (asset_room_no_old <> asset_room_no_new
-                    or asset_sub_location_old <> asset_sub_location_new)
-                order by asset_primary_id, asset_id,asset_date
-                )
-                where asset_order = 1
-                --all assets movement excluding pending movement
-                and asset_tran_status in ('C','CT')
-                and asset_date between to_date('2019/11/10 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('2019/11/20 23:59:59','YYYY/MM/DD HH24:MI:SS')
-                and asset_class LIKE '$asset_class'";
-        
         $users =$func->executeQuery($sql);
 
         if($users){
@@ -6666,6 +6544,25 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                     AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
                                         AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS')OR ASSET_CREATE_DT IS NULL) ) AS \"assetsWithCert\",
                     ---------------------------------------------
+                    ---------------- Decom Assets ---------------
+                    ---------------------------------------------
+                        (SELECT COUNT (*)
+                        FROM ASSETS_VW
+                        WHERE     ASSET_CERT_NO IS NOT NULL
+                        AND   ASSET_CLASS LIKE '%$asset_class%'
+                        AND   ASSET_ID LIKE '%$assetNo%'
+                        AND   ASSET_BUILDING LIKE '%$building%'
+                        AND   ASSET_LEVEL LIKE '%$level%'
+                        AND   ASSET_AREA LIKE '%$area%' 
+                        AND   ASSET_AREA_NAME LIKE '%$area_name%'
+                        AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                        AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                        AND   ASSET_COMMENTS = 'DISPOSED'
+                        AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                        AND (ASSET_CREATE_DT BETWEEN TO_DATE ('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
+                                                        AND TO_DATE ('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS')
+                                    OR ASSET_CREATE_DT IS NULL)) AS \"DECOM_ASSETS\",
+                    ---------------------------------------------
                     ---------------- pending --------------------
                     ---------------------------------------------
                     (SELECT count(*) 
@@ -6787,7 +6684,7 @@ $app->map(['GET','POST'],'/getActive_dash',function(Request $request, Response $
 
             $len = $assets_decode->rows;
 
-            $str = '<table><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
+            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
             if($len>0){
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -6867,7 +6764,7 @@ $app->map(['GET','POST'],'/getInactive_dash',function(Request $request, Response
 
             $len = $assets_decode->rows;
 
-            $str = '<table><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
+            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -6938,7 +6835,7 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
 
             $len = $assets_decode->rows;
 
-            $str = '<table><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Old Room</th><th>New Room</th></tr>';
+            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Old Room</th><th>New Room</th></tr>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -6996,6 +6893,12 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
             AMSD.fn_get_asset_type(asset_primary_id) as asset_type,
             asset_id,
             AMSD.fn_get_asset_description(asset_id) as asset_description,       
+            asset_building_old as from_asset_building,
+            asset_building_new as to_asset_building,
+            asset_location_area_old as from_asset_location_area,
+            asset_location_area_new as to_asset_location_area,
+            asset_level_old as from_asset_level,
+            asset_level_new as to_asset_level,
             asset_room_no_old as from_asset_room_no,
             asset_room_no_new as to_asset_room_no,
             asset_sub_location_old as from_asset_sub_location,
@@ -7014,20 +6917,26 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
         where asset_order = 1
         --all assets movement excluding pending movement
         and asset_tran_status in ('C','CT')
-        and (asset_date between to_date('2005/12/31 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('9999/12/31 23:59:59','YYYY/MM/DD HH24:MI:SS') OR asset_date IS NULL)
+        and (from_asset_room_no LIKE '%$room_no%' OR to_asset_room_no LIKE '%$room_no%')
+        and asset_primary_id LIKE '%$assetNo%'
+        and (from_asset_sub_location LIKE '%$sub_location%' OR to_asset_sub_location LIKE '%$sub_location%')
+        and (from_asset_location_area LIKE '%$area%' OR to_asset_location_area LIKE '%$area%')
+        and (from_asset_level LIKE '%$level%' OR to_asset_level LIKE '%$level%')
+        and (from_asset_building LIKE '%$building%' OR to_asset_building LIKE '%$building%')
+        and (asset_date between to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR asset_date IS NULL)
         and asset_class LIKE '%$asset_class%'";
-
 
         $users =$func->executeQuery($sql);
 
         if($users){
+            // echo $users;
             $assets_decode = json_decode($users);
 
             // print_r($assets_decode);
 
             $len = $assets_decode->rows;
 
-            $str = '<table><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>From</th><th>To</th></tr>';
+            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>From Room</th><th>To Room</th><th>Movement Date</th></tr>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -7035,7 +6944,8 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
                     $str .= '<tr><td>'.($i+1).'</td>'.
                         '<td>'.$value->ASSET_ID.'</td>'.
                         '<td>'.$value->FROM_ASSET_ROOM_NO.'</td>'.
-                        '<td>'.$value->TO_ASSET_ROOM_NO.'</td></tr>';
+                        '<td>'.$value->TO_ASSET_ROOM_NO.'</td>'.
+                        '<td>'.$value->ASSET_DATE.'</td></tr>';
                     }
          
 
@@ -7054,6 +6964,240 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+
+$app->map(['GET','POST'],'/getUnassigned_dash',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $building = strtoupper($data->building);
+        $level = strtoupper($data->level);
+        $area_name = strtoupper($data->area_name);
+        $area = strtoupper($data->area);
+        $room_no = strtoupper($data->room_no);
+        $sub_location = strtoupper($data->sub_location);
+        $dateStart = strtoupper($data->dateStart);
+        $dateEnd = strtoupper($data->dateEnd);
+        $assetNo = strtoupper($data->assetNo);
+        $asset_class = strtoupper($data->asset_class);
+        $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
+
+        if($asset_class == "ALL EQUIPMENT"){
+            $asset_class = '';
+        }
+
+        $sql = "SELECT DISTINCT ASSET_ID, ASSET_PRIMARY_ID, ASSET_DESCRIPTION, ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_AREA_NAME, ASSET_STATUS
+                    FROM ASSETS_VW 
+                    WHERE ASSET_STATUS = 'ACTIVE'
+                    AND   ASSET_CERT_NO IS NULL
+                    AND   ASSET_CLASS LIKE '%$asset_class%'
+                    AND   ASSET_ID LIKE '%$assetNo%'
+                    AND   ASSET_BUILDING LIKE '%$building%'
+                    AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_AREA LIKE '%$area%'
+                    AND   ASSET_AREA_NAME LIKE '%$area_name%'
+                    AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                    AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
+                    AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL)
+              ";
+
+        $users =$func->executeQuery($sql);
+
+        if($users){
+            $assets_decode = json_decode($users);
+
+            // print_r($assets_decode);
+
+            $len = $assets_decode->rows;
+
+            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Asset status</th></tr>';
+           
+                for ($i = 0; $i < $len; $i++) {
+                    $value = $assets_decode->data[$i];
+                    
+                    $str .= '<tr><td>'.($i+1).'</td>'.
+                        '<td>'.$value->ASSET_ID.'</td>'.
+                        '<td>'.$value->ASSET_ROOM_NO.'</td>'.
+                        '<td>'.$value->ASSET_DESCRIPTION.'</td>'.
+                        '<td>'.$value->ASSET_STATUS.'</td></tr>';
+                    }
+         
+
+            $str .= ' </table>';
+
+            $str = str_replace("\n", "", $str);
+            $str = str_replace("\\", "", $str);
+
+            echo json_encode(array("rows" =>$len ,"data" => $str ));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+        
+
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+
+$app->map(['GET','POST'],'/getComm',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $building = strtoupper($data->building);
+        $level = strtoupper($data->level);
+        $area_name = strtoupper($data->area_name);
+        $area = strtoupper($data->area);
+        $room_no = strtoupper($data->room_no);
+        $sub_location = strtoupper($data->sub_location);
+        $dateStart = strtoupper($data->dateStart);
+        $dateEnd = strtoupper($data->dateEnd);
+        $assetNo = strtoupper($data->assetNo);
+        $asset_class = strtoupper($data->asset_class);
+        $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
+
+        if($asset_class == "ALL EQUIPMENT"){
+            $asset_class = '';
+        }
+
+        $sql = "SELECT DISTINCT ASSET_ID, ASSET_PRIMARY_ID, ASSET_DESCRIPTION, ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_AREA_NAME, ASSET_STATUS,ASSET_PRINT_DATE
+                    FROM ASSETS_VW 
+                    WHERE ASSET_STATUS = 'ACTIVE'
+                    AND   ASSET_CERT_NO IS NOT NULL
+                    AND   ASSET_CLASS LIKE '%$asset_class%'
+                    AND   ASSET_ID LIKE '%$assetNo%'
+                    AND   ASSET_BUILDING LIKE '%$building%'
+                    AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_AREA LIKE '%$area%'
+                    AND   ASSET_AREA_NAME LIKE '%$area_name%'
+                    AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                    AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
+                    AND   to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL)
+                    ORDER BY ASSET_PRINT_DATE
+              ";
+
+        $users =$func->executeQuery($sql);
+
+        if($users){
+            // echo $users;
+            $assets_decode = json_decode($users);
+
+            // print_r($assets_decode);
+
+            $len = $assets_decode->rows;
+
+            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Last printed</th></tr>';
+           
+                for ($i = 0; $i < $len; $i++) {
+                    $value = $assets_decode->data[$i];
+                    
+                    $str .= '<tr><td>'.($i+1).'</td>'.
+                        '<td>'.$value->ASSET_ID.'</td>'.
+                        '<td>'.$value->ASSET_ROOM_NO.'</td>'.
+                        '<td>'.$value->ASSET_DESCRIPTION.'</td>'.
+                        '<td>'.$func->checkPrint($value->ASSET_PRINT_DATE).'</td></tr>';
+                    }
+         
+
+            $str .= ' </table>';
+
+            $str = str_replace("\n", "", $str);
+            $str = str_replace("\\", "", $str);
+
+            echo json_encode(array("rows" =>$len ,"data" => $str ));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
+$app->map(['GET','POST'],'/getDecomm',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $building = strtoupper($data->building);
+        $level = strtoupper($data->level);
+        $area_name = strtoupper($data->area_name);
+        $area = strtoupper($data->area);
+        $room_no = strtoupper($data->room_no);
+        $sub_location = strtoupper($data->sub_location);
+        $dateStart = strtoupper($data->dateStart);
+        $dateEnd = strtoupper($data->dateEnd);
+        $assetNo = strtoupper($data->assetNo);
+        $asset_class = strtoupper($data->asset_class);
+        $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
+
+        if($asset_class == "ALL EQUIPMENT"){
+            $asset_class = '';
+        }
+
+        $sql = "SELECT DISTINCT ASSET_ID, ASSET_PRIMARY_ID, ASSET_DESCRIPTION, ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_AREA_NAME, ASSET_STATUS,ASSET_PRINT_DATE
+                    FROM ASSETS_VW 
+                    WHERE ASSET_CERT_NO IS NOT NULL
+                    AND   ASSET_COMMENTS = 'DISPOSED'
+                    AND   ASSET_CLASS LIKE '%$asset_class%'
+                    AND   ASSET_ID LIKE '%$assetNo%'
+                    AND   ASSET_BUILDING LIKE '%$building%'
+                    AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_AREA LIKE '%$area%'
+                    AND   ASSET_AREA_NAME LIKE '%$area_name%'
+                    AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                    AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
+                    AND   to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL)
+                    ORDER BY ASSET_PRINT_DATE
+              ";
+
+        $users =$func->executeQuery($sql);
+
+        if($users){
+            // echo $users;
+            $assets_decode = json_decode($users);
+
+            // print_r($assets_decode);
+
+            $len = $assets_decode->rows;
+
+            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Last printed</th></tr>';
+           
+                for ($i = 0; $i < $len; $i++) {
+                    $value = $assets_decode->data[$i];
+                    
+                    $str .= '<tr><td>'.($i+1).'</td>'.
+                        '<td>'.$value->ASSET_ID.'</td>'.
+                        '<td>'.$value->ASSET_ROOM_NO.'</td>'.
+                        '<td>'.$value->ASSET_DESCRIPTION.'</td>'.
+                        '<td>'.$func->checkPrint($value->ASSET_PRINT_DATE).'</td></tr>';
+                    }
+         
+
+            $str .= ' </table>';
+
+            $str = str_replace("\n", "", $str);
+            $str = str_replace("\\", "", $str);
+
+            echo json_encode(array("rows" =>$len ,"data" => $str ));
+        }
+        else{
+            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
 
 /**
  * End Reports

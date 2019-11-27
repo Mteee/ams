@@ -22,7 +22,7 @@ function getItemsCount() {
             document.getElementById("movedAssetsCount").innerHTML = data.data[0].MOVED;
             document.getElementById("assetsWithNoCrtCount").innerHTML = data.data[0].assetsWithNoCert;
             document.getElementById("comCertCount").innerHTML = data.data[0].assetsWithCert;
-            document.getElementById("decomCertCount").innerHTML = data.data[0].assetsWithCert;
+            document.getElementById("decomCertCount").innerHTML = data.data[0].DECOM_ASSETS;
             document.getElementById("usersCount").innerHTML = data.data[0].USERS;
 
             $('.count').each(function () {

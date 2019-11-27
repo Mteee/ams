@@ -150,7 +150,13 @@ class Functions{
 		}
 		return $value;
 	}
-	
+
+	function checkPrint($value) {
+		if ($value == null) {
+			return "NEVER";
+		}
+		return $value;
+	}
 
 		
 	function checkType($val) {
