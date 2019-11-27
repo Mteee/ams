@@ -3531,7 +3531,6 @@ $app->map(['GET','POST'],'/asset_sub_location_move', function(Request $request, 
  
 });
 
-
 $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Response $response){
     global $func;
     $data = json_decode(file_get_contents('php://input'));
@@ -6577,6 +6576,10 @@ $app->map(['GET','POST'],'/getSearchUser',function(Request $request, Response $r
     }
 });
 
+/**
+ * Reports
+ */
+
 $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $response){
     try{
         global $func;
@@ -6740,6 +6743,87 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
     }
 });
 
+$app->map(['GET','POST'],'/getActive_dash',function(Request $request, Response $response){
+    try{
+        global $func;
+        $data = json_decode(file_get_contents('php://input'));
+        $building = strtoupper($data->building);
+        $level = strtoupper($data->level);
+        $area_name = strtoupper($data->area_name);
+        $area = strtoupper($data->area);
+        $room_no = strtoupper($data->room_no);
+        $sub_location = strtoupper($data->sub_location);
+        $dateStart = strtoupper($data->dateStart);
+        $dateEnd = strtoupper($data->dateEnd);
+        $assetNo = strtoupper($data->assetNo);
+        $asset_class = strtoupper($data->asset_class);
+        $role = strtoupper($data->role);
+        $user = strtoupper($data->user);
+
+        if($asset_class == "ALL EQUIPMENT"){
+            $asset_class = '';
+        }
+
+        $sql = "SELECT DISTINCT ASSET_ID, ASSET_PRIMARY_ID, ASSET_DESCRIPTION, ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_AREA_NAME, ASSET_STATUS
+                    FROM ASSETS_VW 
+                    WHERE ASSET_STATUS = 'ACTIVE'
+                    AND   ASSET_CLASS LIKE '%$asset_class%'
+                    AND   ASSET_ID LIKE '%$assetNo%'
+                    AND   ASSET_BUILDING LIKE '%$building%'
+                    AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_AREA LIKE '%$area%'
+                    AND   ASSET_AREA_NAME LIKE '%$area_name%'
+                    AND   ASSET_ROOM_NO LIKE '%$room_no%'
+                    AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
+                    AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL)
+              ";
+
+        $users =$func->executeQuery($sql);
+
+        if($users){
+            // echo $users;
+            $assets_decode = json_decode($users);
+
+            $len = $assets_decode->rows;
+
+            $str = '<table><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
+            if($len>0){
+                for ($i = 0; $i < $len; $i++) {
+                    $value = $assets_decode->data[$i];
+                    
+                    $str .= '<tr><td>'.($i+1).'</td>'.
+                        '<td>'.$value->ASSET_ID.'</td>'.
+                        '<td>'.$value->ASSET_ROOM_NO.'</td>'.
+                        '<td>'.$value->ASSET_STATUS.'</td></tr>';
+                    }
+            }
+
+            $str .= ' </table>';
+
+
+
+            $str = str_replace("\n", "", $str);
+            $str = str_replace("\\", "", $str);
+
+            echo json_encode(array("rows" =>$len ,"data" => $str ));
+        }
+            else{
+                echo json_encode(array("rows" => 0 ,"data" =>[]));
+    
+            }
+
+            
+        // }
+        // else{
+        //     echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+        // }
+
+    }catch (Exception $pdoex) {
+        echo "Database Error : " . $pdoex->getMessage();
+    }
+});
+
 $app->map(['GET','POST'],'/getInactive_dash',function(Request $request, Response $response){
     try{
         global $func;
@@ -6779,62 +6863,31 @@ $app->map(['GET','POST'],'/getInactive_dash',function(Request $request, Response
         $users =$func->executeQuery($sql);
 
         if($users){
+            $assets_decode = json_decode($users);
 
-             echo $users;
+            $len = $assets_decode->rows;
+
+            $str = '<table><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
+           
+                for ($i = 0; $i < $len; $i++) {
+                    $value = $assets_decode->data[$i];
+                    
+                    $str .= '<tr><td>'.($i+1).'</td>'.
+                        '<td>'.$value->ASSET_ID.'</td>'.
+                        '<td>'.$value->ASSET_ROOM_NO.'</td>'.
+                        '<td>'.$value->ASSET_STATUS.'</td></tr>';
+                    }
+         
+
+            $str .= ' </table>';
+
+            $str = str_replace("\n", "", $str);
+            $str = str_replace("\\", "", $str);
+
+            echo json_encode(array("rows" =>$len ,"data" => $str ));
         }
         else{
-            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
-        }
-
-    }catch (Exception $pdoex) {
-        echo "Database Error : " . $pdoex->getMessage();
-    }
-});
-
-$app->map(['GET','POST'],'/getActive_dash',function(Request $request, Response $response){
-    try{
-        global $func;
-        $data = json_decode(file_get_contents('php://input'));
-        $building = strtoupper($data->building);
-        $level = strtoupper($data->level);
-        $area_name = strtoupper($data->area_name);
-        $area = strtoupper($data->area);
-        $room_no = strtoupper($data->room_no);
-        $sub_location = strtoupper($data->sub_location);
-        $dateStart = strtoupper($data->dateStart);
-        $dateEnd = strtoupper($data->dateEnd);
-        $assetNo = strtoupper($data->assetNo);
-        $asset_class = strtoupper($data->asset_class);
-        $role = strtoupper($data->role);
-        $user = strtoupper($data->user);
-
-        if($asset_class == "ALL EQUIPMENT"){
-            $asset_class = '';
-        }
-
-        $sql = "SELECT DISTINCT ASSET_ID, ASSET_PRIMARY_ID, ASSET_DESCRIPTION, ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_AREA_NAME, ASSET_STATUS
-                    FROM ASSETS_VW 
-                    WHERE ASSET_STATUS = 'ACTIVE'
-                    AND   ASSET_CLASS LIKE '%$asset_class%'
-                    AND   ASSET_ID LIKE '%$assetNo%'
-                    AND   ASSET_BUILDING LIKE '%$building%'
-                    AND   ASSET_LEVEL LIKE '%$level%'
-                    AND   ASSET_AREA LIKE '%$area%'
-                    AND   ASSET_AREA_NAME LIKE '%$area_name%'
-                    AND   ASSET_ROOM_NO LIKE '%$room_no%'
-                    AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
-                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
-                                        AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL)
-              ";
-
-        $users =$func->executeQuery($sql);
-
-        if($users){
-
-             echo $users;
-        }
-        else{
-            echo json_encode(array("rows" => 0 ,"data" =>"Error"));
+            echo json_encode(array("rows" => 0 ,"data" =>"data"));
         }
 
     }catch (Exception $pdoex) {
@@ -6881,7 +6934,29 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
 
         if($users){
 
-             echo $users;
+            $assets_decode = json_decode($users);
+
+            $len = $assets_decode->rows;
+
+            $str = '<table><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Old Room</th><th>New Room</th></tr>';
+           
+                for ($i = 0; $i < $len; $i++) {
+                    $value = $assets_decode->data[$i];
+                    
+                    $str .= '<tr><td>'.($i+1).'</td>'.
+                        '<td>'.$value->ASSET_ID.'</td>'.
+                        '<td>'.$value->ASSET_ROOM_NO_OLD.'</td>'.
+                        '<td>'.$value->ASSET_ROOM_NO_NEW.'</td></tr>';
+                    }
+         
+
+            $str .= ' </table>';
+
+            $str = str_replace("\n", "", $str);
+            $str = str_replace("\\", "", $str);
+
+            echo json_encode(array("rows" =>$len ,"data" => $str ));
+
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"Error"));
@@ -6939,17 +7014,37 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
         where asset_order = 1
         --all assets movement excluding pending movement
         and asset_tran_status in ('C','CT')
-        and (asset_date between to_date('2000/01/01 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('9999/12/31 23:59:59','YYYY/MM/DD HH24:MI:SS') OR asset_date IS NULL)
-        and asset_class LIKE '%$asset_class%'           
-        )
-        ";
+        and (asset_date between to_date('2005/12/31 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('9999/12/31 23:59:59','YYYY/MM/DD HH24:MI:SS') OR asset_date IS NULL)
+        and asset_class LIKE '%$asset_class%'";
 
 
         $users =$func->executeQuery($sql);
 
         if($users){
+            $assets_decode = json_decode($users);
 
-             echo $users;
+            // print_r($assets_decode);
+
+            $len = $assets_decode->rows;
+
+            $str = '<table><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>From</th><th>To</th></tr>';
+           
+                for ($i = 0; $i < $len; $i++) {
+                    $value = $assets_decode->data[$i];
+                    
+                    $str .= '<tr><td>'.($i+1).'</td>'.
+                        '<td>'.$value->ASSET_ID.'</td>'.
+                        '<td>'.$value->FROM_ASSET_ROOM_NO.'</td>'.
+                        '<td>'.$value->TO_ASSET_ROOM_NO.'</td></tr>';
+                    }
+         
+
+            $str .= ' </table>';
+
+            $str = str_replace("\n", "", $str);
+            $str = str_replace("\\", "", $str);
+
+            echo json_encode(array("rows" =>$len ,"data" => $str ));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"Error"));
@@ -6959,6 +7054,12 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
         echo "Database Error : " . $pdoex->getMessage();
     }
 });
+
+/**
+ * End Reports
+ */
+
+
 
 $app->map(['GET','POST'],'/getAdminUser',function(Request $request, Response $response){
     try{
