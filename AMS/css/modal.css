@@ -1,0 +1,115 @@
+@import url("../js/animate.css");
+.modals-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.modals {
+    position: relative;
+    width: 999px;
+    height: 500px;
+    margin: 221px auto;
+    background: white;
+}
+
+.close-modals {
+    position: absolute;
+    top: -12px;
+    right: -17px;
+    border-radius: 50%;
+    padding: 5px 9px;
+    color: white;
+    font-size: 12pt;
+    z-index: 3;
+}
+
+.modals-header {
+    position: absolute;
+    width: 90%;
+    height: 60px;
+    border-radius: 5px;
+    margin: -38px 0 0 47px;
+    box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.274);
+    text-align: center;
+    padding-top: 20px;
+    font-family: "Roboto";
+    color: white;
+    font-size: 20pt;
+    font-weight: bolder;
+    text-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.274);
+}
+
+.modals-body {
+    position: absolute;
+    margin-top: 32px;
+    /* padding: 0px 0 20px 20px; */
+    width: 100%;
+    height: 409px;
+    overflow-y: auto;
+}
+
+.modals-footer {
+    position: absolute;
+    width: 95%;
+    height: 60px;
+    bottom: 0;
+    margin: 0 0 0 15px;
+    border-top: 1px solid #ccc;
+}
+
+.btn-lg {
+    margin: 10px;
+    width: 90px;
+    height: 40px;
+    border: none;
+    font-size: 12pt;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.274);
+}
+
+.bg-blue {
+    background: linear-gradient(to bottom right, #33ccff 0%, #000099 100%) !important;
+}
+
+.bg-green {
+    background: linear-gradient(to bottom right, #50df4b 0%, #046926 100%);
+}
+
+.bg-orange {
+    background: linear-gradient(to bottom right, #fdc959 0%, #df6c00 100%) !important;
+}
+
+.bg-red {
+    background: linear-gradient(to bottom right, #fa6868 0%, #a70606 100%) !important;
+}
+
+/* text color */
+
+.text-blue {
+    color: #3636e9;
+}
+
+.text-green {
+    color: #06a039;
+}
+
+.text-orange {
+    color: #ec7200;
+}
+
+.text-red {
+    color: #b90808;
+}
+
+button {
+    cursor: pointer;
+}

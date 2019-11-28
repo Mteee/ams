@@ -1,0 +1,104 @@
+@import url("http://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+.card-wrapper {
+    padding: 40px 20px;
+    float: left;
+}
+
+.b-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    border-top: 1px solid #f1f1f1;
+}
+
+.card-body {
+    position: relative;
+    border-radius: 5px;
+    width: 374px;
+    height: 145px;
+    box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.274);
+    z-index: 0;
+    background: white;
+}
+
+.card-icon {
+    position: absolute;
+    width: 120px;
+    height: 100px;
+    margin-left: 15px;
+    margin-top: -30px;
+    border-radius: 5px;
+    text-align: center;
+    vertical-align: middle;
+    box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.274);
+    z-index: 1;
+    color: white;
+    transition: 500ms;
+}
+
+.card-icon i {
+    font-size: 45pt !important;
+    margin-top: 18px;
+}
+
+.card-title, .card-number, .card-footer {
+    color: rgba(0, 0, 0, 0.781);
+    text-align: right;
+    font-family: "Roboto";
+    font-weight: bolder;
+    font-size: 15pt !important;
+    padding: 6px 15px;
+}
+
+.card-number {
+    margin-top: -29px;
+    font-size: 25pt !important;
+    margin-bottom: -6px;
+    color : rgb(148, 145, 145) !important;
+}
+
+.card-footer {
+    position: absolute;
+    width: 87%;
+    margin: 0 0 0 10px;
+    text-align: left;
+    background: none !important;
+    border-top: 1px solid #ccc;
+    padding: 10px
+}
+
+.card-sub-title {
+    position: absolute;
+    margin: 6px 5px;
+    font-size: 10pt;
+}
+
+.btn-container {
+    margin-right: -10px;
+    float: right;
+}
+
+.btn-btn {
+    width: 70px;
+    height: 25px;
+    border: none;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0px 4px 18px 0px rgba(0, 0, 0, 0.274);
+}
+
+.card-icon-hover {
+    cursor: none;
+    margin-top: -50px;
+    box-shadow: 0px 17px 20px 0px #00000087;
+    transition: 500ms;
+}
+
+.cursor-ponter {
+    cursor: pointer;
+}
+
+.mg-top {
+    margin-top: 8px;
+}

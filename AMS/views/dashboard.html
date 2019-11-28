@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>AMS | Dashboard</title>
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/animate.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/clusterize.css">
+    <link rel="stylesheet" href="../css/font-awesome.css">
+    <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <link href="../css/introjs.css" rel="stylesheet">
+    <link type="text/css" href="../css/dataTables.checkboxes.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../css/sweetalert2.css">
+    <link rel="stylesheet" href="../css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/daterangepicker.css" />
+    <link href='../css/modal.css' rel='stylesheet' type='text/css'>
+    <link href='../css/card.css' rel='stylesheet' type='text/css'>
+    <link href='../css/table.css' rel='stylesheet' type='text/css'>
+    <style>
+        * {
+            font-size: 9pt !important;
+        }
+
+        .dropdown-menu {
+            max-height: 300px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        #loader-overlay {
+            position: absolute;
+            padding: 0;
+            top: 0;
+            left: 0;
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 99999999999;
+            display: none;
+            background: rgba(255, 255, 255, 0.966) !important;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="loader-overlay" style="display: block;">
+        <div id="Assetload" class="dropdown-loader">
+            <img src="../img/loading-transparent.gif" alt=""
+                style="width: 220px;text-align: center;margin: 15% auto;background: #fdfdfd;padding: 23px;">
+        </div>
+    </div>
+
+    <div class="container" style="border-left:1px soild rgba(0,0,0,0.5)">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top"
+            style="background: rgb(59, 56, 56);height:80px">
+            <div class="col-md-3" id="menu-bar"
+                style="font-size:15pt;font-weight: bolder;color:aliceblue;padding:25px 0 0 40px" data-step="1"
+                data-intro="This is a navigation menu, with your class or department">
+                <div class="row" style="margin-top:-25px;">
+                    <span onclick="showNav()">
+                        <div class="col-md-2">
+                            <div class="menu"><img src="../img/menu_bar.png" alt="logo" width="40" /></div>
+                            <div class="menu-text">MENU</div>
+                        </div>
+                    </span>
+
+                    <div class="col-md-7 offset-3">
+                        <select class="form-control text-muted user-class" id="class-options">
+
+                        </select>
+                    </div>
+                </div>
+
+                <div id="menu-list" class="is-active">
+                    <ul class="menu-group">
+                        <a id="ams_view" href="./viewAssets.html">
+                            <li class="menu-item">Asset View</li>
+                        </a>
+                        <a id="ams_move" href="./moveAssets.html" target="_self">
+                            <li class="menu-item">movement</li>
+                        </a>
+                        <a id="ams_cert" href="./certificates.html">
+                            <li class="menu-item">certificates</li>
+                        </a>
+                        </a>
+                        <div class="dropright dropdown" id="drodown-menu">
+                            <li class="menu-item" id="com_item" data-toggle="dropdown">commissioning</li>
+                            <ul class="dropdown-menu" id="com_list">
+                                <a id="ams_add" href="./addition.html" target="_self">
+                                    <li class="menu-item ">addition</li>
+                                </a>
+                                <li class="divider"></li>
+                                <a id="ams_rem" href="./removal.html" target="_self">
+                                    <li class="menu-item">removal</li>
+                                </a>
+                            </ul>
+                        </div>
+                        <a id="ams_asset_link" href="./linkAssets.html" target="_self">
+                            <li class="menu-item">asset link</li>
+                        </a>
+                        <a id="ams_location" href="./location.html">
+                            <li class="menu-item">new location</li>
+                        </a>
+                        <a id="ams_users" href="./users.html">
+                            <li class="menu-item">Users</li>
+                        </a>
+                        <a id="ams_dashboard" href="#">
+                            <li class="menu-item active">Dashboard</li>
+                        </a>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-6 text-center" style="padding:25px;color:white;font-weight: bolder;font-size:15pt;"
+                data-step="2" data-intro="This is a navigation menu, with your class or department">
+                <div class="logo"><img src="../img/Logo.png" alt="logo" width="40"> <span
+                        style="padding:10px;margin-top:50px">ASSETS MANAGEMENT SYSTEM</span>/ <em><span
+                            class="text-muted">DASHBOARD</span></em></div>
+                <div class="system_desc">DEVELOPMENT</div>
+            </div>
+            <div class=" col-md-3">
+                <div class="row">
+                    <div class="col-md-4 offset-6" data-step="3"
+                        data-intro="This is a navigation menu, with your class or department">
+                        <div id="username">Username</div>
+                    </div>
+                    <div class="col-md-2" data-step="4"
+                        data-intro="This is a navigation menu, with your class or department">
+                        <button class="btn btn-danger" style="width:40px;height: 40px;border-radius: 50%;"
+                            onclick="closeApp()">
+                            <span style="color:white" class="fa fa-power-off"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="row" style="margin-top: 75px">
+            <div class="col-md-12" style="height:80vh;padding-right:40px;">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table" id="dashboard_views">
+                                    <tr>
+                                        <th>
+                                            Search
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="building_dashboard_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    BUILDING
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="building_dashboard_filter"
+                                                    id="scroll_dashboard_building">
+                                                    <form class="px-4 py-2">
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_dashboard_building"
+                                                                class="form-control" placeholder="Building"
+                                                                onkeyup="onSearch('building_dashboard_filter','search_dashboard_building','#empty_dashboard_building')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_view_building"
+                                                                    onclick="clearData('#search_dashboard_building','#building_dashboard_filter','BUILDING')"><i
+                                                                        class="fa fa-close"></i>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_dashboard_building">
+                                                        <div id="building_loader" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_dashboard_building" class="dropdown-header">No
+                                                        building found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="level_dashboard_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    LEVEL
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="level_dashboard_filter"
+                                                    id="scroll_dashboard_level">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_dashboard_level"
+                                                                class="form-control" placeholder="Level"
+                                                                onkeyup="onSearch('level_dashboard_filter','search_dashboard_level','#empty_dashboard_level')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_dashboard_level"
+                                                                    onclick="clearData('#search_dashboard_level','#level_dashboard_filter','LEVEL')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_dashboard_level">
+                                                        <div id="level_load" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_dashboard_level" class="dropdown-header">No level
+                                                        found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="area_name_dashboard_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    AREA NAME
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll"
+                                                    id="scroll_dashboard_area_name"
+                                                    aria-labelledby="area_name_dashboard_filter">
+                                                    <form class="px-4 py-2">
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_dashboard_area_name"
+                                                                class="form-control" placeholder="Area Name"
+                                                                onkeyup="onSearch('area_name_dashboard_filter','search_dashboard_area_name','#empty_dashboard_area_name')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_view_area_name"
+                                                                    onclick="clearData('#search_dashboard_area_name','#area_name_dashboard_filter','AREA NAME')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="meun_dashboard_area_name" onchange="testMethod()">
+                                                        <div id="area_name_loader" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_dashboard_area_name" class="dropdown-header">No area
+                                                        name
+                                                        found
+                                                    </div>
+                                                </div>
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="area_dashboard_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    AREA
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_dashboard_area"
+                                                    aria-labelledby="area_dashboard_filter">
+                                                    <form class="px-4 py-2">
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_dashboard_area"
+                                                                class="form-control" placeholder="Area"
+                                                                onkeyup="onSearch('area_dashboard_filter','search_dashboard_area','#empty_dashboard_area')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_dashboard_area"
+                                                                    onclick="clearData('#search_dashboard_area','#area_dashboard_filter','AREA')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="meun_dashboard_area" onchange="testMethod()">
+                                                        <div id="area_load" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_dashboard_area" class="dropdown-header">No area found
+                                                    </div>
+                                                </div>
+
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="room_dashboard_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ROOM
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_room"
+                                                    aria-labelledby="room_dashboard_filter">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_dashboard_room"
+                                                                class="form-control" placeholder="Room"
+                                                                onkeyup="onSearch('room_dashboard_filter','search_dashboard_room','#empty_dashboard_room')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_view_room"
+                                                                    onclick="clearData('#search_dashboard_room','#room_dashboard_filter','ROOM')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_dashboard_room" onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_dashboard_room" class="dropdown-header">No room found
+                                                    </div>
+                                                </div>
+
+                                        </th>
+                                        <th class="filter_sub" style="display: none">
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="sublocaction_dashboard_filter"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    SUB LOCATION
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll"
+                                                    id="scroll_dashboard_sublocaction"
+                                                    aria-labelledby="sublocaction_dashboard_filter">
+                                                    <form class="px-4 py-2">
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_dashboard_sublocaction"
+                                                                class="form-control" placeholder="SUB LOCATION"
+                                                                onkeyup="onSearch('sublocaction_dashboard_filter','search_dashboard_sublocaction','#empty_dashboard_sublocaction')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_dashboard_sublocaction"
+                                                                    onclick="clearData('#search_dashboard_sublocaction','#sublocaction_dashboard_filter','SUB LOCATION')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_dashboard_sublocaction" class="text-center"
+                                                        onchange="testMethod()">
+                                                        <div id="sub_location_loader" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_dashboard_sublocaction" class="dropdown-header">No
+                                                        sublocation found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="dropdown">
+                                                <button class="btn btn-outline-info form-control dropdown-toggle"
+                                                    type="button" id="assetNo_dashboard_filter" data-toggle="dropdown"
+                                                    aria-haspopup="true" aria-expanded="false">
+                                                    ASSET NO
+                                                </button>
+                                                <div class="dropdown-menu clusterize-scroll"
+                                                    id="scroll_dashboard_assetNo"
+                                                    aria-labelledby="assetNo_dashboard_filter">
+                                                    <form class="px-4 py-2">
+
+                                                        <div class="input-group">
+                                                            <input type="search" id="search_dashboard_assetNo"
+                                                                class="form-control" placeholder="ASSET NO"
+                                                                onkeyup="onSearch('assetNo_dashboard_filter','search_dashboard_assetNo','#empty_dashboard_assetNo')"
+                                                                autofocus="autofocus">
+                                                            <div class="input-group-append">
+                                                                <span class="input-group-text btn btn-danger text-light"
+                                                                    id="clear_dashboard_assetNo"
+                                                                    onclick="clearData('#search_dashboard_assetNo','#assetNo_dashboard_filter','ASSET NO')"><i
+                                                                        class="fa fa-close"></i></span>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <div id="menu_dashboard_assetNo" class="text-center"
+                                                        onchange="testMethod()">
+                                                        <div id="Assetload" class="dropdown-loader">
+                                                            <img src="../img/loading-transparent.gif" alt="">
+                                                        </div>
+                                                    </div>
+                                                    <div id="empty_dashboard_assetNo" class="dropdown-header">No asset
+                                                        found
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </th>
+                                        <th>
+                                            <div class="btn-outline-info" id="reportrange"
+                                                style="cursor: pointer; padding: 5px 10px; border: 1px solid #17a2b8;border-radius:5px;">
+                                                <i class="fa fa-calendar"></i>&nbsp;
+                                                <span id="date_range"></span> <i class="fa fa-caret-down"></i>
+                                            </div>
+                                        </th>
+
+                                        <th>
+                                            <button onclick="search()" type="text" class="btn btn-success" data-step="7"
+                                                data-intro="This is a navigation menu, with your class or department">
+                                                <span class="fa fa-search"></span>
+                                                Search
+                                            </button>
+                                            <button onclick="cleaAllFilters()" type="text" class="btn btn-danger"
+                                                data-step="8"
+                                                data-intro="This is a navigation menu, with your class or department">
+                                                <span class="fa fa-close"></span>
+                                                Clear
+                                            </button>
+                                        </th>
+
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modals-container" onclick="hide('.modals-container')">
+                                    <div class="modals animated slideInUp">
+                                        <div class="close-modals bg-red cursor-ponter"
+                                            onclick="hide('.modals-container')">
+                                            <i class="material-icons">close</i></div>
+                                        <div class="modals-header" id="modal-header">
+                                            Active assets
+                                        </div>
+                                        <div class="modals-body" id="table-view">
+
+                                        </div>
+                                        <div class="modals-footer" id="modal-footer">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <button class="btn-lg" onclick="doit('xlsx','table-expert')"
+                                                        id="exportBtn"> <i
+                                                            class="material-icons">cloud_download</i></button>
+                                                </div>
+                                                <div class="col-md-6">
+                                                        <!-- <div class="text-muted">number of rows <span class="bg-green">5</span></div> -->
+                                                    </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="b-container text-center">
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-green">
+                                        <i class="material-icons">done</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Active Assets</div>
+                                        <div class="card-number count" id="activeAssetsCount">7</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-green">dashboard</i>
+                                            <span class="card-sub-title">Active assets</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-green"
+                                                    onclick="show('getActive_dash','bg-green','Active Assets', 'activeAssetsCount')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-red">
+                                        <i class="material-icons">cancel</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Inactive Assets</div>
+                                        <div class="card-number count" id="inactiveAssetsCount">10</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-red">dashboard</i>
+                                            <span class="card-sub-title">Inactive assets</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-red"
+                                                    onclick="show('getInactive_dash','bg-red','Inactive Assets', 'inactiveAssetsCount')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-orange">
+                                        <i class="material-icons">360</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Pending Assets</div>
+                                        <div class="card-number count" id="pendingAssetsCount">1</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-orange">dashboard</i>
+                                            <span class="card-sub-title">Pending Complete</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-orange"
+                                                    onclick="show('getPending_dash','bg-orange','Pending Assets', 'pendingAssetsCount')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-blue">
+                                        <i class="material-icons">sync_alt</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Moved Assets</div>
+                                        <div class="card-number count" id="movedAssetsCount">5</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-blue">dashboard</i>
+                                            <span class="card-sub-title">Asset Movement</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-blue"
+                                                    onclick="show('getMoved_dash','bg-blue','Moved Assets', 'movedAssetsCount')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <div class="card-wrapper">
+                                    <div class="card-icon bg-orange">
+                                        <i class="material-icons">create_new_folder</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Created Assets</div>
+                                        <div class="card-number count" id="createdAssetsCount">10</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-orange">dashboard</i>
+                                            <span class="card-sub-title">Assets Added</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-orange"
+                                                    onclick="show('xxxxxx')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-red">
+                                        <i class="material-icons">phonelink_off</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Removed Assets</div>
+                                        <div class="card-number count" id="removedAssetsCount">7511</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-red">dashboard</i>
+                                            <span class="card-sub-title">Decommissioned Assets</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-red"
+                                                    onclick="show('xxxxxx')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> -->
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-orange">
+                                        <i class="material-icons">assignment</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title">Uncommissioned</div>
+                                        <div class="card-number count" id="assetsWithNoCrtCount">9</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-orange">dashboard</i>
+                                            <span class="card-sub-title">Assets With No Certificates</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-orange"
+                                                    onclick="show('getUnassigned_dash','bg-orange','Uncommissioned', 'assetsWithNoCrtCount')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-green">
+                                        <i class="material-icons">assignment_turned_in</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Commissioned</div>
+                                        <div class="card-number count" id="comCertCount">5</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-green">dashboard</i>
+                                            <span class="card-sub-title">Commissioned Certificates</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-green"
+                                                    onclick="show('getComm','bg-green','Commissioned', 'comCertCount')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-red">
+                                        <i class="material-icons">assignment_late</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title"> Decommissioned</div>
+                                        <div class="card-number count" id="decomCertCount">3</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-red">dashboard</i>
+                                            <span class="card-sub-title">Decommissioned Certificates</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-red"
+                                                    onclick="show('getDecomm','bg-red','Decommissioned','decomCertCount')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card-wrapper">
+                                    <div class="card-icon bg-green">
+                                        <i class="material-icons">supervisor_account</i>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="card-title">Users</div>
+                                        <div class="card-number count" id="usersCount">1</div>
+                                        <div class="card-footer">
+                                            <i class="material-icons mg-top text-green">dashboard</i>
+                                            <span class="card-sub-title">Active Users</span>
+                                            <div class="btn-container">
+                                                <button class="btn-btn bg-green"
+                                                    onclick="show('getUsers_dash','bg-green','Users', 'usersCount')">view</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- 
+                            <div class="card-wrapper">
+                                <div class="card-icon bg-blue">
+                                    <i class="material-icons">assignment_turned_in</i>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title"> Certificates</div>
+                                    <div class="card-number count">5000000</div>
+                                    <div class="card-footer">
+                                        <i class="material-icons mg-top text-blue">dashboard</i>
+                                        <span class="card-sub-title">Created Certificates</span>
+                                        <div class="btn-container">
+                                            <button class="btn-btn bg-blue" onclick="show('xxxxxx')">view</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-wrapper">
+                                <div class="card-icon bg-blue">
+                                    <i class="material-icons">assignment_turned_in</i>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title"> Certificates</div>
+                                    <div class="card-number count">5000000</div>
+                                    <div class="card-footer">
+                                        <i class="material-icons mg-top text-blue">dashboard</i>
+                                        <span class="card-sub-title">Created Certificates</span>
+                                        <div class="btn-container">
+                                            <button class="btn-btn bg-blue" onclick="show('xxxxxx')">view</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-wrapper">
+                                <div class="card-icon bg-blue">
+                                    <i class="material-icons">assignment_turned_in</i>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title"> Certificates</div>
+                                    <div class="card-number count">5000000</div>
+                                    <div class="card-footer">
+                                        <i class="material-icons mg-top text-blue">dashboard</i>
+                                        <span class="card-sub-title">Created Certificates</span>
+                                        <div class="btn-container">
+                                            <button class="btn-btn bg-blue" onclick="show('xxxxxx')">view</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-wrapper">
+                                <div class="card-icon bg-blue">
+                                    <i class="material-icons">assignment_turned_in</i>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title"> Certificates</div>
+                                    <div class="card-number count">5000000</div>
+                                    <div class="card-footer">
+                                        <i class="material-icons mg-top text-blue">dashboard</i>
+                                        <span class="card-sub-title">Created Certificates</span>
+                                        <div class="btn-container">
+                                            <button class="btn-btn bg-blue" onclick="show('xxxxxx')">view</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card-wrapper">
+                                <div class="card-icon bg-blue">
+                                    <i class="material-icons">assignment_turned_in</i>
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-title"> Certificates</div>
+                                    <div class="card-number count">5000000</div>
+                                    <div class="card-footer">
+                                        <i class="material-icons mg-top text-blue">dashboard</i>
+                                        <span class="card-sub-title">Created Certificates</span>
+                                        <div class="btn-container">
+                                            <button class="btn-btn bg-blue" onclick="show('xxxxxx')">view</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <script src="../js/jquery.js"></script>
+            <script src="../js/clusterize.min.js"></script>
+            <!-- <script src="../js/bootstrap.js"></script> -->
+            <script src="../js/bootstrap.bundle.js"></script>
+            <script src="../js/tablefilter.js"></script>
+            <script src="../js/jquery.dataTables.min.js"></script>
+            <script src="../js/export/shim.min.js"></script>
+            <script src="../js/export/xlsx.full.min.js"></script>
+            <script type="text/javascript" src="../js/intro.js"></script>
+            <script src="../js/export/Blob.js"></script>
+            <script src="../js/export/FileSaver.js"></script>
+            <script type="text/javascript" src="../js/dataTables.checkboxes.min.js"></script>
+            <script src="../js/inc/menu.js"></script>
+            <script src="../js/inc/inc_methods.js"></script>
+            <script src="../js/dashboard.js"></script>
+            <script src="../js/sweetalert2.all.js"></script>
+            <script src="../js/printThis.js "></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+            <script type="text/javascript"
+                src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <script src="../js/modal.js"></script>
+            <script src="../js/card.js"></script>
+            <script src="../js/table.js"></script>
+
+            <script type="text/javascript">
+                function showNav() {
+                    $('#menu-list').slideToggle('fast');
+                }
+                document.getElementById('username').innerHTML = (replaceAll('"', '', localStorage.username)).toUpperCase();
+            </script>
+</body>
+
+</html>
