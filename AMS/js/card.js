@@ -40,6 +40,20 @@ function getItemsCount() {
             $("#loader-overlay").css("display","none");
         },
         error: function (error) {
+            $("#loader-overlay").css("display","none");
+            swal.fire({
+                title: "Oooops!",
+                html: '<class="py-5">system has encountered an error, please contact admin (amsdev@ialch.co.za)</p>',
+                type: 'error',
+                showConfirmButton: false,
+                showCloseButton: false,
+                closeButtonColor: '#3DB3D7',
+                allowOutsideClick: false,
+                animation: false,
+                customClass: {
+                    popup: 'animated tada'
+                },
+            })
             console.log(error);
         }
     });
