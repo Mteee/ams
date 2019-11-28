@@ -6580,8 +6580,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                     -----------------------------------------------------
                     ------------------- MOVED ASSETS --------------------
                     -----------------------------------------------------
-
-                                        (
+                    (
                     select count(*)
                     from
                     (
@@ -6590,28 +6589,62 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                         asset_primary_id,
                         AMSD.fn_get_asset_type(asset_primary_id) as asset_type,
                         asset_id,
-                        AMSD.fn_get_asset_description(asset_id) as asset_description,       
-                        asset_room_no_old as from_asset_room_no,
-                        asset_room_no_new as to_asset_room_no,
-                        asset_sub_location_old as from_asset_sub_location,
-                        asset_sub_location_new as to_asset_sub_location,
-                        max(asset_date) over (partition by asset_id, asset_primary_id) as asset_date_max,
+                        AMSD.fn_get_asset_description(asset_id) 
+                            AS asset_description,
+                        asset_building_old
+                             AS from_asset_building,
+                         asset_building_new
+                             AS to_asset_building,
+                         asset_location_area_old
+                             AS from_asset_location_area,
+                         asset_location_area_new
+                             AS to_asset_location_area,
+                         asset_level_old
+                             AS from_asset_level,
+                         asset_level_new
+                             AS to_asset_level,      
+                        asset_room_no_old 
+                            AS from_asset_room_no,
+                        asset_room_no_new 
+                            AS to_asset_room_no,
+                        asset_sub_location_old 
+                            AS from_asset_sub_location,
+                        asset_sub_location_new 
+                            AS to_asset_sub_location,
+                        max(asset_date) over (partition by asset_id, asset_primary_id) 
+                            AS asset_date_max,
                         asset_date,
-                        row_number() over (partition by asset_id, asset_primary_id order by asset_primary_id, asset_id,asset_date desc) as asset_order,
-                        --AMSD.fn_get_asset_tran_status(asset_tran_status) as asset_transaction_status
+                        row_number() over (partition by asset_id, asset_primary_id order by asset_primary_id, asset_id,asset_date desc) 
+                            AS asset_order,
+                        --AMSD.fn_get_asset_tran_status(asset_tran_status) AS asset_transaction_status
                         asset_tran_status
-                    from amsd.assets_log
+                        FROM amsd.assets_log
                     --movement only
-                    where (asset_room_no_old <> asset_room_no_new
-                        or asset_sub_location_old <> asset_sub_location_new)
-                    order by asset_primary_id, asset_id,asset_date
-                    )
-                    where asset_order = 1
+                        WHERE (asset_room_no_old <> asset_room_no_new
+                            or asset_sub_location_old <> asset_sub_location_new)
+                        order by asset_primary_id, asset_id,asset_date
+                        )
+                        WHERE asset_order = 1
                     --all assets movement excluding pending movement
-                    and asset_tran_status in ('C','CT')
-                    and (asset_date between to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR asset_date IS NULL)
-                    and asset_class LIKE '%$asset_class%'           
-                    and asset_id LIKE '%$assetNo%'           
+                        AND asset_tran_status in ('C','CT')
+                        AND (   from_asset_room_no LIKE '%$room_no%'
+                                OR to_asset_room_no LIKE '%$room_no%')
+                        AND asset_primary_id LIKE '%$assetNo%'
+                        AND (   from_asset_sub_location LIKE '%$sub_location%'
+                                OR to_asset_sub_location LIKE '%$sub_location%')
+                        AND (   from_asset_location_area LIKE '%$area%'
+                                OR to_asset_location_area LIKE '%$area%')
+                        AND (   from_asset_level LIKE '%$level%'
+                                OR to_asset_level LIKE '%$level%')
+                        AND (   from_asset_building LIKE '%$building%'
+                                OR to_asset_building LIKE '%$building%')
+                        AND (   asset_date BETWEEN  TO_DATE ('$dateStart 00:00:00',
+                                                   'YYYY/MM/DD HH24:MI:SS')
+                                            AND     TO_DATE ('$dateEnd 23:59:59',
+                                                   'YYYY/MM/DD HH24:MI:SS')
+                                OR asset_date IS NULL)
+                        AND asset_class LIKE '%$asset_class%'           
+                        AND asset_id LIKE '%$assetNo%'           
                     ) AS \"MOVED\",
                     ------------------------------------------------
                     ------------------ ACTIVE USERS -----------------

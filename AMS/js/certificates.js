@@ -234,7 +234,7 @@ function search() {
 
 
     var results = (building + " - " + level + " - " + area + " - " + room_no + " - " + description + " - " + sub_location + " - " + certificate_number);
-    console.log(resultsn);
+    console.log(results);
     var current = "";
     if (" -  -  -  -  -  - " == results) {
         swal.fire({
