@@ -46,7 +46,7 @@ $app->map(['GET','POST'],'/asset_primary_view_v', function(Request $request, Res
                             AS ASSET_CLASS,
                         NVL (L_NEW.HD_ASSET_ROOM_LOCATION, 'NO DATA')
                             AS ASSET_SUB_LOCATION
-                FROM AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS A_OLD
+                FROM AMSP.ASSETS_LOCATION L_NEW, AMSP.ASSETS A_OLD
                 WHERE     L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
                 AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+))
                 WHERE     (ASSET_CLASS LIKE '%$asset_class%' OR ASSET_CLASS = 'NO DATA')
