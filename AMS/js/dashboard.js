@@ -60,13 +60,14 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         clearLocalStorageFilters();
         populate_dropdown();
 
-        //clear btn text
-        checkFilter("search_view_building");
-
-        $('#currentAssetsTable').DataTable().clear().destroy();
-        $("#searchView").show();
-        $("#printAssets").hide();
-
+        $('#building_dashboard_filter').text("BUILDING");
+        $('#level_dashboard_filter').text("LEVEL");
+        $('#area_dashboard_filter').text("AREA");
+        $('#area_name_dashboard_filter').text("AREA NAME");
+        $('#room_dashboard_filter').text("ROOM");
+        $('#sublocaction_dashboard_filter').text("SUB LOCATION");
+        $('#assetNo_dashboard_filter').text("ASSET NO");
+        $('#reportrange span').html("select date");
 
     });
 
