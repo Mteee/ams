@@ -497,6 +497,7 @@ var allArr = {
 function getItems(url, id, scrollArea, menuid, empty_view) {
 
     console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '","sub_location": "' + localStorage.sub_location + '","asset_primary_id": "' + localStorage.asset_primary_id + '"}');
+    
     $.ajax({
         url: url,
         method: 'POST',
@@ -1489,18 +1490,12 @@ var onSearch = function (btn_id, searchValue, emptyId) {
 
     var getId = searchValue;
 
-    console.log(searchValue);
-
     var found = false;
-    console.log(allArr[searchValue]);
-    //handle enter
+
     document.getElementById(searchValue).onkeypress = function (e) {
 
-        console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            console.log("================================searchValue==============================");
-            console.log(searchValue);
 
             var value = searchValue.value;
 
@@ -1529,9 +1524,6 @@ var onSearch = function (btn_id, searchValue, emptyId) {
 
         var suitable = false;
 
-        // console.log("rows[i].values[0]");
-        // console.log(rows[i].values[0]);
-
         if (rows[i].values[0].indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
             found = true;
@@ -1552,8 +1544,6 @@ var onSearch = function (btn_id, searchValue, emptyId) {
     } else {
         $(emptyId).css("display", "block");
     }
-
-    // console.log(clusterize[getId]);
 
     clusterize[getId].update(filterRows(rows));
 }

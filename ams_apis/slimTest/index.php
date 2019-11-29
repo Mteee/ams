@@ -46,7 +46,7 @@ $app->map(['GET','POST'],'/asset_primary_view_v', function(Request $request, Res
                             AS ASSET_CLASS,
                         NVL (L_NEW.HD_ASSET_ROOM_LOCATION, 'NO DATA')
                             AS ASSET_SUB_LOCATION
-                FROM AMSP.ASSETS_LOCATION L_NEW, AMSP.ASSETS A_OLD
+                FROM AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS A_OLD
                 WHERE     L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
                 AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+))
                 WHERE     (ASSET_CLASS LIKE '%$asset_class%' OR ASSET_CLASS = 'NO DATA')
@@ -3547,7 +3547,30 @@ $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Respo
         $asset_class = '';
     }
 
-    $sql = "SELECT A_OLD.ASSET_PRIMARY_ID
+    $sql = "SELECT ASSET_PRIMARY_ID
+            FROM (SELECT DISTINCT
+                            L_NEW.ASSET_ROOM_NO,
+                            L_NEW.HD_ASSET_ROOM_LOCATION,
+                            L_NEW.ASSET_AREA,
+                            L_NEW.ASSET_LEVEL,
+                            L_NEW.ASSET_BUILDING,
+                            NVL (A_OLD.ASSET_PRIMARY_ID, 'NO DATA')          AS ASSET_PRIMARY_ID,
+                            NVL (A_OLD.ASSET_CLASS, 'NO DATA')               AS ASSET_CLASS,
+                            NVL (L_NEW.HD_ASSET_ROOM_LOCATION, 'NO DATA')    AS ASSET_SUB_LOCATION
+                        FROM AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS A_OLD
+                    WHERE     L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
+                            AND L_NEW.HD_ASSET_ROOM_LOCATION = A_OLD.ASSET_SUB_LOCATION(+))
+            WHERE     (ASSET_CLASS LIKE '%$asset_class%' OR ASSET_CLASS = 'NO DATA')
+                    AND (ASSET_BUILDING LIKE '%$building%')
+                    AND (ASSET_SUB_LOCATION LIKE '%$sub_location%')
+                    AND (ASSET_LEVEL LIKE '%$level%')
+                    AND (ASSET_AREA LIKE '%$area%' OR ASSET_AREA IS NULL)
+                    AND (ASSET_PRIMARY_ID LIKE '%$asset_primary_id%')
+                    AND (ASSET_ROOM_NO LIKE '%$room_no%')
+            GROUP BY ASSET_PRIMARY_ID
+            ORDER BY ASSET_PRIMARY_ID";
+
+    /**$sql = "SELECT A_OLD.ASSET_PRIMARY_ID
             FROM 
                 AMSD.ASSETS_LOCATION L_NEW, AMSD.ASSETS  A_OLD
             WHERE  L_NEW.ASSET_ROOM_NO = A_OLD.ASSET_ROOM_NO(+)
@@ -3561,6 +3584,8 @@ $app->map(['GET','POST'],'/asset_primary_view', function(Request $request, Respo
             AND L_NEW.ASSET_ROOM_NO LIKE '%$room_no%'
             GROUP BY A_OLD.ASSET_PRIMARY_ID
             ORDER BY A_OLD.ASSET_PRIMARY_ID";
+        */
+
 
     $assets_no =$func->executeQuery($sql);
 
@@ -6227,7 +6252,7 @@ $app->map(['GET','POST'],'/getUsers_dash',function(Request $request, Response $r
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset Username</th><th>User Class</th><th>User Role</th><th>User Create Date</th></tr>';
+            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset Username</th><th>User Class</th><th>User Role</th><th>User Create Date</th></tr>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -6717,7 +6742,7 @@ $app->map(['GET','POST'],'/getActive_dash',function(Request $request, Response $
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
+            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
             if($len>0){
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -6797,7 +6822,7 @@ $app->map(['GET','POST'],'/getInactive_dash',function(Request $request, Response
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
+            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -6868,7 +6893,7 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Old Room</th><th>New Room</th></tr>';
+            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Old Room</th><th>New Room</th></tr>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -6969,7 +6994,7 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>From Room</th><th>To Room</th><th>Movement Date</th></tr>';
+            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>From Room</th><th>To Room</th><th>Movement Date</th></tr>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -7044,7 +7069,7 @@ $app->map(['GET','POST'],'/getUnassigned_dash',function(Request $request, Respon
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Asset status</th></tr>';
+            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Asset status</th></tr>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -7125,7 +7150,7 @@ $app->map(['GET','POST'],'/getComm',function(Request $request, Response $respons
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Last printed</th></tr>';
+            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Last printed</th></tr>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -7202,7 +7227,7 @@ $app->map(['GET','POST'],'/getDecomm',function(Request $request, Response $respo
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-expert"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Last printed</th></tr>';
+            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Last printed</th></tr>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
