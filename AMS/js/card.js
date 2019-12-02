@@ -1,7 +1,17 @@
 
+
+//check for filter in local storage
+if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
+    localStorage.backupFilter = localStorage.filter;
+} else {
+    localStorage.filter = localStorage.backupFilter;
+}
+
+
 defaultFilter();
 
 getItemsCount();
+
 
 function getItemsCount() {
 

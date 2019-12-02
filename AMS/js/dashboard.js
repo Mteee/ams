@@ -30,13 +30,6 @@ $(function () {
     // cb(start, end);
 });
 
-//check for filter in local storage
-if (localStorage.backupFilter == undefined || localStorage.backupFilter == "undefined") {
-    localStorage.backupFilter = localStorage.filter;
-} else {
-    localStorage.filter = localStorage.backupFilter;
-}
-
 window.onload = function () {
     if (localStorage.building !== '' || localStorage.level !== '' || localStorage.area !== '' || localStorage.room_no !== '') {
         // clearLocalStorageFilters();
@@ -59,6 +52,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 
         clearLocalStorageFilters();
         populate_dropdown();
+        search();
 
         $('#building_dashboard_filter').text("BUILDING");
         $('#level_dashboard_filter').text("LEVEL");
@@ -373,15 +367,7 @@ function clearData(input, btnDafualtId, text) {
 
 
 function clearLocalStorageFilters() {
-    localStorage.building = '';
-    localStorage.level = '';
-    localStorage.asset_area = '';
-    localStorage.asset_area_name = '';
-    localStorage.room_no = '';
-    localStorage.sub_location = '';
-    localStorage.asset_primary_id = '';
-    localStorage.dateStart = '';
-    localStorage.dateEnd = '';
+    defaultFilter();
 
     $('#search_dashboard_building').val("");
     $('#search_dashboard_level').val("");
@@ -488,21 +474,21 @@ function search() {
 
     var results = (building + " - " + level + " - " + area + " - " + asset_area_name + " - " + room_no + " - " + sub_location + " - " + asset_primary_id + " - " + date_range);
 
-    if (" -  -  -  -  -  -  - select date" == results) {
-        swal.fire({
-            title: "Oooops!",
-            text: 'please select at least one filter',
-            type: 'error',
-            showCloseButton: true,
-            closeButtonColor: '#3DB3D7',
-            animation: false,
-            customClass: {
-                popup: 'animated tada'
-            },
-            allowOutsideClick: true,
-        })
-    }
-    else{
+    // if (" -  -  -  -  -  -  - select date" == results) {
+    //     swal.fire({
+    //         title: "Oooops!",
+    //         text: 'please select at least one filter',
+    //         type: 'error',
+    //         showCloseButton: true,
+    //         closeButtonColor: '#3DB3D7',
+    //         animation: false,
+    //         customClass: {
+    //             popup: 'animated tada'
+    //         },
+    //         allowOutsideClick: true,
+    //     })
+    // }
+    // else{
         $("#loader-overlay").css("display","block");
 
         localStorage.building = building;
@@ -558,7 +544,7 @@ function search() {
             }
         });
 
-    }
+    // }
 }
 
 function doit(type, fn, dl) {
