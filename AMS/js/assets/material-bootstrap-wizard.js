@@ -165,9 +165,16 @@ $(document).ready(function () {
 
             if (index == 4) {
                 var res = validateInputChildren(input_arr);
+                var model_validate = isEmpty($("#model_input").val())
+                var asset_type = isEmpty($("#asset_type option:selected").val());
+                console.log($("#model_input").val());
+                console.log($("#asset_type option:selected").val());
                 console.log("res");
                 console.log(res);
-                if (res.bool) {
+                console.log(model_validate);
+                console.log("asset_type");
+                console.log(asset_type);
+                if (res.bool || model_validate || asset_type) {
                     input_arr[res.index].focus();
                     $('#text-error').addClass("btn-outline-danger");
                     return false;
