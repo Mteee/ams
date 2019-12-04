@@ -473,8 +473,6 @@ function populate_tran_dropdown() {
     getItems('../../ams_apis/slimTest/index.php/asset_sub_location_transfer', 'search_transfer_sub', 'scroll_transfer_sub', 'menu_transfer_sub', 'empty_transfer_sub');
 }
 
-populate_dropdown();
-
 
 // populate room no
 function populate_room() {
@@ -1933,7 +1931,9 @@ $('#menu_approve_sub').on('click', '.dropdown-item', function () {
 
 if (localStorage.filter == "ALL EQUIPMENT") {
 
-    localStorage.filter = "FACILITIES MANAGEMENT"
+    localStorage.filter = "FACILITIES MANAGEMENT";
+    populate_dropdown();
+
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
     if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")
