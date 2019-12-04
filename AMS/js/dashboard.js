@@ -376,6 +376,8 @@ function clearLocalStorageFilters() {
     $('#search_dashboard_room').val("");
     $('#search_dashboard_sublocaction').val("");
     $('#search_dashboard_assetNo').val("");
+
+    $('#reportrange span').html("select date");
 }
 
 function cleaAllFilters() {
