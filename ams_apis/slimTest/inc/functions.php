@@ -132,6 +132,22 @@ class Functions{
 	
 		return $results;
 	}
+
+	function certStatus($letter) {
+		$results = "";
+	   switch ($letter) {
+		   case "1":
+		   case "y":
+			   $results = "<p class='text-success'><strong>ACTIVE</strong></p>";
+			   break;
+		   case "0":
+		   case "n":
+			   $results = "<p class='text-danger'><strong>INACTIVE</strong></p>";
+			   break;
+	   }
+   
+	   return $results;
+   }
 	
 	function desc_role($value) {
 		
