@@ -786,7 +786,10 @@ $('#menu_removal_assetNo').on('click', '.dropdown-item', function () {
     $('#search_removal_assetNo').val($(this)[0].value);
 });
 
+
 function populate_dropdown() {
+
+    // console.log(localStorage.filter);
 
     //asset No
     getItems('../../ams_apis/slimTest/index.php/asset_id_removal', 'search_removal_assetNo', 'scroll_removal_assetNo', 'menu_removal_assetNo', 'empty_removal_assetNo');
@@ -802,8 +805,6 @@ function populate_dropdown() {
     getItems('../../ams_apis/slimTest/index.php/building_removal', 'search_removal_building', 'scroll_removal_building', 'menu_removal_building', 'empty_removal_building');
 
 }
-
-populate_dropdown();
 
 var allArr = {
     search_removal_room: [],
@@ -1222,12 +1223,13 @@ function setValueBtn(id, value) {
 //     }
 // });
 
+console.log(localStorage.filter);
+
 if (localStorage.filter == "ALL EQUIPMENT") {
 
-
-    // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
-
     localStorage.filter = "FACILITIES MANAGEMENT";
+
+    populate_dropdown();
 
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
     if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")

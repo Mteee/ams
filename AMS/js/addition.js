@@ -21,8 +21,6 @@ window.onload = function () {
     }
 }
 
-populate_dropdown();
-
 function addAsset() {
 
     var json_data = {
@@ -983,6 +981,8 @@ $('#menu_new_room').on('click', '.dropdown-item', function () {
 
 if (localStorage.filter == "ALL EQUIPMENT") {
     localStorage.filter = "FACILITIES MANAGEMENT";
+    populate_dropdown();
+
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
 
     if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")

@@ -117,7 +117,7 @@ var clusterize = {
 function getItems(url, id, scrollArea, menuid, empty_id) {
 
 
-    var params = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.asset_area + '","asset_area_name":"' + localStorage.asset_area_name + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","asset_primary_id":"' + localStorage.asset_primary_id + '","asset_class":"' + localStorage.filter + '"}';
+    var params = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","asset_area_name":"' + localStorage.asset_area_name + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","asset_primary_id":"' + localStorage.asset_primary_id + '","asset_class":"' + localStorage.filter + '"}';
 
     console.log(params);
     $.ajax({

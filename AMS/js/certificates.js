@@ -1,5 +1,4 @@
 clearLocalStorageFilters();
-populate_filters();
 checkFilter();
 
 
@@ -47,13 +46,16 @@ function viewAsset(cert_no) {
 
 if (localStorage.filter == "ALL EQUIPMENT") {
 
+    localStorage.filter = "FACILITIES MANAGEMENT";
 
-    
+    populate_filters();
+
+    $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
+
     if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN") {
         $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
     }
-    
-    $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
+
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
     $('#class-options').prop('disabled', false);
 
@@ -139,11 +141,15 @@ var allArr = {
 
 function getFilters(url, id, scrollArea, menuid) {
 
+
+    var jsonData = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","cert_no":"' + localStorage.certificate_number + '","asset_class":"' + localStorage.filter + '"}';
+
+
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","cert_no":"' + localStorage.certificate_number + '","asset_class":"' + localStorage.filter + '"}',
+        data: jsonData,
         success: function (data) {
             var rows = [];
             var searchValue = document.getElementById(id);
@@ -164,7 +170,7 @@ function getFilters(url, id, scrollArea, menuid) {
         error: function (data_err) {
             swal.fire({
                 title: "Unexpected Error #42404",
-                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : #'"+id+"'",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : #'" + id + "'",
                 type: "error",
                 showCloseButton: true,
                 confirmButtonColor: "#C12E2A",
@@ -570,7 +576,7 @@ var onSearch = function (btn_id, searchValue, emptyId) {
         if (e.keyCode == 13) {
             e.preventDefault();
 
-        
+
             var value = searchValue.value;
 
             if (value.length > 0) {

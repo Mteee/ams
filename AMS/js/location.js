@@ -163,8 +163,6 @@ function populate_dropdown() {
 
 }
 
-populate_dropdown();
-
 var allArr = {
     search_location_sub_location: [],
     search_location_room: [],
@@ -1287,6 +1285,8 @@ $('#menu_add_location_assetType').on('click', '.dropdown-item', function () {
 
 if (localStorage.filter == "ALL EQUIPMENT") {
 
+    localStorage.filter = "FACILITIES MANAGEMENT";
+    populate_dropdown();
 
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
