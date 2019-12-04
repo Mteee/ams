@@ -77,7 +77,7 @@ function viewAsset(assetId) {
     var currentItem = "";
     document.getElementById('overlay-asset').style.display = "block";
     // console.log($('#assetBody'));
-    $('#assetBody')['0'].innerHTML = assetId;
+    // $('#assetBody')['0'].innerHTML = assetId;
     console.log('{"primary_asset_id" :"' + assetId + '"}');
 
     $.ajax({
@@ -147,7 +147,7 @@ function search() {
                 console.log("================test===============================");
                 // console.log(data);
                 // console.log(data.data.ASSET_IS_SUB);
-                
+
                 var table = null;
 
                 if (data.rows > 0) {
@@ -236,14 +236,13 @@ function search() {
                 $('#currentAssetsTable tbody,#currentAssetsTable thead').on('click', 'input[type="checkbox"]', function () {
                     var data = table_data["currentAssetsTable"].row($(this).parents('tr')).data();
                     setTimeout(function () {
-                        console.log(checkboxSelectedLength());
                         if (checkboxSelectedLength() > 0) {
                             $('#DecomAssets').fadeIn(500);
                         } else {
                             $('#DecomAssets').fadeOut(500);
                         }
                     }, 500);
-            
+
                     checkId(data[0], this);
 
                     // if (res != " ") {
@@ -509,6 +508,7 @@ function createTable(tableID, tableData) {
         });
 
         var rowsSelected = decom_asset;
+        console.log(rowsSelected);
 
         viewDecomAsset(rowsSelected);
         // Remove added elements
@@ -601,14 +601,20 @@ function viewDecomAsset(assets) {
 function confirmDecomm(assets_ids, certificate_no) {
 
 
-    var comments = $("#comments option:selected").text();
-    console.log('{"assets" : "' + assets_ids + '","cert" : "' + certificate_no + '","comments" : "' + comments + '","username":"' + localStorage.username + '","asset_class":"' + localStorage.filter + '"}');
+    var comments = $("#comments option:selected").text(),
+        boq = document.getElementById("boq_decomm").value,
+        invoce_number = document.getElementById("invoce_number_decomm").value,
+        asset_reference = document.getElementById("asset_reference_decomm").value;
+
+    var jsondata = '{"username":"' + localStorage.username + '","asset_class":"' + localStorage.filter + '","assets":"' + assets_ids + '","cert":"' + certificate_no + '","comments":"' + comments + '","boq":"' + boq + '","invoce_number":"' + invoce_number + '","asset_reference":"' + asset_reference + '"}'
+
+    console.log(jsondata);
 
 
     $.ajax({
         url: "../../ams_apis/slimTest/index.php/decomm_asset",
         method: "post",
-        data: '{"username":"' + localStorage.username + '","asset_class":"' + localStorage.filter + '","assets":"' + assets_ids + '","cert":"' + certificate_no + '","comments":"' + comments + '"}',
+        data: jsondata,
         dataType: "json",
         success: function (data) {
             if (data.rows == 1) {
@@ -946,7 +952,7 @@ function checkFilter(key) {
 }
 
 
-var onSearch = function (btn_id,searchValue, emptyId) {
+var onSearch = function (btn_id, searchValue, emptyId) {
 
     var getId = searchValue;
 
@@ -1218,7 +1224,7 @@ function setValueBtn(id, value) {
 
 if (localStorage.filter == "ALL EQUIPMENT") {
 
-    
+
     // $('#class-options').append(new Option("ALL EQUIPMENT", "all_equip"));
 
     localStorage.filter = "FACILITIES MANAGEMENT";
@@ -1226,20 +1232,13 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
     if (localStorage.filter == "IT EQUIPMENT" || localStorage.role == "ADMIN")
         $('#class-options').append(new Option("IT EQUIPMENT", "it_equip"));
-        
+
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
     $('#class-options').prop('disabled', false);
 
     $('#class-options').on('change', function () {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
-
-        document.getElementById('menu_removal_building').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-        document.getElementById('menu_removal_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-        document.getElementById('meun_removal_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-        document.getElementById('menu_removal_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-        document.getElementById('menu_removal_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-        document.getElementById('menu_removal_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
 
         if (filter == "IT EQUIPMENT") {
             console.log("show");
@@ -1259,7 +1258,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         resetBtn('#room_removal_filter', "ROOM");
         resetBtn('#subloacation_removal_filter', "SUB LOCATION");
         resetBtn('#assetNo_removal_filter', "ASSET NO");
-        clearData('#building_removal_filter','#search_removal_building','BUILDING')
+        clearData('#building_removal_filter', '#search_removal_building', 'BUILDING')
 
     });
 
@@ -1278,6 +1277,14 @@ function resetInput(resetId, resetTxt) {
 }
 
 function clearLocalStorageFilters() {
+
+    document.getElementById('menu_removal_building').innerHTML = '<div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menu_removal_level').innerHTML = '<div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('meun_removal_area').innerHTML = '<div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menu_removal_room').innerHTML = '<div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menu_removal_sublocaction').innerHTML = '<div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menu_removal_assetNo').innerHTML = '<div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
     localStorage.building = '';
     localStorage.level = '';
     localStorage.area = '';

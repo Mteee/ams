@@ -4775,23 +4775,25 @@ $app->map(['GET','POST'],'/decomm_asset',function(Request $request, Response $re
         $assets = strtoupper($data->assets);
         $cert = strtoupper($data->cert);
         $comments = strtoupper($data->comments);
+        $boq = strtoupper($data->boq);
+        $invoce_number = strtoupper($data->invoce_number);
+        $asset_reference = strtoupper($data->asset_reference);
         $v_out = "";
-        // $v_print_date = "";
-        // $v_cert_status  = "1";
-        // $v_cert_type = "COMM";
-        // $sql = "UPDATE AMSP.ASSETS SET ASSET_CERT_NO = '$cert' WHERE ASSET_ID IN ($assets)";
 
         if($asset_class == 'ALL EQUIPMENT'){
             $asset_class = '';
         }
 
-        $sql  = "BEGIN asset_certificate_decomm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'',:v_comments,:v_out); END;";
+        $sql  = "BEGIN asset_certificate_decomm(:v_username,:v_asset_class,:v_asset_ids,:v_asset_certificate,'',:v_comments,:boq,:invoce_number,:asset_reference,:v_out); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':v_username', $username, 50);
         oci_bind_by_name($statement, ':v_asset_class', $asset_class, 50);
         oci_bind_by_name($statement, ':v_asset_ids', $assets, -1);
         oci_bind_by_name($statement, ':v_asset_certificate', $cert, 50);
         oci_bind_by_name($statement, ':v_comments', $comments, 50);
+        oci_bind_by_name($statement, ':boq', $boq, 4000);
+        oci_bind_by_name($statement, ':invoce_number', $invoce_number, 4000);
+        oci_bind_by_name($statement, ':asset_reference', $asset_reference, 4000);
         oci_bind_by_name($statement, ':v_out',  $v_out, 2);
 
         oci_execute($statement , OCI_NO_AUTO_COMMIT);
@@ -5308,6 +5310,7 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
     if($assets_no){
         // echo $assets_no;
         $assets = json_decode($assets_no);
+
         // print_r($assets);
         $len = $assets->rows;
 
@@ -5321,8 +5324,8 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
                     $str .= $assets->data[$k]->ASSET_CLASS . '","';
                     $str .= $func->checkType($assets->data[$k]->ASSET_CERTIFICATE_TYPE) . '","';
                     $str .= $assets->data[$k]->ASSET_CERTIFICATE_CREATION_DATE . '","';
-                    $str .= $func->isSpecified($assets->data[$k]->ASSET_PRINT_DATE) . '","';
-                    $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_CERTIFICATE_STATUS) . '"]';
+                    $str .= $func->checkPrint($assets->data[$k]->ASSET_PRINT_DATE) . '","';
+                    $str .= $func->certStatus($assets->data[$k]->ASSET_CERTIFICATE_STATUS) . '"]';
 
                 } else {
 
@@ -5331,8 +5334,8 @@ $app->map(['GET','POST'],'/getCerts', function(Request $request, Response $respo
                     $str .= $assets->data[$k]->ASSET_CLASS . '","';
                     $str .= $func->checkType($assets->data[$k]->ASSET_CERTIFICATE_TYPE) . '","';
                     $str .= $assets->data[$k]->ASSET_CERTIFICATE_CREATION_DATE . '","';
-                    $str .= $func->isSpecified($assets->data[$k]->ASSET_PRINT_DATE) . '","';
-                    $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_CERTIFICATE_STATUS) . '"],';
+                    $str .= $func->checkPrint($assets->data[$k]->ASSET_PRINT_DATE) . '","';
+                    $str .= $func->certStatus($assets->data[$k]->ASSET_CERTIFICATE_STATUS) . '"],';
 
                 }
             }

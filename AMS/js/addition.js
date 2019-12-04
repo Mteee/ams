@@ -57,68 +57,68 @@ function addAsset() {
 
     var values = (getValues());
     $('#loader-overlay').show();
-    setTimeout(function(){
+    setTimeout(function () {
         $("#loader-overlay").hide();
         for (i = 0; i < key.length; i++) {
             json_data[key[i]] = values[i];
         }
         console.log(json_data);
-        if(json_data.cert != ""){
+        if (json_data.cert != "") {
             closeAsset("overlay-newAssetView");
             $("#overlay-comm-details").show();
-        }else{
-            
+        } else {
+
             sendValues(json_data);
         }
-    },4000);
+    }, 4000);
 
-    
 
-    $('#confirmCommAdd').off().on('click',function(){
+
+    $('#confirmCommAdd').off().on('click', function () {
         sendValues(json_data);
     });
 
 
 }
 
-function sendValues(json_data){
-    var boq =  document.getElementById("boq").value,
-    invoce_number =  document.getElementById("invoce_number").value,
-    asset_reference = document.getElementById("asset_reference").value;
+function sendValues(json_data) {
+    var boq = document.getElementById("boq").value,
+        invoce_number = document.getElementById("invoce_number").value,
+        asset_reference = document.getElementById("asset_reference").value;
 
     var data = '{"v_asset_class": "' + json_data.asset_class + '", "v_assets":"' + json_data.assets + '", "v_asset_model":"' + json_data.model + '", "v_asset_type":"' + json_data.asset_type + '", "v_asset_classification" :"' + json_data.classification + '", "v_asset_room_no":"' + json_data.room + '", "v_asset_purchase_dt" :"' + json_data.purchase_date + '", "v_asset_warranty_dt" :"' + json_data.waranty_date + '", "v_asset_vendor_id" :"' + "" + '", "v_asset_vendor_name" :"' + "" + '", "v_asset_useful_life":"' + "" + '", "v_asset_service_dt":"' + json_data.service_date + '", "v_asset_service_due_dt":"' + json_data.service_due_date + '", "v_asset_service_by":"' + json_data.serviced_by + '", "v_asset_cert_ind":"' + "" + '", "v_asset_cert_no":"' + json_data.cert + '", "v_asset_added_by":"' + localStorage.username + '", "v_boq":"' + boq + '", "v_invoce_number":"' + invoce_number + '", "v_asset_reference":"' + asset_reference + '"}'
     $('#loader-overlay').show();
     confirmAssetCreate(data);
 }
 
-function confirmAssetCreate(data){
+function confirmAssetCreate(data) {
     $.ajax({
-            url: "../../ams_apis/slimTest/index.php/add_assets",
-            method: "POST",
-            dataType: "JSON",
-            data: data,
-            success: function (data) {
-                document.getElementById("add_asset_form").reset();
-                document.getElementById('overlay-newAssetView').style.display = "none";
-                document.getElementById('assetsAdd').innerHTML = data.tdata;
-                setTimeout(function () {
-                    $('#overlay-assets-added').show();
-                    $('#loader-overlay').hide();
+        url: "../../ams_apis/slimTest/index.php/add_assets",
+        method: "POST",
+        dataType: "JSON",
+        data: data,
+        success: function (data) {
+            document.getElementById("add_asset_form").reset();
+            document.getElementById('overlay-newAssetView').style.display = "none";
+            document.getElementById('assetsAdd').innerHTML = data.tdata;
+            setTimeout(function () {
+                $('#overlay-assets-added').show();
+                $('#loader-overlay').hide();
 
-                }), 2000;
+            }), 2000;
 
-            },
-            error: function (err) {
-                swal.fire({
-                    title: "Unexpected Error #42404",
-                    text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'add_assets'",
-                    type: "error",
-                    showCloseButton: true,
-                    confirmButtonColor: "#C12E2A",
-                    allowOutsideClick: true,
-                });
-            }
-        });
+        },
+        error: function (err) {
+            swal.fire({
+                title: "Unexpected Error #42404",
+                text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'add_assets'",
+                type: "error",
+                showCloseButton: true,
+                confirmButtonColor: "#C12E2A",
+                allowOutsideClick: true,
+            });
+        }
+    });
 }
 
 function getAssetsType() {
@@ -304,7 +304,6 @@ var allArr = {
 
 function getItems(url, id, scrollArea, menuid) {
 
-
     $.ajax({
         url: url,
         method: 'POST',
@@ -313,13 +312,23 @@ function getItems(url, id, scrollArea, menuid) {
         success: function (data) {
             var rows = [];
             var searchValue = document.getElementById(id);
-            for (var i = 0; i < data.rows; i++) {
+            if (data.rows > 0) {
+                for (var i = 0; i < data.rows; i++) {
+                    rows.push({
+                        values: [data.data[i]],
+                        markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
+                        active: true
+                    });
+                }
+            }
+            else{
                 rows.push({
-                    values: [data.data[i]],
-                    markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
+                    values: [0],
+                    markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="NO DATA" disabled/>',
                     active: true
                 });
             }
+
 
             allArr[id] = rows;
             filterItems(rows, id, scrollArea, menuid);
@@ -381,6 +390,14 @@ function closeAsset(id) {
 }
 
 function clearLocalStorageFilters() {
+
+    document.getElementById('menu_addition_building').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menu_addition_level').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('meun_addition_area').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menu_addition_room').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menu_addition_sublocaction').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+    document.getElementById('menu_addition_assetNo').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
+
     localStorage.building = '';
     localStorage.level = '';
     localStorage.area = '';
@@ -444,8 +461,6 @@ function search() {
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_ID + '","';
                             str += data.data[k].ASSET_ID + '","';
-
-
                             str += data.data[k].ASSET_ROOM_NO + '","';
                             str += data.data[k].ASSET_SUB_LOCATION + '","';
                             str += data.data[k].ASSET_AREA + '","';
@@ -661,7 +676,7 @@ function viewCommAssets(assets) {
     }
 
     $("#confirmComm").off().on("click", function () {
-        
+
         $.ajax({
             // url: "assets.json",
             url: "../../ams_apis/slimTest/index.php/generate_Cert_no",
@@ -672,7 +687,7 @@ function viewCommAssets(assets) {
                 $('#loaderComm').hide();
                 if (data.rows > 0) {
                     confirmComm(conc_assets, data.certificate_number);
-                }else{
+                } else {
                     swal.fire({
                         title: "Error Generating Certificate",
                         text: "Please try again later or contact admin (amsdev@ialch.co.za)",
@@ -694,14 +709,14 @@ function viewCommAssets(assets) {
                 });
             }
         });
-       
+
     });
 }
 
 function confirmComm(assets_ids, certificate_no) {
 
-    var boq =  document.getElementById("boq_comm").value,
-        invoce_number =  document.getElementById("invoce_number_comm").value,
+    var boq = document.getElementById("boq_comm").value,
+        invoce_number = document.getElementById("invoce_number_comm").value,
         asset_reference = document.getElementById("asset_reference_comm").value;
 
     $.ajax({
@@ -714,14 +729,14 @@ function confirmComm(assets_ids, certificate_no) {
             search();
             $('#commAssets').fadeOut(500);
             swal.fire({
-                title: "Certificate Number : "+certificate_no,
+                title: "Certificate Number : " + certificate_no,
                 text: data.data,
                 type: 'success',
                 showCloseButton: true,
                 closeButtonColor: '#3DB3D7',
                 allowOutsideClick: true,
             })
-            
+
             $('#loaderComm').hide();
             if (data.rows > 0) {
                 document.getElementById("assetTbody").innerHTML = data.data;

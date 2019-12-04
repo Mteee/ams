@@ -255,11 +255,15 @@ function search() {
         $('#loader').fadeIn(500);
         document.getElementById('current').innerHTML = "";
 
+        var jsonData = '{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","sub_location":"' + sub_location + '","cert_no":"' + certificate_number + '","asset_class":"' + localStorage.filter + '"}';
+
+        console.log(jsonData)
+
         $.ajax({
             url: "../../ams_apis/slimTest/index.php/getCerts",
             type: "POST",
             dataType: 'json',
-            data: '{"building" :"' + building + '","level" : "' + level + '","area" : "' + area + '","room_no" : "' + room_no + '","description" : "' + description + '","sub_location":"' + sub_location + '","cert_no":"' + certificate_number + '","asset_class":"' + localStorage.filter + '"}',
+            data: jsonData,
             success: function (data) {
                 $('#loader').fadeOut(500);
 
