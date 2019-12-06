@@ -1253,6 +1253,10 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         clearLocalStorageFilters();
         populate_dropdown();
 
+        $('#currentAssetsTable').DataTable().clear().destroy();
+        $("#searchView").show();
+        $("#DecomAssets").hide();
+
         //clear btn text
         resetBtn('#building_removal_filter', "BUILDING");
         resetBtn('#level_removal_filter', "LEVEL");
