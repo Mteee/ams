@@ -418,7 +418,7 @@ $('#menu_dashboard_level').on('click', '.dropdown-item', function () {
 $('#meun_dashboard_area').on('click', '.dropdown-item', function () {
     $('#area_dashboard_filter').text($(this)[0].value);
     console.log($(this)[0].value);
-    localStorage.asset_area = $(this)[0].value;
+    localStorage.area = $(this)[0].value;
     populate_dropdown();
     $("#area_dashboard_filter").dropdown('toggle');
     $('#search_dashboard_area').val($(this)[0].value);
