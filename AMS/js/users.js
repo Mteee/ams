@@ -757,6 +757,7 @@ function delete_user(username) {
         dataType: "JSON",
         success: function (data) {
             if (data.rows > 0) {
+                cleaAllFilters();
                 getUsers(localStorage.filter, localStorage.role, localStorage.username);
                 swal.fire({
                     title: "Success",
@@ -855,6 +856,8 @@ var onSearch = function (btn_id, searchValue, emptyId) {
     // var rows = JSON.parse(localStorage.getItem(searchValue));
     var rows = allArr[searchValue];
 
+    // console.log(allArr);
+
     document.getElementById(searchValue).onkeypress = function (e) {
 
         console.log(e.keyCode);
@@ -878,7 +881,7 @@ var onSearch = function (btn_id, searchValue, emptyId) {
 
         var suitable = false;
 
-        // console.log(rows[i].values[0].trim().toString().indexOf(searchValue.value) + 1);
+        // console.log(rows[i].values[0].trim().toString());
 
         if (rows[i].values[0].trim().toString().indexOf((searchValue.value).toUpperCase()) + 1) {
             suitable = true;
