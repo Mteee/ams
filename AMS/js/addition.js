@@ -301,12 +301,16 @@ var allArr = {
 };
 
 function getItems(url, id, scrollArea, menuid) {
+    var jsonData = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}';
+
+
+    console.log(jsonData);
 
     $.ajax({
         url: url,
         method: 'POST',
         dataType: 'JSON',
-        data: '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","asset_no":"' + localStorage.asset_no + '","asset_class":"' + localStorage.filter + '"}',
+        data: jsonData,
         success: function (data) {
             var rows = [];
             var searchValue = document.getElementById(id);
@@ -1004,6 +1008,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     });
 
 } else {
+    populate_dropdown();
     toogleSub(localStorage.filter);
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
