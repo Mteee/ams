@@ -91,6 +91,7 @@ function defaultFilter() {
     localStorage.building = '';
     localStorage.level = '';
     localStorage.area_name = '';
+    localStorage.sub_location = '';
     localStorage.area = '';
     localStorage.room_no = '';
     localStorage.assetno = '';

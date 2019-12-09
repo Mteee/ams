@@ -757,6 +757,7 @@ function delete_user(username) {
         dataType: "JSON",
         success: function (data) {
             if (data.rows > 0) {
+                cleaAllFilters();
                 getUsers(localStorage.filter, localStorage.role, localStorage.username);
                 swal.fire({
                     title: "Success",

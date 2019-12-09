@@ -34,13 +34,13 @@ $(document).ready(function () {
     // });
 
     var tabs = {
-                    prev:-1,
-                    current:0,
-                    next:1
-                };
+        prev: -1,
+        current: 0,
+        next: 1
+    };
 
-    function nextTab(curr,next){
-        if(curr < next){
+    function nextTab(curr, next) {
+        if (curr < next) {
             return true;
         }
         return false;
@@ -98,13 +98,13 @@ $(document).ready(function () {
         'nextSelector': '.btn-next',
         'previousSelector': '.btn-previous',
 
-        onNext: function (tab, navigation, index,next) {
+        onNext: function (tab, navigation, index, next) {
             console.log("================[onNext]=======================");
             console.log(tab);
             console.log(navigation);
             console.log(index);
 
-            
+
 
             var input_arr = $('#asset_group input');
             var input_date_fields = $('#date input');
@@ -117,13 +117,14 @@ $(document).ready(function () {
                     $validator.focusInvalid();
                     $('#text-error').addClass("btn-outline-danger");
                     check_error(index);
+                    Toast();
                     return false;
-                } else{
+                } else {
                     $('#text-error').removeClass("btn-outline-danger");
                     $("#room_no_new").addClass("btn-outline-info").removeClass("btn-outline-danger");
                 }
             }
-                
+
             if (index == 2) {
                 var res = validateInputChildren(input_date_fields);
                 console.log("res");
@@ -132,6 +133,7 @@ $(document).ready(function () {
                     input_arr[res.index].focus();
                     $('#text-error').addClass("btn-outline-danger");
                     check_error(index);
+                    Toast();
                     return false;
                 }
                 else {
@@ -148,11 +150,12 @@ $(document).ready(function () {
                 // console.log();
                 $("#add_room_group").removeClass("is-empty")
                 $("#add_room").val($("#room_new_filter").val());
-                
+
                 if (res.bool) {
                     input_arr[res.index].focus();
                     $('#text-error').addClass("btn-outline-danger");
                     check_error(index);
+                    Toast();
                     return false;
                 }
 
@@ -164,6 +167,7 @@ $(document).ready(function () {
             }
 
             if (index == 4) {
+
                 var res = validateInputChildren(input_arr);
                 var model_validate = isEmpty($("#model_input").val())
                 var asset_type = isEmpty($("#asset_type option:selected").val());
@@ -177,10 +181,11 @@ $(document).ready(function () {
                 if (res.bool || model_validate || asset_type) {
                     input_arr[res.index].focus();
                     $('#text-error').addClass("btn-outline-danger");
+                    Toast();
                     return false;
                 }
             }
-            
+
 
             // else if (index == 2) {
             //     var res = validateInputChildren(input_date_fields);
@@ -212,32 +217,32 @@ $(document).ready(function () {
             $('.moving-tab').css('transition', 'transform 0s');
         },
 
-        onTabClick: function (tab, navigation, index,next) {
-            
+        onTabClick: function (tab, navigation, index, next) {
+
             console.log("==============[onTabClick]==============");
             console.log(tab);
             console.log(navigation);
-            console.log("current "+index);
+            console.log("current " + index);
 
-            if(index !== 4){
-                console.log("next "+next);
+            if (index !== 4) {
+                console.log("next " + next);
 
-                if(next > index){
+                if (next > index) {
                     console.log("forward");
                 }
-                else if(next < index){
+                else if (next < index) {
                     console.log("backwards");
                     // return true;
                 }
-                
-                if(next > index+1){
+
+                if (next > index + 1) {
                     return false;
                 }
-                
-                if (nextTab(index,next)) {
+
+                if (nextTab(index, next)) {
                     console.log("getTabId(index)");
                     console.log(getTabId(index));
-                    var $valid = $('#'+getTabId(index)+' input').valid();
+                    var $valid = $('#' + getTabId(index) + ' input').valid();
                     console.log($valid);
                     if (!$valid) {
                         console.log(index);
@@ -245,7 +250,7 @@ $(document).ready(function () {
                         console.log(next);
                         check_error(next);
                         return false;
-                    } 
+                    }
                 }
             }
 
@@ -297,17 +302,17 @@ $(document).ready(function () {
         }
     });
 
-    function getTabId(value){
+    function getTabId(value) {
         var arrTabs = [
-                        "basic",        // 0
-                        "date",         // 1
-                        "service",      // 2
-                        "serail",       // 3
-                        "commissioning" // 4
-                      ];
-      
-           return arrTabs[value];
-        
+            "basic",        // 0
+            "date",         // 1
+            "service",      // 2
+            "serail",       // 3
+            "commissioning" // 4
+        ];
+
+        return arrTabs[value];
+
     }
 
 
@@ -339,19 +344,19 @@ $(document).ready(function () {
 
     }
 
-    function check_error(value){
-        switch(value){  
+    function check_error(value) {
+        switch (value) {
             case 1:
-                    $("#room_no_new").removeClass("btn-outline-info").addClass("btn-outline-danger");
-                    break;
+                $("#room_no_new").removeClass("btn-outline-info").addClass("btn-outline-danger");
+                break;
             case 2:
-                    $("#date_group_1").removeClass("border-secondary").addClass("border-danger");
-                    $("#date_group_2").removeClass("border-secondary").addClass("border-danger");
-                    break;
+                $("#date_group_1").removeClass("border-secondary").addClass("border-danger");
+                $("#date_group_2").removeClass("border-secondary").addClass("border-danger");
+                break;
             case 3:
-                    $("#date_group_3").removeClass("border-secondary").addClass("border-danger");
-                    $("#date_group_4").removeClass("border-secondary").addClass("border-danger");
-                    break;
+                $("#date_group_3").removeClass("border-secondary").addClass("border-danger");
+                $("#date_group_4").removeClass("border-secondary").addClass("border-danger");
+                break;
         }
     }
 
@@ -492,3 +497,25 @@ function debounce(func, wait, immediate) {
         if (immediate && !timeout) func.apply(context, args);
     };
 };
+
+function Toast() {
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-start',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    });
+
+    Toast.fire({
+        type: 'error',
+        title: 'Every field is required!',
+        // html: "<strong><p class='py-2 text-muted' style='text-size:16px;'>Please double check if your fields are valid and not empty</p></strong>"
+    })
+}
+
+
