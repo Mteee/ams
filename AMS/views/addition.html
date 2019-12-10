@@ -710,17 +710,7 @@
                                                             <select id="asset_type" class="form-control"
                                                                 name="asset_type">
                                                                 <option value="">Select Asset Type</option>
-                                                                <option value="Battery">Battery</option>
-                                                                <option value="Building">Physical building</option>
-                                                                <option value="DataProjector">Data Projector</option>
-                                                                <option value="DesktopThinClient">Desktop Thin Client
-                                                                </option>
-                                                                <option value="DockingStation">Docking Station</option>
-                                                                <option value="EquipmentL1">Equipment Level 1</option>
-                                                                <option value="EquipmentL2">Equipment Level 2</option>
-                                                                <option value="EquipmentL3">Equipment Level 3</option>
-                                                                <option value="Fax">Facsimile</option>
-                                                                <option value="ITNetwork">IT Network</option>
+                                                                
                                                             </select>
                                                             <span class="material-input"></span><span
                                                                 class="material-input"></span></div>
@@ -1348,7 +1338,6 @@
 
     <script>
         const $menu = $('#menu-list');
-
         $(document).mouseup(e => {
             if (!$menu.is(e.target) // if the target of the click isn't the container...
                 &&
@@ -1362,6 +1351,7 @@
         function showNav() {
             $('#menu-list').slideToggle('fast');
         }
+
     </script>
 </body>
 
