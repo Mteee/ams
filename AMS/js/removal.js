@@ -1228,7 +1228,6 @@ console.log(localStorage.filter);
 if (localStorage.filter == "ALL EQUIPMENT") {
 
     localStorage.filter = "FACILITIES MANAGEMENT";
-
     populate_dropdown();
 
     $('#class-options').append(new Option("FACILITIES MANAGEMENT", "fac_equip"));
@@ -1253,9 +1252,14 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         clearLocalStorageFilters();
         populate_dropdown();
 
-        $('#currentAssetsTable').DataTable().clear().destroy();
-        $("#searchView").show();
-        $("#DecomAssets").hide();
+        console.log("data length");
+        console.log($("#currentAssetsTable tbody tr").length);
+
+        if ($("#currentAssetsTable tbody tr").length > 0) {
+            $('#currentAssetsTable').DataTable().clear().destroy();
+            $("#searchView").show();
+            $("#DecomAssets").hide();
+        }
 
         //clear btn text
         resetBtn('#building_removal_filter', "BUILDING");
@@ -1269,6 +1273,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     });
 
 } else {
+    populate_dropdown();
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', true);

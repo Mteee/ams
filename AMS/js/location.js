@@ -244,7 +244,7 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
 
         },
         error: function (data_err) {
-            
+
             swal.fire({
                 title: "Oooops!",
                 text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
@@ -350,9 +350,9 @@ function search() {
             success: function (data) {
                 $('#loader').fadeOut(500);
 
-                
+
                 var table = null;
-               
+
 
                 if (data.rows > 0) {
 
@@ -382,7 +382,7 @@ function search() {
 
                     str += ']}'
 
-                
+
                     str = replaceAll("\n", "", str);
                     // str = replaceAll("'", "^", str);
 
@@ -518,7 +518,7 @@ function addLocation() {
     } else if (loc_type == 1) {
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(room) && !isEmpty(new_sub_location)) {
             //sub location creation
-           
+
             newLocation(building, level, area, room, new_sub_location, "NSL", asset_type, "", "");
 
         } else {
@@ -540,7 +540,7 @@ function addLocation() {
 
         if (!isEmpty(building) && !isEmpty(level) && !isEmpty(area) && !isEmpty(new_room) && !isEmpty(new_sub_location) && !isEmpty(proper_area) && !isEmpty(area_detail)) {
             //room & sub location creation
-    
+
             newLocation(building, level, area, new_room, new_sub_location, "BT", asset_type, proper_area, area_detail);
         } else {
             swal.fire({
@@ -710,7 +710,7 @@ function createTable(tableID, tableData) {
 
             }
 
-          
+
             setTimeout(function () {
                 callback({
                     draw: data.draw,
@@ -1301,18 +1301,20 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         toogleSub(filter);
         localStorage.filter = filter;
         //clear btn text
-        resetBtn("#building_location_filter","BUILDING");
-        resetBtn("#level_location_filter","LEVEL");
-        resetBtn("#area_location_filter","AREA");
-        resetBtn("#room_location_filter","ROOM");
-        resetBtn("#sublocaction_location_filter","SUB LOCATION");
+        resetBtn("#building_location_filter", "BUILDING");
+        resetBtn("#level_location_filter", "LEVEL");
+        resetBtn("#area_location_filter", "AREA");
+        resetBtn("#room_location_filter", "ROOM");
+        resetBtn("#sublocaction_location_filter", "SUB LOCATION");
         //clear search inputs and local storage
         clearLocalStorageFilters();
         //populate filters
         populate_dropdown();
 
-        $('#currentAssetsTable').DataTable().clear().destroy();
-        $('#searchView').show();
+        if ($("#currentAssetsTable tbody tr").length > 0) {
+            $('#currentAssetsTable').DataTable().clear().destroy();
+            $('#searchView').show();
+        }
 
     });
 
@@ -1388,7 +1390,7 @@ function cleaAllFilters() {
     $('#view_description').val("");
 }
 
-var onSearch = function (btn_id,searchValue, emptyId) {
+var onSearch = function (btn_id, searchValue, emptyId) {
 
     var getId = searchValue;
 
@@ -1404,9 +1406,9 @@ var onSearch = function (btn_id,searchValue, emptyId) {
         if (e.keyCode == 13) {
             e.preventDefault();
 
-            
+
             var value = searchValue.value;
-            
+
             if (value.length > 0) {
 
                 if (getId.indexOf("search_add_location_building") > -1 || getId.indexOf("search_add_location_level") > -1 || getId.indexOf("search_add_location_area") > -1 || getId.indexOf("search_add_location_proper_area") > -1 || getId.indexOf("search_add_location_area_detail") > -1 || getId.indexOf("search_add_location_room") > -1 || getId.indexOf("search_add_location_assetType") > -1) {
