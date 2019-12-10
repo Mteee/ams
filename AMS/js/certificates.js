@@ -77,10 +77,11 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         clearLocalStorageFilters();
         populate_filters();
 
-
-        $('#currentAssetsTable').DataTable().clear().destroy();
-        $('#searchView').show();
-        $('#printCert').hide();
+        if ($("#currentAssetsTable tbody tr").length > 0) {
+            $('#currentAssetsTable').DataTable().clear().destroy();
+            $('#searchView').show();
+            $('#printCert').hide();
+        }
 
     });
 

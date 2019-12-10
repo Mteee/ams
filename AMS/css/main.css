@@ -606,3 +606,8 @@ div#inAssetsTable_length {
 .dropdown button.introjs-showElement {
     background: rgba(255, 255, 255, 1);
 }
+
+@media (max-width:1440px){
+    
+}
+

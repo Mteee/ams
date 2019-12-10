@@ -183,7 +183,7 @@ function search() {
                 var table = null;
 
                 if (data.rows > 0) {
-                   
+
                     console.log(data.data);
                     str = (JSON.parse(data.data));
 
@@ -495,7 +495,7 @@ var allArr = {
 function getItems(url, id, scrollArea, menuid, empty_view) {
 
     console.log('{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","asset_class":"' + localStorage.filter + '","sub_location": "' + localStorage.sub_location + '","asset_primary_id": "' + localStorage.asset_primary_id + '"}');
-    
+
     $.ajax({
         url: url,
         method: 'POST',
@@ -1497,9 +1497,9 @@ var onSearch = function (btn_id, searchValue, emptyId) {
 
             var value = searchValue.value;
 
-            if (value.length>0) {
+            if (value.length > 0) {
 
-                if(btn_id.indexOf("_move_filter") > -1){
+                if (btn_id.indexOf("_move_filter") > -1) {
                     setValueBtn(btn_id, value);
                     search();
                 }
@@ -1952,22 +1952,20 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         clearLocalStorageFilters();
         //populate filters
         populate_dropdown();
-        $('#currentAssetsTable').DataTable().clear().destroy();
-        $('#outAssetsTable').DataTable().clear().destroy();
-        $('#inAssetsTable').DataTable().clear().destroy();
-        $("#btnApprove").hide();
-        $("#btnCancel").hide();
-        $("#btnTransfer").hide();
-        $('#searchView').show();
-        $('#inSearch').show();
-        $('#outSearch').show();
-        // $('#loader').hide();
-        // $('#searchView').hide();
-        // document.getElementById('current').innerHTML = '<div id="searchView" class="search_start">'+
-        //                                             '<p style="margin-top:200px">Please search your asset using the search above'+
-        //                                             '</p>'+
-        //                                             '<img width="200" src="../img/loupe.png" alt="Search">'+
-        //                                         '</div>';
+        if ($("#currentAssetsTable tbody tr").length > 0) {
+            $('#currentAssetsTable').DataTable().clear().destroy();
+            $("#btnTransfer").hide();
+            $('#searchView').show();
+
+            $('#outAssetsTable').DataTable().clear().destroy();
+            $("#btnCancel").hide();
+            $('#outSearch').show();
+
+            $('#inAssetsTable').DataTable().clear().destroy();
+            $("#btnApprove").hide();
+            $('#inSearch').show();
+
+        }
 
     });
 

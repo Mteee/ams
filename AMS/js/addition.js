@@ -325,7 +325,7 @@ function getItems(url, id, scrollArea, menuid) {
                     });
                 }
             }
-            else{
+            else {
                 rows.push({
                     values: [0],
                     markup: '<input type="button" style="border-bottom:1px solid #ecebeb" class="dropdown-item form-control" type="button" value="NO DATA" disabled/>',
@@ -1001,6 +1001,12 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
         toogleSub(filter);
+
+        if ($("#currentAssetsTable tbody tr").length > 0) {
+            $('#currentAssetsTable').DataTable().clear().destroy();
+            $("#searchView").show();
+            $("#commAssets").hide();
+        }
 
         clearLocalStorageFilters();
         populate_dropdown();
