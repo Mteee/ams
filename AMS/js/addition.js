@@ -127,7 +127,7 @@ function getAssetsType() {
         dataType: "JSON",
         success: function (data) {
             var types = '<option value="">Select Asset Type</option>';
-            for (var i = 0; i < 10; i++) {
+            for (var i = 0; i < data.rows; i++) {
                 types += '<option value="' + data.data[i].ASSET_TYPEID + '">' + data.data[i].ASSET_TYPE_DESC + '</option>';
             }
             document.getElementById('asset_type').innerHTML = types;

@@ -85,6 +85,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     });
 
 } else {
+    populate_filters();
     toogleSub(localStorage.filter);
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
@@ -141,9 +142,9 @@ var allArr = {
 
 function getFilters(url, id, scrollArea, menuid) {
 
-
     var jsonData = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","cert_no":"' + localStorage.certificate_number + '","asset_class":"' + localStorage.filter + '"}';
 
+    console.log(jsonData);
 
     $.ajax({
         url: url,
