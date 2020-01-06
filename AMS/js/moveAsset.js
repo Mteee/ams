@@ -1971,6 +1971,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
 
 } else {
     toogleSub(localStorage.filter);
+    populate_dropdown();
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
     $('#class-options').prop('disabled', 'disabled');
