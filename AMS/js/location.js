@@ -172,6 +172,7 @@ var allArr = {
 };
 
 function getItems(url, id, scrollArea, menuid, empty, type) {
+    console.log("data");
 
     var descrption = $('#location_description').val();
 
@@ -194,7 +195,7 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
         dataType: 'JSON',
         data: jsonData,
         success: function (data) {
-
+            console.log(data);
             if ($("#search_add_location_room").val() !== "") {
 
                 if (id == "search_add_location_building") {
@@ -244,7 +245,7 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
 
         },
         error: function (data_err) {
-
+            console.log(data_err);
             swal.fire({
                 title: "Oooops!",
                 text: 'Something went wrong. Please contact admin (amsdev@ialch.co.za) or try again later',
@@ -350,9 +351,7 @@ function search() {
             success: function (data) {
                 $('#loader').fadeOut(500);
 
-
                 var table = null;
-
 
                 if (data.rows > 0) {
 
@@ -384,7 +383,7 @@ function search() {
 
 
                     str = replaceAll("\n", "", str);
-                    // str = replaceAll("'", "^", str);
+                    str = replaceAll("\"", "`", str);
 
                     str = (JSON.parse(str));
 
@@ -1319,6 +1318,8 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     });
 
 } else {
+    populate_dropdown();
+
     toogleSub(localStorage.filter);
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
