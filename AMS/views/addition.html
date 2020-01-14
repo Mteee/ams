@@ -629,7 +629,7 @@
                                                                                 <label class="control-label">Asset
                                                                                     Number
                                                                                     *</label>
-                                                                                <input type="text" class="form-control"
+                                                                                <input type="text" class="form-control asset_serial_details"
                                                                                     name="asset_number">
                                                                             </div>
                                                                         </div>
@@ -646,7 +646,7 @@
                                                                                     <input type="text"
                                                                                         name="asset_description"
                                                                                         id="add_desc"
-                                                                                        class="form-control">
+                                                                                        class="form-control asset_serial_details">
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -660,23 +660,86 @@
                                                                                     No.*</label>
                                                                                 <input type="text"
                                                                                     name="asset_serial_no"
-                                                                                    class="form-control">
+                                                                                    class="form-control asset_serial_details">
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-sm-6">
-                                                                            <div class="col-sm-10 offset-1">
-                                                                                <input type="checkbox" id="room_check"
-                                                                                    name="room_check"
-                                                                                    class="desc_check_style"
-                                                                                    checked="checked">
-                                                                                <div class="form-group label-floating"
-                                                                                    id="add_room_group">
-                                                                                    <label class="control-label">Asset
-                                                                                        Room
-                                                                                        No.*</label>
-                                                                                    <input type="text" id="add_room"
-                                                                                        name="asset_room_no"
-                                                                                        class="form-control">
+                                                                            <div class="row">
+                                                                                <div class="col-sm-12 offset-1">
+                                                                                    <div class="row form-control"
+                                                                                        style="background-image: none;"
+                                                                                        id="room_drop">
+                                                                                        <div
+                                                                                            class="form-group label-floating is-empty">
+                                                                                            <div class="col-sm-12">
+                                                                                                <label
+                                                                                                    class="control-label">ROOM
+                                                                                                    *</label>
+                                                                                                <div class="dropdown"
+                                                                                                    class="room_no_dropdown">
+
+                                                                                                    <button
+                                                                                                        class="btn btn-outline-info form-control"
+                                                                                                        type="button"
+                                                                                                        id="room_add_location_filter"
+                                                                                                        data-toggle="dropdown"
+                                                                                                        aria-haspopup="true"
+                                                                                                        aria-expanded="false">
+
+                                                                                                    </button>
+                                                                                                    <div class="dropdown-menu clusterize-scroll"
+                                                                                                        id="scroll_add_location_room"
+                                                                                                        aria-labelledby="room_add_location_filter"
+                                                                                                        style="width: 100%; height: 125px !important;">
+                                                                                                        <form
+                                                                                                            class="px-4 py-2">
+
+                                                                                                            <div
+                                                                                                                class="input-group">
+                                                                                                                <div class="form-group is-empty form-control"
+                                                                                                                    style="margin-top: 0;">
+                                                                                                                    <input
+                                                                                                                        type="search"
+                                                                                                                        id="search_add_location_room"
+                                                                                                                        style="margin: -5px;"
+                                                                                                                        class="form-control asset_serial_details"
+                                                                                                                        placeholder="Room"
+                                                                                                                        name="room_add_location_filter"
+                                                                                                                        onkeyup="onAssetRoomSearch('room_add_location_filter','search_add_location_room','#empty_add_location_room')"
+                                                                                                                        autofocus="autofocus"
+                                                                                                                        required>
+                                                                                                                    <span
+                                                                                                                        class="material-input"></span>
+                                                                                                                </div>
+                                                                                                                <div
+                                                                                                                    class="input-group-append">
+                                                                                                                    <span
+                                                                                                                        class="input-group-text btn btn-danger text-light"
+                                                                                                                        id="clear_new_room"
+                                                                                                                        onclick="clear_new_room_asset('menu_add_location_room','search_add_location_room','room_add_location_filter','scroll_add_location_room')"><i
+                                                                                                                            class="fa fa-close"></i></span>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </form>
+                                                                                                        <div id="menu_add_location_room"
+                                                                                                            class="text-center"
+                                                                                                            onchange="testMethod()">
+                                                                                                            <div id="Assetload"
+                                                                                                                class="dropdown-loader">
+                                                                                                                <img src="../img/loading-transparent.gif"
+                                                                                                                    alt="">
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div id="empty_add_location_room"
+                                                                                                            class="dropdown-header">
+                                                                                                            No room
+                                                                                                            found
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -710,7 +773,7 @@
                                                             <select id="asset_type" class="form-control"
                                                                 name="asset_type">
                                                                 <option value="">Select Asset Type</option>
-                                                                
+
                                                             </select>
                                                             <span class="material-input"></span><span
                                                                 class="material-input"></span></div>
@@ -733,7 +796,8 @@
                                                         <input type="radio" name="type" value="YES">
                                                         <div class="icon">
                                                             <!-- <i class="material-icons">check</i> -->
-                                                            <i class="fa fa-check" style="font-size: 26px !important;"></i>
+                                                            <i class="fa fa-check"
+                                                                style="font-size: 26px !important;"></i>
                                                         </div>
                                                         <h6>Yes</h6>
                                                     </div>
@@ -744,7 +808,8 @@
                                                         <input type="radio" name="type" value="NO">
                                                         <div class="icon">
                                                             <!-- <i class="material-icons">clear</i> -->
-                                                            <i class="fa fa-check" style="font-size: 26px !important;"></i>
+                                                            <i class="fa fa-check"
+                                                                style="font-size: 26px !important;"></i>
 
                                                         </div>
                                                         <h6>No</h6>
@@ -973,7 +1038,7 @@
                                 class="text-muted">COMMISSIONING</span></em>
                     </span>
                 </div>
-                <div class="system_desc">PRODUCTION</div>
+                <div class="system_desc">DEVELOPMENT</div>
             </div>
             <div class=" col-md-3">
                 <div class="row">
@@ -1321,6 +1386,7 @@
         <span class="fa fa-plus fa-lg"></span><span class="tooltiptext"><strong></strong>Create new
             asset</strong></span>
     </div>
+
 
     <script src="../js/jquery.js"></script>
     <script src="../js/clusterize.min.js"></script>

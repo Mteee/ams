@@ -106,7 +106,7 @@ $(document).ready(function () {
 
 
 
-            var input_arr = $('#asset_group input');
+            var input_arr = $('.asset_serial_details');
             var input_date_fields = $('#date input');
             var input_date_service = $('#service input');
 
@@ -149,7 +149,8 @@ $(document).ready(function () {
                 console.log("index");
                 // console.log();
                 $("#add_room_group").removeClass("is-empty")
-                $("#add_room").val($("#room_new_filter").val());
+                $("#room_add_location_filter").text($("#room_new_filter").val());
+                $("#search_add_location_room").val($("#room_new_filter").val());
 
                 if (res.bool) {
                     input_arr[res.index].focus();
