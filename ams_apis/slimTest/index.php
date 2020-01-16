@@ -4840,7 +4840,7 @@ $app->map(['GET','POST'],'/add_assets',function(Request $request, Response $resp
         $v_asset_class = strtoupper($data->v_asset_class);
         $v_assets = strtoupper($data->v_assets);
         $v_asset_model = strtoupper($data->v_asset_model);
-        $v_asset_type = strtoupper($data->v_asset_type);
+        $v_asset_type = $data->v_asset_type;
         $v_asset_classification = strtoupper($data->v_asset_classification);
         $v_asset_room_no = strtoupper($data->v_asset_room_no);
         $v_asset_purchase_dt = strtoupper($data->v_asset_purchase_dt);
@@ -5936,7 +5936,7 @@ $app->map(['GET','POST'],'/new_location', function (Request $requet, Response $r
     $room_no = strtoupper($data->room_no);
     $sub_location = strtoupper($data->sub_location);
     $username = strtoupper($data->username);
-    $asset_type = strtoupper($data->asset_type);
+    $asset_type = $data->asset_type;
     $proper_area = strtoupper($data->proper_area);
     $area_detail = strtoupper($data->area_detail);
     $v_out = "";
