@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../css/animate.css">
     <link rel="stylesheet" href="../css/main_add_new.css">
     <link rel="stylesheet" href="../css/font-awesome.css">
+    <link rel="stylesheet" href="../css/clusterize.css">
     <!-- Add IntroJs styles -->
     <!-- <link href="../css/introjs.css" rel="stylesheet"> -->
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
@@ -511,6 +512,7 @@
                                             <th>
                                                 Search
                                             </th>
+
                                             <th>
                                                 <div class="dropdown">
 
@@ -530,7 +532,7 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        <div id="menu_certificates_building">
+                                                        <div id="menu_certificates_building" class="clusterize-scroll">
                                                             <div id="building_loader" class="dropdown-loader">
                                                                 <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
@@ -540,6 +542,7 @@
                                                     </div>
                                                 </div>
                                             </th>
+
                                             <th>
                                                 <div class="dropdown">
                                                     <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -556,7 +559,7 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        <div id="menu_certificates_level">
+                                                        <div id="menu_certificates_level" class="clusterize-scroll">
                                                             <div id="Roomload" class="dropdown-loader">
                                                                 <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
@@ -566,12 +569,13 @@
                                                     </div>
                                                 </div>
                                             </th>
+
                                             <th>
                                                 <div class="dropdown">
                                                     <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                    <div class="dropdown-menu clusterize-scroll" id="scroll_certificates_area" aria-labelledby="area_certificates_filter">
+                                                    <div class="dropdown-menu" id="scroll_certificates_area" aria-labelledby="area_certificates_filter">
                                                         <form class="px-4 py-2">
                                                             <div class="input-group">
                                                                 <input type="search" id="search_certificates_area" class="form-control" placeholder="Area" onkeyup="onSearch('area_certificates_filter','search_certificates_area','#empty_certificates_area')" autofocus="autofocus">
@@ -581,7 +585,7 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        <div id="meun_certificates_area" onchange="testMethod()">
+                                                        <div id="meun_certificates_area" onchange="testMethod()" class="clusterize-scroll">
                                                             <div id="Assetload" class="dropdown-loader">
                                                                 <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
@@ -591,12 +595,13 @@
                                                     </div>
                                                 </div>
                                             </th>
+
                                             <th>
                                                 <div class="dropdown">
                                                     <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                    <div class="dropdown-menu clusterize-scroll" id="scroll_certificates_room" aria-labelledby="room_certificates_filter">
+                                                    <div class="dropdown-menu" id="scroll_certificates_room" aria-labelledby="room_certificates_filter">
                                                         <form class="px-4 py-2">
 
                                                             <div class="input-group">
@@ -607,7 +612,7 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        <div id="menu_certificates_room" class="text-center" onchange="testMethod()">
+                                                        <div id="menu_certificates_room" class="text-center clusterize-scroll" onchange="testMethod()" class="clusterize-scroll">
                                                             <div id="Assetload" class="dropdown-loader">
                                                                 <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
@@ -617,12 +622,13 @@
                                                     </div>
                                                 </div>
                                             </th>
+
                                             <th class="filter_sub" style="display: none">
                                                 <div class="dropdown">
                                                     <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="sublocaction_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION
                                                 </button>
-                                                    <div class="dropdown-menu clusterize-scroll" id="scroll_certificates_sublocaction" aria-labelledby="sublocaction_certificates_filter">
+                                                    <div class="dropdown-menu" id="scroll_certificates_sublocaction" aria-labelledby="sublocaction_certificates_filter">
                                                         <form class="px-4 py-2">
 
                                                             <div class="input-group">
@@ -633,7 +639,7 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        <div id="menu_certificates_sublocaction" class="text-center" onchange="testMethod()">
+                                                        <div id="menu_certificates_sublocaction" class="text-center clusterize-scroll" onchange="testMethod()">
                                                             <div id="Assetload" class="dropdown-loader">
                                                                 <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
@@ -648,7 +654,7 @@
                                                     <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="certNo_certificates_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     CERTIFICATE NUMBER
                                                 </button>
-                                                    <div class="dropdown-menu clusterize-scroll" id="scroll_certificates_certNo" aria-labelledby="certNo_certificates_filter">
+                                                    <div class="dropdown-menu" id="scroll_certificates_certNo" aria-labelledby="certNo_certificates_filter">
                                                         <form class="px-4 py-2">
 
                                                             <div class="input-group">
@@ -659,7 +665,7 @@
                                                                 </div>
                                                             </div>
                                                         </form>
-                                                        <div id="menu_certificates_certNo" class="text-center" onchange="testMethod()">
+                                                        <div id="menu_certificates_certNo" class="text-center clusterize-scroll" onchange="testMethod()">
                                                             <div id="Assetload" class="dropdown-loader">
                                                                 <img src="../img/loading-transparent.gif" alt="">
                                                             </div>
@@ -669,21 +675,25 @@
                                                     </div>
                                                 </div>
                                             </th>
+
                                             <th>
                                                 <input type="text" id="certificates_description" onkeyup="onSearch_new('certificates_description')" class="form-control" placeholder="Description...">
                                             </th>
+
                                             <th>
                                                 <button onclick="search()" type="text" class="btn btn-success form-control">
                                                 <span class="fa fa-search"></span>
                                                 Search
                                             </button>
                                             </th>
+
                                             <th>
                                                 <button onclick="clearAllFilters()" type="text" class="btn btn-danger form-control">
                                                 <span class="fa fa-close"></span>
                                                 Clear
                                             </button>
                                             </th>
+
                                         </tr>
                                     </table>
                                     <form id="frm-example" method="POST">

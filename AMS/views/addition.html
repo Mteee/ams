@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="../css/animate.css">
     <link rel="stylesheet" href="../css/main_add_new.css">
     <link rel="stylesheet" href="../css/font-awesome.css">
+    <link rel="stylesheet" href="../css/clusterize.css">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
     <link rel="stylesheet" href="../css/style.css">
 
@@ -629,7 +630,8 @@
                                                                                 <label class="control-label">Asset
                                                                                     Number
                                                                                     *</label>
-                                                                                <input type="text" class="form-control asset_serial_details"
+                                                                                <input type="text"
+                                                                                    class="form-control asset_serial_details"
                                                                                     name="asset_number">
                                                                             </div>
                                                                         </div>
@@ -687,7 +689,7 @@
                                                                                                         aria-expanded="false">
 
                                                                                                     </button>
-                                                                                                    <div class="dropdown-menu clusterize-scroll"
+                                                                                                    <div class="dropdown-menu"
                                                                                                         id="scroll_add_location_room"
                                                                                                         aria-labelledby="room_add_location_filter"
                                                                                                         style="width: 100%; height: 125px !important;">
@@ -722,7 +724,7 @@
                                                                                                             </div>
                                                                                                         </form>
                                                                                                         <div id="menu_add_location_room"
-                                                                                                            class="text-center"
+                                                                                                            class="text-center clusterize-scroll"
                                                                                                             onchange="testMethod()">
                                                                                                             <div id="Assetload"
                                                                                                                 class="dropdown-loader">
@@ -1075,6 +1077,7 @@
                                         <th>
                                             Search
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
 
@@ -1102,7 +1105,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_addition_building">
+                                                    <div id="menu_addition_building" class="clusterize-scroll">
                                                         <div id="building_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -1113,6 +1116,7 @@
                                                 </div>
                                             </div>
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -1137,7 +1141,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_addition_level">
+                                                    <div id="menu_addition_level" class="clusterize-scroll">
                                                         <div id="Roomload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -1148,6 +1152,7 @@
                                                 </div>
                                             </div>
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -1155,7 +1160,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_area"
+                                                <div class="dropdown-menu" id="scroll_addition_area"
                                                     aria-labelledby="area_addition_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
@@ -1171,7 +1176,8 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_addition_area" onchange="testMethod()">
+                                                    <div id="meun_addition_area" class="clusterize-scroll"
+                                                        onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -1181,6 +1187,7 @@
                                                 </div>
                                             </div>
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -1188,7 +1195,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_addition_room"
+                                                <div class="dropdown-menu" id="scroll_addition_room"
                                                     aria-labelledby="room_addition_filter">
                                                     <form class="px-4 py-2">
 
@@ -1205,7 +1212,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_addition_room" class="text-center"
+                                                    <div id="menu_addition_room" class="text-center clusterize-scroll"
                                                         onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
@@ -1216,6 +1223,7 @@
                                                 </div>
                                             </div>
                                         </th>
+
                                         <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -1241,8 +1249,8 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_addition_sublocaction" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_addition_sublocaction"
+                                                        class="text-center clusterize-scroll" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -1260,8 +1268,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ASSET NUMBER
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_addition_assetNo"
+                                                <div class="dropdown-menu" id="scroll_addition_assetNo"
                                                     aria-labelledby="assetNo_addition_filter">
                                                     <form class="px-4 py-2">
 
@@ -1278,8 +1285,8 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_addition_assetNo" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_addition_assetNo"
+                                                        class="text-center clusterize-scroll" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -1290,17 +1297,20 @@
                                                 </div>
                                             </div>
                                         </th>
+
                                         <th>
                                             <input type="text" id="addition_description"
                                                 onkeyup="onSearch_new('addition_description')" class="form-control"
                                                 placeholder="Description...">
                                         </th>
+
                                         <th>
                                             <button onclick="search()" type="text" class="btn btn-success form-control">
                                                 <span class="fa fa-search"></span>
                                                 Search
                                             </button>
                                         </th>
+
                                         <th>
                                             <button onclick="cleaAllFilters()" type="text"
                                                 class="btn btn-danger form-control">
@@ -1308,6 +1318,7 @@
                                                 Clear
                                             </button>
                                         </th>
+
                                     </tr>
                                 </table>
                                 <form id="frm-example" method="POST">

@@ -667,3 +667,13 @@ div#inAssetsTable_length {
     color: #50a950;
     font-weight: bolder;
 }
+
+
+/* clusterize xtra space */
+.clusterize-extra-row.clusterize-top-space{
+    /* height: 25px !important; */
+}
+
+.clusterize-extra-row.clusterize-bottom-space{
+    /* height: 25px !important; */
+}

@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="../css/main.css">
     <!-- <link rel="stylesheet" href="css/bootstrap-reboot.css"> -->
     <link rel="stylesheet" href="../css/font-awesome.css">
+    <link rel="stylesheet" href="../css/clusterize.css">
     <!-- Add IntroJs styles -->
     <link href="../css/introjs.css" rel="stylesheet">
     <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
@@ -262,6 +263,7 @@
                                     <label> <input type="radio" name="transferType" value="TEMP"> Temporary</label>
                                 </div>
                             </div>
+
                             <div class="dropdown">
 
                                 <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="building_transfer_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -280,7 +282,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div id="menu_transfer_building">
+                                    <div id="menu_transfer_building" class="clusterize-scroll">
                                         <div id="building_loader" class="dropdown-loader">
                                             <img src="../img/loading-transparent.gif" alt="">
                                         </div>
@@ -289,6 +291,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="dropdown py-3">
                                 <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="level_transfer_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     LEVEL
@@ -304,7 +307,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div id="menu_transfer_level">
+                                    <div id="menu_transfer_level" class="clusterize-scroll">
                                         <div id="Roomload" class="dropdown-loader">
                                             <img src="../img/loading-transparent.gif" alt="">
                                         </div>
@@ -312,6 +315,7 @@
                                     <div id="empty_transfer_level" class="dropdown-header">No level found</div>
                                 </div>
                             </div>
+
                             <div class="dropdown">
                                 <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="dropdown_transfer_location" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     AREA
@@ -326,7 +330,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div id="menu_transfer_Location">
+                                    <div id="menu_transfer_Location" class="clusterize-scroll">
                                         <div id="Location_transfer_load" class="dropdown-loader">
                                             <img src="../img/loading-transparent.gif" alt="">
                                         </div>
@@ -335,6 +339,7 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="dropdown py-3">
                                 <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="dropdown_transfer_room" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     ROOM
@@ -349,7 +354,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div id="menu_transfer_Room">
+                                    <div id="menu_transfer_Room" class="clusterize-scroll">
                                         <div id="Room_transfer_load" class="dropdown-loader">
                                             <img src="../img/loading-transparent.gif" alt="">
                                         </div>
@@ -357,6 +362,7 @@
                                     <div id="empty_transfer_Room" class="dropdown-header">No room found</div>
                                 </div>
                             </div>
+
                             <div class="dropdown filter_sub_transfer" style="display: none">
                                 <button class="btn btn-outline-secondary form-control dropdown-toggle" type="button" id="dropdown_transfer_sub" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     SUB LOCATION
@@ -371,7 +377,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div id="menu_transfer_sub">
+                                    <div id="menu_transfer_sub" class="clusterize-scroll">
                                         <div id="sub_transfer_load" class="dropdown-loader">
                                             <img src="../img/loading-transparent.gif" alt="">
                                         </div>
@@ -526,7 +532,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div id="menu_approve_Room">
+                                    <div id="menu_approve_Room" class="clusterize-scroll">
                                         <div id="Room_approve_load" class="dropdown-loader">
                                             <img src="../img/loading-transparent.gif" alt="">
                                         </div>
@@ -549,7 +555,7 @@
                                             </div>
                                         </div>
                                     </form>
-                                    <div id="menu_approve_sub">
+                                    <div id="menu_approve_sub" class="clusterize-scroll">
                                         <div id="sub_approve_load" class="dropdown-loader">
                                             <img src="../img/loading-transparent.gif" alt="">
                                         </div>
@@ -684,6 +690,7 @@
                                 <th>
                                     Search
                                 </th>
+
                                 <th>
                                     <div class="dropdown">
 
@@ -703,7 +710,7 @@
                                                     </div>
                                                 </div>
                                             </form>
-                                            <div id="menu_move_building">
+                                            <div id="menu_move_building" class="clusterize-scroll">
                                                 <div id="building_loader" class="dropdown-loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
@@ -713,6 +720,7 @@
                                         </div>
                                     </div>
                                 </th>
+
                                 <th>
                                     <div class="dropdown">
                                         <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="level_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -729,7 +737,7 @@
                                                     </div>
                                                 </div>
                                             </form>
-                                            <div id="menu_move_level">
+                                            <div id="menu_move_level" class="clusterize-scroll">
                                                 <div id="Roomload" class="dropdown-loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
@@ -738,12 +746,13 @@
                                         </div>
                                     </div>
                                 </th>
+
                                 <th>
                                     <div class="dropdown">
                                         <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="area_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             AREA
                                         </button>
-                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_area" aria-labelledby="area_move_filter">
+                                        <div class="dropdown-menu" id="scroll_move_area" aria-labelledby="area_move_filter">
                                             <form class="px-4 py-2">
                                                 <div class="input-group">
                                                     <input type="search" id="search_move_area" class="form-control" placeholder="Area" onkeyup="onSearch('area_move_filter','search_move_area','#empty_move_area')" autofocus="autofocus">
@@ -753,7 +762,7 @@
                                                     </div>
                                                 </div>
                                             </form>
-                                            <div id="meun_move_area" onchange="testMethod()">
+                                            <div id="meun_move_area" onchange="testMethod()" class="clusterize-scroll">
                                                 <div id="Assetload" class="dropdown-loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
@@ -762,12 +771,13 @@
                                         </div>
                                     </div>
                                 </th>
+
                                 <th>
                                     <div class="dropdown">
                                         <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="room_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             ROOM
                                         </button>
-                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_room" aria-labelledby="room_move_filter">
+                                        <div class="dropdown-menu" id="scroll_move_room" aria-labelledby="room_move_filter">
                                             <form class="px-4 py-2">
 
                                                 <div class="input-group">
@@ -778,7 +788,7 @@
                                                     </div>
                                                 </div>
                                             </form>
-                                            <div id="menu_move_room" onchange="testMethod()">
+                                            <div id="menu_move_room" onchange="testMethod()" class="clusterize-scroll">
                                                 <div id="Assetload" class="dropdown-loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
@@ -787,6 +797,7 @@
                                         </div>
                                     </div>
                                 </th>
+
                                 <th class="filter_sub" style="display: none">
                                     <div class="dropdown">
                                         <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="sublocaction_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -803,7 +814,7 @@
                                                     </div>
                                                 </div>
                                             </form>
-                                            <div id="menu_move_sublocaction" onchange="testMethod()">
+                                            <div id="menu_move_sublocaction" onchange="testMethod()" class="clusterize-scroll">
                                                 <div id="Assetload" class="dropdown-loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
@@ -819,7 +830,7 @@
                                         <button class="btn btn-outline-info form-control dropdown-toggle" type="button" id="assetNo_move_filter" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             ASSET NO
                                         </button>
-                                        <div class="dropdown-menu clusterize-scroll" id="scroll_move_assetNo" aria-labelledby="assetNo_move_filter">
+                                        <div class="dropdown-menu" id="scroll_move_assetNo" aria-labelledby="assetNo_move_filter">
                                             <form class="px-4 py-2">
 
                                                 <div class="input-group">
@@ -830,7 +841,7 @@
                                                     </div>
                                                 </div>
                                             </form>
-                                            <div id="menu_move_assetNo" onchange="testMethod()">
+                                            <div id="menu_move_assetNo" onchange="testMethod()" class="clusterize-scroll">
                                                 <div id="Assetload" class="dropdown-loader">
                                                     <img src="../img/loading-transparent.gif" alt="">
                                                 </div>
@@ -839,15 +850,18 @@
                                         </div>
                                     </div>
                                 </th>
+
                                 <th>
                                     <input type="text" id="move_description" onkeyup="onSearch_new('move_description')" class="form-control" placeholder="Description...">
                                 </th>
+
                                 <th>
                                     <button onclick="search()" type="text" class="btn btn-success form-control">
                                         <span class="fa fa-search"></span>
                                         Search
                                     </button>
                                 </th>
+
                                 <th>
                                     <button onclick="cleaAllFilters()" type="text" class="btn btn-danger form-control">
                                         <span class="fa fa-close"></span>

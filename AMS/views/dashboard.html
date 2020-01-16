@@ -152,6 +152,7 @@
                                         <th>
                                             Search
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -176,7 +177,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_dashboard_building">
+                                                    <div id="menu_dashboard_building" class="clusterize-scroll">
                                                         <div id="building_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -187,6 +188,7 @@
                                                 </div>
                                             </div>
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -211,7 +213,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_dashboard_level">
+                                                    <div id="menu_dashboard_level" class="clusterize-scroll">
                                                         <div id="level_load" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -222,6 +224,7 @@
                                                 </div>
                                             </div>
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -229,7 +232,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     AREA NAME
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
+                                                <div class="dropdown-menu"
                                                     id="scroll_dashboard_area_name"
                                                     aria-labelledby="area_name_dashboard_filter">
                                                     <form class="px-4 py-2">
@@ -246,7 +249,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_dashboard_area_name" onchange="testMethod()">
+                                                    <div id="meun_dashboard_area_name" onchange="testMethod()" class="clusterize-scroll">
                                                         <div id="area_name_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -257,6 +260,7 @@
                                                     </div>
                                                 </div>
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -264,7 +268,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_dashboard_area"
+                                                <div class="dropdown-menu" id="scroll_dashboard_area"
                                                     aria-labelledby="area_dashboard_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
@@ -280,7 +284,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_dashboard_area" onchange="testMethod()">
+                                                    <div id="meun_dashboard_area" onchange="testMethod()" class="clusterize-scroll">
                                                         <div id="area_load" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -290,6 +294,7 @@
                                                 </div>
 
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -297,7 +302,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_room"
+                                                <div class="dropdown-menu" id="scroll_view_room"
                                                     aria-labelledby="room_dashboard_filter">
                                                     <form class="px-4 py-2">
 
@@ -314,7 +319,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_dashboard_room" onchange="testMethod()">
+                                                    <div id="menu_dashboard_room" onchange="testMethod()" class="clusterize-scroll">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -324,6 +329,7 @@
                                                 </div>
 
                                         </th>
+
                                         <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -331,7 +337,7 @@
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
+                                                <div class="dropdown-menu"
                                                     id="scroll_dashboard_sublocaction"
                                                     aria-labelledby="sublocaction_dashboard_filter">
                                                     <form class="px-4 py-2">
@@ -348,7 +354,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_dashboard_sublocaction" class="text-center"
+                                                    <div id="menu_dashboard_sublocaction" class="text-center clusterize-scroll"
                                                         onchange="testMethod()">
                                                         <div id="sub_location_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
@@ -360,6 +366,8 @@
                                                 </div>
                                             </div>
                                         </th>
+
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -367,7 +375,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ASSET NO
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
+                                                <div class="dropdown-menu"
                                                     id="scroll_dashboard_assetNo"
                                                     aria-labelledby="assetNo_dashboard_filter">
                                                     <form class="px-4 py-2">
@@ -385,7 +393,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_dashboard_assetNo" class="text-center"
+                                                    <div id="menu_dashboard_assetNo" class="text-center clusterize-scroll"
                                                         onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
@@ -397,6 +405,7 @@
                                                 </div>
                                             </div>
                                         </th>
+                                        
                                         <th>
                                             <div class="btn-outline-info" id="reportrange"
                                                 style="cursor: pointer; padding: 5px 10px; border: 1px solid #17a2b8;border-radius:5px;">

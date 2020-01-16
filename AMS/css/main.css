@@ -611,3 +611,9 @@ div#inAssetsTable_length {
     
 }
 
+
+
+/* clusterize xtra space */
+.clusterize-extra-row.clusterize-top-space{
+    display: none !important;
+}
