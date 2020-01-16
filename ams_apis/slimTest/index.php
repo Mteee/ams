@@ -2859,7 +2859,7 @@ $app->map(['GET','POST'],'/link_assets',function(Request $request, Response $res
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN AMSD.asset_it_fix (:USERNAME,:AL_NO,:ASSET_IDS,:PRIMARY_ID,:RESULT); END;";
+        $sql = "BEGIN AMSD.asset_it_fix_new (:USERNAME,:AL_NO,:ASSET_IDS,:PRIMARY_ID,:RESULT); END;";
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':USERNAME', $USERNAME, 100);
         oci_bind_by_name($statement, ':AL_NO', $ALC_NO, 100);
