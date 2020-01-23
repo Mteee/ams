@@ -1,5 +1,5 @@
-clearLocalStorageFilters();
 
+clearLocalStorageFilters();
 $(function () {
 
     var start = moment().subtract(10, 'days');
@@ -66,6 +66,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     });
 
 } else {
+    search();
     toogleSub(localStorage.filter);
     $('#class-options').append(new Option(localStorage.filter, "user_class"));
     $('#class-options').css({ "-moz-appearance": "none" });
@@ -116,9 +117,9 @@ var clusterize = {
 
 function getItems(url, id, scrollArea, menuid, empty_id) {
 
-
     var params = '{"building":"' + localStorage.building + '","level":"' + localStorage.level + '","area":"' + localStorage.area + '","asset_area_name":"' + localStorage.area_name + '","room_no":"' + localStorage.room_no + '","sub_location":"' + localStorage.sub_location + '","asset_primary_id":"' + localStorage.assetno + '","asset_class":"' + localStorage.filter + '"}';
 
+    console.log("params");
     console.log(params);
     $.ajax({
         url: url,
@@ -394,6 +395,9 @@ function cleaAllFilters() {
     $('#sublocaction_dashboard_filter').text("SUB LOCATION");
     $('#assetNo_dashboard_filter').text("ASSET NO");
 
+    $('#dashboard_description').val("");
+
+
 }
 
 // Building
@@ -489,60 +493,63 @@ function search() {
     //     })
     // }
     // else{
-        $("#loader-overlay").css("display","block");
+    $("#loader-overlay").css("display", "block");
 
-        localStorage.building = building;
-        localStorage.level = level;
-        localStorage.area_name = asset_area_name;
-        localStorage.area = area;
-        localStorage.room_no = room_no;
-        localStorage.assetno =  asset_primary_id;
-        localStorage.sub_location = sub_location;
-        var date_range = $('#reportrange span').text();
+    localStorage.building = building;
+    localStorage.level = level;
+    localStorage.area_name = asset_area_name;
+    localStorage.area = area;
+    localStorage.room_no = room_no;
+    localStorage.assetno = asset_primary_id;
+    localStorage.sub_location = sub_location;
+    var date_range = $('#reportrange span').text();
+    var asset_description = document.getElementById('dashboard_description').value;
 
-        if(date_range == 'select date'){
-            localStorage.dateStart = '2005/01/01';
-            localStorage.dateEnd = '9999/12/31';
-        }
 
-        var jsonData = '{"building" :"' + localStorage.building + '","level" :"' + localStorage.level + '","area_name" :"' + localStorage.area_name + '","area" :"' + localStorage.area + '","room_no" :"' + localStorage.room_no + '","sub_location" :"' + localStorage.sub_location + '","assetNo" :"' + localStorage.assetno + '","dateStart" :"' + localStorage.dateStart + '","dateEnd" :"' + localStorage.dateEnd + '","asset_class" :"' + localStorage.filter + '","role" :"' + localStorage.role + '","user" :"' + localStorage.username + '"}';
+    if (date_range == 'select date') {
+        localStorage.dateStart = '2005/01/01';
+        localStorage.dateEnd = '9999/12/31';
+    }
 
-        console.log(jsonData);
+    var jsonData = '{"building" :"' + localStorage.building + '","level" :"' + localStorage.level + '","area_name" :"' + localStorage.area_name + '","area" :"' + localStorage.area + '","room_no" :"' + localStorage.room_no + '","sub_location" :"' + localStorage.sub_location + '","assetNo" :"' + localStorage.assetno + '","dateStart" :"' + localStorage.dateStart + '","dateEnd" :"' + localStorage.dateEnd + '","asset_class" :"' + localStorage.filter + '","role" :"' + localStorage.role + '","user" :"' + localStorage.username + '","asset_description":"' + asset_description + '"}';
 
-        $.ajax({
-            url: "../../ams_apis/slimTest/index.php/getCounts",
-            type: "POST",
-            dataType: 'json',
-            data: jsonData,
-            success: function (data) {
-                console.log(data);
-                document.getElementById("activeAssetsCount").innerHTML = data.data[0].ACTIVE;
-                document.getElementById("inactiveAssetsCount").innerHTML = data.data[0].INACTIVE;
-                document.getElementById("pendingAssetsCount").innerHTML = data.data[0].PENDING;
-                document.getElementById("movedAssetsCount").innerHTML = data.data[0].MOVED;
-                document.getElementById("assetsWithNoCrtCount").innerHTML = data.data[0].assetsWithNoCert;
-                document.getElementById("comCertCount").innerHTML = data.data[0].assetsWithCert;
-                document.getElementById("decomCertCount").innerHTML = data.data[0].DECOM_ASSETS;
-                document.getElementById("usersCount").innerHTML = data.data[0].USERS;
-    
-                $('.count').each(function () {
-                    $(this).prop('Counter', 0).animate({
-                        Counter: $(this).text()
-                    }, {
-                        duration: 4000,
-                        easing: 'swing',
-                        step: function (now) {
-                            $(this).text(Math.ceil(now).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
-                        }
-                    });
+    console.log("jsonData");
+    // console.log(jsonData);
+
+    $.ajax({
+        url: "../../ams_apis/slimTest/index.php/getCounts",
+        type: "POST",
+        dataType: 'json',
+        data: jsonData,
+        success: function (data) {
+            console.log(data);
+            document.getElementById("activeAssetsCount").innerHTML = data.data[0].ACTIVE;
+            document.getElementById("inactiveAssetsCount").innerHTML = data.data[0].INACTIVE;
+            document.getElementById("pendingAssetsCount").innerHTML = data.data[0].PENDING;
+            document.getElementById("movedAssetsCount").innerHTML = data.data[0].MOVED;
+            document.getElementById("assetsWithNoCrtCount").innerHTML = data.data[0].assetsWithNoCert;
+            document.getElementById("comCertCount").innerHTML = data.data[0].assetsWithCert;
+            document.getElementById("decomCertCount").innerHTML = data.data[0].DECOM_ASSETS;
+            document.getElementById("usersCount").innerHTML = data.data[0].USERS;
+
+            $('.count').each(function () {
+                $(this).prop('Counter', 0).animate({
+                    Counter: $(this).text()
+                }, {
+                    duration: 4000,
+                    easing: 'swing',
+                    step: function (now) {
+                        $(this).text(Math.ceil(now).toString().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,"));
+                    }
                 });
-    
-                $("#loader-overlay").css("display","none");
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
+            });
+
+            $("#loader-overlay").css("display", "none");
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
 
     // }
 }
@@ -554,4 +561,119 @@ function doit(type, fn, dl) {
     return dl ?
         XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }) :
         XLSX.writeFile(wb, 'Assets Selected ' + fn + " ." + (type || 'xlsx') || ('test.' + (type || 'xlsx')));
+}
+
+var onSearch_new = function (searchValue) {
+    document.getElementById(searchValue).onkeypress = function (e) {
+
+        console.log(e.keyCode);
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            search();
+        }
+    }
+}
+
+var view_columns = [
+    "ASSET_CLASS",
+    "ASSET_ID",
+    "ASSET_PRIMARY_ID",
+    "ASSET_DESCRIPTION",
+    "ASSET_MODEL",
+    "ASSET_CLASSIFICATION",
+    "ASSET_TYPE",
+    "ASSET_ROOM_NO",
+    "ASSET_SUB_LOCATION",
+    "ASSET_BUILDING",
+    "ASSET_LEVEL",
+    "ASSET_AREA",
+    "ASSET_AREA_NAME",
+    "ASSET_AREA_DETAIL",
+    "HD_ASSET_LOCATION",
+    "HD_ASSET_DEPT",
+    "ASSET_SERIAL_NO",
+    "ASSET_PURCHASE_DT",
+    "ASSET_WARRANTY_DT",
+    "ASSET_VENDOR_ID",
+    "ASSET_VENDOR_NAME",
+    "ASSET_USEFUL_LIFE",
+    "ASSET_DISPOSAL_DT",
+    "ASSET_SERVICE_DT",
+    "ASSET_SERVICE_BY",
+    "ASSET_SERVICE_DUE_DT",
+    "ASSET_CERT_IND",
+    "ASSET_CERT_NO",
+    "ASSET_ADDED_BY",
+    "ASSET_CREATE_DT",
+    "ASSET_COMMENTS",
+    "ASSET_STATUS",
+    "ASSET_TRANSACTION_STATUS",
+    "ASSET_IS_SUB",
+    "ASSET_HAS_SUB_ASSETS",
+    "ASSET_PRINT_DATE",
+    "VIEW_ALL"
+];
+
+// check all 
+
+$('#VIEW_ALL').change(function () {
+    if (this.checked) {
+        $('#v_columns input[type="checkbox"]').prop('checked', true);
+    } else {
+        $('#v_columns input[type="checkbox"]').prop('checked', false);
+    }
+});
+
+function closeModal(modal) {
+    $(modal).fadeOut(250);
+}
+
+
+function view_selected() {
+    let rows_selected = $("#v_columns input[type=checkbox]:checked");
+    let columns_selected = [];
+
+    for (var i = 0; i < rows_selected.length; i++) {
+        if (rows_selected[i].value != "ADMIN") {
+            columns_selected.push(rows_selected[i].value);
+        }
+    }
+
+    var columns = createCommaDel(columns_selected);
+
+    console.log(createCommaDel(columns_selected));
+    if (rows_selected.length > 0) {
+        $("#overlay-assets-added").hide();
+        $("#loader-overlay").css("display", "block");
+        var header = document.getElementById('modal-header').innerHTML = localStorage.header_text;
+        $("#modal-header,#exportBtn").removeClass();
+        $("#modal-header,#exportBtn").addClass(localStorage.bg_color);
+        $("#modal-header").addClass("modals-header");
+        $("#exportBtn").addClass("btn-lg");
+        // var footer = document.getElementById('modal-footer').innerHTML = "";
+        getData(localStorage.api, columns);
+    } else {
+        swal.fire({
+            title: "No column selected",
+            text: "no data available",
+            type: "error",
+            showCloseButton: true,
+            confirmButtonColor: "#C12E2A",
+            allowOutsideClick: true,
+
+        })
+    }
+}
+
+let createCommaDel = (array_values) => {
+    let coma_del = "";
+    for (let i = 0; i < array_values.length; i++) {
+        if (i == array_values.length - 1) {
+            coma_del +=  array_values[i] ;
+        } else {
+            coma_del +=  array_values[i] + ",";
+        }
+
+    }
+    return coma_del;
 }

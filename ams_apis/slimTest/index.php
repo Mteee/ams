@@ -6238,8 +6238,12 @@ $app->map(['GET','POST'],'/getUsers_dash',function(Request $request, Response $r
         $asset_class = strtoupper($data->asset_class);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
+        $columns = strtoupper($data->columns);
 
         // echo $dateStart." - ".$dateEnd;
+
+        $columns_array = explode(",",$columns);
+
 
         if($asset_class == 'ALL EQUIPMENT' && $role == 'ADMIN')
             $sql = "SELECT * FROM ASSETS_USER WHERE ASSET_USER_STATUS = '1' AND ASSET_USERNAME <> '$user' AND  ASSET_USER_CREATED BETWEEN  to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') 
@@ -6261,21 +6265,33 @@ $app->map(['GET','POST'],'/getUsers_dash',function(Request $request, Response $r
             $assets_decode = json_decode($users);
 
             $len = $assets_decode->rows;
+            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+            $headers = "";
+            /**Create Headers */
+            for($h = 0; $h < count($columns_array); $h++){
+                $header_txt = $columns_array[$h];
+                $headers .= '<th>'.$header_txt.'</th>';
+            }
 
-            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset Username</th><th>User Class</th><th>User Role</th><th>User Create Date</th></tr>';
+            $str .= $headers;
+        
+            $str .= '</tr><thead><tbody>';
+
            
                 for ($i = 0; $i < $len; $i++) {
-                    $value = $assets_decode->data[$i];
-                    
-                    $str .= '<tr><td>'.($i+1).'</td>'.
-                        '<td>'.$value->ASSET_USERNAME.'</td>'.
-                        '<td>'.$value->ASSET_USER_CLASS.'</td>'.
-                        '<td>'.$value->ASSET_USER_ROLES.'</td>'.
-                        '<td>'.$func->checkPrint($value->ASSET_USER_CREATED).'</td></tr>';
+                        $value = $assets_decode->data[$i];
+                        
+                        $str .= '<tr><td>'.($i+1).'</td>';
+                            for($td = 0; $td < count($columns_array); $td++){
+                                $column = $columns_array[$td];
+                                $str .= '<td>'.$value->$column.'</td>';
+                            }
+                        $str .='</tr>';
                     }
          
 
-            $str .= ' </table>';
+            $str .= '</tbody></table>';
+
 
             $str = str_replace("\n", "", $str);
             $str = str_replace("\\", "", $str);
@@ -6507,6 +6523,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
         $dateEnd = strtoupper($data->dateEnd);
         $assetNo = strtoupper($data->assetNo);
         $asset_class = strtoupper($data->asset_class);
+        $asset_description = strtoupper($data->asset_description);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
 
@@ -6524,6 +6541,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                     AND   ASSET_BUILDING LIKE '%$building%'
                     AND   ASSET_LEVEL LIKE '%$level%'
                     AND   ASSET_AREA LIKE '%$area%'
+                    AND   ASSET_DESCRIPTION LIKE '%$asset_description%'
                     AND   ASSET_AREA_NAME LIKE '%$area_name%'
                     AND   ASSET_ROOM_NO LIKE '%$room_no%'
                     AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
@@ -6540,6 +6558,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                     AND   ASSET_ID LIKE '%$assetNo%'
                     AND   ASSET_BUILDING LIKE '%$building%'
                     AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_DESCRIPTION LIKE '%$asset_description%'
                     AND   ASSET_AREA LIKE '%$area%'
                     AND   ASSET_AREA_NAME LIKE '%$area_name%'
                     AND   ASSET_ROOM_NO LIKE '%$room_no%'
@@ -6556,6 +6575,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                     AND   ASSET_ID LIKE '%$assetNo%'
                     AND   ASSET_BUILDING LIKE '%$building%'
                     AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_DESCRIPTION LIKE '%$asset_description%'
                     AND   ASSET_AREA LIKE '%$area%' 
                     AND   ASSET_AREA_NAME LIKE '%$area_name%'
                     AND   ASSET_ROOM_NO LIKE '%$room_no%'
@@ -6572,6 +6592,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                     AND   ASSET_ID LIKE '%$assetNo%'
                     AND   ASSET_BUILDING LIKE '%$building%'
                     AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_DESCRIPTION LIKE '%$asset_description%'
                     AND   ASSET_AREA LIKE '%$area%' 
                     AND   ASSET_AREA_NAME LIKE '%$area_name%'
                     AND   ASSET_ROOM_NO LIKE '%$room_no%'
@@ -6589,6 +6610,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                         AND   ASSET_BUILDING LIKE '%$building%'
                         AND   ASSET_LEVEL LIKE '%$level%'
                         AND   ASSET_AREA LIKE '%$area%' 
+                        AND   ASSET_DESCRIPTION LIKE '%$asset_description%'
                         AND   ASSET_AREA_NAME LIKE '%$area_name%'
                         AND   ASSET_ROOM_NO LIKE '%$room_no%'
                         AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
@@ -6601,7 +6623,10 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                     ---------------- pending --------------------
                     ---------------------------------------------
                     (SELECT count(*) 
-                    FROM AMSD.ASSETS_LOG_PENDING_VW 
+                        FROM
+                    (SELECT ASSET_ID, FN_GET_ASSET_DESCRIPTION(ASSET_ID) AS ASSET_DESCRIPTION
+                        FROM
+                    AMSD.ASSETS_LOG_PENDING_VW 
                     WHERE ASSET_ID LIKE '%$assetNo%'
                     AND   (ASSET_BUILDING_OLD LIKE '%$building%' OR   ASSET_BUILDING_NEW LIKE '%$building%')
                     AND   (ASSET_LEVEL_OLD LIKE '%$level%' OR ASSET_LEVEL_NEW LIKE '%$level%')
@@ -6610,7 +6635,8 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                     AND   (ASSET_ROOM_NO_OLD LIKE '%$room_no%' OR ASSET_ROOM_NO_NEW LIKE '%$room_no%')
                     AND   (ASSET_SUB_LOCATION_OLD LIKE '%$sub_location%' OR ASSET_SUB_LOCATION_NEW LIKE '%$sub_location%')
                     AND   (ASSET_DATE BETWEEN  to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
-                                        and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS' )OR ASSET_DATE IS NULL)) AS \"PENDING\",
+                                        and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS' )OR ASSET_DATE IS NULL))
+                        WHERE ASSET_DESCRIPTION LIKE '%$asset_description%') AS \"PENDING\",
                     
                     -----------------------------------------------------
                     ------------------- MOVED ASSETS --------------------
@@ -6679,7 +6705,8 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                                                    'YYYY/MM/DD HH24:MI:SS')
                                 OR asset_date IS NULL)
                         AND asset_class LIKE '%$asset_class%'           
-                        AND asset_id LIKE '%$assetNo%'           
+                        AND asset_id LIKE '%$assetNo%'
+                        AND asset_description LIKE '%$asset_description%'           
                     ) AS \"MOVED\",
                     ------------------------------------------------
                     ------------------ ACTIVE USERS -----------------
@@ -6721,68 +6748,88 @@ $app->map(['GET','POST'],'/getActive_dash',function(Request $request, Response $
         $dateStart = strtoupper($data->dateStart);
         $dateEnd = strtoupper($data->dateEnd);
         $assetNo = strtoupper($data->assetNo);
+        $asset_description = strtoupper($data->asset_description);
         $asset_class = strtoupper($data->asset_class);
+        $columns = strtoupper($data->columns);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
+
+        $columns_array = explode(",",$columns);
+      
 
         if($asset_class == "ALL EQUIPMENT"){
             $asset_class = '';
         }
 
-        $sql = "SELECT DISTINCT ASSET_ID, ASSET_PRIMARY_ID, ASSET_DESCRIPTION, ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_AREA_NAME, ASSET_STATUS
-                    FROM ASSETS_VW 
-                    WHERE ASSET_STATUS = 'ACTIVE'
-                    AND   ASSET_CLASS LIKE '%$asset_class%'
-                    AND   ASSET_ID LIKE '%$assetNo%'
-                    AND   ASSET_BUILDING LIKE '%$building%'
-                    AND   ASSET_LEVEL LIKE '%$level%'
-                    AND   ASSET_AREA LIKE '%$area%'
-                    AND   ASSET_AREA_NAME LIKE '%$area_name%'
-                    AND   ASSET_ROOM_NO LIKE '%$room_no%'
-                    AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
-                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
-                    AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL)
-              ";
+            $sql = "SELECT DISTINCT ".$columns."
+                FROM ASSETS_VW
+                WHERE     ASSET_STATUS = 'ACTIVE'
+                AND ASSET_CLASS LIKE '%$asset_class%'
+                AND ASSET_ID LIKE '%$assetNo%'
+                AND ASSET_BUILDING LIKE '%$building%'
+                AND ASSET_LEVEL LIKE '%$level%'
+                AND ASSET_AREA LIKE '%$area%'
+                AND ASSET_DESCRIPTION LIKE '%$asset_description%'
+                AND ASSET_AREA_NAME LIKE '%$area_name%'
+                AND ASSET_ROOM_NO LIKE '%$room_no%'
+                AND ASSET_SUB_LOCATION LIKE '%$sub_location%'
+                AND (   ASSET_CREATE_DT BETWEEN TO_DATE ('$dateStart 00:00:00',
+                                                        'YYYY/MM/DD HH24:MI:SS')
+                                        AND TO_DATE ('$dateEnd 23:59:59',
+                                                        'YYYY/MM/DD HH24:MI:SS')
+                    OR ASSET_CREATE_DT IS NULL)";
 
-        $users =$func->executeQuery($sql);
+            $users =$func->executeQuery($sql);
 
-        if($users){
-            // echo $users;
-            $assets_decode = json_decode($users);
+            if($users){
+                // echo $users;
+                $assets_decode = json_decode($users);
 
-            $len = $assets_decode->rows;
+                $len = $assets_decode->rows;
+                $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+                $headers = "";
 
-            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
-            if($len>0){
-                for ($i = 0; $i < $len; $i++) {
-                    $value = $assets_decode->data[$i];
-                    
-                    $str .= '<tr><td>'.($i+1).'</td>'.
-                        '<td>'.$value->ASSET_ID.'</td>'.
-                        '<td>'.$value->ASSET_ROOM_NO.'</td>'.
-                        '<td>'.$value->ASSET_STATUS.'</td></tr>';
-                    }
+                /**Create Headers */
+                for($h = 0; $h < count($columns_array); $h++){
+                    $header_txt = $columns_array[$h];
+                    $headers .= '<th>'.$header_txt.'</th>';
+                }
+
+                $str .= $headers;
+            
+                $str .= '</tr><thead><tbody>';
+
+                
+                if($len>0){
+                    for ($i = 0; $i < $len; $i++) {
+                        $value = $assets_decode->data[$i];
+                        
+                        $str .= '<tr><td>'.($i+1).'</td>';
+                                for($td = 0; $td < count($columns_array); $td++){
+                                    $column = $columns_array[$td];
+                                    if($column == "ASSET_PRINT_DATE"){
+                                        $str .= '<td>'.$func->checkPrint($value->$column).'</td>';
+                                        }else{
+                                            $str .= '<td>'.$func->replaceNull($value->$column).'</td>';
+                                        }
+                                }
+                            $str .='</tr>';
+                }
             }
 
-            $str .= ' </table>';
+                $str .= '</tbody></table>';
 
 
 
-            $str = str_replace("\n", "", $str);
-            $str = str_replace("\\", "", $str);
+                $str = str_replace("\n", "", $str);
+                $str = str_replace("\\", "", $str);
 
-            echo json_encode(array("rows" =>$len ,"data" => $str ));
-        }
+                echo json_encode(array("rows" =>$len ,"data" => $str ));
+            }
             else{
                 echo json_encode(array("rows" => 0 ,"data" =>[]));
     
             }
-
-            
-        // }
-        // else{
-        //     echo json_encode(array("rows" => 0 ,"data" =>"Error"));
-        // }
 
     }catch (Exception $pdoex) {
         echo "Database Error : " . $pdoex->getMessage();
@@ -6802,7 +6849,9 @@ $app->map(['GET','POST'],'/getInactive_dash',function(Request $request, Response
         $dateStart = strtoupper($data->dateStart);
         $dateEnd = strtoupper($data->dateEnd);
         $assetNo = strtoupper($data->assetNo);
+        $asset_description = strtoupper($data->asset_description);
         $asset_class = strtoupper($data->asset_class);
+        $columns = strtoupper($data->columns);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
 
@@ -6810,7 +6859,10 @@ $app->map(['GET','POST'],'/getInactive_dash',function(Request $request, Response
             $asset_class = '';
         }
 
-        $sql = "SELECT DISTINCT ASSET_ID, ASSET_PRIMARY_ID, ASSET_DESCRIPTION, ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_AREA_NAME, ASSET_STATUS
+        $columns_array = explode(",",$columns);
+
+
+        $sql = "SELECT DISTINCT ".$columns."
                     FROM ASSETS_VW 
                     WHERE ASSET_STATUS = 'INACTIVE'
                     AND   ASSET_CLASS LIKE '%$asset_class%'
@@ -6818,6 +6870,7 @@ $app->map(['GET','POST'],'/getInactive_dash',function(Request $request, Response
                     AND   ASSET_BUILDING LIKE '%$building%'
                     AND   ASSET_LEVEL LIKE '%$level%'
                     AND   ASSET_AREA LIKE '%$area%'
+                    AND   ASSET_DESCRIPTION LIKE '%$asset_description%'
                     AND   ASSET_AREA_NAME LIKE '%$area_name%'
                     AND   ASSET_ROOM_NO LIKE '%$room_no%'
                     AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
@@ -6832,19 +6885,52 @@ $app->map(['GET','POST'],'/getInactive_dash',function(Request $request, Response
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr>';
+            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+                $headers = "";
+
+                /**Create Headers */
+                for($h = 0; $h < count($columns_array); $h++){
+                    $header_txt = $columns_array[$h];
+                    $headers .= '<th>'.$header_txt.'</th>';
+                }
+
+                $str .= $headers;
+            
+                $str .= '</tr><thead><tbody>';
+
+                
+                if($len>0){
+                    for ($i = 0; $i < $len; $i++) {
+                        $value = $assets_decode->data[$i];
+                        
+                        $str .= '<tr><td>'.($i+1).'</td>';
+                                for($td = 0; $td < count($columns_array); $td++){
+                                    $column = $columns_array[$td];
+                                    if($column == "ASSET_PRINT_DATE"){
+                                    $str .= '<td>'.$func->checkPrint($value->$column).'</td>';
+                                    }else{
+                                        $str .= '<td>'.$func->replaceNull($value->$column).'</td>';
+                                    }
+                                }
+                            $str .='</tr>';
+                }
+            }
+
+                $str .= '</tbody></table>';
+
+            // $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room</th><th>Status</th></tr><thead><thead>';
            
-                for ($i = 0; $i < $len; $i++) {
-                    $value = $assets_decode->data[$i];
+            //     for ($i = 0; $i < $len; $i++) {
+            //         $value = $assets_decode->data[$i];
                     
-                    $str .= '<tr><td>'.($i+1).'</td>'.
-                        '<td>'.$value->ASSET_ID.'</td>'.
-                        '<td>'.$value->ASSET_ROOM_NO.'</td>'.
-                        '<td>'.$value->ASSET_STATUS.'</td></tr>';
-                    }
+            //         $str .= '<tr><td>'.($i+1).'</td>'.
+            //             '<td>'.$value->ASSET_ID.'</td>'.
+            //             '<td>'.$value->ASSET_ROOM_NO.'</td>'.
+            //             '<td>'.$value->ASSET_STATUS.'</td></tr>';
+            //         }
          
 
-            $str .= ' </table>';
+            // $str .= '</thead></table>';
 
             $str = str_replace("\n", "", $str);
             $str = str_replace("\\", "", $str);
@@ -6873,15 +6959,20 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
         $dateStart = strtoupper($data->dateStart);
         $dateEnd = strtoupper($data->dateEnd);
         $assetNo = strtoupper($data->assetNo);
+        $asset_description = strtoupper($data->asset_description);
         $asset_class = strtoupper($data->asset_class);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
+        $columns = strtoupper($data->columns);
+
+        $columns_array = explode(",",$columns);
+
 
         if($asset_class == "ALL EQUIPMENT"){
             $asset_class = '';
         }
 
-        $sql = "SELECT ASSET_ID, ASSET_PRIMARY_ID, ASSET_LOCATION_AREA_OLD, ASSET_ROOM_NO_OLD, ASSET_LOCATION_AREA_NEW, ASSET_ROOM_NO_NEW, ASSET_DATE, ASSET_TRAN_STATUS
+        $sql = "SELECT ".$columns."
                 FROM AMSD.ASSETS_LOG_PENDING_VW 
                 WHERE ASSET_ID LIKE '%$assetNo%'
                 AND   (ASSET_BUILDING_OLD LIKE '%$building%' OR ASSET_BUILDING_NEW LIKE '%$building%')
@@ -6892,6 +6983,7 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
                 AND   (ASSET_SUB_LOCATION_OLD LIKE '%$sub_location%' OR ASSET_SUB_LOCATION_NEW LIKE '%$sub_location%')
                 AND   (ASSET_DATE BETWEEN  to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
                                     and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS' )OR ASSET_DATE IS NULL)
+                AND   FN_GET_ASSET_DESCRIPTION(ASSET_ID) LIKE '%$asset_description%'
               ";
 
 
@@ -6902,20 +6994,34 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
             $assets_decode = json_decode($users);
 
             $len = $assets_decode->rows;
+            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+            $headers = "";
 
-            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Old Room</th><th>New Room</th></tr>';
-           
-                for ($i = 0; $i < $len; $i++) {
-                    $value = $assets_decode->data[$i];
-                    
-                    $str .= '<tr><td>'.($i+1).'</td>'.
-                        '<td>'.$value->ASSET_ID.'</td>'.
-                        '<td>'.$value->ASSET_ROOM_NO_OLD.'</td>'.
-                        '<td>'.$value->ASSET_ROOM_NO_NEW.'</td></tr>';
-                    }
-         
+            /**Create Headers */
+            for($h = 0; $h < count($columns_array); $h++){
+                $header_txt = $columns_array[$h];
+                $headers .= '<th>'.$header_txt.'</th>';
+            }
 
-            $str .= ' </table>';
+            $str .= $headers;
+        
+            $str .= '</tr><thead><tbody>';
+
+            
+                if($len>0){
+                    for ($i = 0; $i < $len; $i++) {
+                        $value = $assets_decode->data[$i];
+                        
+                        $str .= '<tr><td>'.($i+1).'</td>';
+                                for($td = 0; $td < count($columns_array); $td++){
+                                    $column = $columns_array[$td];
+                                    $str .= '<td>'.$func->replaceNull($value->$column).'</td>';
+                                }
+                            $str .='</tr>';
+                }
+            }
+
+            $str .= '</tbody></table>';
 
             $str = str_replace("\n", "", $str);
             $str = str_replace("\\", "", $str);
@@ -6945,9 +7051,14 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
         $dateStart = strtoupper($data->dateStart);
         $dateEnd = strtoupper($data->dateEnd);
         $assetNo = strtoupper($data->assetNo);
+        $asset_description = strtoupper($data->asset_description);
         $asset_class = strtoupper($data->asset_class);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
+        $columns = strtoupper($data->columns);
+
+        $columns_array = explode(",",$columns);
+
 
         if($asset_class == "ALL EQUIPMENT"){
             $asset_class = '';
@@ -6989,6 +7100,7 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
         and asset_primary_id LIKE '%$assetNo%'
         and (from_asset_sub_location LIKE '%$sub_location%' OR to_asset_sub_location LIKE '%$sub_location%')
         and (from_asset_location_area LIKE '%$area%' OR to_asset_location_area LIKE '%$area%')
+        and asset_description LIKE '%$asset_description%'
         and (from_asset_level LIKE '%$level%' OR to_asset_level LIKE '%$level%')
         and (from_asset_building LIKE '%$building%' OR to_asset_building LIKE '%$building%')
         and (asset_date between to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') and to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR asset_date IS NULL)
@@ -7004,7 +7116,7 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>From Room</th><th>To Room</th><th>Movement Date</th></tr>';
+            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>From Room</th><th>To Room</th><th>Movement Date</th></tr><thead><tbody>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -7017,7 +7129,7 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
                     }
          
 
-            $str .= ' </table>';
+            $str .= '</tbody></table>';
 
             $str = str_replace("\n", "", $str);
             $str = str_replace("\\", "", $str);
@@ -7046,15 +7158,19 @@ $app->map(['GET','POST'],'/getUnassigned_dash',function(Request $request, Respon
         $dateStart = strtoupper($data->dateStart);
         $dateEnd = strtoupper($data->dateEnd);
         $assetNo = strtoupper($data->assetNo);
+        $asset_description = strtoupper($data->asset_description);
         $asset_class = strtoupper($data->asset_class);
         $role = strtoupper($data->role);
+        $columns = strtoupper($data->columns);
         $user = strtoupper($data->user);
+
+        $columns_array = explode(",",$columns);
 
         if($asset_class == "ALL EQUIPMENT"){
             $asset_class = '';
         }
 
-        $sql = "SELECT DISTINCT ASSET_ID, ASSET_PRIMARY_ID, ASSET_DESCRIPTION, ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_AREA_NAME, ASSET_STATUS
+        $sql = "SELECT DISTINCT ".$columns."
                     FROM ASSETS_VW 
                     WHERE ASSET_STATUS = 'ACTIVE'
                     AND   ASSET_CERT_NO IS NULL
@@ -7062,6 +7178,7 @@ $app->map(['GET','POST'],'/getUnassigned_dash',function(Request $request, Respon
                     AND   ASSET_ID LIKE '%$assetNo%'
                     AND   ASSET_BUILDING LIKE '%$building%'
                     AND   ASSET_LEVEL LIKE '%$level%'
+                    AND   ASSET_DESCRIPTION LIKE '%$asset_description%'
                     AND   ASSET_AREA LIKE '%$area%'
                     AND   ASSET_AREA_NAME LIKE '%$area_name%'
                     AND   ASSET_ROOM_NO LIKE '%$room_no%'
@@ -7078,21 +7195,39 @@ $app->map(['GET','POST'],'/getUnassigned_dash',function(Request $request, Respon
             // print_r($assets_decode);
 
             $len = $assets_decode->rows;
+            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+            $headers = "";
 
-            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Asset status</th></tr>';
-           
+            /**Create Headers */
+            for($h = 0; $h < count($columns_array); $h++){
+                $header_txt = $columns_array[$h];
+                $headers .= '<th>'.$header_txt.'</th>';
+            }
+
+            $str .= $headers;
+        
+            $str .= '</tr><thead><tbody>';
+
+            
+            if($len>0){
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
                     
-                    $str .= '<tr><td>'.($i+1).'</td>'.
-                        '<td>'.$value->ASSET_ID.'</td>'.
-                        '<td>'.$value->ASSET_ROOM_NO.'</td>'.
-                        '<td>'.$value->ASSET_DESCRIPTION.'</td>'.
-                        '<td>'.$value->ASSET_STATUS.'</td></tr>';
-                    }
+                    $str .= '<tr><td>'.($i+1).'</td>';
+                            for($td = 0; $td < count($columns_array); $td++){
+                                $column = $columns_array[$td];
+                                if($column == "ASSET_PRINT_DATE"){
+                                    $str .= '<td>'.$func->checkPrint($value->$column).'</td>';
+                                    }else{
+                                        $str .= '<td>'.$func->replaceNull($value->$column).'</td>';
+                                    }
+                            }
+                        $str .='</tr>';
+            }
+        }
          
 
-            $str .= ' </table>';
+            $str .= ' </tbody></table>';
 
             $str = str_replace("\n", "", $str);
             $str = str_replace("\\", "", $str);
@@ -7124,21 +7259,28 @@ $app->map(['GET','POST'],'/getComm',function(Request $request, Response $respons
         $sub_location = strtoupper($data->sub_location);
         $dateStart = strtoupper($data->dateStart);
         $dateEnd = strtoupper($data->dateEnd);
+        $asset_description = strtoupper($data->asset_description);
         $assetNo = strtoupper($data->assetNo);
         $asset_class = strtoupper($data->asset_class);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
+        $columns = strtoupper($data->columns);
+
+
+        $columns_array = explode(",",$columns);
+
 
         if($asset_class == "ALL EQUIPMENT"){
             $asset_class = '';
         }
 
-        $sql = "SELECT DISTINCT ASSET_ID, ASSET_PRIMARY_ID, ASSET_DESCRIPTION, ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_AREA_NAME, ASSET_STATUS,ASSET_PRINT_DATE
+        $sql = "SELECT DISTINCT ".$columns."
                     FROM ASSETS_VW 
                     WHERE ASSET_STATUS = 'ACTIVE'
                     AND   ASSET_CERT_NO IS NOT NULL
                     AND   ASSET_CLASS LIKE '%$asset_class%'
                     AND   ASSET_ID LIKE '%$assetNo%'
+                    AND   ASSET_DESCRIPTION LIKE '%$asset_description%'
                     AND   ASSET_BUILDING LIKE '%$building%'
                     AND   ASSET_LEVEL LIKE '%$level%'
                     AND   ASSET_AREA LIKE '%$area%'
@@ -7160,20 +7302,51 @@ $app->map(['GET','POST'],'/getComm',function(Request $request, Response $respons
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Last printed</th></tr>';
+            // $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Last printed</th></tr><thead><tbody>';
            
-                for ($i = 0; $i < $len; $i++) {
-                    $value = $assets_decode->data[$i];
+            //     for ($i = 0; $i < $len; $i++) {
+            //         $value = $assets_decode->data[$i];
                     
-                    $str .= '<tr><td>'.($i+1).'</td>'.
-                        '<td>'.$value->ASSET_ID.'</td>'.
-                        '<td>'.$value->ASSET_ROOM_NO.'</td>'.
-                        '<td>'.$value->ASSET_DESCRIPTION.'</td>'.
-                        '<td>'.$func->checkPrint($value->ASSET_PRINT_DATE).'</td></tr>';
-                    }
+            //         $str .= '<tr><td>'.($i+1).'</td>'.
+            //             '<td>'.$value->ASSET_ID.'</td>'.
+            //             '<td>'.$value->ASSET_ROOM_NO.'</td>'.
+            //             '<td>'.$value->ASSET_DESCRIPTION.'</td>'.
+            //             '<td>'.$func->checkPrint($value->ASSET_PRINT_DATE).'</td></tr>';
+            //         }
+
+            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+                $headers = "";
+
+                /**Create Headers */
+                for($h = 0; $h < count($columns_array); $h++){
+                    $header_txt = $columns_array[$h];
+                    $headers .= '<th>'.$header_txt.'</th>';
+                }
+
+                $str .= $headers;
+            
+                $str .= '</tr><thead><tbody>';
+
+                
+                if($len>0){
+                    for ($i = 0; $i < $len; $i++) {
+                        $value = $assets_decode->data[$i];
+                        
+                        $str .= '<tr><td>'.($i+1).'</td>';
+                                for($td = 0; $td < count($columns_array); $td++){
+                                    $column = $columns_array[$td];
+                                    if($column == "ASSET_PRINT_DATE"){
+                                        $str .= '<td>'.$func->checkPrint($value->$column).'</td>';
+                                        }else{
+                                            $str .= '<td>'.$func->replaceNull($value->$column).'</td>';
+                                        }
+                                }
+                            $str .='</tr>';
+                }
+            }
          
 
-            $str .= ' </table>';
+            $str .= '</tbody></table>';
 
             $str = str_replace("\n", "", $str);
             $str = str_replace("\\", "", $str);
@@ -7201,16 +7374,21 @@ $app->map(['GET','POST'],'/getDecomm',function(Request $request, Response $respo
         $sub_location = strtoupper($data->sub_location);
         $dateStart = strtoupper($data->dateStart);
         $dateEnd = strtoupper($data->dateEnd);
+        $asset_description = strtoupper($data->asset_description);
         $assetNo = strtoupper($data->assetNo);
         $asset_class = strtoupper($data->asset_class);
         $role = strtoupper($data->role);
         $user = strtoupper($data->user);
+        $columns = strtoupper($data->columns);
+
+
+        $columns_array = explode(",",$columns);
 
         if($asset_class == "ALL EQUIPMENT"){
             $asset_class = '';
         }
 
-        $sql = "SELECT DISTINCT ASSET_ID, ASSET_PRIMARY_ID, ASSET_DESCRIPTION, ASSET_ROOM_NO, ASSET_SUB_LOCATION, ASSET_AREA_NAME, ASSET_STATUS,ASSET_PRINT_DATE
+        $sql = "SELECT DISTINCT ".$columns."
                     FROM ASSETS_VW 
                     WHERE ASSET_CERT_NO IS NOT NULL
                     AND   ASSET_COMMENTS = 'DISPOSED'
@@ -7220,6 +7398,7 @@ $app->map(['GET','POST'],'/getDecomm',function(Request $request, Response $respo
                     AND   ASSET_LEVEL LIKE '%$level%'
                     AND   ASSET_AREA LIKE '%$area%'
                     AND   ASSET_AREA_NAME LIKE '%$area_name%'
+                    AND   ASSET_DESCRIPTION LIKE '%$asset_description%'
                     AND   ASSET_ROOM_NO LIKE '%$room_no%'
                     AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
                     AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
@@ -7237,25 +7416,58 @@ $app->map(['GET','POST'],'/getDecomm',function(Request $request, Response $respo
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-export"><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Last printed</th></tr>';
+            // $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>Room number</th><th>Asset description</th><th>Last printed</th></tr></thead><tbody>';
            
-                for ($i = 0; $i < $len; $i++) {
-                    $value = $assets_decode->data[$i];
+            //     for ($i = 0; $i < $len; $i++) {
+            //         $value = $assets_decode->data[$i];
                     
-                    $str .= '<tr><td>'.($i+1).'</td>'.
-                        '<td>'.$value->ASSET_ID.'</td>'.
-                        '<td>'.$value->ASSET_ROOM_NO.'</td>'.
-                        '<td>'.$value->ASSET_DESCRIPTION.'</td>'.
-                        '<td>'.$func->checkPrint($value->ASSET_PRINT_DATE).'</td></tr>';
-                    }
+            //         $str .= '<tr><td>'.($i+1).'</td>'.
+            //             '<td>'.$value->ASSET_ID.'</td>'.
+            //             '<td>'.$value->ASSET_ROOM_NO.'</td>'.
+            //             '<td>'.$value->ASSET_DESCRIPTION.'</td>'.
+            //             '<td>'.$func->checkPrint($value->ASSET_PRINT_DATE).'</td></tr>';
+            //         }
          
 
-            $str .= ' </table>';
+            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+                $headers = "";
+
+                /**Create Headers */
+                for($h = 0; $h < count($columns_array); $h++){
+                    $header_txt = $columns_array[$h];
+                    $headers .= '<th>'.$header_txt.'</th>';
+                }
+
+                $str .= $headers;
+            
+                $str .= '</tr><thead><tbody>';
+
+                
+                if($len>0){
+                    for ($i = 0; $i < $len; $i++) {
+                        $value = $assets_decode->data[$i];
+                        
+                        $str .= '<tr><td>'.($i+1).'</td>';
+                                for($td = 0; $td < count($columns_array); $td++){
+                                    $column = $columns_array[$td];
+                                    if($column == "ASSET_PRINT_DATE"){
+                                        $str .= '<td>'.$func->checkPrint($value->$column).'</td>';
+                                        }else{
+                                            $str .= '<td>'.$func->replaceNull($value->$column).'</td>';
+                                        }
+                                }
+                            $str .='</tr>';
+                }
+            }
+
+            
+
+            $str .= '</tbody></table>';
 
             $str = str_replace("\n", "", $str);
             $str = str_replace("\\", "", $str);
 
-            echo json_encode(array("rows" =>$len ,"data" => $str ));
+            echo json_encode(array("rows" =>$len ,"data" => $str));
         }
         else{
             echo json_encode(array("rows" => 0 ,"data" =>"Error"));
