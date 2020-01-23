@@ -645,7 +645,7 @@ function view_selected() {
     if (rows_selected.length > 0) {
         $("#overlay-assets-added").hide();
         $("#loader-overlay").css("display", "block");
-        var header = document.getElementById('modal-header').innerHTML = localStorage.header_text;
+        document.getElementById('modal-header').innerHTML = localStorage.header_text;
         $("#modal-header,#exportBtn").removeClass();
         $("#modal-header,#exportBtn").addClass(localStorage.bg_color);
         $("#modal-header").addClass("modals-header");

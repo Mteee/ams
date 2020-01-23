@@ -267,6 +267,10 @@ function show(action, bg_color, header_text, count) {
             $("#overlay-assets-added").show();
         }
         else if(action == "getMoved_dash"){
+            document.getElementById('modal-header').innerHTML = localStorage.header_text;
+            $("#exportBtn").addClass("btn-lg");
+            $("#modal-header,#exportBtn").addClass(localStorage.bg_color);
+            $("#loader-overlay").css("display", "block");
             getData(localStorage.api, "");
         }
 
