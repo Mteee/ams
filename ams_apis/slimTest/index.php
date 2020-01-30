@@ -6265,7 +6265,7 @@ $app->map(['GET','POST'],'/getUsers_dash',function(Request $request, Response $r
             $assets_decode = json_decode($users);
 
             $len = $assets_decode->rows;
-            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+            $str = '<table id="table-export" class="table-striped table-bordered" ><thead><tr class="bg-tr"><th>#</th>';
             $headers = "";
             /**Create Headers */
             for($h = 0; $h < count($columns_array); $h++){
@@ -6786,7 +6786,7 @@ $app->map(['GET','POST'],'/getActive_dash',function(Request $request, Response $
                 $assets_decode = json_decode($users);
 
                 $len = $assets_decode->rows;
-                $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+                $str = '<table id="table-export" class="table-striped table-bordered" ><thead><tr class="bg-tr"><th>#</th>';
                 $headers = "";
 
                 /**Create Headers */
@@ -6885,7 +6885,7 @@ $app->map(['GET','POST'],'/getInactive_dash',function(Request $request, Response
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+            $str = '<table id="table-export" class="table-striped table-bordered" ><thead><tr class="bg-tr"><th>#</th>';
                 $headers = "";
 
                 /**Create Headers */
@@ -6994,7 +6994,7 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
             $assets_decode = json_decode($users);
 
             $len = $assets_decode->rows;
-            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+            $str = '<table id="table-export" class="table-striped table-bordered" ><thead><tr class="bg-tr"><th>#</th>';
             $headers = "";
 
             /**Create Headers */
@@ -7116,7 +7116,7 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>From Room</th><th>To Room</th><th>Movement Date</th></tr><thead><tbody>';
+            $str = '<table id="table-export" class="table-striped table-bordered" ><thead><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>From Room</th><th>To Room</th><th>Movement Date</th></tr><thead><tbody>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
@@ -7195,7 +7195,7 @@ $app->map(['GET','POST'],'/getUnassigned_dash',function(Request $request, Respon
             // print_r($assets_decode);
 
             $len = $assets_decode->rows;
-            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+            $str = '<table id="table-export" class="table-striped table-bordered" ><thead><tr class="bg-tr"><th>#</th>';
             $headers = "";
 
             /**Create Headers */
@@ -7314,7 +7314,7 @@ $app->map(['GET','POST'],'/getComm',function(Request $request, Response $respons
             //             '<td>'.$func->checkPrint($value->ASSET_PRINT_DATE).'</td></tr>';
             //         }
 
-            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+            $str = '<table id="table-export" class="table-striped table-bordered" ><thead><tr class="bg-tr"><th>#</th>';
                 $headers = "";
 
                 /**Create Headers */
@@ -7429,7 +7429,7 @@ $app->map(['GET','POST'],'/getDecomm',function(Request $request, Response $respo
             //         }
          
 
-            $str = '<table id="table-export"><thead><tr class="bg-tr"><th>#</th>';
+            $str = '<table id="table-export" class="table-striped table-bordered" ><thead><tr class="bg-tr"><th>#</th>';
                 $headers = "";
 
                 /**Create Headers */
