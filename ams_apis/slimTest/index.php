@@ -6284,7 +6284,20 @@ $app->map(['GET','POST'],'/getUsers_dash',function(Request $request, Response $r
                         $str .= '<tr><td>'.($i+1).'</td>';
                             for($td = 0; $td < count($columns_array); $td++){
                                 $column = $columns_array[$td];
-                                $str .= '<td>'.$value->$column.'</td>';
+                                if($column == "ASSET_USER_ROLES"){
+                                    if($value->$column != "ADMIN"){
+
+                                        $length_perm = count(explode("|",$value->$column));
+                                        $str .= '<td>Access Level '.$length_perm.'</td>';
+                                        
+                                    }else{
+                                        $str .= '<td>'.$value->$column.'</td>';
+                                    }
+                                }
+                                else{
+                                    $str .= '<td>'.$value->$column.'</td>';
+                                }
+                                
                             }
                         $str .='</tr>';
                     }

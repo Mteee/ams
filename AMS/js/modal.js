@@ -241,6 +241,9 @@ function show(action, bg_color, header_text, count) {
     localStorage.header_text = header_text;
     localStorage.api = action;
     localStorage.bg_color = bg_color;
+
+    $("#v_columns input[type=checkbox]").prop('checked',false);
+
     // localStorage.api = action;
     if ($("#" + count).text() == "0") {
         swal.fire({

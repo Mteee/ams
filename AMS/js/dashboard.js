@@ -569,7 +569,9 @@ var onSearch_new = function (searchValue) {
         console.log(e.keyCode);
         if (e.keyCode == 13) {
             e.preventDefault();
-            search();
+            if (searchValue != " ") {
+                search();
+            }
         }
     }
 }
@@ -639,6 +641,11 @@ function view_selected() {
         }
     }
 
+    /**
+     * Uncheck all checkboxes
+     */
+
+
     var columns = createCommaDel(columns_selected);
 
     console.log(createCommaDel(columns_selected));
@@ -652,6 +659,7 @@ function view_selected() {
         $("#exportBtn").addClass("btn-lg");
         // var footer = document.getElementById('modal-footer').innerHTML = "";
         getData(localStorage.api, columns);
+
     } else {
         swal.fire({
             title: "No column selected",
@@ -669,9 +677,9 @@ let createCommaDel = (array_values) => {
     let coma_del = "";
     for (let i = 0; i < array_values.length; i++) {
         if (i == array_values.length - 1) {
-            coma_del +=  array_values[i] ;
+            coma_del += array_values[i];
         } else {
-            coma_del +=  array_values[i] + ",";
+            coma_del += array_values[i] + ",";
         }
 
     }
