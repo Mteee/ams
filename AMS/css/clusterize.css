@@ -1,7 +1,7 @@
 /* max-height - the only parameter in this file that needs to be edited.
  * Change it to suit your needs. The rest is recommended to leave as is.
  */
-.clusterize-scroll{
+ .clusterize-scroll{
   max-height: 200px;
   overflow: auto;
 }

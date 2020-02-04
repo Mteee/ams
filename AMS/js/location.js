@@ -176,6 +176,7 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
 
     var descrption = $('#location_description').val();
 
+
     var jsonData = '';
 
     if (type == 'new') {
@@ -195,6 +196,8 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
         dataType: 'JSON',
         data: jsonData,
         success: function (data) {
+            console.log("url_called : "+url);
+
             console.log(data);
             if ($("#search_add_location_room").val() !== "") {
 
@@ -266,7 +269,15 @@ var clusterize = {
     search_location_room: [],
     search_location_area: [],
     search_location_level: [],
-    search_location_building: []
+    search_location_building: [],
+
+    search_add_location_assetType: [],
+    search_add_location_room: [],
+    search_add_location_area: [],
+    search_add_location_level: [],
+    search_add_location_building: [],
+    search_add_location_proper_area: [],
+    search_add_location_area_detail: []
 };
 
 var count = 0;

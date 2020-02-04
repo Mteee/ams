@@ -1530,7 +1530,7 @@ var newAssetGroup = function () {
                     '<div class="dropdown" class="room_no_dropdown"><button class="btn btn-outline-info form-control"' + 
                     'type="button" id="room_add_location_filter_'+n()+'" data-toggle="dropdown" aria-haspopup="true"' +
                     'aria-expanded="false">'+$("#room_new_filter").val()+'</button>' +
-                    '<div class="dropdown-menu clusterize-scroll" id="scroll_add_location_room_'+n()+'"' +
+                    '<div class="dropdown-menu" id="scroll_add_location_room_'+n()+'"' +
                     'aria-labelledby="room_add_location_filter_'+n()+'" style="width: 100%; height: 125px !important;">' +
                     '<form class="px-4 py-2">' +
                     '<div class="input-group">' +
@@ -1543,7 +1543,7 @@ var newAssetGroup = function () {
                     '<i class="fa fa-close"></i></span></div>' +
                     '</div>' +
                     '</form>' +
-                    '<div id="menu_add_location_room_'+n()+'" class="text-center" onchange="testMethod()">' +
+                    '<div id="menu_add_location_room_'+n()+'" class="text-center clusterize-scroll" onchange="testMethod()">' +
                     '<div id="Assetload_'+n()+'" class="dropdown-loader"> <img src="../img/loading-transparent.gif" alt=""> </div>' +
                     '</div>' +
                     '<div id="empty_add_location_room_'+n()+'" class="dropdown-header">No room found</div>' +

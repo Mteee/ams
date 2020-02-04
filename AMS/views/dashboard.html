@@ -44,11 +44,94 @@
             display: none;
             background: rgba(255, 255, 255, 0.966) !important;
         }
+
+
+        #overlay-assets-added {
+            display: none;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            z-index: 9999999 !important;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .asset-assets-added-details {
+            position: relative;
+            margin: 6% auto;
+            width: 1020px;
+            height: 720px;
+            border-radius: 5px;
+            background: white;
+            z-index: 2;
+            position: relative;
+        }
     </style>
 
 </head>
 
 <body>
+    <div id="overlay-assets-added" style="z-index: 44 !important; display: none;">
+        <form action="#" id="view_info" method="POST">
+            <div class="asset-assets-added-details animated bounceInUp" id="assets-added">
+                <input type="reset" class="exit-asset" onclick="closeModal('#overlay-assets-added')" value="x">
+                <div class="asset-header text-center" id="user_name">
+                    <strong>CHOOSE COLUMNS TO VIEW</strong>
+                </div>
+
+                <div class="asset-assets-added-body">
+                    <div class="row">
+                        <div class="col-sm-10 offset-1">
+
+                            <div class="user-info">
+                                <div class="row" id="v_columns">
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-12 p-0">
+                                                <br>
+                                                <p style="font-weight: bolder;padding: 7px 0 15px 0;border-radius: 5px;"
+                                                    class="text-white bg-orange">
+                                                    <input type="checkbox" name="VIEW_ALL" id="VIEW_ALL" value="ADMIN"
+                                                        style="margin: 8px 38px -3px 13px;" /> ALL COLUMNS
+
+                                                </p>
+
+                                                <div id="table_columns_container">
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="asset-transfer-footer text-right">
+                    <div class="row">
+                        <div class="col-md-6">
+
+                        </div>
+                        <div class="col-md-6">
+                            <button id="add_user" type="button" class="btn bg-green text-white"
+                                onclick="view_selected()">VIEW</button>
+                            <button type="reset" class="btn bg-red text-white"
+                                onclick="closeModal('#overlay-assets-added')">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- row -->
+        </form>
+    </div>
 
     <div id="loader-overlay" style="display: block;">
         <div id="Assetload" class="dropdown-loader">
@@ -152,6 +235,7 @@
                                         <th>
                                             Search
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -176,7 +260,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_dashboard_building">
+                                                    <div id="menu_dashboard_building" class="clusterize-scroll">
                                                         <div id="building_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -187,6 +271,7 @@
                                                 </div>
                                             </div>
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -211,7 +296,7 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_dashboard_level">
+                                                    <div id="menu_dashboard_level" class="clusterize-scroll">
                                                         <div id="level_load" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -222,6 +307,7 @@
                                                 </div>
                                             </div>
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -229,8 +315,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     AREA NAME
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_dashboard_area_name"
+                                                <div class="dropdown-menu" id="scroll_dashboard_area_name"
                                                     aria-labelledby="area_name_dashboard_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
@@ -246,7 +331,8 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_dashboard_area_name" onchange="testMethod()">
+                                                    <div id="meun_dashboard_area_name" onchange="testMethod()"
+                                                        class="clusterize-scroll">
                                                         <div id="area_name_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -257,6 +343,7 @@
                                                     </div>
                                                 </div>
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -264,7 +351,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     AREA
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_dashboard_area"
+                                                <div class="dropdown-menu" id="scroll_dashboard_area"
                                                     aria-labelledby="area_dashboard_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
@@ -280,7 +367,8 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="meun_dashboard_area" onchange="testMethod()">
+                                                    <div id="meun_dashboard_area" onchange="testMethod()"
+                                                        class="clusterize-scroll">
                                                         <div id="area_load" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -290,6 +378,7 @@
                                                 </div>
 
                                         </th>
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -297,7 +386,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ROOM
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll" id="scroll_view_room"
+                                                <div class="dropdown-menu" id="scroll_view_room"
                                                     aria-labelledby="room_dashboard_filter">
                                                     <form class="px-4 py-2">
 
@@ -314,7 +403,8 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_dashboard_room" onchange="testMethod()">
+                                                    <div id="menu_dashboard_room" onchange="testMethod()"
+                                                        class="clusterize-scroll">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -324,6 +414,7 @@
                                                 </div>
 
                                         </th>
+
                                         <th class="filter_sub" style="display: none">
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -331,8 +422,7 @@
                                                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     SUB LOCATION
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_dashboard_sublocaction"
+                                                <div class="dropdown-menu" id="scroll_dashboard_sublocaction"
                                                     aria-labelledby="sublocaction_dashboard_filter">
                                                     <form class="px-4 py-2">
                                                         <div class="input-group">
@@ -348,8 +438,8 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_dashboard_sublocaction" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_dashboard_sublocaction"
+                                                        class="text-center clusterize-scroll" onchange="testMethod()">
                                                         <div id="sub_location_loader" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -360,6 +450,8 @@
                                                 </div>
                                             </div>
                                         </th>
+
+
                                         <th>
                                             <div class="dropdown">
                                                 <button class="btn btn-outline-info form-control dropdown-toggle"
@@ -367,8 +459,7 @@
                                                     aria-haspopup="true" aria-expanded="false">
                                                     ASSET NO
                                                 </button>
-                                                <div class="dropdown-menu clusterize-scroll"
-                                                    id="scroll_dashboard_assetNo"
+                                                <div class="dropdown-menu" id="scroll_dashboard_assetNo"
                                                     aria-labelledby="assetNo_dashboard_filter">
                                                     <form class="px-4 py-2">
 
@@ -385,8 +476,8 @@
                                                             </div>
                                                         </div>
                                                     </form>
-                                                    <div id="menu_dashboard_assetNo" class="text-center"
-                                                        onchange="testMethod()">
+                                                    <div id="menu_dashboard_assetNo"
+                                                        class="text-center clusterize-scroll" onchange="testMethod()">
                                                         <div id="Assetload" class="dropdown-loader">
                                                             <img src="../img/loading-transparent.gif" alt="">
                                                         </div>
@@ -397,12 +488,19 @@
                                                 </div>
                                             </div>
                                         </th>
+
                                         <th>
                                             <div class="btn-outline-info" id="reportrange"
                                                 style="cursor: pointer; padding: 5px 10px; border: 1px solid #17a2b8;border-radius:5px;">
                                                 <i class="fa fa-calendar"></i>&nbsp;
                                                 <span id="date_range"></span> <i class="fa fa-caret-down"></i>
                                             </div>
+                                        </th>
+
+                                        <th>
+                                            <input type="text" id="dashboard_description" class="form-control"
+                                                placeholder="Asset Description..."
+                                                onkeyup="onSearch_new('dashboard_description')">
                                         </th>
 
                                         <th>
@@ -440,12 +538,12 @@
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <button class="btn-lg" onclick="doit('xlsx','table-export')"
-                                                        id="exportBtn"> <i
-                                                            class="material-icons">cloud_download</i></button>
+                                                        id="exportBtn">Export <i
+                                                            class="material-icons my-2">cloud_download</i></button>
                                                 </div>
                                                 <div class="col-md-6">
-                                                        <!-- <div class="text-muted">number of rows <span class="bg-green">5</span></div> -->
-                                                    </div>
+                                                    <!-- <div class="text-muted">number of rows <span class="bg-green">5</span></div> -->
+                                                </div>
 
                                             </div>
                                         </div>
@@ -746,9 +844,8 @@
             <script src="../js/sweetalert2.all.js"></script>
             <script src="../js/printThis.js "></script>
             <script src="../js/moment.min.js"></script>
-            <script type="text/javascript"
-            src="../js/daterangepicker.min.js"></script>
-            <script src="../js/modal.js"></script>            
+            <script type="text/javascript" src="../js/daterangepicker.min.js"></script>
+            <script src="../js/modal.js"></script>
             <script src="../js/table.js"></script>
             <script src="../js/dashboard.js"></script>
             <script type="text/javascript">
