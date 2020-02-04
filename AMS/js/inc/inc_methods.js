@@ -103,3 +103,8 @@ function getDatee(a) {
     }
     return (year + "/" + month + "/" + day);
 }
+
+
+function isEmpty(value) {
+    return value == "" || value == ' ' || value == " " || value == undefined || value == null || value == "null" || value == "NOT ASSIGNED";
+}

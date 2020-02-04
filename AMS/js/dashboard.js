@@ -566,11 +566,12 @@ function doit(type, fn, dl) {
 var onSearch_new = function (searchValue) {
     document.getElementById(searchValue).onkeypress = function (e) {
 
-        console.log(e.keyCode);
+        var value = $("#" + searchValue).val();
+
         if (e.keyCode == 13) {
             e.preventDefault();
-            if (searchValue != " ") {
-                search();
+            search();
+            if (value.length > 1) {
             }
         }
     }

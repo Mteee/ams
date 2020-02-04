@@ -5,17 +5,17 @@ var all_vw_columns = '<table class="table">' +
     '</td>' +
     '<th>ASSET CLASS</th>' +
     '<td> <input type="checkbox" name="ASSET_ID" id="ASSET_ID"' +
-    'value="ASSET_ID">' +
+    'value="ASSET_ID" checked>' +
     '</td>' +
     '<th>ASSET ID</th>' +
     '<td> <input type="checkbox" name="ASSET_PRIMARY_ID"' +
-    'id="ASSET_PRIMARY_ID" value="ASSET_PRIMARY_ID">' +
+    'id="ASSET_PRIMARY_ID" value="ASSET_PRIMARY_ID" checked>' +
     '</td>' +
     '<th>ASSET PRIMARY ID</th>' +
     '</tr>' +
     '<tr>' +
     '<td> <input type="checkbox" name="ASSET_DESCRIPTION"' +
-    'id="ASSET_DESCRIPTION" value="ASSET_DESCRIPTION">' +
+    'id="ASSET_DESCRIPTION" value="ASSET_DESCRIPTION" checked>' +
     '</td>' +
     '<th>ASSET DESCRIPTION</th>' +
     '<td> <input type="checkbox" name="ASSET_MODEL" id="ASSET_MODEL"' +
@@ -23,7 +23,7 @@ var all_vw_columns = '<table class="table">' +
     '</td>' +
     '<th>ASSET MODEL</th>' +
     '<td> <input type="checkbox" name="ASSET_CLASSIFICATION"' +
-    'id="ASSET_CLASSIFICATION" value="ASSET_CLASSIFICATION">' +
+    'id="ASSET_CLASSIFICATION" value="ASSET_CLASSIFICATION" checked>' +
     '</td>' +
     '<th>ASSET CLASSIFICATION</th>' +
     '</tr>' +
@@ -33,11 +33,11 @@ var all_vw_columns = '<table class="table">' +
     '</td>' +
     '<th>ASSET TYPE</th>' +
     '<td> <input type="checkbox" name="ASSET_ROOM_NO"' +
-    'id="ASSET_ROOM_NO" value="ASSET_ROOM_NO">' +
+    'id="ASSET_ROOM_NO" value="ASSET_ROOM_NO" checked>' +
     '</td>' +
     '<th>ASSET ROOM NO</th>' +
     '<td> <input type="checkbox" name="ASSET_SUB_LOCATION"' +
-    'id="ASSET_SUB_LOCATION" value="ASSET_SUB_LOCATION"></td>' +
+    'id="ASSET_SUB_LOCATION" value="ASSET_SUB_LOCATION" checked></td>' +
     '<th>ASSET SUB LOCATION</th>' +
     '</tr>' +
     '<tr>' +
@@ -138,15 +138,15 @@ var all_vw_columns = '<table class="table">' +
 var users_columns = '<table class="table">' +
     '<tr>' +
     '<td> <input type="checkbox" name="ASSET_USERNAME" id="ASSET_USERNAME"' +
-    'value="ASSET_USERNAME">' +
+    'value="ASSET_USERNAME" checked>' +
     '</td>' +
     '<th>ASSET USERNAME</th>' +
     '<td> <input type="checkbox" name="ASSET_USER_BADGENO" id="ASSET_USER_BADGENO"' +
-    'value="ASSET_USER_BADGENO">' +
+    'value="ASSET_USER_BADGENO" checked>' +
     '</td>' +
     '<th>ASSET USER BADGENO</th>' +
     '<td> <input type="checkbox" name="ASSET_USER_CLASS"' +
-    'id="ASSET_USER_CLASS" value="ASSET_USER_CLASS">' +
+    'id="ASSET_USER_CLASS" value="ASSET_USER_CLASS" checked>' +
     '</td>' +
     '<th>ASSET USER CLASS</th>' +
     '</tr>' +
@@ -258,7 +258,7 @@ function show(action, bg_color, header_text, count) {
     }
     else {
         if(action == "getActive_dash" || action == "getInactive_dash" || action == "getUnassigned_dash" || action == "getComm" || action == "getDecomm"){
-            $("#table_columns_container").html(all_vw_columns)
+            $("#table_columns_container").html(all_vw_columns);
             $("#overlay-assets-added").show();
         }
         else if( action == "getUsers_dash" ){
