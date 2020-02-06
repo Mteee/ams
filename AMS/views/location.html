@@ -412,6 +412,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="row form-control" style="background-image: none;">
                                                 <div class="form-group label-floating">
                                                     <div class="col-sm-12">
@@ -458,6 +459,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="row form-control" style="background-image: none;">
                                                 <div class="form-group label-floating">
                                                     <div class="col-sm-12">
@@ -505,13 +507,14 @@
                                                 </div>
 
                                             </div>
+
                                             <div class="row form-control" style="background-image: none;"
                                                 id="area_drop">
                                                 <div class="form-group label-floating">
                                                     <div class="col-sm-12">
                                                         <label class="control-label">AREA *</label>
                                                         <div class="dropdown py-3">
-                                                            <button class="btn btn-outline-info form-control "
+                                                            <button class="btn btn-outline-info form-control"
                                                                 style="margin-top: -14px;" type="button"
                                                                 id="proper_area_add_location_filter"
                                                                 data-toggle="dropdown" aria-haspopup="true"
@@ -533,7 +536,7 @@
                                                                             <span
                                                                                 class="input-group-text btn btn-danger text-light"
                                                                                 id="clear_location_proper_area"
-                                                                                onclick="clearData('#search_add_location_proper_area','#proper_proper_area_add_location_filter','AREA')"><i
+                                                                                onclick="clearData('#search_add_location_proper_area','#proper_area_add_location_filter','AREA')"><i
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
@@ -570,7 +573,7 @@
                                                                 aria-expanded="false">
 
                                                             </button>
-                                                            <div class="dropdown-menu"
+                                                            <div class="dropdown-menu clusterize-scroll"
                                                                 id="scroll_add_location_area_detail"
                                                                 aria-labelledby="area_detail_add_location_filter"
                                                                 style="width: 100%;">
@@ -578,28 +581,25 @@
                                                                     <div class="input-group">
                                                                         <input type="search" style="margin: -1px;"
                                                                             id="search_add_location_area_detail"
-                                                                            class="form-control" placeholder="Area"
-                                                                            onkeyup="onSearch('search_add_location_area_detail','#empty_add_location_area_detail')"
+                                                                            class="form-control" placeholder="Area Detail"
+                                                                            onkeyup="onSearch('area_detail_add_location_filter','search_add_location_area_detail','#empty_add_location_area_detail')"
                                                                             autofocus="autofocus">
                                                                         <div class="input-group-append">
                                                                             <span
                                                                                 class="input-group-text btn btn-danger text-light"
                                                                                 id="clear_location_area_detail"
-                                                                                onclick="clearData('#search_add_location_area_detail','#proper_area_detail_add_location_filter','AREA DETAIL')"><i
+                                                                                onclick="clearData('#search_add_location_area_detail','#area_detail_add_location_filter','AREA DETAIL')"><i
                                                                                     class="fa fa-close"></i></span>
                                                                         </div>
                                                                     </div>
                                                                 </form>
                                                                 <div id="meun_add_location_area_detail"
-                                                                    onchange="testMethod()" class="clusterize-scroll">
-                                                                    <div id="Assetload" class="dropdown-loader">
-                                                                        <img src="../img/loading-transparent.gif"
-                                                                            alt="">
+                                                                    onchange="testMethod()" class="clusterize-content">
+                                                                    <div id="Assetloading" class="dropdown-loader">
+                                                                        <img src="../img/loading-transparent.gif" alt="">
                                                                     </div>
                                                                 </div>
-                                                                <div id="empty_add_location_area_detail"
-                                                                    class="dropdown-header">No area detail found
-                                                                </div>
+                                                                <div id="empty_add_location_area_detail" class="dropdown-header">No area detail found</div>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -647,7 +647,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </form>
-                                                                <div id="menu_add_location_room" class="text-center"
+                                                                <div id="menu_add_location_room" class="text-center clusterize-scroll"
                                                                     onchange="testMethod()">
                                                                     <div id="Assetload" class="dropdown-loader">
                                                                         <img src="../img/loading-transparent.gif"
@@ -662,6 +662,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="row form-control" style="background-image: none;"
                                                 id="input_room_new">
                                                 <div class="form-group label-floating">
@@ -672,6 +673,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="row form-control" style="background-image: none;"
                                                 id="input_sub_new">
                                                 <div class="form-group label-floating">
@@ -682,6 +684,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <div class="row form-control" style="background-image: none;"
                                                 id="assetType_drop">
                                                 <div class="form-group label-floating is-empty">
@@ -846,7 +849,7 @@
                                 LOCATION</span></em>
                     </span>
                 </div>
-                <div class="system_desc">PRODUCTION</div>
+                <div class="system_desc">DEVELOPMENT</div>
             </div>
             <div class=" col-md-3">
                 <div class="row">
