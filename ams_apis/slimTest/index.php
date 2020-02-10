@@ -6776,7 +6776,7 @@ $app->map(['GET','POST'],'/getActive_dash',function(Request $request, Response $
             $asset_class = '';
         }
 
-            $sql = "SELECT DISTINCT ".$columns."
+            $sql = "SELECT DISTINCT $columns
                 FROM ASSETS_VW
                 WHERE     ASSET_STATUS = 'ACTIVE'
                 AND ASSET_CLASS LIKE '%$asset_class%'
@@ -6877,7 +6877,7 @@ $app->map(['GET','POST'],'/getInactive_dash',function(Request $request, Response
         $columns_array = explode(",",$columns);
 
 
-        $sql = "SELECT DISTINCT ".$columns."
+        $sql = "SELECT DISTINCT $columns
                     FROM ASSETS_VW 
                     WHERE ASSET_STATUS = 'INACTIVE'
                     AND   ASSET_CLASS LIKE '%$asset_class%'
@@ -6987,7 +6987,7 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
             $asset_class = '';
         }
 
-        $sql = "SELECT ".$columns."
+        $sql = "SELECT $columns
                 FROM AMSD.ASSETS_LOG_PENDING_VW 
                 WHERE ASSET_ID LIKE '%$assetNo%'
                 AND   (ASSET_BUILDING_OLD LIKE '%$building%' OR ASSET_BUILDING_NEW LIKE '%$building%')
@@ -7185,7 +7185,7 @@ $app->map(['GET','POST'],'/getUnassigned_dash',function(Request $request, Respon
             $asset_class = '';
         }
 
-        $sql = "SELECT DISTINCT ".$columns."
+        $sql = "SELECT DISTINCT $columns
                     FROM ASSETS_VW 
                     WHERE ASSET_STATUS = 'ACTIVE'
                     AND   ASSET_CERT_NO IS NULL
@@ -7289,7 +7289,7 @@ $app->map(['GET','POST'],'/getComm',function(Request $request, Response $respons
             $asset_class = '';
         }
 
-        $sql = "SELECT DISTINCT ".$columns."
+        $sql = "SELECT DISTINCT $columns
                     FROM ASSETS_VW 
                     WHERE ASSET_STATUS = 'ACTIVE'
                     AND   ASSET_CERT_NO IS NOT NULL
@@ -7304,7 +7304,7 @@ $app->map(['GET','POST'],'/getComm',function(Request $request, Response $respons
                     AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
                     AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
                     AND   to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL)
-                    ORDER BY ASSET_PRINT_DATE
+                    ORDER BY $columns
               ";
 
         $users =$func->executeQuery($sql);
@@ -7403,7 +7403,7 @@ $app->map(['GET','POST'],'/getDecomm',function(Request $request, Response $respo
             $asset_class = '';
         }
 
-        $sql = "SELECT DISTINCT ".$columns."
+        $sql = "SELECT DISTINCT $columns
                     FROM ASSETS_VW 
                     WHERE ASSET_CERT_NO IS NOT NULL
                     AND   ASSET_COMMENTS = 'DISPOSED'
@@ -7416,10 +7416,9 @@ $app->map(['GET','POST'],'/getDecomm',function(Request $request, Response $respo
                     AND   ASSET_DESCRIPTION LIKE '%$asset_description%'
                     AND   ASSET_ROOM_NO LIKE '%$room_no%'
                     AND   ASSET_SUB_LOCATION LIKE '%$sub_location%'
-                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS')
-                    AND   to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL)
-                    ORDER BY ASSET_PRINT_DATE
-              ";
+                    AND   (ASSET_CREATE_DT BETWEEN to_date('$dateStart 00:00:00','YYYY/MM/DD HH24:MI:SS') AND to_date('$dateEnd 23:59:59','YYYY/MM/DD HH24:MI:SS') OR ASSET_CREATE_DT IS NULL)
+                    ORDER BY $columns";
+
 
         $users =$func->executeQuery($sql);
 
