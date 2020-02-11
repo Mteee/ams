@@ -2859,7 +2859,7 @@ $app->map(['GET','POST'],'/link_assets',function(Request $request, Response $res
 
         // echo $USERNAME.$ASSET_NO.$LOCATION.$ROOM.$RESULT;
 
-        $sql = "BEGIN AMSD.asset_it_fix_new (:USERNAME,:AL_NO,:ASSET_IDS,:PRIMARY_ID,:RESULT); END;";
+        $sql = "BEGIN AMSP.asset_it_fix_new (:USERNAME,:AL_NO,:ASSET_IDS,:PRIMARY_ID,:RESULT); END;";
       
         $statement = oci_parse($connect,$sql);
         oci_bind_by_name($statement, ':USERNAME', $USERNAME, 100);
@@ -6640,7 +6640,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                         FROM
                     (SELECT ASSET_ID, FN_GET_ASSET_DESCRIPTION(ASSET_ID) AS ASSET_DESCRIPTION
                         FROM
-                    AMSD.ASSETS_LOG_PENDING_VW 
+                    AMSP.ASSETS_LOG_PENDING_VW 
 
                     WHERE ASSET_ID LIKE '%$assetNo%'
                     AND   (ASSET_BUILDING_OLD LIKE '%$building%' OR   ASSET_BUILDING_NEW LIKE '%$building%')
@@ -6986,6 +6986,7 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
         if($asset_class == "ALL EQUIPMENT"){
             $asset_class = '';
         }
+
 
         $sql = "SELECT $columns
                 FROM AMSD.ASSETS_LOG_PENDING_VW 
