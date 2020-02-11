@@ -1255,7 +1255,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         console.log("data length");
         console.log($("#currentAssetsTable tbody tr").length);
 
-        if ($("#currentAssetsTable tbody tr").length > 0) {
+        if ($("#currentAssetsTable tbody tr").length > 1) {
             $('#currentAssetsTable').DataTable().clear().destroy();
             $("#searchView").show();
             $("#DecomAssets").hide();

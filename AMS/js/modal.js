@@ -175,11 +175,11 @@ var users_columns = '<table class="table">' +
 var log_pending_columns = '<table class="table">' +
     '<tr>' +
     '<td> <input type="checkbox" name="ASSET_ID" id="ASSET_ID"' +
-    'value="ASSET_ID">' +
+    'value="ASSET_ID" checked>' +
     '</td>' +
     '<th>ASSET ID</th>' +
     '<td> <input type="checkbox" name="ASSET_PRIMARY_ID"' +
-    'id="ASSET_PRIMARY_ID" value="ASSET_PRIMARY_ID">' +
+    'id="ASSET_PRIMARY_ID" value="ASSET_PRIMARY_ID" checked>' +
     '</td>' +
     '<th>ASSET PRIMARY ID</th>' +
     '<td> <input type="checkbox" name="ASSET_BUILDING_OLD" id="ASSET_BUILDING_OLD"' +
@@ -227,10 +227,10 @@ var log_pending_columns = '<table class="table">' +
     '</tr>' +
     '<tr>' +
     '<td> <input type="checkbox" name="ASSET_DATE"' +
-    'id="ASSET_DATE" value="ASSET_DATE"></td>' +
+    'id="ASSET_DATE" value="ASSET_DATE" checked /></td>' +
     '<th>ASSET DATE</th>' +
     '<td> <input type="checkbox" name="ASSET_TRAN_STATUS"' +
-    'id="ASSET_TRAN_STATUS" value="ASSET_TRAN_STATUS"></td>' +
+    'id="ASSET_TRAN_STATUS" value="ASSET_TRAN_STATUS" checked/></td>' +
     '<th>ASSET TRAN STATUS</th>' +
     '</tr>' +
     '</table>';

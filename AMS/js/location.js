@@ -168,7 +168,17 @@ var allArr = {
     search_location_room: [],
     search_location_area: [],
     search_location_level: [],
-    search_location_building: []
+    search_location_building: [],
+
+
+
+    search_add_location_area_detail: [],
+    search_add_location_proper_area: [],
+    search_add_location_building: [],
+    search_add_location_level: [],
+    search_add_location_area: [],
+    search_add_location_room: [],
+    search_add_location_assetType: []
 };
 
 function getItems(url, id, scrollArea, menuid, empty, type) {
@@ -198,7 +208,8 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
         success: function (data) {
             console.log("url_called : "+url);
 
-            console.log(data);
+            console.log(data.data);
+
             if ($("#search_add_location_room").val() !== "") {
 
                 if (id == "search_add_location_building") {
@@ -222,7 +233,7 @@ function getItems(url, id, scrollArea, menuid, empty, type) {
             for (var i = 0; i < data.rows; i++) {
                 rows.push({
                     values: [data.data[i]],
-                    markup: '<input type="button" class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
+                    markup: '<input class="dropdown-item form-control" type="button" value="' + data.data[i] + '"/>',
                     active: true
                 });
             }
@@ -362,6 +373,9 @@ function search() {
             success: function (data) {
                 $('#loader').fadeOut(500);
 
+                console.log("data");
+                console.log(data.data);
+
                 var table = null;
 
                 if (data.rows > 0) {
@@ -394,7 +408,7 @@ function search() {
 
 
                     str = replaceAll("\n", "", str);
-                    str = replaceAll("\"", "`", str);
+                    str = replaceAll("\'", "`", str);
 
                     str = (JSON.parse(str));
 

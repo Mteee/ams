@@ -78,9 +78,12 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         populate_filters();
 
         if ($("#currentAssetsTable tbody tr").length > 0) {
-            $('#currentAssetsTable').DataTable().clear().destroy();
-            $('#searchView').show();
-            $('#printCert').hide();
+            console.log($("#currentAssetsTable tbody tr").length);
+            if ($("#currentAssetsTable tbody tr").length > 1) {
+                $('#currentAssetsTable').DataTable().clear().destroy();
+                $('#searchView').show();
+                $('#printCert').hide();
+            }
         }
 
     });

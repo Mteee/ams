@@ -1067,7 +1067,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
         localStorage.filter = filter;
         toogleSub(filter);
 
-        if ($("#currentAssetsTable tbody tr").length > 0) {
+        if ($("#currentAssetsTable tbody tr").length > 1) {
             $('#currentAssetsTable').DataTable().clear().destroy();
             $("#searchView").show();
             $("#commAssets").hide();
