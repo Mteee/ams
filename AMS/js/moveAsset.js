@@ -187,6 +187,11 @@ function search() {
                     console.log(data.data);
                     str = (JSON.parse(data.data));
 
+                    for (let index = 0; index < data.rows; index++) {
+                        console.log("Db_User : "+data.data[index].ASSET_USERNAME);
+                    }
+                    
+
 
                     table = createTable(table_dom, str.data, length, data.rowsID);
 
@@ -361,6 +366,18 @@ function search() {
                 {
                     "targets": -2,
                     "orderable": false
+                },
+                {
+                    "targets": 4,
+                    "orderable": false,
+                    "render":function(data,type,row){
+                        // console.log("row");
+                        // console.log(row[4].split("|")[1]);
+                        // console.log("end row");
+                        
+                        return row[4].split("|")[0];
+
+                    }
                 }
             ],
             'select': {
@@ -368,6 +385,7 @@ function search() {
             },
             fnCreatedRow: function (nRow, aData, iDataIndex) {
                 if (tableID == '#currentAssetsTable') {
+                    console.log(rowIds);
                     for (var t = 0; t < rowIds.length; t++) {
                         if (rowIds[t] == aData[0]) {
                             $(nRow).css({
@@ -379,6 +397,25 @@ function search() {
                             });
                         }
                     }
+                }
+                if(tableID == '#inAssetsTable'){
+                    console.log("rowIds");
+                    var username = aData[4].split("|")[1];
+                    var role = aData[4].split("|")[2];
+                    if(localStorage.username.toUpperCase() == username){
+                        $(nRow).css({
+                            'background-color': '#948d8d7d',
+                            'pointer-events': 'none',
+                            'cursor': 'not-allowed',
+                            'color': '#4e4d4d',
+                            'transition': '500ms'
+                        });
+
+                        console.log(nRow);
+                        console.log($(nRow).onmouseenter());
+                        // nRow.onmouseenter($(nRow).css("background-color","yellow"));
+                    }
+                    console.log(username);
                 }
             }
         });

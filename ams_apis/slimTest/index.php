@@ -1935,7 +1935,7 @@ $app->map(['GET','POST'],'/getCurrentAssets', function (Request $request, Respon
 $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $response){
 
     global $func;
-    $data = json_decode(file_get_contents('php://input') );
+    $data = json_decode(file_get_contents('php://input'));
     $level = strtoupper($data->level);
     $room_no = strtoupper($data->room_no);
     $sub_location = strtoupper($data->sub_location);
@@ -1960,6 +1960,8 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         lvw.asset_sub_location_new as ASSET_SUB_LOCATION,
                         avw.asset_description as asset_description,
                         asset_is_sub as asset_is_sub,
+                        lvw.ASSET_USERNAME,
+                        lvw.USER_ROLES,
                         avw.ASSET_TRANSACTION_STATUS AS ASSET_STATUS
                 FROM AMSD.assets_log_pending_vw lvw, AMSD.assets_vw avw
                 WHERE        (asset_transaction_status = 'PENDING' OR asset_transaction_status = 'PENDING-TEMP')
@@ -1999,7 +2001,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         $str .= $assets->data[$k]->ASSET_ID . '","';
                         $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
                         $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
-                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA."|".$assets->data[$k]->ASSET_USERNAME."|".$assets->data[$k]->USER_ROLES. '","';
                         $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
                         $str .= $assets->data[$k]->ASSET_STATUS . '","';
                         $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"]';
@@ -2010,7 +2012,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         $str .= $assets->data[$k]->ASSET_ID . '","';
                         $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
                         $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
-                        $str .= $assets->data[$k]->ASSET_AREA . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA."|".$assets->data[$k]->ASSET_USERNAME . '","';
                         $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
                         $str .= $assets->data[$k]->ASSET_STATUS . '","';
                         $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"],';
