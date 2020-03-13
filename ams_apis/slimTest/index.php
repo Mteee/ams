@@ -6640,7 +6640,7 @@ $app->map(['GET','POST'],'/getCounts',function(Request $request, Response $respo
                         FROM
                     (SELECT ASSET_ID, FN_GET_ASSET_DESCRIPTION(ASSET_ID) AS ASSET_DESCRIPTION
                         FROM
-                    AMSP.ASSETS_LOG_PENDING_VW 
+                    AMSD.ASSETS_LOG_PENDING_VW 
 
                     WHERE ASSET_ID LIKE '%$assetNo%'
                     AND   (ASSET_BUILDING_OLD LIKE '%$building%' OR   ASSET_BUILDING_NEW LIKE '%$building%')
