@@ -405,16 +405,17 @@
                                                         <td> <input type="checkbox" name="r_cert" id="r_cert" value="C">
                                                         </td>
                                                         <th>CERTIFICATES</th>
-                                                        <td> <input type="checkbox" name="r_u" id="r_u" value="U">
+
+                                                        <td> <input type="checkbox" name="r_ca" id="r_ca" value="CA">
                                                         </td>
-                                                        <th>USERS</th>
+                                                        <th>CREATE ASSETS</th>
                                                     </tr>
                                                     <tr>
                                                         <td> <input type="checkbox" name="r_l" id="r_l" value="L"></td>
                                                         <th>LOCATIONS</th>
-                                                        <td> <input type="checkbox" name="r_ca" id="r_ca" value="CA">
+                                                        <td> <input type="checkbox" name="r_u" id="r_u" value="U">
                                                         </td>
-                                                        <th>CREATE ASSETS</th>
+                                                        <th>USERS</th>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -843,6 +844,17 @@
 
         // var setting = browser.tabs.setZoom(2);
         // setting.then(null, onError);
+
+        $('#r_move').change(function() {
+            if (this.checked)
+                $('#r_move_approve').prop('checked', false);
+
+        });
+        $('#r_move_approve').change(function() {
+            if (this.checked)
+                $('#r_move').prop('checked', false);
+        });
+
         $('#r_car').change(function() {
             if (this.checked) {
                 $('#r_ca').prop('checked', true);
