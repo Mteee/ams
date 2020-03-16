@@ -2001,7 +2001,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         $str .= $assets->data[$k]->ASSET_ID . '","';
                         $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
                         $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
-                        $str .= $assets->data[$k]->ASSET_AREA."|".$assets->data[$k]->ASSET_USERNAME."|".$assets->data[$k]->USER_ROLES. '","';
+                        $str .= $assets->data[$k]->ASSET_AREA."^".$assets->data[$k]->ASSET_USERNAME."^".$assets->data[$k]->USER_ROLES. '","';
                         $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
                         $str .= $assets->data[$k]->ASSET_STATUS . '","';
                         $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"]';
@@ -2012,7 +2012,7 @@ $app->map(['GET','POST'],'/getInAssets', function (Request $request, Response $r
                         $str .= $assets->data[$k]->ASSET_ID . '","';
                         $str .= $func->isSpecified($assets->data[$k]->ASSET_SUB_LOCATION) . '","';
                         $str .= $func->isSpecified($assets->data[$k]->ASSET_ROOM_NO) . '","';
-                        $str .= $assets->data[$k]->ASSET_AREA."|".$assets->data[$k]->ASSET_USERNAME . '","';
+                        $str .= $assets->data[$k]->ASSET_AREA."^".$assets->data[$k]->ASSET_USERNAME."^".$assets->data[$k]->USER_ROLES. '","';
                         $str .= $assets->data[$k]->ASSET_DESCRIPTION . '","';
                         $str .= $assets->data[$k]->ASSET_STATUS . '","';
                         $str .= $func->updateLetterToWords($assets->data[$k]->ASSET_IS_SUB) . '"],';

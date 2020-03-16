@@ -701,7 +701,7 @@ $('#update_user').click(function () {
     } else if (user_roles.length == 0) {
         swal.fire({
             title: "No Changes Made",
-            text: "You must select atlease one roles",
+            text: "You must select atlease one role",
             type: "error",
             showCloseButton: true,
             confirmButtonColor: "#C12E2A",

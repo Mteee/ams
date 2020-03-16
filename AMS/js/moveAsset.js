@@ -182,15 +182,18 @@ function search() {
                 $('#loader').hide();
                 var table = null;
 
+                console.log("data");
+                console.log(data);
+
                 if (data.rows > 0) {
 
                     console.log(data.data);
                     str = (JSON.parse(data.data));
 
                     for (let index = 0; index < data.rows; index++) {
-                        console.log("Db_User : "+data.data[index].ASSET_USERNAME);
+                        console.log("Db_User : " + data.data[index].ASSET_USERNAME);
                     }
-                    
+
 
 
                     table = createTable(table_dom, str.data, length, data.rowsID);
@@ -370,12 +373,12 @@ function search() {
                 {
                     "targets": 4,
                     "orderable": false,
-                    "render":function(data,type,row){
+                    "render": function (data, type, row) {
                         // console.log("row");
                         // console.log(row[4].split("|")[1]);
                         // console.log("end row");
-                        
-                        return row[4].split("|")[0];
+
+                        return row[4].split("^")[0];
 
                     }
                 }
@@ -398,24 +401,30 @@ function search() {
                         }
                     }
                 }
-                if(tableID == '#inAssetsTable'){
+                if (tableID == '#inAssetsTable') {
                     console.log("rowIds");
-                    var username = aData[4].split("|")[1];
-                    var role = aData[4].split("|")[2];
-                    if(localStorage.username.toUpperCase() == username){
-                        $(nRow).css({
-                            'background-color': '#948d8d7d',
-                            'pointer-events': 'none',
-                            'cursor': 'not-allowed',
-                            'color': '#4e4d4d',
-                            'transition': '500ms'
-                        });
+                    var username = aData[4].split("^")[1];
+                    var role = aData[4].split("^")[2];
+                    console.log();
 
-                        console.log(nRow);
-                        $(nRow.localName).on('mouseenter',()=>{$(this).css("background-color","yellow")});
-                        // nRow.onmouseenter($(nRow).css("background-color","yellow"));
+
+                    console.log("username");
+                    console.log(aData[4]);
+
+
+                    if (localStorage.username.toUpperCase() == username) {
+                        if (role != "ADMIN" && !(role.indexOf("MA") > -1)) {
+
+                            console.log(role);
+                            $(nRow.firstChild.firstElementChild).attr("disabled", "true");
+                            $(nRow).attr({ "data-toggle": "tooltip", "data-html": "true", "title": "Assets cannot be approved by the same user who transferred it." });
+                            $(nRow).css({
+                                'background-color': '#948d8d7d',
+                                'color': '#4e4d4d',
+                            });
+
+                        }
                     }
-                    console.log(username);
                 }
             }
         });
