@@ -1,35 +1,39 @@
 var menu_ids = [
-    "ams_view",             //0
-    "ams_move",             //1
-    "ams_cert",             //2
-    "drodown-menu",         //3,4,5
-    "ams_add",              //4
-    "ams_rem",              //5
-    "ams_asset_link",       //6
-    "ams_location",         //7
-    "ams_users",            //8
-    "ams_dashboard",         //9
-    ""                      //10
+    "ams_view", //0
+    "ams_move", //1
+    "ams_cert", //2
+    "drodown-menu", //3,4,5
+    "ams_add", //4
+    "ams_rem", //5
+    "ams_asset_link", //6
+    "ams_location", //7
+    "ams_users", //8
+    "ams_dashboard", //9
+    "" //10
 ];
 
 customMenu(menu_ids);
 
 function customMenu(menu_ids) {
-    
+
     var roles = localStorage.role;
-        
-    if(roles != "ADMIN"){
+
+    if (roles != "ADMIN") {
         var roles_default = ("V|M|C|CAR|CA|CR|AL|L|U|D").split("|");
         var role_split = roles.split("|");
 
+        if (roles.indexOf("MA")) {
+            role_split.push("M");
+        }
+
         role_split = roles_default.filter(function(val) {
             return role_split.indexOf(val) == -1;
-           });
+        });
 
-           console.log("role_split");
-           console.log(role_split);
-           console.log("role_split");
-    
+        console.log("role_split");
+        console.log(role_split);
+        console.log("role_split");
+
         for (var i = 0; i < menu_ids.length; i++) {
             for (var t = 0; t < role_split.length; t++) {
                 var target_id = role_link(role_split[t], menu_ids);
@@ -46,6 +50,7 @@ function role_link(value, menu_ids) {
         case "V":
             return menu_ids[0];
         case "M":
+        case "MA":
             return menu_ids[1];
         case "C":
             return menu_ids[2];
