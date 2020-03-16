@@ -412,7 +412,7 @@ function search() {
                         });
 
                         console.log(nRow);
-                        console.log($(nRow).onmouseenter());
+                        $(nRow.localName).on('mouseenter',()=>{$(this).css("background-color","yellow")});
                         // nRow.onmouseenter($(nRow).css("background-color","yellow"));
                     }
                     console.log(username);
