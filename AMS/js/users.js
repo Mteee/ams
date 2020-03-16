@@ -1,4 +1,3 @@
-
 var user_class = localStorage.username;
 
 $('#username').text(user_class.toUpperCase());
@@ -25,7 +24,7 @@ function closeApp() {
             popup: 'animated tada'
         }
 
-    }).then(function (result) {
+    }).then(function(result) {
         if (result.value) {
             closeMe();
         } else if (
@@ -44,7 +43,7 @@ function closeMe() {
     window.close();
 }
 
-window.onload = function () {
+window.onload = function() {
     if (localStorage.building !== '' || localStorage.level !== '' || localStorage.area !== '' || localStorage.room_no !== '') {
         localStorage.building = '';
         localStorage.level = ''
@@ -123,6 +122,7 @@ function closeAsset(id) {
 }
 
 addUserClasses();
+
 function addUserClasses() {
 
     var jsonData = '{"asset_class":"' + localStorage.filter + '","role":"' + localStorage.role + '"}';
@@ -131,7 +131,7 @@ function addUserClasses() {
         type: "POST",
         dataType: 'json',
         data: jsonData,
-        success: function (data) {
+        success: function(data) {
 
             var options = "";
 
@@ -144,7 +144,7 @@ function addUserClasses() {
             console.log(data);
             console.log("data");
         },
-        error: function (error) {
+        error: function(error) {
             swal.fire({
                 title: "Unexpected Error #42404",
                 text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'getClasses'",
@@ -167,8 +167,8 @@ function populate_dropdown() {
         url: "../../ams_apis/slimTest/index.php/getSearchUser",
         method: "POST",
         dataType: 'json',
-        data: '{"username":"'+localStorage.searchUsername+'"}',
-        success: function (data) {
+        data: '{"username":"' + localStorage.searchUsername + '"}',
+        success: function(data) {
             var rows = [];
             for (var k = 0; k < data.rows; k++) {
                 rows.push({
@@ -182,7 +182,7 @@ function populate_dropdown() {
 
             filterItems(rows);
         },
-        error: function(data_error){
+        error: function(data_error) {
             console.log(data_error);
         }
 
@@ -200,7 +200,7 @@ function getUsers(a, b, c) {
         type: "POST",
         dataType: 'json',
         data: jsonData,
-        success: function (data) {
+        success: function(data) {
             console.log(data);
             if (data.rows > 0) {
 
@@ -238,8 +238,7 @@ function getUsers(a, b, c) {
 
 
 
-            }
-            else {
+            } else {
                 // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
                 // $('#searchView').fadeIn(500);
                 // console.log(data.data);
@@ -248,17 +247,17 @@ function getUsers(a, b, c) {
 
             }
 
-            $('#usersTable tbody').on('click', 'button[name="view"]', function () {
+            $('#usersTable tbody').on('click', 'button[name="view"]', function() {
                 var data = table.row($(this).parents('tr')).data();
                 view_user(data[0]);
             });
 
-            $('#usersTable tbody').on('click', 'button[name="edit"]', function () {
+            $('#usersTable tbody').on('click', 'button[name="edit"]', function() {
                 var data = table.row($(this).parents('tr')).data();
                 edit_user(data[0]);
             });
 
-            $('#usersTable tbody').on('click', 'button[name="delete"]', function () {
+            $('#usersTable tbody').on('click', 'button[name="delete"]', function() {
                 var data = table.row($(this).parents('tr')).data();
                 swal.fire({
                     html: "<span style='font-size:13pt importnat;'>Are you sure you want to delete <strong>" + data[0] + "</strong>?</span>",
@@ -275,7 +274,7 @@ function getUsers(a, b, c) {
                     customClass: {
                         popup: 'animated tada'
                     }
-                }).then(function (result) {
+                }).then(function(result) {
                     if (result.value) {
                         delete_user(data[0]);
                     } else if (
@@ -288,7 +287,7 @@ function getUsers(a, b, c) {
             });
 
         },
-        error: function (err) {
+        error: function(err) {
             console.log(err)
             $('#searchView').fadeIn(500);
             $('#loader').hide();
@@ -321,7 +320,7 @@ function createTable(tableID, tableData) {
         "ordering": false,
         "serverSide": true,
         "destroy": true,
-        ajax: function (data, callback, settings) {
+        ajax: function(data, callback, settings) {
             var out = [];
             // console.log("=======================");
             // console.log(data);
@@ -339,7 +338,7 @@ function createTable(tableID, tableData) {
             // console.log("=========out=========");
             // console.log(out);
             // console.log("========out==========");
-            setTimeout(function () {
+            setTimeout(function() {
                 callback({
                     draw: data.draw,
                     data: out,
@@ -372,7 +371,7 @@ function createTable(tableID, tableData) {
                 "orderable": false
             }
         ],
-        fnCreatedRow: function (nTd, nRow, aData, iDataIndex) {
+        fnCreatedRow: function(nTd, nRow, aData, iDataIndex) {
 
             $(nRow).attr('id', aData[0]);
             // console.log($(nTd).children()[0].children);
@@ -383,19 +382,20 @@ function createTable(tableID, tableData) {
 }
 
 var form_ids_fields = [
-    "u_username",       // 0
-    "u_badge",          // 1
-    "u_class",          // 2
-    "r_all",            // 3
-    "r_view",           // 4
-    "r_move",           // 5
-    "r_cert",           // 6
-    "r_car",            // 7
-    "r_ca",             // 8
-    "r_cr",             // 9
-    "r_al",             // 10
-    "r_l",              // 11
-    "r_u"               // 12
+    "u_username", // 0
+    "u_badge", // 1
+    "u_class", // 2
+    "r_all", // 3
+    "r_view", // 4
+    "r_move", // 5
+    "r_move_approve", // 6
+    "r_cert", // 7
+    "r_car", // 8
+    "r_ca", // 9
+    "r_cr", // 10
+    "r_al", // 11
+    "r_l", // 12
+    "r_u" // 13
 ];
 
 function disableFormFields() {
@@ -446,20 +446,22 @@ function checkValueWithId(value) {
             return form_ids_fields[4];
         case "M":
             return form_ids_fields[5];
-        case "C":
+        case "MA":
             return form_ids_fields[6];
-        case "CAR":
+        case "C":
             return form_ids_fields[7];
-        case "CA":
+        case "CAR":
             return form_ids_fields[8];
-        case "CR":
+        case "CA":
             return form_ids_fields[9];
-        case "AL":
+        case "CR":
             return form_ids_fields[10];
-        case "L":
+        case "AL":
             return form_ids_fields[11];
-        case "U":
+        case "L":
             return form_ids_fields[12];
+        case "U":
+            return form_ids_fields[13];
     }
 }
 
@@ -482,7 +484,7 @@ function view_user(username) {
         type: "POST",
         dataType: 'json',
         data: '{"user":"' + username + '"}',
-        success: function (data) {
+        success: function(data) {
             console.log("data view user");
             console.log(data);
             disableFormFields();
@@ -491,7 +493,7 @@ function view_user(username) {
             document.getElementById(form_ids_fields[2]).value = data.data[0].ASSET_USER_CLASS;
             check_checkboxes(data.data[0].ASSET_USER_ROLES);
         },
-        error: function (error) {
+        error: function(error) {
             console.log(error);
             swal.fire({
                 title: "Unexpected Error #42404",
@@ -506,12 +508,12 @@ function view_user(username) {
     });
 
 }
+$("#add_users").submit(function(e) {
+    e.preventDefault();
+});
 
+$('#add_user').click(function() {
 
-$('#add_user').click(function () {
-    $("#add_users").submit(function (e) {
-        e.preventDefault();
-    });
     var user_details = $(".user-info select option:selected,.user-info input[type='text']");
     var arr_user_details = getValues_onElements(user_details);
     var user_roles = $(".user-info input[type='checkbox']:checked");
@@ -536,7 +538,7 @@ $('#add_user').click(function () {
                 popup: 'animated tada'
             }
 
-        }).then(function (res) {
+        }).then(function(res) {
             if (res.value) {
 
             } else {
@@ -560,7 +562,7 @@ $('#add_user').click(function () {
             type: "POST",
             dataType: 'json',
             data: jsonData,
-            success: function (data) {
+            success: function(data) {
                 console.log(data);
                 if (data.rows > 0) {
                     if (data.rows == 2) {
@@ -576,8 +578,7 @@ $('#add_user').click(function () {
                             }
 
                         });
-                    }
-                    else {
+                    } else {
                         swal.fire({
                             title: data.data,
                             type: "success",
@@ -609,7 +610,7 @@ $('#add_user').click(function () {
                     });
                 }
             },
-            error: function (error) {
+            error: function(error) {
                 console.log(error);
                 swal.fire({
                     title: "Unexpected Error #42404",
@@ -642,7 +643,7 @@ function edit_user(username) {
         type: "POST",
         dataType: 'json',
         data: '{"user":"' + username + '"}',
-        success: function (data) {
+        success: function(data) {
             console.log("data edit user");
             console.log(data);
             document.getElementById(form_ids_fields[0]).value = data.data[0].ASSET_USERNAME;
@@ -654,7 +655,7 @@ function edit_user(username) {
             enableCheckboxFields();
 
         },
-        error: function (error) {
+        error: function(error) {
             console.log(error);
             swal.fire({
                 title: "Unexpected Error #42404",
@@ -669,7 +670,7 @@ function edit_user(username) {
     });
 }
 
-$('#update_user').click(function () {
+$('#update_user').click(function() {
     // $("#update_user").submit(function (e) {
     //     e.preventDefault();
     // });
@@ -713,7 +714,7 @@ $('#update_user').click(function () {
             type: "POST",
             dataType: 'json',
             data: '{"roles":"' + strRoles + '","username":"' + localStorage.user_username + '"}',
-            success: function (data) {
+            success: function(data) {
                 swal.fire({
                     title: data.data,
                     type: "success",
@@ -732,7 +733,7 @@ $('#update_user').click(function () {
                 closeAsset('overlay-assets-added');
 
             },
-            error: function (error) {
+            error: function(error) {
                 console.log(error);
                 swal.fire({
                     title: "Unexpected Error #42404",
@@ -755,7 +756,7 @@ function delete_user(username) {
         method: "post",
         data: '{"username" : "' + username + '"}',
         dataType: "JSON",
-        success: function (data) {
+        success: function(data) {
             if (data.rows > 0) {
                 cleaAllFilters();
                 getUsers(localStorage.filter, localStorage.role, localStorage.username);
@@ -779,7 +780,7 @@ function delete_user(username) {
             }
 
         },
-        error: function (err) {
+        error: function(err) {
             swal.fire({
                 title: "Unexpected Error #42404",
                 text: "An error has occured, please contact admin (amsdev@ialch.co.za) CODE : 'deleteUser'",
@@ -801,7 +802,7 @@ if (localStorage.filter == "ALL EQUIPMENT") {
     $('#class-options').append(new Option("MEDICAL EQUIPMENT", "med_equip"));
     $('#class-options').prop('disabled', false);
 
-    $('#class-options').on('change', function () {
+    $('#class-options').on('change', function() {
         var filter = $("#class-options option:selected").text();
         localStorage.filter = filter;
         // toogleSub(filter);
@@ -837,7 +838,7 @@ function filterItems(rows) {
 
 }
 
-var filterRows = function (rows) {
+var filterRows = function(rows) {
     var results = [];
     for (var i = 0, ii = rows.length; i < ii; i++) {
         if (rows[i].active) results.push(rows[i].markup)
@@ -846,7 +847,7 @@ var filterRows = function (rows) {
     return results;
 }
 
-var onSearch = function (btn_id, searchValue, emptyId) {
+var onSearch = function(btn_id, searchValue, emptyId) {
 
     var getId = searchValue;
 
@@ -858,7 +859,7 @@ var onSearch = function (btn_id, searchValue, emptyId) {
 
     // console.log(allArr);
 
-    document.getElementById(searchValue).onkeypress = function (e) {
+    document.getElementById(searchValue).onkeypress = function(e) {
 
         console.log(e.keyCode);
         if (e.keyCode == 13) {
@@ -908,7 +909,7 @@ var onSearch = function (btn_id, searchValue, emptyId) {
     clusterize[getId].update(filterRows(rows));
 }
 
-$('#menu_users_username').on('click', '.dropdown-item', function () {
+$('#menu_users_username').on('click', '.dropdown-item', function() {
     $('#username_filter').text($(this)[0].value);
     localStorage.searchUsername = $(this)[0].value;
     populate_dropdown();
@@ -924,7 +925,7 @@ function clearData(input, btnDafualtId, text) {
         if (input == "#search_users_username") {
 
             document.getElementById('menu_users_username').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            
+
             localStorage.searchUsername = '';
 
             populate_dropdown();
@@ -937,9 +938,9 @@ function clearData(input, btnDafualtId, text) {
 }
 
 function cleaAllFilters() {
-    
+
     document.getElementById('menu_users_username').innerHTML = ' <div id="locationLoader" class="dropdown-loader"><img src="../img/loading-transparent.gif" alt=""></div>';
-            
+
     localStorage.searchUsername = '';
 
     populate_dropdown();
@@ -948,10 +949,10 @@ function cleaAllFilters() {
     $('#username_filter').text("USERNAME");
 }
 
-function search(){
+function search() {
     var username = document.getElementById("search_users_username").value;
 
-    if(username.length == 0){
+    if (username.length == 0) {
         swal.fire({
             title: "Oooops!",
             text: 'please select at least one filter',
@@ -964,8 +965,7 @@ function search(){
             },
             allowOutsideClick: true,
         })
-    }
-    else{
+    } else {
         $('#usersTable').DataTable().clear().destroy();
         $('#users_loader').show();
 
@@ -973,13 +973,13 @@ function search(){
             url: "../../ams_apis/slimTest/index.php/getSearchUser",
             method: "POST",
             dataType: 'json',
-            data: '{"username":"'+localStorage.searchUsername+'"}',
-            success: function (data) {
+            data: '{"username":"' + localStorage.searchUsername + '"}',
+            success: function(data) {
                 $('#users_loader').hide();
                 if (data.rows > 0) {
 
                     var str = '{"data" : [';
-    
+
                     for (var k = 0; k < data.rows; k++) {
                         if ((data.rows - 1) == k) {
                             str += '["' + data.data[k].ASSET_USERNAME + '","';
@@ -994,45 +994,44 @@ function search(){
                             str += data.data[k].ASSET_USER_CREATED + '","';
                             str += desc_role(data.data[k].ASSET_USER_ROLES) + '"],';
                         }
-    
+
                     }
-    
+
                     str += ']}'
-    
+
                     str = replaceAll("\n", "", str);
-    
+
                     console.log(str);
-    
+
                     str = (JSON.parse(str));
                     // console.log(str.data);
                     $('#users_loader').hide();
                     table = createTable("#usersTable", str.data);
-    
+
                     // table.clear().draw();
-    
-    
-    
-                }
-                else {
+
+
+
+                } else {
                     // current += '<tr id="nodata" class="text-center"><th scope="row" colspan="6"><h1 class="text-muted">No data</h1></th></tr>';
                     // $('#searchView').fadeIn(500);
                     // console.log(data.data);
-    
+
                     table = createTable("#usersTable", []);
-    
+
                 }
-    
-                $('#usersTable tbody').on('click', 'button[name="view"]', function () {
+
+                $('#usersTable tbody').on('click', 'button[name="view"]', function() {
                     var data = table.row($(this).parents('tr')).data();
                     view_user(data[0]);
                 });
-    
-                $('#usersTable tbody').on('click', 'button[name="edit"]', function () {
+
+                $('#usersTable tbody').on('click', 'button[name="edit"]', function() {
                     var data = table.row($(this).parents('tr')).data();
                     edit_user(data[0]);
                 });
-    
-                $('#usersTable tbody').on('click', 'button[name="delete"]', function () {
+
+                $('#usersTable tbody').on('click', 'button[name="delete"]', function() {
                     var data = table.row($(this).parents('tr')).data();
                     swal.fire({
                         html: "<span style='font-size:13pt importnat;'>Are you sure you want to delete <strong>" + data[0] + "</strong>?</span>",
@@ -1049,22 +1048,22 @@ function search(){
                         customClass: {
                             popup: 'animated tada'
                         }
-                    }).then(function (result) {
+                    }).then(function(result) {
                         if (result.value) {
                             delete_user(data[0]);
                         } else if (
                             result.dismiss === Swal.DismissReason.cancel
                         ) {
-    
+
                         }
                     })
-    
+
                 });
             },
-            error: function(data_error){
+            error: function(data_error) {
                 console.log(data_error);
             }
-    
+
         });
     }
 }
