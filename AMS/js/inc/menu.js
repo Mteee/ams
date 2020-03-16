@@ -22,7 +22,7 @@ function customMenu(menu_ids) {
         var roles_default = ("V|M|C|CAR|CA|CR|AL|L|U|D").split("|");
         var role_split = roles.split("|");
 
-        if (roles.indexOf("MA")) {
+        if (roles.indexOf("MA") > -1) {
             role_split.push("M");
         }
 
