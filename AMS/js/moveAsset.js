@@ -5,6 +5,9 @@
  * Released under the AME license
  * Date: 2019-07-29
  */
+$(document).ready(()=>{
+    $('[data-toggle="tooltip"]').tooltip("show"); 
+});
 
 function closeApp() {
     swal.fire({
@@ -417,7 +420,9 @@ function search() {
 
                             console.log(role);
                             $(nRow.firstChild.firstElementChild).attr("disabled", "true");
-                            $(nRow).attr({ "data-toggle": "tooltip", "data-html": "true", "title": "Assets cannot be approved by the same user who transferred it." });
+                            $(nRow).attr("data-toggle","tooltip");
+                            $(nRow).attr("data-html","true");
+                            $(nRow).attr("title","Asset cannot be approved by the same user who transferred it!");
                             $(nRow).css({
                                 'background-color': '#948d8d7d',
                                 'color': '#4e4d4d',
