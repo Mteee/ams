@@ -659,6 +659,8 @@ function view_selected() {
         $("#modal-header").addClass("modals-header");
         $("#exportBtn").addClass("btn-lg");
         // var footer = document.getElementById('modal-footer').innerHTML = "";
+        console.log(localStorage.api);
+        
         getData(localStorage.api, columns);
 
     } else {

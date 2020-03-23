@@ -6982,6 +6982,8 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
         $user = strtoupper($data->user);
         $columns = strtoupper($data->columns);
 
+        $replce_username = str_replace("ASSET_USERNAME","MOVED_BY",$columns);
+        $columns_hd_array = explode(",",$replce_username);
         $columns_array = explode(",",$columns);
 
 
@@ -7016,8 +7018,8 @@ $app->map(['GET','POST'],'/getPending_dash',function(Request $request, Response 
             $headers = "";
 
             /**Create Headers */
-            for($h = 0; $h < count($columns_array); $h++){
-                $header_txt = $columns_array[$h];
+            for($h = 0; $h < count($columns_hd_array); $h++){
+                $header_txt = $columns_hd_array[$h];
                 $headers .= '<th>'.$header_txt.'</th>';
             }
 
@@ -7134,16 +7136,21 @@ $app->map(['GET','POST'],'/getMoved_dash',function(Request $request, Response $r
 
             $len = $assets_decode->rows;
 
-            $str = '<table id="table-export" class="table-striped table-bordered" ><thead><tr class="bg-tr"><th>#</th><th>Asset ID</th><th>From Room</th><th>To Room</th><th>Movement Date</th></tr><thead><tbody>';
+            $str = '<table id="table-export" class="table-striped table-bordered" ><thead><tr class="bg-tr"><th>#</th><th>ASSET_ID</th><th>FROM_ASSET_ROOM_NO</th><th>TO_ASSET_ROOM_NO</th><th>FROM_ASSET_SUB_LOCATION</th><th>TO_ASSET_SUB_LOCATION</th><th>ASSET_DATE</th><th>ASSET_DESCRIPTION</th><th>APPROVED_BY</th></tr><thead><tbody>';
            
                 for ($i = 0; $i < $len; $i++) {
                     $value = $assets_decode->data[$i];
+
                     
                     $str .= '<tr><td>'.($i+1).'</td>'.
                         '<td>'.$value->ASSET_ID.'</td>'.
                         '<td>'.$value->FROM_ASSET_ROOM_NO.'</td>'.
                         '<td>'.$value->TO_ASSET_ROOM_NO.'</td>'.
-                        '<td>'.$value->ASSET_DATE.'</td></tr>';
+                        '<td>'.$value->FROM_ASSET_SUB_LOCATION.'</td>'.
+                        '<td>'.$value->TO_ASSET_SUB_LOCATION.'</td>'.
+                        '<td>'.$value->ASSET_DATE.'</td>'.
+                        '<td>'.$value->ASSET_DESCRIPTION.'</td>'.
+                        '<td>'.$value->ASSET_USERNAME.'</td></tr>';
                     }
          
 
