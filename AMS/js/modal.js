@@ -232,9 +232,6 @@ var log_pending_columns = '<table class="table">' +
     '<td> <input type="checkbox" name="ASSET_TRAN_STATUS"' +
     'id="ASSET_TRAN_STATUS" value="ASSET_TRAN_STATUS" checked/></td>' +
     '<th>ASSET TRAN STATUS</th>' +
-    '<td> <input type="checkbox" name="ASSET_USERNAME"' +
-    'id="ASSET_USERNAME" value="ASSET_USERNAME" checked/></td>' +
-    '<th>ASSET_USERNAME</th>' +
     '</tr>' +
     '</table>';
 

@@ -563,6 +563,66 @@ function doit(type, fn, dl) {
         XLSX.writeFile(wb, 'Assets Selected ' + fn + " ." + (type || 'xlsx') || ('test.' + (type || 'xlsx')));
 }
 
+var onSearch = function (btn_id, searchValue, emptyId) {
+
+    var getId = searchValue;
+
+    var found = false;
+
+    var rows = allArr[searchValue];
+
+    document.getElementById(searchValue).onkeypress = function (e) {
+
+        console.log(e.keyCode);
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            var value = searchValue.value;
+
+            if (value.length > 0) {
+
+                setValueBtn(btn_id, value);
+                search();
+
+            }
+        }
+    }
+
+    searchValue = document.getElementById(searchValue);
+
+    for (var i = 0; i < rows.length; i++) {
+
+        var suitable = false;
+
+        // console.log(rows[i].values[0].trim().toString().indexOf(searchValue.value) + 1);
+
+        if (rows[i].values[0].trim().toString().indexOf((searchValue.value).toUpperCase()) + 1) {
+            suitable = true;
+            found = true;
+        }
+
+        rows[i].active = suitable;
+    }
+
+    if (searchValue.value.length == 0) {
+        var resObj = checkFilter(getId);
+        populate_dropdown();
+        $('#' + resObj.btnId).text(resObj.btnContent);
+    }
+
+    if (found) {
+        $(emptyId).css("display", "none");
+    } else {
+        $(emptyId).css("display", "block");
+    }
+
+    // console.log(clusterize[getId]);
+
+    clusterize[getId].update(filterRows(rows));
+}
+
+
+
+
 var onSearch_new = function (searchValue) {
     document.getElementById(searchValue).onkeypress = function (e) {
 
@@ -649,32 +709,20 @@ function view_selected() {
 
     var columns = createCommaDel(columns_selected);
 
-    // console.log(createCommaDel(columns_selected));
-
+    console.log(createCommaDel(columns_selected));
     if (rows_selected.length > 0) {
-
-        // $("#overlay-assets-added").hide();
-        // $("#loader-overlay").css("display", "block");
-        // document.getElementById('modal-header').innerHTML = localStorage.header_text;
-        // $("#modal-header,#exportBtn").removeClass();
-        // $("#modal-header,#exportBtn").addClass(localStorage.bg_color);
-        // $("#modal-header").addClass("modals-header");
-        // $("#exportBtn").addClass("btn-lg");
-        // var footer = document.getElementById('modal-footer').innerHTML = "";
-        console.log(localStorage.api);
-
         
-        if (rows_selected.length > 7) {
-
-            swal.fire({
-                title: "<h1 style='font-size:16pt !important;font-weight:bolder !important'>ABOVE AVERAGE SELECT!</h1>",
-                html: "<p style='font-size:13pt !important;'>Are you sure you want to select these columns, The process might take longer depending on the amount of data.</p>",
-                type: "question",
-                showCloseButton: true,
-                confirmButtonColor: "#5bc0de",
-                allowOutsideClick: false,
-                showCancelButton: true,
-                cancelButtonColor:"#d9534f"
+        if(rows_selected.length > 7 ){
+            
+          swal.fire({
+            title: "<h1 style='font-size:16pt !important;font-weight:bolder !important'>ABOVE AVERAGE SELECT!</h1>",
+            html: "<p style='font-size:13pt !important;'>Are you sure you want to select these columns, The process might take longer depending on the amount of data.</p>",
+            type: "warning",
+            showCloseButton: true,
+            confirmButtonColor: "#5bc0de",
+            allowOutsideClick: false,
+            showCancelButton: true,
+            cancelButtonColor:"#d9534f"
 
             }).then((results)=>{
               if(results.value){
@@ -684,12 +732,15 @@ function view_selected() {
 
               }
             });
+            
         }
         else{
-          init_loader_view();
-          getData(localStorage.api, columns);
+            init_loader_view();
+            getData(localStorage.api, columns);
         }
-        // getData(localStorage.api, columns);
+       
+        // var footer = document.getElementById('modal-footer').innerHTML = "";
+//        getData(localStorage.api, columns);
 
     } else {
         swal.fire({
@@ -717,66 +768,7 @@ let createCommaDel = (array_values) => {
     return coma_del;
 }
 
-var onSearch = function (btn_id, searchValue, emptyId) {
-
-    var getId = searchValue;
-
-    var found = false;
-
-    var rows = allArr[searchValue];
-
-    document.getElementById(searchValue).onkeypress = function (e) {
-
-        console.log(e.keyCode);
-        if (e.keyCode == 13) {
-            e.preventDefault();
-            var value = searchValue.value;
-
-            if (value.length > 0) {
-
-                setValueBtn(btn_id, value);
-                search();
-
-            }
-        }
-    }
-
-    searchValue = document.getElementById(searchValue);
-
-    for (var i = 0; i < rows.length; i++) {
-
-        var suitable = false;
-
-        // console.log(rows[i].values[0].trim().toString().indexOf(searchValue.value) + 1);
-
-        if (rows[i].values[0].trim().toString().indexOf((searchValue.value).toUpperCase()) + 1) {
-            suitable = true;
-            found = true;
-        }
-
-        rows[i].active = suitable;
-    }
-
-    if (searchValue.value.length == 0) {
-        var resObj = checkFilter(getId);
-        populate_dropdown();
-        $('#' + resObj.btnId).text(resObj.btnContent);
-    }
-
-    if (found) {
-        $(emptyId).css("display", "none");
-    } else {
-        $(emptyId).css("display", "block");
-    }
-
-    // console.log(clusterize[getId]);
-
-    clusterize[getId].update(filterRows(rows));
-}
-
-
 function init_loader_view(){
-
     $("#overlay-assets-added").hide();
     $("#loader-overlay").css("display", "block");
     document.getElementById('modal-header').innerHTML = localStorage.header_text;
@@ -784,8 +776,4 @@ function init_loader_view(){
     $("#modal-header,#exportBtn").addClass(localStorage.bg_color);
     $("#modal-header").addClass("modals-header");
     $("#exportBtn").addClass("btn-lg");
-
 }
-
-
-
